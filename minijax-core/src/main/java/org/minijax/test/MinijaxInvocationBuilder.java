@@ -1,0 +1,276 @@
+package org.minijax.test;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.ws.rs.client.AsyncInvoker;
+import javax.ws.rs.client.CompletionStageRxInvoker;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.client.RxInvoker;
+import javax.ws.rs.core.CacheControl;
+import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+
+public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.Builder {
+    private final MinijaxWebTarget target;
+    private final MultivaluedMap<String, String> headers;
+    private final Map<String, Cookie> cookies;
+    private Entity<?> entity;
+
+    public MinijaxInvocationBuilder(final MinijaxWebTarget target) {
+        this.target = target;
+        headers = new MultivaluedHashMap<>();
+        cookies = new HashMap<>();
+    }
+
+    @Override
+    public Response get() {
+        return method("GET");
+    }
+
+    @Override
+    public <T> T get(final Class<T> responseType) {
+        return method("GET", responseType);
+    }
+
+    @Override
+    public <T> T get(final GenericType<T> responseType) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response put(final Entity<?> entity) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <T> T put(final Entity<?> entity, final Class<T> responseType) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <T> T put(final Entity<?> entity, final GenericType<T> responseType) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response post(final Entity<?> entity) {
+        setEntity(entity);
+        return method("POST");
+    }
+
+    @Override
+    public <T> T post(final Entity<?> entity, final Class<T> responseType) {
+        setEntity(entity);
+        return method("POST", responseType);
+    }
+
+    @Override
+    public <T> T post(final Entity<?> entity, final GenericType<T> responseType) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response delete() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <T> T delete(final Class<T> responseType) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <T> T delete(final GenericType<T> responseType) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response head() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response options() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <T> T options(final Class<T> responseType) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <T> T options(final GenericType<T> responseType) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response trace() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <T> T trace(final Class<T> responseType) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <T> T trace(final GenericType<T> responseType) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response method(final String name) {
+        final MockRequestContext context = new MockRequestContext(
+                target.getUri(),
+                name,
+                headers,
+                cookies,
+                entity);
+
+        return target.getServer().handle(context);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T method(final String name, final Class<T> responseType) {
+        return (T) method(name).getEntity();
+    }
+
+    @Override
+    public <T> T method(final String name, final GenericType<T> responseType) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response method(final String name, final Entity<?> entity) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <T> T method(final String name, final Entity<?> entity, final Class<T> responseType) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <T> T method(final String name, final Entity<?> entity, final GenericType<T> responseType) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Invocation build(final String method) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Invocation build(final String method, final Entity<?> entity) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Invocation buildGet() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Invocation buildDelete() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Invocation buildPost(final Entity<?> entity) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Invocation buildPut(final Entity<?> entity) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public AsyncInvoker async() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Builder accept(final String... mediaTypes) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Builder accept(final MediaType... mediaTypes) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Builder acceptLanguage(final Locale... locales) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Builder acceptLanguage(final String... locales) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Builder acceptEncoding(final String... encodings) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Builder cookie(final Cookie cookie) {
+        cookies.put(cookie.getName(), cookie);
+        return this;
+    }
+
+    @Override
+    public Builder cookie(final String name, final String value) {
+        return cookie(new Cookie(name, value));
+    }
+
+    @Override
+    public Builder cacheControl(final CacheControl cacheControl) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Builder header(final String name, final Object value) {
+        headers.add(name, value.toString());
+        return this;
+    }
+
+    @Override
+    public Builder headers(final MultivaluedMap<String, Object> headers) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Builder property(final String name, final Object value) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public CompletionStageRxInvoker rx() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    @SuppressWarnings("rawtypes")
+    public <T extends RxInvoker> T rx(final Class<T> clazz) {
+        throw new UnsupportedOperationException();
+    }
+
+
+    private void setEntity(final Entity<?> entity) {
+        headers.putSingle("Content-Type", entity.getMediaType().toString());
+        this.entity = entity;
+    }
+}
