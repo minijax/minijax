@@ -9,6 +9,7 @@
     <artifactId>minijax-websocket</artifactId>
     <packaging>jar</packaging>
     <name>minijax-websocket</name>
+    <description>Minijax WebSocket features</description>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

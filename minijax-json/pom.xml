@@ -9,6 +9,7 @@
     <artifactId>minijax-json</artifactId>
     <packaging>jar</packaging>
     <name>minijax-json</name>
+    <description>Minijax JSON features</description>
     <dependencies>
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>

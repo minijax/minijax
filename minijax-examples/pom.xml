@@ -9,7 +9,7 @@
     <artifactId>minijax-examples</artifactId>
     <packaging>pom</packaging>
     <name>minijax-examples</name>
-    <description>Minijax Examples</description>
+    <description>Minijax example applications</description>
     <modules>
         <module>minijax-example-hello</module>
         <module>minijax-example-json</module>

@@ -7,12 +7,32 @@
     <packaging>pom</packaging>
     <name>minijax</name>
     <description>Minijax</description>
+    <url>https://minijax.org</url>
+    <organization>
+        <name>Ajibot</name>
+        <url>https://www.ajibot.com</url>
+    </organization>
+    <developers>
+        <developer>
+            <id>codyebberson</id>
+            <name>Cody Ebberson</name>
+            <email>cody@ebberson.com</email>
+            <url>https://cody.ebberson.com</url>
+            <timezone>America/Los_Angeles</timezone>
+        </developer>
+    </developers>
     <modules>
         <module>minijax-core</module>
         <module>minijax-examples</module>
         <module>minijax-json</module>
         <module>minijax-websocket</module>
     </modules>
+    <distributionManagement>
+        <site>
+            <id>minijax-site</id>
+            <url>https://minijax.org</url>
+        </site>
+    </distributionManagement>
     <properties>
         <commons-io.version>2.5</commons-io.version>
         <commons-lang3.version>3.5</commons-lang3.version>

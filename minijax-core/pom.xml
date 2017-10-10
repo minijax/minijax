@@ -9,6 +9,7 @@
     <artifactId>minijax-core</artifactId>
     <packaging>jar</packaging>
     <name>minijax-core</name>
+    <description>Minijax core API and implementation</description>
     <dependencies>
         <dependency>
             <groupId>javax.annotation</groupId>
