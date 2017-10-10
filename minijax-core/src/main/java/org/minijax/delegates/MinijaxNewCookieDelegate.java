@@ -10,15 +10,11 @@ public class MinijaxNewCookieDelegate implements HeaderDelegate<NewCookie> {
 
     @Override
     public NewCookie fromString(final String value) {
-        if (value == null) {
+        if (value == null || value.isEmpty()) {
             return null;
         }
 
         final List<HttpCookie> httpCookies = HttpCookie.parse(value);
-        if (httpCookies.isEmpty()) {
-            return null;
-        }
-
         final HttpCookie httpCookie = httpCookies.get(0);
         return new NewCookie(
                 httpCookie.getName(),

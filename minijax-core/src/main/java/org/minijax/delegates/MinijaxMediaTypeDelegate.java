@@ -15,9 +15,9 @@ public class MinijaxMediaTypeDelegate implements HeaderDelegate<MediaType> {
             return null;
         }
 
-        final String[] a1 = value.split(";", 2);
+        final String[] a1 = value.split(";\\s+", 2);
         final String[] a2 = a1[0].split("/", 2);
-        final String type = a2[0];
+        final String type = a2[0].isEmpty() ? "*" : a2[0];
         final String subtype = a2.length == 2 ? a2[1] : null;
         final Map<String, String> parameters = a1.length == 2 ? UrlUtils.urlDecodeParams(a1[1]) : null;
         return new MediaType(type, subtype, parameters);
@@ -28,13 +28,13 @@ public class MinijaxMediaTypeDelegate implements HeaderDelegate<MediaType> {
         final StringBuilder b = new StringBuilder();
         b.append(value.getType());
 
-        if (value.getSubtype() != null) {
+        if (!value.getSubtype().equals(MediaType.MEDIA_TYPE_WILDCARD)) {
             b.append("/");
             b.append(value.getSubtype());
         }
 
         final String encodedParams = UrlUtils.urlEncodeParams(value.getParameters());
-        if (encodedParams != null && !encodedParams.isEmpty()) {
+        if (!encodedParams.isEmpty()) {
             b.append("; ");
             b.append(UrlUtils.urlEncodeParams(value.getParameters()));
         }
