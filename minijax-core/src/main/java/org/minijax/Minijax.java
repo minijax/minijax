@@ -137,7 +137,8 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
 
     public void run(final int port) {
         try {
-            final Server server = new Server(port);
+            //final Server server = new Server(port);
+            final Server server = createServer(port);
 
             final ServletContextHandler context = new ServletContextHandler();
             context.setContextPath("/");
@@ -276,6 +277,19 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
         } catch (final Exception ex) {
             throw new MinijaxException(ex);
         }
+    }
+
+
+    /**
+     * Creates a new web server listening on the given port.
+     *
+     * Override this method in unit tests to mock server functionality.
+     *
+     * @param port The listening port.
+     * @return A new web server.
+     */
+    protected Server createServer(final int port) {
+        return new Server(port);
     }
 
 
