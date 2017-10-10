@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<project name="Minijax">
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>1.5</version>
+    </skin>
+    <custom>
+        <fluidoSkin>
+            <topBarEnabled>false</topBarEnabled>
+            <sideBarEnabled>true</sideBarEnabled>
+            <leftColumnClass>span2</leftColumnClass>
+            <bodyColumnClass>span10</bodyColumnClass>
+            <gitHub>
+                <projectId>minijax/minijax</projectId>
+                <ribbonOrientation>right</ribbonOrientation>
+                <ribbonColor>black</ribbonColor>
+            </gitHub>
+        </fluidoSkin>
+    </custom>
+    <body>
+        <menu ref="reports"/>
+    </body>
+</project>
