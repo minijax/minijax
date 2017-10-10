@@ -137,7 +137,6 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
 
     public void run(final int port) {
         try {
-            //final Server server = new Server(port);
             final Server server = createServer(port);
 
             final ServletContextHandler context = new ServletContextHandler();
