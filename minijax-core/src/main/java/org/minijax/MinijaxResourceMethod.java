@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.ws.rs.HttpMethod;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -21,19 +20,19 @@ import org.minijax.util.MediaTypeUtils;
 import org.minijax.util.UrlUtils;
 
 public class MinijaxResourceMethod {
+    private final String httpMethod;
     private final Class<?> resourceClass;
     private final Method method;
-    private final String httpMethod;
     private final String path;
     private final List<String> pathParams;
     private final Pattern pathPattern;
     private final List<MediaType> produces;
     private final Annotation securityAnnotation;
 
-    public MinijaxResourceMethod(final Method m) {
+    public MinijaxResourceMethod(final String httpMethod, final Method m) {
+        this.httpMethod = httpMethod;
         resourceClass = m.getDeclaringClass();
         method = m;
-        httpMethod = findHttpMethod(method);
         path = findPath(m);
         pathParams = UrlUtils.getPathParams(path);
         pathPattern = Pattern.compile(UrlUtils.convertPathToRegex(path));
@@ -69,21 +68,6 @@ public class MinijaxResourceMethod {
 
     public Annotation getSecurityAnnotation() {
         return securityAnnotation;
-    }
-
-
-    private static String findHttpMethod(final Method m) {
-        for (final Annotation annotation : m.getAnnotations()) {
-            if (annotation.annotationType() == HttpMethod.class) {
-                return ((HttpMethod) annotation).value();
-            }
-
-            final HttpMethod hm = annotation.annotationType().getAnnotation(HttpMethod.class);
-            if (hm != null) {
-                return hm.value();
-            }
-        }
-        return null;
     }
 
 

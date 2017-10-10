@@ -241,21 +241,13 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
 
     private void registerResourceMethods(final Class<?> c) {
         for (final Method method : c.getDeclaredMethods()) {
-            if (isResourceMethod(method)) {
-                resourceMethods.add(new MinijaxResourceMethod(method));
+            for (final Annotation annotation : method.getAnnotations()) {
+                final HttpMethod httpMethod = annotation.annotationType().getAnnotation(HttpMethod.class);
+                if (httpMethod != null) {
+                    resourceMethods.add(new MinijaxResourceMethod(httpMethod.value(), method));
+                }
             }
         }
-    }
-
-
-    private static boolean isResourceMethod(final Method method) {
-        for (final Annotation annotation : method.getAnnotations()) {
-            final Class<?> ac = annotation.annotationType();
-            if (ac == HttpMethod.class || ac.getAnnotation(HttpMethod.class) != null) {
-                return true;
-            }
-        }
-        return false;
     }
 
 
@@ -591,7 +583,8 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
 
 
     private <T> T getFormParam(final Class<T> c, final MinijaxRequestContext context, final FormParam formParam) {
-        return convertStringToType(c, context.getForm().getString(formParam.value()));
+        final MinijaxForm form = context.getForm();
+        return form == null ? null : convertStringToType(c, form.getString(formParam.value()));
     }
 
 
@@ -693,7 +686,6 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
             final Class<?> t = a.annotationType();
             if (t == javax.inject.Inject.class ||
                     t == javax.ws.rs.core.Context.class ||
-                    t == javax.ws.rs.core.SecurityContext.class ||
                     t == javax.ws.rs.CookieParam.class ||
                     t == javax.ws.rs.FormParam.class ||
                     t == javax.ws.rs.HeaderParam.class ||

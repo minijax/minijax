@@ -11,8 +11,8 @@ import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.minijax.MinijaxRequestContext;
 import org.minijax.MinijaxForm;
+import org.minijax.MinijaxRequestContext;
 import org.minijax.MinijaxUrlEncodedForm;
 
 public class MockRequestContext extends MinijaxRequestContext {
@@ -51,6 +51,9 @@ public class MockRequestContext extends MinijaxRequestContext {
 
     @Override
     public InputStream getEntityStream() {
+        if (entity == null) {
+            return null;
+        }
         final Object obj = entity.getEntity();
         if (obj == null) {
             return null;
@@ -66,6 +69,9 @@ public class MockRequestContext extends MinijaxRequestContext {
 
     @Override
     public MinijaxForm getForm() {
+        if (entity == null) {
+            return null;
+        }
         final Object obj = entity.getEntity();
         if (obj == null) {
             return null;
