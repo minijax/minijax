@@ -45,7 +45,7 @@ public class MinijaxMultipartForm implements MinijaxForm {
      * Adds a value to the form.
      *
      * @param name The field key name.
-     * @param value The field value.
+     * @param part The field value.
      */
     public void put(final String name, final Part part) {
         values.put(name, part);
@@ -56,7 +56,6 @@ public class MinijaxMultipartForm implements MinijaxForm {
      *
      * @param name The field key name.
      * @return The field value.
-     * @throws IOException
      */
     @Override
     public String getString(final String name) {

@@ -2,7 +2,6 @@
 package org.minijax;
 
 import java.io.Closeable;
-import java.io.IOException;
 import java.io.InputStream;
 
 import javax.ws.rs.core.Form;
@@ -18,7 +17,6 @@ public interface MinijaxForm extends Closeable {
      *
      * @param name The field key name.
      * @return The field value.
-     * @throws IOException
      */
     public String getString(final String name);
 

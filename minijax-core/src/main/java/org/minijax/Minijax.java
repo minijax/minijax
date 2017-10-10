@@ -530,6 +530,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
     /**
      * Returns a resource instance.
      *
+     * @param <T> The type of the result.
      * @param c The class type of the result.
      * @param context Optional request context.
      * @param annotations Annotations of the declaration (member, parameter, etc).

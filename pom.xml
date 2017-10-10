@@ -6,18 +6,26 @@
     <version>0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>minijax</name>
-    <description>Minijax</description>
+    <description>Minijax - Lightweight JAX-RS and JSR-330</description>
     <url>https://minijax.org</url>
     <organization>
         <name>Ajibot</name>
         <url>https://www.ajibot.com</url>
     </organization>
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
     <developers>
         <developer>
             <id>codyebberson</id>
             <name>Cody Ebberson</name>
             <email>cody@ebberson.com</email>
             <url>https://cody.ebberson.com</url>
+            <organization>Ajibot</organization>
+            <organizationUrl>https://www.ajibot.com</organizationUrl>
             <timezone>America/Los_Angeles</timezone>
         </developer>
     </developers>
@@ -27,6 +35,11 @@
         <module>minijax-json</module>
         <module>minijax-websocket</module>
     </modules>
+    <scm>
+        <connection>scm:git:git://github.com/minijax/minijax.git</connection>
+        <developerConnection>scm:git:ssh://github.com:minijax/minijax.git</developerConnection>
+        <url>https://github.com/minijax/minijax</url>
+    </scm>
     <distributionManagement>
         <site>
             <id>minijax-site</id>
@@ -66,6 +79,30 @@
                             <goal>sort</goal>
                         </goals>
                         <phase>verify</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
