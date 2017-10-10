@@ -36,17 +36,17 @@ public class ClassPathScanner {
     }
 
 
-    private void scanImpl(final String packageName, final ClassLoader cld) throws IOException {
-        final Enumeration<URL> resources = cld.getResources(packageName.replace('.', '/'));
+    private void scanImpl(final String packageName, final ClassLoader classLoader) throws IOException {
+        final Enumeration<URL> resources = classLoader.getResources(packageName.replace('.', '/'));
 
         while (resources.hasMoreElements()) {
             final URL url = resources.nextElement();
             final String protocol = url.getProtocol();
 
             if (protocol.equals("file")) {
-                checkDirectory(new File(URLDecoder.decode(url.getPath(), "UTF-8")), packageName);
+                checkDirectory(classLoader, new File(URLDecoder.decode(url.getPath(), "UTF-8")), packageName);
             } else if (protocol.equals("jar")) {
-                checkJarFile(url, packageName);
+                checkJarFile(classLoader, url, packageName);
             } else {
                 throw new IllegalArgumentException("Unrecognized classpath protocol: " + protocol);
             }
@@ -54,23 +54,23 @@ public class ClassPathScanner {
     }
 
 
-    private void checkDirectory(final File file, final String name) {
+    private void checkDirectory(final ClassLoader classLoader, final File file, final String name) {
         if (!file.exists()) {
             return;
         }
 
         if (file.isDirectory()) {
             for (final File child : file.listFiles()) {
-                checkDirectory(child, name + "." + child.getName());
+                checkDirectory(classLoader, child, name + "." + child.getName());
             }
 
         } else if (file.getName().endsWith(".class")) {
-            addClass(name.substring(0, name.length() - 6));
+            addClass(classLoader, name.substring(0, name.length() - 6));
         }
     }
 
 
-    private void checkJarFile(final URL url, final String pckgname) throws IOException {
+    private void checkJarFile(final ClassLoader classLoader, final URL url, final String pckgname) throws IOException {
         final JarURLConnection conn = (JarURLConnection) url.openConnection();
         final JarFile jarFile = conn.getJarFile();
         final Enumeration<JarEntry> entries = jarFile.entries();
@@ -84,16 +84,16 @@ public class ClassPathScanner {
                 name = name.substring(0, name.length() - 6).replace('/', '.');
 
                 if (name.startsWith(pckgname)) {
-                    addClass(name);
+                    addClass(classLoader, name);
                 }
             }
         }
     }
 
 
-    private void addClass(final String className) {
+    private void addClass(final ClassLoader classLoader, final String className) {
         try {
-            result.add(Class.forName(className));
+            result.add(classLoader.loadClass(className));
         } catch (final ClassNotFoundException | NoClassDefFoundError ex) {
             LOG.error("Class error: {}", ex.getMessage(), ex);
         }

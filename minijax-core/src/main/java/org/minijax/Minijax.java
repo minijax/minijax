@@ -771,6 +771,9 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
         if (c == byte.class) {
             return (T) Byte.valueOf(str);
         }
+        if (c == char.class) {
+            return (T) (str.isEmpty() ? null : ((Character) str.charAt(0)));
+        }
         if (c == double.class) {
             return (T) Double.valueOf(str);
         }
