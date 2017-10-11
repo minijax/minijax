@@ -29,6 +29,9 @@
             <timezone>America/Los_Angeles</timezone>
         </developer>
     </developers>
+    <prerequisites>
+        <maven>3.0</maven>
+    </prerequisites>
     <modules>
         <module>minijax-core</module>
         <module>minijax-json</module>
