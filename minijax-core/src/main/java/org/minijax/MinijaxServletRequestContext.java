@@ -133,17 +133,15 @@ public class MinijaxServletRequestContext extends MinijaxRequestContext {
         try {
             if (contentType.isCompatible(MediaType.APPLICATION_FORM_URLENCODED_TYPE)) {
                 form = new MinijaxUrlEncodedForm(IOUtils.toString(getEntityStream(), StandardCharsets.UTF_8));
-            }
-
-            if (contentType.isCompatible(MediaType.MULTIPART_FORM_DATA_TYPE)) {
+            } else if (contentType.isCompatible(MediaType.MULTIPART_FORM_DATA_TYPE)) {
                 form = new MinijaxMultipartForm(request.getParts());
+            } else {
+                throw new BadRequestException("Unsupported content type (" + contentType + ")");
             }
 
         } catch (final IOException | ServletException ex) {
             throw new WebApplicationException(ex.getMessage(), ex);
         }
-
-        throw new BadRequestException("Unsupported content type (" + contentType + ")");
     }
 
 

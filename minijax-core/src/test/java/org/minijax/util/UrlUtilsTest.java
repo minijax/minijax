@@ -2,10 +2,9 @@ package org.minijax.util;
 
 import static org.junit.Assert.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
 import org.junit.Test;
 import org.minijax.servlet.MockHttpServletRequest;
@@ -57,8 +56,8 @@ public class UrlUtilsTest {
 
     @Test
     public void testForwardedProtocol() {
-        final Map<String, String> headers = new HashMap<>();
-        headers.put("X-Forwarded-Proto", "https");
+        final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
+        headers.add("X-Forwarded-Proto", "https");
 
         final MockHttpServletRequest req = new MockHttpServletRequest(headers, null, null, "http://www.example.com/", null);
         assertEquals("https://www.example.com/", UrlUtils.getFullRequestUrl(req).toString());

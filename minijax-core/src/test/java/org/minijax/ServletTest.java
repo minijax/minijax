@@ -3,14 +3,14 @@ package org.minijax;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +41,7 @@ public class ServletTest extends MinijaxTest {
 
     @Test
     public void testServletResponse() throws IOException {
-        final Map<String, String> headers = new HashMap<>();
+        final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         final Cookie[] cookies = new Cookie[0];
 
         final MockHttpServletRequest servletRequest = new MockHttpServletRequest(headers, cookies, "GET", "/servlet", null);
@@ -57,7 +57,7 @@ public class ServletTest extends MinijaxTest {
 
     @Test
     public void testNullResponse() throws IOException {
-        final Map<String, String> headers = new HashMap<>();
+        final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         final Cookie[] cookies = new Cookie[0];
 
         final MockHttpServletRequest servletRequest = new MockHttpServletRequest(headers, cookies, "GET", "/null", null);

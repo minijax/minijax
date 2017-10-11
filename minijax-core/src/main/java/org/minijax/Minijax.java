@@ -287,7 +287,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
     public Response handle(final MinijaxRequestContext context) {
         final MinijaxResourceMethod rm = findRoute(context.getMethod(), (MinijaxUriInfo) context.getUriInfo());
         if (rm == null) {
-            throw new NotFoundException();
+            return toResponse(context, new NotFoundException());
         }
 
         context.setResourceMethod(rm);
@@ -301,6 +301,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
             checkSecurity(context);
             return toResponse(context, rm, invoke(context, rm.getMethod()));
         } catch (final Exception ex) {
+            LOG.debug(ex.getMessage(), ex);
             return toResponse(context, ex);
         }
     }
@@ -313,6 +314,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
         try {
             write(context, handle(context), servletResponse);
         } catch (final Exception ex) {
+            LOG.debug(ex.getMessage(), ex);
             handleUnexpectedError(ex, servletResponse);
         }
     }
