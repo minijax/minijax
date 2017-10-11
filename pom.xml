@@ -31,7 +31,6 @@
     </developers>
     <modules>
         <module>minijax-core</module>
-        <module>minijax-examples</module>
         <module>minijax-json</module>
         <module>minijax-websocket</module>
     </modules>
