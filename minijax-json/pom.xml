@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.minijax</groupId>
         <artifactId>minijax</artifactId>
-        <version>0.0.4</version>
+        <version>0.0.5</version>
     </parent>
     <artifactId>minijax-json</artifactId>
     <packaging>jar</packaging>
