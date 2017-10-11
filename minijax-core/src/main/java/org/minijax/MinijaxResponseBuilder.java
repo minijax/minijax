@@ -116,7 +116,8 @@ public class MinijaxResponseBuilder extends javax.ws.rs.core.Response.ResponseBu
 
     @Override
     public ResponseBuilder header(final String name, final Object value) {
-        throw new UnsupportedOperationException();
+        headers.add(name, value);
+        return this;
     }
 
     @Override
