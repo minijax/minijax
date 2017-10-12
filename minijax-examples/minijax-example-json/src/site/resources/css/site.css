@@ -32,10 +32,17 @@ a.externalLink {
 }
 
 pre.prettyprint {
-  padding: 8px !important;
+  padding: 6px !important;
+  border: 1px solid #ddd;
+  background: #f8f8f8;
 }
 
 @media (max-width: 720px) {
+  .container-fluid {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
   #leftColumn {
     display: none !important;
   }

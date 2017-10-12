@@ -34,7 +34,7 @@ public class Hello {
         return "Hello world!";
     }
 
-    public static void main(final String[] args) {
+    public static void main(String[] args) {
         new Minijax()
                 .register(Hello.class)
                 .run(8080);
