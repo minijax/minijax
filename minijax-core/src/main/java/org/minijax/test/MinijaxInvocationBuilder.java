@@ -47,12 +47,14 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
 
     @Override
     public Response put(final Entity<?> entity) {
-        throw new UnsupportedOperationException();
+        setEntity(entity);
+        return method("PUT");
     }
 
     @Override
     public <T> T put(final Entity<?> entity, final Class<T> responseType) {
-        throw new UnsupportedOperationException();
+        setEntity(entity);
+        return method("PUT", responseType);
     }
 
     @Override
@@ -79,12 +81,12 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
 
     @Override
     public Response delete() {
-        throw new UnsupportedOperationException();
+        return method("DELETE");
     }
 
     @Override
     public <T> T delete(final Class<T> responseType) {
-        throw new UnsupportedOperationException();
+        return method("DELETE", responseType);
     }
 
     @Override
@@ -94,17 +96,17 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
 
     @Override
     public Response head() {
-        throw new UnsupportedOperationException();
+        return method("HEAD");
     }
 
     @Override
     public Response options() {
-        throw new UnsupportedOperationException();
+        return method("OPTIONS");
     }
 
     @Override
     public <T> T options(final Class<T> responseType) {
-        throw new UnsupportedOperationException();
+        return method("OPTIONS", responseType);
     }
 
     @Override
@@ -152,7 +154,8 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
 
     @Override
     public Response method(final String name, final Entity<?> entity) {
-        throw new UnsupportedOperationException();
+        setEntity(entity);
+        return method(name);
     }
 
     @Override

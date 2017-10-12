@@ -44,6 +44,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Feature;
@@ -81,7 +82,8 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
     private final Map<Class<?>, MinijaxScope> providerScopes;
     private final ClassMap singletonCache;
     private final List<Class<?>> webSockets;
-    private final List<Class<? extends ContainerRequestFilter>> filters;
+    private final List<Class<? extends ContainerRequestFilter>> requestFilters;
+    private final List<Class<? extends ContainerResponseFilter>> responseFilters;
     private final MediaTypeClassMap<MessageBodyReader<?>> readers;
     private final MediaTypeClassMap<MessageBodyWriter<?>> writers;
     private final MediaTypeClassMap<ExceptionMapper<?>> exceptionMappers;
@@ -94,7 +96,8 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
         providerScopes = new HashMap<>();
         singletonCache = new ClassMap();
         webSockets = new ArrayList<>();
-        filters = new ArrayList<>();
+        requestFilters = new ArrayList<>();
+        responseFilters = new ArrayList<>();
         readers = new MediaTypeClassMap<>();
         writers = new MediaTypeClassMap<>();
         exceptionMappers = new MediaTypeClassMap<>();
@@ -131,6 +134,13 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
         for (final String packageName : packageNames) {
             scanPackage(packageName);
         }
+        return this;
+    }
+
+
+    public Minijax allowCors(final String urlPrefix) {
+        register(MinijaxCorsFilter.class);
+        get(MinijaxCorsFilter.class, null, null).addPathPrefix(urlPrefix);
         return this;
     }
 
@@ -189,43 +199,21 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
     }
 
 
-    @SuppressWarnings("unchecked")
     private void registerImpl(final Class<?> c) {
         if (classesScanned.contains(c)) {
             return;
         }
 
-        classesScanned.add(c);
         registerScope(c);
         registerResourceMethods(c);
         registerWebSockets(c);
-
-        if (Feature.class.isAssignableFrom(c)) {
-            configureFeature((Class<? extends Feature>) c);
-        }
-
-        if (ContainerRequestFilter.class.isAssignableFrom(c)) {
-            filters.add((Class<? extends ContainerRequestFilter>) c);
-        }
-
-        if (MessageBodyReader.class.isAssignableFrom(c)) {
-            readers.add((Class<MessageBodyReader<?>>) c, MediaTypeUtils.parseMediaTypes(c.getAnnotation(Consumes.class)));
-        }
-
-        if (MessageBodyWriter.class.isAssignableFrom(c)) {
-            writers.add((Class<MessageBodyWriter<?>>) c, MediaTypeUtils.parseMediaTypes(c.getAnnotation(Produces.class)));
-        }
-
-        if (ExceptionMapper.class.isAssignableFrom(c)) {
-            exceptionMappers.add((Class<ExceptionMapper<?>>) c, MediaTypeUtils.parseMediaTypes(c.getAnnotation(Produces.class)));
-        }
-
-        if (SecurityContext.class.isAssignableFrom(c)) {
-            if (securityContextClass != null) {
-                throw new IllegalStateException("Multiple security contexts detected (" + securityContextClass + ", " + c + ")");
-            }
-            securityContextClass = (Class<? extends SecurityContext>) c;
-        }
+        registerFeature(c);
+        registerFilter(c);
+        registerReader(c);
+        registerWriter(c);
+        registerExceptionMapper(c);
+        registerSecurityContext(c);
+        classesScanned.add(c);
     }
 
 
@@ -262,11 +250,64 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
     }
 
 
-    private void configureFeature(final Class<? extends Feature> c) {
+    @SuppressWarnings("unchecked")
+    private void registerFeature(final Class<?> c) {
+        if (!Feature.class.isAssignableFrom(c)) {
+            return;
+        }
+
+        final Class<? extends Feature> featureClass = (Class<? extends Feature>) c;
         try {
-            create(c, null).configure(this);
+            create(featureClass, null).configure(this);
         } catch (final Exception ex) {
             throw new MinijaxException(ex);
+        }
+    }
+
+
+    @SuppressWarnings("unchecked")
+    private void registerFilter(final Class<?> c) {
+        if (ContainerRequestFilter.class.isAssignableFrom(c)) {
+            requestFilters.add((Class<? extends ContainerRequestFilter>) c);
+        }
+
+        if (ContainerResponseFilter.class.isAssignableFrom(c)) {
+            responseFilters.add((Class<? extends ContainerResponseFilter>) c);
+        }
+    }
+
+
+    @SuppressWarnings("unchecked")
+    private void registerReader(final Class<?> c) {
+        if (MessageBodyReader.class.isAssignableFrom(c)) {
+            readers.add((Class<MessageBodyReader<?>>) c, MediaTypeUtils.parseMediaTypes(c.getAnnotation(Consumes.class)));
+        }
+    }
+
+
+    @SuppressWarnings("unchecked")
+    private void registerWriter(final Class<?> c) {
+        if (MessageBodyWriter.class.isAssignableFrom(c)) {
+            writers.add((Class<MessageBodyWriter<?>>) c, MediaTypeUtils.parseMediaTypes(c.getAnnotation(Produces.class)));
+        }
+    }
+
+
+    @SuppressWarnings("unchecked")
+    private void registerExceptionMapper(final Class<?> c) {
+        if (ExceptionMapper.class.isAssignableFrom(c)) {
+            exceptionMappers.add((Class<ExceptionMapper<?>>) c, MediaTypeUtils.parseMediaTypes(c.getAnnotation(Produces.class)));
+        }
+    }
+
+
+    @SuppressWarnings("unchecked")
+    private void registerSecurityContext(final Class<?> c) {
+        if (SecurityContext.class.isAssignableFrom(c)) {
+            if (securityContextClass != null) {
+                throw new IllegalStateException("Multiple security contexts detected (" + securityContextClass + ", " + c + ")");
+            }
+            securityContextClass = (Class<? extends SecurityContext>) c;
         }
     }
 
@@ -297,9 +338,11 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
                 context.setSecurityContext(get(securityContextClass, context, null));
             }
 
-            runFilters(context);
+            runRequestFilters(context);
             checkSecurity(context);
-            return toResponse(context, rm, invoke(context, rm.getMethod()));
+            final MinijaxResponse response = (MinijaxResponse) toResponse(context, rm, invoke(context, rm.getMethod()));
+            runResponseFilters(context, response);
+            return response;
         } catch (final Exception ex) {
             LOG.debug(ex.getMessage(), ex);
             return toResponse(context, ex);
@@ -333,14 +376,26 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
             }
         }
 
+        if (httpMethod.equals("OPTIONS")) {
+            return findRoute("GET", uriInfo);
+        }
+
         return null;
     }
 
 
-    private void runFilters(final MinijaxRequestContext context) throws IOException {
-        for (final Class<? extends ContainerRequestFilter> filterClass : filters) {
+    private void runRequestFilters(final MinijaxRequestContext context) throws IOException {
+        for (final Class<? extends ContainerRequestFilter> filterClass : requestFilters) {
             final ContainerRequestFilter filter = get(filterClass, context, null);
             filter.filter(context);
+        }
+    }
+
+
+    private void runResponseFilters(final MinijaxRequestContext context, final MinijaxResponse response) throws IOException {
+        for (final Class<? extends ContainerResponseFilter> filterClass : responseFilters) {
+            final ContainerResponseFilter filter = get(filterClass, context, null);
+            filter.filter(context, response);
         }
     }
 
@@ -490,6 +545,10 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
             for (final Object value : entry.getValue()) {
                 servletResponse.addHeader(name, value.toString());
             }
+        }
+
+        if (context.getMethod().equals("OPTIONS")) {
+            return;
         }
 
         final Object obj = response.getEntity();
