@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<archetype>
+    <id>minijax-archetype</id>
+    <sources>
+        <source>src/main/java/App.java</source>
+    </sources>
+    <testSources>
+        <source>src/test/java/AppTest.java</source>
+    </testSources>
+</archetype>
