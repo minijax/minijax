@@ -19,8 +19,6 @@ public class MinijaxServlet extends HttpServlet {
             final HttpServletRequest request,
             final HttpServletResponse response)
                     throws IOException {
-
-        request.setAttribute("org.minijax.Minijax", parent);
         parent.handle(MinijaxRequestContext.getThreadLocal(), response);
     }
 }

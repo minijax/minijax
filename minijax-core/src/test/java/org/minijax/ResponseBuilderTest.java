@@ -45,6 +45,13 @@ public class ResponseBuilderTest {
         assertNotNull(response.getHeaderString("Cache-Control"));
     }
 
+    @Test
+    public void testClone() {
+        final ResponseBuilder rb1 = Response.ok();
+        final ResponseBuilder rb2 = rb1.clone();
+        assertFalse(rb1 == rb2);
+    }
+
     @Test(expected = UnsupportedOperationException.class)
     public void testEncoding() {
         Response.ok().encoding(null);

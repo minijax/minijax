@@ -28,8 +28,9 @@ public class MinijaxFilter implements Filter {
         final HttpServletRequest request = (HttpServletRequest) servletRequest;
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+        // Constructor sets the ThreadLocal
+        // Close method clears the ThreadLocal
         try (final MinijaxRequestContext context = new MinijaxServletRequestContext(request)) {
-            request.setAttribute("org.minijax.MinijaxContainerRequestContext", context);
             chain.doFilter(request, response);
         }
     }
