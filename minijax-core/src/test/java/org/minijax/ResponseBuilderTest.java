@@ -6,6 +6,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Locale;
 
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
@@ -37,9 +38,11 @@ public class ResponseBuilderTest {
         assertTrue(builder instanceof MinijaxResponseBuilder);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCacheControl() {
-        Response.ok().cacheControl(null);
+        final Response response = Response.ok().cacheControl(new CacheControl()).build();
+        assertNotNull(response);
+        assertNotNull(response.getHeaderString("Cache-Control"));
     }
 
     @Test(expected = UnsupportedOperationException.class)
