@@ -2,6 +2,8 @@ package org.minijax.websocket;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -12,6 +14,7 @@ import javax.websocket.server.ServerEndpoint;
 import org.eclipse.jetty.server.Server;
 import org.junit.Test;
 import org.minijax.Minijax;
+import org.minijax.test.MockRequestContext;
 
 public class WebSocketTest {
 
@@ -40,21 +43,70 @@ public class WebSocketTest {
     }
 
 
+    @ServerEndpoint("/exception")
+    public static class ExceptionWebSocket {
+        public ExceptionWebSocket() {
+            throw new RuntimeException();
+        }
+    }
+
+
     @Test
-    public void testRun() {
+    public void testNoWebSockets() {
+        final Minijax minijax = createMinijax();
+        minijax.run(8080);
+    }
+
+
+    @Test(expected = InstantiationException.class)
+    public void testContext() throws IOException, InstantiationException {
+        final Minijax minijax = createMinijax();
+        minijax.register(WebSocketResource.class);
+        minijax.run(8080);
+
+        final MinijaxWebSocketConfigurator configurator = new MinijaxWebSocketConfigurator(minijax);
+        final WebSocketTest ws = configurator.getEndpointInstance(WebSocketTest.class);
+        assertNotNull(ws);
+    }
+
+
+    @Test
+    public void testRun() throws IOException, InstantiationException {
+        final Minijax minijax = createMinijax();
+        minijax.register(WebSocketResource.class);
+        minijax.run(8080);
+
+        final MinijaxWebSocketConfigurator configurator = new MinijaxWebSocketConfigurator(minijax);
+
+        try (MockRequestContext context = new MockRequestContext(null, null, null, null, null)) {
+            final WebSocketResource ws = configurator.getEndpointInstance(WebSocketResource.class);
+            assertNotNull(ws);
+        }
+    }
+
+
+    @Test(expected = InstantiationException.class)
+    public void testInstantiationException() throws IOException, InstantiationException {
+        final Minijax minijax = createMinijax();
+        minijax.register(WebSocketResource.class);
+        minijax.run(8080);
+
+        final MinijaxWebSocketConfigurator configurator = new MinijaxWebSocketConfigurator(minijax);
+
+        try (MockRequestContext context = new MockRequestContext(null, null, null, null, null)) {
+            configurator.getEndpointInstance(ExceptionWebSocket.class);
+        }
+    }
+
+
+    private Minijax createMinijax() {
         final MockServer server = new MockServer();
 
-        final Minijax minijax = new Minijax() {
+        return new Minijax() {
             @Override
             protected Server createServer(final int port) {
                 return server;
             }
         };
-
-        minijax.register(WebSocketResource.class);
-        minijax.run(8080);
-
-        assertTrue(server.started);
-        assertTrue(server.joined);
     }
 }

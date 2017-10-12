@@ -26,10 +26,6 @@ public class MinijaxWebSocketUtils {
             final List<Class<?>> webSockets)
                     throws ServletException, DeploymentException {
 
-        if (webSockets == null || webSockets.isEmpty()) {
-            return;
-        }
-
         final ServerContainer container = WebSocketServerContainerInitializer.configureContext(context);
         final Configurator configurator = new MinijaxWebSocketConfigurator(parent);
 
