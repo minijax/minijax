@@ -42,41 +42,37 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
 
     @Override
     public <T> T get(final GenericType<T> responseType) {
-        throw new UnsupportedOperationException();
+        return method("GET", responseType);
     }
 
     @Override
     public Response put(final Entity<?> entity) {
-        setEntity(entity);
-        return method("PUT");
+        return method("PUT", entity);
     }
 
     @Override
     public <T> T put(final Entity<?> entity, final Class<T> responseType) {
-        setEntity(entity);
-        return method("PUT", responseType);
+        return method("PUT", entity, responseType);
     }
 
     @Override
     public <T> T put(final Entity<?> entity, final GenericType<T> responseType) {
-        throw new UnsupportedOperationException();
+        return method("PUT", entity, responseType);
     }
 
     @Override
     public Response post(final Entity<?> entity) {
-        setEntity(entity);
-        return method("POST");
+        return method("POST", entity);
     }
 
     @Override
     public <T> T post(final Entity<?> entity, final Class<T> responseType) {
-        setEntity(entity);
-        return method("POST", responseType);
+        return method("POST", entity, responseType);
     }
 
     @Override
     public <T> T post(final Entity<?> entity, final GenericType<T> responseType) {
-        throw new UnsupportedOperationException();
+        return method("POST", entity, responseType);
     }
 
     @Override
@@ -91,7 +87,7 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
 
     @Override
     public <T> T delete(final GenericType<T> responseType) {
-        throw new UnsupportedOperationException();
+        return method("DELETE", responseType);
     }
 
     @Override
@@ -111,22 +107,22 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
 
     @Override
     public <T> T options(final GenericType<T> responseType) {
-        throw new UnsupportedOperationException();
+        return method("OPTIONS", responseType);
     }
 
     @Override
     public Response trace() {
-        throw new UnsupportedOperationException();
+        return method("TRACE");
     }
 
     @Override
     public <T> T trace(final Class<T> responseType) {
-        throw new UnsupportedOperationException();
+        return method("TRACE", responseType);
     }
 
     @Override
     public <T> T trace(final GenericType<T> responseType) {
-        throw new UnsupportedOperationException();
+        return method("TRACE", responseType);
     }
 
     @Override
@@ -148,8 +144,9 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T method(final String name, final GenericType<T> responseType) {
-        throw new UnsupportedOperationException();
+        return (T) method(name).getEntity();
     }
 
     @Override
@@ -160,12 +157,14 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
 
     @Override
     public <T> T method(final String name, final Entity<?> entity, final Class<T> responseType) {
-        throw new UnsupportedOperationException();
+        setEntity(entity);
+        return method(name, responseType);
     }
 
     @Override
     public <T> T method(final String name, final Entity<?> entity, final GenericType<T> responseType) {
-        throw new UnsupportedOperationException();
+        setEntity(entity);
+        return method(name, responseType);
     }
 
     @Override
@@ -273,7 +272,9 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
 
 
     private void setEntity(final Entity<?> entity) {
-        headers.putSingle("Content-Type", entity.getMediaType().toString());
+        if (entity != null && entity.getMediaType() != null) {
+            headers.putSingle("Content-Type", entity.getMediaType().toString());
+        }
         this.entity = entity;
     }
 }
