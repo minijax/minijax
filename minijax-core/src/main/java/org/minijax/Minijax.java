@@ -553,7 +553,6 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
 
         final Object obj = response.getEntity();
         final Class<?> objType = obj == null ? null : obj.getClass();
-
         final MediaType mediaType = response.getMediaType();
         if (mediaType != null) {
             servletResponse.setContentType(mediaType.toString());
@@ -563,7 +562,11 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
         if (writer != null) {
             writer.writeTo(obj, objType, null, null, mediaType, null, servletResponse.getOutputStream());
         } else if (obj != null) {
-            servletResponse.getWriter().println(obj.toString());
+            if (obj instanceof InputStream) {
+                IOUtils.copy((InputStream) obj, servletResponse.getOutputStream());
+            } else {
+                servletResponse.getWriter().println(obj.toString());
+            }
         }
     }
 

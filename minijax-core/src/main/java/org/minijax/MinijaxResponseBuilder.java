@@ -109,7 +109,8 @@ public class MinijaxResponseBuilder extends javax.ws.rs.core.Response.ResponseBu
 
     @Override
     public ResponseBuilder cacheControl(final CacheControl cacheControl) {
-        throw new UnsupportedOperationException();
+        header("Cache-Control", cacheControl);
+        return this;
     }
 
     @Override

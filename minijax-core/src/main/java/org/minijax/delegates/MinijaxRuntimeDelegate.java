@@ -3,6 +3,7 @@
 package org.minijax.delegates;
 
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Link.Builder;
 import javax.ws.rs.core.MediaType;
@@ -47,6 +48,9 @@ public class MinijaxRuntimeDelegate extends RuntimeDelegate {
         }
         if (type == NewCookie.class) {
             return (HeaderDelegate<T>) new MinijaxNewCookieDelegate();
+        }
+        if (type == CacheControl.class) {
+            return (HeaderDelegate<T>) new MinijaxCacheControlDelegate();
         }
         throw new IllegalArgumentException("Unrecognized header delegate: " + type);
     }

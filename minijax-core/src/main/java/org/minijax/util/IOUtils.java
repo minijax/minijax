@@ -31,7 +31,7 @@ public class IOUtils {
     }
 
 
-    private static void copy(final InputStream input, final OutputStream output)
+    public static void copy(final InputStream input, final OutputStream output)
             throws IOException {
 
         final byte[] buffer = new byte[1024];
