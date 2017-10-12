@@ -17,6 +17,21 @@ import org.junit.Test;
 public class ResponseBuilderTest {
 
     @Test
+    public void testSetStatusCode() {
+        final ResponseBuilder builder = Response.status(404);
+        final Response response = builder.build();
+        assertEquals(404, response.getStatus());
+        assertEquals("Not Found", response.getStatusInfo().getReasonPhrase());
+    }
+
+    @Test
+    public void testSetUnknownStatusCode() {
+        final ResponseBuilder builder = Response.status(101);
+        final Response response = builder.build();
+        assertEquals(101, response.getStatus());
+    }
+
+    @Test
     public void testDelegate() {
         final ResponseBuilder builder = Response.ok();
         assertTrue(builder instanceof MinijaxResponseBuilder);

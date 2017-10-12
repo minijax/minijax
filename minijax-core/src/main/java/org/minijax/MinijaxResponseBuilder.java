@@ -16,24 +16,25 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.Response.StatusType;
 import javax.ws.rs.core.Variant;
 
 public class MinijaxResponseBuilder extends javax.ws.rs.core.Response.ResponseBuilder {
     private final MultivaluedMap<String, Object> headers;
-    private StatusType statusInfo;
+    private final MinijaxStatusInfo statusInfo;
     private Object entity;
     private MediaType mediaType;
 
     public MinijaxResponseBuilder() {
         headers = new MultivaluedHashMap<>();
+        statusInfo = new MinijaxStatusInfo();
     }
 
     public MinijaxResponseBuilder(final MinijaxResponseBuilder other) {
         headers = new MultivaluedHashMap<>();
         headers.putAll(other.headers);
-        statusInfo = other.statusInfo;
+        statusInfo = new MinijaxStatusInfo();
+        statusInfo.setStatusInfo(other.statusInfo);
         entity = other.entity;
         mediaType = other.mediaType;
     }
@@ -66,13 +67,15 @@ public class MinijaxResponseBuilder extends javax.ws.rs.core.Response.ResponseBu
 
     @Override
     public ResponseBuilder status(final int status) {
-        statusInfo = Status.fromStatusCode(status);
+        // Note: Use setStatusInfo instead of setStatusCode.
+        // The former will try to update family and reason phrase for known statuses.
+        statusInfo.setStatusInfo(status);
         return this;
     }
 
     @Override
     public ResponseBuilder status(final int status, final String reasonPhrase) {
-        statusInfo = Status.fromStatusCode(status);
+        statusInfo.setStatusInfo(status, reasonPhrase);
         return this;
     }
 

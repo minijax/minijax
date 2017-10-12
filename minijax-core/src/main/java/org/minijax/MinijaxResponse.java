@@ -19,7 +19,7 @@ import javax.ws.rs.core.NewCookie;
 
 public class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResponseContext {
     private final MultivaluedMap<String, Object> headers;
-    private final StatusType statusInfo;
+    private final MinijaxStatusInfo statusInfo;
     private Map<String, NewCookie> cookies;
     private Date date;
     private Object entity;
@@ -33,7 +33,7 @@ public class MinijaxResponse extends javax.ws.rs.core.Response implements Contai
 
     public MinijaxResponse(final MinijaxResponseBuilder builder) {
         headers = builder.getHeaders();
-        statusInfo = builder.getStatusInfo();
+        statusInfo = new MinijaxStatusInfo(builder.getStatusInfo());
         entity = builder.getEntity();
         mediaType = builder.getMediaType();
     }
@@ -211,10 +211,13 @@ public class MinijaxResponse extends javax.ws.rs.core.Response implements Contai
 
     @Override
     public void setStatus(final int code) {
+        // Note: Use setStatusInfo instead of setStatusCode.
+        // The former will try to update family and reason phrase for known statuses.
+        statusInfo.setStatusInfo(code);
     }
 
     @Override
     public void setStatusInfo(final StatusType statusInfo) {
-        throw new UnsupportedOperationException();
+        this.statusInfo.setStatusInfo(statusInfo);
     }
 }
