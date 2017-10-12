@@ -5,6 +5,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -100,7 +101,8 @@ public class MinijaxResponse extends javax.ws.rs.core.Response implements Contai
 
     @Override
     public String getHeaderString(final String name) {
-        return headers.getFirst(name).toString();
+        final List<Object> values = headers.get(name);
+        return values != null ? values.get(0).toString() : null;
     }
 
     @Override
