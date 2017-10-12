@@ -19,6 +19,12 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.Builder {
+    private static final String DELETE = "DELETE";
+    private static final String GET = "GET";
+    private static final String HEAD = "HEAD";
+    private static final String OPTIONS = "OPTIONS";
+    private static final String POST = "POST";
+    private static final String PUT = "PUT";
     private final MinijaxWebTarget target;
     private final MultivaluedMap<String, String> headers;
     private final Map<String, Cookie> cookies;
@@ -32,97 +38,97 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
 
     @Override
     public Response get() {
-        return method("GET");
+        return method(GET);
     }
 
     @Override
     public <T> T get(final Class<T> responseType) {
-        return method("GET", responseType);
+        return method(GET, responseType);
     }
 
     @Override
     public <T> T get(final GenericType<T> responseType) {
-        return method("GET", responseType);
+        return method(GET, responseType);
     }
 
     @Override
     public Response put(final Entity<?> entity) {
-        return method("PUT", entity);
+        return method(PUT, entity);
     }
 
     @Override
     public <T> T put(final Entity<?> entity, final Class<T> responseType) {
-        return method("PUT", entity, responseType);
+        return method(PUT, entity, responseType);
     }
 
     @Override
     public <T> T put(final Entity<?> entity, final GenericType<T> responseType) {
-        return method("PUT", entity, responseType);
+        return method(PUT, entity, responseType);
     }
 
     @Override
     public Response post(final Entity<?> entity) {
-        return method("POST", entity);
+        return method(POST, entity);
     }
 
     @Override
     public <T> T post(final Entity<?> entity, final Class<T> responseType) {
-        return method("POST", entity, responseType);
+        return method(POST, entity, responseType);
     }
 
     @Override
     public <T> T post(final Entity<?> entity, final GenericType<T> responseType) {
-        return method("POST", entity, responseType);
+        return method(POST, entity, responseType);
     }
 
     @Override
     public Response delete() {
-        return method("DELETE");
+        return method(DELETE);
     }
 
     @Override
     public <T> T delete(final Class<T> responseType) {
-        return method("DELETE", responseType);
+        return method(DELETE, responseType);
     }
 
     @Override
     public <T> T delete(final GenericType<T> responseType) {
-        return method("DELETE", responseType);
+        return method(DELETE, responseType);
     }
 
     @Override
     public Response head() {
-        return method("HEAD");
+        return method(HEAD);
     }
 
     @Override
     public Response options() {
-        return method("OPTIONS");
+        return method(OPTIONS);
     }
 
     @Override
     public <T> T options(final Class<T> responseType) {
-        return method("OPTIONS", responseType);
+        return method(OPTIONS, responseType);
     }
 
     @Override
     public <T> T options(final GenericType<T> responseType) {
-        return method("OPTIONS", responseType);
+        return method(OPTIONS, responseType);
     }
 
     @Override
     public Response trace() {
-        return method("TRACE");
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public <T> T trace(final Class<T> responseType) {
-        return method("TRACE", responseType);
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public <T> T trace(final GenericType<T> responseType) {
-        return method("TRACE", responseType);
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -240,7 +246,8 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
 
     @Override
     public Builder cacheControl(final CacheControl cacheControl) {
-        throw new UnsupportedOperationException();
+        header("Cache-Control", cacheControl);
+        return this;
     }
 
     @Override
@@ -269,7 +276,6 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
     public <T extends RxInvoker> T rx(final Class<T> clazz) {
         throw new UnsupportedOperationException();
     }
-
 
     private void setEntity(final Entity<?> entity) {
         if (entity != null && entity.getMediaType() != null) {

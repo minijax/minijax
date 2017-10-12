@@ -29,6 +29,11 @@ public class InvocationBuilderTest extends MinijaxTest {
     }
 
     @Test
+    public void testHead() {
+        assertNotNull(target("/").request().head());
+    }
+
+    @Test
     public void testOptions() {
         assertNotNull(target("/").request().options());
     }
@@ -104,6 +109,21 @@ public class InvocationBuilderTest extends MinijaxTest {
     }
 
     @Test(expected = UnsupportedOperationException.class)
+    public void testTrace() {
+        target("/").request().trace();
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testTraceClass() {
+        target("/").request().trace(Object.class);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testTraceGenericType() {
+        target("/").request().trace(new GenericType<Object>() {});
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
     public void testBuild() {
         new MinijaxInvocationBuilder(null).build(null);
     }
@@ -131,5 +151,15 @@ public class InvocationBuilderTest extends MinijaxTest {
     @Test(expected = UnsupportedOperationException.class)
     public void testBuildPut() {
         new MinijaxInvocationBuilder(null).buildPut(null);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testRx() {
+        new MinijaxInvocationBuilder(null).rx();
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testRxClass() {
+        new MinijaxInvocationBuilder(null).rx(null);
     }
 }
