@@ -57,4 +57,5 @@
             </plugin>
         </plugins>
     </build>
+    <description>Security annotations such as @RolesAllowed</description>
 </project>

@@ -62,4 +62,5 @@
             </plugin>
         </plugins>
     </build>
+    <description>Coexisting REST and WebSocket endpoints</description>
 </project>

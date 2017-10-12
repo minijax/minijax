@@ -62,4 +62,5 @@
             </plugin>
         </plugins>
     </build>
+    <description>REST endpoints that consume/produce JSON</description>
 </project>

@@ -62,4 +62,5 @@
             </plugin>
         </plugins>
     </build>
+    <description>Implementation of famous &quot;Todo Backend&quot;</description>
 </project>

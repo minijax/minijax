@@ -9,6 +9,7 @@
     <artifactId>minijax-example-hello</artifactId>
     <packaging>jar</packaging>
     <name>minijax-example-hello</name>
+    <description>Simple 'hello world' application</description>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

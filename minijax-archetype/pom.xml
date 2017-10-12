@@ -7,5 +7,6 @@
         <version>0.0.8-SNAPSHOT</version>
     </parent>
     <artifactId>minijax-archetype</artifactId>
-    <name>Archetype for a new Minijax application</name>
+    <name>minijax-archetype</name>
+    <description>Archetype for a new Minijax application</description>
 </project>
