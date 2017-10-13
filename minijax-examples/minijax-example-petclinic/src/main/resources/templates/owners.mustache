@@ -1,0 +1,26 @@
+{{<master}}
+{{$title}}Search Results{{/title}}
+{{$content}}
+<h3>Owners</h3>
+<table class="u-full-width">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Address</th>
+      <th>City</th>
+      <th>Telephone</th>
+    </tr>
+  </thead>
+  <tbody>
+{{#props.owners}}
+    <tr>
+      <td><a href="{{url}}">{{name}}</a></td>
+      <td>{{address}}</td>
+      <td>{{city}}</td>
+      <td>{{telephone}}</td>
+    </tr>
+{{/props.owners}}
+  </tbody>
+</table>
+{{/content}}
+{{/master}}

@@ -1,0 +1,49 @@
+{{<master}}
+{{$title}}Owner{{/title}}
+{{$content}}
+<h3>{{props.owner.name}}</h3>
+<table>
+  <tbody>
+    <tr>
+      <td>Address</td>
+      <td>{{props.owner.address}}</td>
+    </tr>
+    <tr>
+      <td>City</td>
+      <td>{{props.owner.city}}</td>
+    </tr>
+    <tr>
+      <td>Telephone</td>
+      <td>{{props.owner.telephone}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<a class="button" href="{{props.owner.url}}/edit">Edit Owner</a>
+
+<hr>
+
+<h4>Pets</h4>
+
+<table class="u-full-width">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Address</th>
+      <th>City</th>
+      <th>Telephone</th>
+    </tr>
+  </thead>
+  <tbody>
+{{#props.owners}}
+    <tr>
+      <td><a href="{{url}}">{{name}}</a></td>
+      <td>{{address}}</td>
+      <td>{{city}}</td>
+      <td>{{telephone}}</td>
+    </tr>
+{{/props.owners}}
+  </tbody>
+</table>
+{{/content}}
+{{/master}}

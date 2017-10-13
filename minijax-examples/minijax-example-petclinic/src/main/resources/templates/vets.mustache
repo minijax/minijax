@@ -1,0 +1,22 @@
+{{<master}}
+{{$title}}Veterinarians{{/title}}
+{{$content}}
+<h3>Veterinarians</h3>
+<table class="u-full-width">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Specialty</th>
+    </tr>
+  </thead>
+  <tbody>
+{{#props.vets}}
+    <tr>
+      <td>{{name}}</td>
+      <td>{{specialty}}</td>
+    </tr>
+{{/props.vets}}
+  </tbody>
+</table>
+{{/content}}
+{{/master}}

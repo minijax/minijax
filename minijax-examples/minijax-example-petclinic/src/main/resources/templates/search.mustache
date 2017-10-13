@@ -1,0 +1,13 @@
+{{<master}}
+{{$title}}Search{{/title}}
+{{$content}}
+<h3>Find Owners</h3>
+<form action="/owners">
+  <label for="q">Name</label>
+  <input id="q" name="q" type="text" placeholder="Name">
+  <input class="button-primary" type="submit" value="Submit">
+</form>
+<hr>
+<a class="button" href="/owners/new">New Owner</a>
+{{/content}}
+{{/master}}

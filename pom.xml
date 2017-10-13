@@ -35,6 +35,7 @@
     <modules>
         <module>minijax-archetype</module>
         <module>minijax-core</module>
+        <module>minijax-data</module>
         <module>minijax-examples</module>
         <module>minijax-json</module>
         <module>minijax-websocket</module>
@@ -59,6 +60,9 @@
         </site>
     </distributionManagement>
     <properties>
+        <commons-lang3.version>3.5</commons-lang3.version>
+        <eclipselink.version>2.6.5</eclipselink.version>
+        <h2.version>1.4.196</h2.version>
         <jackson.version>2.9.1</jackson.version>
         <jetty.version>9.4.7.v20170914</jetty.version>
         <junit.version>4.12</junit.version>

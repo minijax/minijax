@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=10.0"/>
+    <title>{{$title}}Pet Clinic{{/title}}</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/static/css/normalize.css">
+    <link rel="stylesheet" href="/static/css/skeleton.css">
+    <link rel="stylesheet" href="/static/css/petclinic.css">
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="container">
+        <ul class="navbar-list">
+          <li class="navbar-item"><a class="navbar-link" href="/">Home</a></li>
+          <li class="navbar-item"><a class="navbar-link" href="/owners/search">Owners</a></li>
+          <li class="navbar-item"><a class="navbar-link" href="/vets">Vets</a></li>
+          <li class="navbar-item"><a class="navbar-link" href="/styles">Styles</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+{{$content}}
+          <p>Default content.</p>
+{{/content}}
+    </div>
+  </body>
+</html>
