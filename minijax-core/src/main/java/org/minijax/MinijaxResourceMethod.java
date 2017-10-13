@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
@@ -24,8 +23,7 @@ public class MinijaxResourceMethod {
     private final Class<?> resourceClass;
     private final Method method;
     private final String path;
-    private final List<String> pathParams;
-    private final Pattern pathPattern;
+    private final MinijaxPathPattern pathPattern;
     private final List<MediaType> produces;
     private final Annotation securityAnnotation;
 
@@ -34,8 +32,7 @@ public class MinijaxResourceMethod {
         resourceClass = m.getDeclaringClass();
         method = m;
         path = findPath(m);
-        pathParams = UrlUtils.getPathParams(path);
-        pathPattern = Pattern.compile(UrlUtils.convertPathToRegex(path));
+        pathPattern = MinijaxPathPattern.parse(m, path);
         produces = findProduces(m);
         securityAnnotation = findSecurityAnnotation(m);
     }
@@ -117,13 +114,13 @@ public class MinijaxResourceMethod {
 
         final String requestPath = uriInfo.getRequestUri().getPath();
 
-        final Matcher matcher = pathPattern.matcher(requestPath);
+        final Matcher matcher = pathPattern.getPattern().matcher(requestPath);
         if (!matcher.matches()) {
             return false;
         }
 
         final MultivaluedMap<String, String> pathParameters = new MultivaluedHashMap<>();
-        for (final String name : pathParams) {
+        for (final String name : pathPattern.getParams()) {
             pathParameters.add(name, matcher.group(name));
         }
 

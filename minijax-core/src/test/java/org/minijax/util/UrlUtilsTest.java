@@ -27,27 +27,6 @@ public class UrlUtilsTest {
     }
 
     @Test
-    public void testGetPathParams() {
-        assertTrue(UrlUtils.getPathParams(null).isEmpty());
-        assertTrue(UrlUtils.getPathParams("").isEmpty());
-        assertTrue(UrlUtils.getPathParams("/").isEmpty());
-        assertTrue(UrlUtils.getPathParams("/foo").isEmpty());
-        assertEquals("name", UrlUtils.getPathParams("/foo/{name}").get(0));
-        assertEquals("name", UrlUtils.getPathParams("/foo/{name:[A-Z]+}").get(0));
-        assertEquals("id", UrlUtils.getPathParams("/foo/{name}/bar/{id}").get(1));
-    }
-
-    @Test
-    public void testConvertPathToRegex() {
-        assertEquals("/", UrlUtils.convertPathToRegex("/"));
-        assertEquals("/x", UrlUtils.convertPathToRegex("/x"));
-        assertEquals("/x/y", UrlUtils.convertPathToRegex("/x/y"));
-        assertEquals("/x/(?<id>[^/]+)", UrlUtils.convertPathToRegex("/x/{id}"));
-        assertEquals("/x/(?<id>[0-9]+)", UrlUtils.convertPathToRegex("/x/{id:[0-9]+}"));
-        assertEquals("/x/(?<id>\\d+)", UrlUtils.convertPathToRegex("/x/{id:\\d+}"));
-    }
-
-    @Test
     public void testGetFullUrl() {
         assertEquals("http://www.example.com/", UrlUtils.getFullRequestUrl(makeRequest("http://www.example.com/")).toString());
         assertEquals("http://www.example.com/foo", UrlUtils.getFullRequestUrl(makeRequest("http://www.example.com/foo")).toString());

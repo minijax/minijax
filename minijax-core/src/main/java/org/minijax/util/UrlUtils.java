@@ -5,14 +5,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -60,34 +56,6 @@ public class UrlUtils {
         }
 
         return result;
-    }
-
-
-    public static List<String> getPathParams(final String path) {
-        if (path == null || path.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        final Matcher m = Pattern.compile("\\{([^\\}\\:]+)").matcher(path);
-        final List<String> result = new ArrayList<>();
-        while (m.find()) {
-            result.add(m.group(1));
-        }
-        return result;
-    }
-
-
-    public static String convertPathToRegex(final String path) {
-        // Replace {name:[0-9]+} with (?<name>[0-9]+)
-        // Replace {id:\\d+} with (?<id>\\d+)
-        final Pattern pattern1 = Pattern.compile("\\{([^\\}\\:]+):([^\\}]+)\\}");
-        final Matcher matcher1 = pattern1.matcher(path);
-        final String temp = matcher1.replaceAll("\\(\\?<$1>$2\\)");
-
-        // Replace {name} with (?<name>[^/]+)
-        final Pattern pattern2 = Pattern.compile("\\{([^\\}\\/]+)\\}");
-        final Matcher matcher2 = pattern2.matcher(temp);
-        return matcher2.replaceAll("\\(\\?<$1>[^/]\\+\\)");
     }
 
 
