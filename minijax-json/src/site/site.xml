@@ -19,6 +19,10 @@
             </gitHub>
         </fluidoSkin>
     </custom>
+     <bannerLeft>
+        <name>Minijax</name>
+        <href>https://minijax.org/</href>
+    </bannerLeft>
     <body>
         <menu ref="parent"/>
         <menu ref="reports"/>

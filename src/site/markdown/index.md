@@ -1,13 +1,10 @@
 
-Minijax
-=======
+[![Build status](https://travis-ci.org/minijax/minijax.svg?branch=master)](https://travis-ci.org/minijax/minijax) [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=org.minijax:minijax)](https://sonarcloud.io/dashboard/index/org.minijax:minijax)
 
 Lightweight subset of Java EE standards
 
 * Minimal dependencies, setup, configuration, and hassle
-* Code to standard Java and Java EE API's as much as possible
-
-[![Build status](https://travis-ci.org/minijax/minijax.svg?branch=master)](https://travis-ci.org/minijax/minijax) [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=org.minijax:minijax)](https://sonarcloud.io/dashboard/index/org.minijax:minijax)
+* Code to standard Java and Java EE API's
 
 Quick Start
 -----------
@@ -45,6 +42,7 @@ public class Hello {
 Learn More
 ----------
 
-* [Getting Started Tutorial](gettingstarted.html)
-* [Sample Applications](minijax-examples/index.html)
-* [Supported Java EE standards](javaee.html)
+* [Motivation](motivation.html) - Why use Minijax?
+* [Getting Started Tutorial](gettingstarted.html) - 5 minute tutorial
+* [Sample Applications](minijax-examples/index.html) - Demonstrating Minijax capabilities
+* [Supported Java EE standards](javaee.html) - Overview of supported API's
