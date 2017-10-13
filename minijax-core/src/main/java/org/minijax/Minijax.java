@@ -49,6 +49,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.FeatureContext;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
@@ -344,7 +345,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
             runResponseFilters(context, response);
             return response;
         } catch (final Exception ex) {
-            LOG.debug(ex.getMessage(), ex);
+            LOG.info(ex.getMessage(), ex);
             return toResponse(context, ex);
         }
     }
@@ -679,6 +680,11 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
             return (T) context.getForm();
         }
 
+        if (c == Form.class) {
+            return (T) context.getForm().asForm();
+        }
+
+        LOG.error("Unrecognized @Context param: {}", c);
         throw new IllegalArgumentException("Unrecognized @Context parameter");
     }
 
@@ -868,7 +874,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
         try {
             return (Class<T>) Class.forName(className);
         } catch (final ClassNotFoundException ex) {
-            LOG.debug(ex.getMessage(), ex);
+            LOG.trace(ex.getMessage(), ex);
             return null;
         }
     }
