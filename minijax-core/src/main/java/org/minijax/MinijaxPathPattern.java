@@ -1,5 +1,6 @@
 package org.minijax;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
@@ -94,8 +95,7 @@ public class MinijaxPathPattern {
 
 
     private static String getDefaultPathParamRegex(final Method method, final String paramName) {
-        final Parameter param = getParameterByPathParam(method, paramName);
-        final Class<?> c = param.getType();
+        final Class<?> c = getPathParamType(method, paramName);
 
         if (c == int.class || c == long.class || c == short.class) {
             return "-?[0-9]+";
@@ -113,7 +113,7 @@ public class MinijaxPathPattern {
     }
 
 
-    private static Parameter getParameterByPathParam(final Method method, final String paramName) {
+    private static Class<?> getPathParamType(final Method method, final String paramName) {
         if (paramName.isEmpty()) {
             throw new IllegalArgumentException("Parameter name cannot be empty");
         }
@@ -121,7 +121,14 @@ public class MinijaxPathPattern {
         for (final Parameter param : method.getParameters()) {
             final PathParam annotation = param.getAnnotation(PathParam.class);
             if (annotation != null && annotation.value().equals(paramName)) {
-                return param;
+                return param.getType();
+            }
+        }
+
+        for (final Field field : method.getDeclaringClass().getDeclaredFields()) {
+            final PathParam annotation = field.getAnnotation(PathParam.class);
+            if (annotation != null && annotation.value().equals(paramName)) {
+                return field.getType();
             }
         }
 
