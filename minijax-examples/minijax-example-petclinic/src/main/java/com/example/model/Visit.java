@@ -1,8 +1,9 @@
 package com.example.model;
 
-import java.time.LocalDate;
+import java.time.Instant;
 
 import javax.persistence.Cacheable;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -10,29 +11,27 @@ import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.minijax.data.NamedEntity;
+import org.minijax.data.BaseEntity;
+import org.minijax.data.InstantAdapter;
+import org.minijax.data.InstantConverter;
 
 @Entity
 @Cacheable
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Visit extends NamedEntity {
+public class Visit extends BaseEntity {
     private static final long serialVersionUID = 1L;
-    private LocalDate date;
     private String description;
+
+    @Convert(converter = InstantConverter.class)
+    @XmlJavaTypeAdapter(InstantAdapter.class)
+    private Instant date;
 
     @ManyToOne
     private Pet pet;
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(final LocalDate date) {
-        this.date = date;
-    }
 
     public String getDescription() {
         return description;
@@ -40,6 +39,14 @@ public class Visit extends NamedEntity {
 
     public void setDescription(final String description) {
         this.description = description;
+    }
+
+    public Instant getDate() {
+        return date;
+    }
+
+    public void setDate(final Instant date) {
+        this.date = date;
     }
 
     public Pet getPet() {
@@ -50,7 +57,6 @@ public class Visit extends NamedEntity {
         this.pet = pet;
     }
 
-    @Override
     public String getUrl() {
         return "/visits/" + getId();
     }

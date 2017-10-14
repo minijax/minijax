@@ -17,9 +17,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
+import org.minijax.mustache.View;
+
 import com.example.model.Owner;
 import com.example.services.Dao;
-import com.example.view.Page;
 
 @Path("/owners")
 @Produces(TEXT_HTML)
@@ -30,21 +31,21 @@ public class OwnersResource {
 
     @GET
     @Path("/search")
-    public Page getSearchPage() {
-        return new Page("search");
+    public View getSearchPage() {
+        return new View("search");
     }
 
     @GET
-    public Page getSearchResults(@QueryParam("q") final String q) {
-        final Page page = new Page("owners");
+    public View getSearchResults(@QueryParam("q") final String q) {
+        final View page = new View("owners");
         page.getProps().put("owners", dao.findOwners(q));
         return page;
     }
 
     @GET
     @Path("/new")
-    public Page getNewOwnerPage() {
-        return new Page("newowner");
+    public View getNewOwnerPage() {
+        return new View("newowner");
     }
 
     @POST
@@ -61,33 +62,32 @@ public class OwnersResource {
         owner.setAddress(address);
         owner.setCity(city);
         owner.setTelephone(telephone);
-        owner.generateHandle();
         dao.create(owner);
         return Response.seeOther(URI.create(owner.getUrl())).build();
     }
 
     @GET
     @Path("/{id}")
-    public Page getOwnerPage(@PathParam("id") final UUID id) {
+    public View getOwnerPage(@PathParam("id") final UUID id) {
         final Owner owner = dao.read(Owner.class, id);
         if (owner == null) {
             throw new NotFoundException();
         }
 
-        final Page page = new Page("owner");
+        final View page = new View("owner");
         page.getProps().put("owner", owner);
         return page;
     }
 
     @GET
     @Path("/{id}/edit")
-    public Page getEditOwnerPage(@PathParam("id") final UUID id) {
+    public View getEditOwnerPage(@PathParam("id") final UUID id) {
         final Owner owner = dao.read(Owner.class, id);
         if (owner == null) {
             throw new NotFoundException();
         }
 
-        final Page page = new Page("editowner");
+        final View page = new View("editowner");
         page.getProps().put("owner", owner);
         return page;
     }

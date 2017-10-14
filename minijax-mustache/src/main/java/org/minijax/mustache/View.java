@@ -1,13 +1,13 @@
-package com.example.view;
+package org.minijax.mustache;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Page {
+public class View {
     private final String templateName;
     private final Map<String, Object> props;
 
-    public Page(final String templateName) {
+    public View(final String templateName) {
         this.templateName = templateName;
         props = new HashMap<>();
     }

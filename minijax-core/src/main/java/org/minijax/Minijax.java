@@ -69,6 +69,7 @@ import org.minijax.util.ClassMap;
 import org.minijax.util.ClassPathScanner;
 import org.minijax.util.ExceptionUtils;
 import org.minijax.util.IOUtils;
+import org.minijax.util.IdUtils;
 import org.minijax.util.MediaTypeClassMap;
 import org.minijax.util.MediaTypeUtils;
 import org.slf4j.Logger;
@@ -345,7 +346,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
             runResponseFilters(context, response);
             return response;
         } catch (final Exception ex) {
-            LOG.info(ex.getMessage(), ex);
+            LOG.debug(ex.getMessage(), ex);
             return toResponse(context, ex);
         }
     }
@@ -814,7 +815,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
         }
 
         if (c == UUID.class) {
-            return (T) UUID.fromString(str);
+            return (T) IdUtils.tryParse(str);
         }
 
         try {

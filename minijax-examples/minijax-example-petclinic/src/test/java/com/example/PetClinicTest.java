@@ -22,7 +22,7 @@ public class PetClinicTest extends MinijaxTest {
         register(getDao());
     }
 
-    private static Dao getDao() {
+    public static Dao getDao() {
         if (dao == null) {
             final Map<String, String> props = new HashMap<String, String>();
             props.put(JDBC_URL, "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");

@@ -4,13 +4,13 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.example.view.Page;
+import org.minijax.mustache.View;
 
 public class DefaultResource {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public Page getDefaultPage() {
-        return new Page("home");
+    public View getDefaultPage() {
+        return new View("home");
     }
 }

@@ -27,11 +27,11 @@
             <artifactId>minijax-data</artifactId>
             <version>${project.version}</version>
         </dependency>
-<dependency>
-  <groupId>com.github.spullara.mustache.java</groupId>
-  <artifactId>compiler</artifactId>
-  <version>0.9.5</version>
-</dependency>
+        <dependency>
+            <groupId>org.minijax</groupId>
+            <artifactId>minijax-mustache</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>

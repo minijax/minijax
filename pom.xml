@@ -38,6 +38,7 @@
         <module>minijax-data</module>
         <module>minijax-examples</module>
         <module>minijax-json</module>
+        <module>minijax-mustache</module>
         <module>minijax-websocket</module>
     </modules>
     <scm>

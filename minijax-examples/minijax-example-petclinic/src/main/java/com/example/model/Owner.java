@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.minijax.data.NamedEntity;
+import org.minijax.data.BaseEntity;
 
 @Entity
 @Cacheable
@@ -20,14 +20,23 @@ import org.minijax.data.NamedEntity;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @NamedQuery(name = "Owner.findByName", query = "SELECT o FROM Owner o WHERE LOWER(o.name) LIKE :name AND o.deletedDateTime IS NULL")
-public class Owner extends NamedEntity {
+public class Owner extends BaseEntity {
     private static final long serialVersionUID = 1L;
+    private String name;
     private String address;
     private String city;
     private String telephone;
 
     @OneToMany(mappedBy = "owner")
     private List<Pet> pets;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
 
     public String getAddress() {
         return address;
@@ -61,7 +70,6 @@ public class Owner extends NamedEntity {
         this.pets = pets;
     }
 
-    @Override
     public String getUrl() {
         return "/owners/" + getId();
     }

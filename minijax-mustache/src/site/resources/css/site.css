@@ -1,0 +1,116 @@
+
+body, input, select, textarea, button {
+  font-family: 'Lato', Helvetica, sans-serif !important;
+}
+
+h1, h2, h3, h4, h1 a, h2 a, h3 a, h4 a {
+  color: rgba(0, 0, 0, 0.7) !important;
+  font-weight: normal !important;
+  margin: 30px 0 10px 0 !important;
+}
+
+#banner h2 {
+  padding-left: 4px;
+}
+
+#breadcrumbs {
+  font-size: 12px;
+}
+
+.breadcrumb {
+  border: 1px solid #ddd;
+  background: #f8f8f8;
+}
+
+div.sidebar-nav {
+  background: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+a.externalLink {
+  background: none !important;
+  padding-right: 0 !important;
+}
+
+#banner, #breadcrumbs, .row-fluid {
+  max-width: 1000px !important;
+  margin: auto !important;
+}
+
+pre.prettyprint {
+  padding: 6px !important;
+  border: 1px solid #ddd;
+  background: #f8f8f8;
+}
+
+tt {
+  background-color: initial;
+}
+
+@media (max-width: 720px) {
+  .container-fluid {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  #banner, #breadcrumbs {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  #leftColumn {
+    display: none !important;
+  }
+
+  #bodyColumn {
+    width: 100% !important;
+    margin: auto !important;
+  }
+}
+
+footer div.row-fluid {
+  text-align: center !important;
+  font-size: 12px !important;
+}
+
+/*
+ * Lato
+ */
+
+/* latin-ext */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(https://static.ajibot.com/fonts/lato-latin-ext-400.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* latin */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(https://static.ajibot.com/fonts/lato-latin-400.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+
+/* latin-ext */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url(https://static.ajibot.com/fonts/lato-latin-ext-700.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* latin */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url(https://static.ajibot.com/fonts/lato-latin-700.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
