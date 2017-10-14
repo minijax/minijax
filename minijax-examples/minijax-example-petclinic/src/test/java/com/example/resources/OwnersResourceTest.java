@@ -3,6 +3,7 @@ package com.example.resources;
 import static org.junit.Assert.*;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
@@ -89,16 +90,16 @@ public class OwnersResourceTest extends PetClinicTest {
 
     @Test
     public void testOwnerNotFound() {
-        final Response response = target("/owners/00000000-0000-0000-0000000000000000").request().get();
+        final Response response = target("/owners/00000000-0000-0000-0000-000000000000").request().get();
         assertNotNull(response);
         assertEquals(404, response.getStatus());
     }
 
     @Test
     public void testEditOwner() {
-        final Owner george = PetClinicTest.getDao().findOwners("george").get(0);
+        final UUID georgeId = UUID.fromString("015f1b3d-b336-7e66-671a-7bfb8602b47f");
 
-        final Response r1 = target("/owners/" + george.getId() + "/edit").request().get();
+        final Response r1 = target("/owners/" + georgeId + "/edit").request().get();
         assertEquals(200, r1.getStatus());
         assertEquals("editowner", ((View) r1.getEntity()).getTemplateName());
 
@@ -108,7 +109,7 @@ public class OwnersResourceTest extends PetClinicTest {
                 .param("city", "Washington DC")
                 .param("telephone", "800-555-5555");
 
-        final Response r2 = target("/owners/" + george.getId() + "/edit").request().post(Entity.form(form));
+        final Response r2 = target("/owners/" + georgeId + "/edit").request().post(Entity.form(form));
         assertNotNull(r2);
         assertEquals(303, r2.getStatus());
         assertNotNull(r2.getHeaderString("Location"));
@@ -124,11 +125,11 @@ public class OwnersResourceTest extends PetClinicTest {
 
     @Test
     public void testEditOwnerNotFound() {
-        final Response r1 = target("/owners/00000000-0000-0000-0000000000000000/edit").request().get();
+        final Response r1 = target("/owners/00000000-0000-0000-0000-000000000000/edit").request().get();
         assertNotNull(r1);
         assertEquals(404, r1.getStatus());
 
-        final Response r2 = target("/owners/00000000-0000-0000-0000000000000000/edit").request().post(Entity.form(new Form()));
+        final Response r2 = target("/owners/00000000-0000-0000-0000-000000000000/edit").request().post(Entity.form(new Form()));
         assertNotNull(r2);
         assertEquals(404, r2.getStatus());
     }

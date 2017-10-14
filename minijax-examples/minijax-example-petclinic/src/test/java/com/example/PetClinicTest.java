@@ -15,22 +15,20 @@ import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.MustacheFactory;
 
 public abstract class PetClinicTest extends MinijaxTest {
-    private static Dao dao;
+    private static EntityManagerFactory emf;
 
     public PetClinicTest() {
         register(new DefaultMustacheFactory(), MustacheFactory.class);
-        register(getDao());
+        register(getEntityManagerFactory(), EntityManagerFactory.class);
+        register(Dao.class);
     }
 
-    public static Dao getDao() {
-        if (dao == null) {
+    public static EntityManagerFactory getEntityManagerFactory() {
+        if (emf == null) {
             final Map<String, String> props = new HashMap<String, String>();
             props.put(JDBC_URL, "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
-
-            final EntityManagerFactory emf = Persistence.createEntityManagerFactory("petclinic", props);
-
-            dao = new Dao(emf);
+            emf = Persistence.createEntityManagerFactory("petclinic", props);
         }
-        return dao;
+        return emf;
     }
 }
