@@ -9,10 +9,10 @@ import org.minijax.util.IdUtils;
 
 public class IdGenerator extends Sequence {
     private static final long serialVersionUID = 1L;
-    public static final String NAME = "org.minijax.data.IdGenerator";
+    public static final String ID_GENERATOR_NAME = "org.minijax.data.IdGenerator";
 
     public IdGenerator() {
-        super(NAME);
+        super(ID_GENERATOR_NAME);
     }
 
     @Override
@@ -23,15 +23,17 @@ public class IdGenerator extends Sequence {
     @Override
     @SuppressWarnings("rawtypes")
     public Vector getGeneratedVector(final Accessor accessor, final AbstractSession writeSession, final String seqName, final int size) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void onConnect() {
+        // no op
     }
 
     @Override
     public void onDisconnect() {
+        // no op
     }
 
     @Override

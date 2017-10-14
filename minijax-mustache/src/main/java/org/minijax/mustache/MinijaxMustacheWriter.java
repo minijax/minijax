@@ -9,7 +9,6 @@ import java.lang.reflect.Type;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
@@ -38,7 +37,7 @@ public class MinijaxMustacheWriter implements MessageBodyWriter<View> {
             final MediaType mediaType,
             final MultivaluedMap<String, Object> httpHeaders,
             final OutputStream entityStream)
-                    throws IOException, WebApplicationException {
+                    throws IOException {
 
         final Mustache mustache = mf.compile("templates/" + page.getTemplateName() + ".mustache");
 

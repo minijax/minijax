@@ -1,7 +1,5 @@
 package com.example;
 
-import java.io.IOException;
-
 import javax.persistence.Persistence;
 
 import org.minijax.Minijax;
@@ -11,7 +9,7 @@ import com.example.services.Dao;
 
 public class PetClinicApp {
 
-    public static void main(final String[] args) throws IOException {
+    public static void main(final String[] args) {
         new Minijax()
                 .register(new Dao(Persistence.createEntityManagerFactory("petclinic")))
                 .register(MinijaxMustacheFeature.class)

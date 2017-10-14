@@ -14,7 +14,7 @@ import com.example.services.Dao;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.MustacheFactory;
 
-public class PetClinicTest extends MinijaxTest {
+public abstract class PetClinicTest extends MinijaxTest {
     private static Dao dao;
 
     public PetClinicTest() {

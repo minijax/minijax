@@ -42,7 +42,7 @@ public abstract class BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(generator = IdGenerator.NAME)
+    @GeneratedValue(generator = IdGenerator.ID_GENERATOR_NAME)
     @Column(columnDefinition = "BINARY(16)")
     @Convert(converter = UuidConverter.class)
     private UUID id;
