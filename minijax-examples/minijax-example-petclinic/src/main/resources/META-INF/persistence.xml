@@ -14,6 +14,7 @@
             <property name="javax.persistence.jdbc.user" value="" />
             <property name="javax.persistence.schema-generation.database.action" value="create" />
             <property name="javax.persistence.sql-load-script-source" value="init.sql"/>
+            <property name="eclipselink.session.customizer" value="org.minijax.data.EclipselinkSessionCustomizer"/>
         </properties>
 	</persistence-unit>
 </persistence>

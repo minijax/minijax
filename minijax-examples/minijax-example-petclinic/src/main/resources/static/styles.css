@@ -1,0 +1,100 @@
+
+body {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  text-align: left;
+}
+
+h1, h2, h3, h4 {
+  font-weight: normal;
+}
+
+div, p, th, td {
+  font-size: 14px;
+}
+
+nav {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+nav li {
+  float: left;
+}
+
+nav li a {
+  display: block;
+  text-align: center;
+  padding: 16px 32px 16px 0;
+  
+  font-size: 14px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.5);
+  fill: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+}
+
+a {
+  color: #24d;
+  text-decoration: none;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  color: #aaa;
+  background-color: #ddd;
+  margin: 30px 0;
+}
+
+table {
+  width: 100%;
+}
+
+th, td {
+  padding: 8px;
+  vertical-align: top;
+}
+
+table.table-border {
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table.table-border,
+table.table-border > thead > tr > th,
+table.table-border > tbody > tr > td {
+  border: 1px solid #ccc;
+  padding: 12px;
+}
+
+td.table-key {
+  font-weight: bold;
+  text-align: right;
+}
+
+input[type="text"],
+input[type="tel"] {
+  padding: 8px;
+  width: 400px;
+}
+
+input[type="button"],
+input[type="submit"] {
+  padding: 8px 16px;
+}

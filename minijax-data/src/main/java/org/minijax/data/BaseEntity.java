@@ -26,6 +26,7 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -41,6 +42,7 @@ public abstract class BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(generator = IdGenerator.NAME)
     @Column(columnDefinition = "BINARY(16)")
     @Convert(converter = UuidConverter.class)
     private UUID id;
@@ -214,17 +216,6 @@ public abstract class BaseEntity implements Serializable {
         final BaseEntity other = (BaseEntity) obj;
         return Objects.equals(id, other.id);
     }
-
-
-//    /**
-//     * Returns a JSON representation of the object.
-//     *
-//     * @return A JSON string.
-//     * @throws IOException
-//     */
-//    public String toJson() throws IOException {
-//        return Utils.getObjectMapper().writeValueAsString(this);
-//    }
 
 
     /**

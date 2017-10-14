@@ -63,6 +63,7 @@
         <commons-lang3.version>3.5</commons-lang3.version>
         <eclipselink.version>2.6.5</eclipselink.version>
         <h2.version>1.4.196</h2.version>
+        <hikaricp.version>2.7.1</hikaricp.version>
         <jackson.version>2.9.1</jackson.version>
         <jetty.version>9.4.7.v20170914</jetty.version>
         <junit.version>4.12</junit.version>

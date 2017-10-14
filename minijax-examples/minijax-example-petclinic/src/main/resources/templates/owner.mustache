@@ -1,8 +1,8 @@
 {{<master}}
 {{$title}}Owner{{/title}}
 {{$content}}
-<h3>{{props.owner.name}}</h3>
-<table>
+<h2>{{props.owner.name}}</h2>
+<table class="table-border">
   <tbody>
     <tr>
       <td>Address</td>
@@ -19,31 +19,39 @@
   </tbody>
 </table>
 
-<a class="button" href="{{props.owner.url}}/edit">Edit Owner</a>
+<a href="{{props.owner.url}}/edit">Edit Owner</a>
 
 <hr>
 
-<h4>Pets</h4>
+<h2>Pets</h2>
 
-<table class="u-full-width">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Address</th>
-      <th>City</th>
-      <th>Telephone</th>
-    </tr>
-  </thead>
+<table class="table-border">
   <tbody>
-{{#props.owners}}
+{{#props.owner.pets}}
     <tr>
-      <td><a href="{{url}}">{{name}}</a></td>
-      <td>{{address}}</td>
-      <td>{{city}}</td>
-      <td>{{telephone}}</td>
+      <td>
+        <table>
+          <tr><td class="table-key">Name</td><td>{{name}} (<a href="#">edit</a>)</td></tr>
+          <tr><td class="table-key">Birth Date</td><td>{{birthDate}}</td></tr>
+          <tr><td class="table-key">Type</td><td>{{petType}}</td></tr>
+        </table>
+      </td>
+      <td>
+        <table>
+{{#visits}}
+          <tr>
+            <td>{{date}}</td>
+            <td>{{name}}</td>
+          </tr>
+{{/visits}}
+        </table>
+      </td>
     </tr>
-{{/props.owners}}
+{{/props.owner.pets}}
   </tbody>
 </table>
+
+<a href="{{props.owner.url}}/edit">New pet</a>
+
 {{/content}}
 {{/master}}

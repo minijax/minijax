@@ -21,6 +21,14 @@ public class MinijaxTest {
         server.register(c);
     }
 
+    public void register(final Object component) {
+        server.register(component);
+    }
+
+    public void register(final Object component, final Class<?>... contracts) {
+        server.register(component, contracts);
+    }
+
     public void packages(final String... packageNames) {
         server.packages(packageNames);
     }
