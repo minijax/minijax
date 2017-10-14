@@ -46,6 +46,7 @@ public class MinijaxPathPattern {
         private final StringBuilder paramBuilder = new StringBuilder();
         private final List<String> params = new ArrayList<>();
         private int curlyDepth = 0;
+        private int index;
 
         public Builder(final Method method, final String path) {
             this.method = method;
@@ -53,29 +54,14 @@ public class MinijaxPathPattern {
         }
 
         public MinijaxPathPattern build() {
-            for (int i = 0; i < path.length(); i++) {
-                final char c = path.charAt(i);
-
+            for (index = 0; index < path.length(); index++) {
+                final char c = path.charAt(index);
                 if (c == '{') {
-                    if (curlyDepth > 0) {
-                        paramBuilder.append(c);
-                    }
-                    curlyDepth++;
+                    handleOpen();
                 } else if (c == '}') {
-                    curlyDepth--;
-                    if (curlyDepth < 0) {
-                        throw new IllegalArgumentException("Unexpected '}' character at position " + i);
-                    } else if (curlyDepth > 0) {
-                        paramBuilder.append(c);
-                    } else {
-                        addParam(i);
-                    }
+                    handleClose();
                 } else {
-                    if (curlyDepth > 0) {
-                        paramBuilder.append(c);
-                    } else {
-                        regexBuilder.append(c);
-                    }
+                    handleOther(c);
                 }
             }
 
@@ -86,14 +72,41 @@ public class MinijaxPathPattern {
             return new MinijaxPathPattern(Pattern.compile(regexBuilder.toString()), params);
         }
 
-        private void addParam(final int i) {
+        private void handleOpen() {
+            if (curlyDepth > 0) {
+                paramBuilder.append('{');
+            }
+            curlyDepth++;
+        }
+
+        private void handleClose() {
+            curlyDepth--;
+            if (curlyDepth < 0) {
+                throw new IllegalArgumentException("Unexpected '}' character at index " + index);
+            } else if (curlyDepth > 0) {
+                paramBuilder.append('}');
+            } else {
+                addParam();
+            }
+        }
+
+        private void handleOther(final char c) {
+            if (curlyDepth > 0) {
+                paramBuilder.append(c);
+            } else {
+                regexBuilder.append(c);
+            }
+        }
+
+        private void addParam() {
             final String paramStr = paramBuilder.toString();
             paramBuilder.setLength(0);
 
             final int colonIndex = paramStr.indexOf(':');
             if (colonIndex == 0) {
-                throw new IllegalArgumentException("Unexpected ':' character at position " + i);
+                throw new IllegalArgumentException("Unexpected ':' character at index " + index);
             }
+
             final String paramName;
             final String paramRegex;
             if (colonIndex > 0) {
@@ -103,9 +116,11 @@ public class MinijaxPathPattern {
                 paramName = paramStr.trim();
                 paramRegex = getDefaultPathParamRegex(paramName);
             }
+
             if (paramName.isEmpty()) {
                 throw new IllegalArgumentException("Parameter name cannot be empty");
             }
+
             params.add(paramName);
             regexBuilder.append("(?<" + paramName + ">" + paramRegex + ")");
         }

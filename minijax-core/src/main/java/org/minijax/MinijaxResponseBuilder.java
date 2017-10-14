@@ -61,6 +61,7 @@ public class MinijaxResponseBuilder extends javax.ws.rs.core.Response.ResponseBu
     }
 
     @Override
+    @SuppressWarnings({ "squid:S2975", "squid:S1182" })
     public ResponseBuilder clone() {
         return new MinijaxResponseBuilder(this);
     }

@@ -37,6 +37,7 @@ import org.eclipse.persistence.annotations.CacheIndex;
  */
 @MappedSuperclass
 @XmlAccessorType(XmlAccessType.FIELD)
+@SuppressWarnings("squid:S2160")
 public abstract class NamedEntity extends BaseEntity implements Principal {
     private static final long serialVersionUID = 1L;
     private static final String HANDLE_SPECIAL_CHARS = "!#$%&'()*+,/:;=?@[\\]^`{|}~";
