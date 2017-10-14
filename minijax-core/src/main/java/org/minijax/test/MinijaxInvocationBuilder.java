@@ -1,5 +1,6 @@
 package org.minijax.test;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -17,6 +18,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+
+import org.minijax.util.ExceptionUtils;
 
 public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.Builder {
     private static final String DELETE = "DELETE";
@@ -133,14 +136,17 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
 
     @Override
     public Response method(final String name) {
-        final MockRequestContext context = new MockRequestContext(
+        try (final MockRequestContext context = new MockRequestContext(
                 target.getUri(),
                 name,
                 headers,
                 cookies,
-                entity);
+                entity)) {
 
-        return target.getServer().handle(context);
+            return target.getServer().handle(context);
+        } catch (final IOException ex) {
+            throw ExceptionUtils.toWebAppException(ex);
+        }
     }
 
     @Override

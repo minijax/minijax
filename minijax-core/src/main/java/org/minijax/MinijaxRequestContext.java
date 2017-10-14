@@ -186,6 +186,12 @@ public abstract class MinijaxRequestContext
 
     @Override
     public void close() throws IOException {
+        for (final Object obj : resourceCache.values()) {
+            if (obj instanceof Closeable) {
+                ((Closeable) obj).close();
+            }
+        }
+
         threadLocalContexts.remove();
     }
 

@@ -445,7 +445,11 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
         } else {
             instance = get(method.getDeclaringClass(), context, null);
         }
+        return invoke(context, method, instance);
+    }
 
+
+    public Object invoke(final MinijaxRequestContext context, final Method method, final Object instance) throws IOException {
         try {
             return method.invoke(instance, getArgs(context, method));
         } catch (final InvocationTargetException ex) {
@@ -720,11 +724,25 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
             final Constructor<T> ctor = findInjectConstructor(c);
             final T instance = ctor.newInstance(getArgs(context, ctor));
 
-            for (final Field field : c.getDeclaredFields()) {
-                if (isInjected(field)) {
-                    field.setAccessible(true);
-                    field.set(instance, get(field.getType(), context, field.getAnnotations()));
+            @SuppressWarnings("rawtypes")
+            Class currClass = c;
+
+            while (currClass != null) {
+                for (final Field field : currClass.getDeclaredFields()) {
+                    if (isInjected(field)) {
+                        field.setAccessible(true);
+                        field.set(instance, get(field.getType(), context, field.getAnnotations()));
+                    }
                 }
+
+                for (final Method method : currClass.getDeclaredMethods()) {
+                    if (method.getAnnotation(Inject.class) != null) {
+                        method.setAccessible(true);
+                        invoke(context, method, instance);
+                    }
+                }
+
+                currClass = currClass.getSuperclass();
             }
 
             return instance;

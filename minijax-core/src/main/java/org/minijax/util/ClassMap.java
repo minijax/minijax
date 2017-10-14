@@ -1,5 +1,6 @@
 package org.minijax.util;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,5 +21,9 @@ public class ClassMap {
     @SuppressWarnings("unchecked")
     public <T> T get(final Class<? extends T> c) {
         return (T) innerMap.get(c);
+    }
+
+    public Collection<Object> values() {
+        return innerMap.values();
     }
 }
