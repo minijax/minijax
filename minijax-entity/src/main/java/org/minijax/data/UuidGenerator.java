@@ -7,23 +7,30 @@ import org.eclipse.persistence.internal.sessions.AbstractSession;
 import org.eclipse.persistence.sequencing.Sequence;
 import org.minijax.util.IdUtils;
 
-public class IdGenerator extends Sequence {
+public class UuidGenerator extends Sequence {
     private static final long serialVersionUID = 1L;
-    public static final String ID_GENERATOR_NAME = "org.minijax.data.IdGenerator";
+    public static final String ID_GENERATOR_NAME = "org.minijax.data.UuidGenerator";
+    private final UuidConverter converter;
 
-    public IdGenerator() {
+    public UuidGenerator() {
         super(ID_GENERATOR_NAME);
+        converter = new UuidConverter();
     }
 
     @Override
-    public Object getGeneratedValue(final Accessor accessor, final AbstractSession writeSession, final String seqName) {
-        return IdUtils.create();
+    public byte[] getGeneratedValue(final Accessor accessor, final AbstractSession writeSession, final String seqName) {
+        return converter.convertToDatabaseColumn(IdUtils.create());
     }
 
     @Override
-    @SuppressWarnings("rawtypes")
-    public Vector getGeneratedVector(final Accessor accessor, final AbstractSession writeSession, final String seqName, final int size) {
-        throw new UnsupportedOperationException();
+    public Vector<byte[]> getGeneratedVector(final Accessor accessor, final AbstractSession writeSession, final String seqName, final int size) {
+        final Vector<byte[]> result = new Vector<>(size);
+
+        for (int i = 0; i < size; i++) {
+            result.add(getGeneratedValue(accessor, writeSession, seqName));
+        }
+
+        return result;
     }
 
     @Override

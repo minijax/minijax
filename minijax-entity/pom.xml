@@ -6,16 +6,11 @@
         <artifactId>minijax</artifactId>
         <version>0.0.9-SNAPSHOT</version>
     </parent>
-    <artifactId>minijax-data</artifactId>
+    <artifactId>minijax-entity</artifactId>
     <packaging>jar</packaging>
-    <name>minijax-data</name>
-    <description>Minijax database and entity framework</description>
+    <name>minijax-entity</name>
+    <description>Minijax entity model</description>
     <dependencies>
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-            <version>${hikaricp.version}</version>
-        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -31,6 +26,7 @@
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>eclipselink</artifactId>
             <version>${eclipselink.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
@@ -39,7 +35,7 @@
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
-            <artifactId>minijax-entity</artifactId>
+            <artifactId>minijax-json</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

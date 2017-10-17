@@ -59,6 +59,11 @@ public abstract class NamedEntity extends BaseEntity implements Principal {
         super(id);
     }
 
+    public NamedEntity(final UUID id, final String name) {
+        super(id);
+        setName(name);
+    }
+
     public String getHandle() {
         return handle;
     }

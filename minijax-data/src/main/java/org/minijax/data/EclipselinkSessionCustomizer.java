@@ -8,7 +8,6 @@ import javax.sql.DataSource;
 
 import org.eclipse.persistence.config.SessionCustomizer;
 import org.eclipse.persistence.sessions.DatabaseLogin;
-import org.eclipse.persistence.sessions.JNDIConnector;
 import org.eclipse.persistence.sessions.Session;
 
 import com.zaxxer.hikari.HikariConfig;
@@ -19,9 +18,9 @@ public class EclipselinkSessionCustomizer implements SessionCustomizer {
     @Override
     public void customize(final Session session) {
         final DatabaseLogin login = session.getLogin();
-        login.setConnector(new JNDIConnector(getDataSource(session.getProperties())));
+        //login.setConnector(new JNDIConnector(getDataSource(session.getProperties())));
         login.useExternalConnectionPooling();
-        login.addSequence(new IdGenerator());
+        login.addSequence(new UuidGenerator());
     }
 
     /**

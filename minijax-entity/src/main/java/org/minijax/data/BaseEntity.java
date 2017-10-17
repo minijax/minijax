@@ -42,7 +42,7 @@ public abstract class BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(generator = IdGenerator.ID_GENERATOR_NAME)
+    @GeneratedValue(generator = UuidGenerator.ID_GENERATOR_NAME)
     @Column(columnDefinition = "BINARY(16)")
     @Convert(converter = UuidConverter.class)
     private UUID id;
@@ -142,6 +142,10 @@ public abstract class BaseEntity implements Serializable {
         return deletedDateTime != null;
     }
 
+
+    public void setDeleted(final boolean deleted) {
+        deletedDateTime = deleted ? Instant.now() : null;
+    }
 
 
     /**

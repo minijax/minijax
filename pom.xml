@@ -36,6 +36,7 @@
         <module>minijax-archetype</module>
         <module>minijax-core</module>
         <module>minijax-data</module>
+        <module>minijax-entity</module>
         <module>minijax-examples</module>
         <module>minijax-json</module>
         <module>minijax-mustache</module>
