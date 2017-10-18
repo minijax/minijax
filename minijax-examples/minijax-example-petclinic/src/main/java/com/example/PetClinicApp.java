@@ -13,6 +13,6 @@ public class PetClinicApp {
                 .register(Persistence.createEntityManagerFactory("petclinic"), EntityManagerFactory.class)
                 .register(MinijaxMustacheFeature.class)
                 .packages("com.example")
-                .run(8081);
+                .run(8080);
     }
 }

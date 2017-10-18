@@ -17,7 +17,7 @@ import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 
 @Singleton
-@Produces(MediaType.APPLICATION_JSON)
+@Produces(MediaType.TEXT_HTML)
 public class MinijaxMustacheWriter implements MessageBodyWriter<View> {
 
     @Inject

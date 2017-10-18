@@ -2,11 +2,12 @@
 {{$title}}Search{{/title}}
 {{$content}}
 <h2>Find Owners</h2>
-<form action="/owners">
-  <input name="q" type="text" placeholder="Name">
-  <input class="button-primary" type="submit" value="Submit">
+<form class="form-inline" action="/owners">
+  <label class="sr-only" for="inlineFormInputName2">Name</label>
+  <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInputName2" name="q" placeholder="Jane Doe">
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 <hr>
-<a class="button" href="/owners/new">New Owner</a>
+<a class="btn btn-secondary" href="/owners/new">New Owner</a>
 {{/content}}
 {{/master}}

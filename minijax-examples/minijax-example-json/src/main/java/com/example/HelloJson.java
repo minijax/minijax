@@ -22,7 +22,6 @@ import org.minijax.json.MinijaxJsonFeature;
 
 public class HelloJson {
 
-
     @XmlRootElement
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Widget {
@@ -78,6 +77,6 @@ public class HelloJson {
         new Minijax()
                 .register(MinijaxJsonFeature.class)
                 .register(HelloJson.class)
-                .run(8081);
+                .run(8080);
     }
 }

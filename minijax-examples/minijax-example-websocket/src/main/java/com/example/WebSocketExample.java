@@ -58,6 +58,6 @@ public class WebSocketExample {
         new Minijax()
                 .register(WebSocketExample.class)
                 .register(WebSocketResource.class)
-                .run(8081);
+                .run(8080);
     }
 }

@@ -3,29 +3,23 @@
 {{$content}}
 <h2>New Owner</h2>
 <form method="POST">
-<table class="table-border">
-  <tr>
-    <td><label for="name">Name</label></td>
-    <td><input id="name" name="name" type="text" placeholder="Name" required></td>
-  </tr>
-  <tr>
-    <td><label for="address">Address</label></td>
-    <td><input id="address" name="address" type="text" placeholder="Address" required></td>
-  </tr>
-  <tr>
-    <td><label for="city">City</label></td>
-    <td><input id="city" name="city" type="text" placeholder="City" required></td>
-  </tr>
-  <tr>
-    <td><label for="telephone">Telephone</label></td>
-    <td><input id="telephone" name="telephone" type="tel" placeholder="Telephone" required></td>
-  </tr>
-  <tr>
-    <td colspan="2">
-      <input type="submit" value="Submit">
-    </td>
-  </tr>
-</table>
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input id="name" name="name" class="form-control" type="text" placeholder="Name" required>
+  </div>
+  <div class="form-group">
+    <label for="address">Address</label>
+    <input id="address" name="address" class="form-control" type="text" placeholder="Address" required>
+  </div>
+  <div class="form-group">
+    <label for="city">City</label>
+    <input id="city" name="city" class="form-control" type="text" placeholder="City" required>
+  </div>
+  <div class="form-group">
+    <label for="telephone">Telephone</label>
+    <input id="telephone" name="telephone" class="form-control" type="tel" placeholder="Telephone" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 {{/content}}
 {{/master}}
