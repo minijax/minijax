@@ -31,7 +31,7 @@ public abstract class BaseDao implements Closeable {
     protected EntityManager em;
 
     @Inject
-    private void setEntityManagerFactory(final EntityManagerFactory emf) {
+    protected void setEntityManagerFactory(final EntityManagerFactory emf) {
         em = emf.createEntityManager();
     }
 
@@ -54,6 +54,7 @@ public abstract class BaseDao implements Closeable {
         try {
             em.getTransaction().begin();
             em.persist(obj);
+            em.flush();
             em.getTransaction().commit();
             return obj;
         } catch (final RollbackException ex) {
@@ -130,7 +131,7 @@ public abstract class BaseDao implements Closeable {
      *
      * @param obj The object to update.
      */
-    public <T extends BaseEntity> void update(final T obj) {
+    public <T extends BaseEntity> T update(final T obj) {
         Validate.notNull(obj);
         Validate.notNull(obj.getId());
         obj.validate();
@@ -139,7 +140,9 @@ public abstract class BaseDao implements Closeable {
         try {
             em.getTransaction().begin();
             em.merge(obj);
+            em.flush();
             em.getTransaction().commit();
+            return obj;
         } catch (final RollbackException ex) {
             throw convertRollbackToConflict(ex);
         }
