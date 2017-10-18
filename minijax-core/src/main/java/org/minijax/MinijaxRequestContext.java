@@ -129,7 +129,7 @@ public abstract class MinijaxRequestContext
             acceptableMediaTypes = new ArrayList<>();
 
             final String accept = getHeaderString("Accept");
-            final String[] acceptTypes = accept.split(",\\s+");
+            final String[] acceptTypes = accept.split(",\\s*");
             for (final String acceptType : acceptTypes) {
                 acceptableMediaTypes.add(MediaType.valueOf(acceptType));
             }

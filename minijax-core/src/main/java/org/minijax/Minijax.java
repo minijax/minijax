@@ -502,13 +502,19 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private Response toResponse(final MinijaxRequestContext context, final Exception ex) {
         final MinijaxResourceMethod rm = context.getResourceMethod();
+        final List<MediaType> mediaTypes;
+
         if (rm != null) {
-            for (final MediaType mediaType : rm.getProduces()) {
-                final List<Class<? extends ExceptionMapper<?>>> mappers = exceptionMappers.get(mediaType);
-                if (!mappers.isEmpty()) {
-                    // Cast should not be necessary, but Eclipse chokes on it
-                    return ((ExceptionMapper) get(mappers.get(0), context, null)).toResponse(ex); // NOSONAR
-                }
+            mediaTypes = rm.getProduces();
+        } else {
+            mediaTypes = context.getAcceptableMediaTypes();
+        }
+
+        for (final MediaType mediaType : mediaTypes) {
+            final List<Class<? extends ExceptionMapper<?>>> mappers = exceptionMappers.get(mediaType);
+            if (!mappers.isEmpty()) {
+                // Cast should not be necessary, but Eclipse chokes on it
+                return ((ExceptionMapper) get(mappers.get(0), context, null)).toResponse(ex); // NOSONAR
             }
         }
 
