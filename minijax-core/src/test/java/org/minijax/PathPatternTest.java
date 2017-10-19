@@ -147,7 +147,6 @@ public class PathPatternTest {
 
     @Test
     public void testNestedCurly() {
-        System.out.println(MinijaxPathPattern.parse(getMethod("get2"), "/{x:[a-z]{3}}").getPatternString());
         assertEquals("/(?<x>[a-z]{3})", MinijaxPathPattern.parse(getMethod("get2"), "/{x:[a-z]{3}}").getPatternString());
     }
 

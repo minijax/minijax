@@ -4,7 +4,6 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -21,6 +20,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.minijax.util.ClassMap;
 import org.minijax.util.LocaleUtils;
+import org.minijax.util.MediaTypeUtils;
 
 public abstract class MinijaxRequestContext
         implements javax.ws.rs.container.ContainerRequestContext, Closeable {
@@ -126,13 +126,7 @@ public abstract class MinijaxRequestContext
     @Override
     public List<MediaType> getAcceptableMediaTypes() {
         if (acceptableMediaTypes == null) {
-            acceptableMediaTypes = new ArrayList<>();
-
-            final String accept = getHeaderString("Accept");
-            final String[] acceptTypes = accept.split(",\\s*");
-            for (final String acceptType : acceptTypes) {
-                acceptableMediaTypes.add(MediaType.valueOf(acceptType));
-            }
+            acceptableMediaTypes = MediaTypeUtils.parseMediaTypes(getHeaderString("Accept"));
         }
         return acceptableMediaTypes;
     }
