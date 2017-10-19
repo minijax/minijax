@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Cookie;
@@ -21,14 +22,26 @@ import org.minijax.util.UrlUtils;
 
 public class MinijaxServletRequestContext extends MinijaxRequestContext {
     private final HttpServletRequest request;
+    private final HttpServletResponse response;
     private Map<String, Cookie> cookies;
     private MultivaluedHashMap<String, String> headers;
     private MinijaxForm form;
 
 
-    public MinijaxServletRequestContext(final HttpServletRequest request) {
+    public MinijaxServletRequestContext(final HttpServletRequest request, final HttpServletResponse response) {
         super(UrlUtils.getFullRequestUrl(request));
         this.request = request;
+        this.response = response;
+    }
+
+
+    public HttpServletRequest getServletRequest() {
+        return request;
+    }
+
+
+    public HttpServletResponse getServletResponse() {
+        return response;
     }
 
 

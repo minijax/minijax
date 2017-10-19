@@ -29,6 +29,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.servlet.DispatcherType;
 import javax.servlet.MultipartConfigElement;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
@@ -679,6 +680,14 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
 
     @SuppressWarnings("unchecked")
     private <T> T getContextParam(final Class<T> c, final MinijaxRequestContext context) {
+        if (c == HttpServletRequest.class) {
+            return (T) ((MinijaxServletRequestContext) context).getServletRequest();
+        }
+
+        if (c == HttpServletResponse.class) {
+            return (T) ((MinijaxServletRequestContext) context).getServletResponse();
+        }
+
         if (c == ContainerRequestContext.class) {
             return (T) context;
         }

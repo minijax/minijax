@@ -26,7 +26,7 @@ public class ServletRequestContextTest {
 
         final MockHttpServletRequest mockRequest = new MockHttpServletRequest(mockHeaders, null, "GET", "/", null);
 
-        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest)) {
+        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             final MultivaluedMap<String, String> headers = context.getHeaders();
             assertEquals("b", headers.get("a").get(0));
 
@@ -40,7 +40,7 @@ public class ServletRequestContextTest {
         final javax.servlet.http.Cookie[] mockCookies = new javax.servlet.http.Cookie[] { new javax.servlet.http.Cookie("a", "b") };
         final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, mockCookies, "GET", "/", null);
 
-        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest)) {
+        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             final Map<String, Cookie> cookies = context.getCookies();
             assertEquals("b", cookies.get("a").getValue());
 
@@ -55,7 +55,7 @@ public class ServletRequestContextTest {
 
         final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, null, "POST", "/", mockContentBody);
 
-        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest)) {
+        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             context.getForm();
         }
     }
@@ -69,7 +69,7 @@ public class ServletRequestContextTest {
 
         final MockHttpServletRequest mockRequest = new MockHttpServletRequest(mockHeaders, null, "POST", "/", mockContentBody);
 
-        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest)) {
+        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             context.getForm();
         }
     }
@@ -83,7 +83,7 @@ public class ServletRequestContextTest {
 
         final MockHttpServletRequest mockRequest = new MockHttpServletRequest(mockHeaders, null, "POST", "/", mockContentBody);
 
-        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest)) {
+        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             final MinijaxForm form = context.getForm();
             assertTrue(form instanceof MinijaxUrlEncodedForm);
             assertEquals("b", form.getString("a"));
@@ -107,7 +107,7 @@ public class ServletRequestContextTest {
 
         final MockHttpServletRequest mockRequest = new MockHttpServletRequest(mockHeaders, null, "POST", "/", mockContentBody);
 
-        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest)) {
+        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             final MinijaxForm form = context.getForm();
             assertTrue(form instanceof MinijaxMultipartForm);
             assertEquals("b", form.getString("a"));
@@ -124,7 +124,7 @@ public class ServletRequestContextTest {
 
         final MockHttpServletRequest mockRequest = new MockHttpServletRequest(mockHeaders, null, "GET", "/", null);
 
-        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest)) {
+        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             final List<MediaType> mediaTypes = context.getAcceptableMediaTypes();
             assertEquals(1, mediaTypes.size());
             assertEquals("text/plain", mediaTypes.get(0).toString());
@@ -141,7 +141,7 @@ public class ServletRequestContextTest {
 
         final MockHttpServletRequest mockRequest = new MockHttpServletRequest(mockHeaders, null, "GET", "/", null);
 
-        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest)) {
+        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             final List<Locale> locales = context.getAcceptableLanguages();
             assertEquals(1, locales.size());
             assertEquals("en-US", locales.get(0).toLanguageTag());
@@ -154,7 +154,7 @@ public class ServletRequestContextTest {
     @Test
     public void testProperties() throws IOException {
         final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, null, "GET", "/", null);
-        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest)) {
+        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             context.setProperty("a", "b");
             assertEquals("b", context.getProperty("a"));
             assertEquals("a", new ArrayList<>(context.getPropertyNames()).get(0));
@@ -167,7 +167,7 @@ public class ServletRequestContextTest {
     @Test(expected = IllegalStateException.class)
     public void testSetRequestUri() throws IOException {
         final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, null, "GET", "/", null);
-        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest)) {
+        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             context.setRequestUri(null);
         }
     }
@@ -175,7 +175,7 @@ public class ServletRequestContextTest {
     @Test(expected = IllegalStateException.class)
     public void testSetRequestUri2() throws IOException {
         final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, null, "GET", "/", null);
-        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest)) {
+        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             context.setRequestUri(null, null);
         }
     }
@@ -183,7 +183,7 @@ public class ServletRequestContextTest {
     @Test(expected = IllegalStateException.class)
     public void testSetRequestMethod() throws IOException {
         final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, null, "GET", "/", null);
-        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest)) {
+        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             context.setRequestUri(null);
         }
     }
@@ -191,7 +191,7 @@ public class ServletRequestContextTest {
     @Test(expected = UnsupportedOperationException.class)
     public void testGetRequest() throws IOException {
         final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, null, "GET", "/", null);
-        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest)) {
+        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             context.getRequest();
         }
     }

@@ -2,6 +2,8 @@ package org.minijax;
 
 import static org.junit.Assert.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -14,10 +16,23 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
 
 public class ContextParamTest extends MinijaxTest {
+
+    @GET
+    @Path("/httpservletrequest")
+    public static String getHttpServletRequest(@Context final HttpServletRequest request) {
+        return "ok";
+    }
+
+    @GET
+    @Path("/httpservletresponse")
+    public static String getHttpServletResponse(@Context final HttpServletResponse response) {
+        return "ok";
+    }
 
     @GET
     @Path("/requestcontext")
@@ -47,6 +62,18 @@ public class ContextParamTest extends MinijaxTest {
     @Before
     public void setUp() {
         register(ContextParamTest.class);
+    }
+
+    @Test
+    @Ignore("Refactor MockRequestContext to use servlet requests")
+    public void testHttpServletRequest() {
+        assertEquals("ok", target("/httpservletrequest").request().get(String.class));
+    }
+
+    @Test
+    @Ignore("Refactor MockRequestContext to use servlet responses")
+    public void testHttpServletRespons() {
+        assertEquals("ok", target("/httpservletresponse").request().get(String.class));
     }
 
     @Test
