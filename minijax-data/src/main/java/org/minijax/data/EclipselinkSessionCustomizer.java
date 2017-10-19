@@ -1,13 +1,12 @@
 package org.minijax.data;
 
-import static org.eclipse.persistence.config.PersistenceUnitProperties.*;
-
 import java.util.Map;
 
 import javax.sql.DataSource;
 
 import org.eclipse.persistence.config.SessionCustomizer;
 import org.eclipse.persistence.sessions.DatabaseLogin;
+import org.eclipse.persistence.sessions.JNDIConnector;
 import org.eclipse.persistence.sessions.Session;
 
 import com.zaxxer.hikari.HikariConfig;
@@ -18,7 +17,7 @@ public class EclipselinkSessionCustomizer implements SessionCustomizer {
     @Override
     public void customize(final Session session) {
         final DatabaseLogin login = session.getLogin();
-        //login.setConnector(new JNDIConnector(getDataSource(session.getProperties())));
+        login.setConnector(new JNDIConnector(getDataSource(session.getProperties())));
         login.useExternalConnectionPooling();
         login.addSequence(new UuidGenerator());
     }
@@ -38,10 +37,10 @@ public class EclipselinkSessionCustomizer implements SessionCustomizer {
      */
     private static DataSource getDataSource(final Map<Object, Object> props) {
         final HikariConfig config = new HikariConfig();
-        config.setDriverClassName((String) props.get(JDBC_DRIVER));
-        config.setJdbcUrl((String) props.get(JDBC_URL));
-        config.setUsername((String) props.get(JDBC_USER));
-        config.setPassword((String) props.get(JDBC_PASSWORD));
+        config.setDriverClassName((String) props.get("org.minijax.data.driver"));
+        config.setJdbcUrl((String) props.get("org.minijax.data.url"));
+        config.setUsername((String) props.get("org.minijax.data.username"));
+        config.setPassword((String) props.get("org.minijax.data.password"));
 
         // Recommended performance settings from HikariCP:
         // https://github.com/brettwooldridge/HikariCP/wiki/MySQL-Configuration
