@@ -43,12 +43,16 @@ public class MockHttpServletRequest implements HttpServletRequest {
     private final MockServletInputStream inputStream;
     private Collection<Part> parts;
 
+    public MockHttpServletRequest(final String method, final URI requestUri) {
+        this(method, requestUri, null, null, null);
+    }
+
     public MockHttpServletRequest(
-            final MultivaluedMap<String, String> headers,
-            final Cookie[] cookies,
             final String method,
             final URI requestUri,
-            final InputStream contentBody) {
+            final MultivaluedMap<String, String> headers,
+            final InputStream contentBody,
+            final Cookie[] cookies) {
 
         this.headers = headers;
         this.cookies = cookies;

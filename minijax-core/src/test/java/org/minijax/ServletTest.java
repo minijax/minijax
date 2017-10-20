@@ -45,7 +45,7 @@ public class ServletTest extends MinijaxTest {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         final Cookie[] cookies = new Cookie[0];
 
-        final MockHttpServletRequest servletRequest = new MockHttpServletRequest(headers, cookies, "GET", URI.create("/servlet"), null);
+        final MockHttpServletRequest servletRequest = new MockHttpServletRequest("GET", URI.create("/servlet"), headers, null, cookies);
         final MockHttpServletResponse servletResponse = new MockHttpServletResponse();
         final MinijaxServletRequestContext context = new MinijaxServletRequestContext(servletRequest, servletResponse);
 
@@ -61,7 +61,7 @@ public class ServletTest extends MinijaxTest {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         final Cookie[] cookies = new Cookie[0];
 
-        final MockHttpServletRequest servletRequest = new MockHttpServletRequest(headers, cookies, "GET", URI.create("/null"), null);
+        final MockHttpServletRequest servletRequest = new MockHttpServletRequest("GET", URI.create("/null"), headers, null, cookies);
         final MockHttpServletResponse servletResponse = new MockHttpServletResponse();
         final MinijaxServletRequestContext context = new MinijaxServletRequestContext(servletRequest, servletResponse);
 

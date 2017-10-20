@@ -40,11 +40,11 @@ public class UrlUtilsTest {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         headers.add("X-Forwarded-Proto", "https");
 
-        final MockHttpServletRequest req = new MockHttpServletRequest(headers, null, null, URI.create("http://www.example.com/"), null);
+        final MockHttpServletRequest req = new MockHttpServletRequest(null, URI.create("http://www.example.com/"), headers, null, null);
         assertEquals("https://www.example.com/", UrlUtils.getFullRequestUrl(req).toString());
     }
 
     private HttpServletRequest makeRequest(final String url) {
-        return new MockHttpServletRequest(null, null, null, URI.create(url), null);
+        return new MockHttpServletRequest("GET", URI.create(url));
     }
 }

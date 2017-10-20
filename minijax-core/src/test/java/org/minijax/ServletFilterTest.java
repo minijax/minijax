@@ -1,5 +1,7 @@
 package org.minijax;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.net.URI;
 
@@ -15,27 +17,35 @@ import org.minijax.test.MockHttpServletResponse;
 public class ServletFilterTest {
 
     @Test
-    public void testServletFilter() throws ServletException, IOException {
+    public void testServletFilterMissingContext() throws ServletException, IOException {
         final Minijax minijax = new Minijax();
+
+        final MinijaxServlet servlet = new MinijaxServlet(minijax);
+
+        final MockFilterChain chain = new MockFilterChain(servlet);
 
         final MinijaxFilter filter = new MinijaxFilter();
         filter.init(null);
 
-        final MinijaxServlet servlet = new MinijaxServlet(minijax);
-
-        final MockHttpServletRequest request = new MockHttpServletRequest(null, null, "GET", URI.create("/"), null);
+        final MockHttpServletRequest request = new MockHttpServletRequest("GET", URI.create("/"));
         final MockHttpServletResponse response = new MockHttpServletResponse();
-        final MockFilterChain chain = new MockFilterChain();
         filter.doFilter(request, response, chain);
-        servlet.service(request, response);
-        filter.destroy();
+
+        assertTrue(chain.success);
     }
 
-
     private static class MockFilterChain implements FilterChain {
+        private final MinijaxServlet servlet;
+        public boolean success;
+
+        public MockFilterChain(final MinijaxServlet servlet) {
+            this.servlet = servlet;
+        }
+
         @Override
-        public void doFilter(final ServletRequest request, final ServletResponse response) {
-            // No-op
+        public void doFilter(final ServletRequest request, final ServletResponse response) throws ServletException, IOException {
+            servlet.service(request, response);
+            success = true;
         }
     }
 }

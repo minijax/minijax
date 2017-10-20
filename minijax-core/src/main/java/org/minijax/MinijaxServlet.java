@@ -19,6 +19,10 @@ public class MinijaxServlet extends HttpServlet {
             final HttpServletRequest request,
             final HttpServletResponse response)
                     throws IOException {
-        parent.handle(MinijaxRequestContext.getThreadLocal(), response);
+        final MinijaxRequestContext context = MinijaxRequestContext.getThreadLocal();
+        if (context == null) {
+            throw new IllegalStateException("Missing container request context");
+        }
+        parent.handle(context, response);
     }
 }

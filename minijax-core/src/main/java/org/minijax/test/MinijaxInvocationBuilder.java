@@ -145,11 +145,11 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
     @Override
     public Response method(final String name) {
         final MockHttpServletRequest request = new MockHttpServletRequest(
-                headers,
-                CookieUtils.convertJaxToServlet(cookies),
                 name,
                 target.getUri(),
-                getEntityInputStream());
+                headers,
+                getEntityInputStream(),
+                CookieUtils.convertJaxToServlet(cookies));
 
         final MockHttpServletResponse response = new MockHttpServletResponse();
 
@@ -317,12 +317,6 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
         }
 
         if (obj instanceof Form) {
-            final MultivaluedMap<String, String> map = ((Form) obj).asMap();
-            System.out.println(map);
-
-            final String str = UrlUtils.urlEncodeMultivaluedParams(map);
-            System.out.println(str);
-
             return IOUtils.toInputStream(UrlUtils.urlEncodeMultivaluedParams(((Form) obj).asMap()), StandardCharsets.UTF_8);
         }
 

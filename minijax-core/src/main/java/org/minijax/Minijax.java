@@ -348,7 +348,6 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
             runResponseFilters(context, response);
             return response;
         } catch (final Exception ex) {
-            ex.printStackTrace();
             LOG.debug(ex.getMessage(), ex);
             return toResponse(context, ex);
         }
