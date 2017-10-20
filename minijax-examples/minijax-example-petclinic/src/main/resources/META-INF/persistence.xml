@@ -5,16 +5,16 @@
 		<class>com.example.model.Pet</class>
 		<class>com.example.model.Vet</class>
 		<class>com.example.model.Visit</class>
-        <class>org.minijax.data.InstantConverter</class>
-        <class>org.minijax.data.UuidConverter</class>
-        <exclude-unlisted-classes>false</exclude-unlisted-classes>
-        <properties>
-            <property name="org.minijax.data.driver" value="org.h2.Driver" />
-            <property name="org.minijax.data.url" value="jdbc:h2:~/.minijax-petclinic/database" />
-            <property name="org.minijax.data.user" value="" />
-            <property name="javax.persistence.schema-generation.database.action" value="create" />
-            <property name="javax.persistence.sql-load-script-source" value="init.sql"/>
-            <property name="eclipselink.session.customizer" value="org.minijax.data.EclipselinkSessionCustomizer"/>
-        </properties>
+		<class>org.minijax.entity.InstantConverter</class>
+		<class>org.minijax.entity.UuidConverter</class>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+		<properties>
+			<property name="org.minijax.data.driver" value="org.h2.Driver" />
+			<property name="org.minijax.data.url" value="jdbc:h2:~/.minijax-petclinic/database" />
+			<property name="org.minijax.data.user" value="" />
+			<property name="javax.persistence.schema-generation.database.action" value="create" />
+			<property name="javax.persistence.sql-load-script-source" value="init.sql" />
+			<property name="eclipselink.session.customizer" value="org.minijax.data.EclipselinkSessionCustomizer" />
+		</properties>
 	</persistence-unit>
 </persistence>

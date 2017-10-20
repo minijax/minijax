@@ -166,7 +166,7 @@ public class MinijaxPathPattern {
                 currentClass = currentClass.getSuperclass();
             }
 
-            throw new IllegalArgumentException("Missing parameter with name \"" + paramName + "\"");
+            throw new IllegalArgumentException("Missing parameter with name \"" + paramName + "\" (" + method.getDeclaringClass().getName() + "." + method.getName() + ")");
         }
     }
 

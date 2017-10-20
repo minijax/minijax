@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.minijax.data.BaseEntity;
+import org.minijax.entity.BaseEntity;
 
 @Entity
 @Cacheable

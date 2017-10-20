@@ -1,4 +1,4 @@
-package org.minijax.data;
+package org.minijax.entity;
 
 public class Widget {
     public String id;

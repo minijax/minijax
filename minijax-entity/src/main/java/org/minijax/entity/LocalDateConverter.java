@@ -1,4 +1,4 @@
-package org.minijax.data;
+package org.minijax.entity;
 
 import java.sql.Date;
 import java.time.LocalDate;

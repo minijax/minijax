@@ -8,6 +8,7 @@ import org.eclipse.persistence.config.SessionCustomizer;
 import org.eclipse.persistence.sessions.DatabaseLogin;
 import org.eclipse.persistence.sessions.JNDIConnector;
 import org.eclipse.persistence.sessions.Session;
+import org.minijax.entity.UuidGenerator;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

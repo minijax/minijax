@@ -1,4 +1,4 @@
-package org.minijax.data;
+package org.minijax.entity;
 
 import java.sql.Timestamp;
 import java.time.Instant;

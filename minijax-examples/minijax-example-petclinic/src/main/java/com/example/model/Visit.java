@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.minijax.data.BaseEntity;
-import org.minijax.data.InstantAdapter;
-import org.minijax.data.InstantConverter;
+import org.minijax.entity.BaseEntity;
+import org.minijax.entity.InstantAdapter;
+import org.minijax.entity.InstantConverter;
 
 @Entity
 @Cacheable

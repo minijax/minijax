@@ -1,6 +1,8 @@
-package org.minijax.data;
+package org.minijax.entity;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
@@ -217,6 +219,37 @@ public abstract class BaseEntity implements Serializable {
         final String tableName = getClass().getSimpleName().toUpperCase();
         final String hexId = getId().toString().replaceAll("-", "");
         return "SELECT * FROM `" + tableName + "` WHERE ID=UNHEX('" + hexId + "');";
+    }
+
+
+    /**
+     * Copies all non-null properties from the other object to this object.
+     *
+     * @param other The other entity.
+     */
+    public <T extends BaseEntity> void copyNonNullProperties(final T other) {
+        if (!getClass().equals(other.getClass())) {
+            throw new IllegalArgumentException("Incorrect type (expected " + getClass() + ", actual " + other.getClass() + ")");
+        }
+
+        Class<?> currClass = getClass();
+        while (currClass != null) {
+            for (final Field field : currClass.getDeclaredFields()) {
+                if (Modifier.isStatic(field.getModifiers())) {
+                    continue;
+                }
+                try {
+                    field.setAccessible(true);
+                    final Object value = field.get(other);
+                    if (value != null) {
+                        field.set(this, value);
+                    }
+                } catch (final IllegalAccessException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            currClass = currClass.getSuperclass();
+        }
     }
 
 
