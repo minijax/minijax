@@ -2,12 +2,14 @@ package org.minijax.util;
 
 import static org.junit.Assert.*;
 
+import java.net.URI;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.junit.Test;
-import org.minijax.servlet.MockHttpServletRequest;
+import org.minijax.test.MockHttpServletRequest;
 
 public class UrlUtilsTest {
 
@@ -38,11 +40,11 @@ public class UrlUtilsTest {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         headers.add("X-Forwarded-Proto", "https");
 
-        final MockHttpServletRequest req = new MockHttpServletRequest(headers, null, null, "http://www.example.com/", null);
+        final MockHttpServletRequest req = new MockHttpServletRequest(headers, null, null, URI.create("http://www.example.com/"), null);
         assertEquals("https://www.example.com/", UrlUtils.getFullRequestUrl(req).toString());
     }
 
     private HttpServletRequest makeRequest(final String url) {
-        return new MockHttpServletRequest(null, null, null, url, null);
+        return new MockHttpServletRequest(null, null, null, URI.create(url), null);
     }
 }

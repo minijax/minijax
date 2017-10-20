@@ -18,7 +18,7 @@ public class CookieParamTest extends MinijaxTest {
     }
 
     @Test
-    public void testFormParam() {
+    public void testCookieParam() {
         register(CookieParamTest.class);
 
         assertEquals(

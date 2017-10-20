@@ -3,6 +3,7 @@ package org.minijax;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.net.URI;
 
 import javax.servlet.http.Cookie;
 import javax.ws.rs.GET;
@@ -14,9 +15,9 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minijax.servlet.MockHttpServletRequest;
-import org.minijax.servlet.MockHttpServletResponse;
 import org.minijax.test.MinijaxTest;
+import org.minijax.test.MockHttpServletRequest;
+import org.minijax.test.MockHttpServletResponse;
 
 public class ServletTest extends MinijaxTest {
 
@@ -44,7 +45,7 @@ public class ServletTest extends MinijaxTest {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         final Cookie[] cookies = new Cookie[0];
 
-        final MockHttpServletRequest servletRequest = new MockHttpServletRequest(headers, cookies, "GET", "/servlet", null);
+        final MockHttpServletRequest servletRequest = new MockHttpServletRequest(headers, cookies, "GET", URI.create("/servlet"), null);
         final MockHttpServletResponse servletResponse = new MockHttpServletResponse();
         final MinijaxServletRequestContext context = new MinijaxServletRequestContext(servletRequest, servletResponse);
 
@@ -60,7 +61,7 @@ public class ServletTest extends MinijaxTest {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         final Cookie[] cookies = new Cookie[0];
 
-        final MockHttpServletRequest servletRequest = new MockHttpServletRequest(headers, cookies, "GET", "/null", null);
+        final MockHttpServletRequest servletRequest = new MockHttpServletRequest(headers, cookies, "GET", URI.create("/null"), null);
         final MockHttpServletResponse servletResponse = new MockHttpServletResponse();
         final MinijaxServletRequestContext context = new MinijaxServletRequestContext(servletRequest, servletResponse);
 

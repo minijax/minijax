@@ -10,7 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 import org.junit.Test;
-import org.minijax.test.MockRequestContext;
+import org.minijax.test.MinijaxWebTarget;
 
 public class SingletonTest {
 
@@ -90,6 +90,6 @@ public class SingletonTest {
 
 
     private static int getCount(final Minijax server, final String path) {
-        return (int) server.handle(new MockRequestContext(URI.create(path), "GET", null, null, null)).getEntity();
+        return new MinijaxWebTarget(server, URI.create(path)).request().get(Integer.class);
     }
 }

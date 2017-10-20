@@ -666,13 +666,13 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
 
     private <T> T getFormParam(final Class<T> c, final MinijaxRequestContext context, final FormParam formParam, final DefaultValue defaultValue) {
         final MinijaxForm form = context.getForm();
-        String value = form.getString(formParam.value());
+        String value = form == null ? null : form.getString(formParam.value());
 
         if (value == null && defaultValue != null) {
             value = defaultValue.value();
         }
 
-        return form == null ? null : convertStringToType(c, value);
+        return convertStringToType(c, value);
     }
 
 

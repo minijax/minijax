@@ -15,7 +15,7 @@
  * material is strictly forbidden unless prior written
  * permission is obtained from Ajibot Inc.
  */
-package org.minijax.servlet;
+package org.minijax.test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

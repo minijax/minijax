@@ -15,7 +15,7 @@
  * material is strictly forbidden unless prior written
  * permission is obtained from Ajibot Inc.
  */
-package org.minijax.servlet;
+package org.minijax.test;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -64,13 +64,13 @@ public class MockHttpServletRequest implements HttpServletRequest {
             final MultivaluedMap<String, String> headers,
             final Cookie[] cookies,
             final String method,
-            final String requestUrl,
-            final String contentBody) {
+            final URI requestUri,
+            final InputStream contentBody) {
 
         this.headers = headers;
         this.cookies = cookies;
         this.method = method;
-        requestUri = URI.create(requestUrl);
+        this.requestUri = requestUri;
 
         if (contentBody != null) {
             inputStream = new MockServletInputStream(contentBody);

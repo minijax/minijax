@@ -2,7 +2,10 @@ package org.minijax;
 
 import static org.junit.Assert.*;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -15,7 +18,7 @@ import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.junit.Test;
-import org.minijax.servlet.MockHttpServletRequest;
+import org.minijax.test.MockHttpServletRequest;
 
 public class ServletRequestContextTest {
 
@@ -24,7 +27,7 @@ public class ServletRequestContextTest {
         final MultivaluedMap<String, String> mockHeaders = new MultivaluedHashMap<>();
         mockHeaders.add("a", "b");
 
-        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(mockHeaders, null, "GET", "/", null);
+        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(mockHeaders, null, "GET", URI.create("/"), null);
 
         try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             final MultivaluedMap<String, String> headers = context.getHeaders();
@@ -38,7 +41,7 @@ public class ServletRequestContextTest {
     @Test
     public void testCookies() throws IOException {
         final javax.servlet.http.Cookie[] mockCookies = new javax.servlet.http.Cookie[] { new javax.servlet.http.Cookie("a", "b") };
-        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, mockCookies, "GET", "/", null);
+        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, mockCookies, "GET", URI.create("/"), null);
 
         try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             final Map<String, Cookie> cookies = context.getCookies();
@@ -49,14 +52,14 @@ public class ServletRequestContextTest {
         }
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void testFormMissingContentType() throws IOException {
-        final String mockContentBody = "a=b";
+        final ByteArrayInputStream mockContentBody = new ByteArrayInputStream("a=b".getBytes(StandardCharsets.UTF_8));
 
-        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, null, "POST", "/", mockContentBody);
+        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, null, "POST", URI.create("/"), mockContentBody);
 
         try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
-            context.getForm();
+            assertNull(context.getForm());
         }
     }
 
@@ -65,9 +68,9 @@ public class ServletRequestContextTest {
         final MultivaluedMap<String, String> mockHeaders = new MultivaluedHashMap<>();
         mockHeaders.add("Content-Type", "text/plain");
 
-        final String mockContentBody = "a=b";
+        final ByteArrayInputStream mockContentBody = new ByteArrayInputStream("a=b".getBytes(StandardCharsets.UTF_8));
 
-        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(mockHeaders, null, "POST", "/", mockContentBody);
+        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(mockHeaders, null, "POST", URI.create("/"), mockContentBody);
 
         try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             context.getForm();
@@ -79,9 +82,9 @@ public class ServletRequestContextTest {
         final MultivaluedMap<String, String> mockHeaders = new MultivaluedHashMap<>();
         mockHeaders.add("Content-Type", "application/x-www-form-urlencoded");
 
-        final String mockContentBody = "a=b";
+        final ByteArrayInputStream mockContentBody = new ByteArrayInputStream("a=b".getBytes(StandardCharsets.UTF_8));
 
-        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(mockHeaders, null, "POST", "/", mockContentBody);
+        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(mockHeaders, null, "POST", URI.create("/"), mockContentBody);
 
         try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             final MinijaxForm form = context.getForm();
@@ -98,14 +101,16 @@ public class ServletRequestContextTest {
         final MultivaluedMap<String, String> mockHeaders = new MultivaluedHashMap<>();
         mockHeaders.add("Content-Type", "multipart/form-data");
 
-        final String mockContentBody =
+        final String mockContent =
                 "------WebKitFormBoundarycTqA2AimXQHBAJbZ\n" +
                 "Content-Disposition: form-data; name=\"a\"\n" +
                 "\n" +
                 "b\n" +
                 "------WebKitFormBoundarycTqA2AimXQHBAJbZ";
 
-        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(mockHeaders, null, "POST", "/", mockContentBody);
+        final ByteArrayInputStream mockContentBody = new ByteArrayInputStream(mockContent.getBytes(StandardCharsets.UTF_8));
+
+        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(mockHeaders, null, "POST", URI.create("/"), mockContentBody);
 
         try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             final MinijaxForm form = context.getForm();
@@ -122,7 +127,7 @@ public class ServletRequestContextTest {
         final MultivaluedMap<String, String> mockHeaders = new MultivaluedHashMap<>();
         mockHeaders.add("Accept", "text/plain");
 
-        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(mockHeaders, null, "GET", "/", null);
+        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(mockHeaders, null, "GET", URI.create("/"), null);
 
         try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             final List<MediaType> mediaTypes = context.getAcceptableMediaTypes();
@@ -139,7 +144,7 @@ public class ServletRequestContextTest {
         final MultivaluedMap<String, String> mockHeaders = new MultivaluedHashMap<>();
         mockHeaders.add("Accept-Language", "en-US");
 
-        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(mockHeaders, null, "GET", "/", null);
+        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(mockHeaders, null, "GET", URI.create("/"), null);
 
         try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             final List<Locale> locales = context.getAcceptableLanguages();
@@ -153,7 +158,7 @@ public class ServletRequestContextTest {
 
     @Test
     public void testProperties() throws IOException {
-        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, null, "GET", "/", null);
+        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, null, "GET", URI.create("/"), null);
         try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             context.setProperty("a", "b");
             assertEquals("b", context.getProperty("a"));
@@ -166,7 +171,7 @@ public class ServletRequestContextTest {
 
     @Test(expected = IllegalStateException.class)
     public void testSetRequestUri() throws IOException {
-        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, null, "GET", "/", null);
+        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, null, "GET", URI.create("/"), null);
         try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             context.setRequestUri(null);
         }
@@ -174,7 +179,7 @@ public class ServletRequestContextTest {
 
     @Test(expected = IllegalStateException.class)
     public void testSetRequestUri2() throws IOException {
-        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, null, "GET", "/", null);
+        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, null, "GET", URI.create("/"), null);
         try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             context.setRequestUri(null, null);
         }
@@ -182,7 +187,7 @@ public class ServletRequestContextTest {
 
     @Test(expected = IllegalStateException.class)
     public void testSetRequestMethod() throws IOException {
-        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, null, "GET", "/", null);
+        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, null, "GET", URI.create("/"), null);
         try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             context.setRequestUri(null);
         }
@@ -190,7 +195,7 @@ public class ServletRequestContextTest {
 
     @Test(expected = UnsupportedOperationException.class)
     public void testGetRequest() throws IOException {
-        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, null, "GET", "/", null);
+        final MockHttpServletRequest mockRequest = new MockHttpServletRequest(null, null, "GET", URI.create("/"), null);
         try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(mockRequest, null)) {
             context.getRequest();
         }

@@ -1,6 +1,7 @@
 package org.minijax;
 
 import java.io.IOException;
+import java.net.URI;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -8,8 +9,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import org.junit.Test;
-import org.minijax.servlet.MockHttpServletRequest;
-import org.minijax.servlet.MockHttpServletResponse;
+import org.minijax.test.MockHttpServletRequest;
+import org.minijax.test.MockHttpServletResponse;
 
 public class ServletFilterTest {
 
@@ -22,7 +23,7 @@ public class ServletFilterTest {
 
         final MinijaxServlet servlet = new MinijaxServlet(minijax);
 
-        final MockHttpServletRequest request = new MockHttpServletRequest(null, null, "GET", "/", null);
+        final MockHttpServletRequest request = new MockHttpServletRequest(null, null, "GET", URI.create("/"), null);
         final MockHttpServletResponse response = new MockHttpServletResponse();
         final MockFilterChain chain = new MockFilterChain();
         filter.doFilter(request, response, chain);

@@ -1,9 +1,11 @@
 package org.minijax.test;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.ws.rs.client.AsyncInvoker;
 import javax.ws.rs.client.CompletionStageRxInvoker;
@@ -13,13 +15,19 @@ import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.RxInvoker;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
+import org.minijax.MinijaxServletRequestContext;
+import org.minijax.MinijaxUrlEncodedForm;
+import org.minijax.util.CookieUtils;
 import org.minijax.util.ExceptionUtils;
+import org.minijax.util.IOUtils;
+import org.minijax.util.UrlUtils;
 
 public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.Builder {
     private static final String DELETE = "DELETE";
@@ -30,13 +38,13 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
     private static final String PUT = "PUT";
     private final MinijaxWebTarget target;
     private final MultivaluedMap<String, String> headers;
-    private final Map<String, Cookie> cookies;
+    private final List<Cookie> cookies;
     private Entity<?> entity;
 
     public MinijaxInvocationBuilder(final MinijaxWebTarget target) {
         this.target = target;
         headers = new MultivaluedHashMap<>();
-        cookies = new HashMap<>();
+        cookies = new ArrayList<>();
     }
 
     @Override
@@ -136,13 +144,16 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
 
     @Override
     public Response method(final String name) {
-        try (final MockRequestContext context = new MockRequestContext(
-                target.getUri(),
-                name,
+        final MockHttpServletRequest request = new MockHttpServletRequest(
                 headers,
-                cookies,
-                entity)) {
+                CookieUtils.convertJaxToServlet(cookies),
+                name,
+                target.getUri(),
+                getEntityInputStream());
 
+        final MockHttpServletResponse response = new MockHttpServletResponse();
+
+        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(request, response)) {
             return target.getServer().handle(context);
         } catch (final IOException ex) {
             throw ExceptionUtils.toWebAppException(ex);
@@ -241,7 +252,7 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
 
     @Override
     public Builder cookie(final Cookie cookie) {
-        cookies.put(cookie.getName(), cookie);
+        cookies.add(cookie);
         return this;
     }
 
@@ -288,5 +299,37 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
             headers.putSingle("Content-Type", entity.getMediaType().toString());
         }
         this.entity = entity;
+    }
+
+    private InputStream getEntityInputStream() {
+        if (entity == null || entity.getEntity() == null) {
+            return null;
+        }
+
+        final Object obj = entity.getEntity();
+
+        if (obj instanceof InputStream) {
+            return (InputStream) obj;
+        }
+
+        if (obj instanceof String) {
+            return IOUtils.toInputStream((String) obj, StandardCharsets.UTF_8);
+        }
+
+        if (obj instanceof Form) {
+            final MultivaluedMap<String, String> map = ((Form) obj).asMap();
+            System.out.println(map);
+
+            final String str = UrlUtils.urlEncodeMultivaluedParams(map);
+            System.out.println(str);
+
+            return IOUtils.toInputStream(UrlUtils.urlEncodeMultivaluedParams(((Form) obj).asMap()), StandardCharsets.UTF_8);
+        }
+
+        if (obj instanceof MinijaxUrlEncodedForm) {
+            return IOUtils.toInputStream(UrlUtils.urlEncodeMultivaluedParams(((MinijaxUrlEncodedForm) obj).asForm().asMap()), StandardCharsets.UTF_8);
+        }
+
+        throw new UnsupportedOperationException("Unknown entity type: " + obj.getClass());
     }
 }

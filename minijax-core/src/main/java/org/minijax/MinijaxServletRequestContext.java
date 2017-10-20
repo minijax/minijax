@@ -140,7 +140,7 @@ public class MinijaxServletRequestContext extends MinijaxRequestContext {
         final MediaType contentType = getMediaType();
 
         if (contentType == null) {
-            throw new BadRequestException("Missing content type");
+            return;
         }
 
         try {
@@ -160,6 +160,7 @@ public class MinijaxServletRequestContext extends MinijaxRequestContext {
 
     @Override
     public void close() throws IOException {
+        super.close();
         if (form != null) {
             form.close();
         }
