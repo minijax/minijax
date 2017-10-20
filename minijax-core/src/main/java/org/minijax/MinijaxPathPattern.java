@@ -155,11 +155,15 @@ public class MinijaxPathPattern {
                 }
             }
 
-            for (final Field field : method.getDeclaringClass().getDeclaredFields()) {
-                final PathParam annotation = field.getAnnotation(PathParam.class);
-                if (annotation != null && annotation.value().equals(paramName)) {
-                    return field.getType();
+            Class<?> currentClass = method.getDeclaringClass();
+            while (currentClass != null) {
+                for (final Field field : currentClass.getDeclaredFields()) {
+                    final PathParam annotation = field.getAnnotation(PathParam.class);
+                    if (annotation != null && annotation.value().equals(paramName)) {
+                        return field.getType();
+                    }
                 }
+                currentClass = currentClass.getSuperclass();
             }
 
             throw new IllegalArgumentException("Missing parameter with name \"" + paramName + "\"");
