@@ -10,6 +10,8 @@ import java.util.Map;
 
 import javax.servlet.http.Part;
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
 import org.minijax.util.ExceptionUtils;
 import org.minijax.util.IOUtils;
@@ -77,7 +79,20 @@ public class MinijaxMultipartForm implements MinijaxForm {
 
     @Override
     public Form asForm() {
-        throw new UnsupportedOperationException();
+        final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
+
+        for (final Part part : values.values()) {
+            if (part.getSubmittedFileName() != null) {
+                continue;
+            }
+            try {
+                map.add(part.getName(), IOUtils.toString(part.getInputStream(), StandardCharsets.UTF_8));
+            } catch (final IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return new Form(map);
     }
 
     @Override

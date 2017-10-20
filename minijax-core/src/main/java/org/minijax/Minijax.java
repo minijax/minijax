@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.HeaderParam;
@@ -347,6 +348,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
             runResponseFilters(context, response);
             return response;
         } catch (final Exception ex) {
+            ex.printStackTrace();
             LOG.debug(ex.getMessage(), ex);
             return toResponse(context, ex);
         }
@@ -614,7 +616,9 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
      * @return The resource instance.
      */
     public <T> T get(final Class<T> c, final MinijaxRequestContext context, final Annotation[] annotations) {
-        if (context != null && annotations != null) {
+        if (context != null && annotations != null && annotations.length > 0) {
+            final DefaultValue defaultValue = findAnnotation(annotations, DefaultValue.class);
+
             final PathParam pathParam = findAnnotation(annotations, PathParam.class);
             if (pathParam != null) {
                 return getPathParam(c, context, pathParam);
@@ -627,7 +631,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
 
             final FormParam formParam = findAnnotation(annotations, FormParam.class);
             if (formParam != null) {
-                return getFormParam(c, context, formParam);
+                return getFormParam(c, context, formParam, defaultValue);
             }
 
             final CookieParam cookieParam = findAnnotation(annotations, CookieParam.class);
@@ -660,9 +664,15 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
     }
 
 
-    private <T> T getFormParam(final Class<T> c, final MinijaxRequestContext context, final FormParam formParam) {
+    private <T> T getFormParam(final Class<T> c, final MinijaxRequestContext context, final FormParam formParam, final DefaultValue defaultValue) {
         final MinijaxForm form = context.getForm();
-        return form == null ? null : convertStringToType(c, form.getString(formParam.value()));
+        String value = form.getString(formParam.value());
+
+        if (value == null && defaultValue != null) {
+            value = defaultValue.value();
+        }
+
+        return form == null ? null : convertStringToType(c, value);
     }
 
 

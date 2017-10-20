@@ -3,6 +3,7 @@ package org.minijax;
 import static org.junit.Assert.*;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -25,6 +26,13 @@ public class FormParamTest extends MinijaxTest {
     }
 
     @POST
+    @Path("/defval")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public static String getDefaultValue(@FormParam("test") @DefaultValue("foo") final String test) {
+        return test;
+    }
+
+    @POST
     @Path("/wholeform")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public static String getWholeForm(@Context final Form form) {
@@ -42,6 +50,14 @@ public class FormParamTest extends MinijaxTest {
         assertEquals(
                 "Hello",
                 target("/formtest").request().post(form, String.class));
+    }
+
+    @Test
+    public void testFormParamDefaultValue() {
+        final Entity<Form> form = Entity.form(new Form());
+        assertEquals(
+                "foo",
+                target("/defval").request().post(form, String.class));
     }
 
     @Test
