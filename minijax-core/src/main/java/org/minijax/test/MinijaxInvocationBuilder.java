@@ -22,7 +22,7 @@ import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
-import org.minijax.MinijaxServletRequestContext;
+import org.minijax.MinijaxRequestContext;
 import org.minijax.MinijaxUrlEncodedForm;
 import org.minijax.util.CookieUtils;
 import org.minijax.util.ExceptionUtils;
@@ -153,7 +153,7 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
 
         final MockHttpServletResponse response = new MockHttpServletResponse();
 
-        try (final MinijaxServletRequestContext context = new MinijaxServletRequestContext(request, response)) {
+        try (final MinijaxRequestContext context = new MinijaxRequestContext(request, response)) {
             return target.getServer().handle(context);
         } catch (final IOException ex) {
             throw ExceptionUtils.toWebAppException(ex);

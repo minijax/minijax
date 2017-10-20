@@ -47,7 +47,7 @@ public class ServletTest extends MinijaxTest {
 
         final MockHttpServletRequest servletRequest = new MockHttpServletRequest("GET", URI.create("/servlet"), headers, null, cookies);
         final MockHttpServletResponse servletResponse = new MockHttpServletResponse();
-        final MinijaxServletRequestContext context = new MinijaxServletRequestContext(servletRequest, servletResponse);
+        final MinijaxRequestContext context = new MinijaxRequestContext(servletRequest, servletResponse);
 
         getServer().handle(context, servletResponse);
 
@@ -63,7 +63,7 @@ public class ServletTest extends MinijaxTest {
 
         final MockHttpServletRequest servletRequest = new MockHttpServletRequest("GET", URI.create("/null"), headers, null, cookies);
         final MockHttpServletResponse servletResponse = new MockHttpServletResponse();
-        final MinijaxServletRequestContext context = new MinijaxServletRequestContext(servletRequest, servletResponse);
+        final MinijaxRequestContext context = new MinijaxRequestContext(servletRequest, servletResponse);
 
         getServer().handle(context, servletResponse);
 

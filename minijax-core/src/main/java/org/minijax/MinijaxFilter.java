@@ -30,7 +30,7 @@ public class MinijaxFilter implements Filter {
 
         // Constructor sets the ThreadLocal
         // Close method clears the ThreadLocal
-        try (final MinijaxRequestContext context = new MinijaxServletRequestContext(request, response)) {
+        try (final MinijaxRequestContext context = new MinijaxRequestContext(request, response)) {
             chain.doFilter(request, response);
         }
     }

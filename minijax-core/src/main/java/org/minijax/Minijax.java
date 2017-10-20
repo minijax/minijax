@@ -690,11 +690,11 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
     @SuppressWarnings("unchecked")
     private <T> T getContextParam(final Class<T> c, final MinijaxRequestContext context) {
         if (c == HttpServletRequest.class) {
-            return (T) ((MinijaxServletRequestContext) context).getServletRequest();
+            return (T) context.getServletRequest();
         }
 
         if (c == HttpServletResponse.class) {
-            return (T) ((MinijaxServletRequestContext) context).getServletResponse();
+            return (T) context.getServletResponse();
         }
 
         if (c == ContainerRequestContext.class) {

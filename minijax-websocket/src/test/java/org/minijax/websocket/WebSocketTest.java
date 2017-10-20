@@ -15,7 +15,7 @@ import javax.websocket.server.ServerEndpoint;
 import org.eclipse.jetty.server.Server;
 import org.junit.Test;
 import org.minijax.Minijax;
-import org.minijax.MinijaxServletRequestContext;
+import org.minijax.MinijaxRequestContext;
 import org.minijax.test.MockHttpServletRequest;
 
 public class WebSocketTest {
@@ -80,9 +80,9 @@ public class WebSocketTest {
 
         final MinijaxWebSocketConfigurator configurator = new MinijaxWebSocketConfigurator(minijax);
 
-        final MockHttpServletRequest request = new MockHttpServletRequest(null, null, "GET", URI.create("/echo"), null);
+        final MockHttpServletRequest request = new MockHttpServletRequest("GET", URI.create("/echo"));
 
-        try (MinijaxServletRequestContext context = new MinijaxServletRequestContext(request, null)) {
+        try (MinijaxRequestContext context = new MinijaxRequestContext(request, null)) {
             final WebSocketResource ws = configurator.getEndpointInstance(WebSocketResource.class);
             assertNotNull(ws);
         }
@@ -97,9 +97,9 @@ public class WebSocketTest {
 
         final MinijaxWebSocketConfigurator configurator = new MinijaxWebSocketConfigurator(minijax);
 
-        final MockHttpServletRequest request = new MockHttpServletRequest(null, null, "GET", URI.create("/echo"), null);
+        final MockHttpServletRequest request = new MockHttpServletRequest("GET", URI.create("/echo"));
 
-        try (MinijaxServletRequestContext context = new MinijaxServletRequestContext(request, null)) {
+        try (MinijaxRequestContext context = new MinijaxRequestContext(request, null)) {
             configurator.getEndpointInstance(ExceptionWebSocket.class);
         }
     }
