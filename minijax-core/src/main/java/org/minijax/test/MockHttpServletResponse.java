@@ -34,10 +34,6 @@ public class MockHttpServletResponse implements HttpServletResponse {
     }
 
     @Override
-    public void addDateHeader(final String name, final long date) {
-    }
-
-    @Override
     public void addHeader(final String name, final String value) {
         headers.add(name, value);
     }
@@ -50,40 +46,6 @@ public class MockHttpServletResponse implements HttpServletResponse {
     @Override
     public boolean containsHeader(final String name) {
         return headers.containsKey(name);
-    }
-
-    @Override
-    public String encodeRedirectUrl(final String url) {
-        return null;
-    }
-
-    @Override
-    public String encodeRedirectURL(final String url) {
-        return null;
-    }
-
-    @Override
-    public String encodeUrl(final String url) {
-        return null;
-    }
-
-    @Override
-    public String encodeURL(final String url) {
-        return null;
-    }
-
-    @Override
-    public void flushBuffer() throws IOException {
-    }
-
-    @Override
-    public int getBufferSize() {
-        return 0;
-    }
-
-    @Override
-    public String getCharacterEncoding() {
-        return null;
     }
 
     @Override
@@ -110,11 +72,6 @@ public class MockHttpServletResponse implements HttpServletResponse {
         return Collections.unmodifiableCollection(headers.get(name));
     }
 
-    @Override
-    public Locale getLocale() {
-        return null;
-    }
-
     public String getOutput() throws IOException {
         writer.flush();
         return outputStream.getValue();
@@ -136,39 +93,6 @@ public class MockHttpServletResponse implements HttpServletResponse {
     }
 
     @Override
-    public boolean isCommitted() {
-        return false;
-    }
-
-    @Override
-    public void reset() {
-    }
-
-    @Override
-    public void resetBuffer() {
-    }
-
-    @Override
-    public void sendError(final int sc) throws IOException {
-    }
-
-    @Override
-    public void sendError(final int sc, final String msg) throws IOException {
-    }
-
-    @Override
-    public void sendRedirect(final String location) throws IOException {
-    }
-
-    @Override
-    public void setBufferSize(final int size) {
-    }
-
-    @Override
-    public void setCharacterEncoding(final String charset) {
-    }
-
-    @Override
     public void setContentLength(final int len) {
         setIntHeader("Content-Length", len);
     }
@@ -184,10 +108,6 @@ public class MockHttpServletResponse implements HttpServletResponse {
     }
 
     @Override
-    public void setDateHeader(final String name, final long date) {
-    }
-
-    @Override
     public void setHeader(final String name, final String value) {
         headers.putSingle(name, value);
     }
@@ -198,10 +118,6 @@ public class MockHttpServletResponse implements HttpServletResponse {
     }
 
     @Override
-    public void setLocale(final Locale loc) {
-    }
-
-    @Override
     public void setStatus(final int sc) {
         status = sc;
     }
@@ -209,5 +125,100 @@ public class MockHttpServletResponse implements HttpServletResponse {
     @Override
     public void setStatus(final int sc, final String sm) {
         status = sc;
+    }
+
+    @Override
+    public String getCharacterEncoding() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setCharacterEncoding(final String charset) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setBufferSize(final int size) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int getBufferSize() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void flushBuffer() throws IOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void resetBuffer() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isCommitted() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void reset() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setLocale(final Locale loc) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Locale getLocale() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String encodeURL(final String url) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String encodeRedirectURL(final String url) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String encodeUrl(final String url) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String encodeRedirectUrl(final String url) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void sendError(final int sc, final String msg) throws IOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void sendError(final int sc) throws IOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void sendRedirect(final String location) throws IOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setDateHeader(final String name, final long date) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void addDateHeader(final String name, final long date) {
+        throw new UnsupportedOperationException();
     }
 }

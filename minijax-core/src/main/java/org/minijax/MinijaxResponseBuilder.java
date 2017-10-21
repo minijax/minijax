@@ -14,7 +14,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.NewCookie;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.StatusType;
 import javax.ws.rs.core.Variant;
@@ -56,7 +55,7 @@ public class MinijaxResponseBuilder extends javax.ws.rs.core.Response.ResponseBu
     }
 
     @Override
-    public Response build() {
+    public MinijaxResponse build() {
         return new MinijaxResponse(this);
     }
 
