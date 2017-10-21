@@ -13,6 +13,7 @@ public class CookieUtils {
 
         result.setPath(input.getPath());
         result.setVersion(input.getVersion());
+        result.setSecure(true);
         return result;
     }
 

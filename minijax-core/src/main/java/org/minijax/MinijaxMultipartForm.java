@@ -15,11 +15,14 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import org.minijax.util.ExceptionUtils;
 import org.minijax.util.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Form class represents a HTTP form submission.
  */
 public class MinijaxMultipartForm implements MinijaxForm {
+    private static final Logger LOG = LoggerFactory.getLogger(MinijaxMultipartForm.class);
     private final Map<String, Part> values;
 
     /**
@@ -88,7 +91,7 @@ public class MinijaxMultipartForm implements MinijaxForm {
             try {
                 map.add(part.getName(), IOUtils.toString(part.getInputStream(), StandardCharsets.UTF_8));
             } catch (final IOException ex) {
-                ex.printStackTrace();
+                LOG.error(ex.getMessage(), ex);
             }
         }
 

@@ -6,7 +6,11 @@ import java.io.InputStream;
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class MockServletInputStream extends ServletInputStream {
+    private static final Logger LOG = LoggerFactory.getLogger(MockServletInputStream.class);
     private final InputStream inner;
     private int next;
 
@@ -15,7 +19,7 @@ public class MockServletInputStream extends ServletInputStream {
         try {
             read();
         } catch (final IOException ex) {
-            ex.printStackTrace();
+            LOG.error(ex.getMessage(), ex);
         }
     }
 

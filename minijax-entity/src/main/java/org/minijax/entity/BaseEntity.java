@@ -18,12 +18,16 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * The BaseEntity class is the abstract base class for all web primitives.
  */
 @MappedSuperclass
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class BaseEntity implements Serializable {
+    private static final Logger LOG = LoggerFactory.getLogger(BaseEntity.class);
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -252,7 +256,7 @@ public abstract class BaseEntity implements Serializable {
                         field.set(this, value);
                     }
                 } catch (final IllegalAccessException ex) {
-                    ex.printStackTrace();
+                    LOG.error(ex.getMessage(), ex);
                 }
             }
             currClass = currClass.getSuperclass();
