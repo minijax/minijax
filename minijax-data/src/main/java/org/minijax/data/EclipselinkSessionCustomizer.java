@@ -37,16 +37,16 @@ public class EclipselinkSessionCustomizer implements SessionCustomizer {
         final DatabaseLogin login = session.getLogin();
         final Map<Object, Object> props = session.getProperties();
 
-        final String url = (String) props.get("org.minijax.data.url");
+        final String url = (String) props.get(DataProperties.URL);
         if (url == null) {
             return;
         }
 
         final HikariConfig config = new HikariConfig();
         config.setJdbcUrl(url);
-        config.setDriverClassName((String) props.get("org.minijax.data.driver"));
-        config.setUsername((String) props.get("org.minijax.data.username"));
-        config.setPassword((String) props.get("org.minijax.data.password"));
+        config.setDriverClassName((String) props.get(DataProperties.DRIVER));
+        config.setUsername((String) props.get(DataProperties.USERNAME));
+        config.setPassword((String) props.get(DataProperties.PASSWORD));
 
         // Recommended performance settings from HikariCP:
         // https://github.com/brettwooldridge/HikariCP/wiki/MySQL-Configuration

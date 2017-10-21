@@ -1,0 +1,16 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="Cody" id="1508609451785-1">
+        <createTable tableName="WIDGET">
+            <column name="ID" type="VARBINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATEDDATETIME" type="TIMESTAMP"/>
+            <column name="DELETEDDATETIME" type="TIMESTAMP"/>
+            <column name="UPDATEDDATETIME" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Cody" id="1508609451785-2">
+        <addPrimaryKey columnNames="ID" constraintName="CONSTRAINT_9" tableName="WIDGET"/>
+    </changeSet>
+</databaseChangeLog>
