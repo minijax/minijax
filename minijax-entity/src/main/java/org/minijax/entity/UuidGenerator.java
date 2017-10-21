@@ -10,7 +10,7 @@ import org.minijax.util.IdUtils;
 public class UuidGenerator extends Sequence {
     private static final long serialVersionUID = 1L;
     public static final String ID_GENERATOR_NAME = "org.minijax.data.UuidGenerator";
-    private final UuidConverter converter;
+    private final transient UuidConverter converter;
 
     public UuidGenerator() {
         super(ID_GENERATOR_NAME);
@@ -23,6 +23,7 @@ public class UuidGenerator extends Sequence {
     }
 
     @Override
+    @SuppressWarnings("squid:S1149")
     public Vector<byte[]> getGeneratedVector(final Accessor accessor, final AbstractSession writeSession, final String seqName, final int size) {
         final Vector<byte[]> result = new Vector<>(size);
 

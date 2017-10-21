@@ -299,13 +299,12 @@ public class MockHttpServletRequest implements HttpServletRequest {
     }
 
     @Override
-    public AsyncContext startAsync() throws IllegalStateException {
+    public AsyncContext startAsync() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public AsyncContext startAsync(final ServletRequest servletRequest, final ServletResponse servletResponse)
-            throws IllegalStateException {
+    public AsyncContext startAsync(final ServletRequest servletRequest, final ServletResponse servletResponse) {
         throw new UnsupportedOperationException();
     }
 
@@ -439,7 +438,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
         throw new UnsupportedOperationException();
     }
 
-    private static class MockPart implements Part {
+    static class MockPart implements Part {
         private final String name;
         private final InputStream inputStream;
 
@@ -480,6 +479,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
         @Override
         public void delete() throws IOException {
+            // No-op
         }
 
         @Override

@@ -28,6 +28,7 @@ public class Visit extends BaseEntity {
 
     @Convert(converter = InstantConverter.class)
     @XmlJavaTypeAdapter(InstantAdapter.class)
+    @SuppressWarnings("squid:S3437")
     private Instant date;
 
     @ManyToOne

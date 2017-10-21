@@ -116,7 +116,7 @@ public class LiquibaseHelper {
      *
      * @see liquibase.Liquibase#update(String)
      */
-    public void migrate() throws IOException, LiquibaseException, SQLException {
+    public void migrate() throws LiquibaseException, SQLException {
         Database database = null;
 
         try {

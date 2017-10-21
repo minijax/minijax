@@ -38,14 +38,17 @@ public abstract class BaseEntity implements Serializable {
 
     @Convert(converter = InstantConverter.class)
     @XmlJavaTypeAdapter(InstantAdapter.class)
+    @SuppressWarnings("squid:S3437")
     private Instant createdDateTime;
 
     @Convert(converter = InstantConverter.class)
     @XmlJavaTypeAdapter(InstantAdapter.class)
+    @SuppressWarnings("squid:S3437")
     private Instant updatedDateTime;
 
     @Convert(converter = InstantConverter.class)
     @XmlJavaTypeAdapter(InstantAdapter.class)
+    @SuppressWarnings("squid:S3437")
     private Instant deletedDateTime;
 
 

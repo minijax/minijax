@@ -9,6 +9,7 @@ import java.net.URI;
 import javax.servlet.ServletException;
 
 import org.junit.Test;
+import org.minijax.test.MockHttpServletRequest.MockPart;
 
 public class MockHttpServletRequestTest {
 
@@ -365,5 +366,47 @@ public class MockHttpServletRequestTest {
     public void testUpgrade() throws IOException, ServletException {
         final MockHttpServletRequest r = new MockHttpServletRequest("GET", URI.create("/"));
         r.upgrade(null);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testPartGetContentType() {
+        final MockPart p = new MockPart("k", "v");
+        p.getContentType();
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testPartGetSubmittedFileName() {
+        final MockPart p = new MockPart("k", "v");
+        p.getSubmittedFileName();
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testPartGetSize() {
+        final MockPart p = new MockPart("k", "v");
+        p.getSize();
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testPartWrite() throws IOException {
+        final MockPart p = new MockPart("k", "v");
+        p.write(null);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testPartGetHeader() {
+        final MockPart p = new MockPart("k", "v");
+        p.getHeader(null);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testPartGetHeaders() {
+        final MockPart p = new MockPart("k", "v");
+        p.getHeaders(null);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testPartGetHeaderNames() {
+        final MockPart p = new MockPart("k", "v");
+        p.getHeaderNames();
     }
 }
