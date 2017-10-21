@@ -9,6 +9,7 @@
     <artifactId>minijax-example-json</artifactId>
     <packaging>jar</packaging>
     <name>minijax-example-json</name>
+    <description>REST endpoints that consume/produce JSON</description>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -62,5 +63,4 @@
             </plugin>
         </plugins>
     </build>
-    <description>REST endpoints that consume/produce JSON</description>
 </project>

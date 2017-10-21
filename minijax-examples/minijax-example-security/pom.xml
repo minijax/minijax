@@ -9,6 +9,7 @@
     <artifactId>minijax-example-security</artifactId>
     <packaging>jar</packaging>
     <name>minijax-example-security</name>
+    <description>Security annotations such as @RolesAllowed</description>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -57,5 +58,4 @@
             </plugin>
         </plugins>
     </build>
-    <description>Security annotations such as @RolesAllowed</description>
 </project>

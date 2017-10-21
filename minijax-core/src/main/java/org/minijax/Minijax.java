@@ -81,6 +81,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
     private static final Logger LOG = LoggerFactory.getLogger(Minijax.class);
     private static final Class<?> webSocketUtilsClass = safeGetClass("org.minijax.websocket.MinijaxWebSocketUtils");
     private static final Class<Annotation> serverEndpoint = safeGetClass("javax.websocket.server.ServerEndpoint");
+    private final List<MinijaxStaticResource> staticResources;
     private final Set<Class<?>> classesScanned;
     private final List<MinijaxResourceMethod> resourceMethods;
     private final Map<Class<?>, MinijaxScope> providerScopes;
@@ -95,6 +96,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
 
 
     public Minijax() {
+        staticResources = new ArrayList<>();
         classesScanned = new HashSet<>();
         resourceMethods = new ArrayList<>();
         providerScopes = new HashMap<>();
@@ -142,6 +144,31 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
     }
 
 
+    public Minijax addStaticFile(final String resourceName) {
+        final String pathSpec = "/" + resourceName;
+        return addStaticFile(resourceName, pathSpec);
+    }
+
+
+    public Minijax addStaticFile(final String resourceName, final String pathSpec) {
+        final String resourceUrl = Minijax.class.getClassLoader().getResource(resourceName).toExternalForm();
+        return addStaticResource(resourceUrl, pathSpec);
+    }
+
+
+    public Minijax addStaticDirectory(final String resourceName) {
+        final String resourceUrl = Minijax.class.getClassLoader().getResource(resourceName).toExternalForm();
+        final String pathSpec = "/" + resourceName + "/*";
+        return addStaticResource(resourceUrl, pathSpec);
+    }
+
+
+    public Minijax addStaticResource(final String resourceUrl, final String pathSpec) {
+        staticResources.add(new MinijaxStaticResource(resourceUrl, pathSpec));
+        return this;
+    }
+
+
     public Minijax allowCors(final String urlPrefix) {
         register(MinijaxCorsFilter.class);
         get(MinijaxCorsFilter.class, null, null).addPathPrefix(urlPrefix);
@@ -166,11 +193,12 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
             }
 
             // (2) Static resources
-            final String webDir = Minijax.class.getClassLoader().getResource("static").toExternalForm();
-            final ServletHolder staticHolder = new ServletHolder(new DefaultServlet());
-            staticHolder.setInitParameter("pathInfoOnly", "true");
-            staticHolder.setInitParameter("resourceBase", webDir);
-            context.addServlet(staticHolder, "/static/*");
+            for (final MinijaxStaticResource staticResource : staticResources) {
+                final ServletHolder staticHolder = new ServletHolder(new DefaultServlet());
+                staticHolder.setInitParameter("pathInfoOnly", "true");
+                staticHolder.setInitParameter("resourceBase", staticResource.getResourceBase());
+                context.addServlet(staticHolder, staticResource.getPathSpec());
+            }
 
             // (3) Dynamic JAX-RS content
             final MinijaxServlet servlet = new MinijaxServlet(this);

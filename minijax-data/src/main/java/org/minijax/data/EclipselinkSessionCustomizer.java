@@ -2,8 +2,6 @@ package org.minijax.data;
 
 import java.util.Map;
 
-import javax.sql.DataSource;
-
 import org.eclipse.persistence.config.SessionCustomizer;
 import org.eclipse.persistence.sessions.DatabaseLogin;
 import org.eclipse.persistence.sessions.JNDIConnector;
@@ -18,9 +16,8 @@ public class EclipselinkSessionCustomizer implements SessionCustomizer {
     @Override
     public void customize(final Session session) {
         final DatabaseLogin login = session.getLogin();
-        login.setConnector(new JNDIConnector(getDataSource(session.getProperties())));
-        login.useExternalConnectionPooling();
         login.addSequence(new UuidGenerator());
+        setupDataSource(session);
     }
 
     /**
@@ -36,10 +33,18 @@ public class EclipselinkSessionCustomizer implements SessionCustomizer {
      * @param props Connection properties.
      * @return A new HikariCP data source.
      */
-    private static DataSource getDataSource(final Map<Object, Object> props) {
+    private static void setupDataSource(final Session session) {
+        final DatabaseLogin login = session.getLogin();
+        final Map<Object, Object> props = session.getProperties();
+
+        final String url = (String) props.get("org.minijax.data.url");
+        if (url == null) {
+            return;
+        }
+
         final HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(url);
         config.setDriverClassName((String) props.get("org.minijax.data.driver"));
-        config.setJdbcUrl((String) props.get("org.minijax.data.url"));
         config.setUsername((String) props.get("org.minijax.data.username"));
         config.setPassword((String) props.get("org.minijax.data.password"));
 
@@ -57,6 +62,7 @@ public class EclipselinkSessionCustomizer implements SessionCustomizer {
         config.addDataSourceProperty("elideSetAutoCommits", "true");
         config.addDataSourceProperty("maintainTimeStats", "false");
 
-        return new HikariDataSource(config);
+        login.setConnector(new JNDIConnector(new HikariDataSource(config)));
+        login.useExternalConnectionPooling();
     }
 }

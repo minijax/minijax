@@ -8,8 +8,6 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 
 import org.minijax.Minijax;
 import org.slf4j.Logger;
@@ -22,13 +20,9 @@ public class WebSocketExample {
     public static class WebSocketResource {
 
         @OnOpen
-        public void onOpen(final Session session) {
+        public void onOpen(final Session session) throws IOException {
             LOG.info("[Session {}] Session has been opened.", session.getId());
-            try {
-                session.getBasicRemote().sendText("Connection Established");
-            } catch (final IOException ex) {
-                LOG.error(ex.getMessage(), ex);
-            }
+            session.getBasicRemote().sendText("Connection Established");
         }
 
         @OnMessage
@@ -48,16 +42,11 @@ public class WebSocketExample {
         }
     }
 
-    @GET
-    @Path("/")
-    public static String hello() {
-        return "Hello world!";
-    }
-
     public static void main(final String[] args) {
         new Minijax()
                 .register(WebSocketExample.class)
                 .register(WebSocketResource.class)
+                .addStaticFile("static/index.html", "/index")
                 .run(8080);
     }
 }
