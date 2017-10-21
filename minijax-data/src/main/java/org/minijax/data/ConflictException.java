@@ -1,22 +1,18 @@
 package org.minijax.data;
 
+import javax.ws.rs.ClientErrorException;
+import javax.ws.rs.core.Response;
+
 /**
  * The ConflictException represents a HTTP 409 error.
  */
-public class ConflictException extends RuntimeException {
+public class ConflictException extends ClientErrorException {
     private static final long serialVersionUID = 1L;
-    public static final String DEFAULT_MESSAGE = "Conflict";
     private final String key;
     private final String value;
 
-    public ConflictException() {
-        super(DEFAULT_MESSAGE);
-        key = null;
-        value = null;
-    }
-
     public ConflictException(final String key, final String value) {
-        super("The " + key + " '" + value + "' already exists");
+        super("The " + key + " '" + value + "' already exists", Response.Status.CONFLICT);
         this.key = key;
         this.value = value;
     }

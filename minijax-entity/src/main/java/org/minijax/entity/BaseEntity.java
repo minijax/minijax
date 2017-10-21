@@ -46,7 +46,7 @@ public abstract class BaseEntity implements Serializable {
 
 
     public BaseEntity() {
-
+        // For Jackson
     }
 
 
@@ -128,8 +128,15 @@ public abstract class BaseEntity implements Serializable {
     }
 
 
+    /**
+     * Marks the entity as deleted.
+     *
+     * Shortcut for <code>setDeletedDateTime(Instant.now())</code>.
+     *
+     * @param deleted True if the object is deleted.
+     */
     public void setDeleted(final boolean deleted) {
-        deletedDateTime = deleted ? Instant.now() : null;
+        setDeletedDateTime(deleted ? Instant.now() : null);
     }
 
 
@@ -250,18 +257,6 @@ public abstract class BaseEntity implements Serializable {
             }
             currClass = currClass.getSuperclass();
         }
-    }
-
-
-    /**
-     * Returns null if the object is null.
-     * Returns the object ID otherwise.
-     *
-     * @param obj
-     * @return
-     */
-    public static UUID getId(final BaseEntity obj) {
-        return obj == null ? null : obj.getId();
     }
 
 

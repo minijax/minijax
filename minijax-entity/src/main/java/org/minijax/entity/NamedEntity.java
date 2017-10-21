@@ -35,7 +35,7 @@ public abstract class NamedEntity extends BaseEntity implements Principal {
     private Avatar avatar;
 
     public NamedEntity() {
-        this(null);
+        super();
     }
 
     public NamedEntity(final UUID id) {
@@ -94,6 +94,7 @@ public abstract class NamedEntity extends BaseEntity implements Principal {
 
     @Override
     public void validate() {
+        super.validate();
         validateHandle(handle);
         validateName(name);
     }

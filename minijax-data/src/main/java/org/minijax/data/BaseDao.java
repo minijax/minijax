@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.RollbackException;
+import javax.persistence.PersistenceException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -59,7 +59,7 @@ public abstract class BaseDao implements Closeable {
             em.flush();
             em.getTransaction().commit();
             return obj;
-        } catch (final RollbackException ex) {
+        } catch (final PersistenceException ex) {
             throw convertRollbackToConflict(ex);
         }
     }
@@ -145,7 +145,7 @@ public abstract class BaseDao implements Closeable {
             em.flush();
             em.getTransaction().commit();
             return obj;
-        } catch (final RollbackException ex) {
+        } catch (final PersistenceException ex) {
             throw convertRollbackToConflict(ex);
         }
     }
@@ -232,24 +232,12 @@ public abstract class BaseDao implements Closeable {
 
 
     /**
-     * Closes an EntityManager instance if not null.
-     *
-     * @param em The EntityManager.
-     */
-    protected static void closeQuietly(final EntityManager em) {
-        if (em != null) {
-            em.close();
-        }
-    }
-
-
-    /**
      * Converts a JPA rollback exception into a conflict exception.
      *
      * @param ex The database rollback exception.
      * @return A structured key/value conflict exception.
      */
-    static ConflictException convertRollbackToConflict(final RollbackException ex) {
+    static ConflictException convertRollbackToConflict(final PersistenceException ex) {
         final List<Pattern> patterns = Arrays.asList(
                 Pattern.compile("Duplicate entry '(?<value>[^']+)' for key '(?<key>[^']+)'"),
                 Pattern.compile("CONSTRAINT_INDEX_[a-zA-Z0-9_]+ ON PUBLIC\\.[a-zA-Z]+\\((?<key>[a-zA-Z]+)\\) VALUES \\('(?<value>[^']+)'"));

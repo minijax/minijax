@@ -339,8 +339,6 @@ public class LiquibaseHelper {
     }
 
 
-
-
     static void closeQuietly(final EntityManagerFactory emf) {
         if (emf != null) {
             try {
