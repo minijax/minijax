@@ -89,10 +89,11 @@ public class NamedEntityTest {
         w.validate();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testValidateNullHandle() {
         final Widget w = new Widget();
         w.setHandle(null);
+        w.setName("foo");
         w.validate();
     }
 
@@ -100,6 +101,7 @@ public class NamedEntityTest {
     public void testValidateEmptyHandle() {
         final Widget w = new Widget();
         w.setHandle("");
+        w.setName("foo");
         w.validate();
     }
 
@@ -107,6 +109,7 @@ public class NamedEntityTest {
     public void testValidateHandleTooLong() {
         final Widget w = new Widget();
         w.setHandle(StringUtils.repeat("x", 40));
+        w.setName("foo");
         w.validate();
     }
 
@@ -114,6 +117,7 @@ public class NamedEntityTest {
     public void testValidateHandleStartsWithPeriod() {
         final Widget w = new Widget();
         w.setHandle(".foo");
+        w.setName("foo");
         w.validate();
     }
 
@@ -121,6 +125,7 @@ public class NamedEntityTest {
     public void testValidateHandleSpecialCharacters() {
         final Widget w = new Widget();
         w.setHandle("foo+");
+        w.setName("foo");
         w.validate();
     }
 

@@ -101,7 +101,12 @@ public abstract class NamedEntity extends BaseEntity implements Principal {
 
 
     public static void validateHandle(final String handle) {
-        Validate.notEmpty(handle, "Handle must not be null or empty.");
+        if (handle == null) {
+            // Null handles are ok
+            return;
+        }
+
+        Validate.notEmpty(handle, "Handle must not be empty.");
         Validate.inclusiveBetween(1, 32, handle.length(), "Handle must be between 1 and 32 characters long");
         Validate.isTrue(handle.charAt(0) != '.', "Handle cannot start with a period");
 
