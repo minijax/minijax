@@ -31,6 +31,7 @@ import javax.servlet.DispatcherType;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.DefaultValue;
@@ -691,8 +692,19 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
     }
 
 
+    @SuppressWarnings("unchecked")
     private <T> T getFormParam(final Class<T> c, final MinijaxRequestContext context, final FormParam formParam, final DefaultValue defaultValue) {
         final MinijaxForm form = context.getForm();
+        final String name = formParam.value();
+
+        if (c == InputStream.class) {
+            return form == null ? null : (T) form.getInputStream(name);
+        }
+
+        if (c == Part.class) {
+            return form == null ? null : (T) form.getPart(name);
+        }
+
         String value = form == null ? null : form.getString(formParam.value());
 
         if (value == null && defaultValue != null) {

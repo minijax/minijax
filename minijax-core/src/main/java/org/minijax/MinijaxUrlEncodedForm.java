@@ -3,6 +3,7 @@ package org.minijax;
 
 import java.io.InputStream;
 
+import javax.servlet.http.Part;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
@@ -58,6 +59,11 @@ public class MinijaxUrlEncodedForm implements MinijaxForm {
 
     @Override
     public InputStream getInputStream(final String name) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Part getPart(final String name) {
         throw new UnsupportedOperationException();
     }
 

@@ -4,6 +4,7 @@ package org.minijax;
 import java.io.Closeable;
 import java.io.InputStream;
 
+import javax.servlet.http.Part;
 import javax.ws.rs.core.Form;
 
 /**
@@ -22,6 +23,9 @@ public interface MinijaxForm extends Closeable {
 
 
     public InputStream getInputStream(String name);
+
+
+    public Part getPart(String name);
 
 
     public Form asForm();

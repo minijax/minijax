@@ -65,7 +65,8 @@ public class MinijaxMultipartForm implements MinijaxForm {
     @Override
     public String getString(final String name) {
         try {
-            return IOUtils.toString(getInputStream(name), StandardCharsets.UTF_8);
+            final InputStream inputStream = getInputStream(name);
+            return inputStream == null ? null : IOUtils.toString(getInputStream(name), StandardCharsets.UTF_8);
         } catch (final IOException ex) {
             throw ExceptionUtils.toWebAppException(ex);
         }
@@ -74,10 +75,16 @@ public class MinijaxMultipartForm implements MinijaxForm {
     @Override
     public InputStream getInputStream(final String name) {
         try {
-            return values.get(name).getInputStream();
+            final Part part = values.get(name);
+            return part == null ? null : part.getInputStream();
         } catch (final IOException ex) {
             throw ExceptionUtils.toWebAppException(ex);
         }
+    }
+
+    @Override
+    public Part getPart(final String name) {
+        return values.get(name);
     }
 
     @Override
