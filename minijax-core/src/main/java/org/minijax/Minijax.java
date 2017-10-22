@@ -634,6 +634,11 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
     }
 
 
+    public <T> T get(final Class<T> c) {
+        return getOrCreateResource(c, null);
+    }
+
+
     /**
      * Returns a resource instance.
      *
@@ -764,13 +769,11 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
         if (providerScopes.get(c) == MinijaxScope.SINGLETON) {
             createContext = null;
             resourceCache = singletonCache;
-        } else {
-            if (context == null) {
-                LOG.error("Missing context for request scoped resource: {}", c);
-                throw new WebApplicationException("Missing request context for request scoped resource");
-            }
+        } else if (context != null) {
             createContext = context;
             resourceCache = context.getResourceCache();
+        } else {
+            return create(c, null);
         }
 
         T result = resourceCache.get(c);
