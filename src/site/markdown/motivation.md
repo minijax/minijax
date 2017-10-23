@@ -40,13 +40,13 @@ The hello "fat jar" clocks in at ~1.8 MB, with Jetty accounting for 818 out of 1
 
 **Why not Undertow (or Netty or Grizzly or ...)?**
 
-**Why not Spring?**
+**[Why not Spring?](why-not-spring.html)**
 
 **Why not Dropwizard?**
 
 What's next?
 ------------
 
-* [Getting Started Tutorial](gettingstarted.html) - 5 minute tutorial
+* [Getting Started Tutorial](getting-started.html) - 5 minute tutorial
 * [Sample Applications](minijax-examples/index.html) - Demonstrating Minijax capabilities
 * [Supported Java EE standards](javaee.html) - Overview of which standards are supported

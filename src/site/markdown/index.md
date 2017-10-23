@@ -43,6 +43,6 @@ Learn More
 ----------
 
 * [Motivation](motivation.html) - Why use Minijax?
-* [Getting Started Tutorial](gettingstarted.html) - 5 minute tutorial
+* [Getting Started Tutorial](getting-started.html) - 5 minute tutorial
 * [Sample Applications](minijax-examples/index.html) - Demonstrating Minijax capabilities
 * [Supported Java EE standards](javaee.html) - Overview of supported API's

@@ -95,7 +95,7 @@ public class Key<T> {
 
 
     public static <T> Key<T> of(final Class<T> type) {
-        return new Key<T>(type, Strategy.DEFAULT, null, null, null);
+        return new Key<>(type, Strategy.DEFAULT, null, null, null);
     }
 
 
@@ -151,6 +151,6 @@ public class Key<T> {
             }
         }
 
-        return new Key<T>(type, strategy, qualifier, name, defaultValue);
+        return new Key<>(type, strategy, qualifier, name, defaultValue);
     }
 }
