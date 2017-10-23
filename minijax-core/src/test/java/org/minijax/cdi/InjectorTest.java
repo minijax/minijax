@@ -3,8 +3,11 @@ package org.minijax.cdi;
 import static org.junit.Assert.*;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Provider;
 import javax.inject.Singleton;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.core.Context;
 
 import org.junit.Test;
 
@@ -198,5 +201,29 @@ public class InjectorTest {
     public void testExplodingConstructor() {
         final MinijaxInjector injector = new MinijaxInjector();
         injector.get(ExplodingConstructor.class);
+    }
+
+    public static class MultipleStrategies {
+        @Context
+        @HeaderParam("a")
+        String a;
+    }
+
+    @Test(expected = InjectException.class)
+    public void testMultipleStrategies() {
+        final MinijaxInjector injector = new MinijaxInjector();
+        injector.get(MultipleStrategies.class);
+    }
+
+    public static class MultipleNames {
+        @Named("a")
+        @HeaderParam("a")
+        String a;
+    }
+
+    @Test(expected = InjectException.class)
+    public void testMultipleNames() {
+        final MinijaxInjector injector = new MinijaxInjector();
+        injector.get(MultipleNames.class);
     }
 }

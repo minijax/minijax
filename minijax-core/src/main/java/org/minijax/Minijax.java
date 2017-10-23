@@ -122,7 +122,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
 
 
     public Minijax addStaticFile(final String resourceName) {
-        final String pathSpec = "/" + resourceName;
+        final String pathSpec = String.format("/%s", resourceName);
         return addStaticFile(resourceName, pathSpec);
     }
 
@@ -135,7 +135,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
 
     public Minijax addStaticDirectory(final String resourceName) {
         final String resourceUrl = Minijax.class.getClassLoader().getResource(resourceName).toExternalForm();
-        final String pathSpec = "/" + resourceName + "/*";
+        final String pathSpec = String.format("/%s/*", resourceName);
         return addStaticResource(resourceUrl, pathSpec);
     }
 

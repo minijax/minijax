@@ -7,11 +7,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Vector;
 
 import javax.servlet.AsyncContext;
 import javax.servlet.DispatcherType;
@@ -99,20 +101,20 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     @Override
     public Enumeration<String> getHeaders(final String name) {
-        final Vector<String> values = new Vector<>();
+        final List<String> values = new ArrayList<>();
         if (headers != null) {
             values.addAll(headers.get(name));
         }
-        return values.elements();
+        return Collections.enumeration(values);
     }
 
     @Override
     public Enumeration<String> getHeaderNames() {
-        final Vector<String> names = new Vector<>();
+        final List<String> names = new ArrayList<>();
         if (headers != null) {
             names.addAll(headers.keySet());
         }
-        return names.elements();
+        return Collections.enumeration(names);
     }
 
     @Override

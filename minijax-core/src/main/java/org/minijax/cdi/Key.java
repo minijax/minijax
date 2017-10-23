@@ -100,57 +100,123 @@ public class Key<T> {
 
 
     public static <T> Key<T> of(final Class<T> type, final Annotation[] annotations) {
-        Strategy strategy = Strategy.DEFAULT;
-        Annotation qualifier = null;
-        String name = null;
-        DefaultValue defaultValue = null;
+        return new Builder<>(type, annotations).build();
+    }
 
-        for (final Annotation annotation : annotations) {
+
+    private static class Builder<T> {
+        private final Class<T> type;
+        private final Annotation[] annotations;
+        private Strategy strategy;
+        private Annotation qualifier;
+        private String name;
+        private DefaultValue defaultValue;
+
+        public Builder(final Class<T> type, final Annotation[] annotations) {
+            this.type = type;
+            this.annotations = annotations;
+        }
+
+        public Key<T> build() {
+            for (final Annotation annotation : annotations) {
+                processAnnotation(annotation);
+            }
+            if (strategy == null) {
+                strategy = Strategy.DEFAULT;
+            }
+            return new Key<>(type, strategy, qualifier, name, defaultValue);
+        }
+
+        private void processAnnotation(final Annotation annotation) {
             final Class<? extends Annotation> annType = annotation.annotationType();
 
-            if (annType.isAnnotationPresent(Qualifier.class)) {
-                if (qualifier != null) {
-                    throw new InjectException("Multiple qualifiers");
-                }
-                if (annType == Named.class) {
-                    name = ((Named) annotation).value();
-                }
-                qualifier = annotation;
-
-            } else if (annType == Context.class) {
-                strategy = Strategy.CONTEXT;
-                qualifier = annotation;
+            if (annType == Context.class) {
+                processContextAnnotation((Context) annotation);
 
             } else if (annType == CookieParam.class) {
-                strategy = Strategy.COOKIE;
-                qualifier = annotation;
-                name = ((CookieParam) qualifier).value();
+                processCookieParamAnnotation((CookieParam) annotation);
 
             } else if (annType == FormParam.class) {
-                strategy = Strategy.FORM;
-                qualifier = annotation;
-                name = ((FormParam) qualifier).value();
+                processFormParamAnnotation((FormParam) annotation);
 
             } else if (annType == HeaderParam.class) {
-                strategy = Strategy.HEADER;
-                qualifier = annotation;
-                name = ((HeaderParam) qualifier).value();
+                processHeaderParamAnnotation((HeaderParam) annotation);
 
             } else if (annType == PathParam.class) {
-                strategy = Strategy.PATH;
-                qualifier = annotation;
-                name = ((PathParam) qualifier).value();
+                processPathParamAnnotation((PathParam) annotation);
 
             } else if (annType == QueryParam.class) {
-                strategy = Strategy.QUERY;
-                qualifier = annotation;
-                name = ((QueryParam) qualifier).value();
+                processQueryParamAnnotation((QueryParam) annotation);
 
             } else if (annType == DefaultValue.class) {
                 defaultValue = (DefaultValue) annotation;
+
+            } else if (annType.isAnnotationPresent(Qualifier.class)) {
+                processQualifierAnnotation(annotation);
             }
         }
 
-        return new Key<>(type, strategy, qualifier, name, defaultValue);
+        private void processContextAnnotation(final Context context) {
+            setStrategy(Strategy.CONTEXT);
+            setQualifier(context);
+        }
+
+        private void processCookieParamAnnotation(final CookieParam cookieParam) {
+            setStrategy(Strategy.COOKIE);
+            setQualifier(cookieParam);
+            setName(cookieParam.value());
+        }
+
+        private void processFormParamAnnotation(final FormParam formParam) {
+            setStrategy(Strategy.FORM);
+            setQualifier(formParam);
+            setName(formParam.value());
+        }
+
+        private void processHeaderParamAnnotation(final HeaderParam headerParam) {
+            setStrategy(Strategy.HEADER);
+            setQualifier(headerParam);
+            setName(headerParam.value());
+        }
+
+        private void processPathParamAnnotation(final PathParam pathParam) {
+            setStrategy(Strategy.PATH);
+            setQualifier(pathParam);
+            setName(pathParam.value());
+        }
+
+        private void processQueryParamAnnotation(final QueryParam queryParam) {
+            setStrategy(Strategy.QUERY);
+            setQualifier(queryParam);
+            setName(queryParam.value());
+        }
+
+        private void processQualifierAnnotation(final Annotation qualifierAnnotation) {
+            setQualifier(qualifierAnnotation);
+            if (qualifierAnnotation instanceof Named) {
+                setName(((Named) qualifierAnnotation).value());
+            }
+        }
+
+        private void setStrategy(final Strategy strategy) {
+            if (this.strategy != null) {
+                throw new InjectException("Multiple injection strategies");
+            }
+            this.strategy = strategy;
+        }
+
+        private void setQualifier(final Annotation qualifier) {
+            if (this.qualifier != null) {
+                throw new InjectException("Multiple injection qualifiers");
+            }
+            this.qualifier = qualifier;
+        }
+
+        private void setName(final String name) {
+            if (this.name != null) {
+                throw new InjectException("Multiple injection names");
+            }
+            this.name = name;
+        }
     }
 }
