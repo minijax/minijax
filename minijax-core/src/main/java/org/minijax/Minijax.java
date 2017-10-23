@@ -338,7 +338,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
 
             runRequestFilters(context);
             checkSecurity(context);
-            final MinijaxResponse response = (MinijaxResponse) toResponse(context, rm, invoke(context, rm.getMethod()));
+            final MinijaxResponse response = (MinijaxResponse) toResponse(rm, invoke(context, rm.getMethod()));
             runResponseFilters(context, response);
             return response;
         } catch (final Exception ex) {
@@ -479,7 +479,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
     }
 
 
-    private Response toResponse(final MinijaxRequestContext context, final MinijaxResourceMethod rm, final Object obj) {
+    private Response toResponse(final MinijaxResourceMethod rm, final Object obj) {
         if (obj == null) {
             throw new NotFoundException();
         }

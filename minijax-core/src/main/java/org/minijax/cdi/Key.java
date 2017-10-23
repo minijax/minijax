@@ -20,62 +20,14 @@ public class Key<T> {
     private final String name;
     private final DefaultValue defaultValue;
 
-    public Key(final Class<T> type, final Annotation[] annotations) {
+    private Key(
+            final Class<T> type,
+            final Strategy strategy,
+            final Annotation qualifier,
+            final String name,
+            final DefaultValue defaultValue) {
+
         this.type = type;
-
-        Strategy strategy = Strategy.DEFAULT;
-        Annotation qualifier = null;
-        String name = null;
-        DefaultValue defaultValue = null;
-
-        if (annotations != null) {
-            for (final Annotation annotation : annotations) {
-                final Class<? extends Annotation> annType = annotation.annotationType();
-
-                if (annType.isAnnotationPresent(Qualifier.class)) {
-                    if (qualifier != null) {
-                        throw new InjectException("Multiple qualifiers");
-                    }
-                    if (annType == Named.class) {
-                        name = ((Named) annotation).value();
-                    }
-                    qualifier = annotation;
-
-                } else if (annType == Context.class) {
-                    strategy = Strategy.CONTEXT;
-                    qualifier = annotation;
-
-                } else if (annType == CookieParam.class) {
-                    strategy = Strategy.COOKIE;
-                    qualifier = annotation;
-                    name = ((CookieParam) qualifier).value();
-
-                } else if (annType == FormParam.class) {
-                    strategy = Strategy.FORM;
-                    qualifier = annotation;
-                    name = ((FormParam) qualifier).value();
-
-                } else if (annType == HeaderParam.class) {
-                    strategy = Strategy.HEADER;
-                    qualifier = annotation;
-                    name = ((HeaderParam) qualifier).value();
-
-                } else if (annType == PathParam.class) {
-                    strategy = Strategy.PATH;
-                    qualifier = annotation;
-                    name = ((PathParam) qualifier).value();
-
-                } else if (annType == QueryParam.class) {
-                    strategy = Strategy.QUERY;
-                    qualifier = annotation;
-                    name = ((QueryParam) qualifier).value();
-
-                } else if (annType == DefaultValue.class) {
-                    defaultValue = (DefaultValue) annotation;
-                }
-            }
-        }
-
         this.strategy = strategy;
         this.qualifier = qualifier;
         this.name = name;
@@ -134,7 +86,71 @@ public class Key<T> {
 
     @Override
     public String toString() {
-        final String suffix = name != null ? "@\"" + name + "\"" : qualifier != null ? "@" + qualifier.getClass().getSimpleName() : "";
-        return type.getName() + suffix;
+        return "Key [type=" + type
+                + ", strategy=" + strategy
+                + ", qualifier=" + qualifier
+                + ", name=" + name
+                + ", defaultValue=" + defaultValue + "]";
+    }
+
+
+    public static <T> Key<T> of(final Class<T> type) {
+        return new Key<T>(type, Strategy.DEFAULT, null, null, null);
+    }
+
+
+    public static <T> Key<T> of(final Class<T> type, final Annotation[] annotations) {
+        Strategy strategy = Strategy.DEFAULT;
+        Annotation qualifier = null;
+        String name = null;
+        DefaultValue defaultValue = null;
+
+        for (final Annotation annotation : annotations) {
+            final Class<? extends Annotation> annType = annotation.annotationType();
+
+            if (annType.isAnnotationPresent(Qualifier.class)) {
+                if (qualifier != null) {
+                    throw new InjectException("Multiple qualifiers");
+                }
+                if (annType == Named.class) {
+                    name = ((Named) annotation).value();
+                }
+                qualifier = annotation;
+
+            } else if (annType == Context.class) {
+                strategy = Strategy.CONTEXT;
+                qualifier = annotation;
+
+            } else if (annType == CookieParam.class) {
+                strategy = Strategy.COOKIE;
+                qualifier = annotation;
+                name = ((CookieParam) qualifier).value();
+
+            } else if (annType == FormParam.class) {
+                strategy = Strategy.FORM;
+                qualifier = annotation;
+                name = ((FormParam) qualifier).value();
+
+            } else if (annType == HeaderParam.class) {
+                strategy = Strategy.HEADER;
+                qualifier = annotation;
+                name = ((HeaderParam) qualifier).value();
+
+            } else if (annType == PathParam.class) {
+                strategy = Strategy.PATH;
+                qualifier = annotation;
+                name = ((PathParam) qualifier).value();
+
+            } else if (annType == QueryParam.class) {
+                strategy = Strategy.QUERY;
+                qualifier = annotation;
+                name = ((QueryParam) qualifier).value();
+
+            } else if (annType == DefaultValue.class) {
+                defaultValue = (DefaultValue) annotation;
+            }
+        }
+
+        return new Key<T>(type, strategy, qualifier, name, defaultValue);
     }
 }

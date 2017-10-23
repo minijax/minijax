@@ -28,7 +28,7 @@ public class MinijaxInjector {
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public void register(final Class<?> contract, final Object instance) {
-        providers.put(new Key(contract, null), new SingletonProvider(instance));
+        providers.put(Key.of(contract), new SingletonProvider(instance));
     }
 
     public <T> T get(final Class<T> c) {
@@ -40,11 +40,11 @@ public class MinijaxInjector {
     }
 
     public <T> Provider<T> getProvider(final Class<T> c) {
-        return getProvider(new Key<T>(c, null), null);
+        return getProvider(Key.<T>of(c), null);
     }
 
     public <T> Provider<T> getProvider(final Class<T> c, final Annotation[] annotations) {
-        return getProvider(new Key<T>(c, annotations), null);
+        return getProvider(Key.<T>of(c, annotations), null);
     }
 
     @SuppressWarnings("unchecked")
@@ -145,7 +145,6 @@ public class MinijaxInjector {
     }
 
 
-    @SuppressWarnings("rawtypes")
     private Provider<?>[] getParamProviders(
             final Key<?> key,
             final Class<?>[] parameterClasses,
@@ -161,20 +160,15 @@ public class MinijaxInjector {
                     (Class<?>) ((ParameterizedType) parameterTypes[i]).getActualTypeArguments()[0] :
                     null;
             if (providerType == null) {
-                final Key<?> newKey = new Key<>(parameterClass, parameterAnnotations);
+                final Key<?> newKey = Key.of(parameterClass, parameterAnnotations);
                 final Set<Key<?>> newChain = append(chain, key);
                 if (newChain.contains(newKey)) {
                     throw new InjectException(String.format("Circular dependency: %s", chain(newChain, newKey)));
                 }
                 result[i] = getProvider(newKey, newChain);
             } else {
-                final Key<?> newKey = new Key<>(providerType, parameterAnnotations);
-                result[i] = new Provider() {
-                    @Override
-                    public Object get() {
-                        return getProvider(newKey, null);
-                    }
-                };
+                final Key<?> newKey = Key.of(providerType, parameterAnnotations);
+                result[i] = () -> getProvider(newKey, null);
             }
         }
         return result;
@@ -192,7 +186,7 @@ public class MinijaxInjector {
             final Class<?> providerType = fieldType.equals(Provider.class) ?
                     (Class<?>) ((ParameterizedType) f.getGenericType()).getActualTypeArguments()[0] :
                     fieldType;
-            final Key<?> newKey = new Key<>(providerType, f.getAnnotations());
+            final Key<?> newKey = Key.of(providerType, f.getAnnotations());
             final Set<Key<?>> newChain = append(chain, key);
             if (newChain.contains(newKey)) {
                 throw new InjectException(String.format("Circular dependency: %s", chain(newChain, newKey)));
