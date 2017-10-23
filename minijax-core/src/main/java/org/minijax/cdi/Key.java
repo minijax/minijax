@@ -21,10 +21,6 @@ public class Key<T> {
     private final DefaultValue defaultValue;
 
     public Key(final Class<T> type, final Annotation[] annotations) {
-        if (type == null) {
-            throw new NullPointerException("type");
-        }
-
         this.type = type;
 
         Strategy strategy = Strategy.DEFAULT;
@@ -92,10 +88,6 @@ public class Key<T> {
 
     public Strategy getStrategy() {
         return strategy;
-    }
-
-    public Annotation getQualifier() {
-        return qualifier;
     }
 
     public String getName() {

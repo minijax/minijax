@@ -19,10 +19,6 @@ public class MockServletOutputStream extends ServletOutputStream {
     }
 
     @Override
-    public void setWriteListener(final WriteListener writeListener) {
-    }
-
-    @Override
     public void write(final int b) throws IOException {
         outputStream.write(b);
     }
@@ -31,5 +27,10 @@ public class MockServletOutputStream extends ServletOutputStream {
     public String getValue() throws IOException {
         outputStream.flush();
         return outputStream.toString();
+    }
+
+    @Override
+    public void setWriteListener(final WriteListener writeListener) {
+        throw new UnsupportedOperationException();
     }
 }

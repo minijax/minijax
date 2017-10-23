@@ -65,22 +65,22 @@ public class MinijaxInjector {
 
         switch (key.getStrategy()) {
         case CONTEXT:
-            p = new ContextProvider<T>(key);
+            p = new ContextProvider<>(key);
             break;
         case COOKIE:
-            p = new CookieParamProvider<T>(key);
+            p = new CookieParamProvider<>(key);
             break;
         case FORM:
-            p = new FormParamProvider<T>(key);
+            p = new FormParamProvider<>(key);
             break;
         case HEADER:
-            p = new HeaderParamProvider<T>(key);
+            p = new HeaderParamProvider<>(key);
             break;
         case PATH:
-            p = new PathParamProvider<T>(key);
+            p = new PathParamProvider<>(key);
             break;
         case QUERY:
-            p = new QueryParamProvider<T>(key);
+            p = new QueryParamProvider<>(key);
             break;
         default:
             p = buildConstructorProvider(key, chain);
@@ -88,9 +88,9 @@ public class MinijaxInjector {
         }
 
         if (key.getType().getAnnotation(Singleton.class) != null) {
-            return new SingletonProvider<T>(p);
+            return new SingletonProvider<>(p);
         } else if (key.getType().getAnnotation(RequestScoped.class) != null) {
-            return new RequestScopedProvider<T>(key, p);
+            return new RequestScopedProvider<>(key, p);
         } else {
             return p;
         }
@@ -108,7 +108,7 @@ public class MinijaxInjector {
 
         final FieldProvider<?>[] fieldProviders = getFieldProviders(key, chain);
 
-        return new ConstructorProvider<T>(constructor, paramProviders, fieldProviders);
+        return new ConstructorProvider<>(constructor, paramProviders, fieldProviders);
     }
 
 
@@ -153,7 +153,7 @@ public class MinijaxInjector {
             final Annotation[][] annotations,
             final Set<Key<?>> chain) {
 
-        final Provider<?>[] providers = new Provider<?>[parameterTypes.length];
+        final Provider<?>[] result = new Provider<?>[parameterTypes.length];
         for (int i = 0; i < parameterTypes.length; ++i) {
             final Class<?> parameterClass = parameterClasses[i];
             final Annotation[] parameterAnnotations = annotations[i];
@@ -166,10 +166,10 @@ public class MinijaxInjector {
                 if (newChain.contains(newKey)) {
                     throw new InjectException(String.format("Circular dependency: %s", chain(newChain, newKey)));
                 }
-                providers[i] = getProvider(newKey, newChain);
+                result[i] = getProvider(newKey, newChain);
             } else {
                 final Key<?> newKey = new Key<>(providerType, parameterAnnotations);
-                providers[i] = new Provider() {
+                result[i] = new Provider() {
                     @Override
                     public Object get() {
                         return getProvider(newKey, null);
@@ -177,7 +177,7 @@ public class MinijaxInjector {
                 };
             }
         }
-        return providers;
+        return result;
     }
 
 

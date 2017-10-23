@@ -490,7 +490,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
 
         return Response.ok()
                 .entity(obj)
-                .type(findResponseType(context, obj, rm.getProduces()))
+                .type(findResponseType(obj, rm.getProduces()))
                 .build();
     }
 
@@ -520,7 +520,6 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private MediaType findResponseType(
-            final MinijaxRequestContext context,
             final Object obj,
             final List<MediaType> produces) {
 
@@ -566,7 +565,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
             servletResponse.setContentType(mediaType.toString());
         }
 
-        final MessageBodyWriter writer = findWriter(context, obj, mediaType);
+        final MessageBodyWriter writer = findWriter(obj, mediaType);
         if (writer != null) {
             writer.writeTo(obj, objType, null, null, mediaType, null, servletResponse.getOutputStream());
         } else if (obj != null) {
@@ -581,7 +580,6 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private MessageBodyWriter findWriter(
-            final MinijaxRequestContext context,
             final Object obj,
             final MediaType mediaType) {
 

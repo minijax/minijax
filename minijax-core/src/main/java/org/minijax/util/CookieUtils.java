@@ -4,6 +4,10 @@ import java.util.List;
 
 public class CookieUtils {
 
+    CookieUtils() {
+        throw new UnsupportedOperationException();
+    }
+
     public static javax.servlet.http.Cookie convertJaxToServlet(final javax.ws.rs.core.Cookie input) {
         final javax.servlet.http.Cookie result = new javax.servlet.http.Cookie(input.getName(), input.getValue());
 
