@@ -60,18 +60,6 @@ public class WebSocketTest {
     }
 
 
-    @Test(expected = InstantiationException.class)
-    public void testContext() throws IOException, InstantiationException {
-        final Minijax minijax = createMinijax();
-        minijax.register(WebSocketResource.class);
-        minijax.run(8080);
-
-        final MinijaxWebSocketConfigurator configurator = new MinijaxWebSocketConfigurator(minijax);
-        final WebSocketTest ws = configurator.getEndpointInstance(WebSocketTest.class);
-        assertNotNull(ws);
-    }
-
-
     @Test
     public void testRun() throws IOException, InstantiationException {
         final Minijax minijax = createMinijax();
