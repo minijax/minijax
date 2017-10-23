@@ -19,7 +19,7 @@ public class WriterTest extends MinijaxTest {
     @Before
     public void setUp() {
         register(MinijaxMustacheFeature.class);
-        writer = getServer().get(MinijaxMustacheWriter.class, null, null);
+        writer = getServer().get(MinijaxMustacheWriter.class);
     }
 
     @Test

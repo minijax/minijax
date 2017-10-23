@@ -12,6 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class MinijaxFilter implements Filter {
+    private final Minijax container;
+
+    public MinijaxFilter(final Minijax container) {
+        this.container = container;
+    }
 
     @Override
     public void init(final FilterConfig filterConfig) throws ServletException {
@@ -30,7 +35,7 @@ public class MinijaxFilter implements Filter {
 
         // Constructor sets the ThreadLocal
         // Close method clears the ThreadLocal
-        try (final MinijaxRequestContext context = new MinijaxRequestContext(request, response)) {
+        try (final MinijaxRequestContext context = new MinijaxRequestContext(container, request, response)) {
             chain.doFilter(request, response);
         }
     }

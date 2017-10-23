@@ -1,4 +1,4 @@
-package org.minijax;
+package org.minijax.cdi;
 
 import static org.junit.Assert.*;
 
@@ -13,23 +13,18 @@ import org.minijax.test.MinijaxTest;
 
 public class InheritanceTest extends MinijaxTest {
 
-    public static abstract class MyBaseClass {
-        public boolean baseInjected;
-
-        @Inject
-        public void baseInject() {
-            baseInjected = true;
-        }
+    public static class MyResource {
     }
+
+
+    public static abstract class MyBaseClass {
+        @Inject MyResource baseInjected;
+    }
+
 
     @Singleton
     public static class MySubClass extends MyBaseClass {
-        public boolean subInjected;
-
-        @Inject
-        public void subInject() {
-            subInjected = true;
-        }
+        @Inject MyResource subInjected;
     }
 
 
@@ -52,10 +47,10 @@ public class InheritanceTest extends MinijaxTest {
     public void testInheritanceInject() {
         register(MySubClass.class);
 
-        final MySubClass r = getServer().get(MySubClass.class, null, null);
+        final MySubClass r = getServer().get(MySubClass.class, null);
         assertNotNull(r);
-        assertTrue(r.subInjected);
-        assertTrue(r.baseInjected);
+        assertNotNull(r.subInjected);
+        assertNotNull(r.baseInjected);
     }
 
 

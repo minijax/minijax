@@ -1,4 +1,4 @@
-package org.minijax;
+package org.minijax.cdi;
 
 import static org.junit.Assert.*;
 
@@ -66,6 +66,7 @@ public class InjectTest extends MinijaxTest {
     @Test
     public void testCookie() {
         final InjectedResource r = target("/inject/test").request().cookie("a", "hello").get(InjectedResource.class);
+        assertNotNull(r);
         assertEquals("hello", r.cookie);
     }
 

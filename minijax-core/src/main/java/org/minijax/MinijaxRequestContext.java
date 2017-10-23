@@ -28,7 +28,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
-import org.minijax.util.ClassMap;
+import org.minijax.cdi.ResourceCache;
 import org.minijax.util.IOUtils;
 import org.minijax.util.LocaleUtils;
 import org.minijax.util.MediaTypeUtils;
@@ -38,10 +38,11 @@ public class MinijaxRequestContext
         implements javax.ws.rs.container.ContainerRequestContext, Closeable {
 
     private static final ThreadLocal<MinijaxRequestContext> threadLocalContexts = new ThreadLocal<>();
+    private final Minijax container;
     private final HttpServletRequest request;
     private final HttpServletResponse response;
     private final MinijaxUriInfo uriInfo;
-    private final ClassMap resourceCache;
+    private final ResourceCache resourceCache;
     private final Map<String, Object> properties;
     private MultivaluedHashMap<String, String> headers;
     private Map<String, Cookie> cookies;
@@ -51,13 +52,18 @@ public class MinijaxRequestContext
     private SecurityContext securityContext;
     private MinijaxResourceMethod resourceMethod;
 
-    public MinijaxRequestContext(final HttpServletRequest request, final HttpServletResponse response) {
+    public MinijaxRequestContext(final Minijax container, final HttpServletRequest request, final HttpServletResponse response) {
+        this.container = container;
         this.request = request;
         this.response = response;
         uriInfo = new MinijaxUriInfo(UrlUtils.getFullRequestUrl(request));
-        resourceCache = new ClassMap();
+        resourceCache = new ResourceCache();
         properties = new HashMap<>();
         threadLocalContexts.set(this);
+    }
+
+    public Minijax getContainer() {
+        return container;
     }
 
     public HttpServletRequest getServletRequest() {
@@ -300,7 +306,7 @@ public class MinijaxRequestContext
         threadLocalContexts.remove();
     }
 
-    ClassMap getResourceCache() {
+    public ResourceCache getResourceCache() {
         return resourceCache;
     }
 
@@ -313,6 +319,10 @@ public class MinijaxRequestContext
     }
 
     public static MinijaxRequestContext getThreadLocal() {
-        return threadLocalContexts.get();
+        final MinijaxRequestContext context = threadLocalContexts.get();
+        if (context == null) {
+            throw new IllegalStateException("Minijax request context not found");
+        }
+        return context;
     }
 }

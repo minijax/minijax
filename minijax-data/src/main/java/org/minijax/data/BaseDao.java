@@ -8,7 +8,6 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
@@ -29,11 +28,10 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class BaseDao implements Closeable {
     private static final Logger LOG = LoggerFactory.getLogger(BaseDao.class);
-    protected EntityManagerFactory emf;
     protected EntityManager em;
 
-    @Inject
-    protected void setEntityManagerFactory(final EntityManagerFactory emf) {
+
+    protected BaseDao(final EntityManagerFactory emf) {
         em = emf.createEntityManager();
     }
 

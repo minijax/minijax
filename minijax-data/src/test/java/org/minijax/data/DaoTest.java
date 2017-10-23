@@ -15,24 +15,32 @@ import org.minijax.entity.test.Widget;
 
 public class DaoTest {
 
+    public static EntityManagerFactory getNewEntityManagerFactory() {
+        final String name = "test" + System.currentTimeMillis();
+
+        final Map<String, String> props = new HashMap<>();
+        props.put(DataProperties.PERSISTENCE_UNIT_NAME, "testdb");
+        props.put(DataProperties.DRIVER, "org.h2.jdbcx.JdbcDataSource");
+        props.put(DataProperties.URL, "jdbc:h2:mem:" + name);
+        props.put(DataProperties.USERNAME, "");
+        props.put(DataProperties.PASSWORD, "");
+        props.put(SCHEMA_GENERATION_DATABASE_ACTION, "drop-and-create");
+        return Persistence.createEntityManagerFactory("testdb", props);
+    }
+
     /**
      * Dao wrapping in-memory H2 database.
      */
     public static class Dao extends BaseDao {
         private final EntityManagerFactory emf;
 
-        public Dao() {
-            final String name = "test" + System.currentTimeMillis();
+        public Dao(final EntityManagerFactory emf) {
+            super(emf);
+            this.emf = emf;
+        }
 
-            final Map<String, String> props = new HashMap<>();
-            props.put(DataProperties.PERSISTENCE_UNIT_NAME, "testdb");
-            props.put(DataProperties.DRIVER, "org.h2.jdbcx.JdbcDataSource");
-            props.put(DataProperties.URL, "jdbc:h2:mem:" + name);
-            props.put(DataProperties.USERNAME, "");
-            props.put(DataProperties.PASSWORD, "");
-            props.put(SCHEMA_GENERATION_DATABASE_ACTION, "drop-and-create");
-            emf = Persistence.createEntityManagerFactory("testdb", props);
-            setEntityManagerFactory(emf);
+        public Dao() {
+            this(getNewEntityManagerFactory());
         }
 
         @Override

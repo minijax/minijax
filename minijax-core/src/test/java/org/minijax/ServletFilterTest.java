@@ -24,7 +24,7 @@ public class ServletFilterTest {
 
         final MockFilterChain chain = new MockFilterChain(servlet);
 
-        final MinijaxFilter filter = new MinijaxFilter();
+        final MinijaxFilter filter = new MinijaxFilter(minijax);
         filter.init(null);
 
         final MockHttpServletRequest request = new MockHttpServletRequest("GET", URI.create("/"));

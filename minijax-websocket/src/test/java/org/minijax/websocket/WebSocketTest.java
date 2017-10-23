@@ -82,7 +82,7 @@ public class WebSocketTest {
 
         final MockHttpServletRequest request = new MockHttpServletRequest("GET", URI.create("/echo"));
 
-        try (MinijaxRequestContext context = new MinijaxRequestContext(request, null)) {
+        try (MinijaxRequestContext context = new MinijaxRequestContext(minijax, request, null)) {
             final WebSocketResource ws = configurator.getEndpointInstance(WebSocketResource.class);
             assertNotNull(ws);
         }
@@ -99,7 +99,7 @@ public class WebSocketTest {
 
         final MockHttpServletRequest request = new MockHttpServletRequest("GET", URI.create("/echo"));
 
-        try (MinijaxRequestContext context = new MinijaxRequestContext(request, null)) {
+        try (MinijaxRequestContext context = new MinijaxRequestContext(minijax, request, null)) {
             configurator.getEndpointInstance(ExceptionWebSocket.class);
         }
     }
