@@ -441,11 +441,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
         } else {
             instance = get(method.getDeclaringClass());
         }
-        return invoke(context, method, instance);
-    }
 
-
-    public Object invoke(final MinijaxRequestContext context, final Method method, final Object instance) throws IOException {
         try {
             return method.invoke(instance, getArgs(context, method));
         } catch (final InvocationTargetException ex) {
