@@ -32,16 +32,19 @@ import javax.inject.Singleton;
 public class MinijaxInjector {
     private final Map<Key<?>, Provider<?>> providers = new ConcurrentHashMap<>();
 
-    public void register(final Object instance, final Class<?> contract) {
+    public MinijaxInjector register(final Object instance, final Class<?> contract) {
         providers.put(Key.of(contract), new SingletonProvider<>(instance));
+        return this;
     }
 
-    public void register(final Class<?> component, final Class<?> contract) {
+    public MinijaxInjector register(final Class<?> component, final Class<?> contract) {
         providers.put(Key.of(contract), buildProvider(Key.of(component), null));
+        return this;
     }
 
-    public void register(final Class<?> component, final Key<?> contract) {
+    public MinijaxInjector register(final Class<?> component, final Key<?> contract) {
         providers.put(contract, buildProvider(Key.of(component), null));
+        return this;
     }
 
     public <T> T get(final Class<T> c) {
@@ -60,7 +63,7 @@ public class MinijaxInjector {
         return getProvider(Key.<T>of(c, annotations), null);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "squid:S3824", "unchecked" })
     private <T> Provider<T> getProvider(final Key<T> key, final Set<Key<?>> chain) {
         Provider<T> result = (Provider<T>) providers.get(key);
 
@@ -112,7 +115,7 @@ public class MinijaxInjector {
     private <T> Provider<T> buildConstructorProvider(final Key<T> key, final Set<Key<?>> chain) {
         final Constructor<T> constructor = getConstructor(key);
         final Provider<?>[] paramProviders = getParamProviders(key, constructor, chain);
-        final List<InjectionSet<? super T>> injectionSets = getMethods(key, chain);
+        final List<InjectionSet<? super T>> injectionSets = getInjectionSets(key, chain);
         return new ConstructorProvider<>(constructor, paramProviders, injectionSets);
     }
 
@@ -235,15 +238,13 @@ public class MinijaxInjector {
      *
      * https://github.com/rstiller/JSR-330
      * void com.github.jsr330.instance.TypeContainer.getMethodInformation()
-     *
-     * @param resultType
-     * @return
      */
-    private <T> List<InjectionSet<? super T>> getMethods(final Key<T> key, final Set<Key<?>> chain) {
+    @SuppressWarnings("unchecked")
+    private <T> List<InjectionSet<? super T>> getInjectionSets(final Key<T> key, final Set<Key<?>> chain) {
         final List<Class<?>> types = getTypeList(key.getType());
         final Map<String, Method> map = new HashMap<>();
         final Map<Class<?>, List<Method>> typeMethods = new HashMap<>();
-        final List<Method> toRemove = new ArrayList<Method>();
+        final List<Method> toRemove = new ArrayList<>();
         Method oldMethod;
 
         for (final Class<?> type : types) {
@@ -319,7 +320,7 @@ public class MinijaxInjector {
             methodProviders.add(new MethodProvider(method, getParamProviders(key, method, chain)));
         }
 
-        return new InjectionSet<T2>(type, null, fieldProviders, staticMethodProviders, methodProviders);
+        return new InjectionSet<>(type, null, fieldProviders, staticMethodProviders, methodProviders);
     }
 
     private static List<Class<?>> getTypeList(final Class<?> type) {
@@ -355,14 +356,9 @@ public class MinijaxInjector {
 
 
     private static String getPackageName(final Method method) {
-        String name;
-        final int index = (name = method.getDeclaringClass().getName()).lastIndexOf('.');
-
-        if (index == -1) {
-            return "";
-        } else {
-            return name.substring(0, index);
-        }
+        final String name = method.getDeclaringClass().getName();
+        final int index = name.lastIndexOf('.');
+        return index == -1 ? "" : name.substring(0, index);
     }
 
     /**

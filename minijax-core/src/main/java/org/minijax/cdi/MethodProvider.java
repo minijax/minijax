@@ -17,6 +17,7 @@ public class MethodProvider {
         return method;
     }
 
+    @SuppressWarnings("squid:S1452")
     public Provider<?>[] getParamProviders() {
         return paramProviders;
     }
