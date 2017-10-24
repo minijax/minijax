@@ -1,18 +1,20 @@
 package org.minijax.cdi;
 
-public class InjectionSet {
-    private final Class<?> type;
-    private final FieldProvider<?>[] staticFieldProviders;
-    private final FieldProvider<?>[] fieldProviders;
-    private final MethodProvider[] staticMethodProviders;
-    private final MethodProvider[] methodProviders;
+import java.util.List;
+
+public class InjectionSet<T> {
+    private final Class<T> type;
+    private final List<FieldProvider<?>> staticFieldProviders;
+    private final List<FieldProvider<?>> fieldProviders;
+    private final List<MethodProvider> staticMethodProviders;
+    private final List<MethodProvider> methodProviders;
 
     public InjectionSet(
-            final Class<?> type,
-            final FieldProvider<?>[] staticFieldProviders,
-            final FieldProvider<?>[] fieldProviders,
-            final MethodProvider[] staticMethodProviders,
-            final MethodProvider[] methodProviders) {
+            final Class<T> type,
+            final List<FieldProvider<?>> staticFieldProviders,
+            final List<FieldProvider<?>> fieldProviders,
+            final List<MethodProvider> staticMethodProviders,
+            final List<MethodProvider> methodProviders) {
 
         this.type = type;
         this.staticFieldProviders = staticFieldProviders;
@@ -21,23 +23,23 @@ public class InjectionSet {
         this.methodProviders = methodProviders;
     }
 
-    public Class<?> getType() {
+    public Class<T> getType() {
         return type;
     }
 
-    public FieldProvider<?>[] getStaticFieldProviders() {
+    public List<FieldProvider<?>> getStaticFieldProviders() {
         return staticFieldProviders;
     }
 
-    public FieldProvider<?>[] getFieldProviders() {
+    public List<FieldProvider<?>> getFieldProviders() {
         return fieldProviders;
     }
 
-    public MethodProvider[] getStaticMethodProviders() {
+    public List<MethodProvider> getStaticMethodProviders() {
         return staticMethodProviders;
     }
 
-    public MethodProvider[] getMethodProviders() {
+    public List<MethodProvider> getMethodProviders() {
         return methodProviders;
     }
 }

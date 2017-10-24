@@ -155,7 +155,7 @@ public class Key<T> {
             final Class<? extends Annotation> annType = annotation.annotationType();
 
             if (annType == Context.class) {
-                processContextAnnotation((Context) annotation);
+                setStrategy(Strategy.CONTEXT);
 
             } else if (annType == CookieParam.class) {
                 processCookieParamAnnotation((CookieParam) annotation);
@@ -181,10 +181,6 @@ public class Key<T> {
             } else if (annType.isAnnotationPresent(Qualifier.class)) {
                 processQualifierAnnotation(annType);
             }
-        }
-
-        private void processContextAnnotation(final Context context) {
-            setStrategy(Strategy.CONTEXT);
         }
 
         private void processCookieParamAnnotation(final CookieParam cookieParam) {

@@ -1,18 +1,19 @@
 package org.minijax.cdi;
 
 import java.lang.reflect.Constructor;
+import java.util.List;
 
 import javax.inject.Provider;
 
 public class ConstructorProvider<T> implements Provider<T> {
     private final Constructor<T> ctor;
     private final Provider<?>[] paramProviders;
-    private final InjectionSet[] injectionSets;
+    private final List<InjectionSet<? super T>> injectionSets;
 
     public ConstructorProvider(
             final Constructor<T> ctor,
             final Provider<?>[] paramProviders,
-            final InjectionSet[] injectionSets) {
+            final List<InjectionSet<? super T>> injectionSets) {
 
         this.ctor = ctor;
         this.paramProviders = paramProviders;
@@ -24,7 +25,7 @@ public class ConstructorProvider<T> implements Provider<T> {
         try {
             final T result = ctor.newInstance(getParams(paramProviders));
 
-            for (final InjectionSet injectionSet : injectionSets) {
+            for (final InjectionSet<?> injectionSet : injectionSets) {
                 for (final FieldProvider<?> fieldProvider : injectionSet.getFieldProviders()) {
                     fieldProvider.getField().set(result, fieldProvider.getProvider().get());
                 }

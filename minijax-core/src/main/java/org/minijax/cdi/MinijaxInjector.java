@@ -112,7 +112,7 @@ public class MinijaxInjector {
     private <T> Provider<T> buildConstructorProvider(final Key<T> key, final Set<Key<?>> chain) {
         final Constructor<T> constructor = getConstructor(key);
         final Provider<?>[] paramProviders = getParamProviders(key, constructor, chain);
-        final InjectionSet[] injectionSets = getMethods(key, chain);
+        final List<InjectionSet<? super T>> injectionSets = getMethods(key, chain);
         return new ConstructorProvider<>(constructor, paramProviders, injectionSets);
     }
 
@@ -187,12 +187,11 @@ public class MinijaxInjector {
     }
 
 
-    private FieldProvider<?>[] getFieldProviders(final Key<?> key, final Class<?> target, final Set<Key<?>> chain) {
+    private <T1, T2> List<FieldProvider<?>> getFieldProviders(final Key<T1> key, final Class<T2> target, final Set<Key<?>> chain) {
         final Set<Field> fields = getFields(target);
-        final FieldProvider<?>[] result = new FieldProvider<?>[fields.size()];
-        int i = 0;
+        final List<FieldProvider<?>> result = new ArrayList<>(fields.size());
         for (final Field field : fields) {
-            result[i++] = new FieldProvider<>(field, getParamProvider(key, field.getType(), field.getGenericType(), field.getAnnotations(), chain));
+            result.add(new FieldProvider<>(field, getParamProvider(key, field.getType(), field.getGenericType(), field.getAnnotations(), chain)));
         }
         return result;
     }
@@ -240,7 +239,7 @@ public class MinijaxInjector {
      * @param resultType
      * @return
      */
-    private InjectionSet[] getMethods(final Key<?> key, final Set<Key<?>> chain) {
+    private <T> List<InjectionSet<? super T>> getMethods(final Key<T> key, final Set<Key<?>> chain) {
         final List<Class<?>> types = getTypeList(key.getType());
         final Map<String, Method> map = new HashMap<>();
         final Map<Class<?>, List<Method>> typeMethods = new HashMap<>();
@@ -281,41 +280,46 @@ public class MinijaxInjector {
             typeMethods.put(type, methods);
         }
 
-        final InjectionSet[] result = new InjectionSet[types.size()];
-        int i = 0;
-
+        final List<InjectionSet<? super T>> result = new ArrayList<>(types.size());
         for (final Class<?> type : types) {
-            final List<Method> staticMethods = new ArrayList<>();
-            final List<Method> methods = new ArrayList<>();
+            result.add((InjectionSet<? super T>) buildInjectionSet(key, chain, type, typeMethods, toRemove));
+        }
+        return result;
+    }
 
-            for (final Method method : typeMethods.get(type)) {
-                if (!toRemove.contains(method)) {
-                    if (Modifier.isStatic(method.getModifiers())) {
-                        staticMethods.add(method);
-                    } else {
-                        methods.add(method);
-                    }
+    private <T1, T2> InjectionSet<T2> buildInjectionSet(
+            final Key<T1> key,
+            final Set<Key<?>> chain,
+            final Class<T2> type,
+            final Map<Class<?>, List<Method>> typeMethods,
+            final List<Method> toRemove) {
+
+        final List<Method> staticMethods = new ArrayList<>();
+        final List<Method> methods = new ArrayList<>();
+
+        for (final Method method : typeMethods.get(type)) {
+            if (!toRemove.contains(method)) {
+                if (Modifier.isStatic(method.getModifiers())) {
+                    staticMethods.add(method);
+                } else {
+                    methods.add(method);
                 }
             }
-
-            final FieldProvider<?>[] fieldProviders = getFieldProviders(key, type, chain);
-
-            final MethodProvider[] staticMethodProviders = new MethodProvider[staticMethods.size()];
-            int j = 0;
-            for (final Method method : staticMethods) {
-                staticMethodProviders[j++] = new MethodProvider(method, getParamProviders(key, method, chain));
-            }
-
-            final MethodProvider[] methodProviders = new MethodProvider[methods.size()];
-            j = 0;
-            for (final Method method : methods) {
-                methodProviders[j++] = new MethodProvider(method, getParamProviders(key, method, chain));
-            }
-
-            result[i++] = new InjectionSet(type, null, fieldProviders, staticMethodProviders, methodProviders);
         }
 
-        return result;
+        final List<FieldProvider<?>> fieldProviders = getFieldProviders(key, type, chain);
+
+        final List<MethodProvider> staticMethodProviders = new ArrayList<>();
+        for (final Method method : staticMethods) {
+            staticMethodProviders.add(new MethodProvider(method, getParamProviders(key, method, chain)));
+        }
+
+        final List<MethodProvider> methodProviders = new ArrayList<>();
+        for (final Method method : methods) {
+            methodProviders.add(new MethodProvider(method, getParamProviders(key, method, chain)));
+        }
+
+        return new InjectionSet<T2>(type, null, fieldProviders, staticMethodProviders, methodProviders);
     }
 
     private static List<Class<?>> getTypeList(final Class<?> type) {
