@@ -29,13 +29,16 @@ import javax.inject.Singleton;
 public class MinijaxInjector {
     private final Map<Key<?>, Provider<?>> providers = new ConcurrentHashMap<>();
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public void register(final Class<?> contract, final Object instance) {
-        providers.put(Key.of(contract), new SingletonProvider(instance));
+    public void register(final Object instance, final Class<?> contract) {
+        providers.put(Key.of(contract), new SingletonProvider<>(instance));
     }
 
-    public void register(final Class<?> c, final Class<?> contract) {
-        providers.put(Key.of(contract), buildProvider(Key.of(c), null));
+    public void register(final Class<?> component, final Class<?> contract) {
+        providers.put(Key.of(contract), buildProvider(Key.of(component), null));
+    }
+
+    public void register(final Class<?> component, final Key<?> contract) {
+        providers.put(contract, buildProvider(Key.of(component), null));
     }
 
     public <T> T get(final Class<T> c) {

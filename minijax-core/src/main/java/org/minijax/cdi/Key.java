@@ -16,14 +16,14 @@ import javax.ws.rs.core.Context;
 public class Key<T> {
     private final Class<T> type;
     private final Strategy strategy;
-    private final Annotation qualifier;
+    private final Class<? extends Annotation> qualifier;
     private final String name;
     private final DefaultValue defaultValue;
 
     private Key(
             final Class<T> type,
             final Strategy strategy,
-            final Annotation qualifier,
+            final Class<? extends Annotation> qualifier,
             final String name,
             final DefaultValue defaultValue) {
 
@@ -95,36 +95,60 @@ public class Key<T> {
 
 
     public static <T> Key<T> of(final Class<T> type) {
-        return new Key<>(type, Strategy.DEFAULT, null, null, null);
+        return new Builder<>(type).build();
     }
 
 
     public static <T> Key<T> of(final Class<T> type, final Annotation[] annotations) {
-        return new Builder<>(type, annotations).build();
+        return new Builder<>(type).processAnnotations(annotations).build();
+    }
+
+
+    public static <T> Key<T> of(final Class<T> type, final Class<? extends Annotation> qualifier) {
+        return new Builder<>(type).withQualifier(qualifier).build();
+    }
+
+
+    public static <T> Key<T> of(final Class<T> type, final String name) {
+        return new Builder<>(type).withName(name).build();
     }
 
 
     private static class Builder<T> {
         private final Class<T> type;
-        private final Annotation[] annotations;
         private Strategy strategy;
-        private Annotation qualifier;
+        private Class<? extends Annotation> qualifier;
         private String name;
         private DefaultValue defaultValue;
 
-        public Builder(final Class<T> type, final Annotation[] annotations) {
+        public Builder(final Class<T> type) {
             this.type = type;
-            this.annotations = annotations;
         }
 
         public Key<T> build() {
-            for (final Annotation annotation : annotations) {
-                processAnnotation(annotation);
-            }
             if (strategy == null) {
                 strategy = Strategy.DEFAULT;
             }
             return new Key<>(type, strategy, qualifier, name, defaultValue);
+        }
+
+        public Builder<T> processAnnotations(final Annotation[] annotations) {
+            for (final Annotation annotation : annotations) {
+                processAnnotation(annotation);
+            }
+            return this;
+        }
+
+        public Builder<T> withQualifier(final Class<? extends Annotation> annotationClass) {
+            processQualifierAnnotation(annotationClass);
+            return this;
+        }
+
+        public Builder<T> withName(final String name) {
+            setStrategy(Strategy.DEFAULT);
+            setQualifier(Named.class);
+            setName(name);
+            return this;
         }
 
         private void processAnnotation(final Annotation annotation) {
@@ -142,6 +166,9 @@ public class Key<T> {
             } else if (annType == HeaderParam.class) {
                 processHeaderParamAnnotation((HeaderParam) annotation);
 
+            } else if (annType == Named.class) {
+                processNamedAnnotation((Named) annotation);
+
             } else if (annType == PathParam.class) {
                 processPathParamAnnotation((PathParam) annotation);
 
@@ -152,50 +179,48 @@ public class Key<T> {
                 defaultValue = (DefaultValue) annotation;
 
             } else if (annType.isAnnotationPresent(Qualifier.class)) {
-                processQualifierAnnotation(annotation);
+                processQualifierAnnotation(annType);
             }
         }
 
         private void processContextAnnotation(final Context context) {
             setStrategy(Strategy.CONTEXT);
-            setQualifier(context);
         }
 
         private void processCookieParamAnnotation(final CookieParam cookieParam) {
             setStrategy(Strategy.COOKIE);
-            setQualifier(cookieParam);
             setName(cookieParam.value());
         }
 
         private void processFormParamAnnotation(final FormParam formParam) {
             setStrategy(Strategy.FORM);
-            setQualifier(formParam);
             setName(formParam.value());
         }
 
         private void processHeaderParamAnnotation(final HeaderParam headerParam) {
             setStrategy(Strategy.HEADER);
-            setQualifier(headerParam);
             setName(headerParam.value());
+        }
+
+        private void processNamedAnnotation(final Named namedAnnotation) {
+            setStrategy(Strategy.DEFAULT);
+            setQualifier(Named.class);
+            setName(namedAnnotation.value());
         }
 
         private void processPathParamAnnotation(final PathParam pathParam) {
             setStrategy(Strategy.PATH);
-            setQualifier(pathParam);
             setName(pathParam.value());
         }
 
         private void processQueryParamAnnotation(final QueryParam queryParam) {
             setStrategy(Strategy.QUERY);
-            setQualifier(queryParam);
             setName(queryParam.value());
         }
 
-        private void processQualifierAnnotation(final Annotation qualifierAnnotation) {
+        private void processQualifierAnnotation(final Class<? extends Annotation> qualifierAnnotation) {
+            setStrategy(Strategy.DEFAULT);
             setQualifier(qualifierAnnotation);
-            if (qualifierAnnotation instanceof Named) {
-                setName(((Named) qualifierAnnotation).value());
-            }
         }
 
         private void setStrategy(final Strategy strategy) {
@@ -205,7 +230,7 @@ public class Key<T> {
             this.strategy = strategy;
         }
 
-        private void setQualifier(final Annotation qualifier) {
+        private void setQualifier(final Class<? extends Annotation> qualifier) {
             if (this.qualifier != null) {
                 throw new InjectException("Multiple injection qualifiers");
             }

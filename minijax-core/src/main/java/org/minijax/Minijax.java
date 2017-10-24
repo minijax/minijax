@@ -107,7 +107,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
     @Override
     public Minijax register(final Object component, final Class<?>... contracts) {
         for (final Class<?> contract : contracts) {
-            injector.register(contract, component);
+            injector.register(component, contract);
         }
         return this;
     }
