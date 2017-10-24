@@ -1,6 +1,7 @@
 package com.example.model;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
@@ -12,6 +13,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.minijax.entity.BaseEntity;
 
 @Entity
@@ -29,6 +32,18 @@ public class Owner extends BaseEntity {
 
     @OneToMany(mappedBy = "owner")
     private List<Pet> pets;
+
+    public Owner() {
+        // For JPA and Jackson
+    }
+
+    public Owner(final UUID id, final String name, final String address, final String city, final String telephone) {
+        super(id);
+        this.name = name;
+        this.address = address;
+        this.city = city;
+        this.telephone = telephone;
+    }
 
     public String getName() {
         return name;
@@ -73,5 +88,14 @@ public class Owner extends BaseEntity {
     public String getUrl() {
         return "/owners/" + getId();
     }
-}
 
+    @Override
+    public boolean equals(final Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
+}
