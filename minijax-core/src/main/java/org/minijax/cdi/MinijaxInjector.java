@@ -2,10 +2,13 @@ package org.minijax.cdi;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -29,6 +32,10 @@ public class MinijaxInjector {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public void register(final Class<?> contract, final Object instance) {
         providers.put(Key.of(contract), new SingletonProvider(instance));
+    }
+
+    public void register(final Class<?> c, final Class<?> contract) {
+        providers.put(Key.of(contract), buildProvider(Key.of(c), null));
     }
 
     public <T> T get(final Class<T> c) {
@@ -98,17 +105,10 @@ public class MinijaxInjector {
 
     private <T> Provider<T> buildConstructorProvider(final Key<T> key, final Set<Key<?>> chain) {
         final Constructor<T> constructor = getConstructor(key);
-
-        final Provider<?>[] paramProviders = getParamProviders(
-                key,
-                constructor.getParameterTypes(),
-                constructor.getGenericParameterTypes(),
-                constructor.getParameterAnnotations(),
-                chain);
-
+        final Provider<?>[] paramProviders = getParamProviders(key, constructor, chain);
         final FieldProvider<?>[] fieldProviders = getFieldProviders(key, chain);
-
-        return new ConstructorProvider<>(constructor, paramProviders, fieldProviders);
+        final MethodProvider[] methodProviders = getMethodProviders(key, chain);
+        return new ConstructorProvider<>(constructor, paramProviders, fieldProviders, methodProviders);
     }
 
 
@@ -145,55 +145,52 @@ public class MinijaxInjector {
     }
 
 
-    private Provider<?>[] getParamProviders(
-            final Key<?> key,
-            final Class<?>[] parameterClasses,
-            final Type[] parameterTypes,
-            final Annotation[][] annotations,
-            final Set<Key<?>> chain) {
-
-        final Provider<?>[] result = new Provider<?>[parameterTypes.length];
-        for (int i = 0; i < parameterTypes.length; ++i) {
-            final Class<?> parameterClass = parameterClasses[i];
-            final Annotation[] parameterAnnotations = annotations[i];
-            final Class<?> providerType = Provider.class.equals(parameterClass) ?
-                    (Class<?>) ((ParameterizedType) parameterTypes[i]).getActualTypeArguments()[0] :
-                    null;
-            if (providerType == null) {
-                final Key<?> newKey = Key.of(parameterClass, parameterAnnotations);
-                final Set<Key<?>> newChain = append(chain, key);
-                if (newChain.contains(newKey)) {
-                    throw new InjectException(String.format("Circular dependency: %s", chain(newChain, newKey)));
-                }
-                result[i] = getProvider(newKey, newChain);
-            } else {
-                final Key<?> newKey = Key.of(providerType, parameterAnnotations);
-                result[i] = () -> getProvider(newKey, null);
-            }
+    private Provider<?>[] getParamProviders(final Key<?> key, final Executable executable, final Set<Key<?>> chain) {
+        final Class<?>[] paramClasses = executable.getParameterTypes();
+        final Type[] paramTypes = executable.getGenericParameterTypes();
+        final Annotation[][] annotations = executable.getParameterAnnotations();
+        final Provider<?>[] result = new Provider<?>[paramTypes.length];
+        for (int i = 0; i < paramTypes.length; ++i) {
+            result[i] = getParamProvider(key, paramClasses[i], paramTypes[i], annotations[i], chain);
         }
         return result;
     }
 
 
+    private Provider<?> getParamProvider(
+            final Key<?> key,
+            final Class<?> parameterClass,
+            final Type paramType,
+            final Annotation[] paramAnnotations,
+            final Set<Key<?>> chain) {
 
-    private FieldProvider<?>[] getFieldProviders(final Key<?> key, final Set<Key<?>> chain) {
-        final Class<?> target = key.getType();
-        final Set<Field> fields = getFields(target);
-        final FieldProvider<?>[] fs = new FieldProvider<?>[fields.size()];
-        int i = 0;
-        for (final Field f : fields) {
-            final Class<?> fieldType = f.getType();
-            final Class<?> providerType = fieldType.equals(Provider.class) ?
-                    (Class<?>) ((ParameterizedType) f.getGenericType()).getActualTypeArguments()[0] :
-                    fieldType;
-            final Key<?> newKey = Key.of(providerType, f.getAnnotations());
+        final Class<?> providerType = Provider.class.equals(parameterClass)
+                ? (Class<?>) ((ParameterizedType) paramType).getActualTypeArguments()[0]
+                : null;
+
+        if (providerType == null) {
+            final Key<?> newKey = Key.of(parameterClass, paramAnnotations);
             final Set<Key<?>> newChain = append(chain, key);
             if (newChain.contains(newKey)) {
                 throw new InjectException(String.format("Circular dependency: %s", chain(newChain, newKey)));
             }
-            fs[i++] = new FieldProvider<>(f, getProvider(newKey, newChain));
+            return getProvider(newKey, newChain);
+        } else {
+            final Key<?> newKey = Key.of(providerType, paramAnnotations);
+            return () -> getProvider(newKey, null);
         }
-        return fs;
+    }
+
+
+    private FieldProvider<?>[] getFieldProviders(final Key<?> key, final Set<Key<?>> chain) {
+        final Class<?> target = key.getType();
+        final Set<Field> fields = getFields(target);
+        final FieldProvider<?>[] result = new FieldProvider<?>[fields.size()];
+        int i = 0;
+        for (final Field field : fields) {
+            result[i++] = new FieldProvider<>(field, getParamProvider(key, field.getType(), field.getGenericType(), field.getAnnotations(), chain));
+        }
+        return result;
     }
 
 
@@ -229,6 +226,46 @@ public class MinijaxInjector {
         return false;
     }
 
+
+    private MethodProvider[] getMethodProviders(final Key<?> key, final Set<Key<?>> chain) {
+        final Class<?> target = key.getType();
+        final Set<Method> methods = getMethods(target);
+        final MethodProvider[] result = new MethodProvider[methods.size()];
+        int i = 0;
+        for (final Method method : methods) {
+            result[i++] = new MethodProvider(method, getParamProviders(key, method, chain));
+        }
+        return result;
+    }
+
+
+    private static Set<Method> getMethods(final Class<?> type) {
+        Class<?> current = type;
+        final Set<Method> methods = new HashSet<>();
+        while (!current.equals(Object.class)) {
+            for (final Method method : current.getDeclaredMethods()) {
+                if (method.isAnnotationPresent(Inject.class) && !isMethodOverridden(methods, method)) {
+                    method.setAccessible(true);
+                    methods.add(method);
+                }
+            }
+            current = current.getSuperclass();
+        }
+        return methods;
+    }
+
+
+    private static boolean isMethodOverridden(final Set<Method> existingMethods, final Method candidateMethod) {
+        for (final Method existingMethod : existingMethods) {
+            if (existingMethod.getName().equals(candidateMethod.getName()) &&
+                    Arrays.equals(existingMethod.getParameterTypes(), candidateMethod.getParameterTypes())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     private static Set<Key<?>> append(final Set<Key<?>> set, final Key<?> newKey) {
         if (set != null && !set.isEmpty()) {
             final Set<Key<?>> appended = new LinkedHashSet<>(set);
@@ -242,7 +279,7 @@ public class MinijaxInjector {
     private static String chain(final Set<Key<?>> chain, final Key<?> lastKey) {
         final StringBuilder chainString = new StringBuilder();
         for (final Key<?> key : chain) {
-            chainString.append(key.toString()).append(" -> ");
+            chainString.append(key.toString()).append(" -> \n");
         }
         return chainString.append(lastKey.toString()).toString();
     }

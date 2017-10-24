@@ -8,29 +8,30 @@ public class ConstructorProvider<T> implements Provider<T> {
     private final Constructor<T> ctor;
     private final Provider<?>[] paramProviders;
     private final FieldProvider<?>[] fieldProviders;
+    private final MethodProvider[] methodProviders;
 
     public ConstructorProvider(
             final Constructor<T> ctor,
             final Provider<?>[] paramProviders,
-            final FieldProvider<?>[] fieldProviders) {
+            final FieldProvider<?>[] fieldProviders,
+            final MethodProvider[] methodProviders) {
         this.ctor = ctor;
         this.paramProviders = paramProviders;
         this.fieldProviders = fieldProviders;
+        this.methodProviders = methodProviders;
     }
 
     @Override
     public T get() {
         try {
-            final T result = ctor.newInstance(getParams());
+            final T result = ctor.newInstance(getParams(paramProviders));
 
             for (final FieldProvider<?> fieldProvider : fieldProviders) {
-                final Object value;
-                if (fieldProvider.isInjectProvider()) {
-                    value = fieldProvider.getProvider();
-                } else {
-                    value = fieldProvider.getProvider().get();
-                }
-                fieldProvider.getField().set(result, value);
+                fieldProvider.getField().set(result, fieldProvider.getProvider().get());
+            }
+
+            for (final MethodProvider methodProvider : methodProviders) {
+                methodProvider.getMethod().invoke(result, getParams(methodProvider.getParamProviders()));
             }
 
             return result;
@@ -40,10 +41,10 @@ public class ConstructorProvider<T> implements Provider<T> {
         }
     }
 
-    private Object[] getParams() {
-        final Object[] params = new Object[paramProviders.length];
-        for (int i = 0; i < paramProviders.length; ++i) {
-            params[i] = paramProviders[i].get();
+    private Object[] getParams(final Provider<?>[] providers) {
+        final Object[] params = new Object[providers.length];
+        for (int i = 0; i < providers.length; ++i) {
+            params[i] = providers[i].get();
         }
         return params;
     }

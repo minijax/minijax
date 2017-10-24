@@ -7,12 +7,10 @@ import javax.inject.Provider;
 public class FieldProvider<T> {
     private final Field field;
     private final Provider<T> provider;
-    private final boolean injectProvider;
 
     public FieldProvider(final Field field, final Provider<T> provider) {
         this.field = field;
         this.provider = provider;
-        injectProvider = field.getType() == Provider.class;
     }
 
     public Field getField() {
@@ -21,9 +19,5 @@ public class FieldProvider<T> {
 
     public Provider<T> getProvider() {
         return provider;
-    }
-
-    public boolean isInjectProvider() {
-        return injectProvider;
     }
 }
