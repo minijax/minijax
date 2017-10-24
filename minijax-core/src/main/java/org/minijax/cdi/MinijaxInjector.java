@@ -8,10 +8,13 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -109,9 +112,8 @@ public class MinijaxInjector {
     private <T> Provider<T> buildConstructorProvider(final Key<T> key, final Set<Key<?>> chain) {
         final Constructor<T> constructor = getConstructor(key);
         final Provider<?>[] paramProviders = getParamProviders(key, constructor, chain);
-        final FieldProvider<?>[] fieldProviders = getFieldProviders(key, chain);
-        final MethodProvider[] methodProviders = getMethodProviders(key, chain);
-        return new ConstructorProvider<>(constructor, paramProviders, fieldProviders, methodProviders);
+        final InjectionSet[] injectionSets = getMethods(key, chain);
+        return new ConstructorProvider<>(constructor, paramProviders, injectionSets);
     }
 
 
@@ -185,8 +187,7 @@ public class MinijaxInjector {
     }
 
 
-    private FieldProvider<?>[] getFieldProviders(final Key<?> key, final Set<Key<?>> chain) {
-        final Class<?> target = key.getType();
+    private FieldProvider<?>[] getFieldProviders(final Key<?> key, final Class<?> target, final Set<Key<?>> chain) {
         final Set<Field> fields = getFields(target);
         final FieldProvider<?>[] result = new FieldProvider<?>[fields.size()];
         int i = 0;
@@ -198,16 +199,12 @@ public class MinijaxInjector {
 
 
     private static Set<Field> getFields(final Class<?> type) {
-        Class<?> current = type;
         final Set<Field> fields = new HashSet<>();
-        while (!current.equals(Object.class)) {
-            for (final Field field : current.getDeclaredFields()) {
-                if (isInjectedField(field)) {
-                    field.setAccessible(true);
-                    fields.add(field);
-                }
+        for (final Field field : type.getDeclaredFields()) {
+            if (isInjectedField(field)) {
+                field.setAccessible(true);
+                fields.add(field);
             }
-            current = current.getSuperclass();
         }
         return fields;
     }
@@ -230,44 +227,109 @@ public class MinijaxInjector {
     }
 
 
-    private MethodProvider[] getMethodProviders(final Key<?> key, final Set<Key<?>> chain) {
-        final Class<?> target = key.getType();
-        final Set<Method> methods = getMethods(target);
-        final MethodProvider[] result = new MethodProvider[methods.size()];
-        int i = 0;
-        for (final Method method : methods) {
-            result[i++] = new MethodProvider(method, getParamProviders(key, method, chain));
-        }
-        return result;
-    }
+    /**
+     * Builds the list of injection methods for a class.
+     *
+     * JSR 330 compliance is extremely sensitive to the order of the results of this method.
+     *
+     * See here for an excellent reference implementation:
+     *
+     * https://github.com/rstiller/JSR-330
+     * void com.github.jsr330.instance.TypeContainer.getMethodInformation()
+     *
+     * @param resultType
+     * @return
+     */
+    private InjectionSet[] getMethods(final Key<?> key, final Set<Key<?>> chain) {
+        final List<Class<?>> types = getTypeList(key.getType());
+        final Map<String, Method> map = new HashMap<>();
+        final Map<Class<?>, List<Method>> typeMethods = new HashMap<>();
+        final List<Method> toRemove = new ArrayList<Method>();
+        Method oldMethod;
 
+        for (final Class<?> type : types) {
+            final List<Method> methods = new ArrayList<>();
 
-    private static Set<Method> getMethods(final Class<?> type) {
-        Class<?> current = type;
-        final Set<Method> methods = new HashSet<>();
-        while (!current.equals(Object.class)) {
-            for (final Method method : current.getDeclaredMethods()) {
-                if (method.isAnnotationPresent(Inject.class) && !isMethodOverridden(methods, method)) {
-                    method.setAccessible(true);
+            for (final Method method : type.getDeclaredMethods()) {
+                final boolean candidate = method.isAnnotationPresent(Inject.class) && !Modifier.isAbstract(method.getModifiers());
+                final String shortKey = method.getReturnType().toString() + " " + method.getName() + " " + Arrays.toString(method.getParameterTypes());
+                final String packageKey = getPackageName(method) + " " + shortKey;
+
+                if (map.containsKey(packageKey) && (oldMethod = map.get(packageKey)) != null) {
+                    final int mod = oldMethod.getModifiers();
+                    if (!(Modifier.isPrivate(mod) || Modifier.isStatic(mod) || mod == 0) || isSamePackage(oldMethod, method)) {
+                        toRemove.add(map.get(packageKey));
+                    }
+                } else if (map.containsKey(shortKey) && (oldMethod = map.get(shortKey)) != null) {
+                    final int mod = oldMethod.getModifiers();
+                    if (Modifier.isPublic(mod) || Modifier.isProtected(mod)) {
+                        toRemove.add(map.get(shortKey));
+                    }
+                }
+
+                if (candidate) {
+                    if (!method.isAccessible()) {
+                        method.setAccessible(true);
+                    }
+
+                    map.put(packageKey, method);
+                    map.put(shortKey, method);
                     methods.add(method);
                 }
             }
+
+            typeMethods.put(type, methods);
+        }
+
+        final InjectionSet[] result = new InjectionSet[types.size()];
+        int i = 0;
+
+        for (final Class<?> type : types) {
+            final List<Method> staticMethods = new ArrayList<>();
+            final List<Method> methods = new ArrayList<>();
+
+            for (final Method method : typeMethods.get(type)) {
+                if (!toRemove.contains(method)) {
+                    if (Modifier.isStatic(method.getModifiers())) {
+                        staticMethods.add(method);
+                    } else {
+                        methods.add(method);
+                    }
+                }
+            }
+
+            final FieldProvider<?>[] fieldProviders = getFieldProviders(key, type, chain);
+
+            final MethodProvider[] staticMethodProviders = new MethodProvider[staticMethods.size()];
+            int j = 0;
+            for (final Method method : staticMethods) {
+                staticMethodProviders[j++] = new MethodProvider(method, getParamProviders(key, method, chain));
+            }
+
+            final MethodProvider[] methodProviders = new MethodProvider[methods.size()];
+            j = 0;
+            for (final Method method : methods) {
+                methodProviders[j++] = new MethodProvider(method, getParamProviders(key, method, chain));
+            }
+
+            result[i++] = new InjectionSet(type, null, fieldProviders, staticMethodProviders, methodProviders);
+        }
+
+        return result;
+    }
+
+    private static List<Class<?>> getTypeList(final Class<?> type) {
+        final List<Class<?>> types = new ArrayList<>();
+
+        Class<?> current = type;
+        while (current != Object.class) {
+            types.add(current);
             current = current.getSuperclass();
         }
-        return methods;
+
+        Collections.reverse(types);
+        return types;
     }
-
-
-    private static boolean isMethodOverridden(final Set<Method> existingMethods, final Method candidateMethod) {
-        for (final Method existingMethod : existingMethods) {
-            if (existingMethod.getName().equals(candidateMethod.getName()) &&
-                    Arrays.equals(existingMethod.getParameterTypes(), candidateMethod.getParameterTypes())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     private static Set<Key<?>> append(final Set<Key<?>> set, final Key<?> newKey) {
         if (set != null && !set.isEmpty()) {
@@ -285,5 +347,25 @@ public class MinijaxInjector {
             chainString.append(key.toString()).append(" -> \n");
         }
         return chainString.append(lastKey.toString()).toString();
+    }
+
+
+    private static String getPackageName(final Method method) {
+        String name;
+        final int index = (name = method.getDeclaringClass().getName()).lastIndexOf('.');
+
+        if (index == -1) {
+            return "";
+        } else {
+            return name.substring(0, index);
+        }
+    }
+
+    /**
+     * Indicates if the two method are in the same package (not necessarily code base).
+     * This is to avoid the removal of methods that are package private and not overridden by same-named methods in different-packaged subclasses.
+     */
+    private static boolean isSamePackage(final Method oldMethod, final Method method) {
+        return oldMethod.getDeclaringClass().getPackage().equals(method.getDeclaringClass().getPackage());
     }
 }

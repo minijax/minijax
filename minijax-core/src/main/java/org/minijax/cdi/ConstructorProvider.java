@@ -7,18 +7,16 @@ import javax.inject.Provider;
 public class ConstructorProvider<T> implements Provider<T> {
     private final Constructor<T> ctor;
     private final Provider<?>[] paramProviders;
-    private final FieldProvider<?>[] fieldProviders;
-    private final MethodProvider[] methodProviders;
+    private final InjectionSet[] injectionSets;
 
     public ConstructorProvider(
             final Constructor<T> ctor,
             final Provider<?>[] paramProviders,
-            final FieldProvider<?>[] fieldProviders,
-            final MethodProvider[] methodProviders) {
+            final InjectionSet[] injectionSets) {
+
         this.ctor = ctor;
         this.paramProviders = paramProviders;
-        this.fieldProviders = fieldProviders;
-        this.methodProviders = methodProviders;
+        this.injectionSets = injectionSets;
     }
 
     @Override
@@ -26,12 +24,14 @@ public class ConstructorProvider<T> implements Provider<T> {
         try {
             final T result = ctor.newInstance(getParams(paramProviders));
 
-            for (final FieldProvider<?> fieldProvider : fieldProviders) {
-                fieldProvider.getField().set(result, fieldProvider.getProvider().get());
-            }
+            for (final InjectionSet injectionSet : injectionSets) {
+                for (final FieldProvider<?> fieldProvider : injectionSet.getFieldProviders()) {
+                    fieldProvider.getField().set(result, fieldProvider.getProvider().get());
+                }
 
-            for (final MethodProvider methodProvider : methodProviders) {
-                methodProvider.getMethod().invoke(result, getParams(methodProvider.getParamProviders()));
+                for (final MethodProvider methodProvider : injectionSet.getMethodProviders()) {
+                    methodProvider.getMethod().invoke(result, getParams(methodProvider.getParamProviders()));
+                }
             }
 
             return result;
