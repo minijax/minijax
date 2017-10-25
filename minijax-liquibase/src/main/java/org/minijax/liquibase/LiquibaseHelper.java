@@ -14,12 +14,29 @@ import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathException;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.minijax.data.DataProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import liquibase.Contexts;
 import liquibase.LabelExpression;
@@ -275,6 +292,9 @@ public class LiquibaseHelper {
             outputStream.flush();
         }
 
+        LOG.info("Cleaning changelog");
+        removeObjectQuotingStrategy(changeLogFile);
+
         LOG.info("Diff complete");
     }
 
@@ -357,6 +377,40 @@ public class LiquibaseHelper {
             } catch (final Exception ex) {
                 LOG.warn("Error closing database: {}", ex.getMessage(), ex);
             }
+        }
+    }
+
+
+    /**
+     * Removes all "objectQuotingStrategy" attributes.
+     *
+     * @param changeLogFile The changelog file.
+     */
+    public static void removeObjectQuotingStrategy(final File changeLogFile) throws IOException {
+        try {
+            final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setNamespaceAware(true);
+
+            final Document doc = factory.newDocumentBuilder().parse(changeLogFile);
+            final XPathExpression expr = XPathFactory.newInstance().newXPath().compile("//@objectQuotingStrategy");
+            final NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+
+            for (int i = 0; i < nodes.getLength(); i++) {
+                final Attr attr = (Attr) nodes.item(i);
+                if (attr.getNodeName().equals("objectQuotingStrategy")) {
+                    final Element el = attr.getOwnerElement();
+                    el.removeAttribute(attr.getNodeName());
+                }
+            }
+
+            final Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            transformer.transform(new DOMSource(doc), new StreamResult(changeLogFile));
+
+        } catch (final ParserConfigurationException | SAXException | TransformerException | XPathException ex) {
+            throw new IOException(ex.getMessage(), ex);
         }
     }
 }
