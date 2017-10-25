@@ -27,6 +27,7 @@ public class InjectionSet<T> {
         return type;
     }
 
+    @SuppressWarnings("squid:S1452")
     public List<FieldProvider<?>> getStaticFieldProviders() {
         return staticFieldProviders;
     }
@@ -36,7 +37,6 @@ public class InjectionSet<T> {
         return fieldProviders;
     }
 
-    @SuppressWarnings("squid:S1452")
     public List<MethodProvider> getStaticMethodProviders() {
         return staticMethodProviders;
     }
