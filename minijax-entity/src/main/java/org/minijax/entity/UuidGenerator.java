@@ -58,4 +58,19 @@ public class UuidGenerator extends Sequence {
     public boolean shouldUsePreallocation() {
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        return getName().hashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (!super.equals(obj)) {
+            return false;
+        }
+
+        final UuidGenerator other = (UuidGenerator) obj;
+        return getName().equals(other.getName());
+    }
 }
