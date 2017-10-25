@@ -28,7 +28,7 @@ public class TckTest {
     }
 
     public static junit.framework.Test suite() {
-        return Tck.testsFor(getCar(), false, false);
+        return Tck.testsFor(getCar(), false, true);
     }
 
     @Test
