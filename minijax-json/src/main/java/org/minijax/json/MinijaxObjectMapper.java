@@ -8,6 +8,10 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 public class MinijaxObjectMapper {
     private static ObjectMapper instance;
 
+    MinijaxObjectMapper() {
+        throw new UnsupportedOperationException();
+    }
+
     public static ObjectMapper getInstance() {
         if (instance == null) {
             instance = new ObjectMapper();
