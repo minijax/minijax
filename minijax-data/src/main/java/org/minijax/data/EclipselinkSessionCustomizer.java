@@ -35,7 +35,7 @@ public class EclipselinkSessionCustomizer implements SessionCustomizer {
      */
     private static void setupDataSource(final Session session) {
         final DatabaseLogin login = session.getLogin();
-        final Map<Object, Object> props = session.getProperties();
+        final Map<String, Object> props = session.getProperties();
 
         final String url = (String) props.get(DataProperties.URL);
         if (url == null) {

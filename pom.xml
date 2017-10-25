@@ -30,7 +30,7 @@
         </developer>
     </developers>
     <prerequisites>
-        <maven>3.0</maven>
+        <maven>3.5.0</maven>
     </prerequisites>
     <modules>
         <module>minijax-archetype</module>
@@ -60,17 +60,17 @@
     </distributionManagement>
     <properties>
         <commons-lang3.version>3.5</commons-lang3.version>
-        <eclipselink.version>2.6.5</eclipselink.version>
+        <eclipselink.version>2.7.0</eclipselink.version>
         <h2.version>1.4.196</h2.version>
-        <hikaricp.version>2.7.1</hikaricp.version>
-        <jackson.version>2.9.1</jackson.version>
+        <hikaricp.version>2.7.2</hikaricp.version>
+        <jackson.version>2.9.2</jackson.version>
         <jetty.version>9.4.7.v20170914</jetty.version>
         <junit.version>4.12</junit.version>
         <liquibase.version>3.5.3</liquibase.version>
         <logback.version>1.2.3</logback.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <mockito.version>2.10.0</mockito.version>
+        <mockito.version>2.11.0</mockito.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <site.basedir>${session.executionRootDirectory}/src/site/</site.basedir>
         <slf4j.version>1.7.25</slf4j.version>
@@ -116,7 +116,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>2.5</version>
+                <version>3.0.2</version>
                 <executions>
                     <execution>
                         <id>copy-sitedescriptor</id>
@@ -165,7 +165,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.5</version>
+                        <version>1.6</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -179,7 +179,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>2.2.1</version>
+                        <version>3.0.1</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
