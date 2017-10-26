@@ -1,9 +1,8 @@
 
 [![Build status](https://travis-ci.org/minijax/minijax.svg?branch=master)](https://travis-ci.org/minijax/minijax) [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=org.minijax:minijax)](https://sonarcloud.io/dashboard/index/org.minijax:minijax)
 
-<p align="center">
-<img src="https://static.ajibot.com/minijax/minijax-800x200.png" width="400" alt="Minijax" title="Minijax">
-</p>
+Minijax
+=======
 
 Lightweight subset of Java EE standards
 
@@ -44,3 +43,4 @@ public class Hello {
 ```
 
 Learn more at [https://minijax.org](https://minijax.org)
+
