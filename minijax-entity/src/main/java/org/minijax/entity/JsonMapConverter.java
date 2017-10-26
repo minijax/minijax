@@ -32,7 +32,7 @@ public class JsonMapConverter implements AttributeConverter<Map<String, Object>,
     @Override
     @SuppressWarnings("unchecked")
     public Map<String, Object> convertToEntityAttribute(final String str) {
-        if (str == null) {
+        if (str == null || str.isEmpty()) {
             return null;
         }
         try {

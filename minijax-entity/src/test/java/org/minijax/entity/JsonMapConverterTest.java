@@ -18,6 +18,12 @@ public class JsonMapConverterTest {
     }
 
     @Test
+    public void testEmptyString() {
+        final JsonMapConverter c = new JsonMapConverter();
+        assertNull(c.convertToEntityAttribute(""));
+    }
+
+    @Test
     public void testBasic() {
         final JsonMapConverter c = new JsonMapConverter();
 
