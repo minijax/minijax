@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -64,9 +65,21 @@ public class LiquibaseHelperTest {
         assertTrue(getTables(referenceUrl).isEmpty());
         assertFalse(changeLogFile.exists());
 
+        final FileSystemResourceAccessor accessor = new FileSystemResourceAccessor(TEST_RESOURCES.getAbsolutePath()) {
+            @Override
+            protected void init() {
+                try {
+                    addRootPath(TEST_RESOURCES.getAbsoluteFile().toURI().toURL());
+                    addRootPath(changeLogFile.getAbsoluteFile().toURI().toURL());
+                } catch (final MalformedURLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        };
+
         final LiquibaseHelper m = new LiquibaseHelper(
                 props,
-                new FileSystemResourceAccessor("src/test/resources"),
+                accessor,
                 TEST_RESOURCES,
                 changeLogResourceName);
 
