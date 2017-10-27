@@ -1,6 +1,6 @@
 package org.minijax.cdi;
 
-public enum Strategy {
+enum Strategy {
     DEFAULT,
     CONTEXT,
     COOKIE,

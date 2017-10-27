@@ -2,7 +2,7 @@ package org.minijax.cdi;
 
 import javax.inject.Provider;
 
-public class SingletonProvider<T> implements Provider<T> {
+class SingletonProvider<T> implements Provider<T> {
     private final Provider<T> sourceProvider;
     private T instance;
 

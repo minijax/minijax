@@ -4,7 +4,7 @@ import javax.inject.Provider;
 
 import org.minijax.MinijaxRequestContext;
 
-public class RequestScopedProvider<T> implements Provider<T> {
+class RequestScopedProvider<T> implements Provider<T> {
     private final Key<T> key;
     private final Provider<T> sourceProvider;
 

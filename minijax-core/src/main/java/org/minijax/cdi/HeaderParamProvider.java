@@ -4,7 +4,7 @@ import javax.inject.Provider;
 
 import org.minijax.MinijaxRequestContext;
 
-public class HeaderParamProvider<T> implements Provider<T> {
+class HeaderParamProvider<T> implements Provider<T> {
     private final Key<T> key;
 
     public HeaderParamProvider(final Key<T> key) {

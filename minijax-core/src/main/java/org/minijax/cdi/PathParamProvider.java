@@ -4,7 +4,7 @@ import javax.inject.Provider;
 
 import org.minijax.MinijaxRequestContext;
 
-public class PathParamProvider<T> implements Provider<T> {
+class PathParamProvider<T> implements Provider<T> {
     private final Key<T> key;
 
     public PathParamProvider(final Key<T> key) {

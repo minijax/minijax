@@ -12,7 +12,7 @@ import org.minijax.MinijaxRequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ContextProvider<T> implements Provider<T> {
+class ContextProvider<T> implements Provider<T> {
     private static final Logger LOG = LoggerFactory.getLogger(ContextProvider.class);
     private final Key<T> key;
 

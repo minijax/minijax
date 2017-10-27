@@ -9,7 +9,7 @@ import javax.ws.rs.DefaultValue;
 import org.minijax.MinijaxForm;
 import org.minijax.MinijaxRequestContext;
 
-public class FormParamProvider<T> implements Provider<T> {
+class FormParamProvider<T> implements Provider<T> {
     private final Key<T> key;
 
     public FormParamProvider(final Key<T> key) {

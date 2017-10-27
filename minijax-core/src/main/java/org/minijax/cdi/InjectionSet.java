@@ -2,7 +2,7 @@ package org.minijax.cdi;
 
 import java.util.List;
 
-public class InjectionSet<T> {
+class InjectionSet<T> {
     private final Class<T> type;
     private final List<FieldProvider<?>> staticFieldProviders;
     private final List<FieldProvider<?>> fieldProviders;

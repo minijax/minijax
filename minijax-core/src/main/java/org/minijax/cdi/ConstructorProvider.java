@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.inject.Provider;
 
-public class ConstructorProvider<T> implements Provider<T> {
+class ConstructorProvider<T> implements Provider<T> {
     private final Constructor<T> ctor;
     private final Provider<?>[] paramProviders;
     private final List<InjectionSet<? super T>> injectionSets;

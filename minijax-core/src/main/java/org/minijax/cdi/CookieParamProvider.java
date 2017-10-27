@@ -5,7 +5,7 @@ import javax.ws.rs.core.Cookie;
 
 import org.minijax.MinijaxRequestContext;
 
-public class CookieParamProvider<T> implements Provider<T> {
+class CookieParamProvider<T> implements Provider<T> {
     private final Key<T> key;
 
     public CookieParamProvider(final Key<T> key) {

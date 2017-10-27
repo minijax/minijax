@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 import javax.inject.Provider;
 
-public class FieldProvider<T> {
+class FieldProvider<T> {
     private final Field field;
     private final Provider<T> provider;
 

@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 
 import javax.inject.Provider;
 
-public class MethodProvider {
+class MethodProvider {
     private final Method method;
     private final Provider<?>[] paramProviders;
 
