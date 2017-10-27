@@ -13,15 +13,14 @@ import org.atinject.tck.auto.Tire;
 import org.atinject.tck.auto.V8Engine;
 import org.atinject.tck.auto.accessories.SpareTire;
 import org.junit.Test;
-import org.minijax.cdi.Key;
 import org.minijax.cdi.MinijaxInjector;
 
 public class TckTest {
 
     public static Car getCar() {
         return new MinijaxInjector()
-                .register(SpareTire.class, Key.of(Tire.class, "spare"))
-                .register(DriversSeat.class, Key.of(Seat.class, Drivers.class))
+                .register(SpareTire.class, Tire.class, "spare")
+                .register(DriversSeat.class, Seat.class, Drivers.class)
                 .register(V8Engine.class, Engine.class)
                 .register(Convertible.class, Car.class)
                 .get(Car.class);

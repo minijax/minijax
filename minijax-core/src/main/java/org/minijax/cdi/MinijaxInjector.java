@@ -42,8 +42,13 @@ public class MinijaxInjector {
         return this;
     }
 
-    public MinijaxInjector register(final Class<?> component, final Key<?> contract) {
-        providers.put(contract, buildProvider(Key.of(component), null));
+    public MinijaxInjector register(final Class<?> component, final Class<?> contract, final Class<? extends Annotation> qualifier) {
+        providers.put(Key.of(contract), buildProvider(Key.of(component, qualifier), null));
+        return this;
+    }
+
+    public MinijaxInjector register(final Class<?> component, final Class<?> contract, final String name) {
+        providers.put(Key.of(contract), buildProvider(Key.of(component, name), null));
         return this;
     }
 

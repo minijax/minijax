@@ -13,7 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 
-public class Key<T> {
+class Key<T> {
     private final Class<T> type;
     private final Strategy strategy;
     private final Class<? extends Annotation> qualifier;
