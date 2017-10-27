@@ -35,13 +35,8 @@
     <modules>
         <module>minijax-archetype</module>
         <module>minijax-core</module>
-        <module>minijax-data</module>
-        <module>minijax-entity</module>
         <module>minijax-examples</module>
-        <module>minijax-json</module>
-        <module>minijax-liquibase</module>
-        <module>minijax-mustache</module>
-        <module>minijax-websocket</module>
+        <module>minijax-extensions</module>
     </modules>
     <scm>
         <connection>scm:git:git://github.com/minijax/minijax.git</connection>
