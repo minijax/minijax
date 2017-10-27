@@ -1,4 +1,4 @@
-package org.minijax.bench;
+package com.example.benchmarks;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 
-public class JettyBench {
+public class HelloJettyBenchmark {
 
     public static class Handler extends AbstractHandler {
         @Override

@@ -1,11 +1,11 @@
-package org.minijax.bench;
+package com.example.benchmarks;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 import org.minijax.Minijax;
 
-public class MinijaxBench {
+public class HelloMinijaxBenchmark {
 
     @GET
     @Path("/")
@@ -14,6 +14,6 @@ public class MinijaxBench {
     }
 
     public static void main(final String[] args) {
-        new Minijax().register(MinijaxBench.class).run(8080);
+        new Minijax().register(HelloMinijaxBenchmark.class).run(8080);
     }
 }

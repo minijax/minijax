@@ -6,16 +6,10 @@
         <artifactId>minijax</artifactId>
         <version>0.0.8-SNAPSHOT</version>
     </parent>
-    <artifactId>minijax-bench</artifactId>
+    <artifactId>minijax-benchmark-hello-minijax</artifactId>
     <packaging>jar</packaging>
-    <name>minijax-bench</name>
+    <name>minijax-benchmark-hello-minijax</name>
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
             <artifactId>minijax-core</artifactId>
