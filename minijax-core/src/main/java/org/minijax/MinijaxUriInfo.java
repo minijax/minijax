@@ -1,8 +1,9 @@
 package org.minijax;
 
 import java.net.URI;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.PathSegment;
@@ -33,11 +34,9 @@ class MinijaxUriInfo implements javax.ws.rs.core.UriInfo {
     @Override
     public List<PathSegment> getPathSegments() {
         if (pathSegments == null) {
-            final String[] paths = getPath().split("/");
-            pathSegments = new ArrayList<>(paths.length);
-            for (final String path : paths) {
-                pathSegments.add(new MinijaxPathSegment(path));
-            }
+            pathSegments = Arrays.stream(getPath().replaceFirst("^/", "").split("/"))
+                    .map(MinijaxPathSegment::new)
+                    .collect(Collectors.toList());
         }
         return pathSegments;
     }
