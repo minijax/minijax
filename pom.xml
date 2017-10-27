@@ -33,7 +33,7 @@
         <maven>3.5.0</maven>
     </prerequisites>
     <modules>
-        <module>minijax-archetype</module>
+        <module>minijax-archetypes</module>
         <module>minijax-core</module>
         <module>minijax-examples</module>
         <module>minijax-extensions</module>

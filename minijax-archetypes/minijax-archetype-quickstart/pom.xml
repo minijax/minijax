@@ -6,7 +6,7 @@
         <artifactId>minijax</artifactId>
         <version>0.0.15-SNAPSHOT</version>
     </parent>
-    <artifactId>minijax-archetype</artifactId>
-    <name>minijax-archetype</name>
+    <artifactId>minijax-archetype-quickstart</artifactId>
+    <name>minijax-archetype-quickstart</name>
     <description>Archetype for a new Minijax application</description>
 </project>
