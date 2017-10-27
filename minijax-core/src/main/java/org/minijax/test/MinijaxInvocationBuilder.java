@@ -24,7 +24,6 @@ import javax.ws.rs.core.Response;
 
 import org.minijax.Minijax;
 import org.minijax.MinijaxRequestContext;
-import org.minijax.MinijaxUrlEncodedForm;
 import org.minijax.util.CookieUtils;
 import org.minijax.util.ExceptionUtils;
 import org.minijax.util.IOUtils;
@@ -321,10 +320,6 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
 
         if (obj instanceof Form) {
             return IOUtils.toInputStream(UrlUtils.urlEncodeMultivaluedParams(((Form) obj).asMap()), StandardCharsets.UTF_8);
-        }
-
-        if (obj instanceof MinijaxUrlEncodedForm) {
-            return IOUtils.toInputStream(UrlUtils.urlEncodeMultivaluedParams(((MinijaxUrlEncodedForm) obj).asForm().asMap()), StandardCharsets.UTF_8);
         }
 
         throw new UnsupportedOperationException("Unknown entity type: " + obj.getClass());

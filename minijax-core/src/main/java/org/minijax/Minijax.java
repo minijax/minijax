@@ -33,6 +33,7 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.FeatureContext;
@@ -338,7 +339,7 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
 
             runRequestFilters(context);
             checkSecurity(context);
-            final MinijaxResponse response = (MinijaxResponse) toResponse(rm, invoke(context, rm.getMethod()));
+            final Response response = toResponse(rm, invoke(context, rm.getMethod()));
             runResponseFilters(context, response);
             return response;
         } catch (final Exception ex) {
@@ -390,10 +391,11 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
     }
 
 
-    private void runResponseFilters(final MinijaxRequestContext context, final MinijaxResponse response) throws IOException {
+    private void runResponseFilters(final MinijaxRequestContext context, final Response response) throws IOException {
+        final ContainerResponseContext responseContext = (ContainerResponseContext) response;
         for (final Class<? extends ContainerResponseFilter> filterClass : responseFilters) {
             final ContainerResponseFilter filter = get(filterClass);
-            filter.filter(context, response);
+            filter.filter(context, responseContext);
         }
     }
 

@@ -1,10 +1,12 @@
-package org.minijax;
+package org.minijax.delegates;
 
 import java.lang.annotation.Annotation;
 
 import javax.ws.rs.core.GenericType;
 
 import org.junit.Test;
+import org.minijax.delegates.MinijaxResponse;
+import org.minijax.delegates.MinijaxResponseBuilder;
 
 public class ResponseTest {
 

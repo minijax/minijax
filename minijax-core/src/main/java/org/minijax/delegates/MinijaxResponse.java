@@ -1,4 +1,4 @@
-package org.minijax;
+package org.minijax.delegates;
 
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
@@ -18,7 +18,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.NewCookie;
 
-public class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResponseContext {
+class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResponseContext {
     private final MultivaluedMap<String, Object> headers;
     private final MinijaxStatusInfo statusInfo;
     private Map<String, NewCookie> cookies;

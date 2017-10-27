@@ -1,10 +1,11 @@
-package org.minijax;
+package org.minijax.delegates;
 
 import static org.junit.Assert.*;
 
 import javax.ws.rs.core.Response.Status;
 
 import org.junit.Test;
+import org.minijax.delegates.MinijaxStatusInfo;
 
 public class StatusInfoTest {
 

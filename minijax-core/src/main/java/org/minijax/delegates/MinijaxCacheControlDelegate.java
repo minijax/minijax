@@ -3,7 +3,7 @@ package org.minijax.delegates;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
 
-public class MinijaxCacheControlDelegate implements HeaderDelegate<CacheControl> {
+class MinijaxCacheControlDelegate implements HeaderDelegate<CacheControl> {
 
     @Override
     public CacheControl fromString(final String value) {

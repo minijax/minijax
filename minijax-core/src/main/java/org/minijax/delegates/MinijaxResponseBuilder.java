@@ -1,4 +1,4 @@
-package org.minijax;
+package org.minijax.delegates;
 
 import java.lang.annotation.Annotation;
 import java.net.URI;

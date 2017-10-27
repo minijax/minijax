@@ -6,12 +6,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class MinijaxServlet extends HttpServlet {
+class MinijaxServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private final Minijax parent;
+    private final Minijax container;
 
-    public MinijaxServlet(final Minijax parent) {
-        this.parent = parent;
+    public MinijaxServlet(final Minijax container) {
+        this.container = container;
     }
 
     @Override
@@ -19,6 +19,6 @@ public class MinijaxServlet extends HttpServlet {
             final HttpServletRequest request,
             final HttpServletResponse response)
                     throws IOException {
-        parent.handle(MinijaxRequestContext.getThreadLocal(), response);
+        container.handle(MinijaxRequestContext.getThreadLocal(), response);
     }
 }

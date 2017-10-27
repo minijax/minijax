@@ -11,7 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class MinijaxFilter implements Filter {
+class MinijaxFilter implements Filter {
     private final Minijax container;
 
     public MinijaxFilter(final Minijax container) {

@@ -13,7 +13,7 @@ import org.minijax.util.UrlUtils;
 /**
  * The Form class represents a HTTP form submission.
  */
-public class MinijaxUrlEncodedForm implements MinijaxForm {
+class MinijaxUrlEncodedForm implements MinijaxForm {
     private final MultivaluedMap<String, String> values;
 
     /**

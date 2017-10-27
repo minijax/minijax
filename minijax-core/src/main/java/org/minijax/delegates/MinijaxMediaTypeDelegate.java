@@ -7,7 +7,7 @@ import javax.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
 
 import org.minijax.util.UrlUtils;
 
-public class MinijaxMediaTypeDelegate implements HeaderDelegate<MediaType> {
+class MinijaxMediaTypeDelegate implements HeaderDelegate<MediaType> {
 
     @Override
     public MediaType fromString(final String value) {

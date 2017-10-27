@@ -18,7 +18,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import org.minijax.util.MediaTypeUtils;
 import org.minijax.util.UrlUtils;
 
-public class MinijaxResourceMethod {
+class MinijaxResourceMethod {
     private final String httpMethod;
     private final Class<?> resourceClass;
     private final Method method;

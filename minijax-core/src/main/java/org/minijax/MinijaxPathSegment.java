@@ -2,7 +2,7 @@ package org.minijax;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-public class MinijaxPathSegment implements javax.ws.rs.core.PathSegment {
+class MinijaxPathSegment implements javax.ws.rs.core.PathSegment {
     private final String path;
 
     public MinijaxPathSegment(final String path) {

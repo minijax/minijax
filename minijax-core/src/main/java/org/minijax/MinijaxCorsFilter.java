@@ -14,7 +14,7 @@ import org.minijax.util.UrlUtils;
 
 @Provider
 @Singleton
-public class MinijaxCorsFilter implements ContainerResponseFilter {
+class MinijaxCorsFilter implements ContainerResponseFilter {
     private final List<String> pathPrefixes = new ArrayList<>();
 
     public void addPathPrefix(final String pathPrefix) {

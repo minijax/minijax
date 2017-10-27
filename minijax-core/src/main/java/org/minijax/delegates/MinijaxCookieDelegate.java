@@ -6,7 +6,7 @@ import java.util.List;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
 
-public class MinijaxCookieDelegate implements HeaderDelegate<Cookie> {
+class MinijaxCookieDelegate implements HeaderDelegate<Cookie> {
 
     @Override
     public Cookie fromString(final String value) {

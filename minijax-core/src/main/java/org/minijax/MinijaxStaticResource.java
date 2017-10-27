@@ -1,6 +1,6 @@
 package org.minijax;
 
-public class MinijaxStaticResource {
+class MinijaxStaticResource {
     private final String resourceBase;
     private final String pathSpec;
 

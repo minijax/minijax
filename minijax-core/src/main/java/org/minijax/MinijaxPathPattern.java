@@ -13,7 +13,7 @@ import javax.ws.rs.PathParam;
 /**
  * The MinijaxPathPattern class is a rich representation of a parameterized URL path.
  */
-public class MinijaxPathPattern {
+class MinijaxPathPattern {
     private static final String DOUBLE_REGEX = getDoubleRegex();
     private final Pattern pattern;
     private final List<String> params;

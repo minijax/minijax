@@ -1,4 +1,4 @@
-package org.minijax;
+package org.minijax.delegates;
 
 import static org.junit.Assert.*;
 
@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Variant;
 
 import org.junit.Test;
+import org.minijax.delegates.MinijaxResponseBuilder;
 
 public class ResponseBuilderTest {
 

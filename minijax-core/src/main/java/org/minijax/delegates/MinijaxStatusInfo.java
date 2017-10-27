@@ -1,10 +1,10 @@
-package org.minijax;
+package org.minijax.delegates;
 
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.Response.Status.Family;
 import javax.ws.rs.core.Response.StatusType;
 
-public class MinijaxStatusInfo implements StatusType {
+class MinijaxStatusInfo implements StatusType {
     private int statusCode;
     private Family family;
     private String reasonPhrase;

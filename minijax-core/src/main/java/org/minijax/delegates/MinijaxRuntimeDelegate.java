@@ -1,5 +1,3 @@
-
-
 package org.minijax.delegates;
 
 import javax.ws.rs.core.Application;
@@ -12,8 +10,6 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Variant.VariantListBuilder;
 import javax.ws.rs.ext.RuntimeDelegate;
-
-import org.minijax.MinijaxResponseBuilder;
 
 public class MinijaxRuntimeDelegate extends RuntimeDelegate {
 

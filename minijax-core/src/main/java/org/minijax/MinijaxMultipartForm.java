@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 /**
  * The Form class represents a HTTP form submission.
  */
-public class MinijaxMultipartForm implements MinijaxForm {
+class MinijaxMultipartForm implements MinijaxForm {
     private static final Logger LOG = LoggerFactory.getLogger(MinijaxMultipartForm.class);
     private final Map<String, Part> values;
 

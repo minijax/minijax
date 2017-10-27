@@ -5,7 +5,7 @@ import java.util.Map;
 import javax.ws.rs.core.Configurable;
 import javax.ws.rs.core.Configuration;
 
-public abstract class MinijaxDefaultConfigurable<C extends Configurable<C>> implements Configurable<C> {
+abstract class MinijaxDefaultConfigurable<C extends Configurable<C>> implements Configurable<C> {
 
     @Override
     public Configuration getConfiguration() {
