@@ -15,4 +15,9 @@
         <module>minijax-benchmark-hello-jetty</module>
         <module>minijax-benchmark-hello-minijax</module>
     </modules>
+    <properties>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+        <skipStaging>true</skipStaging>
+    </properties>
 </project>
