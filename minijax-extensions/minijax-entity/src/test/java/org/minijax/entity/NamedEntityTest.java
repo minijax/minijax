@@ -56,7 +56,7 @@ public class NamedEntityTest {
         assertEquals("bar", w.getHandle());
         assertEquals("http://img1", w.getAvatar().getImageUrl());
         assertEquals("http://img2", w.getAvatar().getThumbUrl());
-        assertEquals("/widgets/" + w.getId(), w.getUri());
+        assertEquals("/widgets/" + w.getId(), w.getUri().toString());
         assertFalse(w.isDeleted());
         assertNull(w.getDeletedDateTime());
 
