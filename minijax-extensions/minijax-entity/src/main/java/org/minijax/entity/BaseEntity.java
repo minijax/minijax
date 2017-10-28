@@ -1,5 +1,6 @@
 package org.minijax.entity;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -18,6 +19,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.minijax.json.MinijaxObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -218,6 +220,11 @@ public abstract class BaseEntity implements Serializable {
 
         final BaseEntity other = (BaseEntity) obj;
         return Objects.equals(id, other.id);
+    }
+
+
+    public String toJson() throws IOException {
+        return MinijaxObjectMapper.getInstance().writeValueAsString(this);
     }
 
 

@@ -2,6 +2,7 @@ package org.minijax.entity;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +37,14 @@ public class BaseEntityTest {
 
         assertEquals(w1, w1);
         assertEquals(w2, w3);
+    }
+
+
+    @Test
+    public void testToJson() throws IOException {
+        final Widget w = new Widget();
+        w.setName("foo");
+        assertEquals("{\"name\":\"foo\"}", w.toJson());
     }
 
 
