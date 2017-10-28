@@ -37,8 +37,8 @@
         <module>minijax-extensions</module>
     </modules>
     <scm>
-        <connection>scm:git:git://github.com/minijax/minijax.git</connection>
-        <developerConnection>scm:git:git://github.com/minijax/minijax.git</developerConnection>
+        <connection>scm:git:git@github.com:minijax/minijax.git</connection>
+        <developerConnection>scm:git:git@github.com:minijax/minijax.git</developerConnection>
         <url>https://github.com/minijax/minijax</url>
     </scm>
     <distributionManagement>
