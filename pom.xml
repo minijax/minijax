@@ -29,9 +29,6 @@
             <timezone>America/Los_Angeles</timezone>
         </developer>
     </developers>
-    <prerequisites>
-        <maven>3.5.0</maven>
-    </prerequisites>
     <modules>
         <module>minijax-archetypes</module>
         <module>minijax-benchmarks</module>
