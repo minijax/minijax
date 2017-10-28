@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.minijax</groupId>
-        <artifactId>minijax</artifactId>
+        <artifactId>minijax-extensions</artifactId>
         <version>0.0.15-SNAPSHOT</version>
     </parent>
     <artifactId>minijax-data</artifactId>
