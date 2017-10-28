@@ -38,7 +38,7 @@
     </modules>
     <scm>
         <connection>scm:git:git://github.com/minijax/minijax.git</connection>
-        <developerConnection>scm:git:ssh://github.com:minijax/minijax.git</developerConnection>
+        <developerConnection>scm:git:git://github.com/minijax/minijax.git</developerConnection>
         <url>https://github.com/minijax/minijax</url>
     </scm>
     <distributionManagement>
