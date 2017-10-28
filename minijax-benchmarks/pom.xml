@@ -11,7 +11,8 @@
     <name>minijax-benchmarks</name>
     <description>Minijax and friends benchmarks</description>
     <modules>
-        <module>minijax-benchmark-hello-minijax</module>
+        <module>minijax-benchmark-hello-jersey</module>
         <module>minijax-benchmark-hello-jetty</module>
+        <module>minijax-benchmark-hello-minijax</module>
     </modules>
 </project>

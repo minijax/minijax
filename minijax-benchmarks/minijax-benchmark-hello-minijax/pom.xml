@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.minijax</groupId>
-        <artifactId>minijax</artifactId>
-        <version>0.0.8-SNAPSHOT</version>
+        <artifactId>minijax-benchmarks</artifactId>
+        <version>0.0.15-SNAPSHOT</version>
     </parent>
     <artifactId>minijax-benchmark-hello-minijax</artifactId>
     <packaging>jar</packaging>
