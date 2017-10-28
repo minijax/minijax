@@ -1,5 +1,6 @@
 package org.minijax.entity;
 
+import java.net.URI;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
@@ -80,7 +81,7 @@ public abstract class NamedEntity extends BaseEntity implements Principal {
         this.avatar = avatar;
     }
 
-    public abstract String getUrl();
+    public abstract URI getUri();
 
 
     public void generateHandle() {

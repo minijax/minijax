@@ -1,5 +1,6 @@
 package org.minijax.entity.test;
 
+import java.net.URI;
 import java.util.UUID;
 
 import javax.persistence.Entity;
@@ -23,7 +24,7 @@ public class Widget extends NamedEntity {
     }
 
     @Override
-    public String getUrl() {
-        return "/widgets/" + getId();
+    public URI getUri() {
+        return URI.create("/widgets/" + getId());
     }
 }
