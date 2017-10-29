@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.minijax</groupId>
         <artifactId>minijax-benchmarks</artifactId>
-        <version>0.0.19-SNAPSHOT</version>
+        <version>0.0.19</version>
     </parent>
     <artifactId>minijax-benchmark-hello-jetty</artifactId>
     <packaging>jar</packaging>
