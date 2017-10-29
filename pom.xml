@@ -53,12 +53,17 @@
         </site>
     </distributionManagement>
     <properties>
+        <cdi.version>2.0</cdi.version>
         <commons-lang3.version>3.5</commons-lang3.version>
         <eclipselink.version>2.7.0</eclipselink.version>
         <h2.version>1.4.196</h2.version>
         <hikaricp.version>2.7.2</hikaricp.version>
+        <inject.version>1</inject.version>
         <jackson.version>2.9.2</jackson.version>
+        <jax-rs.version>2.1</jax-rs.version>
+        <jaxb.version>2.3.0</jaxb.version>
         <jetty.version>9.4.7.v20170914</jetty.version>
+        <jsr250.version>1.0</jsr250.version>
         <junit.version>4.12</junit.version>
         <liquibase.version>3.5.3</liquibase.version>
         <logback.version>1.2.3</logback.version>
