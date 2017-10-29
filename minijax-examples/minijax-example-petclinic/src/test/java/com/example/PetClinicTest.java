@@ -10,7 +10,6 @@ import javax.persistence.Persistence;
 
 import org.minijax.test.MinijaxTest;
 
-import com.example.services.Dao;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.MustacheFactory;
 
@@ -20,7 +19,6 @@ public abstract class PetClinicTest extends MinijaxTest {
     public PetClinicTest() {
         register(new DefaultMustacheFactory(), MustacheFactory.class);
         register(getEntityManagerFactory(), EntityManagerFactory.class);
-        register(Dao.class);
     }
 
     public static EntityManagerFactory getEntityManagerFactory() {

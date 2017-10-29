@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
@@ -35,6 +36,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
+import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.FeatureContext;
 import javax.ws.rs.core.MediaType;
@@ -61,7 +63,7 @@ import org.minijax.util.MediaTypeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implements FeatureContext {
+public class Minijax implements FeatureContext {
     private static final Logger LOG = LoggerFactory.getLogger(Minijax.class);
     private static final Class<?> webSocketUtilsClass = safeGetClass("org.minijax.websocket.MinijaxWebSocketUtils");
     private static final Class<Annotation> serverEndpoint = safeGetClass("javax.websocket.server.ServerEndpoint");
@@ -93,21 +95,75 @@ public class Minijax extends MinijaxDefaultConfigurable<FeatureContext> implemen
 
 
     @Override
-    public Minijax register(final Class<?> c) {
-        registerImpl(c);
+    public Configuration getConfiguration() {
+        throw new UnsupportedOperationException();
+    }
+
+
+    @Override
+    public Minijax property(final String name, final Object value) {
+        throw new UnsupportedOperationException();
+    }
+
+
+    @Override
+    public Minijax register(final Class<?> componentClass) {
+        registerImpl(componentClass);
+        return this;
+    }
+
+
+    @Override
+    public Minijax register(final Class<?> componentClass, final int priority) {
+        registerImpl(componentClass);
+        return this;
+    }
+
+
+    @Override
+    public Minijax register(final Class<?> componentClass, final Class<?>... contracts) {
+        for (final Class<?> contract : contracts) {
+            injector.register(componentClass, contract);
+        }
+        registerImpl(componentClass);
+        return this;
+    }
+
+
+    @Override
+    public Minijax register(final Class<?> componentClass, final Map<Class<?>, Integer> contracts) {
+        for (final Class<?> contract : contracts.keySet()) {
+            injector.register(componentClass, contract);
+        }
+        registerImpl(componentClass);
         return this;
     }
 
 
     @Override
     public Minijax register(final Object component) {
-        return register(component, component.getClass());
+        return this.register(component, component.getClass());
+    }
+
+
+    @Override
+    public Minijax register(final Object component, final int priority) {
+        return this.register(component, component.getClass());
     }
 
 
     @Override
     public Minijax register(final Object component, final Class<?>... contracts) {
         for (final Class<?> contract : contracts) {
+            injector.register(component, contract);
+        }
+        return this;
+    }
+
+
+    @Override
+    public Minijax register(final Object component, final Map<Class<?>, Integer> contracts) {
+        for (final Class<?> contract : contracts.keySet()) {
             injector.register(component, contract);
         }
         return this;
