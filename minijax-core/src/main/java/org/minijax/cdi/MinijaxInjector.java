@@ -1,5 +1,6 @@
 package org.minijax.cdi;
 
+import java.io.Closeable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
@@ -16,7 +17,6 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -24,10 +24,12 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.minijax.Minijax;
+import org.minijax.util.CloseUtils;
 import org.minijax.util.OptionalClasses;
 import org.minijax.util.PersistenceUtils;
 
@@ -36,7 +38,7 @@ import org.minijax.util.PersistenceUtils;
  *
  * The implementation is heavily inspired by <a href="http://zsoltherpai.github.io/feather/">Feather</a>.
  */
-public class MinijaxInjector {
+public class MinijaxInjector implements Closeable {
     private final Minijax container;
     private final Map<Key<?>, Provider<?>> providers = new ConcurrentHashMap<>();
 
@@ -100,7 +102,6 @@ public class MinijaxInjector {
     }
 
 
-    @SuppressWarnings("unchecked")
     private <T> Provider<T> buildProvider(final Key<T> key, final Set<Key<?>> chain) {
         final Provider<T> p;
 
@@ -119,9 +120,6 @@ public class MinijaxInjector {
             break;
         case PATH:
             p = new PathParamProvider<>(key);
-            break;
-        case PERSISTENCE:
-            p = new RequestScopedProvider<T>(key, (Provider<T>) new EntityManagerProvider(getEntityManagerFactory(key.getName())));
             break;
         case QUERY:
             p = new QueryParamProvider<>(key);
@@ -399,10 +397,39 @@ public class MinijaxInjector {
     }
 
 
-    private EntityManagerFactory getEntityManagerFactory(final String name) {
-        Objects.requireNonNull(container, "EntintyManagerFactory requires a container");
+    /*
+     * Persistence
+     */
 
-        final String unitName = name != null && !name.isEmpty() ? name : PersistenceUtils.getDefaultName("META-INF/persistence.xml");
-        return Persistence.createEntityManagerFactory(unitName, container.getConfiguration().getProperties());
+
+    public void registerPersistence() {
+        final List<String> names = PersistenceUtils.getDefaultName("META-INF/persistence.xml");
+        final Map<String, Object> props = container == null ? null : container.getConfiguration().getProperties();
+        boolean first = true;
+
+        for (final String name : names) {
+            final EntityManagerFactory emf = Persistence.createEntityManagerFactory(name, props);
+            registerEntityManagerFactory(emf, name);
+            if (first) {
+                registerEntityManagerFactory(emf, "");
+                first = false;
+            }
+        }
+    }
+
+    private void registerEntityManagerFactory(final EntityManagerFactory emf, final String name) {
+        final Key<EntityManagerFactory> emfKey = Key.of(EntityManagerFactory.class, name);
+        final Provider<EntityManagerFactory> emfProvider = new SingletonProvider<>(emf);
+        providers.put(emfKey, emfProvider);
+
+        final Key<EntityManager> emKey = Key.ofPersistenceContext(name);
+        final Provider<EntityManager> emProvider = new RequestScopedProvider<>(emKey, new EntityManagerProvider(emf));
+        providers.put(emKey, emProvider);
+    }
+
+
+    @Override
+    public void close() {
+        CloseUtils.closeQuietly(providers.values());
     }
 }

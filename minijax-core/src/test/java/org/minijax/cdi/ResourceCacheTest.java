@@ -13,5 +13,6 @@ public class ResourceCacheTest {
         final Object obj = new Object();
         cm.put(key, obj);
         assertEquals(obj, cm.get(key));
+        cm.close();
     }
 }

@@ -293,11 +293,7 @@ public class MinijaxRequestContext
 
     @Override
     public void close() throws IOException {
-        for (final Object obj : resourceCache.values()) {
-            if (obj instanceof Closeable) {
-                ((Closeable) obj).close();
-            }
-        }
+        resourceCache.close();
 
         if (form != null) {
             form.close();

@@ -16,11 +16,11 @@ import org.minijax.entity.test.Widget;
 
 public class DaoTest {
 
-    public static EntityManagerFactory getNewEntityManagerFactory(final String name) {
+    public static EntityManagerFactory getNewEntityManagerFactory() {
         final Map<String, String> props = new HashMap<>();
         props.put(MinijaxProperties.PERSISTENCE_UNIT_NAME, "testdb");
         props.put(MinijaxProperties.DB_DRIVER, "org.h2.jdbcx.JdbcDataSource");
-        props.put(MinijaxProperties.DB_URL, "jdbc:h2:mem:" + name);
+        props.put(MinijaxProperties.DB_URL, "jdbc:h2:mem:");
         props.put(MinijaxProperties.DB_USERNAME, "");
         props.put(MinijaxProperties.DB_PASSWORD, "");
         props.put(SCHEMA_GENERATION_DATABASE_ACTION, "drop-and-create");
@@ -38,8 +38,8 @@ public class DaoTest {
             this.emf = emf;
         }
 
-        public Dao(final String name) {
-            this(getNewEntityManagerFactory(name));
+        public Dao() {
+            this(getNewEntityManagerFactory());
         }
 
         @Override
@@ -51,7 +51,7 @@ public class DaoTest {
 
     @Test
     public void testEntityCrud() throws Exception {
-        try (final Dao dao = new Dao("testEntityCrud")) {
+        try (final Dao dao = new Dao()) {
             // Create
             final Widget w1 = new Widget();
             w1.setName("My Widget");
@@ -85,7 +85,7 @@ public class DaoTest {
 
     @Test
     public void testCreateConflict() {
-        try (final Dao dao = new Dao("testCreateConflict")) {
+        try (final Dao dao = new Dao()) {
             final Widget w1 = new Widget();
             w1.setName("First Widget");
             w1.setHandle("firsthandle");
@@ -107,7 +107,7 @@ public class DaoTest {
 
     @Test
     public void testUpdateConflict() {
-        try (final Dao dao = new Dao("testUpdateConflict")) {
+        try (final Dao dao = new Dao()) {
             final Widget w1 = new Widget();
             w1.setName("First Widget");
             w1.setHandle("firsthandle");
@@ -132,7 +132,7 @@ public class DaoTest {
 
     @Test
     public void testReadByHandle() {
-        try (final Dao dao = new Dao("testReadByHandle")) {
+        try (final Dao dao = new Dao()) {
             final Widget w1 = new Widget();
             w1.setName("First Widget");
             w1.setHandle("firsthandle");
@@ -147,7 +147,7 @@ public class DaoTest {
 
     @Test
     public void testReadByHandleNotFound() {
-        try (final Dao dao = new Dao("testReadByHandleNotFound")) {
+        try (final Dao dao = new Dao()) {
             final Widget w2 = dao.readByHandle(Widget.class, "notfound");
             assertNull(w2);
         }
@@ -156,7 +156,7 @@ public class DaoTest {
 
     @Test
     public void testReadPage() {
-        try (final Dao dao = new Dao("testReadPage")) {
+        try (final Dao dao = new Dao()) {
             final Widget w1 = new Widget();
             w1.setName("First Widget");
             w1.setHandle("firsthandle");

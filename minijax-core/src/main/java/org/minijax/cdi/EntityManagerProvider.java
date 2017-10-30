@@ -14,17 +14,5 @@ public class EntityManagerProvider implements Provider<EntityManager> {
     @Override
     public EntityManager get() {
         return emf.createEntityManager();
-
-//        final MinijaxRequestContext context = MinijaxRequestContext.getThreadLocal();
-//        final ResourceCache resourceCache = context.getResourceCache();
-//
-//        T instance = resourceCache.get(key);
-//
-//        if (instance == null) {
-//            instance = sourceProvider.get();
-//            resourceCache.put(key, instance);
-//        }
-//
-//        return instance;
     }
 }

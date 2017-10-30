@@ -18,12 +18,13 @@ import org.minijax.cdi.MinijaxInjector;
 public class TckTest {
 
     public static Car getCar() {
-        return new MinijaxInjector()
-                .register(SpareTire.class, Tire.class, "spare")
+        try (MinijaxInjector injector = new MinijaxInjector()) {
+            return injector.register(SpareTire.class, Tire.class, "spare")
                 .register(DriversSeat.class, Seat.class, Drivers.class)
                 .register(V8Engine.class, Engine.class)
                 .register(Convertible.class, Car.class)
                 .get(Car.class);
+        }
     }
 
     public static junit.framework.Test suite() {

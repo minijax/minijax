@@ -2,22 +2,25 @@ package org.minijax.util;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import org.junit.Test;
 
 public class PersistenceUtilsTest {
 
     @Test
     public void testNotFound() {
-        assertNull(PersistenceUtils.getDefaultName("not-found.xml"));
+        assertEquals(Collections.emptyList(), PersistenceUtils.getDefaultName("not-found.xml"));
     }
 
     @Test
     public void testOne() {
-        assertEquals("testdb", PersistenceUtils.getDefaultName("test-persistence1.xml"));
+        assertEquals(Arrays.asList("testdb"), PersistenceUtils.getDefaultName("test-persistence1.xml"));
     }
 
     @Test
     public void testMultiple() {
-        assertEquals("test1", PersistenceUtils.getDefaultName("test-persistence2.xml"));
+        assertEquals(Arrays.asList("test1", "test2"), PersistenceUtils.getDefaultName("test-persistence2.xml"));
     }
 }

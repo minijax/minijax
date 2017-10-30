@@ -9,9 +9,22 @@ import javax.inject.Singleton;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.core.Context;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 public class InjectorTest {
+    private MinijaxInjector injector;
+
+    @Before
+    public void setUp() {
+        injector = new MinijaxInjector();
+    }
+
+    @After
+    public void tearDown() {
+        injector.close();
+    }
 
     public static class A {
         @Inject
@@ -33,8 +46,6 @@ public class InjectorTest {
 
     @Test
     public void testSimple() {
-        final MinijaxInjector injector = new MinijaxInjector();
-
         final Provider<C> provider = injector.getProvider(C.class);
         assertNotNull(provider);
 
@@ -52,8 +63,6 @@ public class InjectorTest {
 
     @Test
     public void testParamInject() {
-        final MinijaxInjector injector = new MinijaxInjector();
-
         final Provider<B> provider = injector.getProvider(B.class);
         assertNotNull(provider);
 
@@ -64,8 +73,6 @@ public class InjectorTest {
 
     @Test
     public void testFieldInject() {
-        final MinijaxInjector injector = new MinijaxInjector();
-
         final Provider<A> provider = injector.getProvider(A.class);
         assertNotNull(provider);
 
@@ -84,8 +91,6 @@ public class InjectorTest {
 
     @Test
     public void testProviderParamInjection() {
-        final MinijaxInjector injector = new MinijaxInjector();
-
         final Provider<ProviderParamInjection> providerInjectionProvider = injector.getProvider(ProviderParamInjection.class);
         assertNotNull(providerInjectionProvider);
 
@@ -100,8 +105,6 @@ public class InjectorTest {
 
     @Test
     public void testProviderFieldInjection() {
-        final MinijaxInjector injector = new MinijaxInjector();
-
         final Provider<ProviderFieldInjection> providerInjectionProvider = injector.getProvider(ProviderFieldInjection.class);
         assertNotNull(providerInjectionProvider);
 
@@ -124,8 +127,6 @@ public class InjectorTest {
 
     @Test
     public void testSingleton() {
-        final MinijaxInjector injector = new MinijaxInjector();
-
         final Provider<MySingleton> provider = injector.getProvider(MySingleton.class);
         assertNotNull(provider);
 
@@ -148,7 +149,6 @@ public class InjectorTest {
 
     @Test(expected = InjectException.class)
     public void testNoValidConstructors() {
-        final MinijaxInjector injector = new MinijaxInjector();
         injector.getProvider(NoValidConstructors.class);
     }
 
@@ -159,7 +159,6 @@ public class InjectorTest {
 
     @Test(expected = InjectException.class)
     public void testMultipleInjectConstructors() {
-        final MinijaxInjector injector = new MinijaxInjector();
         injector.getProvider(MultipleInjectConstructors.class);
     }
 
@@ -173,7 +172,6 @@ public class InjectorTest {
 
     @Test(expected = InjectException.class)
     public void testParamCircularDependency() {
-        final MinijaxInjector injector = new MinijaxInjector();
         injector.getProvider(ParamCircularDependencyA.class);
     }
 
@@ -187,7 +185,6 @@ public class InjectorTest {
 
     @Test(expected = InjectException.class)
     public void testFieldCircularDependency() {
-        final MinijaxInjector injector = new MinijaxInjector();
         injector.getProvider(FieldCircularDependencyA.class);
     }
 
@@ -199,7 +196,6 @@ public class InjectorTest {
 
     @Test(expected = InjectException.class)
     public void testExplodingConstructor() {
-        final MinijaxInjector injector = new MinijaxInjector();
         injector.get(ExplodingConstructor.class);
     }
 
@@ -211,7 +207,6 @@ public class InjectorTest {
 
     @Test(expected = InjectException.class)
     public void testMultipleStrategies() {
-        final MinijaxInjector injector = new MinijaxInjector();
         injector.get(MultipleStrategies.class);
     }
 
@@ -223,7 +218,6 @@ public class InjectorTest {
 
     @Test(expected = InjectException.class)
     public void testMultipleNames() {
-        final MinijaxInjector injector = new MinijaxInjector();
         injector.get(MultipleNames.class);
     }
 }

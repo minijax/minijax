@@ -2,6 +2,7 @@ package org.minijax.util;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,25 +20,17 @@ public class PersistenceUtils {
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceUtils.class);
 
 
-    public static String getDefaultName(final String fileName) {
+    public static List<String> getDefaultName(final String fileName) {
         try (final InputStream in = PersistenceUtils.class.getClassLoader().getResourceAsStream(fileName)) {
             if (in == null) {
-                return null;
+                return Collections.emptyList();
             }
-            final List<String> persistenceUnitNames = scanPersistenceXml(in);
-            return persistenceUnitNames.get(0);
+            return scanPersistenceXml(in);
         } catch (final Exception ex) {
             LOG.error("Error reading persistence.xml: {}", ex.getMessage(), ex);
             return null;
         }
     }
-
-
-//    protected static List<String> scanPersistenceXml(final String fileName) throws Exception {
-//        try (final InputStream in = PersistenceUtils.class.getClassLoader().getResourceAsStream(fileName)) {
-//            return in == null ? Collections.emptyList() : scanPersistenceXml(in);
-//        }
-//    }
 
 
     protected static List<String> scanPersistenceXml(final InputStream in) throws Exception {

@@ -12,8 +12,12 @@ public class OptionalClasses {
 
     public static final Class<Annotation> serverEndpoint = safeGetClass("javax.websocket.server.ServerEndpoint");
 
+    public static final Class<?> ENTITY_MANAGER_FACTORY = safeGetClass("javax.persistence.EntityManagerFactory");
+
+    public static final Class<?> ENTITY_MANAGER = safeGetClass("javax.persistence.EntityManager");
 
     public static final Class<?> PERSISTENCE_CONTEXT = safeGetClass("javax.persistence.PersistenceContext");
+
 
 
     @SuppressWarnings("unchecked")

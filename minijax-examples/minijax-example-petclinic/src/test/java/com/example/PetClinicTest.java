@@ -24,7 +24,7 @@ public abstract class PetClinicTest extends MinijaxTest {
     public static EntityManagerFactory getEntityManagerFactory() {
         if (emf == null) {
             final Map<String, String> props = new HashMap<String, String>();
-            props.put(JDBC_URL, "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
+            props.put(JDBC_URL, "jdbc:h2:mem:test");
             emf = Persistence.createEntityManagerFactory("petclinic", props);
         }
         return emf;

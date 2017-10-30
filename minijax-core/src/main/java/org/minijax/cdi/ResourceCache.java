@@ -1,13 +1,16 @@
 package org.minijax.cdi;
 
+import java.io.Closeable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.minijax.util.CloseUtils;
+
 /**
  * The ResourceCache maps a CDI <code>Key</code> to instances of the class.
  */
-public class ResourceCache {
+public class ResourceCache implements Closeable {
     private final Map<Key<?>, Object> innerMap;
 
     public ResourceCache() {
@@ -25,5 +28,10 @@ public class ResourceCache {
 
     public Collection<Object> values() {
         return innerMap.values();
+    }
+
+    @Override
+    public void close() {
+        CloseUtils.closeQuietly(values());
     }
 }

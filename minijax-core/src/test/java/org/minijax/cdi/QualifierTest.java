@@ -13,9 +13,23 @@ import javax.inject.Named;
 import javax.inject.Qualifier;
 import javax.inject.Singleton;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 public class QualifierTest {
+    private MinijaxInjector injector;
+
+    @Before
+    public void setUp() {
+        injector = new MinijaxInjector();
+    }
+
+    @After
+    public void tearDown() {
+        injector.close();
+    }
+
 
     @Singleton
     public static class QualifiedSingleton {
@@ -34,7 +48,6 @@ public class QualifierTest {
 
     @Test
     public void testQualifiedSingleton() {
-        final MinijaxInjector injector = new MinijaxInjector();
         final QualifiedResource r = injector.get(QualifiedResource.class);
         assertNotNull(r);
         assertNotNull(r.a);
@@ -57,7 +70,6 @@ public class QualifierTest {
 
     @Test(expected = InjectException.class)
     public void testMultipleQualifiers() {
-        final MinijaxInjector injector = new MinijaxInjector();
         injector.get(MultipleQualifiers.class);
     }
 }

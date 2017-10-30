@@ -108,6 +108,11 @@ public class Minijax implements FeatureContext {
     }
 
 
+    public MinijaxInjector getInjector() {
+        return injector;
+    }
+
+
     @Override
     public Minijax register(final Class<?> componentClass) {
         registerImpl(componentClass);
@@ -168,6 +173,12 @@ public class Minijax implements FeatureContext {
         for (final Class<?> contract : contracts.keySet()) {
             injector.register(component, contract);
         }
+        return this;
+    }
+
+
+    public Minijax registerPersistence() {
+        injector.registerPersistence();
         return this;
     }
 

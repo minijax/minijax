@@ -1,8 +1,12 @@
 package org.minijax.cdi;
 
+import java.io.Closeable;
+
 import javax.inject.Provider;
 
-class SingletonProvider<T> implements Provider<T> {
+import org.minijax.util.CloseUtils;
+
+class SingletonProvider<T> implements Provider<T>, Closeable {
     private final Provider<T> sourceProvider;
     private T instance;
 
@@ -21,5 +25,10 @@ class SingletonProvider<T> implements Provider<T> {
             instance = sourceProvider.get();
         }
         return instance;
+    }
+
+    @Override
+    public void close() {
+        CloseUtils.closeQuietly(instance);
     }
 }

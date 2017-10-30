@@ -38,10 +38,11 @@ public class PersistenceContextTest {
         final Minijax container = new Minijax()
                 .property(MinijaxProperties.PERSISTENCE_UNIT_NAME, "testdb")
                 .property(MinijaxProperties.DB_DRIVER, "org.h2.jdbcx.JdbcDataSource")
-                .property(MinijaxProperties.DB_URL, "jdbc:h2:mem:persistenceContextTest")
+                .property(MinijaxProperties.DB_URL, "jdbc:h2:mem:")
                 .property(MinijaxProperties.DB_USERNAME, "")
                 .property(MinijaxProperties.DB_PASSWORD, "")
                 .property(SCHEMA_GENERATION_DATABASE_ACTION, "drop-and-create")
+                .registerPersistence()
                 .register(PersistenceContextDao.class);
 
         final MockHttpServletRequest request = new MockHttpServletRequest("GET", URI.create("/"));
@@ -56,5 +57,7 @@ public class PersistenceContextTest {
             assertNotNull(result);
             assertNotNull(result.getId());
         }
+
+        container.getInjector().close();
     }
 }

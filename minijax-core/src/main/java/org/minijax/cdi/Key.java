@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import javax.inject.Named;
 import javax.inject.Qualifier;
+import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.DefaultValue;
@@ -117,6 +118,11 @@ class Key<T> {
     }
 
 
+    public static Key<EntityManager> ofPersistenceContext(final String name) {
+        return new Builder<>(EntityManager.class).withPersistenceContext(name).build();
+    }
+
+
     private static class Builder<T> {
         private final Class<T> type;
         private Strategy strategy;
@@ -150,6 +156,12 @@ class Key<T> {
         public Builder<T> withName(final String name) {
             setStrategy(Strategy.DEFAULT);
             setQualifier(Named.class);
+            setName(name);
+            return this;
+        }
+
+        public Builder<T> withPersistenceContext(final String name) {
+            setStrategy(Strategy.PERSISTENCE);
             setName(name);
             return this;
         }
