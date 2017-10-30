@@ -14,6 +14,7 @@
         <module>minijax-benchmark-hello-dropwizard</module>
         <module>minijax-benchmark-hello-jersey</module>
         <module>minijax-benchmark-hello-jetty</module>
+        <module>minijax-benchmark-hello-jetty-servlet</module>
         <module>minijax-benchmark-hello-minijax</module>
         <module>minijax-benchmark-hello-resteasy</module>
         <module>minijax-benchmark-hello-spark</module>
