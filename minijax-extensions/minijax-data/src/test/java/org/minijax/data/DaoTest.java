@@ -12,15 +12,11 @@ import javax.persistence.Persistence;
 
 import org.junit.Test;
 import org.minijax.MinijaxProperties;
-import org.minijax.data.BaseDao;
-import org.minijax.data.ConflictException;
 import org.minijax.entity.test.Widget;
 
 public class DaoTest {
 
-    public static EntityManagerFactory getNewEntityManagerFactory() {
-        final String name = "test" + System.currentTimeMillis();
-
+    public static EntityManagerFactory getNewEntityManagerFactory(final String name) {
         final Map<String, String> props = new HashMap<>();
         props.put(MinijaxProperties.PERSISTENCE_UNIT_NAME, "testdb");
         props.put(MinijaxProperties.DB_DRIVER, "org.h2.jdbcx.JdbcDataSource");
@@ -42,8 +38,8 @@ public class DaoTest {
             this.emf = emf;
         }
 
-        public Dao() {
-            this(getNewEntityManagerFactory());
+        public Dao(final String name) {
+            this(getNewEntityManagerFactory(name));
         }
 
         @Override
@@ -55,7 +51,7 @@ public class DaoTest {
 
     @Test
     public void testEntityCrud() throws Exception {
-        try (final Dao dao = new Dao()) {
+        try (final Dao dao = new Dao("testEntityCrud")) {
             // Create
             final Widget w1 = new Widget();
             w1.setName("My Widget");
@@ -89,7 +85,7 @@ public class DaoTest {
 
     @Test
     public void testCreateConflict() {
-        try (final Dao dao = new Dao()) {
+        try (final Dao dao = new Dao("testCreateConflict")) {
             final Widget w1 = new Widget();
             w1.setName("First Widget");
             w1.setHandle("firsthandle");
@@ -111,7 +107,7 @@ public class DaoTest {
 
     @Test
     public void testUpdateConflict() {
-        try (final Dao dao = new Dao()) {
+        try (final Dao dao = new Dao("testUpdateConflict")) {
             final Widget w1 = new Widget();
             w1.setName("First Widget");
             w1.setHandle("firsthandle");
@@ -136,7 +132,7 @@ public class DaoTest {
 
     @Test
     public void testReadByHandle() {
-        try (final Dao dao = new Dao()) {
+        try (final Dao dao = new Dao("testReadByHandle")) {
             final Widget w1 = new Widget();
             w1.setName("First Widget");
             w1.setHandle("firsthandle");
@@ -151,7 +147,7 @@ public class DaoTest {
 
     @Test
     public void testReadByHandleNotFound() {
-        try (final Dao dao = new Dao()) {
+        try (final Dao dao = new Dao("testReadByHandleNotFound")) {
             final Widget w2 = dao.readByHandle(Widget.class, "notfound");
             assertNull(w2);
         }
@@ -160,7 +156,7 @@ public class DaoTest {
 
     @Test
     public void testReadPage() {
-        try (final Dao dao = new Dao()) {
+        try (final Dao dao = new Dao("testReadPage")) {
             final Widget w1 = new Widget();
             w1.setName("First Widget");
             w1.setHandle("firsthandle");
