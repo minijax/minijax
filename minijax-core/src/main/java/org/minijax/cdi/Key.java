@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import javax.inject.Named;
 import javax.inject.Qualifier;
+import javax.persistence.PersistenceContext;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
@@ -12,6 +13,8 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+
+import org.minijax.util.OptionalClasses;
 
 class Key<T> {
     private final Class<T> type;
@@ -172,6 +175,9 @@ class Key<T> {
             } else if (annType == PathParam.class) {
                 processPathParamAnnotation((PathParam) annotation);
 
+            } else if (annType == OptionalClasses.PERSISTENCE_CONTEXT) {
+                processPersistenceContextAnnotation((PersistenceContext) annotation);
+
             } else if (annType == QueryParam.class) {
                 processQueryParamAnnotation((QueryParam) annotation);
 
@@ -207,6 +213,11 @@ class Key<T> {
         private void processPathParamAnnotation(final PathParam pathParam) {
             setStrategy(Strategy.PATH);
             setName(pathParam.value());
+        }
+
+        private void processPersistenceContextAnnotation(final PersistenceContext persistenceContext) {
+            setStrategy(Strategy.PERSISTENCE);
+            setName(persistenceContext.unitName());
         }
 
         private void processQueryParamAnnotation(final QueryParam queryParam) {

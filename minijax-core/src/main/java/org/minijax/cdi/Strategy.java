@@ -7,5 +7,6 @@ enum Strategy {
     FORM,
     HEADER,
     PATH,
+    PERSISTENCE,
     QUERY,
 }

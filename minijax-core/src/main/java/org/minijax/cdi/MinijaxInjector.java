@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -23,6 +24,12 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import org.minijax.Minijax;
+import org.minijax.util.OptionalClasses;
+import org.minijax.util.PersistenceUtils;
 
 /**
  * The MinijaxInjector class provides a Minijax-container-aware implementation of Java CDI (JSR 330).
@@ -30,10 +37,22 @@ import javax.inject.Singleton;
  * The implementation is heavily inspired by <a href="http://zsoltherpai.github.io/feather/">Feather</a>.
  */
 public class MinijaxInjector {
+    private final Minijax container;
     private final Map<Key<?>, Provider<?>> providers = new ConcurrentHashMap<>();
 
+    public MinijaxInjector() {
+        this(null);
+    }
+
+    public MinijaxInjector(final Minijax container) {
+        this.container = container;
+    }
+
     public MinijaxInjector register(final Object instance, final Class<?> contract) {
-        providers.put(Key.of(contract), new SingletonProvider<>(instance));
+        final Provider<?> provider = instance instanceof Provider
+                ? (Provider<?>) instance
+                : new SingletonProvider<>(instance);
+        providers.put(Key.of(contract), provider);
         return this;
     }
 
@@ -81,6 +100,7 @@ public class MinijaxInjector {
     }
 
 
+    @SuppressWarnings("unchecked")
     private <T> Provider<T> buildProvider(final Key<T> key, final Set<Key<?>> chain) {
         final Provider<T> p;
 
@@ -99,6 +119,9 @@ public class MinijaxInjector {
             break;
         case PATH:
             p = new PathParamProvider<>(key);
+            break;
+        case PERSISTENCE:
+            p = new RequestScopedProvider<T>(key, (Provider<T>) new EntityManagerProvider(getEntityManagerFactory(key.getName())));
             break;
         case QUERY:
             p = new QueryParamProvider<>(key);
@@ -226,7 +249,8 @@ public class MinijaxInjector {
                     t == javax.ws.rs.FormParam.class ||
                     t == javax.ws.rs.HeaderParam.class ||
                     t == javax.ws.rs.QueryParam.class ||
-                    t == javax.ws.rs.PathParam.class) {
+                    t == javax.ws.rs.PathParam.class ||
+                    t == OptionalClasses.PERSISTENCE_CONTEXT) {
                 return true;
             }
         }
@@ -372,5 +396,13 @@ public class MinijaxInjector {
      */
     private static boolean isSamePackage(final Method oldMethod, final Method method) {
         return oldMethod.getDeclaringClass().getPackage().equals(method.getDeclaringClass().getPackage());
+    }
+
+
+    private EntityManagerFactory getEntityManagerFactory(final String name) {
+        Objects.requireNonNull(container, "EntintyManagerFactory requires a container");
+
+        final String unitName = name != null && !name.isEmpty() ? name : PersistenceUtils.getDefaultName("META-INF/persistence.xml");
+        return Persistence.createEntityManagerFactory(unitName, container.getConfiguration().getProperties());
     }
 }

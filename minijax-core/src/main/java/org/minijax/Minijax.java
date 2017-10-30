@@ -60,13 +60,13 @@ import org.minijax.util.IOUtils;
 import org.minijax.util.IdUtils;
 import org.minijax.util.MediaTypeClassMap;
 import org.minijax.util.MediaTypeUtils;
+import org.minijax.util.OptionalClasses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Minijax implements FeatureContext {
     private static final Logger LOG = LoggerFactory.getLogger(Minijax.class);
-    private static final Class<?> webSocketUtilsClass = safeGetClass("org.minijax.websocket.MinijaxWebSocketUtils");
-    private static final Class<Annotation> serverEndpoint = safeGetClass("javax.websocket.server.ServerEndpoint");
+    private final MinijaxConfiguration configuration;
     private final MinijaxInjector injector;
     private final List<MinijaxStaticResource> staticResources;
     private final Set<Class<?>> classesScanned;
@@ -81,7 +81,8 @@ public class Minijax implements FeatureContext {
 
 
     public Minijax() {
-        injector = new MinijaxInjector();
+        configuration = new MinijaxConfiguration();
+        injector = new MinijaxInjector(this);
         staticResources = new ArrayList<>();
         classesScanned = new HashSet<>();
         resourceMethods = new ArrayList<>();
@@ -96,13 +97,14 @@ public class Minijax implements FeatureContext {
 
     @Override
     public Configuration getConfiguration() {
-        throw new UnsupportedOperationException();
+        return configuration;
     }
 
 
     @Override
     public Minijax property(final String name, final Object value) {
-        throw new UnsupportedOperationException();
+        configuration.getProperties().put(name, value);
+        return this;
     }
 
 
@@ -220,8 +222,8 @@ public class Minijax implements FeatureContext {
             server.setHandler(context);
 
             // (1) WebSocket endpoints
-            if (webSocketUtilsClass != null) {
-                webSocketUtilsClass
+            if (OptionalClasses.webSocketUtilsClass != null) {
+                OptionalClasses.webSocketUtilsClass
                         .getMethod("init", Minijax.class, ServletContextHandler.class, List.class)
                         .invoke(null, this, context, webSockets);
             }
@@ -295,10 +297,10 @@ public class Minijax implements FeatureContext {
 
 
     private void registerWebSockets(final Class<?> c) {
-        if (serverEndpoint == null) {
+        if (OptionalClasses.serverEndpoint == null) {
             return;
         }
-        final Annotation ws = c.getAnnotation(serverEndpoint);
+        final Annotation ws = c.getAnnotation(OptionalClasses.serverEndpoint);
         if (ws != null) {
             webSockets.add(c);
         }
@@ -755,16 +757,5 @@ public class Minijax implements FeatureContext {
             return (T) Short.valueOf(str);
         }
         throw new IllegalArgumentException("Unrecognized primitive (" + c + ")");
-    }
-
-
-    @SuppressWarnings("unchecked")
-    private static <T> Class<T> safeGetClass(final String className) {
-        try {
-            return (Class<T>) Class.forName(className);
-        } catch (final ClassNotFoundException ex) {
-            LOG.trace(ex.getMessage(), ex);
-            return null;
-        }
     }
 }
