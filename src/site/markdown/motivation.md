@@ -12,37 +12,7 @@ Why does Minijax exist?
 
 **Why Java EE API's?** Despite the weight and hassle of Java EE, the API's themselves can be quite elegant.  Plus, by using standard API's, you inherit the benefits of standardized documentation and engineers who are familiar with the design.  By sticking to standard API's, you can future proof your project.
 
-**How lightweight?** We have been vigilant with dependencies.  Here is the current "Hello" example dependency tree:
-
-```bash
-$ mvn dependency:tree
-[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ minijax-example-hello ---
-[INFO] org.minijax:minijax-example-hello:jar:0.0.8-SNAPSHOT
-[INFO] +- junit:junit:jar:4.12:test
-[INFO] |  \- org.hamcrest:hamcrest-core:jar:1.3:test
-[INFO] \- org.minijax:minijax-core:jar:0.0.8-SNAPSHOT:compile
-[INFO]    +- javax.annotation:jsr250-api:jar:1.0:compile
-[INFO]    +- javax.inject:javax.inject:jar:1:compile
-[INFO]    +- javax.ws.rs:javax.ws.rs-api:jar:2.1:compile
-[INFO]    +- org.eclipse.jetty:jetty-server:jar:9.4.7.v20170914:compile
-[INFO]    |  +- javax.servlet:javax.servlet-api:jar:3.1.0:compile
-[INFO]    |  +- org.eclipse.jetty:jetty-http:jar:9.4.7.v20170914:compile
-[INFO]    |  |  \- org.eclipse.jetty:jetty-util:jar:9.4.7.v20170914:compile
-[INFO]    |  \- org.eclipse.jetty:jetty-io:jar:9.4.7.v20170914:compile
-[INFO]    +- org.eclipse.jetty:jetty-servlet:jar:9.4.7.v20170914:compile
-[INFO]    |  \- org.eclipse.jetty:jetty-security:jar:9.4.7.v20170914:compile
-[INFO]    \- org.slf4j:slf4j-api:jar:1.7.25:compile
-```
-
-The hello "fat jar" clocks in at ~1.8 MB, with Jetty accounting for 818 out of 1121 classes (73%).  Minijax "core" itself only has 35 classes (3%).
-
-**Why Jetty?**
-
-**Why not Undertow (or Netty or Grizzly or ...)?**
-
-**[Why not Spring?](why-not-spring.html)**
-
-**Why not Dropwizard?**
+**How lightweight?** We have been vigilant with dependencies.  Check out the ["Hello World" dependencies](https://minijax.org/minijax-examples/minijax-example-hello/dependencies.html)
 
 What's next?
 ------------
