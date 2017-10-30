@@ -16,7 +16,7 @@ Getting Started
 <dependency>
     <groupId>org.minijax</groupId>
     <artifactId>minijax-core</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.20</version>
 </dependency>
 ```
 
@@ -44,3 +44,21 @@ public class Hello {
 
 Learn more at [https://minijax.org](https://minijax.org)
 
+Developers
+----------
+
+To build:
+
+```bash
+mvn clean install
+```
+
+To release:
+
+```bash
+mvn -B release:prepare release:perform
+```
+
+Release requirements:
+* GPG keys to sign for Maven Central
+* AWS credentials to update https://minijax.org

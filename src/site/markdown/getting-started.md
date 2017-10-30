@@ -12,20 +12,23 @@ In this tutorial we will do the following:
 ```bash
 $ mvn archetype:generate \
     -DarchetypeGroupId=org.minijax \
-    -DarchetypeArtifactId=minijax-archetype \
-    -DarchetypeVersion=0.0.8-SNAPSHOT \
-    -DgroupId=com.example \
-    -DartifactId=minijax-tutorial
+    -DarchetypeArtifactId=minijax-archetype-quickstart \
+    -DarchetypeVersion=0.0.20
 ```
 
 You will be prompted for a few values.  The default values are all ok, so just hit Enter a couple times.
 
 ```bash
+Define value for property 'groupId': com.example
+Define value for property 'artifactId': minijax-tutorial
+Define value for property 'version' 1.0-SNAPSHOT: :
+Define value for property 'package' com.example: :
 Confirm properties configuration:
 groupId: com.example
 artifactId: minijax-tutorial
 version: 1.0-SNAPSHOT
 package: com.example
+
  Y: :
 ```
 
@@ -57,6 +60,55 @@ Pretty simple and standard:
 * A Maven pom.xml that declares dependencies
 * A main App.java file with core logic
 * A test AppTest.java file with unit tests
+
+The main Java file is a minimal "Hello World" application:
+
+```java
+package com.example;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+
+import org.minijax.Minijax;
+
+public class App {
+
+    @GET
+    @Path("/")
+    public static String hello() {
+        return "Hello world!";
+    }
+
+    public static void main(final String[] args) {
+        new Minijax().register(App.class).run(8080);
+    }
+}
+```
+
+The unit test uses the JAX-RS client API to test the endpoint:
+
+```java
+package com.example;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.minijax.test.MinijaxTest;
+
+public class AppTest extends MinijaxTest {
+
+    @Before
+    public void setUp() {
+        register(App.class);
+    }
+
+    @Test
+    public void testHello() {
+        assertEquals("Hello world!", target("/").request().get(String.class));
+    }
+}
+```
 
 **Step 2:** We can run the application now:
 
