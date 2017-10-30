@@ -15,6 +15,7 @@
         <module>minijax-benchmark-hello-jersey</module>
         <module>minijax-benchmark-hello-jetty</module>
         <module>minijax-benchmark-hello-minijax</module>
+        <module>minijax-benchmark-hello-resteasy</module>
         <module>minijax-benchmark-hello-spark</module>
         <module>minijax-benchmark-hello-springboot</module>
         <module>minijax-benchmark-hello-tomcat</module>
