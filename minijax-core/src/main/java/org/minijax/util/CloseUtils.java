@@ -23,8 +23,6 @@ public class CloseUtils {
             return;
         }
 
-        System.out.println("CODY - CLOSE " + obj);
-
         if (obj instanceof AutoCloseable) {
             closeAutoCloseable((AutoCloseable) obj);
             return;
@@ -53,7 +51,6 @@ public class CloseUtils {
 
     public static void closeEntityManagerFactory(final EntityManagerFactory emf) {
         try {
-            System.out.println("CODY - CLOSE EMF");
             emf.close();
         } catch (final Exception ex) {
             LOG.warn(ex.getMessage(), ex);

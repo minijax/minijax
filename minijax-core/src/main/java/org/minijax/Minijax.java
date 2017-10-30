@@ -1,5 +1,7 @@
 package org.minijax;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
@@ -17,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
 
@@ -104,6 +107,17 @@ public class Minijax implements FeatureContext {
     @Override
     public Minijax property(final String name, final Object value) {
         configuration.getProperties().put(name, value);
+        return this;
+    }
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public Minijax properties(final File file) throws IOException {
+        final Properties props = new Properties();
+        try (final FileReader r = new FileReader(file)) {
+            props.load(r);
+        }
+        configuration.getProperties().putAll((Map) props);
         return this;
     }
 
@@ -225,6 +239,7 @@ public class Minijax implements FeatureContext {
 
     public void run(final int port) {
         try {
+            LOG.info("Creating web server...");
             final Server server = createServer(port);
 
             final ServletContextHandler context = new ServletContextHandler();
@@ -254,6 +269,9 @@ public class Minijax implements FeatureContext {
             context.addServlet(servletHolder, "/*");
 
             server.start();
+
+            LOG.info("Minijax started successfully");
+
             server.join();
 
         } catch (final Exception ex) {
