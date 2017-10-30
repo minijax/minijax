@@ -29,7 +29,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
-import org.minijax.data.DataProperties;
+import org.minijax.MinijaxProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Attr;
@@ -105,12 +105,12 @@ public class LiquibaseHelper {
             final File resourcesDir,
             final String changeLogResourceName) {
 
-        persistenceUnitName = props.get(DataProperties.PERSISTENCE_UNIT_NAME);
-        driver = props.get(DataProperties.DRIVER);
-        url = props.get(DataProperties.URL);
-        username = props.get(DataProperties.USERNAME);
-        password = props.get(DataProperties.PASSWORD);
-        referenceUrl = props.get(DataProperties.REFERENCE_URL);
+        persistenceUnitName = props.get(MinijaxProperties.PERSISTENCE_UNIT_NAME);
+        driver = props.get(MinijaxProperties.DB_DRIVER);
+        url = props.get(MinijaxProperties.DB_URL);
+        username = props.get(MinijaxProperties.DB_USERNAME);
+        password = props.get(MinijaxProperties.DB_PASSWORD);
+        referenceUrl = props.get(MinijaxProperties.DB_REFERENCE_URL);
 
         this.resourceAccessor = resourceAccessor;
         this.resourcesDir = resourcesDir;

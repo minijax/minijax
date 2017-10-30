@@ -11,6 +11,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.junit.Test;
+import org.minijax.MinijaxProperties;
+import org.minijax.data.BaseDao;
+import org.minijax.data.ConflictException;
 import org.minijax.entity.test.Widget;
 
 public class DaoTest {
@@ -19,11 +22,11 @@ public class DaoTest {
         final String name = "test" + System.currentTimeMillis();
 
         final Map<String, String> props = new HashMap<>();
-        props.put(DataProperties.PERSISTENCE_UNIT_NAME, "testdb");
-        props.put(DataProperties.DRIVER, "org.h2.jdbcx.JdbcDataSource");
-        props.put(DataProperties.URL, "jdbc:h2:mem:" + name);
-        props.put(DataProperties.USERNAME, "");
-        props.put(DataProperties.PASSWORD, "");
+        props.put(MinijaxProperties.PERSISTENCE_UNIT_NAME, "testdb");
+        props.put(MinijaxProperties.DB_DRIVER, "org.h2.jdbcx.JdbcDataSource");
+        props.put(MinijaxProperties.DB_URL, "jdbc:h2:mem:" + name);
+        props.put(MinijaxProperties.DB_USERNAME, "");
+        props.put(MinijaxProperties.DB_PASSWORD, "");
         props.put(SCHEMA_GENERATION_DATABASE_ACTION, "drop-and-create");
         return Persistence.createEntityManagerFactory("testdb", props);
     }

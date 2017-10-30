@@ -21,7 +21,7 @@ import javax.persistence.EntityManagerFactory;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.minijax.data.DataProperties;
+import org.minijax.MinijaxProperties;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import liquibase.change.core.AddColumnChange;
@@ -53,12 +53,12 @@ public class LiquibaseHelperTest {
         final File changeLogFile = new File(TEST_RESOURCES, changeLogResourceName);
 
         final Map<String, String> props = new HashMap<>();
-        props.put(DataProperties.PERSISTENCE_UNIT_NAME, "testdb");
-        props.put(DataProperties.DRIVER, "org.h2.jdbcx.JdbcDataSource");
-        props.put(DataProperties.URL, targetUrl);
-        props.put(DataProperties.REFERENCE_URL, referenceUrl);
-        props.put(DataProperties.USERNAME, "");
-        props.put(DataProperties.PASSWORD, "");
+        props.put(MinijaxProperties.PERSISTENCE_UNIT_NAME, "testdb");
+        props.put(MinijaxProperties.DB_DRIVER, "org.h2.jdbcx.JdbcDataSource");
+        props.put(MinijaxProperties.DB_URL, targetUrl);
+        props.put(MinijaxProperties.DB_REFERENCE_URL, referenceUrl);
+        props.put(MinijaxProperties.DB_USERNAME, "");
+        props.put(MinijaxProperties.DB_PASSWORD, "");
 
         // Verify that both databases are empty and that the changelog does not exist
         assertTrue(getTables(targetUrl).isEmpty());

@@ -6,6 +6,7 @@ import org.eclipse.persistence.config.SessionCustomizer;
 import org.eclipse.persistence.sessions.DatabaseLogin;
 import org.eclipse.persistence.sessions.JNDIConnector;
 import org.eclipse.persistence.sessions.Session;
+import org.minijax.MinijaxProperties;
 import org.minijax.entity.UuidGenerator;
 
 import com.zaxxer.hikari.HikariConfig;
@@ -37,16 +38,16 @@ public class EclipselinkSessionCustomizer implements SessionCustomizer {
         final DatabaseLogin login = session.getLogin();
         final Map<String, Object> props = session.getProperties();
 
-        final String url = (String) props.get(DataProperties.URL);
+        final String url = (String) props.get(MinijaxProperties.DB_URL);
         if (url == null) {
             return;
         }
 
         final HikariConfig config = new HikariConfig();
         config.setJdbcUrl(url);
-        config.setDriverClassName((String) props.get(DataProperties.DRIVER));
-        config.setUsername((String) props.get(DataProperties.USERNAME));
-        config.setPassword((String) props.get(DataProperties.PASSWORD));
+        config.setDriverClassName((String) props.get(MinijaxProperties.DB_DRIVER));
+        config.setUsername((String) props.get(MinijaxProperties.DB_USERNAME));
+        config.setPassword((String) props.get(MinijaxProperties.DB_PASSWORD));
 
         // Recommended performance settings from HikariCP:
         // https://github.com/brettwooldridge/HikariCP/wiki/MySQL-Configuration
