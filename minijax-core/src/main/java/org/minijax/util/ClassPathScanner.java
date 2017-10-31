@@ -15,8 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Utilities to scan the classpath in search of classes in a specific package.
  *
- * https://stackoverflow.com/a/22462785/2051724
+ * See:  https://stackoverflow.com/a/22462785/2051724
  */
 public class ClassPathScanner {
     private static final Logger LOG = LoggerFactory.getLogger(ClassPathScanner.class);

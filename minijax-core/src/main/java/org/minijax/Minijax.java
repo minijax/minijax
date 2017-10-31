@@ -262,8 +262,8 @@ public class Minijax implements FeatureContext {
             server.setHandler(context);
 
             // (1) WebSocket endpoints
-            if (OptionalClasses.webSocketUtilsClass != null) {
-                OptionalClasses.webSocketUtilsClass
+            if (OptionalClasses.WEB_SOCKET_UTILS != null) {
+                OptionalClasses.WEB_SOCKET_UTILS
                         .getMethod("init", Minijax.class, ServletContextHandler.class, List.class)
                         .invoke(null, this, context, webSockets);
             }
@@ -361,10 +361,10 @@ public class Minijax implements FeatureContext {
 
 
     private void registerWebSockets(final Class<?> c) {
-        if (OptionalClasses.serverEndpoint == null) {
+        if (OptionalClasses.SERVER_ENDPOINT == null) {
             return;
         }
-        final Annotation ws = c.getAnnotation(OptionalClasses.serverEndpoint);
+        final Annotation ws = c.getAnnotation(OptionalClasses.SERVER_ENDPOINT);
         if (ws != null) {
             webSockets.add(c);
         }

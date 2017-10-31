@@ -18,11 +18,6 @@ page at http://checkstyle.sourceforge.net/config.html -->
     <property name="lineSeparator" value="lf"/>
   </module>
 
-  <module name="JavadocPackage">
-    <!-- Checks that each Java package has a Javadoc file used for commenting.
-      Only allows a package-info.java, not package.html. -->
-  </module>
-
   <!-- All Java AST specific tests live under TreeWalker module. -->
   <module name="TreeWalker">
 
@@ -41,7 +36,9 @@ page at http://checkstyle.sourceforge.net/config.html -->
       <!-- Checks for out of order import statements. -->
 
       <property name="severity" value="warning"/>
-      <property name="groups" value="java,javax,ajibot,org,com,net"/>
+      <property name="groups" value="java,javax,io,org,com,net"/>
+      <property name="ordered" value="true"/>
+      <property name="separated" value="true"/>
       <!-- This ensures that static imports go first. -->
       <property name="option" value="top"/>
       <property name="tokens" value="STATIC_IMPORT, IMPORT"/>
@@ -64,11 +61,6 @@ page at http://checkstyle.sourceforge.net/config.html -->
       <property name="allowMissingThrowsTags" value="true"/>
       <property name="allowThrowsTagsForSubclasses" value="true"/>
       <property name="allowUndeclaredRTE" value="true"/>
-    </module>
-
-    <module name="JavadocType">
-      <property name="scope" value="protected"/>
-      <property name="severity" value="error"/>
     </module>
 
     <module name="JavadocStyle">

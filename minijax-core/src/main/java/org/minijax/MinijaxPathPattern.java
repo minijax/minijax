@@ -14,6 +14,9 @@ import javax.ws.rs.PathParam;
  * The MinijaxPathPattern class is a rich representation of a parameterized URL path.
  */
 class MinijaxPathPattern {
+    private static final String DIGITS_REGEX = "(\\p{Digit}+)";
+    private static final String HEX_DIGITS_REGEX = "(\\p{XDigit}+)";
+    private static final String EXP_REGEX = "[eE][+-]?" + DIGITS_REGEX;
     private static final String DOUBLE_REGEX = getDoubleRegex();
     private final Pattern pattern;
     private final List<String> params;
@@ -166,51 +169,53 @@ class MinijaxPathPattern {
                 currentClass = currentClass.getSuperclass();
             }
 
-            throw new IllegalArgumentException("Missing parameter with name \"" + paramName + "\" (" + method.getDeclaringClass().getName() + "." + method.getName() + ")");
+            throw new IllegalArgumentException(String.format("Missing parameter \"%s\" (%s.%s)",
+                    paramName,
+                    method.getDeclaringClass().getName(),
+                    method.getName()));
         }
     }
 
     /**
+     * Returns a regular expression for strings parseable by Double.valueOf.
+     *
      * See: https://docs.oracle.com/javase/7/docs/api/java/lang/Double.html#valueOf(java.lang.String)
      */
     private static String getDoubleRegex() {
-        final String Digits     = "(\\p{Digit}+)";
-        final String HexDigits  = "(\\p{XDigit}+)";
-        // an exponent is 'e' or 'E' followed by an optionally
-        // signed decimal integer.
-        final String Exp        = "[eE][+-]?"+Digits;
         return
-            ("[\\x00-\\x20]*"+  // Optional leading "whitespace"
-             "[+-]?(" + // Optional sign character
-             "NaN|" +           // "NaN" string
-             "Infinity|" +      // "Infinity" string
+                ("[\\x00-\\x20]*" +  // Optional leading "whitespace"
+                "[+-]?(" + // Optional sign character
+                "NaN|" +           // "NaN" string
+                "Infinity|" +      // "Infinity" string
 
-             // A decimal floating-point string representing a finite positive
-             // number without a leading sign has at most five basic pieces:
-             // Digits . Digits ExponentPart FloatTypeSuffix
-             //
-             // Since this method allows integer-only strings as input
-             // in addition to strings of floating-point literals, the
-             // two sub-patterns below are simplifications of the grammar
-             // productions from section 3.10.2 of
-             // The Java™ Language Specification.
+                // A decimal floating-point string representing a finite positive
+                // number without a leading sign has at most five basic pieces:
+                // Digits . Digits ExponentPart FloatTypeSuffix
+                //
+                // Since this method allows integer-only strings as input
+                // in addition to strings of floating-point literals, the
+                // two sub-patterns below are simplifications of the grammar
+                // productions from section 3.10.2 of
+                // The Java™ Language Specification.
 
-             // Digits ._opt Digits_opt ExponentPart_opt FloatTypeSuffix_opt
-             "((("+Digits+"(\\.)?("+Digits+"?)("+Exp+")?)|"+
+                // Digits ._opt Digits_opt ExponentPart_opt FloatTypeSuffix_opt
+                "(((" + DIGITS_REGEX + "(\\.)?(" + DIGITS_REGEX + "?)(" + EXP_REGEX + ")?)|" +
 
-             // . Digits ExponentPart_opt FloatTypeSuffix_opt
-             "(\\.("+Digits+")("+Exp+")?)|"+
+                // . Digits ExponentPart_opt FloatTypeSuffix_opt
+                "(\\.(" + DIGITS_REGEX + ")(" + EXP_REGEX + ")?)|" +
 
-             // Hexadecimal strings
-             "((" +
-              // 0[xX] HexDigits ._opt BinaryExponent FloatTypeSuffix_opt
-              "(0[xX]" + HexDigits + "(\\.)?)|" +
+                // Hexadecimal strings
+                "((" +
+                // 0[xX] HexDigits ._opt BinaryExponent FloatTypeSuffix_opt
+                "(0[xX]" + HEX_DIGITS_REGEX + "(\\.)?)|" +
 
-              // 0[xX] HexDigits_opt . HexDigits BinaryExponent FloatTypeSuffix_opt
-              "(0[xX]" + HexDigits + "?(\\.)" + HexDigits + ")" +
+                // 0[xX] HexDigits_opt . HexDigits BinaryExponent FloatTypeSuffix_opt
+                "(0[xX]" + HEX_DIGITS_REGEX + "?(\\.)" + HEX_DIGITS_REGEX + ")" +
 
-              ")[pP][+-]?" + Digits + "))" +
-             "[fFdD]?))" +
-             "[\\x00-\\x20]*");// Optional trailing "whitespace"
+                ")[pP][+-]?" + DIGITS_REGEX + "))" +
+                "[fFdD]?))" +
+
+                // Optional trailing "whitespace"
+                "[\\x00-\\x20]*");
     }
 }

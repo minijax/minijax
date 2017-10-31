@@ -6,8 +6,8 @@ import java.util.Map;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.minijax.MinijaxProperties;
 import org.minijax.Minijax;
+import org.minijax.MinijaxProperties;
 import org.minijax.mustache.MinijaxMustacheFeature;
 
 public class PetClinicApp {
