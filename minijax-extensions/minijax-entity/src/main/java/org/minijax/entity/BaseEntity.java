@@ -17,7 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.minijax.json.MinijaxObjectMapper;
 import org.slf4j.Logger;
@@ -39,17 +38,14 @@ public abstract class BaseEntity implements Serializable {
     private UUID id;
 
     @Convert(converter = InstantConverter.class)
-    @XmlJavaTypeAdapter(InstantAdapter.class)
     @SuppressWarnings("squid:S3437")
     private Instant createdDateTime;
 
     @Convert(converter = InstantConverter.class)
-    @XmlJavaTypeAdapter(InstantAdapter.class)
     @SuppressWarnings("squid:S3437")
     private Instant updatedDateTime;
 
     @Convert(converter = InstantConverter.class)
-    @XmlJavaTypeAdapter(InstantAdapter.class)
     @SuppressWarnings("squid:S3437")
     private Instant deletedDateTime;
 

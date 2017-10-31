@@ -11,12 +11,10 @@ import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.minijax.entity.BaseEntity;
-import org.minijax.entity.InstantAdapter;
 import org.minijax.entity.InstantConverter;
 
 @Entity
@@ -29,7 +27,6 @@ public class Visit extends BaseEntity {
     private String description;
 
     @Convert(converter = InstantConverter.class)
-    @XmlJavaTypeAdapter(InstantAdapter.class)
     @SuppressWarnings("squid:S3437")
     private Instant date;
 
