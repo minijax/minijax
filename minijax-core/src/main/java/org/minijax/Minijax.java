@@ -283,29 +283,10 @@ public class Minijax implements FeatureContext {
             context.addServlet(servletHolder, "/*");
 
             // (4) HTTP or HTTPS connector
-            final String keyStorePath = (String) getConfiguration().getProperties().get(MinijaxProperties.SSL_KEY_STORE_PATH);
-            final ServerConnector connector;
-            if (keyStorePath != null && !keyStorePath.isEmpty()) {
-                final String keyStorePassword = (String) getConfiguration().getProperties().get(MinijaxProperties.SSL_KEY_STORE_PASSWORD);
-                final String keyManagerPassword = (String) getConfiguration().getProperties().get(MinijaxProperties.SSL_KEY_MANAGER_PASSWORD);
-
-                final HttpConfiguration https = new HttpConfiguration();
-                https.addCustomizer(new SecureRequestCustomizer());
-
-                final SslContextFactory sslContextFactory = new SslContextFactory();
-                sslContextFactory.setKeyStorePath(Minijax.class.getClassLoader().getResource(keyStorePath).toExternalForm());
-                sslContextFactory.setKeyStorePassword(keyStorePassword);
-                sslContextFactory.setKeyManagerPassword(keyManagerPassword);
-
-                connector = new ServerConnector(server,
-                        new SslConnectionFactory(sslContextFactory, "http/1.1"),
-                        new HttpConnectionFactory(https));
-            } else {
-                connector = new ServerConnector(server);
-            }
-
+            final ServerConnector connector = createConnector(server);
             connector.setPort(port);
             server.setConnectors(new Connector[] { connector });
+
             server.start();
             server.join();
 
@@ -442,6 +423,42 @@ public class Minijax implements FeatureContext {
      */
     protected Server createServer() {
         return new Server();
+    }
+
+
+    /**
+     * Creates a server connector.
+     *
+     * If an HTTPS key store is configured, returns a SSL connector for HTTPS.
+     *
+     * Otherwise, returns a normal HTTP connector by default.
+     *
+     * @param server The server.
+     * @return The server connector.
+     */
+    @SuppressWarnings("squid:S2095")
+    protected ServerConnector createConnector(final Server server) {
+        final String keyStorePath = (String) getConfiguration().getProperties().get(MinijaxProperties.SSL_KEY_STORE_PATH);
+
+        if (keyStorePath == null || keyStorePath.isEmpty()) {
+            // Normal HTTP
+            return new ServerConnector(server);
+        }
+
+        final String keyStorePassword = (String) getConfiguration().getProperties().get(MinijaxProperties.SSL_KEY_STORE_PASSWORD);
+        final String keyManagerPassword = (String) getConfiguration().getProperties().get(MinijaxProperties.SSL_KEY_MANAGER_PASSWORD);
+
+        final HttpConfiguration https = new HttpConfiguration();
+        https.addCustomizer(new SecureRequestCustomizer());
+
+        final SslContextFactory sslContextFactory = new SslContextFactory();
+        sslContextFactory.setKeyStorePath(Minijax.class.getClassLoader().getResource(keyStorePath).toExternalForm());
+        sslContextFactory.setKeyStorePassword(keyStorePassword);
+        sslContextFactory.setKeyManagerPassword(keyManagerPassword);
+
+        return new ServerConnector(server,
+                new SslConnectionFactory(sslContextFactory, "http/1.1"),
+                new HttpConnectionFactory(https));
     }
 
 
