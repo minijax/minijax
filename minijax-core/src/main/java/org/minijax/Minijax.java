@@ -51,11 +51,18 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 
+import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.minijax.cdi.MinijaxInjector;
 import org.minijax.util.ClassPathScanner;
 import org.minijax.util.ExceptionUtils;
@@ -237,10 +244,17 @@ public class Minijax implements FeatureContext {
     }
 
 
+    public Minijax secure(final String keyStorePath, final String keyStorePassword, final String keyManagerPassword) {
+        property(MinijaxProperties.SSL_KEY_STORE_PATH, keyStorePath);
+        property(MinijaxProperties.SSL_KEY_STORE_PASSWORD, keyStorePassword);
+        property(MinijaxProperties.SSL_KEY_MANAGER_PASSWORD, keyManagerPassword);
+        return this;
+    }
+
+
     public void run(final int port) {
         try {
-            LOG.info("Creating web server...");
-            final Server server = createServer(port);
+            final Server server = createServer();
 
             final ServletContextHandler context = new ServletContextHandler();
             context.setContextPath("/");
@@ -268,10 +282,31 @@ public class Minijax implements FeatureContext {
             servletHolder.getRegistration().setMultipartConfig(new MultipartConfigElement(""));
             context.addServlet(servletHolder, "/*");
 
+            // (4) HTTP or HTTPS connector
+            final String keyStorePath = (String) getConfiguration().getProperties().get(MinijaxProperties.SSL_KEY_STORE_PATH);
+            final ServerConnector connector;
+            if (keyStorePath != null && !keyStorePath.isEmpty()) {
+                final String keyStorePassword = (String) getConfiguration().getProperties().get(MinijaxProperties.SSL_KEY_STORE_PASSWORD);
+                final String keyManagerPassword = (String) getConfiguration().getProperties().get(MinijaxProperties.SSL_KEY_MANAGER_PASSWORD);
+
+                final HttpConfiguration https = new HttpConfiguration();
+                https.addCustomizer(new SecureRequestCustomizer());
+
+                final SslContextFactory sslContextFactory = new SslContextFactory();
+                sslContextFactory.setKeyStorePath(Minijax.class.getClassLoader().getResource(keyStorePath).toExternalForm());
+                sslContextFactory.setKeyStorePassword(keyStorePassword);
+                sslContextFactory.setKeyManagerPassword(keyManagerPassword);
+
+                connector = new ServerConnector(server,
+                        new SslConnectionFactory(sslContextFactory, "http/1.1"),
+                        new HttpConnectionFactory(https));
+            } else {
+                connector = new ServerConnector(server);
+            }
+
+            connector.setPort(port);
+            server.setConnectors(new Connector[] { connector });
             server.start();
-
-            LOG.info("Minijax started successfully");
-
             server.join();
 
         } catch (final Exception ex) {
@@ -403,11 +438,10 @@ public class Minijax implements FeatureContext {
      *
      * Override this method in unit tests to mock server functionality.
      *
-     * @param port The listening port.
      * @return A new web server.
      */
-    protected Server createServer(final int port) {
-        return new Server(port);
+    protected Server createServer() {
+        return new Server();
     }
 
 

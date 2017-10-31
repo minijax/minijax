@@ -17,7 +17,7 @@ public class MinijaxConfiguration implements javax.ws.rs.core.Configuration {
 
     @Override
     public RuntimeType getRuntimeType() {
-        throw new UnsupportedOperationException();
+        return RuntimeType.SERVER;
     }
 
     @Override

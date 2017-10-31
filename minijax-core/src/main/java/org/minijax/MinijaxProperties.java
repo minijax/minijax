@@ -8,6 +8,10 @@ public class MinijaxProperties {
     public static final String DB_PASSWORD = "org.minijax.data.password"; // NOSONAR
     public static final String DB_REFERENCE_URL = "org.minijax.data.referenceUrl";
 
+    public static final String SSL_KEY_STORE_PATH = "org.minijax.ssl.keyStorePath";
+    public static final String SSL_KEY_STORE_PASSWORD = "org.minijax.ssl.keyStorePassword";
+    public static final String SSL_KEY_MANAGER_PASSWORD = "org.minijax.ssl.keyManagerPassword";
+
     MinijaxProperties() {
         throw new UnsupportedOperationException();
     }

@@ -15,6 +15,7 @@
         <module>minijax-example-json</module>
         <module>minijax-example-petclinic</module>
         <module>minijax-example-security</module>
+        <module>minijax-example-ssl</module>
         <module>minijax-example-todo-backend</module>
         <module>minijax-example-websocket</module>
     </modules>
