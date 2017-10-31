@@ -98,7 +98,7 @@ public class WebSocketTest {
 
         return new Minijax() {
             @Override
-            protected Server createServer(final int port) {
+            protected Server createServer() {
                 return server;
             }
         };
