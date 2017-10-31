@@ -403,7 +403,7 @@ public class MinijaxInjector implements Closeable {
 
 
     public void registerPersistence() {
-        final List<String> names = PersistenceUtils.getDefaultName("META-INF/persistence.xml");
+        final List<String> names = PersistenceUtils.getNames("META-INF/persistence.xml");
         final Map<String, Object> props = container == null ? null : container.getConfiguration().getProperties();
         boolean first = true;
 

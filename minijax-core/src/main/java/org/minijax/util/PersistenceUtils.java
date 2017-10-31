@@ -16,24 +16,39 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
+/**
+ * The PersistenceUtils class provides helper methods for parsing a persistence.xml file.
+ */
 public class PersistenceUtils {
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceUtils.class);
 
 
-    public static List<String> getDefaultName(final String fileName) {
+    PersistenceUtils() {
+        throw new UnsupportedOperationException();
+    }
+
+
+    /**
+     * Returns a list of persistence unit names.
+     *
+     * @param fileName The resource file name to scan.
+     * @return A list of persistence unit names.
+     */
+    public static List<String> getNames(final String fileName) {
         try (final InputStream in = PersistenceUtils.class.getClassLoader().getResourceAsStream(fileName)) {
             if (in == null) {
                 return Collections.emptyList();
             }
             return scanPersistenceXml(in);
         } catch (final Exception ex) {
-            LOG.error("Error reading persistence.xml: {}", ex.getMessage(), ex);
-            return null;
+            LOG.warn("Error reading persistence.xml: {}", ex.getMessage(), ex);
+            return Collections.emptyList();
         }
     }
 
 
-    protected static List<String> scanPersistenceXml(final InputStream in) throws Exception {
+    protected static List<String> scanPersistenceXml(final InputStream in)
+            throws Exception { // NOSONAR
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         final Document doc = factory.newDocumentBuilder().parse(in);
         final XPathExpression expr = XPathFactory.newInstance().newXPath().compile("/persistence/persistence-unit/@name");

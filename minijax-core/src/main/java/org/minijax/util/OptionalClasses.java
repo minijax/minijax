@@ -18,6 +18,9 @@ public class OptionalClasses {
 
     public static final Class<?> PERSISTENCE_CONTEXT = safeGetClass("javax.persistence.PersistenceContext");
 
+    OptionalClasses() {
+        throw new UnsupportedOperationException();
+    }
 
     @SuppressWarnings("unchecked")
     private static <T> Class<T> safeGetClass(final String className) {

@@ -24,6 +24,6 @@ public class HelloDropwizardBenchmark extends Application<Configuration> {
     }
 
     public static void main(final String[] args) throws Exception {
-        new HelloDropwizardBenchmark().run(new String[] { "server" });
+        new HelloDropwizardBenchmark().run("server");
     }
 }

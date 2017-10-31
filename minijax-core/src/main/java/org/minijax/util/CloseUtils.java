@@ -11,6 +11,10 @@ import org.slf4j.LoggerFactory;
 public class CloseUtils {
     private static final Logger LOG = LoggerFactory.getLogger(CloseUtils.class);
 
+    CloseUtils() {
+        throw new UnsupportedOperationException();
+    }
+
     @SuppressWarnings("rawtypes")
     public static void closeQuietly(final Collection objs) {
         for (final Object obj : objs) {

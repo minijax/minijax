@@ -11,16 +11,16 @@ public class PersistenceUtilsTest {
 
     @Test
     public void testNotFound() {
-        assertEquals(Collections.emptyList(), PersistenceUtils.getDefaultName("not-found.xml"));
+        assertEquals(Collections.emptyList(), PersistenceUtils.getNames("not-found.xml"));
     }
 
     @Test
     public void testOne() {
-        assertEquals(Arrays.asList("testdb"), PersistenceUtils.getDefaultName("test-persistence1.xml"));
+        assertEquals(Arrays.asList("testdb"), PersistenceUtils.getNames("test-persistence1.xml"));
     }
 
     @Test
     public void testMultiple() {
-        assertEquals(Arrays.asList("test1", "test2"), PersistenceUtils.getDefaultName("test-persistence2.xml"));
+        assertEquals(Arrays.asList("test1", "test2"), PersistenceUtils.getNames("test-persistence2.xml"));
     }
 }
