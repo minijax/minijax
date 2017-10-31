@@ -308,7 +308,10 @@ public class Minijax implements FeatureContext {
     private void scanPackage(final String packageName) {
         try {
             for (final Class<?> c : ClassPathScanner.scan(packageName)) {
-                registerImpl(c);
+                if (c.isAnnotationPresent(javax.ws.rs.ext.Provider.class)
+                        || c.isAnnotationPresent(javax.ws.rs.Path.class)) {
+                    registerImpl(c);
+                }
             }
         } catch (final IOException ex) {
             throw new MinijaxException(ex.getMessage(), ex);

@@ -47,8 +47,8 @@ public class InjectTest extends MinijaxTest {
 
     @Before
     public void setUp() {
-        register(InjectTest.class);
-        packages("org.minijax");
+        register(Counter.class);
+        register(InjectedResource.class);
     }
 
     @Test
