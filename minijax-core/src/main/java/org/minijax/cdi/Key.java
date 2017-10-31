@@ -19,6 +19,7 @@ import org.minijax.util.OptionalClasses;
 
 class Key<T> {
     private final Class<T> type;
+    private final Annotation[] annotations;
     private final Strategy strategy;
     private final Class<? extends Annotation> qualifier;
     private final String name;
@@ -26,12 +27,14 @@ class Key<T> {
 
     private Key(
             final Class<T> type,
+            final Annotation[] annotations,
             final Strategy strategy,
             final Class<? extends Annotation> qualifier,
             final String name,
             final DefaultValue defaultValue) {
 
         this.type = type;
+        this.annotations = annotations;
         this.strategy = strategy;
         this.qualifier = qualifier;
         this.name = name;
@@ -40,6 +43,10 @@ class Key<T> {
 
     public Class<T> getType() {
         return type;
+    }
+
+    public Annotation[] getAnnotations() {
+        return annotations;
     }
 
     public Strategy getStrategy() {
@@ -125,6 +132,7 @@ class Key<T> {
 
     private static class Builder<T> {
         private final Class<T> type;
+        private Annotation[] annotations;
         private Strategy strategy;
         private Class<? extends Annotation> qualifier;
         private String name;
@@ -138,10 +146,11 @@ class Key<T> {
             if (strategy == null) {
                 strategy = Strategy.DEFAULT;
             }
-            return new Key<>(type, strategy, qualifier, name, defaultValue);
+            return new Key<>(type, annotations, strategy, qualifier, name, defaultValue);
         }
 
         public Builder<T> processAnnotations(final Annotation[] annotations) {
+            this.annotations = annotations;
             for (final Annotation annotation : annotations) {
                 processAnnotation(annotation);
             }

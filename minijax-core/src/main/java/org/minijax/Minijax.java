@@ -14,6 +14,7 @@ import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
@@ -21,7 +22,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
-import java.util.UUID;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
@@ -50,6 +50,8 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
+import javax.ws.rs.ext.ParamConverter;
+import javax.ws.rs.ext.ParamConverterProvider;
 
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
@@ -67,10 +69,10 @@ import org.minijax.cdi.MinijaxInjector;
 import org.minijax.util.ClassPathScanner;
 import org.minijax.util.ExceptionUtils;
 import org.minijax.util.IOUtils;
-import org.minijax.util.IdUtils;
 import org.minijax.util.MediaTypeClassMap;
 import org.minijax.util.MediaTypeUtils;
 import org.minijax.util.OptionalClasses;
+import org.minijax.util.UuidParamConverterProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,6 +86,7 @@ public class Minijax implements FeatureContext {
     private final List<Class<?>> webSockets;
     private final List<Class<? extends ContainerRequestFilter>> requestFilters;
     private final List<Class<? extends ContainerResponseFilter>> responseFilters;
+    private final List<ParamConverterProvider> paramConverterProviders;
     private final MediaTypeClassMap<MessageBodyReader<?>> readers;
     private final MediaTypeClassMap<MessageBodyWriter<?>> writers;
     private final MediaTypeClassMap<ExceptionMapper<?>> exceptionMappers;
@@ -99,6 +102,7 @@ public class Minijax implements FeatureContext {
         webSockets = new ArrayList<>();
         requestFilters = new ArrayList<>();
         responseFilters = new ArrayList<>();
+        paramConverterProviders = new ArrayList<>(getDefaultParamConverterProviders());
         readers = new MediaTypeClassMap<>();
         writers = new MediaTypeClassMap<>();
         exceptionMappers = new MediaTypeClassMap<>();
@@ -321,6 +325,7 @@ public class Minijax implements FeatureContext {
         registerWebSockets(c);
         registerFeature(c);
         registerFilter(c);
+        registerParamConverterProvider(c);
         registerReader(c);
         registerWriter(c);
         registerExceptionMapper(c);
@@ -375,6 +380,13 @@ public class Minijax implements FeatureContext {
 
         if (ContainerResponseFilter.class.isAssignableFrom(c)) {
             responseFilters.add((Class<? extends ContainerResponseFilter>) c);
+        }
+    }
+
+
+    private void registerParamConverterProvider(final Class<?> c) {
+        if (ParamConverterProvider.class.isAssignableFrom(c)) {
+            paramConverterProviders.add((ParamConverterProvider) get(c));
         }
     }
 
@@ -751,6 +763,15 @@ public class Minijax implements FeatureContext {
     }
 
 
+    /**
+     * Consumes the message body entity.
+     *
+     * @param <T> The type of the result.
+     * @param c The class type of the result.
+     * @param entityStream The content body input stream.
+     * @param mediaType The request content type.
+     * @return The entity.
+     */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private <T> T consumeEntity(final Class<T> c, final InputStream entityStream, final MediaType mediaType) throws IOException {
         final Type genericType = null;
@@ -764,9 +785,37 @@ public class Minijax implements FeatureContext {
             }
         }
 
-        // No reader, now what?
-        // Try to convert InputStream -> String -> Type
+        // Try default primitive converters
         return convertStringToType(IOUtils.toString(entityStream, StandardCharsets.UTF_8), c);
+    }
+
+
+    /**
+     * Converts a parameter to a type.
+     *
+     * @param <T>         the supported Java type convertible to/from a {@code String} format.
+     * @param str         The parameter string contents.
+     * @param c           the raw type of the object to be converted.
+     * @param genericType the type of object to be converted. E.g. if an String value
+     *                    representing the injected request parameter
+     *                    is to be converted into a method parameter, this will be the
+     *                    formal type of the method parameter as returned by {@code Class.getGenericParameterTypes}.
+     * @param annotations an array of the annotations associated with the convertible
+     *                    parameter instance. E.g. if a string value is to be converted into a method parameter,
+     *                    this would be the annotations on that parameter as returned by
+     *                    {@link java.lang.reflect.Method#getParameterAnnotations}.
+     * @return            the newly created instance of {@code T}.
+     */
+    public <T> T convertParamToType(final String str, final Class<T> c, final Type genericType, final Annotation[] annotations) {
+        for (final ParamConverterProvider provider : paramConverterProviders) {
+            final ParamConverter<T> converter = provider.getConverter(c, null, annotations);
+            if (converter != null) {
+                return converter.fromString(str);
+            }
+        }
+
+        // Try default primitive converters
+        return convertStringToType(str, c);
     }
 
 
@@ -782,10 +831,6 @@ public class Minijax implements FeatureContext {
 
         if (c.isPrimitive()) {
             return convertStringToPrimitive(str, c);
-        }
-
-        if (c == UUID.class) {
-            return (T) IdUtils.tryParse(str);
         }
 
         try {
@@ -837,5 +882,10 @@ public class Minijax implements FeatureContext {
             return (T) Short.valueOf(str);
         }
         throw new IllegalArgumentException("Unrecognized primitive (" + c + ")");
+    }
+
+
+    private static List<ParamConverterProvider> getDefaultParamConverterProviders() {
+        return Arrays.asList(new UuidParamConverterProvider());
     }
 }

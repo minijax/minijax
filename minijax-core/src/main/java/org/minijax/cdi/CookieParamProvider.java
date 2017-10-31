@@ -17,6 +17,6 @@ class CookieParamProvider<T> implements Provider<T> {
         final MinijaxRequestContext context = MinijaxRequestContext.getThreadLocal();
         final Cookie cookie = context.getCookies().get(key.getName());
         final String cookieValue = cookie == null ? null : cookie.getValue();
-        return context.getContainer().convertStringToType(cookieValue, key.getType());
+        return context.getContainer().convertParamToType(cookieValue, key.getType(), null, key.getAnnotations());
     }
 }
