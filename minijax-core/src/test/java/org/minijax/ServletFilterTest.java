@@ -19,12 +19,13 @@ public class ServletFilterTest {
     @Test
     public void testServletFilterMissingContext() throws ServletException, IOException {
         final Minijax minijax = new Minijax();
+        final MinijaxApplication application = minijax.getDefaultApplication();
 
-        final MinijaxServlet servlet = new MinijaxServlet(minijax);
+        final MinijaxServlet servlet = new MinijaxServlet(application);
 
         final MockFilterChain chain = new MockFilterChain(servlet);
 
-        final MinijaxFilter filter = new MinijaxFilter(minijax);
+        final MinijaxFilter filter = new MinijaxFilter(application);
         filter.init(null);
 
         final MockHttpServletRequest request = new MockHttpServletRequest("GET", URI.create("/"));

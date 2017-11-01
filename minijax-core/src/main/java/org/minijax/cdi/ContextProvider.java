@@ -11,7 +11,6 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.UriInfo;
 
-import org.minijax.MinijaxApplicationView;
 import org.minijax.MinijaxForm;
 import org.minijax.MinijaxRequestContext;
 
@@ -49,10 +48,11 @@ class ContextProvider<T> implements Provider<T> {
         }
 
         if (c == Application.class) {
-            return (T) new MinijaxApplicationView(context.getContainer());
+            return (T) context.getApplication();
         }
 
         if (c == HttpHeaders.class) {
+            // TODO
             return null;
         }
 

@@ -38,7 +38,7 @@ public class MinijaxRequestContext
         implements javax.ws.rs.container.ContainerRequestContext, Closeable {
 
     private static final ThreadLocal<MinijaxRequestContext> threadLocalContexts = new ThreadLocal<>();
-    private final Minijax container;
+    private final MinijaxApplication application;
     private final HttpServletRequest request;
     private final HttpServletResponse response;
     private final MinijaxUriInfo uriInfo;
@@ -52,8 +52,11 @@ public class MinijaxRequestContext
     private SecurityContext securityContext;
     private MinijaxResourceMethod resourceMethod;
 
-    public MinijaxRequestContext(final Minijax container, final HttpServletRequest request, final HttpServletResponse response) {
-        this.container = container;
+    public MinijaxRequestContext(
+            final MinijaxApplication container,
+            final HttpServletRequest request,
+            final HttpServletResponse response) {
+        this.application = container;
         this.request = request;
         this.response = response;
         uriInfo = new MinijaxUriInfo(UrlUtils.getFullRequestUrl(request));
@@ -62,8 +65,8 @@ public class MinijaxRequestContext
         threadLocalContexts.set(this);
     }
 
-    public Minijax getContainer() {
-        return container;
+    public MinijaxApplication getApplication() {
+        return application;
     }
 
     public HttpServletRequest getServletRequest() {

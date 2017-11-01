@@ -14,7 +14,7 @@ class PathParamProvider<T> implements Provider<T> {
     @Override
     public T get() {
         final MinijaxRequestContext context = MinijaxRequestContext.getThreadLocal();
-        return context.getContainer().convertParamToType(
+        return context.getApplication().convertParamToType(
                 context.getUriInfo().getPathParameters().getFirst(key.getName()),
                 key.getType(),
                 null,

@@ -49,7 +49,7 @@ public class ServletTest extends MinijaxTest {
         final MockHttpServletResponse servletResponse = new MockHttpServletResponse();
         final MinijaxRequestContext context = new MinijaxRequestContext(null, servletRequest, servletResponse);
 
-        getServer().handle(context, servletResponse);
+        getServer().getDefaultApplication().handle(context, servletResponse);
 
         assertEquals(200, servletResponse.getStatus());
         assertEquals("text/plain", servletResponse.getContentType());
@@ -65,7 +65,7 @@ public class ServletTest extends MinijaxTest {
         final MockHttpServletResponse servletResponse = new MockHttpServletResponse();
         final MinijaxRequestContext context = new MinijaxRequestContext(null, servletRequest, servletResponse);
 
-        getServer().handle(context, servletResponse);
+        getServer().getDefaultApplication().handle(context, servletResponse);
 
         assertEquals(404, servletResponse.getStatus());
         assertNull(servletResponse.getContentType());

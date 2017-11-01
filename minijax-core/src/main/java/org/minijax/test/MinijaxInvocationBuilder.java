@@ -23,6 +23,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.minijax.Minijax;
+import org.minijax.MinijaxApplication;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.util.CookieUtils;
 import org.minijax.util.ExceptionUtils;
@@ -145,6 +146,7 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
     @Override
     public Response method(final String name) {
         final Minijax container = target.getServer();
+        final MinijaxApplication application = container.getApplication(target.getUri());
 
         final MockHttpServletRequest request = new MockHttpServletRequest(
                 name,
@@ -155,8 +157,8 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
 
         final MockHttpServletResponse response = new MockHttpServletResponse();
 
-        try (final MinijaxRequestContext context = new MinijaxRequestContext(container, request, response)) {
-            return container.handle(context);
+        try (final MinijaxRequestContext context = new MinijaxRequestContext(application, request, response)) {
+            return application.handle(context);
         } catch (final IOException ex) {
             throw ExceptionUtils.toWebAppException(ex);
         }

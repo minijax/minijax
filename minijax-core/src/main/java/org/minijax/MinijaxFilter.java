@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 class MinijaxFilter implements Filter {
-    private final Minijax container;
+    private final MinijaxApplication application;
 
-    public MinijaxFilter(final Minijax container) {
-        this.container = container;
+    public MinijaxFilter(final MinijaxApplication container) {
+        this.application = container;
     }
 
     @Override
@@ -35,7 +35,7 @@ class MinijaxFilter implements Filter {
 
         // Constructor sets the ThreadLocal
         // Close method clears the ThreadLocal
-        try (final MinijaxRequestContext context = new MinijaxRequestContext(container, request, response)) {
+        try (final MinijaxRequestContext context = new MinijaxRequestContext(application, request, response)) {
             chain.doFilter(request, response);
         }
     }

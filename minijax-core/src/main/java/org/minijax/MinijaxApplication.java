@@ -1,7 +1,5 @@
 package org.minijax;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
@@ -15,19 +13,16 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EnumSet;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Properties;
 import java.util.Set;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.servlet.DispatcherType;
-import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.ForbiddenException;
@@ -35,10 +30,12 @@ import javax.ws.rs.HttpMethod;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Produces;
+import javax.ws.rs.RuntimeType;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
+import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.FeatureContext;
@@ -53,19 +50,6 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.ParamConverter;
 import javax.ws.rs.ext.ParamConverterProvider;
 
-import org.eclipse.jetty.server.Connector;
-import org.eclipse.jetty.server.HttpConfiguration;
-import org.eclipse.jetty.server.HttpConnectionFactory;
-import org.eclipse.jetty.server.SecureRequestCustomizer;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.server.SslConnectionFactory;
-import org.eclipse.jetty.servlet.DefaultServlet;
-import org.eclipse.jetty.servlet.FilterHolder;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.util.ssl.SslContextFactory;
-import org.minijax.cdi.MinijaxInjector;
 import org.minijax.util.ClassPathScanner;
 import org.minijax.util.ExceptionUtils;
 import org.minijax.util.IOUtils;
@@ -76,11 +60,10 @@ import org.minijax.util.UuidParamConverterProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Minijax implements FeatureContext {
-    private static final Logger LOG = LoggerFactory.getLogger(Minijax.class);
-    private final MinijaxConfiguration configuration;
-    private final MinijaxInjector injector;
-    private final List<MinijaxStaticResource> staticResources;
+public class MinijaxApplication extends Application implements Configuration, FeatureContext {
+    private static final Logger LOG = LoggerFactory.getLogger(MinijaxApplication.class);
+    private final Minijax container;
+    private final String path;
     private final Set<Class<?>> classesScanned;
     private final List<MinijaxResourceMethod> resourceMethods;
     private final List<Class<?>> webSockets;
@@ -93,10 +76,9 @@ public class Minijax implements FeatureContext {
     private Class<? extends SecurityContext> securityContextClass;
 
 
-    public Minijax() {
-        configuration = new MinijaxConfiguration();
-        injector = new MinijaxInjector(this);
-        staticResources = new ArrayList<>();
+    public MinijaxApplication(final Minijax container, final String path) {
+        this.container = container;
+        this.path = path;
         classesScanned = new HashSet<>();
         resourceMethods = new ArrayList<>();
         webSockets = new ArrayList<>();
@@ -108,54 +90,108 @@ public class Minijax implements FeatureContext {
         exceptionMappers = new MediaTypeClassMap<>();
     }
 
+    public Minijax getContainer() {
+        return container;
+    }
+
+    public String getPath() {
+        return path;
+    }
 
     @Override
     public Configuration getConfiguration() {
-        return configuration;
+        return this;
     }
 
+    @Override
+    public RuntimeType getRuntimeType() {
+        return RuntimeType.SERVER;
+    }
 
     @Override
-    public Minijax property(final String name, final Object value) {
-        configuration.getProperties().put(name, value);
+    public Map<String, Object> getProperties() {
+        return container.getProperties();
+    }
+
+    @Override
+    public Object getProperty(final String name) {
+        return container.getProperties().get(name);
+    }
+
+    @Override
+    public Collection<String> getPropertyNames() {
+        return container.getProperties().keySet();
+    }
+
+    @Override
+    public boolean isEnabled(final Feature feature) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isEnabled(final Class<? extends Feature> featureClass) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isRegistered(final Object component) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isRegistered(final Class<?> componentClass) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Map<Class<?>, Integer> getContracts(final Class<?> componentClass) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Set<Class<?>> getClasses() {
+        return classesScanned;
+    }
+
+    @Override
+    public Set<Object> getInstances() {
+        return container.getInjector().getSingletons();
+    }
+
+    @Override
+    public Set<Object> getSingletons() {
+        return container.getInjector().getSingletons();
+    }
+
+    public List<Class<?>> getWebSockets() {
+        return webSockets;
+    }
+
+    @Override
+    public MinijaxApplication property(final String name, final Object value) {
+        container.getProperties().put(name, value);
         return this;
     }
 
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public Minijax properties(final File file) throws IOException {
-        final Properties props = new Properties();
-        try (final FileReader r = new FileReader(file)) {
-            props.load(r);
-        }
-        configuration.getProperties().putAll((Map) props);
-        return this;
-    }
-
-
-    public MinijaxInjector getInjector() {
-        return injector;
-    }
-
-
     @Override
-    public Minijax register(final Class<?> componentClass) {
+    public MinijaxApplication register(final Class<?> componentClass) {
         registerImpl(componentClass);
         return this;
     }
 
 
     @Override
-    public Minijax register(final Class<?> componentClass, final int priority) {
+    public MinijaxApplication register(final Class<?> componentClass, final int priority) {
         registerImpl(componentClass);
         return this;
     }
 
 
     @Override
-    public Minijax register(final Class<?> componentClass, final Class<?>... contracts) {
+    public MinijaxApplication register(final Class<?> componentClass, final Class<?>... contracts) {
         for (final Class<?> contract : contracts) {
-            injector.register(componentClass, contract);
+            container.getInjector().register(componentClass, contract);
         }
         registerImpl(componentClass);
         return this;
@@ -163,9 +199,9 @@ public class Minijax implements FeatureContext {
 
 
     @Override
-    public Minijax register(final Class<?> componentClass, final Map<Class<?>, Integer> contracts) {
+    public MinijaxApplication register(final Class<?> componentClass, final Map<Class<?>, Integer> contracts) {
         for (final Class<?> contract : contracts.keySet()) {
-            injector.register(componentClass, contract);
+            container.getInjector().register(componentClass, contract);
         }
         registerImpl(componentClass);
         return this;
@@ -173,42 +209,36 @@ public class Minijax implements FeatureContext {
 
 
     @Override
-    public Minijax register(final Object component) {
+    public MinijaxApplication register(final Object component) {
         return this.register(component, component.getClass());
     }
 
 
     @Override
-    public Minijax register(final Object component, final int priority) {
+    public MinijaxApplication register(final Object component, final int priority) {
         return this.register(component, component.getClass());
     }
 
 
     @Override
-    public Minijax register(final Object component, final Class<?>... contracts) {
+    public MinijaxApplication register(final Object component, final Class<?>... contracts) {
         for (final Class<?> contract : contracts) {
-            injector.register(component, contract);
+            container.getInjector().register(component, contract);
         }
         return this;
     }
 
 
     @Override
-    public Minijax register(final Object component, final Map<Class<?>, Integer> contracts) {
+    public MinijaxApplication register(final Object component, final Map<Class<?>, Integer> contracts) {
         for (final Class<?> contract : contracts.keySet()) {
-            injector.register(component, contract);
+            container.getInjector().register(component, contract);
         }
         return this;
     }
 
 
-    public Minijax registerPersistence() {
-        injector.registerPersistence();
-        return this;
-    }
-
-
-    public Minijax packages(final String... packageNames) {
+    public MinijaxApplication packages(final String... packageNames) {
         for (final String packageName : packageNames) {
             scanPackage(packageName);
         }
@@ -216,92 +246,10 @@ public class Minijax implements FeatureContext {
     }
 
 
-    public Minijax addStaticFile(final String resourceName) {
-        final String pathSpec = String.format("/%s", resourceName);
-        return addStaticFile(resourceName, pathSpec);
-    }
-
-
-    public Minijax addStaticFile(final String resourceName, final String pathSpec) {
-        final String resourceUrl = Minijax.class.getClassLoader().getResource(resourceName).toExternalForm();
-        return addStaticResource(resourceUrl, pathSpec);
-    }
-
-
-    public Minijax addStaticDirectory(final String resourceName) {
-        final String resourceUrl = Minijax.class.getClassLoader().getResource(resourceName).toExternalForm();
-        final String pathSpec = String.format("/%s/*", resourceName);
-        return addStaticResource(resourceUrl, pathSpec);
-    }
-
-
-    public Minijax addStaticResource(final String resourceUrl, final String pathSpec) {
-        staticResources.add(new MinijaxStaticResource(resourceUrl, pathSpec));
-        return this;
-    }
-
-
-    public Minijax allowCors(final String urlPrefix) {
+    public MinijaxApplication allowCors(final String urlPrefix) {
         register(MinijaxCorsFilter.class);
         get(MinijaxCorsFilter.class).addPathPrefix(urlPrefix);
         return this;
-    }
-
-
-    public Minijax secure(final String keyStorePath, final String keyStorePassword, final String keyManagerPassword) {
-        property(MinijaxProperties.SSL_KEY_STORE_PATH, keyStorePath);
-        property(MinijaxProperties.SSL_KEY_STORE_PASSWORD, keyStorePassword);
-        property(MinijaxProperties.SSL_KEY_MANAGER_PASSWORD, keyManagerPassword);
-        return this;
-    }
-
-
-    public Set<Class<?>> getClasses() {
-        return classesScanned;
-    }
-
-
-    public void run(final int port) {
-        try {
-            final Server server = createServer();
-
-            final ServletContextHandler context = new ServletContextHandler();
-            context.setContextPath("/");
-            context.addFilter(new FilterHolder(new MinijaxFilter(this)), "/*", EnumSet.of(DispatcherType.REQUEST));
-            server.setHandler(context);
-
-            // (1) WebSocket endpoints
-            if (OptionalClasses.WEB_SOCKET_UTILS != null) {
-                OptionalClasses.WEB_SOCKET_UTILS
-                        .getMethod("init", Minijax.class, ServletContextHandler.class, List.class)
-                        .invoke(null, this, context, webSockets);
-            }
-
-            // (2) Static resources
-            for (final MinijaxStaticResource staticResource : staticResources) {
-                final ServletHolder staticHolder = new ServletHolder(new DefaultServlet());
-                staticHolder.setInitParameter("pathInfoOnly", "true");
-                staticHolder.setInitParameter("resourceBase", staticResource.getResourceBase());
-                context.addServlet(staticHolder, staticResource.getPathSpec());
-            }
-
-            // (3) Dynamic JAX-RS content
-            final MinijaxServlet servlet = new MinijaxServlet(this);
-            final ServletHolder servletHolder = new ServletHolder(servlet);
-            servletHolder.getRegistration().setMultipartConfig(new MultipartConfigElement(""));
-            context.addServlet(servletHolder, "/*");
-
-            // (4) HTTP or HTTPS connector
-            final ServerConnector connector = createConnector(server);
-            connector.setPort(port);
-            server.setConnectors(new Connector[] { connector });
-
-            server.start();
-            server.join();
-
-        } catch (final Exception ex) {
-            throw new MinijaxException(ex);
-        }
     }
 
 
@@ -431,54 +379,6 @@ public class Minijax implements FeatureContext {
             }
             securityContextClass = (Class<? extends SecurityContext>) c;
         }
-    }
-
-
-    /**
-     * Creates a new web server listening on the given port.
-     *
-     * Override this method in unit tests to mock server functionality.
-     *
-     * @return A new web server.
-     */
-    protected Server createServer() {
-        return new Server();
-    }
-
-
-    /**
-     * Creates a server connector.
-     *
-     * If an HTTPS key store is configured, returns a SSL connector for HTTPS.
-     *
-     * Otherwise, returns a normal HTTP connector by default.
-     *
-     * @param server The server.
-     * @return The server connector.
-     */
-    @SuppressWarnings("squid:S2095")
-    protected ServerConnector createConnector(final Server server) {
-        final String keyStorePath = (String) getConfiguration().getProperties().get(MinijaxProperties.SSL_KEY_STORE_PATH);
-
-        if (keyStorePath == null || keyStorePath.isEmpty()) {
-            // Normal HTTP
-            return new ServerConnector(server);
-        }
-
-        final String keyStorePassword = (String) getConfiguration().getProperties().get(MinijaxProperties.SSL_KEY_STORE_PASSWORD);
-        final String keyManagerPassword = (String) getConfiguration().getProperties().get(MinijaxProperties.SSL_KEY_MANAGER_PASSWORD);
-
-        final HttpConfiguration https = new HttpConfiguration();
-        https.addCustomizer(new SecureRequestCustomizer());
-
-        final SslContextFactory sslContextFactory = new SslContextFactory();
-        sslContextFactory.setKeyStorePath(Minijax.class.getClassLoader().getResource(keyStorePath).toExternalForm());
-        sslContextFactory.setKeyStorePassword(keyStorePassword);
-        sslContextFactory.setKeyManagerPassword(keyManagerPassword);
-
-        return new ServerConnector(server,
-                new SslConnectionFactory(sslContextFactory, "http/1.1"),
-                new HttpConnectionFactory(https));
     }
 
 
@@ -761,7 +661,7 @@ public class Minijax implements FeatureContext {
 
 
     public <T> T get(final Class<T> c) {
-        return injector.get(c);
+        return container.getInjector().get(c);
     }
 
 
@@ -774,7 +674,7 @@ public class Minijax implements FeatureContext {
      * @return The resource instance.
      */
     public <T> T get(final Class<T> c, final Annotation[] annotations) {
-        return injector.get(c, annotations);
+        return container.getInjector().get(c, annotations);
     }
 
 

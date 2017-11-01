@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 
 import org.junit.Test;
 import org.minijax.Minijax;
+import org.minijax.MinijaxApplication;
 import org.minijax.MinijaxProperties;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.entity.test.Widget;
@@ -45,9 +46,11 @@ public class PersistenceContextTest {
                 .registerPersistence()
                 .register(PersistenceContextDao.class);
 
+        final MinijaxApplication application = container.getDefaultApplication();
+
         final MockHttpServletRequest request = new MockHttpServletRequest("GET", URI.create("/"));
 
-        try (MinijaxRequestContext context = new MinijaxRequestContext(container, request, null)) {
+        try (MinijaxRequestContext context = new MinijaxRequestContext(application, request, null)) {
             final PersistenceContextDao dao = container.get(PersistenceContextDao.class);
 
             final Widget widget = new Widget();

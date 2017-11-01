@@ -13,13 +13,13 @@ public class ConfigurationTest {
     public void testProperty() {
         final Minijax container = new Minijax();
         container.property("a", "b");
-        assertEquals("b", container.getConfiguration().getProperty("a"));
+        assertEquals("b", container.getDefaultApplication().getConfiguration().getProperty("a"));
     }
 
     @Test
     public void testPropertiesFile() throws IOException {
         final Minijax container = new Minijax();
         container.properties(new File("src/test/resources/config.properties"));
-        assertEquals("b", container.getConfiguration().getProperty("a"));
+        assertEquals("b", container.getDefaultApplication().getConfiguration().getProperty("a"));
     }
 }

@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 
 class MinijaxServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private final Minijax container;
+    private final MinijaxApplication application;
 
-    public MinijaxServlet(final Minijax container) {
-        this.container = container;
+    public MinijaxServlet(final MinijaxApplication container) {
+        this.application = container;
     }
 
     @Override
@@ -19,6 +19,6 @@ class MinijaxServlet extends HttpServlet {
             final HttpServletRequest request,
             final HttpServletResponse response)
                     throws IOException {
-        container.handle(MinijaxRequestContext.getThreadLocal(), response);
+        application.handle(MinijaxRequestContext.getThreadLocal(), response);
     }
 }
