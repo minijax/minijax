@@ -73,6 +73,16 @@ public class MinijaxInjector implements Closeable {
         return this;
     }
 
+    public Set<Object> getSingletons() {
+        final Set<Object> result = new HashSet<>();
+        for (final Provider<?> provider : providers.values()) {
+            if (provider instanceof SingletonProvider) {
+                result.add(((SingletonProvider<?>) provider).get());
+            }
+        }
+        return result;
+    }
+
     public <T> T get(final Class<T> c) {
         return getProvider(c).get();
     }

@@ -1,19 +1,21 @@
 package org.minijax.cdi;
 
 import javax.inject.Provider;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.UriInfo;
 
+import org.minijax.MinijaxApplicationView;
 import org.minijax.MinijaxForm;
 import org.minijax.MinijaxRequestContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class ContextProvider<T> implements Provider<T> {
-    private static final Logger LOG = LoggerFactory.getLogger(ContextProvider.class);
     private final Key<T> key;
 
     public ContextProvider(final Key<T> key) {
@@ -38,6 +40,22 @@ class ContextProvider<T> implements Provider<T> {
             return (T) context.getServletResponse();
         }
 
+        if (c == ServletConfig.class) {
+            return null;
+        }
+
+        if (c == ServletContext.class) {
+            return (T) context.getServletRequest().getServletContext();
+        }
+
+        if (c == Application.class) {
+            return (T) new MinijaxApplicationView(context.getContainer());
+        }
+
+        if (c == HttpHeaders.class) {
+            return null;
+        }
+
         if (c == UriInfo.class) {
             return (T) context.getUriInfo();
         }
@@ -50,7 +68,6 @@ class ContextProvider<T> implements Provider<T> {
             return (T) context.getForm().asForm();
         }
 
-        LOG.error("Unrecognized @Context param: {}", c);
-        throw new IllegalArgumentException("Unrecognized @Context parameter");
+        throw new IllegalArgumentException("Unrecognized @Context parameter: " + c);
     }
 }

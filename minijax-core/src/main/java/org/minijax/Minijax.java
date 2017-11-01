@@ -256,6 +256,11 @@ public class Minijax implements FeatureContext {
     }
 
 
+    public Set<Class<?>> getClasses() {
+        return classesScanned;
+    }
+
+
     public void run(final int port) {
         try {
             final Server server = createServer();
@@ -714,6 +719,13 @@ public class Minijax implements FeatureContext {
         final MediaType mediaType = response.getMediaType();
         if (mediaType != null) {
             servletResponse.setContentType(mediaType.toString());
+        }
+
+        if (obj != null) {
+            if (obj instanceof String) {
+                servletResponse.getWriter().println(obj.toString());
+                return;
+            }
         }
 
         final MessageBodyWriter writer = findWriter(obj, mediaType);
