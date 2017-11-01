@@ -36,7 +36,7 @@ page at http://checkstyle.sourceforge.net/config.html -->
       <!-- Checks for out of order import statements. -->
 
       <property name="severity" value="warning"/>
-      <property name="groups" value="java,javax,io,org,com,net"/>
+      <property name="groups" value="java,javax,org,com,io,net"/>
       <property name="ordered" value="true"/>
       <property name="separated" value="true"/>
       <!-- This ensures that static imports go first. -->
