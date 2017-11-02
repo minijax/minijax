@@ -90,10 +90,6 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         exceptionMappers = new MediaTypeClassMap<>();
     }
 
-    public Minijax getContainer() {
-        return container;
-    }
-
     public String getPath() {
         return path;
     }
