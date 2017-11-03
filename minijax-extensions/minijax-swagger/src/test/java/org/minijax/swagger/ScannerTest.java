@@ -30,12 +30,12 @@ public class ScannerTest {
         final List<Parameter> params = getParameters(swagger, "/{id}");
 
         final Parameter skip = params.get(0);
-        assertEquals(skip.getName(), "skip");
-        assertEquals(skip.getDescription(), "number of records to skip");
+        assertEquals("skip", skip.getName());
+        assertEquals("number of records to skip", skip.getDescription());
 
         final Parameter limit = params.get(1);
-        assertEquals(limit.getName(), "limit");
-        assertEquals(limit.getDescription(), "maximum number of records to return");
+        assertEquals("limit", limit.getName());
+        assertEquals("maximum number of records to return", limit.getDescription());
     }
 
     @Test
@@ -55,9 +55,9 @@ public class ScannerTest {
         assertNotNull( swagger );
 
         final Map<String, Object> infoExtensions = swagger.getInfo().getVendorExtensions();
-        assertEquals("private", infoExtensions.get("x-accessLevel"));
+        assertEquals(infoExtensions.get("x-accessLevel"), "private");
         final Map<String, Object> operationExtensions = swagger.getPath("/rest/test").getGet().getVendorExtensions();
-        assertEquals("/hello-world/v1/", operationExtensions.get("x-externalPath"));
+        assertEquals(operationExtensions.get("x-externalPath"), "/hello-world/v1/");
     }
 
     @Test
@@ -66,23 +66,23 @@ public class ScannerTest {
         final List<Parameter> params = getParameters(swagger, "/bean/{id}");
 
         final HeaderParameter headerParam1 = (HeaderParameter) params.get(0);
-        assertEquals(headerParam1.getDefaultValue(), 1);
-        assertEquals(headerParam1.getName(), "test order annotation 1");
+        assertEquals(1, headerParam1.getDefaultValue());
+        assertEquals("test order annotation 1", headerParam1.getName());
 
         final HeaderParameter headerParam2 = (HeaderParameter) params.get(1);
-        assertEquals(headerParam2.getDefaultValue(), 2);
-        assertEquals(headerParam2.getName(), "test order annotation 2");
+        assertEquals(2, headerParam2.getDefaultValue());
+        assertEquals("test order annotation 2", headerParam2.getName());
 
         final QueryParameter priority1 = (QueryParameter) params.get(2);
         assertNull(priority1.getDefaultValue());
-        assertEquals(priority1.getName(), "test priority 1");
+        assertEquals("test priority 1", priority1.getName());
 
         final QueryParameter priority2 = (QueryParameter) params.get(3);
-        assertEquals(priority2.getDefaultValue(), 4);
-        assertEquals(priority2.getName(), "test priority 2");
+        assertEquals(4, priority2.getDefaultValue());
+        assertEquals("test priority 2", priority2.getName());
 
         final ModelImpl bodyParam1 = (ModelImpl) ((BodyParameter) params.get(4)).getSchema();
-        assertEquals(bodyParam1.getDefaultValue(), "bodyParam");
+        assertEquals("bodyParam", bodyParam1.getDefaultValue());
     }
 
     private List<Parameter> getParameters(final Swagger swagger, final String path) {
@@ -93,6 +93,5 @@ public class ScannerTest {
         final DefaultReaderConfig config = new DefaultReaderConfig();
         config.setScanAllResources(true);
         return new Reader(new Swagger(), config).read(clas);
-
     }
 }

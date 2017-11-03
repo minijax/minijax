@@ -18,7 +18,6 @@ import javax.ws.rs.BeanParam;
 import javax.ws.rs.FormParam;
 
 import org.junit.Test;
-import org.minijax.swagger.MinijaxSwaggerExtension;
 import org.minijax.swagger.models.TestEnum;
 import org.minijax.swagger.params.BaseBean;
 import org.minijax.swagger.params.ChildBean;
@@ -42,7 +41,7 @@ import io.swagger.models.parameters.FormParameter;
 import io.swagger.models.parameters.HeaderParameter;
 import io.swagger.models.parameters.Parameter;
 
-public class SwaggerJersey2JaxrsTest {
+public class MinijaxSwaggerTest {
 
     // Here so that we can get the params with the @BeanParam annotation instantiated properly
     void testRoute(@BeanParam final BaseBean baseBean, @BeanParam final ChildBean childBean, @BeanParam final RefBean refBean,
@@ -55,10 +54,10 @@ public class SwaggerJersey2JaxrsTest {
 
     @Test
     public void testAllTypes() {
-        for (final Class cls : Arrays.asList(BaseBean.class, ChildBean.class, RefBean.class)) {
+        for (final Class<?> cls : Arrays.asList(BaseBean.class, ChildBean.class, RefBean.class)) {
             final Set<Type> typesToSkip = new java.util.HashSet<Type>();
             new MinijaxSwaggerExtension().extractParameters(new ArrayList<Annotation>(), cls, typesToSkip, SwaggerExtensions.chain());
-            assertEquals(typesToSkip.size(), 0);
+            assertEquals(0, typesToSkip.size());
         }
     }
 
@@ -73,26 +72,26 @@ public class SwaggerJersey2JaxrsTest {
                     parameterType, new HashSet<Type>(), SwaggerExtensions.chain());
             // Ensure proper number of parameters returned
             if (parameterType.equals(BaseBean.class)) {
-                assertEquals(swaggerParams.size(), 2);
+                assertEquals(2, swaggerParams.size());
             } else if (parameterType.equals(ChildBean.class)) {
-                assertEquals(swaggerParams.size(), 5);
+                assertEquals(5, swaggerParams.size());
             } else if (parameterType.equals(RefBean.class)) {
-                assertEquals(swaggerParams.size(), 5);
+                assertEquals(5, swaggerParams.size());
             } else if (parameterType.equals(EnumBean.class)) {
-                assertEquals(swaggerParams.size(), 1);
+                assertEquals(1, swaggerParams.size());
                 final HeaderParameter enumParam = (HeaderParameter) swaggerParams.get(0);
-                assertEquals(enumParam.getType(), "string");
+                assertEquals("string", enumParam.getType());
                 final List<String> enumValues = new ArrayList<>(Collections2.transform(Arrays.asList(TestEnum.values()), Functions.toStringFunction()));
-                assertEquals(enumParam.getEnum(), enumValues);
+                assertEquals(enumValues, enumParam.getEnum());
             } else if (parameterType.equals(Integer.class)) {
-                assertEquals(swaggerParams.size(), 0);
+                assertEquals(0, swaggerParams.size());
             } else {
                 fail(String.format("Parameter of type %s was not expected", parameterType));
             }
 
             // Ensure the proper parameter type and name is returned (The rest is handled by pre-existing logic)
             for (final Parameter param : swaggerParams) {
-                assertEquals(param.getName(), param.getClass().getSimpleName().replace("eter", ""));
+                assertEquals(param.getClass().getSimpleName().replace("eter", ""), param.getName());
             }
         }
     }
@@ -108,26 +107,26 @@ public class SwaggerJersey2JaxrsTest {
                     parameterType, new HashSet<Type>(), SwaggerExtensions.chain());
             // Ensure proper number of parameters returned
             if (parameterType.equals(BaseBean.class)) {
-                assertEquals(swaggerParams.size(), 2);
+                assertEquals(2, swaggerParams.size());
             } else if (parameterType.equals(ChildBean.class)) {
-                assertEquals(swaggerParams.size(), 5);
+                assertEquals(5, swaggerParams.size());
             } else if (parameterType.equals(RefBean.class)) {
-                assertEquals(swaggerParams.size(), 5);
+                assertEquals(5, swaggerParams.size());
             } else if (parameterType.equals(EnumBean.class)) {
-                assertEquals(swaggerParams.size(), 1);
+                assertEquals(1, swaggerParams.size());
                 final HeaderParameter enumParam = (HeaderParameter) swaggerParams.get(0);
-                assertEquals(enumParam.getType(), "string");
+                assertEquals("string", enumParam.getType());
                 final List<String> enumValues = new ArrayList<>(Collections2.transform(Arrays.asList(TestEnum.values()), Functions.toStringFunction()));
-                assertEquals(enumParam.getEnum(), enumValues);
+                assertEquals(enumValues, enumParam.getEnum());
             } else if (parameterType.equals(Integer.class)) {
-                assertEquals(swaggerParams.size(), 0);
+                assertEquals(0, swaggerParams.size());
             } else {
                 fail(String.format("Parameter of type %s was not expected", parameterType));
             }
 
             // Ensure the proper parameter type and name is returned (The rest is handled by pre-existing logic)
             for (final Parameter param : swaggerParams) {
-                assertEquals(param.getName(), param.getClass().getSimpleName().replace("eter", ""));
+                assertEquals(param.getClass().getSimpleName().replace("eter", ""), param.getName());
             }
         }
     }
@@ -142,7 +141,7 @@ public class SwaggerJersey2JaxrsTest {
             final Type parameterType = parameter.first();
             final List<Parameter> swaggerParams = new MinijaxSwaggerExtension().extractParameters(Arrays.asList(parameter.second()),
                     parameterType, new HashSet<Type>(), SwaggerExtensions.chain());
-            assertEquals(((FormParameter) swaggerParams.get(0)).getType(), "file");
+            assertEquals("file", ((FormParameter) swaggerParams.get(0)).getType());
         }
     }
 
@@ -162,23 +161,23 @@ public class SwaggerJersey2JaxrsTest {
         final Swagger swagger = new Reader(new Swagger()).read(ResourceWithKnownInjections.class);
         final List<Parameter> resourceParameters = swagger.getPaths().get("/resource/{id}").getGet().getParameters();
         assertNotNull(resourceParameters);
-        assertEquals(resourceParameters.size(), 4);
-        assertEquals(getName(resourceParameters, 0), "fieldParam");
-        assertEquals(getName(resourceParameters, 1), "skip");
-        assertEquals(getName(resourceParameters, 2), "limit");
-        assertEquals(getName(resourceParameters, 3), "methodParam");
+        assertEquals(4, resourceParameters.size());
+        assertEquals("fieldParam", getName(resourceParameters, 0));
+        assertEquals("skip", getName(resourceParameters, 1));
+        assertEquals("limit", getName(resourceParameters, 2));
+        assertEquals("methodParam", getName(resourceParameters, 3));
     }
 
     @Test
     public void testFormDataBodyPart() {
         final Swagger swagger = new Reader(new Swagger()).read(ResourceWithFormData.class);
         final List<Parameter> parameters = swagger.getPath("/test/document/{documentName}.json").getPost().getParameters();
-        assertEquals(parameters.size(), 5);
-        assertEquals(parameters.get(0).getName(), "documentName");
-        assertEquals(parameters.get(1).getName(), "document");
-        assertEquals(parameters.get(2).getName(), "document2");
-        assertEquals(parameters.get(3).getName(), "input");
-        assertEquals(parameters.get(4).getName(), "id");
+        assertEquals(5, parameters.size());
+        assertEquals("documentName", parameters.get(0).getName());
+        assertEquals("document", parameters.get(1).getName());
+        assertEquals("document2", parameters.get(2).getName());
+        assertEquals("input", parameters.get(3).getName());
+        assertEquals("id", parameters.get(4).getName());
     }
 
     @Test
@@ -186,8 +185,8 @@ public class SwaggerJersey2JaxrsTest {
         final Swagger swagger = new Reader(new Swagger()).read(ResourceWithJacksonBean.class);
         final Model o = swagger.getDefinitions().get("JacksonBean");
 
-        assertEquals(o.getProperties().keySet(), Sets.newHashSet("identity", "bean", "code", "message",
-                "precodesuf", "premessagesuf"));
+        assertEquals(Sets.newHashSet("identity", "bean", "code", "message",
+                "precodesuf", "premessagesuf"), o.getProperties().keySet());
     }
 
     @Test

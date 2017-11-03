@@ -17,7 +17,6 @@ class QueryParamProvider<T> implements Provider<T> {
         return context.getApplication().convertParamToType(
                 context.getUriInfo().getQueryParameters().getFirst(key.getName()),
                 key.getType(),
-                null,
                 key.getAnnotations());
     }
 }

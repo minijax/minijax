@@ -37,7 +37,7 @@ public class MinijaxSwaggerExtension extends AbstractSwaggerExtension {
             return Collections.emptyList();
         }
 
-        final List<Parameter> parameters = new ArrayList<Parameter>();
+        final List<Parameter> parameters = new ArrayList<>();
 
         for (final Annotation annotation : annotations) {
             if (annotation instanceof FormParam) {

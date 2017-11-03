@@ -17,7 +17,6 @@ class PathParamProvider<T> implements Provider<T> {
         return context.getApplication().convertParamToType(
                 context.getUriInfo().getPathParameters().getFirst(key.getName()),
                 key.getType(),
-                null,
                 key.getAnnotations());
     }
 }

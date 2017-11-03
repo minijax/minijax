@@ -609,24 +609,29 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         if (context.getMethod().equals("OPTIONS")) {
             return;
         }
-
-        final Object obj = response.getEntity();
-        final Class<?> objType = obj == null ? null : obj.getClass();
         final MediaType mediaType = response.getMediaType();
         if (mediaType != null) {
             servletResponse.setContentType(mediaType.toString());
         }
 
-        if (obj != null) {
-            if (obj instanceof String) {
-                servletResponse.getWriter().println(obj.toString());
-                return;
-            }
+        final Object obj = response.getEntity();
+        if (obj == null) {
+            return;
+        }
+
+        if (obj instanceof String) {
+            servletResponse.getWriter().println(obj.toString());
+            return;
+        }
+
+        if (obj instanceof InputStream) {
+            IOUtils.copy((InputStream) obj, servletResponse.getOutputStream());
+            return;
         }
 
         final MessageBodyWriter writer = findWriter(obj, mediaType);
         if (writer != null) {
-            writer.writeTo(obj, objType, null, null, mediaType, null, servletResponse.getOutputStream());
+            writer.writeTo(obj, obj.getClass(), null, null, mediaType, null, servletResponse.getOutputStream());
         } else if (obj != null) {
             if (obj instanceof InputStream) {
                 IOUtils.copy((InputStream) obj, servletResponse.getOutputStream());
@@ -707,17 +712,13 @@ public class MinijaxApplication extends Application implements Configuration, Fe
      * @param <T>         the supported Java type convertible to/from a {@code String} format.
      * @param str         The parameter string contents.
      * @param c           the raw type of the object to be converted.
-     * @param genericType the type of object to be converted. E.g. if an String value
-     *                    representing the injected request parameter
-     *                    is to be converted into a method parameter, this will be the
-     *                    formal type of the method parameter as returned by {@code Class.getGenericParameterTypes}.
      * @param annotations an array of the annotations associated with the convertible
      *                    parameter instance. E.g. if a string value is to be converted into a method parameter,
      *                    this would be the annotations on that parameter as returned by
      *                    {@link java.lang.reflect.Method#getParameterAnnotations}.
      * @return            the newly created instance of {@code T}.
      */
-    public <T> T convertParamToType(final String str, final Class<T> c, final Type genericType, final Annotation[] annotations) {
+    public <T> T convertParamToType(final String str, final Class<T> c, final Annotation[] annotations) {
         for (final ParamConverterProvider provider : paramConverterProviders) {
             final ParamConverter<T> converter = provider.getConverter(c, null, annotations);
             if (converter != null) {

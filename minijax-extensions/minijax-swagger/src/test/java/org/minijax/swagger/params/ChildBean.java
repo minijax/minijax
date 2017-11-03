@@ -1,7 +1,5 @@
 package org.minijax.swagger.params;
 
-import io.swagger.annotations.ApiParam;
-
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
@@ -16,13 +14,13 @@ public class ChildBean extends BaseBean {
     public String getHeaderParam() {
         return headerParam;
     }
-    public void setHeaderParam(String headerParam) {
+    public void setHeaderParam(final String headerParam) {
         this.headerParam = headerParam;
     }
 
     @PathParam("PathParam")
     private String pathParam;
-    public void setPathParam(String pathParam) {
+    public void setPathParam(final String pathParam) {
         this.pathParam = pathParam;
     }
     public String getPathParam() {
@@ -34,7 +32,7 @@ public class ChildBean extends BaseBean {
     public String getQueryParam() {
         return queryParam;
     }
-    public void setQueryParam(String queryParam) {
+    public void setQueryParam(final String queryParam) {
         this.queryParam = queryParam;
     }
 }
