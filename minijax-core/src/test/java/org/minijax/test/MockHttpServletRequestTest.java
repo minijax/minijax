@@ -193,10 +193,10 @@ public class MockHttpServletRequestTest {
         r.getLocalPort();
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetServletContext() {
         final MockHttpServletRequest r = new MockHttpServletRequest("GET", URI.create("/"));
-        r.getServletContext();
+        assertNull(r.getServletContext());
     }
 
     @Test(expected = UnsupportedOperationException.class)
