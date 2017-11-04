@@ -632,13 +632,11 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         final MessageBodyWriter writer = findWriter(obj, mediaType);
         if (writer != null) {
             writer.writeTo(obj, obj.getClass(), null, null, mediaType, null, servletResponse.getOutputStream());
-        } else if (obj != null) {
-            if (obj instanceof InputStream) {
-                IOUtils.copy((InputStream) obj, servletResponse.getOutputStream());
-            } else {
-                servletResponse.getWriter().println(obj.toString());
-            }
+            return;
         }
+
+        // What to do
+        servletResponse.getWriter().println(obj.toString());
     }
 
 
