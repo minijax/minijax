@@ -52,8 +52,7 @@ class ContextProvider<T> implements Provider<T> {
         }
 
         if (c == HttpHeaders.class) {
-            // TODO
-            return null;
+            return (T) context.getHttpHeaders();
         }
 
         if (c == UriInfo.class) {

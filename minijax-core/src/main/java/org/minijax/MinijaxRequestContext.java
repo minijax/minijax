@@ -8,7 +8,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -20,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
@@ -30,8 +29,6 @@ import javax.ws.rs.core.UriInfo;
 
 import org.minijax.cdi.ResourceCache;
 import org.minijax.util.IOUtils;
-import org.minijax.util.LocaleUtils;
-import org.minijax.util.MediaTypeUtils;
 import org.minijax.util.UrlUtils;
 
 public class MinijaxRequestContext
@@ -44,11 +41,8 @@ public class MinijaxRequestContext
     private final MinijaxUriInfo uriInfo;
     private final ResourceCache resourceCache;
     private final Map<String, Object> properties;
-    private MultivaluedHashMap<String, String> headers;
-    private Map<String, Cookie> cookies;
+    private MinijaxHttpHeaders headers;
     private MinijaxForm form;
-    private List<Locale> acceptableLanguages;
-    private List<MediaType> acceptableMediaTypes;
     private SecurityContext securityContext;
     private MinijaxResourceMethod resourceMethod;
 
@@ -56,7 +50,7 @@ public class MinijaxRequestContext
             final MinijaxApplication container,
             final HttpServletRequest request,
             final HttpServletResponse response) {
-        this.application = container;
+        application = container;
         this.request = request;
         this.response = response;
         uriInfo = new MinijaxUriInfo(UrlUtils.getFullRequestUrl(request));
@@ -115,6 +109,14 @@ public class MinijaxRequestContext
     }
 
 
+    public HttpHeaders getHttpHeaders() {
+        if (headers == null) {
+            headers = new MinijaxHttpHeaders(request);
+        }
+        return headers;
+    }
+
+
     /**
      * Get the mutable request headers multivalued map.
      *
@@ -123,19 +125,7 @@ public class MinijaxRequestContext
      */
     @Override
     public MultivaluedMap<String, String> getHeaders() {
-        if (headers == null) {
-            headers = new MultivaluedHashMap<>();
-
-            final Enumeration<String> ne = request.getHeaderNames();
-            while (ne.hasMoreElements()) {
-                final String name = ne.nextElement();
-                final Enumeration<String> ve = request.getHeaders(name);
-                while (ve.hasMoreElements()) {
-                    headers.add(name, ve.nextElement());
-                }
-            }
-        }
-        return headers;
+        return getHttpHeaders().getRequestHeaders();
     }
 
 
@@ -146,18 +136,7 @@ public class MinijaxRequestContext
      */
     @Override
     public Map<String, Cookie> getCookies() {
-        if (cookies == null) {
-            cookies = new HashMap<>();
-
-            if (request.getCookies() != null) {
-                for (final javax.servlet.http.Cookie sc : request.getCookies()) {
-                    cookies.put(
-                            sc.getName(),
-                            new Cookie(sc.getName(), sc.getValue(), sc.getPath(), sc.getDomain(), sc.getVersion()));
-                }
-            }
-        }
-        return cookies;
+        return getHttpHeaders().getCookies();
     }
 
     @Override
@@ -182,54 +161,37 @@ public class MinijaxRequestContext
 
     @Override
     public String getHeaderString(final String name) {
-        final List<String> values = getHeaders().get(name);
-        return values == null ? null : String.join(",", values);
+        return getHttpHeaders().getHeaderString(name);
     }
 
     @Override
     public Date getDate() {
-        return null;
+        return getHttpHeaders().getDate();
     }
 
     @Override
     public Locale getLanguage() {
-        final String languageTag = getHeaderString("Content-Language");
-        return languageTag == null ? null : Locale.forLanguageTag(languageTag);
+        return getHttpHeaders().getLanguage();
     }
 
     @Override
     public int getLength() {
-        final String contentLength = getHeaderString("Content-Length");
-        if (contentLength == null) {
-            return -1;
-        }
-        try {
-            return Integer.parseInt(contentLength);
-        } catch (final NumberFormatException ex) {
-            return -1;
-        }
+        return getHttpHeaders().getLength();
     }
 
     @Override
     public MediaType getMediaType() {
-        final String contentType = getHeaderString("Content-Type");
-        return contentType == null ? null : MediaType.valueOf(contentType);
+        return getHttpHeaders().getMediaType();
     }
 
     @Override
     public List<MediaType> getAcceptableMediaTypes() {
-        if (acceptableMediaTypes == null) {
-            acceptableMediaTypes = MediaTypeUtils.parseMediaTypes(getHeaderString("Accept"));
-        }
-        return acceptableMediaTypes;
+        return getHttpHeaders().getAcceptableMediaTypes();
     }
 
     @Override
     public List<Locale> getAcceptableLanguages() {
-        if (acceptableLanguages == null) {
-            acceptableLanguages = LocaleUtils.parseAcceptLanguage(getHeaderString("Accept-Language"));
-        }
-        return acceptableLanguages;
+        return getHttpHeaders().getAcceptableLanguages();
     }
 
     @Override
