@@ -55,9 +55,9 @@ public class ScannerTest {
         assertNotNull( swagger );
 
         final Map<String, Object> infoExtensions = swagger.getInfo().getVendorExtensions();
-        assertEquals(infoExtensions.get("x-accessLevel"), "private");
+        assertEquals("private", infoExtensions.get("x-accessLevel"));
         final Map<String, Object> operationExtensions = swagger.getPath("/rest/test").getGet().getVendorExtensions();
-        assertEquals(operationExtensions.get("x-externalPath"), "/hello-world/v1/");
+        assertEquals("/hello-world/v1/", operationExtensions.get("x-externalPath"));
     }
 
     @Test
