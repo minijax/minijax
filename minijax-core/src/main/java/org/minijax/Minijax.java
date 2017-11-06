@@ -15,6 +15,7 @@ import java.util.Properties;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.MultipartConfigElement;
+import javax.ws.rs.core.CacheControl;
 
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
@@ -192,6 +193,12 @@ public class Minijax {
         property(MinijaxProperties.SSL_KEY_STORE_PATH, keyStorePath);
         property(MinijaxProperties.SSL_KEY_STORE_PASSWORD, keyStorePassword);
         property(MinijaxProperties.SSL_KEY_MANAGER_PASSWORD, keyManagerPassword);
+        return this;
+    }
+
+
+    public Minijax defaultCacheControl(final CacheControl defaultCacheControl) {
+        defaultApplication.register(new MinijaxCacheControlFilter(defaultCacheControl));
         return this;
     }
 

@@ -221,6 +221,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         for (final Class<?> contract : contracts) {
             container.getInjector().register(component, contract);
         }
+        registerImpl(component.getClass());
         return this;
     }
 
@@ -230,6 +231,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         for (final Class<?> contract : contracts.keySet()) {
             container.getInjector().register(component, contract);
         }
+        registerImpl(component.getClass());
         return this;
     }
 
