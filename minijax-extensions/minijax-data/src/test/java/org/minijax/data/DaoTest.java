@@ -34,8 +34,8 @@ public class DaoTest {
         private final EntityManagerFactory emf;
 
         public Dao(final EntityManagerFactory emf) {
-            super(emf);
             this.emf = emf;
+            em = emf.createEntityManager();
         }
 
         public Dao() {

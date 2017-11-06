@@ -1,32 +1,15 @@
 package com.example;
 
-import static org.eclipse.persistence.config.PersistenceUnitProperties.*;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
+import org.minijax.MinijaxProperties;
+import org.minijax.mustache.MinijaxMustacheFeature;
 import org.minijax.test.MinijaxTest;
 
-import com.github.mustachejava.DefaultMustacheFactory;
-import com.github.mustachejava.MustacheFactory;
-
 public abstract class PetClinicTest extends MinijaxTest {
-    private static EntityManagerFactory emf;
-
     public PetClinicTest() {
-        register(new DefaultMustacheFactory(), MustacheFactory.class);
-        register(getEntityManagerFactory(), EntityManagerFactory.class);
-    }
-
-    public static EntityManagerFactory getEntityManagerFactory() {
-        if (emf == null) {
-            final Map<String, String> props = new HashMap<String, String>();
-            props.put(JDBC_URL, "jdbc:h2:mem:test");
-            emf = Persistence.createEntityManagerFactory("petclinic", props);
-        }
-        return emf;
+        getServer()
+            .property(MinijaxProperties.DB_DRIVER, "org.h2.Driver")
+            .property(MinijaxProperties.DB_URL, "jdbc:h2:mem:test")
+            .registerPersistence()
+            .register(MinijaxMustacheFeature.class);
     }
 }

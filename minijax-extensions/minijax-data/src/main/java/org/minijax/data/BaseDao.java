@@ -9,8 +9,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -28,12 +28,9 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class BaseDao implements Closeable {
     private static final Logger LOG = LoggerFactory.getLogger(BaseDao.class);
+
+    @PersistenceContext
     protected EntityManager em;
-
-
-    protected BaseDao(final EntityManagerFactory emf) {
-        em = emf.createEntityManager();
-    }
 
 
     /**

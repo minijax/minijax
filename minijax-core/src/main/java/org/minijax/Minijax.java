@@ -66,14 +66,19 @@ public class Minijax {
     }
 
 
+    public Minijax properties(final Map<String, String> props) {
+        properties.putAll(props);
+        return this;
+    }
+
+
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public Minijax properties(final File file) throws IOException {
         final Properties props = new Properties();
         try (final FileReader r = new FileReader(file)) {
             props.load(r);
         }
-        properties.putAll((Map) props);
-        return this;
+        return properties((Map) props);
     }
 
 
