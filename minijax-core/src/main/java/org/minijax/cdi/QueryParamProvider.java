@@ -14,9 +14,12 @@ class QueryParamProvider<T> implements Provider<T> {
     @Override
     public T get() {
         final MinijaxRequestContext context = MinijaxRequestContext.getThreadLocal();
-        return context.getApplication().convertParamToType(
-                context.getUriInfo().getQueryParameters().getFirst(key.getName()),
-                key.getType(),
-                key.getAnnotations());
+        String value = context.getUriInfo().getQueryParameters().getFirst(key.getName());
+
+        if (value == null && key.getDefaultValue() != null) {
+            value = key.getDefaultValue().value();
+        }
+
+        return context.getApplication().convertParamToType(value, key.getType(), key.getAnnotations());
     }
 }

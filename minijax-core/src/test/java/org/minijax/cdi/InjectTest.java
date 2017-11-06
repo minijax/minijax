@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.CookieParam;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -34,7 +35,7 @@ public class InjectTest extends MinijaxTest {
         @CookieParam("a") String cookie;
         @FormParam("a") String form;
         @HeaderParam("a") String header;
-        @QueryParam("a") String query;
+        @QueryParam("a") @DefaultValue("b") String query;
         @PathParam("a") String path;
 
         @GET
@@ -89,6 +90,12 @@ public class InjectTest extends MinijaxTest {
     public void testQuery() {
         final InjectedResource r = target("/inject/test?a=myquery").request().get(InjectedResource.class);
         assertEquals("myquery", r.query);
+    }
+
+    @Test
+    public void testQueryDefaultValue() {
+        final InjectedResource r = target("/inject/test").request().get(InjectedResource.class);
+        assertEquals("b", r.query);
     }
 
     @Test
