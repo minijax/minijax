@@ -52,6 +52,7 @@
         </site>
     </distributionManagement>
     <properties>
+        <bcrypt.version>0.4</bcrypt.version>
         <cdi.version>2.0</cdi.version>
         <commons-lang3.version>3.5</commons-lang3.version>
         <eclipselink.version>2.7.0</eclipselink.version>

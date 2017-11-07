@@ -12,6 +12,8 @@ public class MinijaxProperties {
     public static final String SSL_KEY_STORE_PASSWORD = "org.minijax.ssl.keyStorePassword"; // NOSONAR - not a password
     public static final String SSL_KEY_MANAGER_PASSWORD = "org.minijax.ssl.keyManagerPassword"; // NOSONAR - not a password
 
+    public static final String SECURITY_USER_CLASS = "org.minijax.security.userClass";
+
     MinijaxProperties() {
         throw new UnsupportedOperationException();
     }

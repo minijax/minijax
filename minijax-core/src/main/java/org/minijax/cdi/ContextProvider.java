@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.UriInfo;
@@ -49,6 +50,10 @@ class ContextProvider<T> implements Provider<T> {
 
         if (c == Application.class) {
             return (T) context.getApplication();
+        }
+
+        if (c == Configuration.class) {
+            return (T) context.getApplication().getConfiguration();
         }
 
         if (c == HttpHeaders.class) {

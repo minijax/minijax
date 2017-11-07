@@ -5,6 +5,7 @@ import java.net.URI;
 import javax.ws.rs.client.WebTarget;
 
 import org.minijax.Minijax;
+import org.minijax.MinijaxRequestContext;
 
 public class MinijaxTest {
     private final Minijax server;
@@ -35,5 +36,16 @@ public class MinijaxTest {
 
     public WebTarget target(final String uri) {
         return new MinijaxWebTarget(server, URI.create(uri));
+    }
+
+    protected MinijaxRequestContext createRequestContext() {
+        return createRequestContext("GET", "/");
+    }
+
+    protected MinijaxRequestContext createRequestContext(final String method, final String uri) {
+        return new MinijaxRequestContext(
+                getServer().getDefaultApplication(),
+                new MockHttpServletRequest(method, URI.create(uri)),
+                null);
     }
 }

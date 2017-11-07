@@ -3,6 +3,7 @@ package org.minijax.data;
 import static org.eclipse.persistence.config.PersistenceUnitProperties.*;
 import static org.junit.Assert.*;
 
+import java.io.Closeable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class DaoTest {
     /**
      * Dao wrapping in-memory H2 database.
      */
-    public static class Dao extends BaseDao {
+    public static class Dao extends DefaultBaseDao implements Closeable {
         private final EntityManagerFactory emf;
 
         public Dao(final EntityManagerFactory emf) {
@@ -44,7 +45,6 @@ public class DaoTest {
 
         @Override
         public void close() {
-            super.close();
             emf.close();
         }
     }
@@ -67,7 +67,10 @@ public class DaoTest {
             assertNotNull(w2);
             assertEquals(w1.getId(), w2.getId());
 
+            Thread.sleep(10L);
+
             // Update
+            w2.setHandle("newhandle"); // Must change a value for upate to happen
             final Widget w3 = dao.update(w2);
             assertNotNull(w3);
             assertNotEquals(w2.getCreatedDateTime(), w3.getUpdatedDateTime());

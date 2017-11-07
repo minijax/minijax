@@ -16,6 +16,7 @@
         <module>minijax-json</module>
         <module>minijax-liquibase</module>
         <module>minijax-mustache</module>
+        <module>minijax-security</module>
         <module>minijax-swagger</module>
         <module>minijax-websocket</module>
     </modules>

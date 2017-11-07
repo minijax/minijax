@@ -1,0 +1,26 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" version="2.0">
+    <persistence-unit name="testdb" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>org.minijax.entity.InstantConverter</class>
+        <class>org.minijax.entity.UuidConverter</class>
+        <class>org.minijax.entity.test.Widget</class>
+        <class>org.minijax.entity.InstantConverter</class>
+        <class>org.minijax.entity.JsonMapConverter</class>
+        <class>org.minijax.entity.LocalDateConverter</class>
+        <class>org.minijax.entity.StringListConverter</class>
+        <class>org.minijax.entity.UrlEncodedMapConverter</class>
+        <class>org.minijax.entity.UuidConverter</class>
+        <class>org.minijax.security.ApiKey</class>
+        <class>org.minijax.security.PasswordChangeRequest</class>
+        <class>org.minijax.security.User</class>
+        <class>org.minijax.security.UserSession</class>
+        <class>org.minijax.security.SecurityUser</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="eclipselink.session.customizer" value="org.minijax.data.EclipselinkSessionCustomizer" />
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
+            <property name="org.minijax.data.driver" value="org.h2.jdbcx.JdbcDataSource" />
+            <property name="org.minijax.data.url" value="jdbc:h2:mem:test;DB_CLOSE_DELAY=-1" />
+        </properties>
+    </persistence-unit>
+</persistence>

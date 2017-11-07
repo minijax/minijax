@@ -14,14 +14,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.minijax.entity.BaseEntity;
+import org.minijax.entity.DefaultBaseEntity;
 
 @Entity
 @Cacheable
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Pet extends BaseEntity {
+public class Pet extends DefaultBaseEntity {
     private static final long serialVersionUID = 1L;
     private String name;
     private String petType;

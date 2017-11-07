@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.minijax.entity.BaseEntity;
+import org.minijax.entity.DefaultBaseEntity;
 import org.minijax.entity.InstantConverter;
 
 @Entity
@@ -22,7 +22,7 @@ import org.minijax.entity.InstantConverter;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Visit extends BaseEntity {
+public class Visit extends DefaultBaseEntity {
     private static final long serialVersionUID = 1L;
     private String description;
 

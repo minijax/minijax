@@ -271,6 +271,10 @@ public class MinijaxRequestContext
         return resourceCache;
     }
 
+    public <T> T get(final Class<T> c) {
+        return getApplication().get(c);
+    }
+
     public MinijaxResourceMethod getResourceMethod() {
         return resourceMethod;
     }

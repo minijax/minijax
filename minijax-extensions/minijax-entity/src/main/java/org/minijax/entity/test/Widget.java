@@ -5,10 +5,10 @@ import java.util.UUID;
 
 import javax.persistence.Entity;
 
-import org.minijax.entity.NamedEntity;
+import org.minijax.entity.DefaultNamedEntity;
 
 @Entity
-public class Widget extends NamedEntity {
+public class Widget extends DefaultNamedEntity {
     private static final long serialVersionUID = 1L;
 
     public Widget() {

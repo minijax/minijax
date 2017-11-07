@@ -1,7 +1,5 @@
 package org.minijax.data;
 
-import java.io.Closeable;
-import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -19,18 +17,23 @@ import javax.persistence.criteria.Root;
 import org.apache.commons.lang3.Validate;
 import org.minijax.entity.BaseEntity;
 import org.minijax.entity.NamedEntity;
-import org.minijax.util.IdUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * The Dao class is the interface for all database access.
  */
-public abstract class BaseDao implements Closeable {
-    private static final Logger LOG = LoggerFactory.getLogger(BaseDao.class);
+public abstract class DefaultBaseDao implements BaseDao {
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultBaseDao.class);
 
     @PersistenceContext
     protected EntityManager em;
+
+
+    @Override
+    public EntityManager getEntityManager() {
+        return em;
+    }
 
 
     /**
@@ -39,19 +42,21 @@ public abstract class BaseDao implements Closeable {
      * @param obj The object to create.
      * @return The instance with ID.
      */
+    @Override
     public <T extends BaseEntity> T create(final T obj) {
-        Validate.notNull(obj);
-        Validate.isTrue(obj.getId() == null, "ID must not be set before create");
-        obj.validate();
+//        Validate.notNull(obj);
+//        Validate.isTrue(obj.getId() == null, "ID must not be set before create");
+//        obj.validate();
 
-        obj.setId(IdUtils.create());
-        obj.setCreatedDateTime(Instant.now());
-        obj.setUpdatedDateTime(obj.getCreatedDateTime());
+        //obj.setId(IdUtils.create());
+//        obj.setCreatedDateTime(Instant.now());
+//        obj.setUpdatedDateTime(obj.getCreatedDateTime());
 
         try {
             em.getTransaction().begin();
             em.persist(obj);
             em.flush();
+//            em.detach(obj);
             em.getTransaction().commit();
             return obj;
         } catch (final PersistenceException ex) {
@@ -66,6 +71,7 @@ public abstract class BaseDao implements Closeable {
      * @param id The ID.
      * @return The object if found; null otherwise.
      */
+    @Override
     public <T extends BaseEntity> T read(final Class<T> entityClass, final UUID id) {
         Validate.notNull(entityClass);
         Validate.notNull(id);
@@ -81,6 +87,7 @@ public abstract class BaseDao implements Closeable {
      * @param handle The user's handle.
      * @return The user on success; null on failure.
      */
+    @Override
     public <T extends NamedEntity> T readByHandle(final Class<T> entityClass, final String handle) {
         try {
             // Unfortunately @CacheIndex does not work with CriteriaBuilder, so using string query instead.
@@ -102,6 +109,7 @@ public abstract class BaseDao implements Closeable {
      * @param pageSize The page size.
      * @return A page of objects.
      */
+    @Override
     public <T extends BaseEntity> List<T> readPage(
             final Class<T> entityClass,
             final int page,
@@ -128,16 +136,18 @@ public abstract class BaseDao implements Closeable {
      *
      * @param obj The object to update.
      */
+    @Override
     public <T extends BaseEntity> T update(final T obj) {
-        Validate.notNull(obj);
-        Validate.notNull(obj.getId());
-        obj.validate();
-        obj.setUpdatedDateTime(Instant.now());
+//        Validate.notNull(obj);
+//        Validate.notNull(obj.getId());
+//        obj.validate();
+//        obj.setUpdatedDateTime(Instant.now());
 
         try {
             em.getTransaction().begin();
             em.merge(obj);
             em.flush();
+//            em.detach(obj);
             em.getTransaction().commit();
             return obj;
         } catch (final PersistenceException ex) {
@@ -153,11 +163,12 @@ public abstract class BaseDao implements Closeable {
      *
      * @param obj The object to delete.
      */
+    @Override
     public <T extends BaseEntity> void delete(final T obj) {
         Validate.notNull(obj);
         Validate.notNull(obj.getId());
 
-        obj.setDeletedDateTime(Instant.now());
+        obj.setDeleted(true);
         update(obj);
     }
 
@@ -169,6 +180,7 @@ public abstract class BaseDao implements Closeable {
      *
      * @param obj The object to delete.
      */
+    @Override
     public <T extends BaseEntity> void purge(final T obj) {
         Validate.notNull(obj);
         Validate.notNull(obj.getId());
@@ -189,18 +201,13 @@ public abstract class BaseDao implements Closeable {
      * @param entityClass The entity class.
      * @return The count of rows.
      */
+    @Override
     public <T extends BaseEntity> long countAll(final Class<T> entityClass) {
         Validate.notNull(entityClass);
 
         final CriteriaBuilder cb = em.getCriteriaBuilder();
         final CriteriaQuery<Long> cq = cb.createQuery(Long.class);
         return em.createQuery(cq.select(cb.count(cq.from(entityClass)))).getSingleResult();
-    }
-
-
-    @Override
-    public void close() {
-        em.close();
     }
 
 
