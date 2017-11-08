@@ -13,25 +13,22 @@ import java.util.UUID;
 
 import org.junit.Test;
 import org.minijax.entity.test.Widget;
-import org.minijax.util.IdUtils;
 
 public class BaseEntityTest {
 
     @Test
     public void testHashCode() {
-        final Widget w1 = new Widget();
-        assertEquals(0, w1.hashCode());
-
-        final Widget w2 = new Widget(IdUtils.create());
+        final Widget w2 = new Widget();
         assertEquals(w2.getId().hashCode(), w2.hashCode());
     }
 
 
     @Test
     public void testEquals() {
-        final Widget w1 = new Widget(IdUtils.create());
-        final Widget w2 = new Widget(IdUtils.create());
-        final Widget w3 = new Widget(w2.getId());
+        final Widget w1 = new Widget();
+        final Widget w2 = new Widget();
+        final Widget w3 = new Widget();
+        w3.setId(w2.getId());
 
         assertNotEquals(w1, null);
         assertNotEquals(w1, new Object());
@@ -45,16 +42,17 @@ public class BaseEntityTest {
     @Test
     public void testToJson() throws IOException {
         final Widget w = new Widget();
+        w.setId(UUID.fromString("00000000-0000-0000-0000-000000000000"));
         w.setCreatedDateTime(ZonedDateTime.of(2017, 10, 30, 4, 38, 0, 0, ZoneId.of("America/Los_Angeles")).toInstant());
         w.setName("foo");
-        assertEquals("{\"createdDateTime\":\"2017-10-30T11:38:00Z\",\"name\":\"foo\"}", w.toJson());
+        assertEquals("{\"id\":\"00000000-0000-0000-0000-000000000000\",\"createdDateTime\":\"2017-10-30T11:38:00Z\",\"name\":\"foo\"}", w.toJson());
     }
 
 
     @Test
     public void testSqlHint() {
-        final UUID id = UUID.fromString("00000000-0000-0000-0000-000000000000");
-        final Widget w = new Widget(id);
+        final Widget w = new Widget();
+        w.setId(UUID.fromString("00000000-0000-0000-0000-000000000000"));
         assertEquals("SELECT * FROM `WIDGET` WHERE ID=UNHEX('00000000000000000000000000000000');", w.getSqlHint());
     }
 
@@ -93,13 +91,13 @@ public class BaseEntityTest {
 
     @Test
     public void testSortByCreatedDate() {
-        final Widget w1 = new Widget(IdUtils.create());
+        final Widget w1 = new Widget();
         w1.setCreatedDateTime(Instant.now().minusSeconds(3L));
 
-        final Widget w2 = new Widget(IdUtils.create());
+        final Widget w2 = new Widget();
         w2.setCreatedDateTime(Instant.now().minusSeconds(2L));
 
-        final Widget w3 = new Widget(IdUtils.create());
+        final Widget w3 = new Widget();
         w3.setCreatedDateTime(Instant.now().minusSeconds(1L));
 
         final List<Widget> w = new ArrayList<>(Arrays.asList(w3, w2, w1));

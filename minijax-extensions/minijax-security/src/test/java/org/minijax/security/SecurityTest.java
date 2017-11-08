@@ -17,7 +17,6 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.data.DefaultBaseDao;
 import org.minijax.test.MinijaxTest;
-import org.minijax.util.IdUtils;
 
 public class SecurityTest extends MinijaxTest {
     public static User alice;
@@ -74,7 +73,7 @@ public class SecurityTest extends MinijaxTest {
                 return;
             }
 
-            alice = new User(IdUtils.create());
+            alice = new User();
             alice.setName("Alice");
             alice.setEmail("alice@example.com");
             alice.setHandle("alice");
@@ -82,7 +81,7 @@ public class SecurityTest extends MinijaxTest {
             alice.setRoles("user", "admin");
             dao.create(alice);
 
-            bob = new User(IdUtils.create());
+            bob = new User();
             bob.setName("Bob");
             bob.setEmail("bob@example.com");
             bob.setHandle("bob");

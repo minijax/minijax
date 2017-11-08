@@ -12,7 +12,7 @@ public class ApiKeyTest {
 
     @Test
     public void testGettersSetters() {
-        final User user = new User(IdUtils.create());
+        final User user = new User();
 
         final UUID id = IdUtils.create();
 
@@ -28,21 +28,12 @@ public class ApiKeyTest {
 
 
     @Test
-    public void testHashCode() {
-        final UUID id = IdUtils.create();
-        final ApiKey msg = new ApiKey(id);
-        assertEquals(id.hashCode(), msg.hashCode());
-    }
-
-
-    @Test
     public void testEquals() {
-        final UUID id1 = IdUtils.create();
-        final UUID id2 = IdUtils.create();
+        final ApiKey m1 = new ApiKey();
+        final ApiKey m2 = new ApiKey();
+        final ApiKey m3 = new ApiKey();
 
-        final ApiKey m1 = new ApiKey(id1);
-        final ApiKey m2 = new ApiKey(id1);
-        final ApiKey m3 = new ApiKey(id2);
+        m2.setId(m1.getId());
 
         assertTrue(m1.equals(m1));
         assertTrue(m1.equals(m2));
@@ -54,12 +45,10 @@ public class ApiKeyTest {
 
     @Test
     public void testToJson() throws IOException {
-        final UUID id = IdUtils.create();
-
-        final ApiKey m = new ApiKey(id);
+        final ApiKey m = new ApiKey();
         final String json = m.toJson();
 
         assertNotNull(json);
-        assertTrue(json.contains("\"id\":\"" + id + "\""));
+        assertTrue(json.contains("\"id\":\"" + m.getId() + "\""));
     }
 }

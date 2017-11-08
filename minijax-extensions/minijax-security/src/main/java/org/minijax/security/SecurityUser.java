@@ -18,7 +18,6 @@
 package org.minijax.security;
 
 import java.util.Arrays;
-import java.util.UUID;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -50,14 +49,6 @@ public abstract class SecurityUser extends DefaultNamedEntity {
 
     @XmlTransient
     private String passwordHash;
-
-    public SecurityUser() {
-        super();
-    }
-
-    public SecurityUser(final UUID id) {
-        super(id);
-    }
 
     public String getEmail() {
         return email;

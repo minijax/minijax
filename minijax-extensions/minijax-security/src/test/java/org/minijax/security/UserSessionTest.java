@@ -30,7 +30,7 @@ public class UserSessionTest {
     public void testGettersSetters() {
         final UUID id = IdUtils.create();
 
-        final User u = new User(IdUtils.create());
+        final User u = new User();
 
         final UserSession s = new UserSession();
         s.setId(id);
@@ -44,7 +44,7 @@ public class UserSessionTest {
     @Test
     public void testValidate() {
         final UserSession s = new UserSession();
-        s.setUser(new User(IdUtils.create()));
+        s.setUser(new User());
         s.validate();
     }
 

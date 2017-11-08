@@ -20,13 +20,12 @@ package org.minijax.security;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.minijax.util.IdUtils;
 
 public class PasswordChangeRequestTest {
 
     @Test
     public void testGettersSetters() {
-        final User u = new User(IdUtils.create());
+        final User u = new User();
 
         final PasswordChangeRequest pcr = new PasswordChangeRequest();
         pcr.setUser(u);
@@ -38,7 +37,7 @@ public class PasswordChangeRequestTest {
     public void testValidateSuccess() {
         final PasswordChangeRequest pcr = new PasswordChangeRequest();
         pcr.setCode("0123456789012345678901234567890123456789");
-        pcr.setUser(new User(IdUtils.create()));
+        pcr.setUser(new User());
         pcr.validate();
     }
 

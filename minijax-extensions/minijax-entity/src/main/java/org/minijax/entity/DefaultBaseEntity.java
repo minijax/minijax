@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
@@ -18,11 +17,20 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 import org.minijax.json.MinijaxObjectMapper;
+import org.minijax.util.IdUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * The BaseEntity class is the abstract base class for all web primitives.
+ *
+ * ID's are set by the class.  ID's are *not* populated by JPA.
+ *
+ * For background:
+ * <ul>
+ * <li>https://stackoverflow.com/questions/5031614/the-jpa-hashcode-equals-dilemma</li>
+ * <li>http://www.onjava.com/pub/a/onjava/2006/09/13/dont-let-hibernate-steal-your-identity.html</li>
+ * </ul>
  */
 @MappedSuperclass
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -31,7 +39,6 @@ public abstract class DefaultBaseEntity implements BaseEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(generator = UuidGenerator.ID_GENERATOR_NAME)
     @Column(columnDefinition = "BINARY(16)")
     @Convert(converter = UuidConverter.class)
     private UUID id;
@@ -50,16 +57,7 @@ public abstract class DefaultBaseEntity implements BaseEntity {
 
 
     public DefaultBaseEntity() {
-        // For Jackson
-//        createdDateTime = Instant.now();
-//        updatedDateTime = createdDateTime;
-    }
-
-
-    public DefaultBaseEntity(final UUID id) {
-//        createdDateTime = Instant.now();
-//        updatedDateTime = createdDateTime;
-        setId(id);
+        id = IdUtils.create();
     }
 
 

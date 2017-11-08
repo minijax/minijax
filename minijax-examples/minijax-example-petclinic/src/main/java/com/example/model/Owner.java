@@ -1,7 +1,6 @@
 package com.example.model;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
@@ -32,18 +31,6 @@ public class Owner extends DefaultBaseEntity {
 
     @OneToMany(mappedBy = "owner")
     private List<Pet> pets;
-
-    public Owner() {
-        // For JPA and Jackson
-    }
-
-    public Owner(final UUID id, final String name, final String address, final String city, final String telephone) {
-        super(id);
-        this.name = name;
-        this.address = address;
-        this.city = city;
-        this.telephone = telephone;
-    }
 
     public String getName() {
         return name;

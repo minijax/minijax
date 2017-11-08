@@ -6,7 +6,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
@@ -18,23 +17,14 @@ public class NamedEntityTest {
     @Test
     public void testCtor1() {
         final Widget w = new Widget();
-        assertNull(w.getId());
+        assertNotNull(w.getId());
         assertNull(w.getName());
     }
 
     @Test
     public void testCtor2() {
-        final UUID id = IdUtils.create();
-        final Widget w = new Widget(id);
-        assertEquals(id, w.getId());
-        assertNull(w.getName());
-    }
-
-    @Test
-    public void testCtor3() {
-        final UUID id = IdUtils.create();
-        final Widget w = new Widget(id, "foo");
-        assertEquals(id, w.getId());
+        final Widget w = new Widget("foo");
+        assertNotNull(w.getId());
         assertEquals("foo", w.getName());
     }
 
@@ -156,9 +146,9 @@ public class NamedEntityTest {
     @Test
     public void testSortByName() {
         final List<Widget> w = new ArrayList<>(Arrays.asList(
-                new Widget(null, "Carol"),
-                new Widget(null, "Bob"),
-                new Widget(null, "Alice")));
+                new Widget("Carol"),
+                new Widget("Bob"),
+                new Widget("Alice")));
 
         NamedEntity.sortByName(w);
         assertEquals("Alice", w.get(0).getName());

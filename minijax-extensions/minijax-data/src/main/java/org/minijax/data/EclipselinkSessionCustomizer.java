@@ -7,7 +7,6 @@ import org.eclipse.persistence.sessions.DatabaseLogin;
 import org.eclipse.persistence.sessions.JNDIConnector;
 import org.eclipse.persistence.sessions.Session;
 import org.minijax.MinijaxProperties;
-import org.minijax.entity.UuidGenerator;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -16,8 +15,6 @@ public class EclipselinkSessionCustomizer implements SessionCustomizer {
 
     @Override
     public void customize(final Session session) {
-        final DatabaseLogin login = session.getLogin();
-        login.addSequence(new UuidGenerator());
         setupDataSource(session);
     }
 

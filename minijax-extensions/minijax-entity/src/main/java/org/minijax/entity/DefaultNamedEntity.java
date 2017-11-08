@@ -1,7 +1,6 @@
 package org.minijax.entity;
 
 import java.net.URI;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -36,12 +35,7 @@ public abstract class DefaultNamedEntity extends DefaultBaseEntity implements Na
         super();
     }
 
-    public DefaultNamedEntity(final UUID id) {
-        super(id);
-    }
-
-    public DefaultNamedEntity(final UUID id, final String name) {
-        super(id);
+    public DefaultNamedEntity(final String name) {
         setName(name);
     }
 
@@ -76,6 +70,7 @@ public abstract class DefaultNamedEntity extends DefaultBaseEntity implements Na
         return avatar;
     }
 
+    @Override
     public void setAvatar(final Avatar avatar) {
         this.avatar = avatar;
     }

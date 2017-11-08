@@ -17,8 +17,6 @@
  */
 package org.minijax.security;
 
-import java.util.UUID;
-
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
@@ -70,14 +68,6 @@ public class ApiKey extends DefaultBaseEntity {
     @Column(length = 64, unique = true)
     @CacheIndex
     private String value;
-
-    public ApiKey() {
-        this(null);
-    }
-
-    public ApiKey(final UUID id) {
-        super(id);
-    }
 
     public SecurityUser getUser() {
         return user;

@@ -1,7 +1,6 @@
 package org.minijax.entity.test;
 
 import java.net.URI;
-import java.util.UUID;
 
 import javax.persistence.Entity;
 
@@ -15,12 +14,8 @@ public class Widget extends DefaultNamedEntity {
         super();
     }
 
-    public Widget(final UUID id) {
-        super(id);
-    }
-
-    public Widget(final UUID id, final String name) {
-        super(id, name);
+    public Widget(final String name) {
+        super(name);
     }
 
     @Override
