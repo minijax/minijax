@@ -25,6 +25,7 @@ import org.minijax.entity.DefaultBaseEntity;
         name = "UserSession.deleteByUser",
         query = "DELETE FROM UserSession s" +
                 " WHERE s.user.id = :userId")
+@SuppressWarnings("squid:S2160")
 public class UserSession extends DefaultBaseEntity {
     private static final long serialVersionUID = 1L;
 

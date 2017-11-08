@@ -35,6 +35,7 @@ import org.minijax.entity.DefaultBaseEntity;
         query = "SELECT pcr FROM PasswordChangeRequest pcr" +
                 " WHERE pcr.code = :code" +
                 " AND pcr.deletedDateTime IS NULL")
+@SuppressWarnings("squid:S2160")
 public class PasswordChangeRequest extends DefaultBaseEntity {
     private static final long serialVersionUID = 1L;
 

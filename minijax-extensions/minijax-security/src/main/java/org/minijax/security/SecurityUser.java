@@ -21,6 +21,7 @@ import org.minijax.entity.DefaultNamedEntity;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Cacheable
 @XmlAccessorType(XmlAccessType.FIELD)
+@SuppressWarnings("squid:S2160")
 public abstract class SecurityUser extends DefaultNamedEntity {
     private static final long serialVersionUID = 1L;
 

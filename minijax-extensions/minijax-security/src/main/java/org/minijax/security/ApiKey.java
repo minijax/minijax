@@ -35,6 +35,7 @@ import org.minijax.entity.DefaultBaseEntity;
         name = "ApiKey.findByValue",
         query = "SELECT k FROM ApiKey k" +
                 " WHERE k.value = :value")
+@SuppressWarnings("squid:S2160")
 public class ApiKey extends DefaultBaseEntity {
     private static final long serialVersionUID = 1L;
 
