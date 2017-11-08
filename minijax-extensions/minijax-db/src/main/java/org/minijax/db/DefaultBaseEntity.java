@@ -286,4 +286,9 @@ public abstract class DefaultBaseEntity implements BaseEntity {
             currClass = currClass.getSuperclass();
         }
     }
+
+
+    public static <T extends DefaultBaseEntity> T fromJson(final Class<T> c, final String str) throws IOException {
+        return MinijaxObjectMapper.getInstance().readValue(str, c);
+    }
 }

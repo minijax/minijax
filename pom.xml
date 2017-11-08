@@ -75,8 +75,8 @@
         <shade.version>3.1.0</shade.version>
         <site.basedir>${session.executionRootDirectory}/src/site/</site.basedir>
         <slf4j.version>1.7.25</slf4j.version>
-        <swagger.version>1.5.16</swagger.version>
         <sonar.language>java</sonar.language>
+        <swagger.version>1.5.16</swagger.version>
     </properties>
     <build>
         <plugins>
