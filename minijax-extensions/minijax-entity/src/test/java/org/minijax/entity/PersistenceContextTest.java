@@ -1,4 +1,4 @@
-package org.minijax.data;
+package org.minijax.entity;
 
 import static org.eclipse.persistence.config.PersistenceUnitProperties.*;
 import static org.junit.Assert.*;
@@ -12,7 +12,6 @@ import javax.persistence.PersistenceContext;
 import org.junit.Test;
 import org.minijax.Minijax;
 import org.minijax.MinijaxApplication;
-import org.minijax.MinijaxProperties;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.entity.test.Widget;
 import org.minijax.test.MockHttpServletRequest;
@@ -37,11 +36,10 @@ public class PersistenceContextTest {
     @Test
     public void testPersistenceContextInject() throws IOException {
         final Minijax container = new Minijax()
-                .property(MinijaxProperties.PERSISTENCE_UNIT_NAME, "testdb")
-                .property(MinijaxProperties.DB_DRIVER, "org.h2.jdbcx.JdbcDataSource")
-                .property(MinijaxProperties.DB_URL, "jdbc:h2:mem:")
-                .property(MinijaxProperties.DB_USERNAME, "")
-                .property(MinijaxProperties.DB_PASSWORD, "")
+                .property(JDBC_DRIVER, "org.h2.jdbcx.JdbcDataSource")
+                .property(JDBC_URL, "jdbc:h2:mem:")
+                .property(JDBC_USER, "")
+                .property(JDBC_PASSWORD, "")
                 .property(SCHEMA_GENERATION_DATABASE_ACTION, "drop-and-create")
                 .registerPersistence()
                 .register(PersistenceContextDao.class);

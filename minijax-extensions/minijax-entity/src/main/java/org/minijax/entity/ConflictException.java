@@ -1,4 +1,4 @@
-package org.minijax.data;
+package org.minijax.entity;
 
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.core.Response;

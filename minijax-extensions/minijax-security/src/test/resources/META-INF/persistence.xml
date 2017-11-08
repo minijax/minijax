@@ -15,12 +15,11 @@
         <class>org.minijax.security.User</class>
         <class>org.minijax.security.UserSession</class>
         <class>org.minijax.security.SecurityUser</class>
-        <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <property name="eclipselink.session.customizer" value="org.minijax.data.EclipselinkSessionCustomizer" />
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
             <property name="org.minijax.data.driver" value="org.h2.jdbcx.JdbcDataSource" />
-            <property name="org.minijax.data.url" value="jdbc:h2:mem:test;DB_CLOSE_DELAY=-1" />
+            <property name="org.minijax.data.url" value="jdbc:h2:mem:" />
         </properties>
     </persistence-unit>
 </persistence>

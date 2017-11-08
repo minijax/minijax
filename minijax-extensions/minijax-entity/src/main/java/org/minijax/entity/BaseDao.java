@@ -1,12 +1,9 @@
-package org.minijax.data;
+package org.minijax.entity;
 
 import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.EntityManager;
-
-import org.minijax.entity.BaseEntity;
-import org.minijax.entity.NamedEntity;
 
 /**
  * The Dao class is the interface for all database access.

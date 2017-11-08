@@ -1,4 +1,4 @@
-package org.minijax.data;
+package org.minijax.entity;
 
 import static org.eclipse.persistence.config.PersistenceUnitProperties.*;
 import static org.junit.Assert.*;
@@ -12,18 +12,16 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.junit.Test;
-import org.minijax.MinijaxProperties;
 import org.minijax.entity.test.Widget;
 
 public class DaoTest {
 
     public static EntityManagerFactory getNewEntityManagerFactory() {
         final Map<String, String> props = new HashMap<>();
-        props.put(MinijaxProperties.PERSISTENCE_UNIT_NAME, "testdb");
-        props.put(MinijaxProperties.DB_DRIVER, "org.h2.jdbcx.JdbcDataSource");
-        props.put(MinijaxProperties.DB_URL, "jdbc:h2:mem:");
-        props.put(MinijaxProperties.DB_USERNAME, "");
-        props.put(MinijaxProperties.DB_PASSWORD, "");
+        props.put(JDBC_DRIVER, "org.h2.jdbcx.JdbcDataSource");
+        props.put(JDBC_URL, "jdbc:h2:mem:");
+        props.put(JDBC_USER, "");
+        props.put(JDBC_PASSWORD, "");
         props.put(SCHEMA_GENERATION_DATABASE_ACTION, "drop-and-create");
         return Persistence.createEntityManagerFactory("testdb", props);
     }

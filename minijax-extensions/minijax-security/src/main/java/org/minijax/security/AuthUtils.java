@@ -56,10 +56,10 @@ public class AuthUtils {
             return INVALID;
         }
 
-
-        final byte[] decodedBytes = Base64.getDecoder().decode(auth.substring(BASIC_PREFIX.length()));
-        if (decodedBytes == null || decodedBytes.length == 0) {
-            // Invalid base-64 encoding
+        final byte[] decodedBytes;
+        try {
+            decodedBytes = Base64.getDecoder().decode(auth.substring(BASIC_PREFIX.length()));
+        } catch (final IllegalArgumentException ex) {
             return INVALID;
         }
 

@@ -1,4 +1,4 @@
-package org.minijax.data;
+package org.minijax.entity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,8 +15,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.Validate;
-import org.minijax.entity.BaseEntity;
-import org.minijax.entity.NamedEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

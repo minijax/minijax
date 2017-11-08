@@ -4,45 +4,74 @@ import java.net.URI;
 
 import javax.ws.rs.client.WebTarget;
 
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.minijax.Minijax;
 import org.minijax.MinijaxRequestContext;
 
 public class MinijaxTest {
-    private final Minijax server;
+    private static Minijax server;
+    protected static boolean uniqueServerPerTest;
 
-    public MinijaxTest() {
+    @BeforeClass
+    public static void setUpClass() {
         server = new Minijax();
     }
 
-    public Minijax getServer() {
+    @Before
+    public void setUp() {
+        if (server == null) {
+            server = new Minijax();
+        }
+    }
+
+    @After
+    public void tearDown() {
+        if (uniqueServerPerTest) {
+            server.getInjector().close();
+            server = null;
+        }
+    }
+
+    @AfterClass
+    public static void tearDownClass() {
+        if (server != null) {
+            server.getInjector().close();
+            server = null;
+        }
+    }
+
+    public static Minijax getServer() {
         return server;
     }
 
-    public void register(final Class<?> c) {
+    public static void register(final Class<?> c) {
         server.register(c);
     }
 
-    public void register(final Object component) {
+    public static void register(final Object component) {
         server.register(component);
     }
 
-    public void register(final Object component, final Class<?>... contracts) {
+    public static void register(final Object component, final Class<?>... contracts) {
         server.register(component, contracts);
     }
 
-    public void packages(final String... packageNames) {
+    public static void packages(final String... packageNames) {
         server.packages(packageNames);
     }
 
-    public WebTarget target(final String uri) {
+    public static WebTarget target(final String uri) {
         return new MinijaxWebTarget(server, URI.create(uri));
     }
 
-    protected MinijaxRequestContext createRequestContext() {
+    protected static MinijaxRequestContext createRequestContext() {
         return createRequestContext("GET", "/");
     }
 
-    protected MinijaxRequestContext createRequestContext(final String method, final String uri) {
+    protected static MinijaxRequestContext createRequestContext(final String method, final String uri) {
         return new MinijaxRequestContext(
                 getServer().getDefaultApplication(),
                 new MockHttpServletRequest(method, URI.create(uri)),

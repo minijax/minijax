@@ -11,11 +11,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mindrot.jbcrypt.BCrypt;
 import org.minijax.MinijaxRequestContext;
-import org.minijax.data.DefaultBaseDao;
+import org.minijax.entity.DefaultBaseDao;
 import org.minijax.test.MinijaxTest;
 
 public class SecurityTest extends MinijaxTest {
@@ -54,21 +54,16 @@ public class SecurityTest extends MinijaxTest {
     }
 
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUpSecurityTest() {
         getServer()
                 .registerPersistence()
                 .register(new SecurityFeature(User.class))
                 .register(Dao.class, SecurityDao.class)
                 .register(SecurityTest.class);
 
-        initDb();
-    }
-
-
-    public void initDb() {
-        try (MinijaxRequestContext ctx = createRequestContext()) {
-            final Dao dao = ctx.getApplication().get(Dao.class);
+        try (final MinijaxRequestContext ctx = createRequestContext()) {
+            final Dao dao = ctx.get(Dao.class);
             if (dao.countAll(User.class) > 0) {
                 return;
             }
