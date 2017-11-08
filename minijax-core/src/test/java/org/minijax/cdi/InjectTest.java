@@ -18,7 +18,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.UriInfo;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
 
@@ -46,8 +46,9 @@ public class InjectTest extends MinijaxTest {
         }
     }
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUpInjectTest() {
+        resetServer();
         register(Counter.class);
         register(InjectedResource.class);
     }

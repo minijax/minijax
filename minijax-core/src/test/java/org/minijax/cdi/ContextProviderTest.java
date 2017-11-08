@@ -7,7 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
 
@@ -19,8 +19,9 @@ public class ContextProviderTest extends MinijaxTest {
         return context.getClass().getName();
     }
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUpContextProviderTest() {
+        resetServer();
         register(ContextProviderTest.class);
     }
 

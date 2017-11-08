@@ -50,5 +50,7 @@ public class RequestScopedTest {
 
         assertNotEquals(a1, a3);
         assertTrue(a1 != a3);
+
+        container.getInjector().close();
     }
 }

@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
 
@@ -20,10 +21,14 @@ public class MethodInjectTest extends MinijaxTest {
         }
     }
 
+    @BeforeClass
+    public static void setUpMethodInjectTest() {
+        resetServer();
+        register(MethodInjectResource.class);
+    }
+
     @Test
     public void testMethodInject() {
-        register(MethodInjectResource.class);
-
         final MethodInjectResource r = getServer().get(MethodInjectResource.class);
         assertNotNull(r);
         assertTrue(r.injected);

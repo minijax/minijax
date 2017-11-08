@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
 
@@ -43,10 +44,16 @@ public class InheritanceTest extends MinijaxTest {
     }
 
 
+    @BeforeClass
+    public static void setUpInheritanceTest() {
+        resetServer();
+        register(MySubClass.class);
+        register(SubPathParamClass.class);
+    }
+
+
     @Test
     public void testInheritanceInject() {
-        register(MySubClass.class);
-
         final MySubClass r = getServer().get(MySubClass.class);
         assertNotNull(r);
         assertNotNull(r.subInjected);
@@ -56,8 +63,6 @@ public class InheritanceTest extends MinijaxTest {
 
     @Test
     public void testInheritancePathParam() {
-        register(SubPathParamClass.class);
-
         assertEquals("foo", target("/foo").request().get(String.class));
     }
 }
