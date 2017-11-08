@@ -73,6 +73,10 @@ public class UrlUtils {
      * @return The full request URL.
      */
     public static URI getFullRequestUrl(final HttpServletRequest request) {
+        if (request == null) {
+            return null;
+        }
+
         String url = request.getRequestURL().toString();
 
         // Fix HTTPS->HTTP rewriting from HTTP proxy.
