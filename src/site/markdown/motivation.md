@@ -8,7 +8,7 @@ Why does Minijax exist?
 
 **Why Java?**  Java continues to be one of the most popular programming languages in existence.  It is hardened and battle tested.  It is fast.  It supports virtually all databases.  Most 3rd party services provide a Java SDK.
 
-**Why not just use Java EE?**  Java EE application servers are big and unwieldy.  Deploying JBoss is not a trivial task.  There is a growing movement of using Java SE + a tasteful subset of Java EE API's.  You can then build a "fat jar" and run ```public static void main()```.
+**Why not just use Java EE?**  Java EE application servers are big and unwieldy.  There is a growing movement of using Java SE + a tasteful subset of Java EE API's.  You can then build a "fat jar" and run ```public static void main()```.
 
 **Why Java EE API's?** Despite the weight and hassle of Java EE, the API's themselves can be quite elegant.  Plus, by using standard API's, you inherit the benefits of standardized documentation and engineers who are familiar with the design.  By sticking to standard API's, you can future proof your project.
 
