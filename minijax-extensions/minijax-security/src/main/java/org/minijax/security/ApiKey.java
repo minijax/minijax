@@ -1,20 +1,3 @@
-/*
- * AJIBOT CONFIDENTIAL
- * __________________
- *
- *  2017 Ajibot Inc
- *  All Rights Reserved.
- *
- * NOTICE:  All information contained herein is, and remains
- * the property of Ajibot Inc and its suppliers, if any.
- * The intellectual and technical concepts contained herein
- * are proprietary to Ajibot Inc and its suppliers and may
- * be covered by U.S. and Foreign Patents, patents in process,
- * and are protected by trade secret or copyright law.
- * Dissemination of this information or reproduction of this
- * material is strictly forbidden unless prior written
- * permission is obtained from Ajibot Inc.
- */
 package org.minijax.security;
 
 import javax.persistence.Cacheable;
@@ -26,7 +9,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -44,18 +26,15 @@ import org.minijax.entity.DefaultBaseEntity;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@NamedQueries({
-    @NamedQuery(
-            name = "ApiKey.findByUser",
-            query = "SELECT k FROM ApiKey k" +
-                    //" WHERE k.user = :user" +
-                    " WHERE k.user.id = :userId" +
-                    " AND k.deletedDateTime IS NULL"),
-    @NamedQuery(
-            name = "ApiKey.findByValue",
-            query = "SELECT k FROM ApiKey k" +
-                    " WHERE k.value = :value")
-})
+@NamedQuery(
+        name = "ApiKey.findByUser",
+        query = "SELECT k FROM ApiKey k" +
+                " WHERE k.user.id = :userId" +
+                " AND k.deletedDateTime IS NULL")
+@NamedQuery(
+        name = "ApiKey.findByValue",
+        query = "SELECT k FROM ApiKey k" +
+                " WHERE k.value = :value")
 public class ApiKey extends DefaultBaseEntity {
     private static final long serialVersionUID = 1L;
 

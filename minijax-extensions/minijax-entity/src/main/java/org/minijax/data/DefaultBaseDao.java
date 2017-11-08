@@ -44,19 +44,13 @@ public abstract class DefaultBaseDao implements BaseDao {
      */
     @Override
     public <T extends BaseEntity> T create(final T obj) {
-//        Validate.notNull(obj);
-//        Validate.isTrue(obj.getId() == null, "ID must not be set before create");
-//        obj.validate();
-
-        //obj.setId(IdUtils.create());
-//        obj.setCreatedDateTime(Instant.now());
-//        obj.setUpdatedDateTime(obj.getCreatedDateTime());
+        Validate.notNull(obj);
+        obj.validate();
 
         try {
             em.getTransaction().begin();
             em.persist(obj);
             em.flush();
-//            em.detach(obj);
             em.getTransaction().commit();
             return obj;
         } catch (final PersistenceException ex) {
@@ -138,16 +132,14 @@ public abstract class DefaultBaseDao implements BaseDao {
      */
     @Override
     public <T extends BaseEntity> T update(final T obj) {
-//        Validate.notNull(obj);
-//        Validate.notNull(obj.getId());
-//        obj.validate();
-//        obj.setUpdatedDateTime(Instant.now());
+        Validate.notNull(obj);
+        Validate.notNull(obj.getId());
+        obj.validate();
 
         try {
             em.getTransaction().begin();
             em.merge(obj);
             em.flush();
-//            em.detach(obj);
             em.getTransaction().commit();
             return obj;
         } catch (final PersistenceException ex) {

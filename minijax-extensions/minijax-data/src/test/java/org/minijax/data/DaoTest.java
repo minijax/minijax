@@ -67,8 +67,6 @@ public class DaoTest {
             assertNotNull(w2);
             assertEquals(w1.getId(), w2.getId());
 
-            Thread.sleep(10L);
-
             // Update
             w2.setHandle("newhandle"); // Must change a value for upate to happen
             final Widget w3 = dao.update(w2);

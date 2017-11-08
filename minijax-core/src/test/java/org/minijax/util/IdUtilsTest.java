@@ -71,7 +71,7 @@ public class IdUtilsTest {
         final byte[] b1 = IdUtils.toBytes(id);
         final byte[] b2 = IdUtils.toBytes(id);
         assertNotNull(b1);
-        assertEquals(b1.length, 16);
+        assertEquals(16, b1.length);
         assertArrayEquals(b1, b2);
     }
 

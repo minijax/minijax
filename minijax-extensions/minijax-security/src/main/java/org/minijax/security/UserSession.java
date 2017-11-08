@@ -8,7 +8,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 import org.apache.commons.lang3.Validate;
@@ -22,12 +21,10 @@ import org.minijax.entity.DefaultBaseEntity;
 @Entity
 @Cacheable
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@NamedQueries({
-    @NamedQuery(
-            name = "UserSession.deleteByUser",
-            query = "DELETE FROM UserSession s" +
-                    " WHERE s.user.id = :userId")
-})
+@NamedQuery(
+        name = "UserSession.deleteByUser",
+        query = "DELETE FROM UserSession s" +
+                " WHERE s.user.id = :userId")
 public class UserSession extends DefaultBaseEntity {
     private static final long serialVersionUID = 1L;
 

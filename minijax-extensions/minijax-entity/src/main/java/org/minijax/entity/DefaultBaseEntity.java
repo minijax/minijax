@@ -237,17 +237,6 @@ public abstract class DefaultBaseEntity implements BaseEntity {
     }
 
 
-//    @Override
-//    public boolean equals(final Object obj) {
-//        return EqualsBuilder.reflectionEquals(this, obj);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return HashCodeBuilder.reflectionHashCode(this);
-//    }
-
-
     public String toJson() throws IOException {
         return MinijaxObjectMapper.getInstance().writeValueAsString(this);
     }

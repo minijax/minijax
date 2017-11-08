@@ -1,21 +1,6 @@
-/*
- * AJIBOT CONFIDENTIAL
- * __________________
- *
- *  2017 Ajibot Inc
- *  All Rights Reserved.
- *
- * NOTICE:  All information contained herein is, and remains
- * the property of Ajibot Inc and its suppliers, if any.
- * The intellectual and technical concepts contained herein
- * are proprietary to Ajibot Inc and its suppliers and may
- * be covered by U.S. and Foreign Patents, patents in process,
- * and are protected by trade secret or copyright law.
- * Dissemination of this information or reproduction of this
- * material is strictly forbidden unless prior written
- * permission is obtained from Ajibot Inc.
- */
 package org.minijax.security;
+
+import static javax.ws.rs.core.HttpHeaders.*;
 
 import java.security.Principal;
 import java.time.Instant;
@@ -65,7 +50,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
     private static final String COOKIE_DOMAIN = "";
     private static final int COOKIE_MAX_AGE = 365 * 24 * 60 * 60;
     private static final boolean COOKIE_HTTP_ONLY = true;
-    private static final String AUTHORIZATION = "Authorization";
     private final Class<SecurityUser> userClass;
     private final SecurityDao dao;
     private final String authorization;
@@ -87,7 +71,7 @@ public class Security<T extends SecurityUser> implements SecurityContext {
         this.authorization = authorization;
         this.cookie = cookie;
         session = initUser();
-        user = session != null ? ((SecurityUser) session.getUser()) : null;
+        user = session != null ? session.getUser() : null;
     }
 
 
@@ -149,22 +133,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
     }
 
 
-//    /**
-//     * Requires that the current user has the specified permission.
-//     *
-//     * This implicitly requires that the user is logged in.
-//     *
-//     * @param permission The permission.
-//     */
-//    public void requirePermission(final Permission permission) {
-//        requireLogin();
-//
-//        if (!getCurrentUser().hasPermission(permission)) {
-//            throw new ForbiddenException();
-//        }
-//    }
-
-
     /**
      * Returns the session token.
      *
@@ -187,8 +155,8 @@ public class Security<T extends SecurityUser> implements SecurityContext {
         requireLogin();
         requireCookieSession();
 
-//        Validate.notNull(token, "Session ID must not be null.");
-//        Validate.notEmpty(token, "Session ID must not be empty.");
+        Validate.notNull(token, "Session ID must not be null.");
+        Validate.notEmpty(token, "Session ID must not be empty.");
 
         if (!Objects.equals(token, getSessionToken())) {
             throw new BadRequestException("Invalid session ID");
@@ -205,18 +173,12 @@ public class Security<T extends SecurityUser> implements SecurityContext {
      * @return the user details.
      */
     public NewCookie login(final String email, final String password) {
-        System.out.println("all users = " + dao.readPage(userClass, 0, 100));
-
         final SecurityUser candidate;
         try {
             candidate = dao.findUserByEmail(userClass, email);
         } catch (final NoResultException ex) {
             throw new BadRequestException("notfound");
         }
-
-//        if (candidate == null) {
-//            throw new BadRequestException("notfound");
-//        }
 
         if (candidate.getPasswordHash() == null) {
             throw new BadRequestException("invalid");
@@ -239,7 +201,7 @@ public class Security<T extends SecurityUser> implements SecurityContext {
      * @return The session details.
      */
     public NewCookie loginAs(final SecurityUser candidate) {
-//        Validate.notNull(candidate);
+        Validate.notNull(candidate);
 
         final UserSession newSession = new UserSession();
         newSession.setUser(candidate);
@@ -269,9 +231,9 @@ public class Security<T extends SecurityUser> implements SecurityContext {
      * @param confirmNewPassword The confirmed new password.
      */
     public void changePassword(final String oldPassword, final String newPassword, final String confirmNewPassword) {
-//        Validate.notEmpty(oldPassword);
-//        Validate.notEmpty(newPassword);
-//        Validate.notEmpty(confirmNewPassword);
+        Validate.notEmpty(oldPassword);
+        Validate.notEmpty(newPassword);
+        Validate.notEmpty(confirmNewPassword);
 
         requireLogin();
 
@@ -306,8 +268,8 @@ public class Security<T extends SecurityUser> implements SecurityContext {
      * @return The reset code to be sent to the user.
      */
     public String forgotPassword(final SecurityUser user) {
-//        Validate.notNull(user);
-//        Validate.notEmpty(user.getEmail());
+        Validate.notNull(user);
+        Validate.notEmpty(user.getEmail());
 
         final PasswordChangeRequest pcr = new PasswordChangeRequest();
         pcr.setCode(RandomStringUtils.randomAlphanumeric(32));

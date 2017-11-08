@@ -1,7 +1,5 @@
 package org.minijax.entity;
 
-import java.net.URI;
-
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.MappedSuperclass;
@@ -74,9 +72,6 @@ public abstract class DefaultNamedEntity extends DefaultBaseEntity implements Na
     public void setAvatar(final Avatar avatar) {
         this.avatar = avatar;
     }
-
-    @Override
-    public abstract URI getUri();
 
 
     public void generateHandle() {
