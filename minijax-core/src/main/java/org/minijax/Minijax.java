@@ -245,14 +245,15 @@ public class Minijax {
     private void addApplication(final ServletContextHandler context, final MinijaxApplication application)
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 
+        // (1) Add Minijax filter (must come before websocket!)
+        context.addFilter(new FilterHolder(new MinijaxFilter(application)), "/*", EnumSet.of(DispatcherType.REQUEST));
+
         // (2) WebSocket endpoints
         if (OptionalClasses.WEB_SOCKET_UTILS != null) {
             OptionalClasses.WEB_SOCKET_UTILS
                     .getMethod("init", ServletContextHandler.class, MinijaxApplication.class)
                     .invoke(null, context, application);
         }
-
-        context.addFilter(new FilterHolder(new MinijaxFilter(application)), "/*", EnumSet.of(DispatcherType.REQUEST));
 
         // (3) Dynamic JAX-RS content
         final MinijaxServlet servlet = new MinijaxServlet(application);
