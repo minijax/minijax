@@ -305,10 +305,7 @@ public class MinijaxInjector implements Closeable {
                 }
 
                 if (candidate) {
-                    if (!method.isAccessible()) {
-                        method.setAccessible(true);
-                    }
-
+                    method.setAccessible(true);
                     map.put(packageKey, method);
                     map.put(shortKey, method);
                     methods.add(method);
