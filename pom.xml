@@ -63,6 +63,7 @@
         <jax-rs.version>2.1</jax-rs.version>
         <jaxb.version>2.3.0</jaxb.version>
         <jetty.version>9.4.7.v20170914</jetty.version>
+        <jpa.version>2.1.1</jpa.version>
         <jsr250.version>1.0</jsr250.version>
         <junit.version>4.12</junit.version>
         <liquibase.version>3.5.3</liquibase.version>
