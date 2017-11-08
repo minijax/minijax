@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.Validate;
 import org.eclipse.persistence.annotations.CacheIndex;
-import org.minijax.entity.DefaultBaseEntity;
+import org.minijax.db.DefaultBaseEntity;
 
 /**
  * The ApiKey class represents a single API key for a user.

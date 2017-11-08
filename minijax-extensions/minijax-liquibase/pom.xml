@@ -42,7 +42,12 @@
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
-            <artifactId>minijax-data</artifactId>
+            <artifactId>minijax-db</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.minijax</groupId>
+            <artifactId>minijax-eclipselink</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

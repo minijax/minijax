@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.apache.commons.lang3.Validate;
-import org.minijax.entity.DefaultNamedEntity;
+import org.minijax.db.DefaultNamedEntity;
 
 /**
  * The User class represents a web application user.

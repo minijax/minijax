@@ -6,7 +6,7 @@ import java.util.UUID;
 import javax.persistence.EntityManager;
 
 import org.apache.commons.lang3.Validate;
-import org.minijax.entity.BaseDao;
+import org.minijax.db.BaseDao;
 
 public interface SecurityDao extends BaseDao {
 

@@ -16,7 +16,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mindrot.jbcrypt.BCrypt;
 import org.minijax.MinijaxRequestContext;
-import org.minijax.entity.DefaultBaseDao;
+import org.minijax.db.DefaultBaseDao;
 import org.minijax.test.MinijaxTest;
 
 public class SecurityTest extends MinijaxTest {

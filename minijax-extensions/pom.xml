@@ -11,8 +11,8 @@
     <name>minijax-extensions</name>
     <description>Minijax extensions</description>
     <modules>
-        <module>minijax-data</module>
-        <module>minijax-entity</module>
+        <module>minijax-db</module>
+        <module>minijax-eclipselink</module>
         <module>minijax-json</module>
         <module>minijax-liquibase</module>
         <module>minijax-mustache</module>

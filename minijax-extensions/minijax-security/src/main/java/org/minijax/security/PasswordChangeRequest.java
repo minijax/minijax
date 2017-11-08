@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.Validate;
-import org.minijax.entity.DefaultBaseEntity;
+import org.minijax.db.DefaultBaseEntity;
 
 /**
  * The PasswordChangeRequest class represents a password change request.

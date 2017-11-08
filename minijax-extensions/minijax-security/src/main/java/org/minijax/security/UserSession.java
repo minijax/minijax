@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 
 import org.apache.commons.lang3.Validate;
-import org.minijax.entity.DefaultBaseEntity;
+import org.minijax.db.DefaultBaseEntity;
 
 /**
  * The UserSession class represents an authenticated session which
