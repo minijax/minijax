@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.NewCookie;
@@ -55,7 +56,8 @@ public class SecurityTest extends MinijaxTest {
 
 
     @BeforeClass
-    public static void setUpSecurityTest() {
+    public static void setUpSecurityTest() throws IOException {
+        resetServer();
         getServer()
                 .registerPersistence()
                 .register(new SecurityFeature(User.class))
@@ -64,9 +66,6 @@ public class SecurityTest extends MinijaxTest {
 
         try (final MinijaxRequestContext ctx = createRequestContext()) {
             final Dao dao = ctx.get(Dao.class);
-            if (dao.countAll(User.class) > 0) {
-                return;
-            }
 
             alice = new User();
             alice.setName("Alice");
@@ -86,9 +85,6 @@ public class SecurityTest extends MinijaxTest {
 
             aliceCookie = ctx.get(Security.class).loginAs(alice);
             bobCookie = ctx.get(Security.class).loginAs(bob);
-
-        } catch (final IOException ex) {
-            ex.printStackTrace();
         }
     }
 
@@ -120,5 +116,31 @@ public class SecurityTest extends MinijaxTest {
     @Test
     public void testAdminAccess() throws Exception {
         assertEquals(200, target("/admin").request().cookie(aliceCookie).get().getStatus());
+    }
+
+
+    @Test
+    public void testLogin() throws Exception {
+        try (final MinijaxRequestContext ctx = createRequestContext()) {
+            final NewCookie cookie = ctx.get(Security.class).login("alice@example.com", "alicepwd");
+            assertNotNull(cookie);
+            assertNotNull(cookie.getValue());
+        }
+    }
+
+
+    @Test(expected = BadRequestException.class)
+    public void testLoginUserNotFound() throws Exception {
+        try (final MinijaxRequestContext ctx = createRequestContext()) {
+            ctx.get(Security.class).login("notfound@example.com", "alicepwd");
+        }
+    }
+
+
+    @Test(expected = BadRequestException.class)
+    public void testLoginIncorrectPassword() throws Exception {
+        try (final MinijaxRequestContext ctx = createRequestContext()) {
+            ctx.get(Security.class).login("alice@example.com", "wrong_password");
+        }
     }
 }
