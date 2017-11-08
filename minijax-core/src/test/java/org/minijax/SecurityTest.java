@@ -13,7 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
 
@@ -91,8 +91,9 @@ public class SecurityTest extends MinijaxTest {
         return "Admins only!";
     }
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUpSecurityTest() {
+        resetServer();
         register(SecurityTest.class);
         register(SecurityTest.Security.class);
     }

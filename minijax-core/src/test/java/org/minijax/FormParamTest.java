@@ -17,7 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
 import org.minijax.util.IOUtils;
@@ -87,8 +87,9 @@ public class FormParamTest extends MinijaxTest {
         return content.getSubmittedFileName();
     }
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUpFormParamTest() {
+        resetServer();
         register(FormParamTest.class);
     }
 

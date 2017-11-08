@@ -8,6 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
 
@@ -20,10 +21,14 @@ public class ConsumesTest extends MinijaxTest {
         return text;
     }
 
+    @BeforeClass
+    public static void setUpConsumesTest() {
+        resetServer();
+        register(ConsumesTest.class);
+    }
+
     @Test
     public void testConsumesText() {
-        register(ConsumesTest.class);
-
         assertEquals(
                 "Hello",
                 target("/consumetext").request().post(Entity.entity("Hello", MediaType.TEXT_PLAIN_TYPE), String.class));

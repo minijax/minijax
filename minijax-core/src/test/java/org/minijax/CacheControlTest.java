@@ -8,7 +8,7 @@ import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
 
@@ -26,8 +26,9 @@ public class CacheControlTest extends MinijaxTest {
         return "ok";
     }
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUpCacheControlTest() {
+        resetServer();
         getServer().defaultCacheControl(CacheControl.valueOf("private"));
         register(CacheControlTest.class);
     }

@@ -4,8 +4,6 @@ import java.net.URI;
 
 import javax.ws.rs.client.WebTarget;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.minijax.Minijax;
@@ -13,34 +11,35 @@ import org.minijax.MinijaxRequestContext;
 
 public class MinijaxTest {
     private static Minijax server;
-    protected static boolean uniqueServerPerTest;
 
     @BeforeClass
     public static void setUpClass() {
-        server = new Minijax();
+        if (server == null) {
+            startServer();
+        }
     }
 
     @Before
     public void setUp() {
         if (server == null) {
-            server = new Minijax();
+            startServer();
         }
     }
 
-    @After
-    public void tearDown() {
-        if (uniqueServerPerTest) {
-            server.getInjector().close();
-            server = null;
-        }
+    public static void startServer() {
+        server = new Minijax();
     }
 
-    @AfterClass
-    public static void tearDownClass() {
+    public static void stopServer() {
         if (server != null) {
             server.getInjector().close();
             server = null;
         }
+    }
+
+    public static void resetServer() {
+        stopServer();
+        startServer();
     }
 
     public static Minijax getServer() {

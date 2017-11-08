@@ -47,7 +47,9 @@ public class CloseUtils {
 
     public static void closeAutoCloseable(final AutoCloseable obj) {
         try {
-            obj.close();
+            if (obj != null) {
+                obj.close();
+            }
         } catch (final Exception ex) {
             LOG.warn(ex.getMessage(), ex);
         }
@@ -55,7 +57,9 @@ public class CloseUtils {
 
     public static void closeEntityManagerFactory(final EntityManagerFactory emf) {
         try {
-            emf.close();
+            if (emf != null && emf.isOpen()) {
+                emf.close();
+            }
         } catch (final Exception ex) {
             LOG.warn(ex.getMessage(), ex);
         }
@@ -63,7 +67,9 @@ public class CloseUtils {
 
     public static void closeEntityManager(final EntityManager em) {
         try {
-            em.close();
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         } catch (final Exception ex) {
             LOG.warn(ex.getMessage(), ex);
         }

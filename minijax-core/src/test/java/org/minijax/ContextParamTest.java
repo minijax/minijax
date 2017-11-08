@@ -15,7 +15,7 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
@@ -59,8 +59,9 @@ public class ContextParamTest extends MinijaxTest {
         return null;
     }
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUpContextParamTest() {
+        resetServer();
         register(ContextParamTest.class);
     }
 

@@ -6,7 +6,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
 
@@ -32,8 +32,9 @@ public class PathParamTest extends MinijaxTest {
         return arg1 + "-" + arg2;
     }
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUpPathParamTest() {
+        resetServer();
         register(PathParamTest.class);
     }
 

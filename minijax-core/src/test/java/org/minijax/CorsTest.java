@@ -6,7 +6,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
 
@@ -24,8 +24,9 @@ public class CorsTest extends MinijaxTest {
         return "ok";
     }
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUpCorsTest() {
+        resetServer();
         getServer().allowCors("/api/");
         register(CorsTest.class);
     }

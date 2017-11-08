@@ -9,7 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
 
@@ -30,8 +30,9 @@ public class FilterTest extends MinijaxTest {
         return "Hello";
     }
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUpFilterTest() {
+        resetServer();
         register(FilterTest.class);
         register(MyFilter.class);
     }

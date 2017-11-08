@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
 import org.minijax.test.MockHttpServletRequest;
@@ -35,8 +35,9 @@ public class ServletTest extends MinijaxTest {
         return null;
     }
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUpServletTest() {
+        resetServer();
         register(ServletTest.class);
     }
 

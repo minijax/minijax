@@ -10,7 +10,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.GenericType;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.test.MinijaxInvocationBuilder;
 import org.minijax.test.MinijaxTest;
@@ -23,8 +23,9 @@ public class InvocationBuilderTest extends MinijaxTest {
         return "ok";
     }
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUpInvocationBuilderTest() {
+        resetServer();
         register(InvocationBuilderTest.class);
     }
 

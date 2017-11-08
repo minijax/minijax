@@ -6,6 +6,7 @@ import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
 
@@ -17,10 +18,14 @@ public class CookieParamTest extends MinijaxTest {
         return test;
     }
 
+    @BeforeClass
+    public static void setUpCookieParamTest() {
+        resetServer();
+        register(CookieParamTest.class);
+    }
+
     @Test
     public void testCookieParam() {
-        register(CookieParamTest.class);
-
         assertEquals(
                 "Hello",
                 target("/cookieparam").request().cookie("test", "Hello").get(String.class));

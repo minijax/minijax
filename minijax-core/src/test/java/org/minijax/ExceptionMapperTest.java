@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
 
@@ -37,8 +37,9 @@ public class ExceptionMapperTest extends MinijaxTest {
     }
 
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUpExceptionMapperTest() {
+        resetServer();
         register(ExceptionMapperTest.class);
         register(MyMapper.class);
     }

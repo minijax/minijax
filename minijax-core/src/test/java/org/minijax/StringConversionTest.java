@@ -12,7 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
 
@@ -100,8 +100,9 @@ public class StringConversionTest extends MinijaxTest {
         return null;
     }
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUpStringConversionTest() {
+        resetServer();
         register(StringConversionTest.class);
     }
 
