@@ -48,7 +48,6 @@ public abstract class DefaultBaseDao implements BaseDao {
         try {
             em.getTransaction().begin();
             em.persist(obj);
-            em.flush();
             em.getTransaction().commit();
             return obj;
         } catch (final PersistenceException ex) {
@@ -137,7 +136,6 @@ public abstract class DefaultBaseDao implements BaseDao {
         try {
             em.getTransaction().begin();
             em.merge(obj);
-            em.flush();
             em.getTransaction().commit();
             return obj;
         } catch (final PersistenceException ex) {

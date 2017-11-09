@@ -15,6 +15,8 @@ public interface NamedEntity extends BaseEntity, Principal {
     @Override
     String getName();
 
+    void setName(String name);
+
     Avatar getAvatar();
 
     void setAvatar(Avatar avatar);

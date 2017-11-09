@@ -77,6 +77,7 @@ public abstract class DefaultBaseEntity implements BaseEntity {
      *
      * @param id
      */
+    @Override
     public void setId(final UUID id) {
         this.id = id;
     }
@@ -258,6 +259,9 @@ public abstract class DefaultBaseEntity implements BaseEntity {
         while (currClass != null) {
             for (final Field field : currClass.getDeclaredFields()) {
                 if (Modifier.isStatic(field.getModifiers())) {
+                    continue;
+                }
+                if (field.getName().equals("id")) {
                     continue;
                 }
                 try {

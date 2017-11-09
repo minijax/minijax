@@ -18,6 +18,8 @@ public interface BaseEntity extends Serializable {
      */
     UUID getId();
 
+    void setId(UUID id);
+
 
     /**
      * Returns the date/time when the object was created in the database.

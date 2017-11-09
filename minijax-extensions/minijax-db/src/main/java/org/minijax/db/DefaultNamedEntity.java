@@ -55,6 +55,7 @@ public abstract class DefaultNamedEntity extends DefaultBaseEntity implements Na
         return name;
     }
 
+    @Override
     public void setName(final String name) {
         if (name != null) {
             this.name = name.trim();
