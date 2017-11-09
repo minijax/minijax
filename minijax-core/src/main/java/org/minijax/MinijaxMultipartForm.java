@@ -26,13 +26,6 @@ class MinijaxMultipartForm implements MinijaxForm {
     private final Map<String, Part> values;
 
     /**
-     * Creates an empty form.
-     */
-    public MinijaxMultipartForm() {
-        this(null);
-    }
-
-    /**
      * Creates a form with all of the provided parts.
      *
      * @param parts The multipart form parts.

@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.StatusType;
 import javax.ws.rs.core.Variant;
 
-public class MinijaxResponseBuilder extends javax.ws.rs.core.Response.ResponseBuilder {
+class MinijaxResponseBuilder extends javax.ws.rs.core.Response.ResponseBuilder {
     private final MultivaluedMap<String, Object> headers;
     private final MinijaxStatusInfo statusInfo;
     private Object entity;
@@ -29,7 +29,7 @@ public class MinijaxResponseBuilder extends javax.ws.rs.core.Response.ResponseBu
         statusInfo = new MinijaxStatusInfo();
     }
 
-    public MinijaxResponseBuilder(final MinijaxResponseBuilder other) {
+    private MinijaxResponseBuilder(final MinijaxResponseBuilder other) {
         headers = new MultivaluedHashMap<>();
         headers.putAll(other.headers);
         statusInfo = new MinijaxStatusInfo();

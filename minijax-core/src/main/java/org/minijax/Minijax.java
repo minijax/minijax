@@ -66,7 +66,7 @@ public class Minijax {
     }
 
 
-    public Minijax properties(final Map<String, String> props) {
+    private Minijax properties(final Map<String, String> props) {
         properties.putAll(props);
         return this;
     }
@@ -182,7 +182,7 @@ public class Minijax {
     }
 
 
-    public Minijax addStaticResource(final String resourceUrl, final String pathSpec) {
+    private Minijax addStaticResource(final String resourceUrl, final String pathSpec) {
         staticResources.add(new MinijaxStaticResource(resourceUrl, pathSpec));
         return this;
     }
@@ -291,7 +291,7 @@ public class Minijax {
      * @return The server connector.
      */
     @SuppressWarnings("squid:S2095")
-    protected ServerConnector createConnector(final Server server) {
+    private ServerConnector createConnector(final Server server) {
         final String keyStorePath = (String) properties.get(MinijaxProperties.SSL_KEY_STORE_PATH);
 
         if (keyStorePath == null || keyStorePath.isEmpty()) {

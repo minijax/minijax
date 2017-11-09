@@ -18,15 +18,15 @@ import org.minijax.test.MinijaxTest;
 
 public class StringConversionTest extends MinijaxTest {
 
-    public static class CtorWidget {
-        public String x;
+    static class CtorWidget {
+        String x;
         public CtorWidget(final String x) {
             this.x = x;
         }
     }
 
     public static class ValueOfWidget {
-        public String x;
+        String x;
         public static ValueOfWidget valueOf(final String x) {
             final ValueOfWidget result = new ValueOfWidget();
             result.x = x;

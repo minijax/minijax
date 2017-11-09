@@ -51,12 +51,12 @@ class MinijaxPathPattern {
         private int curlyDepth = 0;
         private int index;
 
-        public Builder(final Method method, final String path) {
+        Builder(final Method method, final String path) {
             this.method = method;
             this.path = path;
         }
 
-        public MinijaxPathPattern build() {
+        MinijaxPathPattern build() {
             for (index = 0; index < path.length(); index++) {
                 final char c = path.charAt(index);
                 if (c == '{') {
@@ -125,7 +125,7 @@ class MinijaxPathPattern {
             }
 
             params.add(paramName);
-            regexBuilder.append("(?<" + paramName + ">" + paramRegex + ")");
+            regexBuilder.append("(?<").append(paramName).append(">").append(paramRegex).append(")");
         }
 
         private String getDefaultPathParamRegex(final String paramName) {

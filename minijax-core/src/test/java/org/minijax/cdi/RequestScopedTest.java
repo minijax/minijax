@@ -25,8 +25,8 @@ public class RequestScopedTest {
         final MinijaxApplication application = container.getDefaultApplication();
 
         final MockHttpServletRequest r1 = new MockHttpServletRequest("GET", URI.create("/"));
-        A a1 = null;
-        A a2 = null;
+        A a1;
+        A a2;
 
         try (MinijaxRequestContext context = new MinijaxRequestContext(application, r1, null)) {
             a1 = container.get(A.class);
@@ -37,8 +37,8 @@ public class RequestScopedTest {
         }
 
         final MockHttpServletRequest r2 = new MockHttpServletRequest("GET", URI.create("/"));
-        A a3 = null;
-        A a4 = null;
+        A a3;
+        A a4;
 
         try (MinijaxRequestContext context = new MinijaxRequestContext(application, r2, null)) {
             a3 = container.get(A.class);

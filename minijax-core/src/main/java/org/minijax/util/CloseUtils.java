@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 public class CloseUtils {
     private static final Logger LOG = LoggerFactory.getLogger(CloseUtils.class);
 
-    CloseUtils() {
+    private CloseUtils() {
         throw new UnsupportedOperationException();
     }
 
@@ -45,7 +45,7 @@ public class CloseUtils {
         }
     }
 
-    public static void closeAutoCloseable(final AutoCloseable obj) {
+    private static void closeAutoCloseable(final AutoCloseable obj) {
         try {
             if (obj != null) {
                 obj.close();
@@ -55,7 +55,7 @@ public class CloseUtils {
         }
     }
 
-    public static void closeEntityManagerFactory(final EntityManagerFactory emf) {
+    private static void closeEntityManagerFactory(final EntityManagerFactory emf) {
         try {
             if (emf != null && emf.isOpen()) {
                 emf.close();
@@ -65,7 +65,7 @@ public class CloseUtils {
         }
     }
 
-    public static void closeEntityManager(final EntityManager em) {
+    private static void closeEntityManager(final EntityManager em) {
         try {
             if (em != null && em.isOpen()) {
                 em.close();

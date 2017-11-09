@@ -26,7 +26,7 @@ public class ResourceCache implements Closeable {
         return (T) innerMap.get(key);
     }
 
-    public Collection<Object> values() {
+    private Collection<Object> values() {
         return innerMap.values();
     }
 

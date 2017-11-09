@@ -22,7 +22,7 @@ public class MediaTypeUtils {
         return produces == null ? Collections.emptyList() : parseMediaTypes(produces.value());
     }
 
-    public static List<MediaType> parseMediaTypes(final String[] values) {
+    private static List<MediaType> parseMediaTypes(final String[] values) {
         final List<MediaType> result = new ArrayList<>();
 
         for (final String str : values) {

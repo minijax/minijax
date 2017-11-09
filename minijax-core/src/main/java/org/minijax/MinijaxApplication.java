@@ -11,14 +11,8 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
@@ -492,7 +486,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     }
 
 
-    public Object invoke(final MinijaxRequestContext context, final Method method) throws IOException {
+    private Object invoke(final MinijaxRequestContext context, final Method method) throws IOException {
         final Object instance;
         if (Modifier.isStatic(method.getModifiers())) {
             instance = null;
@@ -674,7 +668,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
      * @param annotations Annotations of the declaration (member, parameter, etc).
      * @return The resource instance.
      */
-    public <T> T get(final Class<T> c, final Annotation[] annotations) {
+    private <T> T get(final Class<T> c, final Annotation[] annotations) {
         return container.getInjector().get(c, annotations);
     }
 
@@ -732,7 +726,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
 
     @SuppressWarnings({ "unchecked" })
-    public <T> T convertStringToType(final String str, final Class<T> c) {
+    private <T> T convertStringToType(final String str, final Class<T> c) {
         if (str == null) {
             return null;
         }
@@ -798,6 +792,6 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
 
     private static List<ParamConverterProvider> getDefaultParamConverterProviders() {
-        return Arrays.asList(new UuidParamConverterProvider());
+        return Collections.singletonList(new UuidParamConverterProvider());
     }
 }

@@ -9,7 +9,7 @@ import javax.servlet.ServletInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MockServletInputStream extends ServletInputStream {
+class MockServletInputStream extends ServletInputStream {
     private static final Logger LOG = LoggerFactory.getLogger(MockServletInputStream.class);
     private final InputStream inner;
     private int next;

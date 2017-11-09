@@ -25,7 +25,7 @@ public class MediaTypeClassMap<T> {
         }
     }
 
-    public void add(final MediaType mediaType, final Class<T> t) {
+    private void add(final MediaType mediaType, final Class<T> t) {
         map.computeIfAbsent(mediaType, m -> new ArrayList<>()).add(t);
     }
 

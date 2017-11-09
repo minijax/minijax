@@ -12,7 +12,7 @@ public class CookieUtils {
         throw new UnsupportedOperationException();
     }
 
-    public static javax.servlet.http.Cookie convertJaxToServlet(final javax.ws.rs.core.Cookie input) {
+    private static javax.servlet.http.Cookie convertJaxToServlet(final javax.ws.rs.core.Cookie input) {
         final javax.servlet.http.Cookie result = new javax.servlet.http.Cookie(input.getName(), input.getValue());
 
         if (input.getDomain() != null) {
@@ -35,7 +35,7 @@ public class CookieUtils {
         return result;
     }
 
-    public static javax.ws.rs.core.Cookie convertServletToJax(final javax.servlet.http.Cookie sc) {
+    private static javax.ws.rs.core.Cookie convertServletToJax(final javax.servlet.http.Cookie sc) {
         return new Cookie(sc.getName(), sc.getValue(), sc.getPath(), sc.getDomain(), sc.getVersion());
     }
 

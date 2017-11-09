@@ -55,10 +55,10 @@ class MinijaxCacheControlDelegate implements HeaderDelegate<CacheControl> {
         }
 
         if (value.getMaxAge() >= 0) {
-            b.append(", max-age=" + value.getMaxAge());
+            b.append(", max-age=").append(value.getMaxAge());
         }
         if (value.getSMaxAge() >= 0) {
-            b.append(", s-maxage=" + value.getSMaxAge());
+            b.append(", s-maxage=").append(value.getSMaxAge());
         }
         if (value.isMustRevalidate()) {
             b.append(", must-revalidate");

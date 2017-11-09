@@ -16,8 +16,8 @@ import org.minijax.test.MinijaxWebTarget;
 
 public class SingletonTest {
 
-    public static interface Counter {
-        public int getCount();
+    public interface Counter {
+        int getCount();
     }
 
     @Singleton

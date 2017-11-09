@@ -77,7 +77,7 @@ public class MinijaxInjector implements Closeable {
         final Set<Object> result = new HashSet<>();
         for (final Provider<?> provider : providers.values()) {
             if (provider instanceof SingletonProvider) {
-                result.add(((SingletonProvider<?>) provider).get());
+                result.add(provider.get());
             }
         }
         return result;
@@ -95,7 +95,7 @@ public class MinijaxInjector implements Closeable {
         return getProvider(Key.<T>of(c), null);
     }
 
-    public <T> Provider<T> getProvider(final Class<T> c, final Annotation[] annotations) {
+    private <T> Provider<T> getProvider(final Class<T> c, final Annotation[] annotations) {
         return getProvider(Key.<T>of(c, annotations), null);
     }
 

@@ -16,7 +16,7 @@ public class PersistenceUtilsTest {
 
     @Test
     public void testOne() {
-        assertEquals(Arrays.asList("testdb"), PersistenceUtils.getNames("test-persistence1.xml"));
+        assertEquals(Collections.singletonList("testdb"), PersistenceUtils.getNames("test-persistence1.xml"));
     }
 
     @Test

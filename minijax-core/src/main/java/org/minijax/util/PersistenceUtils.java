@@ -47,7 +47,7 @@ public class PersistenceUtils {
     }
 
 
-    protected static List<String> scanPersistenceXml(final InputStream in)
+    private static List<String> scanPersistenceXml(final InputStream in)
             throws Exception { // NOSONAR
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         final Document doc = factory.newDocumentBuilder().parse(in);

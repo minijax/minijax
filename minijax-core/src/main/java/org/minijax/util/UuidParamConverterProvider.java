@@ -16,7 +16,7 @@ public class UuidParamConverterProvider implements ParamConverterProvider {
         return rawType == UUID.class ? ((ParamConverter<T>) getConverter()) : null;
     }
 
-    public static UuidParamConverter getConverter() {
+    private static UuidParamConverter getConverter() {
         if (converter == null) {
             converter = new UuidParamConverter();
         }

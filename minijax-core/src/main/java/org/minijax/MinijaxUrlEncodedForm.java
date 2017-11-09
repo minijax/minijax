@@ -32,7 +32,7 @@ class MinijaxUrlEncodedForm implements MinijaxForm {
         this(UrlUtils.urlDecodeMultivaluedParams(encodedForm));
     }
 
-    public MinijaxUrlEncodedForm(final MultivaluedMap<String, String> values) {
+    private MinijaxUrlEncodedForm(final MultivaluedMap<String, String> values) {
         this.values = values;
     }
 

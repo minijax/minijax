@@ -26,11 +26,11 @@ public class MinijaxTest {
         }
     }
 
-    public static void startServer() {
+    private static void startServer() {
         server = new Minijax();
     }
 
-    public static void stopServer() {
+    private static void stopServer() {
         if (server != null) {
             server.getInjector().close();
             server = null;
@@ -70,7 +70,7 @@ public class MinijaxTest {
         return createRequestContext("GET", "/");
     }
 
-    protected static MinijaxRequestContext createRequestContext(final String method, final String uri) {
+    private static MinijaxRequestContext createRequestContext(final String method, final String uri) {
         return new MinijaxRequestContext(
                 getServer().getDefaultApplication(),
                 new MockHttpServletRequest(method, URI.create(uri)),

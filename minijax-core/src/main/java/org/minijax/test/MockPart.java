@@ -13,7 +13,7 @@ import javax.servlet.http.Part;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-public class MockPart implements Part {
+class MockPart implements Part {
     private final MultivaluedMap<String, String> headers;
     private String name;
     private String value;
@@ -29,7 +29,7 @@ public class MockPart implements Part {
         return name;
     }
 
-    public void setName(final String name) {
+    private void setName(final String name) {
         this.name = name;
     }
 
@@ -37,7 +37,7 @@ public class MockPart implements Part {
         return value;
     }
 
-    public void setValue(final String value) {
+    private void setValue(final String value) {
         this.value = value;
     }
 
@@ -46,7 +46,7 @@ public class MockPart implements Part {
         return submittedFileName;
     }
 
-    public void setSubmittedFileName(final String submittedFileName) {
+    private void setSubmittedFileName(final String submittedFileName) {
         this.submittedFileName = submittedFileName;
     }
 
@@ -78,7 +78,7 @@ public class MockPart implements Part {
         // No-op
     }
 
-    public void addHeader(final String name, final String value) {
+    private void addHeader(final String name, final String value) {
         headers.add(name, value);
     }
 

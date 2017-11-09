@@ -108,7 +108,7 @@ public class UrlUtils {
             return fields;
         }
 
-        final String[] pairs = str.split("\\&");
+        final String[] pairs = str.split("&");
 
         for (int i = 0; i < pairs.length; i++) {
             final String[] keyValue = pairs[i].split("=");
@@ -134,7 +134,7 @@ public class UrlUtils {
             return fields;
         }
 
-        final String[] pairs = str.split("\\&");
+        final String[] pairs = str.split("&");
 
         for (int i = 0; i < pairs.length; i++) {
             final String[] keyValue = pairs[i].split("=");
@@ -212,7 +212,7 @@ public class UrlUtils {
      * @param str The decoded input string.
      * @return The encoded output string.
      */
-    public static String urlEncode(final String str) {
+    private static String urlEncode(final String str) {
         if (str == null) {
             return "";
         }

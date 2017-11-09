@@ -19,15 +19,15 @@ public interface MinijaxForm extends Closeable {
      * @param name The field key name.
      * @return The field value.
      */
-    public String getString(final String name);
+    String getString(final String name);
 
 
-    public InputStream getInputStream(String name);
+    InputStream getInputStream(String name);
 
 
-    public Part getPart(String name);
+    Part getPart(String name);
 
 
-    public Form asForm();
+    Form asForm();
 
 }

@@ -37,9 +37,9 @@ public class ServletFilterTest {
 
     private static class MockFilterChain implements FilterChain {
         private final MinijaxServlet servlet;
-        public boolean success;
+        boolean success;
 
-        public MockFilterChain(final MinijaxServlet servlet) {
+        MockFilterChain(final MinijaxServlet servlet) {
             this.servlet = servlet;
         }
 

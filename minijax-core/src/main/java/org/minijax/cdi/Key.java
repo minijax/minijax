@@ -138,18 +138,18 @@ class Key<T> {
         private String name;
         private DefaultValue defaultValue;
 
-        public Builder(final Class<T> type) {
+        Builder(final Class<T> type) {
             this.type = type;
         }
 
-        public Key<T> build() {
+        Key<T> build() {
             if (strategy == null) {
                 strategy = Strategy.DEFAULT;
             }
             return new Key<>(type, annotations, strategy, qualifier, name, defaultValue);
         }
 
-        public Builder<T> processAnnotations(final Annotation[] annotations) {
+        Builder<T> processAnnotations(final Annotation[] annotations) {
             this.annotations = annotations;
             for (final Annotation annotation : annotations) {
                 processAnnotation(annotation);
@@ -157,19 +157,19 @@ class Key<T> {
             return this;
         }
 
-        public Builder<T> withQualifier(final Class<? extends Annotation> annotationClass) {
+        Builder<T> withQualifier(final Class<? extends Annotation> annotationClass) {
             processQualifierAnnotation(annotationClass);
             return this;
         }
 
-        public Builder<T> withName(final String name) {
+        Builder<T> withName(final String name) {
             setStrategy(Strategy.DEFAULT);
             setQualifier(Named.class);
             setName(name);
             return this;
         }
 
-        public Builder<T> withPersistenceContext(final String name) {
+        Builder<T> withPersistenceContext(final String name) {
             setStrategy(Strategy.PERSISTENCE);
             setName(name);
             return this;

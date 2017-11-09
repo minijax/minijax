@@ -17,7 +17,7 @@ import org.minijax.util.CookieUtils;
 import org.minijax.util.LocaleUtils;
 import org.minijax.util.MediaTypeUtils;
 
-public class MinijaxHttpHeaders implements HttpHeaders {
+class MinijaxHttpHeaders implements HttpHeaders {
     private final MultivaluedHashMap<String, String> headers;
     private final Map<String, Cookie> cookies;
     private List<Locale> acceptableLanguages;
