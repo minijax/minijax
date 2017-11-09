@@ -18,7 +18,7 @@ public class OptionalClasses {
 
     public static final Class<?> PERSISTENCE_CONTEXT = safeGetClass("javax.persistence.PersistenceContext");
 
-    OptionalClasses() {
+    private OptionalClasses() {
         throw new UnsupportedOperationException();
     }
 

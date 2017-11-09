@@ -12,8 +12,8 @@ import org.minijax.test.MinijaxTest;
 public class MethodInjectTest extends MinijaxTest {
 
     @Singleton
-    public static class MethodInjectResource {
-        public boolean injected;
+    static class MethodInjectResource {
+        boolean injected;
 
         @Inject
         public void injectMe() {

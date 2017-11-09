@@ -16,7 +16,7 @@ public interface SecurityDao extends BaseDao {
      * @param user The user.
      * @return The list of API keys.
      */
-    public default List<ApiKey> findApiKeysByUser(final SecurityUser user) {
+    default List<ApiKey> findApiKeysByUser(final SecurityUser user) {
         Validate.notNull(user);
 
         return getEntityManager()
@@ -33,7 +33,7 @@ public interface SecurityDao extends BaseDao {
      * @param value The API key value.
      * @return The API key on success; null on failure.
      */
-    public default ApiKey findApiKeyByValue(final String value) {
+    default ApiKey findApiKeyByValue(final String value) {
         return getEntityManager()
                 .createNamedQuery("ApiKey.findByValue", ApiKey.class)
                 .setParameter("value", value)
@@ -48,7 +48,7 @@ public interface SecurityDao extends BaseDao {
      * @param email The user's email address.
      * @return the user on success; null on failure.
      */
-    public default <T extends SecurityUser> T findUserByEmail(final Class<T> entityClass, final String email) {
+    default <T extends SecurityUser> T findUserByEmail(final Class<T> entityClass, final String email) {
         // Unfortunately @CacheIndex does not work with CriteriaBuilder, so using string query instead.
         return getEntityManager()
                 .createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e WHERE e.email = :email", entityClass)
@@ -63,7 +63,7 @@ public interface SecurityDao extends BaseDao {
      * @param code The password change request code.
      * @return The password change request on success; null on failure.
      */
-    public default PasswordChangeRequest findPasswordChangeRequest(final String code) {
+    default PasswordChangeRequest findPasswordChangeRequest(final String code) {
         return getEntityManager()
                 .createNamedQuery("PasswordChangeRequest.findByCode", PasswordChangeRequest.class)
                 .setParameter("code", code)
@@ -84,7 +84,7 @@ public interface SecurityDao extends BaseDao {
      *
      * @param userId The user ID.
      */
-    public default void deleteUserSessionsByUser(final UUID userId) {
+    default void deleteUserSessionsByUser(final UUID userId) {
         Validate.notNull(userId);
 
         final EntityManager em = getEntityManager();

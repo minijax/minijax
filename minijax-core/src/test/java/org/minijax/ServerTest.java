@@ -14,11 +14,11 @@ import org.junit.Test;
 
 public class ServerTest {
 
-    public static class MockServer extends Server {
-        public Connector[] connectors;
-        public Handler handler;
-        public boolean started;
-        public boolean joined;
+    static class MockServer extends Server {
+        Connector[] connectors;
+        Handler handler;
+        boolean started;
+        boolean joined;
 
         @Override
         public void setConnectors(final Connector[] connectors) {

@@ -19,7 +19,7 @@ import org.minijax.test.MinijaxTest;
 public class StringConversionTest extends MinijaxTest {
 
     static class CtorWidget {
-        String x;
+        final String x;
         public CtorWidget(final String x) {
             this.x = x;
         }

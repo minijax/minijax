@@ -4,7 +4,7 @@ import org.minijax.Minijax;
 import org.minijax.MinijaxProperties;
 import org.minijax.mustache.MinijaxMustacheFeature;
 
-public class PetClinicApp {
+class PetClinicApp {
 
     public static void main(final String[] args) {
         new Minijax()

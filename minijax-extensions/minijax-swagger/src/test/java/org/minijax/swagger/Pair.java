@@ -1,6 +1,6 @@
 package org.minijax.swagger;
 
-public class Pair<T1, T2> {
+class Pair<T1, T2> {
     private final T1 first;
     private final T2 second;
 

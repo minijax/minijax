@@ -18,7 +18,7 @@ import org.minijax.db.test.Widget;
 
 public class DaoTest {
 
-    public static EntityManagerFactory getNewEntityManagerFactory() {
+    private static EntityManagerFactory getNewEntityManagerFactory() {
         final Map<String, String> props = new HashMap<>();
         props.put(JDBC_DRIVER, "org.h2.jdbcx.JdbcDataSource");
         props.put(JDBC_URL, "jdbc:h2:mem:");
@@ -31,15 +31,15 @@ public class DaoTest {
     /**
      * Dao wrapping in-memory H2 database.
      */
-    public static class Dao extends DefaultBaseDao implements Closeable {
+    static class Dao extends DefaultBaseDao implements Closeable {
         private final EntityManagerFactory emf;
 
-        public Dao(final EntityManagerFactory emf) {
+        Dao(final EntityManagerFactory emf) {
             this.emf = emf;
             em = emf.createEntityManager();
         }
 
-        public Dao() {
+        Dao() {
             this(getNewEntityManagerFactory());
         }
 

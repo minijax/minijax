@@ -23,7 +23,7 @@ public class UuidParamConverterProvider implements ParamConverterProvider {
         return converter;
     }
 
-    public static class UuidParamConverter implements ParamConverter<UUID> {
+    static class UuidParamConverter implements ParamConverter<UUID> {
 
         @Override
         public UUID fromString(final String value) {

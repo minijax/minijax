@@ -3,7 +3,6 @@ package org.minijax;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -66,7 +65,7 @@ public class Minijax {
     }
 
 
-    private Minijax properties(final Map<String, String> props) {
+    public Minijax properties(final Map<String, String> props) {
         properties.putAll(props);
         return this;
     }
@@ -84,11 +83,6 @@ public class Minijax {
 
     public MinijaxApplication getDefaultApplication() {
         return defaultApplication;
-    }
-
-
-    public List<MinijaxApplication> getApplications() {
-        return applications;
     }
 
 
@@ -321,15 +315,4 @@ public class Minijax {
     }
 
 
-    /**
-     * Returns a resource instance.
-     *
-     * @param <T> The type of the result.
-     * @param c The class type of the result.
-     * @param annotations Annotations of the declaration (member, parameter, etc).
-     * @return The resource instance.
-     */
-    public <T> T get(final Class<T> c, final Annotation[] annotations) {
-        return injector.get(c, annotations);
-    }
 }

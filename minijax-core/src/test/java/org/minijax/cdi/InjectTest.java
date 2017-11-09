@@ -25,7 +25,7 @@ import org.minijax.test.MinijaxTest;
 public class InjectTest extends MinijaxTest {
 
     @Singleton
-    public static class Counter {
+    static class Counter {
         int count;
     }
 

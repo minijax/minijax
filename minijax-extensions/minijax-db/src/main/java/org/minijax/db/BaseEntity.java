@@ -16,7 +16,7 @@ public interface BaseEntity extends Serializable {
      *
      * @return
      */
-    public UUID getId();
+    UUID getId();
 
 
     /**
@@ -24,7 +24,7 @@ public interface BaseEntity extends Serializable {
      *
      * @return The created date/time.
      */
-    public Instant getCreatedDateTime();
+    Instant getCreatedDateTime();
 
 
     /**
@@ -32,7 +32,7 @@ public interface BaseEntity extends Serializable {
      *
      * @return The updated date/time.
      */
-    public Instant getUpdatedDateTime();
+    Instant getUpdatedDateTime();
 
 
     /**
@@ -43,9 +43,9 @@ public interface BaseEntity extends Serializable {
      *
      * @return True if the object is deleted.
      */
-    public boolean isDeleted();
+    boolean isDeleted();
 
-    public void setDeleted(boolean deleted);
+    void setDeleted(boolean deleted);
 
 
     /**
@@ -56,7 +56,7 @@ public interface BaseEntity extends Serializable {
      *
      * @return The deleted date/time.
      */
-    public Instant getDeletedDateTime();
+    Instant getDeletedDateTime();
 
 
     /**
@@ -67,7 +67,7 @@ public interface BaseEntity extends Serializable {
      * Descending classes should override this method to enforce any special
      * validation logic.
      */
-    public void validate();
+    void validate();
 
 
     /**
@@ -75,7 +75,7 @@ public interface BaseEntity extends Serializable {
      *
      * @param list The list of ID objects (modified in place).
      */
-    public static <T extends BaseEntity> void sortByCreatedDateTime(final List<T> list) {
+    static <T extends BaseEntity> void sortByCreatedDateTime(final List<T> list) {
         Collections.sort(list, (o1, o2) -> o1.getCreatedDateTime().compareTo(o2.getCreatedDateTime()));
     }
 }

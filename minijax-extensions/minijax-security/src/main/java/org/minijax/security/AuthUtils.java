@@ -7,7 +7,7 @@ import java.util.Base64;
  * The AuthUtils class provides helper methods for parsing the
  * HTTP Authorization header.
  */
-public class AuthUtils {
+class AuthUtils {
     private static final String BASIC_PREFIX = "Basic ";
     private static final String[] INVALID = new String[0];
 

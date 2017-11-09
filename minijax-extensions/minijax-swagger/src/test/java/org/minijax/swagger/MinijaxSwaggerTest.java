@@ -44,12 +44,12 @@ import io.swagger.models.parameters.Parameter;
 public class MinijaxSwaggerTest {
 
     // Here so that we can get the params with the @BeanParam annotation instantiated properly
-    void testRoute(@BeanParam final BaseBean baseBean, @BeanParam final ChildBean childBean, @BeanParam final RefBean refBean,
-                   @BeanParam final EnumBean enumBean, final Integer nonBean) {
+    public void testRoute(@BeanParam final BaseBean baseBean, @BeanParam final ChildBean childBean, @BeanParam final RefBean refBean,
+                           @BeanParam final EnumBean enumBean, final Integer nonBean) {
     }
 
-    void testFormDataParamRoute(@FormParam("file") final InputStream uploadedInputStream,
-                                @FormParam("file") final Part fileDetail) {
+    public void testFormDataParamRoute(@FormParam("file") final InputStream uploadedInputStream,
+                                        @FormParam("file") final Part fileDetail) {
     }
 
     @Test

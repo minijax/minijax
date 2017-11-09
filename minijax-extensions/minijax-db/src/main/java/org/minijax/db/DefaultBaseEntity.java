@@ -56,7 +56,7 @@ public abstract class DefaultBaseEntity implements BaseEntity {
     private Instant deletedDateTime;
 
 
-    public DefaultBaseEntity() {
+    protected DefaultBaseEntity() {
         id = IdUtils.create();
     }
 
@@ -147,7 +147,7 @@ public abstract class DefaultBaseEntity implements BaseEntity {
      */
     @Override
     public void setDeleted(final boolean deleted) {
-        setDeletedDateTime(deleted ? Instant.now() : null);
+        deletedDateTime = deleted ? Instant.now() : null;
     }
 
 
@@ -162,19 +162,6 @@ public abstract class DefaultBaseEntity implements BaseEntity {
     @Override
     public Instant getDeletedDateTime() {
         return deletedDateTime;
-    }
-
-
-    /**
-     * Sets the date/time when the object was last deleted in the database.
-     *
-     * Data is never truly deleted from the database.  It is the responsibility
-     * of all application logic to enforce the deleted flag as appropriate.
-     *
-     * @param deletedDateTime The deleted date/time.
-     */
-    public void setDeletedDateTime(final Instant deletedDateTime) {
-        this.deletedDateTime = deletedDateTime;
     }
 
     @PrePersist

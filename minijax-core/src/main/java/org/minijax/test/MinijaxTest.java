@@ -37,16 +37,16 @@ public class MinijaxTest {
         }
     }
 
-    public static void resetServer() {
+    protected static void resetServer() {
         stopServer();
         startServer();
     }
 
-    public static Minijax getServer() {
+    protected static Minijax getServer() {
         return server;
     }
 
-    public static void register(final Class<?> c) {
+    protected static void register(final Class<?> c) {
         server.register(c);
     }
 
@@ -62,7 +62,7 @@ public class MinijaxTest {
         server.packages(packageNames);
     }
 
-    public static WebTarget target(final String uri) {
+    protected static WebTarget target(final String uri) {
         return new MinijaxWebTarget(server, URI.create(uri));
     }
 

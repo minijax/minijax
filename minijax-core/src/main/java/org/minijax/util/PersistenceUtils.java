@@ -23,7 +23,7 @@ public class PersistenceUtils {
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceUtils.class);
 
 
-    PersistenceUtils() {
+    private PersistenceUtils() {
         throw new UnsupportedOperationException();
     }
 

@@ -15,11 +15,11 @@ import org.minijax.Minijax;
 
 public class HelloSecurity {
 
-    public static class User implements Principal {
-        public final String name;
-        public final String role;
+    static class User implements Principal {
+        final String name;
+        final String role;
 
-        public User(final String name, final String role) {
+        User(final String name, final String role) {
             this.name = name;
             this.role = role;
         }

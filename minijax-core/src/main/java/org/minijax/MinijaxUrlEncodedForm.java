@@ -5,7 +5,6 @@ import java.io.InputStream;
 
 import javax.servlet.http.Part;
 import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.minijax.util.UrlUtils;
@@ -15,13 +14,6 @@ import org.minijax.util.UrlUtils;
  */
 class MinijaxUrlEncodedForm implements MinijaxForm {
     private final MultivaluedMap<String, String> values;
-
-    /**
-     * Creates an empty form.
-     */
-    public MinijaxUrlEncodedForm() {
-        this(new MultivaluedHashMap<>());
-    }
 
     /**
      * Creates a new form.
@@ -34,16 +26,6 @@ class MinijaxUrlEncodedForm implements MinijaxForm {
 
     private MinijaxUrlEncodedForm(final MultivaluedMap<String, String> values) {
         this.values = values;
-    }
-
-    /**
-     * Adds a value to the form.
-     *
-     * @param name The field key name.
-     * @param value The field value.
-     */
-    public void put(final String name, final String value) {
-        values.add(name, value);
     }
 
     /**

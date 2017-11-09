@@ -29,11 +29,11 @@ public abstract class DefaultNamedEntity extends DefaultBaseEntity implements Na
     @Embedded
     private Avatar avatar;
 
-    public DefaultNamedEntity() {
+    protected DefaultNamedEntity() {
         super();
     }
 
-    public DefaultNamedEntity(final String name) {
+    protected DefaultNamedEntity(final String name) {
         setName(name);
     }
 
@@ -91,7 +91,7 @@ public abstract class DefaultNamedEntity extends DefaultBaseEntity implements Na
     }
 
 
-    public static void validateHandle(final String handle) {
+    private static void validateHandle(final String handle) {
         if (handle == null) {
             // Null handles are ok
             return;
@@ -108,7 +108,7 @@ public abstract class DefaultNamedEntity extends DefaultBaseEntity implements Na
     }
 
 
-    public static void validateName(final String name) {
+    private static void validateName(final String name) {
         Validate.notEmpty(name, "Name must not be null or empty.");
         Validate.inclusiveBetween(1, 255, name.length(), "Name must be between 1 and 255 characters long");
     }

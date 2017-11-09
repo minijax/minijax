@@ -110,7 +110,7 @@ public class Security<T extends SecurityUser> implements SecurityContext {
     /**
      * Requires a cookie session (prevents API access).
      */
-    public void requireCookieSession() {
+    private void requireCookieSession() {
         if (session.getId() == null) {
             throw new ForbiddenException();
         }

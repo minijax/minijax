@@ -11,7 +11,7 @@ import org.minijax.util.UrlUtils;
  * The UrlEncodedMapConverter class implements the JPA converter from Map to URL-encoded String.
  */
 @Converter
-public class UrlEncodedMapConverter implements AttributeConverter<Map<String, String>, String> {
+class UrlEncodedMapConverter implements AttributeConverter<Map<String, String>, String> {
 
     @Override
     public String convertToDatabaseColumn(final Map<String, String> map) {

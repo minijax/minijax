@@ -20,7 +20,6 @@ import org.minijax.util.UrlUtils;
 
 class MinijaxResourceMethod {
     private final String httpMethod;
-    private final Class<?> resourceClass;
     private final Method method;
     private final String path;
     private final MinijaxPathPattern pathPattern;
@@ -29,7 +28,6 @@ class MinijaxResourceMethod {
 
     public MinijaxResourceMethod(final String httpMethod, final Method m) {
         this.httpMethod = httpMethod;
-        resourceClass = m.getDeclaringClass();
         method = m;
         path = findPath(m);
         pathPattern = MinijaxPathPattern.parse(m, path);
@@ -38,23 +36,8 @@ class MinijaxResourceMethod {
     }
 
 
-    public Class<?> getResourceClass() {
-        return resourceClass;
-    }
-
-
     public Method getMethod() {
         return method;
-    }
-
-
-    public String getHttpMethod() {
-        return httpMethod;
-    }
-
-
-    public String getPath() {
-        return path;
     }
 
 

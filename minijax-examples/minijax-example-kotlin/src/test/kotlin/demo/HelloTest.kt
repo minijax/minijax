@@ -7,7 +7,7 @@ import org.minijax.test.MinijaxTest
 class HelloTest : MinijaxTest() {
 
     @Test
-    fun testAssert() : Unit {
+    fun testAssert() {
         register(Hello::class.java)
         assertEquals("Hello world!", MinijaxTest.target("/").request().get(String::class.java))
     }

@@ -32,11 +32,11 @@ public class QualifierTest {
 
 
     @Singleton
-    public static class QualifiedSingleton {
+    static class QualifiedSingleton {
 
     }
 
-    public static class QualifiedResource {
+    static class QualifiedResource {
         @Inject
         @Named("a")
         QualifiedSingleton a;
@@ -59,9 +59,9 @@ public class QualifierTest {
     @Qualifier
     @Retention(RUNTIME)
     @Target(FIELD)
-    public @interface MyCustomQualifier {}
+    private @interface MyCustomQualifier {}
 
-    public static class MultipleQualifiers {
+    private static class MultipleQualifiers {
         @Inject
         @Named("a")
         @MyCustomQualifier

@@ -19,11 +19,11 @@ import org.minijax.test.MinijaxTest;
 
 public class SecurityTest extends MinijaxTest {
 
-    public static class User implements Principal {
-        public final String name;
-        public final String role;
+    static class User implements Principal {
+        final String name;
+        final String role;
 
-        public User(final String name, final String role) {
+        User(final String name, final String role) {
             this.name = name;
             this.role = role;
         }

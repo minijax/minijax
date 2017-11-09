@@ -4,7 +4,7 @@ import javax.websocket.server.ServerEndpointConfig.Configurator;
 
 import org.minijax.MinijaxApplication;
 
-public class MinijaxWebSocketConfigurator extends Configurator {
+class MinijaxWebSocketConfigurator extends Configurator {
     private final MinijaxApplication application;
 
     public MinijaxWebSocketConfigurator(final MinijaxApplication application) {

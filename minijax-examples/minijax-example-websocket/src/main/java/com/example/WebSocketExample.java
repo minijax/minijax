@@ -13,7 +13,7 @@ import org.minijax.Minijax;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class WebSocketExample {
+class WebSocketExample {
     private static final Logger LOG = LoggerFactory.getLogger(WebSocketExample.class);
 
     @ServerEndpoint("/echo")

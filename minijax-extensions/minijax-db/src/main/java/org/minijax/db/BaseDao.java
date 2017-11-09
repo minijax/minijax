@@ -11,7 +11,7 @@ import javax.persistence.EntityManager;
 public interface BaseDao {
 
 
-    public EntityManager getEntityManager();
+    EntityManager getEntityManager();
 
 
     /**
@@ -20,7 +20,7 @@ public interface BaseDao {
      * @param obj The object to create.
      * @return The instance with ID.
      */
-    public <T extends BaseEntity> T create(final T obj);
+    <T extends BaseEntity> T create(final T obj);
 
 
     /**
@@ -29,7 +29,7 @@ public interface BaseDao {
      * @param id The ID.
      * @return The object if found; null otherwise.
      */
-    public <T extends BaseEntity> T read(final Class<T> entityClass, final UUID id);
+    <T extends BaseEntity> T read(final Class<T> entityClass, final UUID id);
 
 
     /**
@@ -39,7 +39,7 @@ public interface BaseDao {
      * @param handle The user's handle.
      * @return The user on success; null on failure.
      */
-    public <T extends NamedEntity> T readByHandle(final Class<T> entityClass, final String handle);
+    <T extends NamedEntity> T readByHandle(final Class<T> entityClass, final String handle);
 
 
     /**
@@ -50,7 +50,7 @@ public interface BaseDao {
      * @param pageSize The page size.
      * @return A page of objects.
      */
-    public <T extends BaseEntity> List<T> readPage(
+    <T extends BaseEntity> List<T> readPage(
             final Class<T> entityClass,
             final int page,
             final int pageSize);
@@ -61,7 +61,7 @@ public interface BaseDao {
      *
      * @param obj The object to update.
      */
-    public <T extends BaseEntity> T update(final T obj);
+    <T extends BaseEntity> T update(final T obj);
 
 
     /**
@@ -71,7 +71,7 @@ public interface BaseDao {
      *
      * @param obj The object to delete.
      */
-    public <T extends BaseEntity> void delete(final T obj);
+    <T extends BaseEntity> void delete(final T obj);
 
 
     /**
@@ -81,7 +81,7 @@ public interface BaseDao {
      *
      * @param obj The object to delete.
      */
-    public <T extends BaseEntity> void purge(final T obj);
+    <T extends BaseEntity> void purge(final T obj);
 
 
     /**
@@ -90,5 +90,5 @@ public interface BaseDao {
      * @param entityClass The entity class.
      * @return The count of rows.
      */
-    public <T extends BaseEntity> long countAll(final Class<T> entityClass);
+    <T extends BaseEntity> long countAll(final Class<T> entityClass);
 }

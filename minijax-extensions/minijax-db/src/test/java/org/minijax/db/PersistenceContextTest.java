@@ -18,12 +18,12 @@ import org.minijax.test.MockHttpServletRequest;
 
 public class PersistenceContextTest {
 
-    public static class PersistenceContextDao {
+    static class PersistenceContextDao {
 
         @PersistenceContext
         private EntityManager em;
 
-        public Widget create(final Widget widget) {
+        Widget create(final Widget widget) {
             em.getTransaction().begin();
             em.persist(widget);
             em.flush();

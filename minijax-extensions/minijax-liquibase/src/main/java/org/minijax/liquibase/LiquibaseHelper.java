@@ -179,12 +179,12 @@ public class LiquibaseHelper {
      * @param password
      * @return
      */
-    protected Connection getConnection(final String url, final String username, final String password) throws SQLException {
+    private Connection getConnection(final String url, final String username, final String password) throws SQLException {
         return DriverManager.getConnection(url, username, password);
     }
 
 
-    protected Database getLiquibaseDatabase(final Connection conn) throws DatabaseException {
+    private Database getLiquibaseDatabase(final Connection conn) throws DatabaseException {
         return DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(conn));
     }
 
@@ -207,7 +207,7 @@ public class LiquibaseHelper {
      *
      * @return Database connection to the temporary reference database.
      */
-    public Database getReferenceDatabase() throws DatabaseException, SQLException {
+    private Database getReferenceDatabase() throws DatabaseException, SQLException {
         buildReferenceDatabase();
         return getLiquibaseDatabase(getConnection(referenceUrl, username, password));
     }
@@ -386,7 +386,7 @@ public class LiquibaseHelper {
      *
      * @param changeLogFile The changelog file.
      */
-    public static void removeObjectQuotingStrategy(final File changeLogFile) throws IOException {
+    private static void removeObjectQuotingStrategy(final File changeLogFile) throws IOException {
         try {
             final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setNamespaceAware(true);

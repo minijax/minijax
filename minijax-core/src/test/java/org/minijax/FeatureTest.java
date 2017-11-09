@@ -10,7 +10,7 @@ import org.junit.Test;
 public class FeatureTest {
 
     public static class MyFeature implements Feature {
-        public static MyFeature lastInstance;
+        static MyFeature lastInstance;
 
         @Override
         public boolean configure(final FeatureContext context) {

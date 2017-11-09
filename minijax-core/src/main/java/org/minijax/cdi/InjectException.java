@@ -1,6 +1,6 @@
 package org.minijax.cdi;
 
-public class InjectException extends RuntimeException {
+class InjectException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     public InjectException(final String message) {

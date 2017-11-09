@@ -229,7 +229,7 @@ public abstract class DefaultBaseDao implements BaseDao {
      * @param ex The database rollback exception.
      * @return A structured key/value conflict exception.
      */
-    static ConflictException convertRollbackToConflict(final PersistenceException ex) {
+    private static ConflictException convertRollbackToConflict(final PersistenceException ex) {
         final List<Pattern> patterns = Arrays.asList(
                 Pattern.compile("Duplicate entry '(?<value>[^']+)' for key '(?<key>[^']+)'"),
                 Pattern.compile("CONSTRAINT_INDEX_[a-zA-Z0-9_]+ ON PUBLIC\\.[a-zA-Z]+\\((?<key>[a-zA-Z]+)\\) VALUES \\('(?<value>[^']+)'"));

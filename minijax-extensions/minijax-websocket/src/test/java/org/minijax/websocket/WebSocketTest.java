@@ -47,8 +47,8 @@ public class WebSocketTest {
 
 
     @ServerEndpoint("/exception")
-    public static class ExceptionWebSocket {
-        public ExceptionWebSocket() {
+    static class ExceptionWebSocket {
+        ExceptionWebSocket() {
             throw new RuntimeException();
         }
     }

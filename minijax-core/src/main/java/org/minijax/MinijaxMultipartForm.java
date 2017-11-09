@@ -40,16 +40,6 @@ class MinijaxMultipartForm implements MinijaxForm {
     }
 
     /**
-     * Adds a value to the form.
-     *
-     * @param name The field key name.
-     * @param part The field value.
-     */
-    public void put(final String name, final Part part) {
-        values.put(name, part);
-    }
-
-    /**
      * Returns a string value or null if not found.
      *
      * @param name The field key name.

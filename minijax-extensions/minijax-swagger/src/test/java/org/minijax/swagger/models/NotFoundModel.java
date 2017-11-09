@@ -1,8 +1,8 @@
 package org.minijax.swagger.models;
 
 public class NotFoundModel {
-    int code;
-    String message;
+    private int code;
+    private String message;
 
     public NotFoundModel() {
     }

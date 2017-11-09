@@ -12,14 +12,14 @@ import org.minijax.test.MinijaxTest;
 
 public class InnerClassTest extends MinijaxTest {
 
-    public class InnerClass {
+    class InnerClass {
         @GET
         @Path("innerclass")
         public String getInnerClass() {
             return "Inner class!";
         }
 
-        public class InnerInnerClass {
+        class InnerInnerClass {
             @GET
             @Path("innerinnerclass")
             public String getInnerInnerClass() {

@@ -17,7 +17,7 @@ import org.minijax.cdi.MinijaxInjector;
 
 public class TckTest {
 
-    public static Car getCar() {
+    private static Car getCar() {
         try (MinijaxInjector injector = new MinijaxInjector()) {
             return injector.register(SpareTire.class, Tire.class, "spare")
                 .register(DriversSeat.class, Seat.class, Drivers.class)

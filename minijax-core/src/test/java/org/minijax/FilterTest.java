@@ -16,7 +16,7 @@ import org.minijax.test.MinijaxTest;
 public class FilterTest extends MinijaxTest {
 
     public static class MyFilter implements ContainerRequestFilter {
-        public static MyFilter lastInstance;
+        static MyFilter lastInstance;
 
         @Override
         public void filter(final ContainerRequestContext requestContext) throws IOException {

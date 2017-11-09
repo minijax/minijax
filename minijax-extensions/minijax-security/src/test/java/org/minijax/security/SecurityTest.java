@@ -20,14 +20,14 @@ import org.minijax.db.DefaultBaseDao;
 import org.minijax.test.MinijaxTest;
 
 public class SecurityTest extends MinijaxTest {
-    public static User alice;
-    public static NewCookie aliceCookie;
-    public static User bob;
-    public static NewCookie bobCookie;
+    private static User alice;
+    private static NewCookie aliceCookie;
+    private static User bob;
+    private static NewCookie bobCookie;
 
 
     @RequestScoped
-    public static class Dao extends DefaultBaseDao implements SecurityDao {
+    private static class Dao extends DefaultBaseDao implements SecurityDao {
 
     }
 

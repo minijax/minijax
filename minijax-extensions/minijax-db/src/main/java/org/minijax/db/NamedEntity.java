@@ -10,16 +10,16 @@ import java.util.List;
  */
 public interface NamedEntity extends BaseEntity, Principal {
 
-    public String getHandle();
+    String getHandle();
 
     @Override
-    public String getName();
+    String getName();
 
-    public Avatar getAvatar();
+    Avatar getAvatar();
 
-    public void setAvatar(Avatar avatar);
+    void setAvatar(Avatar avatar);
 
-    public URI getUri();
+    URI getUri();
 
 
     /**
@@ -27,7 +27,7 @@ public interface NamedEntity extends BaseEntity, Principal {
      *
      * @param list The list of named entities (modified in place).
      */
-    public static <T extends NamedEntity> void sortByName(final List<T> list) {
+    static <T extends NamedEntity> void sortByName(final List<T> list) {
         Collections.sort(list, (o1, o2) -> o1.getName().compareTo(o2.getName()));
     }
 }

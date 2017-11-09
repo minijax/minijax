@@ -26,21 +26,21 @@ public class InjectorTest {
         injector.close();
     }
 
-    public static class A {
+    static class A {
         @Inject
         B b;
     }
 
-    public static class B {
-        C c;
+    static class B {
+        final C c;
 
         @Inject
-        public B(final C c) {
+        B(final C c) {
             this.c = c;
         }
     }
 
-    public static class C {
+    static class C {
         int x;
     }
 
@@ -82,8 +82,8 @@ public class InjectorTest {
         assertNotNull(instance.b.c);
     }
 
-    public static class ProviderParamInjection {
-        C c;
+    static class ProviderParamInjection {
+        final C c;
         @Inject ProviderParamInjection(final Provider<C> provider) {
             c = provider.get();
         }
@@ -99,7 +99,7 @@ public class InjectorTest {
         assertNotNull(providerInjection.c);
     }
 
-    public static class ProviderFieldInjection {
+    static class ProviderFieldInjection {
         @Inject Provider<C> provider;
     }
 
@@ -121,8 +121,7 @@ public class InjectorTest {
     }
 
     @Singleton
-    public static class MySingleton {
-        int x;
+    private static class MySingleton {
     }
 
     @Test
@@ -143,7 +142,7 @@ public class InjectorTest {
         assertTrue(instance == instance2);
     }
 
-    public static class NoValidConstructors {
+    static class NoValidConstructors {
         NoValidConstructors(final int x) { }
     }
 
@@ -152,7 +151,7 @@ public class InjectorTest {
         injector.getProvider(NoValidConstructors.class);
     }
 
-    public static class MultipleInjectConstructors {
+    static class MultipleInjectConstructors {
         @Inject MultipleInjectConstructors(final int x) { }
         @Inject MultipleInjectConstructors(final String x) { }
     }
@@ -162,11 +161,11 @@ public class InjectorTest {
         injector.getProvider(MultipleInjectConstructors.class);
     }
 
-    public static class ParamCircularDependencyA {
+    static class ParamCircularDependencyA {
         @Inject ParamCircularDependencyA(final ParamCircularDependencyB b) { }
     }
 
-    public static class ParamCircularDependencyB {
+    private static class ParamCircularDependencyB {
         @Inject ParamCircularDependencyB(final ParamCircularDependencyA a) { }
     }
 
@@ -175,11 +174,11 @@ public class InjectorTest {
         injector.getProvider(ParamCircularDependencyA.class);
     }
 
-    public static class FieldCircularDependencyA {
+    static class FieldCircularDependencyA {
         @Inject FieldCircularDependencyB b;
     }
 
-    public static class FieldCircularDependencyB {
+    static class FieldCircularDependencyB {
         @Inject FieldCircularDependencyA a;
     }
 
@@ -188,8 +187,8 @@ public class InjectorTest {
         injector.getProvider(FieldCircularDependencyA.class);
     }
 
-    public static class ExplodingConstructor {
-        public ExplodingConstructor() {
+    static class ExplodingConstructor {
+        ExplodingConstructor() {
             throw new IllegalStateException("boom");
         }
     }
@@ -199,7 +198,7 @@ public class InjectorTest {
         injector.get(ExplodingConstructor.class);
     }
 
-    public static class MultipleStrategies {
+    private static class MultipleStrategies {
         @Context
         @HeaderParam("a")
         String a;
@@ -210,7 +209,7 @@ public class InjectorTest {
         injector.get(MultipleStrategies.class);
     }
 
-    public static class MultipleNames {
+    private static class MultipleNames {
         @Named("a")
         @HeaderParam("a")
         String a;

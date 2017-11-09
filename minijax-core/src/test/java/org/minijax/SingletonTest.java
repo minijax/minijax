@@ -16,7 +16,7 @@ import org.minijax.test.MinijaxWebTarget;
 
 public class SingletonTest {
 
-    public interface Counter {
+    interface Counter {
         int getCount();
     }
 
@@ -31,7 +31,7 @@ public class SingletonTest {
     }
 
 
-    public static class SingletonResource {
+    static class SingletonResource {
         @Inject
         private SingletonCounter counter;
 
@@ -43,7 +43,7 @@ public class SingletonTest {
     }
 
 
-    public static class CounterResource {
+    static class CounterResource {
         @Inject
         private Counter counter;
 

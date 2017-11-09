@@ -79,7 +79,7 @@ public class BaseEntityTest {
     }
 
 
-    public static class DifferentEntity extends DefaultBaseEntity {
+    static class DifferentEntity extends DefaultBaseEntity {
         private static final long serialVersionUID = 1L;
     }
 

@@ -16,7 +16,7 @@ import org.minijax.swagger.models.Pagination;
 @Produces({"application/json", "application/xml"})
 public class ResourceWithKnownInjections {
 
-    private Integer constructorParam;
+    private final Integer constructorParam;
     @QueryParam("fieldParam")
     private String fieldParam; // injection into a class field
     @BeanParam

@@ -16,7 +16,7 @@ import org.minijax.test.MockHttpServletRequest;
 public class RequestScopedTest {
 
     @RequestScoped
-    public static class A {
+    private static class A {
     }
 
     @Test
