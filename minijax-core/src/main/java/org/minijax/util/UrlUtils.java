@@ -212,7 +212,7 @@ public class UrlUtils {
      * @param str The decoded input string.
      * @return The encoded output string.
      */
-    private static String urlEncode(final String str) {
+    public static String urlEncode(final String str) {
         if (str == null) {
             return "";
         }
