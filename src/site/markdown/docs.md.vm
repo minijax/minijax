@@ -1,0 +1,185 @@
+Documentation
+=============
+
+Getting Started
+---------------
+
+1. Create a new Maven project and add the dependency to your pom.xml:
+
+```xml
+<dependency>
+    <groupId>org.minijax</groupId>
+    <artifactId>minijax-core</artifactId>
+    <version>${project.version}</version>
+</dependency>
+```
+
+2. Start coding:
+
+```java
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+
+import org.minijax.Minijax;
+
+@Path("/")
+public class Hello {
+
+    @GET
+    public static String hello() {
+        return "Hello world!";
+    }
+
+    public static void main(String[] args) {
+        new Minijax()
+                .register(Hello.class)
+                .run(8080);
+    }
+}
+```
+
+3. Run and view:
+
+<http://localhost:8080>
+
+Resource Methods
+----------------
+
+The main building blocks of JAX-RS applications are **Resource Classes** and **Resource Methods**.
+
+A **Resource Class** is a POJO annotated with a ```@Path``` annotation.
+
+```java
+@Path("users")
+public class UsersResource {
+    // ...
+}
+
+@Path("path/to/widgets")
+public class WidgetsResource {
+    // ...
+}
+```
+
+A **Resource Method** is a method of a **Resource Class** annotated with an HTTP verb annotation such as ```@GET``` or ```@POST```.
+
+```java
+@GET
+public Response get() {
+    // Get something
+}
+
+@POST
+public Response post() {
+    // Create something
+}
+
+@PUT
+public Response put() {
+    // Update something
+}
+
+@DELETE
+public Response delete() {
+    // Delete something
+}
+```
+
+Path Parameters
+---------------
+
+Route patterns can include named parameters, accessible via ```@PathParam``` annotated arguments:
+
+```java
+// Matches "GET /hello/foo" and "GET /hello/bar"
+
+@GET
+@Path("/hello/{name}")
+public String get(@PathParam("name") String name) {
+    return "Hello " + name;
+}
+```
+
+Query Parameters
+----------------
+
+Query string parameters are accessible via ```@QueryParam``` annotated arguments:
+
+
+```java
+// Matches "GET /hello?name=foo"
+
+@GET
+@Path("/hello")
+public String get(@QueryParam("name") String name) {
+    return "Hello " + name;
+}
+```
+
+Form Parameters
+---------------
+
+There are several options for retrieving form parameters.
+
+For simple forms, the easiest and most standard option is use ```@FormParam``` annotated arguments:
+
+```java
+@POST
+@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+public String handleSubmit(
+        @FormParam("name") String name,
+        @FormParam("email") String email) {
+    return "Hello " + name + " <" + email + ">";
+}
+```
+
+For larger forms, you may want to consume the entire form as a ```MultivaluedMap<String, String>```:
+
+```java
+@POST
+@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+public String handleSubmit(MultivaluedMap<String, String> formParams) {
+    return "Hello " + formParams.getFirst("name");
+}
+```
+
+For multipart data (such as file uploads), you can access the parameter as an ```java.io.InputStream```:
+
+```java
+@POST
+@Consumes(MediaType.MULTIPART_FORM_DATA)
+public String handleUpload(@FormParam("file") final InputStream file)
+        throws IOException {
+    return "File contents: " + IOUtils.toString(file, "UTF-8");
+}
+```
+
+Using an ```InputStream``` is the only consistent cross-platform option for multipart content.
+Unfortunately, ```InputStream``` does not provide full access to multipart headers 
+such as ```Content-Disposition`` for the submitted file name
+or ```Content-Type``` for the submitted file type.
+
+To work around this limitation,
+Apache CXF provides ```org.apache.cxf.jaxrs.ext.multipart.MultipartBody```, 
+Jersey provides ```org.glassfish.jersey.media.multipart```, and
+RESTEasy provides ```org.jboss.resteasy.plugins.providers.multipart.MultipartInput```.
+
+Minijax strives to follow standard Java conventions as much as possible, 
+so we use ```javax.servlet.http.Part``` as the recommended interface.
+
+```java
+@POST
+@Consumes(MediaType.MULTIPART_FORM_DATA)
+public String handleUpload(@FormParam("file") final Part file) {
+    return String.format("Name=%s, type=%s, size=%d",
+            file.getSubmittedFileName(),
+            file.getContentType(),
+            file.getSize());
+}
+```
+
+Learn More
+----------
+
+* [Sample Applications](minijax-examples/index.html) - Demonstrating Minijax capabilities
+* [Supported Java EE standards](javaee.html) - Overview of supported API's
