@@ -54,7 +54,7 @@
     <properties>
         <bcrypt.version>0.4</bcrypt.version>
         <cdi.version>2.0</cdi.version>
-        <commons-lang3.version>3.5</commons-lang3.version>
+        <commons-lang3.version>3.7</commons-lang3.version>
         <eclipselink.version>2.7.0</eclipselink.version>
         <h2.version>1.4.196</h2.version>
         <hikaricp.version>2.7.2</hikaricp.version>
@@ -71,7 +71,7 @@
         <logback.version>1.2.3</logback.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <mockito.version>2.11.0</mockito.version>
+        <mockito.version>2.12.0</mockito.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <shade.version>3.1.0</shade.version>
         <site.basedir>${session.executionRootDirectory}/src/site/</site.basedir>
