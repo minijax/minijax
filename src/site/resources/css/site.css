@@ -70,6 +70,14 @@ tt {
   }
 }
 
+p {
+  margin: 8px 0 16px 0 !important;
+}
+
+body > hr {
+  border: 0 !important;
+}
+
 footer div.row-fluid {
   text-align: center !important;
   font-size: 12px !important;

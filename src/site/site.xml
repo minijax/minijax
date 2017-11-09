@@ -10,8 +10,8 @@
         <fluidoSkin>
             <topBarEnabled>false</topBarEnabled>
             <sideBarEnabled>true</sideBarEnabled>
-            <leftColumnClass>span2</leftColumnClass>
-            <bodyColumnClass>span10</bodyColumnClass>
+            <leftColumnClass>span3</leftColumnClass>
+            <bodyColumnClass>span9</bodyColumnClass>
             <gitHub>
                 <projectId>minijax/minijax</projectId>
                 <ribbonOrientation>right</ribbonOrientation>

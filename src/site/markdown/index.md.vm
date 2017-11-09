@@ -13,7 +13,7 @@ Quick Start
 <dependency>
     <groupId>org.minijax</groupId>
     <artifactId>minijax-core</artifactId>
-    <version>0.0.20</version>
+    <version>${project.version}</version>
 </dependency>
 ```
 
