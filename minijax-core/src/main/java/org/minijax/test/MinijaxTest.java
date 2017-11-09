@@ -13,14 +13,14 @@ public class MinijaxTest {
     private static Minijax server;
 
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpMinijaxClass() {
         if (server == null) {
             startServer();
         }
     }
 
     @Before
-    public void setUp() {
+    public void setUpMinijax() {
         if (server == null) {
             startServer();
         }

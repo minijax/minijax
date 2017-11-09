@@ -7,13 +7,18 @@ import java.util.Base64;
  * The AuthUtils class provides helper methods for parsing the
  * HTTP Authorization header.
  */
-class AuthUtils {
+public class AuthUtils {
     private static final String BASIC_PREFIX = "Basic ";
     private static final String[] INVALID = new String[0];
 
 
     AuthUtils() {
         throw new UnsupportedOperationException();
+    }
+
+
+    public static String create(final String username, final String password) {
+        return BASIC_PREFIX + Base64.getEncoder().encodeToString((username + ":" + password).getBytes(StandardCharsets.UTF_8));
     }
 
 
