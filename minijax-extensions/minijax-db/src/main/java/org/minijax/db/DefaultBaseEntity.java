@@ -258,23 +258,28 @@ public abstract class DefaultBaseEntity implements BaseEntity {
         Class<?> currClass = getClass();
         while (currClass != null) {
             for (final Field field : currClass.getDeclaredFields()) {
-                if (Modifier.isStatic(field.getModifiers())) {
-                    continue;
-                }
-                if (field.getName().equals("id")) {
-                    continue;
-                }
-                try {
-                    field.setAccessible(true);
-                    final Object value = field.get(other);
-                    if (value != null) {
-                        field.set(this, value);
-                    }
-                } catch (final IllegalAccessException ex) {
-                    LOG.error(ex.getMessage(), ex);
-                }
+                copyNonNullField(other, field);
             }
             currClass = currClass.getSuperclass();
+        }
+    }
+
+
+    private <T extends DefaultBaseEntity> void copyNonNullField(final T other, final Field field) {
+        if (Modifier.isStatic(field.getModifiers())) {
+            return;
+        }
+        if (field.getName().equals("id")) {
+            return;
+        }
+        try {
+            field.setAccessible(true);
+            final Object value = field.get(other);
+            if (value != null) {
+                field.set(this, value);
+            }
+        } catch (final IllegalAccessException ex) {
+            LOG.error(ex.getMessage(), ex);
         }
     }
 
