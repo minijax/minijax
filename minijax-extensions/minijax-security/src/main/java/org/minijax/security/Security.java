@@ -361,6 +361,7 @@ public class Security<T extends SecurityUser> implements SecurityContext {
         }
 
         final UserSession apiSession = new UserSession();
+        apiSession.setId(null);
         apiSession.setUser(apiKey.getUser());
         return apiSession;
     }
@@ -419,7 +420,7 @@ public class Security<T extends SecurityUser> implements SecurityContext {
 
     @Override
     public boolean isUserInRole(final String role) {
-        return user.hasRole(role);
+        return user != null && user.hasRole(role);
     }
 
 
