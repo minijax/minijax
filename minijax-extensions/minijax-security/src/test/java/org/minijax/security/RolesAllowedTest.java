@@ -19,7 +19,7 @@ import org.minijax.MinijaxRequestContext;
 import org.minijax.db.DefaultBaseDao;
 import org.minijax.test.MinijaxTest;
 
-public class SecurityTest extends MinijaxTest {
+public class RolesAllowedTest extends MinijaxTest {
     private static User alice;
     private static NewCookie aliceCookie;
     private static User bob;
@@ -62,7 +62,7 @@ public class SecurityTest extends MinijaxTest {
                 .registerPersistence()
                 .register(new SecurityFeature(User.class))
                 .register(Dao.class, SecurityDao.class)
-                .register(SecurityTest.class);
+                .register(RolesAllowedTest.class);
 
         try (final MinijaxRequestContext ctx = createRequestContext()) {
             final Dao dao = ctx.get(Dao.class);
