@@ -24,13 +24,8 @@ public class SecurityFeature implements Feature {
     }
 
 
+    @SuppressWarnings("unchecked")
     public static <T extends SecurityUser> Provider<T> getUserProvider() {
-        return new Provider<T>() {
-            @Override
-            @SuppressWarnings("unchecked")
-            public T get() {
-                return (T) MinijaxRequestContext.getThreadLocal().get(Security.class).getCurrentUser();
-            }
-        };
+        return () -> (T) MinijaxRequestContext.getThreadLocal().get(Security.class).getCurrentUser();
     }
 }
