@@ -11,8 +11,13 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
@@ -23,7 +28,6 @@ import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.NotFoundException;
-import javax.ws.rs.Produces;
 import javax.ws.rs.RuntimeType;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -42,15 +46,12 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.ParamConverter;
-import javax.ws.rs.ext.ParamConverterProvider;
 
 import org.minijax.util.ClassPathScanner;
 import org.minijax.util.ExceptionUtils;
 import org.minijax.util.IOUtils;
-import org.minijax.util.MediaTypeClassMap;
 import org.minijax.util.MediaTypeUtils;
 import org.minijax.util.OptionalClasses;
-import org.minijax.util.UuidParamConverterProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,10 +64,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     private final List<Class<?>> webSockets;
     private final List<Class<? extends ContainerRequestFilter>> requestFilters;
     private final List<Class<? extends ContainerResponseFilter>> responseFilters;
-    private final List<ParamConverterProvider> paramConverterProviders;
-    private final MediaTypeClassMap<MessageBodyReader<?>> readers;
-    private final MediaTypeClassMap<MessageBodyWriter<?>> writers;
-    private final MediaTypeClassMap<ExceptionMapper<?>> exceptionMappers;
+    private final MinijaxProviders providers;
     private Class<? extends SecurityContext> securityContextClass;
 
 
@@ -78,10 +76,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         webSockets = new ArrayList<>();
         requestFilters = new ArrayList<>();
         responseFilters = new ArrayList<>();
-        paramConverterProviders = new ArrayList<>(getDefaultParamConverterProviders());
-        readers = new MediaTypeClassMap<>();
-        writers = new MediaTypeClassMap<>();
-        exceptionMappers = new MediaTypeClassMap<>();
+        providers = new MinijaxProviders(this);
     }
 
     public String getPath() {
@@ -245,6 +240,11 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     }
 
 
+    public MinijaxProviders getProviders() {
+        return providers;
+    }
+
+
     /*
      * Private helpers
      */
@@ -273,11 +273,8 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         registerWebSockets(c);
         registerFeature(c);
         registerFilter(c);
-        registerParamConverterProvider(c);
-        registerReader(c);
-        registerWriter(c);
-        registerExceptionMapper(c);
         registerSecurityContext(c);
+        providers.register(c);
         classesScanned.add(c);
     }
 
@@ -328,37 +325,6 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
         if (ContainerResponseFilter.class.isAssignableFrom(c)) {
             responseFilters.add((Class<? extends ContainerResponseFilter>) c);
-        }
-    }
-
-
-    private void registerParamConverterProvider(final Class<?> c) {
-        if (ParamConverterProvider.class.isAssignableFrom(c)) {
-            paramConverterProviders.add((ParamConverterProvider) get(c));
-        }
-    }
-
-
-    @SuppressWarnings("unchecked")
-    private void registerReader(final Class<?> c) {
-        if (MessageBodyReader.class.isAssignableFrom(c)) {
-            readers.add((Class<MessageBodyReader<?>>) c, MediaTypeUtils.parseMediaTypes(c.getAnnotation(Consumes.class)));
-        }
-    }
-
-
-    @SuppressWarnings("unchecked")
-    private void registerWriter(final Class<?> c) {
-        if (MessageBodyWriter.class.isAssignableFrom(c)) {
-            writers.add((Class<MessageBodyWriter<?>>) c, MediaTypeUtils.parseMediaTypes(c.getAnnotation(Produces.class)));
-        }
-    }
-
-
-    @SuppressWarnings("unchecked")
-    private void registerExceptionMapper(final Class<?> c) {
-        if (ExceptionMapper.class.isAssignableFrom(c)) {
-            exceptionMappers.add((Class<ExceptionMapper<?>>) c, MediaTypeUtils.parseMediaTypes(c.getAnnotation(Produces.class)));
         }
     }
 
@@ -555,10 +521,9 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         }
 
         for (final MediaType mediaType : mediaTypes) {
-            final List<Class<? extends ExceptionMapper<?>>> mappers = exceptionMappers.get(mediaType);
-            if (!mappers.isEmpty()) {
-                // Cast should not be necessary, but Eclipse chokes on it
-                return ((ExceptionMapper) get(mappers.get(0))).toResponse(ex); // NOSONAR
+            final ExceptionMapper mapper = providers.getExceptionMapper(ex.getClass(), mediaType);
+            if (mapper != null) {
+                return mapper.toResponse(ex);
             }
         }
 
@@ -566,7 +531,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     }
 
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings("rawtypes")
     private MediaType findResponseType(
             final Object obj,
             final List<MediaType> produces) {
@@ -574,11 +539,9 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         final Class<?> objType = obj == null ? null : obj.getClass();
 
         for (final MediaType mediaType : produces) {
-            for (final Class<? extends MessageBodyWriter<?>> writerClass : writers.get(mediaType)) {
-                final MessageBodyWriter writer = get(writerClass);
-                if (writer.isWriteable(objType, null, null, mediaType)) {
-                    return mediaType;
-                }
+            final MessageBodyWriter writer = providers.getMessageBodyWriter(objType, null, null, mediaType);
+            if (writer != null) {
+                return mediaType;
             }
         }
 
@@ -625,7 +588,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
             return;
         }
 
-        final MessageBodyWriter writer = findWriter(obj, mediaType);
+        final MessageBodyWriter writer = providers.getMessageBodyWriter(obj.getClass(), null, null, mediaType);
         if (writer != null) {
             writer.writeTo(obj, obj.getClass(), null, null, mediaType, null, servletResponse.getOutputStream());
             return;
@@ -633,25 +596,6 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
         // What to do
         servletResponse.getWriter().println(obj.toString());
-    }
-
-
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    private MessageBodyWriter findWriter(
-            final Object obj,
-            final MediaType mediaType) {
-
-        final Class<?> objType = obj == null ? null : obj.getClass();
-
-        for (final Class<? extends MessageBodyWriter<?>> writerClass : writers.get(mediaType)) {
-            final MessageBodyWriter writer = get(writerClass);
-            if (writer.isWriteable(objType, null, null, mediaType)) {
-                return writer;
-            }
-        }
-
-        // Return "plain text writer"?
-        return null;
     }
 
 
@@ -688,11 +632,9 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         final Annotation[] annotations = null;
         final MultivaluedMap<String, String> httpHeaders = null;
 
-        for (final Class<? extends MessageBodyReader<?>> readerClass : readers.get(mediaType)) {
-            final MessageBodyReader reader = get(readerClass);
-            if (reader.isReadable(c, genericType, annotations, mediaType)) {
-                return (T) reader.readFrom(c, genericType, annotations, mediaType, httpHeaders, entityStream);
-            }
+        final MessageBodyReader reader = providers.getMessageBodyReader(c, genericType, annotations, mediaType);
+        if (reader != null) {
+            return (T) reader.readFrom(c, genericType, annotations, mediaType, httpHeaders, entityStream);
         }
 
         // Try default primitive converters
@@ -713,11 +655,9 @@ public class MinijaxApplication extends Application implements Configuration, Fe
      * @return            the newly created instance of {@code T}.
      */
     public <T> T convertParamToType(final String str, final Class<T> c, final Annotation[] annotations) {
-        for (final ParamConverterProvider provider : paramConverterProviders) {
-            final ParamConverter<T> converter = provider.getConverter(c, null, annotations);
-            if (converter != null) {
-                return converter.fromString(str);
-            }
+        final ParamConverter<T> converter = providers.getParamConverter(c, null, annotations);
+        if (converter != null) {
+            return converter.fromString(str);
         }
 
         // Try default primitive converters
@@ -788,10 +728,5 @@ public class MinijaxApplication extends Application implements Configuration, Fe
             return (T) Short.valueOf(str);
         }
         throw new IllegalArgumentException("Unrecognized primitive (" + c + ")");
-    }
-
-
-    private static List<ParamConverterProvider> getDefaultParamConverterProviders() {
-        return Collections.singletonList(new UuidParamConverterProvider());
     }
 }
