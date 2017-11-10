@@ -119,7 +119,7 @@ public class MinijaxProviders implements Providers {
     }
 
 
-    public <T> ParamConverter<T> getParamConverter(final Class<T> rawType, final Type genericType, final Annotation annotations[]) {
+    public <T> ParamConverter<T> getParamConverter(final Class<T> rawType, final Type genericType, final Annotation[] annotations) {
         for (final ParamConverterProvider provider : paramConverterProviders) {
             final ParamConverter<T> converter = provider.getConverter(rawType, genericType, annotations);
             if (converter != null) {

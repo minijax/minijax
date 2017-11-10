@@ -5,6 +5,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -13,6 +14,7 @@ import java.util.Set;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -21,7 +23,6 @@ import javax.ws.rs.core.NewCookie;
 class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResponseContext {
     private final MultivaluedMap<String, Object> headers;
     private final MinijaxStatusInfo statusInfo;
-    private Map<String, NewCookie> cookies;
     private Date date;
     private Object entity;
     private EntityTag entityTag;
@@ -56,7 +57,15 @@ class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResp
 
     @Override
     public Map<String, NewCookie> getCookies() {
-        return cookies;
+        final Map<String, NewCookie> result = new HashMap<>();
+        final List<Object> values = headers.get(HttpHeaders.SET_COOKIE);
+        if (values != null) {
+            for (final Object value : values) {
+                final NewCookie cookie = NewCookie.valueOf(value.toString());
+                result.put(cookie.getName(), cookie);
+            }
+        }
+        return result;
     }
 
     @Override

@@ -9,12 +9,12 @@ import java.util.Locale;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.Link;
+import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Variant;
 
 import org.junit.Test;
-import org.minijax.delegates.MinijaxResponseBuilder;
 
 public class ResponseBuilderTest {
 
@@ -51,6 +51,21 @@ public class ResponseBuilderTest {
         final ResponseBuilder rb1 = Response.ok();
         final ResponseBuilder rb2 = rb1.clone();
         assertFalse(rb1 == rb2);
+    }
+
+    @Test
+    public void testNullCookie() {
+        final Response response = Response.ok().build();
+        assertNotNull(response);
+        assertTrue(response.getCookies().isEmpty());
+    }
+
+    @Test
+    public void testCookie() {
+        final Response response = Response.ok().cookie(new NewCookie("a", "b")).build();
+        assertNotNull(response);
+        assertTrue(response.getCookies().containsKey("a"));
+        assertEquals("b", response.getCookies().get("a").getValue());
     }
 
     @Test(expected = UnsupportedOperationException.class)
