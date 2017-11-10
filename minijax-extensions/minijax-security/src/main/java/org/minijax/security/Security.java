@@ -151,13 +151,7 @@ public class Security<T extends SecurityUser> implements SecurityContext {
      *
      * @param token The session token.
      */
-    public void validateSession(final String token) {
-        requireLogin();
-        requireCookieSession();
-
-        Validate.notNull(token, "Session ID must not be null.");
-        Validate.notEmpty(token, "Session ID must not be empty.");
-
+    void validateSession(final String token) {
         if (!Objects.equals(token, getSessionToken())) {
             throw new BadRequestException("Invalid session ID");
         }
@@ -443,8 +437,8 @@ public class Security<T extends SecurityUser> implements SecurityContext {
         }
         if (session.getId() == null) {
             // API key
-            return "BASIC";
+            return SecurityContext.BASIC_AUTH;
         }
-        return "FORM";
+        return SecurityContext.FORM_AUTH;
     }
 }
