@@ -5,12 +5,15 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Request;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.ext.Providers;
 
 import org.minijax.MinijaxForm;
 import org.minijax.MinijaxRequestContext;
@@ -28,40 +31,64 @@ class ContextProvider<T> implements Provider<T> {
         final MinijaxRequestContext context = MinijaxRequestContext.getThreadLocal();
         final Class<T> c = key.getType();
 
-        if (c == ContainerRequestContext.class) {
-            return (T) context;
-        }
-
-        if (c == HttpServletRequest.class) {
-            return (T) context.getServletRequest();
-        }
-
-        if (c == HttpServletResponse.class) {
-            return (T) context.getServletResponse();
-        }
-
-        if (c == ServletConfig.class) {
-            return null;
-        }
-
-        if (c == ServletContext.class) {
-            return (T) context.getServletRequest().getServletContext();
-        }
-
+        // 9.2.1
         if (c == Application.class) {
             return (T) context.getApplication();
         }
 
-        if (c == Configuration.class) {
-            return (T) context.getApplication().getConfiguration();
+        // 9.2.2
+        if (c == UriInfo.class) {
+            return (T) context.getUriInfo();
         }
 
+        // 9.2.3
         if (c == HttpHeaders.class) {
             return (T) context.getHttpHeaders();
         }
 
-        if (c == UriInfo.class) {
-            return (T) context.getUriInfo();
+        // 9.2.4
+        if (c == Request.class) {
+            throw new UnsupportedOperationException("Not implemented");
+        }
+
+        // 9.2.5
+        if (c == SecurityContext.class) {
+            return (T) context.getSecurityContext();
+        }
+
+        // 9.2.6
+        if (c == Providers.class) {
+            throw new UnsupportedOperationException("Not implemented");
+        }
+
+        // 9.2.7
+        if (c == ResourceContext.class) {
+            throw new UnsupportedOperationException("Not implemented");
+        }
+
+        // 9.2.8
+        if (c == Configuration.class) {
+            return (T) context.getApplication().getConfiguration();
+        }
+
+        // 10.1
+        if (c == ServletConfig.class) {
+            return null;
+        }
+
+        // 10.1
+        if (c == ServletContext.class) {
+            return (T) context.getServletRequest().getServletContext();
+        }
+
+        // 10.1
+        if (c == HttpServletRequest.class) {
+            return (T) context.getServletRequest();
+        }
+
+        // 10.1
+        if (c == HttpServletResponse.class) {
+            return (T) context.getServletResponse();
         }
 
         if (c == MinijaxForm.class) {
