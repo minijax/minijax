@@ -52,5 +52,10 @@
             <artifactId>minijax-mustache</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.minijax</groupId>
+            <artifactId>minijax-security</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

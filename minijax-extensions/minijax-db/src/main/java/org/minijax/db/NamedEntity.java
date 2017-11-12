@@ -21,7 +21,9 @@ public interface NamedEntity extends BaseEntity, Principal {
 
     void setAvatar(Avatar avatar);
 
-    URI getUri();
+    default URI getUri() {
+        return null;
+    };
 
 
     /**

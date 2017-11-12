@@ -6,105 +6,112 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.*;
 
+import javax.annotation.security.RolesAllowed;
+import javax.inject.Inject;
 import javax.persistence.*;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
 import org.minijax.Minijax;
+import org.minijax.db.*;
 import org.minijax.mustache.*;
+import org.minijax.security.*;
 
 @Path("/")
 @Produces(MediaType.TEXT_HTML)
 public class Minitwit {
 
     @Entity(name = "User")
-    public static class User {
-        @Id @GeneratedValue int id;
-        String username;
-        String email;
-        String pwHash;
+    public static class User extends SecurityUser {
+        private static final long serialVersionUID = 1L;
         @OneToMany Set<User> following = new HashSet<>();
 
         public String gravatarUrl() throws IOException {
             return String.format(
                     "https://www.gravatar.com/avatar/%s?d=identicon&s=80",
-                    md5Hex(email.getBytes("CP1252")));
+                    md5Hex(getEmail().getBytes("CP1252")));
         }
     }
 
     @Entity(name = "Message")
-    public static class Message {
-        @Id @GeneratedValue int id;
+    public static class Message extends DefaultBaseEntity {
+        private static final long serialVersionUID = 1L;
         @ManyToOne User user;
         String text;
     }
 
-    @Context
-    private HttpServletRequest request;
+    public static class Dao extends DefaultBaseDao implements SecurityDao {
+    }
 
-    @PersistenceContext
-    private EntityManager em;
+    @Inject
+    private Security<User> security;
+
+    @Inject
+    private User currentUser;
+
+    @Inject
+    private Dao dao;
 
     public Response render(String templateName, Map<String, Object> properties) {
         View view = new View(templateName);
-        view.getProps().put("user", request.getSession().getAttribute("user"));
+        if (currentUser != null) {
+            view.getProps().put("user", currentUser);
+            view.getProps().put("csrf", security.getSessionToken());
+        }
         view.getProps().putAll(properties);
         return Response.ok(view, MediaType.TEXT_HTML).build();
     }
 
     @GET
     public Response timeline() {
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
+        if (currentUser == null) {
             return Response.seeOther(URI.create("/public")).build();
         }
-        List<Message> messages = em.createQuery("SELECT m FROM Message m WHERE m.user = :user OR m.user IN :following ORDER BY m.id DESC", Message.class)
-                .setParameter("user", user)
-                .setParameter("following", user.following)
+        List<Message> messages = dao.getEntityManager()
+                .createQuery("SELECT m FROM Message m WHERE m.user IN :following ORDER BY m.id DESC", Message.class)
+                .setParameter("following", currentUser.following)
                 .getResultList();
         return render("timeline", Map.of("messages", messages));
     }
 
     @GET
     @Path("/public")
-    public Response publicTimeline(@PathParam("username") String username) {
-        List<Message> messages = em.createQuery("SELECT m FROM Message m ORDER BY m.id DESC", Message.class)
+    public Response publicTimeline() {
+        List<Message> messages = dao.getEntityManager()
+                .createQuery("SELECT m FROM Message m ORDER BY m.id DESC", Message.class)
                 .getResultList();
         return render("timeline", Map.of("messages", messages));
     }
 
     @GET
-    @Path("/u/{username}")
-    public Response userTimeline(@PathParam("username") String username) {
-        List<Message> messages = em.createQuery("SELECT m FROM Message m WHERE m.user.username = :username ORDER BY m.id DESC", Message.class)
-                .setParameter("username", username)
+    @Path("/u/{handle}")
+    public Response userTimeline(@PathParam("handle") String handle) {
+        User user = dao.readByHandle(User.class, handle);
+        List<Message> messages = dao.getEntityManager()
+                .createQuery("SELECT m FROM Message m WHERE m.user = :user ORDER BY m.id DESC", Message.class)
+                .setParameter("user", user)
                 .getResultList();
         return render("timeline", Map.of("messages", messages));
     }
 
     @GET
-    @Path("/u/{username}/follow")
-    public Response followUser(@PathParam("username") String username) {
-        User follower = (User) request.getSession().getAttribute("user");
-        User following = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class).setParameter("username", username).getSingleResult();
-        follower.following.add(following);
-        em.getTransaction().begin();
-        em.merge(follower);
-        em.getTransaction().commit();
+    @Path("/u/{handle}/follow")
+    @RolesAllowed("user")
+    public Response followUser(@PathParam("handle") String handle) {
+        currentUser.following.add(dao.readByHandle(User.class, handle));
+        dao.update(currentUser);
         return Response.seeOther(URI.create("/")).build();
     }
 
     @POST
     @Path("/addmessage")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @RolesAllowed("user")
     public Response addMessage(@FormParam("text") String text) {
         Message msg = new Message();
         msg.text = text;
-        msg.user = (User) request.getSession().getAttribute("user");
-        em.getTransaction().begin();
-        em.persist(msg);
-        em.getTransaction().commit();
+        msg.user = currentUser;
+        dao.create(msg);
         return Response.seeOther(URI.create("/")).build();
     }
 
@@ -118,53 +125,53 @@ public class Minitwit {
     @Path("/login")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response login(
-            @FormParam("username") String username,
+            @FormParam("handle") String handle,
             @FormParam("password") String password) {
 
-        User user = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
-                .setParameter("username", username)
-                .getSingleResult();
-        request.getSession().setAttribute("user", user);
-        return Response.seeOther(URI.create("/")).build();
+        User user = dao.readByHandle(User.class, handle);
+        NewCookie cookie = security.loginAs(user);
+        return Response.seeOther(URI.create("/")).cookie(cookie).build();
     }
 
     @GET
     @Path("/logout")
     public Response logout() {
-        request.getSession().removeAttribute("user");
-        return Response.seeOther(URI.create("/")).build();
+        NewCookie cookie = security.logout();
+        return Response.seeOther(URI.create("/")).cookie(cookie).build();
     }
 
     @GET
     @Path("/register")
     public View register() {
-        View view = new View("register");
-        return view;
+        return new View("register");
     }
 
     @POST
     @Path("/register")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response register(
-            @FormParam("username") String username,
+            @FormParam("handle") String handle,
             @FormParam("email") String email,
             @FormParam("password") String password) {
 
         User user = new User();
-        user.username = username;
-        user.email = email;
-        em.getTransaction().begin();
-        em.persist(user);
-        em.getTransaction().commit();
-        request.getSession().setAttribute("user", user);
-        return Response.seeOther(URI.create("/")).build();
+        user.setName(handle);
+        user.setHandle(handle);
+        user.setEmail(email);
+        user.setRoles("user");
+        user.following.add(user);
+        dao.create(user);
+        NewCookie cookie = security.loginAs(user);
+        return Response.seeOther(URI.create("/")).cookie(cookie).build();
     }
 
     public static void main(String[] args) {
         new Minijax()
+                .addStaticDirectory("static")
                 .registerPersistence()
                 .register(MinijaxMustacheFeature.class)
-                .addStaticDirectory("static")
+                .register(new SecurityFeature(User.class))
+                .register(Dao.class, SecurityDao.class)
                 .register(Minitwit.class)
                 .run(8080);
     }

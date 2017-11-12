@@ -3,6 +3,7 @@
 {{$content}}
 {{#props.user}}
 <form action="/addmessage" method="POST">
+  <input type="hidden" name="csrf" value="{{props.csrf}}">
   <div class="input-group">
     <input type="text" name="text" class="form-control" placeholder="Say something...">
     <span class="input-group-btn">
@@ -11,14 +12,11 @@
   </div>
 </form>
 <hr>
-<div>following: {{following}}</div>
-<div>size: {{following.size}}</div>
-<hr>
 {{/props.user}}
 {{#props.messages}}
 <div class="message">
   <img src="{{user.gravatarUrl}}" class="avatar rounded-circle float-left">
-  <strong><a href="/u/{{user.username}}">{{user.username}}</a></strong>
+  <strong><a href="/u/{{user.handle}}">{{user.handle}}</a></strong>
   {{text}}
   <div class="clearfix"></div>
 </div>

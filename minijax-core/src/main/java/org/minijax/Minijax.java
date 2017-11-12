@@ -206,7 +206,7 @@ public class Minijax {
         try {
             final Server server = createServer();
 
-            final ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+            final ServletContextHandler context = new ServletContextHandler();
             context.setContextPath("/");
             server.setHandler(context);
 
