@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 /**
  * The Dao class is the interface for all database access.
  */
-public abstract class DefaultBaseDao implements BaseDao {
+public class DefaultBaseDao implements BaseDao {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultBaseDao.class);
 
     @PersistenceContext

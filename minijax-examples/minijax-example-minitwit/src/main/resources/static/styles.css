@@ -1,0 +1,23 @@
+
+.container {
+  margin-top: 20px;
+  max-width: 600px;
+}
+
+.header {
+  margin: 20px 0;
+  padding: 20px 0;
+  border-bottom: .05rem solid #e5e5e5;
+}
+
+.message {
+  margin: 10px 0;
+  padding: 4px 0 16px 0;
+  border-bottom: .05rem solid #e5e5e5;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  margin: 0 8px 0 0;
+}

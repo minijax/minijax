@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{$title}}Pet Clinic{{/title}}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <header class="header clearfix">
+        <nav>
+          <ul class="nav">
+            <li class="nav-brand"><strong><a class="nav-link" href="/">Minitwit</a></strong></li>
+{{#props.user}}
+            <li class="nav-item"><a class="nav-link" href="/public">Public</a></li>
+            <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+{{/props.user}}
+{{^props.user}}
+            <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+{{/props.user}}
+          </ul>
+        </nav>
+      </header>
+      <main role="main">
+{{$content}}
+          <p>Default content.</p>
+{{/content}}
+    </div>
+  </body>
+</html>
