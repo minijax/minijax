@@ -14,7 +14,6 @@ import javax.ws.rs.core.Response;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mindrot.jbcrypt.BCrypt;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.db.DefaultBaseDao;
 import org.minijax.test.MinijaxTest;
@@ -71,7 +70,7 @@ public class RolesAllowedTest extends MinijaxTest {
             alice.setName("Alice");
             alice.setEmail("alice@example.com");
             alice.setHandle("alice");
-            alice.setPasswordHash(BCrypt.hashpw("alicepwd", BCrypt.gensalt()));
+            alice.setPassword("alicepwd");
             alice.setRoles("user", "admin");
             dao.create(alice);
 
@@ -79,7 +78,7 @@ public class RolesAllowedTest extends MinijaxTest {
             bob.setName("Bob");
             bob.setEmail("bob@example.com");
             bob.setHandle("bob");
-            bob.setPasswordHash(BCrypt.hashpw("bobpwd", BCrypt.gensalt()));
+            bob.setPassword("bobpwd");
             bob.setRoles("user");
             dao.create(bob);
 

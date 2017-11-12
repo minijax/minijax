@@ -12,7 +12,6 @@ import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.SecurityContext;
 
 import org.junit.Test;
-import org.mindrot.jbcrypt.BCrypt;
 import org.minijax.MinijaxProperties;
 import org.minijax.util.IdUtils;
 
@@ -181,7 +180,7 @@ public class SecurityTest {
     @Test
     public void testLogin() {
         final User user = new User();
-        user.setPasswordHash(BCrypt.hashpw("testtest", BCrypt.gensalt()));
+        user.setPassword("testtest");
 
         final SecurityDao dao = mock(SecurityDao.class);
         when(dao.findUserByEmail(eq(User.class), eq("user@example.com"))).thenReturn(user);
@@ -223,7 +222,7 @@ public class SecurityTest {
     @Test(expected = BadRequestException.class)
     public void testLoginIncorrectPassword() {
         final User user = new User();
-        user.setPasswordHash(BCrypt.hashpw("testtest", BCrypt.gensalt()));
+        user.setPassword("testtest");
 
         final SecurityDao dao = mock(SecurityDao.class);
         when(dao.findUserByEmail(eq(User.class), eq("user@example.com"))).thenReturn(user);

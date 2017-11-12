@@ -47,12 +47,8 @@ public abstract class SecurityUser extends DefaultNamedEntity {
         return passwordHash;
     }
 
-    public void setPasswordHash(final String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
-
     public void setPassword(final String password) {
-        setPasswordHash(BCrypt.hashpw(password, BCrypt.gensalt()));
+        passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
     /**

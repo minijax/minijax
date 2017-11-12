@@ -247,7 +247,7 @@ public class Security<T extends SecurityUser> implements SecurityContext {
             throw new BadRequestException("short");
         }
 
-        user.setPasswordHash(BCrypt.hashpw(newPassword, BCrypt.gensalt()));
+        user.setPassword(newPassword);
         dao.update(user);
     }
 
@@ -306,7 +306,7 @@ public class Security<T extends SecurityUser> implements SecurityContext {
             throw new BadRequestException("short");
         }
 
-        pcr.getUser().setPasswordHash(BCrypt.hashpw(newPassword, BCrypt.gensalt()));
+        pcr.getUser().setPassword(newPassword);
         dao.update(pcr.getUser());
         dao.purge(pcr);
         return loginAs(pcr.getUser());
