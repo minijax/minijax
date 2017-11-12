@@ -25,6 +25,11 @@
         </nav>
       </header>
       <main role="main">
+{{#props.error}}
+        <div class="alert alert-danger" role="alert">
+          {{props.error}}
+        </div>
+{{/props.error}}
 {{$content}}
           <p>Default content.</p>
 {{/content}}

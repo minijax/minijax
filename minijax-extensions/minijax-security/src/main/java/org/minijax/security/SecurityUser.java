@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.apache.commons.lang3.Validate;
+import org.mindrot.jbcrypt.BCrypt;
 import org.minijax.db.DefaultNamedEntity;
 
 /**
@@ -48,6 +49,10 @@ public abstract class SecurityUser extends DefaultNamedEntity {
 
     public void setPasswordHash(final String passwordHash) {
         this.passwordHash = passwordHash;
+    }
+
+    public void setPassword(final String password) {
+        setPasswordHash(BCrypt.hashpw(password, BCrypt.gensalt()));
     }
 
     /**

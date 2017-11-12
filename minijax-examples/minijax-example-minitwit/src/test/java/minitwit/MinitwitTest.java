@@ -17,11 +17,12 @@ public class MinitwitTest extends MinijaxTest {
     @BeforeClass
     public static void setUpMinitwit() {
         getServer()
-            .registerPersistence()
-            .register(MinijaxMustacheFeature.class)
-            .register(new SecurityFeature(User.class))
-            .register(Dao.class, SecurityDao.class)
-            .register(Minitwit.class);
+                .property("javax.persistence.jdbc.url", "jdbc:h2:mem:test")
+                .registerPersistence()
+                .register(MinijaxMustacheFeature.class)
+                .register(new SecurityFeature(User.class))
+                .register(Dao.class, SecurityDao.class)
+                .register(Minitwit.class);
     }
 
     @Test

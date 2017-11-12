@@ -125,12 +125,17 @@ public class Minitwit {
     @Path("/login")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response login(
-            @FormParam("handle") String handle,
+            @FormParam("email") String email,
             @FormParam("password") String password) {
 
-        User user = dao.readByHandle(User.class, handle);
-        NewCookie cookie = security.loginAs(user);
-        return Response.seeOther(URI.create("/")).cookie(cookie).build();
+        try {
+            NewCookie cookie = security.login(email, password);
+            return Response.seeOther(URI.create("/")).cookie(cookie).build();
+        } catch (BadRequestException ex) {
+            View view = new View("login");
+            view.getProps().put("error", ex.getMessage());
+            return Response.ok(view, MediaType.TEXT_HTML).build();
+        }
     }
 
     @GET
@@ -159,6 +164,7 @@ public class Minitwit {
         user.setHandle(handle);
         user.setEmail(email);
         user.setRoles("user");
+        user.setPassword(password);
         user.following.add(user);
         dao.create(user);
         NewCookie cookie = security.loginAs(user);
