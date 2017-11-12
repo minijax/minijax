@@ -24,6 +24,9 @@
         <href>https://minijax.org/</href>
     </bannerLeft>
     <body>
+        <head>
+            <link rel="shortcut icon" href="https://minijax.org/favicon.ico">
+        </head>
         <menu ref="parent"/>
         <menu ref="reports"/>
         <menu ref="modules"/>
