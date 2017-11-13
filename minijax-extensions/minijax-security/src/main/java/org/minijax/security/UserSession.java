@@ -6,9 +6,11 @@ import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.Validate;
@@ -23,6 +25,7 @@ import org.minijax.db.UuidConverter;
 @Entity
 @Cacheable
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Table(indexes = { @Index(columnList = "USERID", unique = false) })
 @NamedQuery(
         name = "UserSession.deleteByUser",
         query = "DELETE FROM UserSession s" +

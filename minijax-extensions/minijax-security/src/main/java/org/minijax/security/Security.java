@@ -267,7 +267,7 @@ public class Security<T extends SecurityUser> implements SecurityContext {
 
         final PasswordChangeRequest pcr = new PasswordChangeRequest();
         pcr.setCode(RandomStringUtils.randomAlphanumeric(32));
-        pcr.setUserId(user.getId());
+        pcr.setUser(user);
         dao.create(pcr);
         return pcr.getCode();
     }

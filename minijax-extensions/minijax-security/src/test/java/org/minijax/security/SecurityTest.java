@@ -52,7 +52,7 @@ public class SecurityTest {
 
         final ApiKey apiKey = new ApiKey();
         apiKey.setValue("xyz");
-        apiKey.setUserId(user.getId());
+        apiKey.setUser(user);
 
         final String authorization = AuthUtils.create(apiKey.getValue(), "");
 
@@ -88,7 +88,7 @@ public class SecurityTest {
 
         final ApiKey apiKey = new ApiKey();
         apiKey.setValue("xyz");
-        apiKey.setUserId(user.getId());
+        apiKey.setUser(user);
         apiKey.setDeleted(true);
 
         final String authorization = AuthUtils.create(apiKey.getValue(), "");

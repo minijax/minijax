@@ -6,10 +6,12 @@ import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -27,6 +29,7 @@ import org.minijax.db.UuidConverter;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@Table(indexes = { @Index(columnList = "USERID", unique = false) })
 @NamedQueries({
 @NamedQuery(
         name = "ApiKey.findByUser",
@@ -56,8 +59,8 @@ public class ApiKey extends DefaultBaseEntity {
         return userId;
     }
 
-    public void setUserId(final UUID userId) {
-        this.userId = userId;
+    public void setUser(final SecurityUser user) {
+        userId = user.getId();
     }
 
     public String getName() {

@@ -6,9 +6,11 @@ import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,6 +32,7 @@ import org.minijax.db.UuidConverter;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@Table(indexes = { @Index(columnList = "USERID", unique = false) })
 @NamedQuery(
         name = "PasswordChangeRequest.findByCode",
         query = "SELECT pcr FROM PasswordChangeRequest pcr" +
@@ -50,8 +53,8 @@ public class PasswordChangeRequest extends DefaultBaseEntity {
         return userId;
     }
 
-    public void setUserId(final UUID userId) {
-        this.userId = userId;
+    public void setUser(final SecurityUser user) {
+        userId = user.getId();
     }
 
     public String getCode() {

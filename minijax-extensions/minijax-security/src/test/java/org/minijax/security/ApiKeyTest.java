@@ -19,7 +19,7 @@ public class ApiKeyTest {
         final ApiKey e = new ApiKey();
         e.setId(id);
         e.setName("bar");
-        e.setUserId(user.getId());
+        e.setUser(user);
 
         assertEquals(id, e.getId());
         assertEquals("bar", e.getName());
