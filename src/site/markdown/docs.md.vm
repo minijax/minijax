@@ -61,7 +61,7 @@ public class WidgetsResource {
 }
 ```
 
-A **Resource Method** is a method of a **Resource Class** annotated with an HTTP verb annotation such as ```@GET``` or ```@POST```.
+A **Resource Method** is a method annotated with an HTTP verb annotation such as ```@GET``` or ```@POST```.
 
 ```java
 @GET
@@ -91,7 +91,7 @@ Path Parameters
 Route patterns can include named parameters, accessible via ```@PathParam``` annotated arguments:
 
 ```java
-// Matches "GET /hello/foo" and "GET /hello/bar"
+// Matches "GET /hello/foo"
 
 @GET
 @Path("/hello/{name}")
@@ -121,7 +121,7 @@ Form Parameters
 
 There are several options for retrieving form parameters.
 
-For simple forms, the easiest and most standard option is use ```@FormParam``` annotated arguments:
+Retrieve individual form elements using ```@FormParam``` annotated arguments:
 
 ```java
 @POST
@@ -133,7 +133,7 @@ public String handleSubmit(
 }
 ```
 
-For larger forms, you may want to consume the entire form as a ```MultivaluedMap<String, String>```:
+Retrieve the entire form as a ```MultivaluedMap<String, String>```:
 
 ```java
 @POST
@@ -143,7 +143,7 @@ public String handleSubmit(MultivaluedMap<String, String> formParams) {
 }
 ```
 
-For multipart data (such as file uploads), you can access the parameter as an ```java.io.InputStream```:
+Retrieve multipart data (such as file uploads) using ```java.io.InputStream```:
 
 ```java
 @POST
@@ -154,29 +154,8 @@ public String handleUpload(@FormParam("file") final InputStream file)
 }
 ```
 
-Using an ```InputStream``` is the only consistent cross-platform option for multipart content.
-Unfortunately, ```InputStream``` does not provide full access to multipart headers 
-such as ```Content-Disposition`` for the submitted file name
-or ```Content-Type``` for the submitted file type.
-
-To work around this limitation,
-Apache CXF provides ```org.apache.cxf.jaxrs.ext.multipart.MultipartBody```, 
-Jersey provides ```org.glassfish.jersey.media.multipart```, and
-RESTEasy provides ```org.jboss.resteasy.plugins.providers.multipart.MultipartInput```.
-
-Minijax strives to follow standard Java conventions as much as possible, 
-so we use ```javax.servlet.http.Part``` as the recommended interface.
-
-```java
-@POST
-@Consumes(MediaType.MULTIPART_FORM_DATA)
-public String handleUpload(@FormParam("file") final Part file) {
-    return String.format("Name=%s, type=%s, size=%d",
-            file.getSubmittedFileName(),
-            file.getContentType(),
-            file.getSize());
-}
-```
+For more advanced discussion on cross-platform considerations of multipart form data,
+visit the [Forms](/forms.html) documentation.
 
 Learn More
 ----------

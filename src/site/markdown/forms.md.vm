@@ -1,0 +1,64 @@
+Forms
+=====
+
+There are several options for retrieving form parameters.
+
+For simple forms, the easiest and most standard option is use ```@FormParam``` annotated arguments:
+
+```java
+@POST
+@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+public String handleSubmit(
+        @FormParam("name") String name,
+        @FormParam("email") String email) {
+    return "Hello " + name + " <" + email + ">";
+}
+```
+
+For larger forms, you may want to consume the entire form as a ```MultivaluedMap<String, String>```:
+
+```java
+@POST
+@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+public String handleSubmit(MultivaluedMap<String, String> formParams) {
+    return "Hello " + formParams.getFirst("name");
+}
+```
+
+For multipart data (such as file uploads), you can access the parameter as an ```java.io.InputStream```:
+
+```java
+@POST
+@Consumes(MediaType.MULTIPART_FORM_DATA)
+public String handleUpload(@FormParam("file") final InputStream file)
+        throws IOException {
+    return "File contents: " + IOUtils.toString(file, "UTF-8");
+}
+```
+
+Using an ```InputStream``` is the only consistent cross-platform option for multipart content.
+Unfortunately, ```InputStream``` does not provide full access to multipart headers 
+such as ```Content-Disposition`` for the submitted file name
+or ```Content-Type``` for the submitted file type.
+
+To work around this limitation, JAX-RS implementations typically provide custom classes:
+
+| Implementation | Description                                                           |
+| -------------- | --------------------------------------------------------------------- |
+| Apache CXF     | ```org.apache.cxf.jaxrs.ext.multipart.MultipartBody```                |
+| Jersey         | ```org.glassfish.jersey.media.multipart.FormDataContentDisposition``` |
+| RESTEasy       | ```org.jboss.resteasy.plugins.providers.multipart.MultipartInput```   |
+
+Minijax strives to follow standard Java conventions as much as possible, 
+so we use ```javax.servlet.http.Part``` as the recommended interface.
+
+```java
+@POST
+@Consumes(MediaType.MULTIPART_FORM_DATA)
+public String handleUpload(@FormParam("file") final Part file) {
+    return String.format("Name=%s, type=%s, size=%d",
+            file.getSubmittedFileName(),
+            file.getContentType(),
+            file.getSize());
+}
+```
