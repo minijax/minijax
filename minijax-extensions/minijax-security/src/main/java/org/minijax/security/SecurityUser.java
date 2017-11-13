@@ -2,11 +2,8 @@ package org.minijax.security;
 
 import java.util.Arrays;
 
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
@@ -16,11 +13,10 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.minijax.db.DefaultNamedEntity;
 
 /**
- * The User class represents a web application user.
+ * The SecurityUser class is an abstract base class for "security" entities
+ * that can login, logout, change passwords, etc.
  */
-@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@Cacheable
+@MappedSuperclass
 @XmlAccessorType(XmlAccessType.FIELD)
 @SuppressWarnings("squid:S2160")
 public abstract class SecurityUser extends DefaultNamedEntity {

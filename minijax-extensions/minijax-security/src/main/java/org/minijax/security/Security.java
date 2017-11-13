@@ -267,7 +267,7 @@ public class Security<T extends SecurityUser> implements SecurityContext {
 
         final PasswordChangeRequest pcr = new PasswordChangeRequest();
         pcr.setCode(RandomStringUtils.randomAlphanumeric(32));
-        pcr.setUser(user);
+        pcr.setUserId(user.getId());
         dao.create(pcr);
         return pcr.getCode();
     }
@@ -306,10 +306,15 @@ public class Security<T extends SecurityUser> implements SecurityContext {
             throw new BadRequestException("short");
         }
 
-        pcr.getUser().setPassword(newPassword);
-        dao.update(pcr.getUser());
+        final SecurityUser user = dao.read(userClass, pcr.getUserId());
+        if (user == null) {
+            throw new NotFoundException();
+        }
+
+        user.setPassword(newPassword);
+        dao.update(user);
         dao.purge(pcr);
-        return loginAs(pcr.getUser());
+        return loginAs(user);
     }
 
 
@@ -360,9 +365,14 @@ public class Security<T extends SecurityUser> implements SecurityContext {
             return null;
         }
 
+        final SecurityUser user = dao.read(userClass, apiKey.getUserId());
+        if (user == null) {
+            return null;
+        }
+
         final UserSession apiSession = new UserSession();
         apiSession.setId(null);
-        apiSession.setUser(apiKey.getUser());
+        apiSession.setUser(user);
         return apiSession;
     }
 
@@ -390,12 +400,14 @@ public class Security<T extends SecurityUser> implements SecurityContext {
             return null;
         }
 
-        if (rememberedSession.getUser() == null) {
+        final SecurityUser user = dao.read(userClass, rememberedSession.getUserId());
+        if (user == null) {
             // Invalid user - This can happen on database errors.
             return null;
         }
 
         // Successfully logged in.
+        rememberedSession.setUser(user);
         return rememberedSession;
     }
 

@@ -1,14 +1,13 @@
 package org.minijax.security;
 
+import java.util.UUID;
+
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
-import javax.persistence.ConstraintMode;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -18,6 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.commons.lang3.Validate;
 import org.eclipse.persistence.annotations.CacheIndex;
 import org.minijax.db.DefaultBaseEntity;
+import org.minijax.db.UuidConverter;
 
 /**
  * The ApiKey class represents a single API key for a user.
@@ -31,7 +31,7 @@ import org.minijax.db.DefaultBaseEntity;
 @NamedQuery(
         name = "ApiKey.findByUser",
         query = "SELECT k FROM ApiKey k" +
-                " WHERE k.user.id = :userId" +
+                " WHERE k.userId = :userId" +
                 " AND k.deletedDateTime IS NULL"),
 @NamedQuery(
         name = "ApiKey.findByValue",
@@ -42,9 +42,9 @@ import org.minijax.db.DefaultBaseEntity;
 public class ApiKey extends DefaultBaseEntity {
     private static final long serialVersionUID = 1L;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private SecurityUser user;
+    @Column(columnDefinition = "BINARY(16)")
+    @Convert(converter = UuidConverter.class)
+    private UUID userId;
 
     private String name;
 
@@ -52,12 +52,12 @@ public class ApiKey extends DefaultBaseEntity {
     @CacheIndex
     private String value;
 
-    public SecurityUser getUser() {
-        return user;
+    public UUID getUserId() {
+        return userId;
     }
 
-    public void setUser(final SecurityUser user) {
-        this.user = user;
+    public void setUserId(final UUID userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -78,7 +78,7 @@ public class ApiKey extends DefaultBaseEntity {
 
     @Override
     public void validate() {
-        Validate.notNull(user, "API key user must not be null.");
+        Validate.notNull(userId, "API key user must not be null.");
         Validate.notEmpty(value, "API key value must not be null or empty.");
     }
 }

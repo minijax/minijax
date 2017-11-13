@@ -21,6 +21,7 @@ public class UserSessionTest {
 
         assertEquals(id, s.getId());
         assertEquals(u, s.getUser());
+        assertEquals(u.getId(), s.getUserId());
     }
 
 

@@ -11,8 +11,8 @@ public class PasswordChangeRequestTest {
         final User u = new User();
 
         final PasswordChangeRequest pcr = new PasswordChangeRequest();
-        pcr.setUser(u);
-        assertEquals(u, pcr.getUser());
+        pcr.setUserId(u.getId());
+        assertEquals(u.getId(), pcr.getUserId());
     }
 
 
@@ -20,7 +20,7 @@ public class PasswordChangeRequestTest {
     public void testValidateSuccess() {
         final PasswordChangeRequest pcr = new PasswordChangeRequest();
         pcr.setCode("0123456789012345678901234567890123456789");
-        pcr.setUser(new User());
+        pcr.setUserId(new User().getId());
         pcr.validate();
     }
 

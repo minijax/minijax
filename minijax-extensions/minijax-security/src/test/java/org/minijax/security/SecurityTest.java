@@ -52,14 +52,17 @@ public class SecurityTest {
 
         final ApiKey apiKey = new ApiKey();
         apiKey.setValue("xyz");
-        apiKey.setUser(user);
+        apiKey.setUserId(user.getId());
 
         final String authorization = AuthUtils.create(apiKey.getValue(), "");
 
         final SecurityDao dao = mock(SecurityDao.class);
         when(dao.findApiKeyByValue(eq("xyz"))).thenReturn(apiKey);
+        when(dao.read(eq(User.class), eq(user.getId()))).thenReturn(user);
 
         final Configuration config = mock(Configuration.class);
+        when(config.getProperty(eq(MinijaxProperties.SECURITY_USER_CLASS))).thenReturn(User.class);
+
         final Security<User> security = new Security<>(dao, config, authorization, null);
         security.requireLogin();
         assertTrue(security.isLoggedIn());
@@ -85,7 +88,7 @@ public class SecurityTest {
 
         final ApiKey apiKey = new ApiKey();
         apiKey.setValue("xyz");
-        apiKey.setUser(user);
+        apiKey.setUserId(user.getId());
         apiKey.setDeleted(true);
 
         final String authorization = AuthUtils.create(apiKey.getValue(), "");
@@ -111,8 +114,11 @@ public class SecurityTest {
 
         final SecurityDao dao = mock(SecurityDao.class);
         when(dao.read(eq(UserSession.class), eq(session.getId()))).thenReturn(session);
+        when(dao.read(eq(User.class), eq(user.getId()))).thenReturn(user);
 
         final Configuration config = mock(Configuration.class);
+        when(config.getProperty(eq(MinijaxProperties.SECURITY_USER_CLASS))).thenReturn(User.class);
+
         final Security<User> security = new Security<>(dao, config, null, cookie);
         security.requireLogin();
         security.validateSession(session.getId().toString());
@@ -171,8 +177,11 @@ public class SecurityTest {
 
         final SecurityDao dao = mock(SecurityDao.class);
         when(dao.read(eq(UserSession.class), eq(session.getId()))).thenReturn(session);
+        when(dao.read(eq(User.class), eq(user.getId()))).thenReturn(user);
 
         final Configuration config = mock(Configuration.class);
+        when(config.getProperty(eq(MinijaxProperties.SECURITY_USER_CLASS))).thenReturn(User.class);
+
         final Security<User> security = new Security<>(dao, config, null, cookie);
         security.validateSession("not-the-right-token");
     }
@@ -255,8 +264,11 @@ public class SecurityTest {
 
         final SecurityDao dao = mock(SecurityDao.class);
         when(dao.read(eq(UserSession.class), eq(session.getId()))).thenReturn(session);
+        when(dao.read(eq(User.class), eq(user.getId()))).thenReturn(user);
 
         final Configuration config = mock(Configuration.class);
+        when(config.getProperty(eq(MinijaxProperties.SECURITY_USER_CLASS))).thenReturn(User.class);
+
         final Security<User> security = new Security<>(dao, config, null, cookie);
         final NewCookie newCookie = security.logout();
         assertNotNull(newCookie);
