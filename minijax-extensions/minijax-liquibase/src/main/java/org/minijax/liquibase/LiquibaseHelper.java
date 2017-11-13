@@ -22,9 +22,10 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathException;
-import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.lang3.StringUtils;
@@ -34,7 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -392,18 +393,15 @@ public class LiquibaseHelper {
             factory.setNamespaceAware(true);
 
             final Document doc = factory.newDocumentBuilder().parse(changeLogFile);
-            final XPathExpression expr = XPathFactory.newInstance().newXPath().compile("//@objectQuotingStrategy");
-            final NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+            final XPath xpath = XPathFactory.newInstance().newXPath();
+            removeNodes(doc, xpath, "//@objectQuotingStrategy");
+            removeNodes(doc, xpath, "//text()[normalize-space()='']");
+            doc.normalize();
 
-            for (int i = 0; i < nodes.getLength(); i++) {
-                final Attr attr = (Attr) nodes.item(i);
-                if (attr.getNodeName().equals("objectQuotingStrategy")) {
-                    final Element el = attr.getOwnerElement();
-                    el.removeAttribute(attr.getNodeName());
-                }
-            }
+            final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            transformerFactory.setAttribute("indent-number", 4);
 
-            final Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            final Transformer transformer = transformerFactory.newTransformer();
             transformer.setOutputProperty(OutputKeys.METHOD, "xml");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
@@ -411,6 +409,29 @@ public class LiquibaseHelper {
 
         } catch (final ParserConfigurationException | SAXException | TransformerException | XPathException ex) {
             throw new IOException(ex.getMessage(), ex);
+        }
+    }
+
+
+    /**
+     * Removes all nodes that match the XPath expression.
+     *
+     * @param doc The XML document.
+     * @param xpath The XPath helper.
+     * @param expression The XPath expression.
+     */
+    private static void removeNodes(final Document doc, final XPath xpath, final String expression)
+            throws XPathExpressionException {
+
+        final NodeList nodeList = (NodeList) xpath.evaluate(expression, doc, XPathConstants.NODESET);
+        for (int i = 0; i < nodeList.getLength(); ++i) {
+            final Node node = nodeList.item(i);
+            if (node instanceof Attr) {
+                final Attr attr = (Attr) node;
+                attr.getOwnerElement().removeAttribute(attr.getNodeName());
+            } else {
+                node.getParentNode().removeChild(node);
+            }
         }
     }
 }
