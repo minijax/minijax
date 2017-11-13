@@ -23,8 +23,7 @@ public interface NamedEntity extends BaseEntity, Principal {
 
     default URI getUri() {
         return null;
-    };
-
+    }
 
     /**
      * Sorts a list of ID objects by name (ascending).
