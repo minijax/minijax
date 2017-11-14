@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minijax.json.MinijaxJsonFeature;
+import org.minijax.json.JsonFeature;
 import org.minijax.test.MinijaxTest;
 
 import com.example.HelloJson.Widget;
@@ -13,7 +13,7 @@ public class HelloJsonTest extends MinijaxTest {
 
     @Before
     public void setUp() {
-        register(MinijaxJsonFeature.class);
+        register(JsonFeature.class);
         register(HelloJson.class);
     }
 

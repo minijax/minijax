@@ -12,7 +12,7 @@ public class FeatureTest extends MinijaxTest {
 
     @Before
     public void setUp() {
-        register(MinijaxJsonFeature.class);
+        register(JsonFeature.class);
     }
 
     @Test

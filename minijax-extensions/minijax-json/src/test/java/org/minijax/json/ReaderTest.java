@@ -20,7 +20,7 @@ public class ReaderTest extends MinijaxTest {
 
     @Before
     public void setUp() {
-        register(MinijaxJsonFeature.class);
+        register(JsonFeature.class);
         reader = getServer().get(MinijaxJsonReader.class);
     }
 

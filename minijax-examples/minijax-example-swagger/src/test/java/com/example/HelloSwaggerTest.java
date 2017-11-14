@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minijax.json.MinijaxJsonFeature;
+import org.minijax.json.JsonFeature;
 import org.minijax.test.MinijaxTest;
 
 import io.swagger.models.Path;
@@ -23,7 +23,7 @@ public class HelloSwaggerTest extends MinijaxTest {
     @Before
     public void setUp() {
         register(io.swagger.jaxrs.listing.ApiListingResource.class);
-        register(MinijaxJsonFeature.class);
+        register(JsonFeature.class);
         register(HelloSwagger.class);
     }
 

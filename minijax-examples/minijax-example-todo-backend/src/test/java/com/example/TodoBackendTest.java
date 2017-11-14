@@ -10,7 +10,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 
 import org.junit.*;
-import org.minijax.json.MinijaxJsonFeature;
+import org.minijax.json.JsonFeature;
 import org.minijax.test.MinijaxTest;
 
 import com.example.TodoBackend.Post;
@@ -19,7 +19,7 @@ public class TodoBackendTest extends MinijaxTest {
 
     @Before
     public void setUp() {
-        register(MinijaxJsonFeature.class);
+        register(JsonFeature.class);
         register(TodoBackend.class);
         getServer().allowCors("/");
     }

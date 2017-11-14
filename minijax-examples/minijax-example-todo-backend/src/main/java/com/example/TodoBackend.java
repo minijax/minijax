@@ -10,7 +10,7 @@ import javax.ws.rs.core.*;
 import javax.xml.bind.annotation.*;
 
 import org.minijax.Minijax;
-import org.minijax.json.MinijaxJsonFeature;
+import org.minijax.json.JsonFeature;
 
 @Path("/")
 @Produces(APPLICATION_JSON)
@@ -83,7 +83,7 @@ public class TodoBackend {
 
     public static void main(final String[] args) {
         new Minijax()
-                .register(MinijaxJsonFeature.class)
+                .register(JsonFeature.class)
                 .register(TodoBackend.class)
                 .allowCors("/")
                 .run(8080);

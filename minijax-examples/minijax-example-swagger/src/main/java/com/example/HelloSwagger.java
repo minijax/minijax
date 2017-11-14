@@ -7,7 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.minijax.Minijax;
-import org.minijax.json.MinijaxJsonFeature;
+import org.minijax.json.JsonFeature;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,7 +29,7 @@ public class HelloSwagger {
         new Minijax()
                 .register(io.swagger.jaxrs.listing.ApiListingResource.class)
                 .register(io.swagger.jaxrs.listing.SwaggerSerializers.class)
-                .register(MinijaxJsonFeature.class)
+                .register(JsonFeature.class)
                 .register(HelloSwagger.class)
                 .run(8080);
     }

@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.minijax.Minijax;
-import org.minijax.json.MinijaxJsonFeature;
+import org.minijax.json.JsonFeature;
 
 public class HelloJson {
 
@@ -75,7 +75,7 @@ public class HelloJson {
 
     public static void main(final String[] args) {
         new Minijax()
-                .register(MinijaxJsonFeature.class)
+                .register(JsonFeature.class)
                 .register(HelloJson.class)
                 .run(8080);
     }
