@@ -10,6 +10,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import org.minijax.util.ExceptionUtils;
+import org.minijax.view.View;
 
 @Provider
 @Produces(MediaType.TEXT_HTML)
@@ -29,7 +30,7 @@ public class MinijaxMustacheExceptionMapper implements ExceptionMapper<Exception
 
         final int status = webAppException.getResponse().getStatus();
         final View view = new View("error");
-        view.getProps().put("message", message);
+        view.getModel().put("message", message);
         return Response.status(status).type(MediaType.TEXT_HTML_TYPE).entity(view).build();
     }
 }

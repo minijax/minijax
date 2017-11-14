@@ -6,6 +6,7 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
 
 import org.junit.Test;
+import org.minijax.view.View;
 
 public class ExceptionMapperTest {
 

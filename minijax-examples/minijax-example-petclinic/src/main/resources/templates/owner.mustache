@@ -1,7 +1,7 @@
 {{<master}}
 {{$title}}Owner{{/title}}
 {{$content}}
-<h2>{{props.owner.name}}</h2>
+<h2>{{owner.name}}</h2>
 <dl>
     <dt>Name</dt>
     <dd>Value</dd>
@@ -10,20 +10,20 @@
   <tbody>
     <tr>
       <td>Address</td>
-      <td>{{props.owner.address}}</td>
+      <td>{{owner.address}}</td>
     </tr>
     <tr>
       <td>City</td>
-      <td>{{props.owner.city}}</td>
+      <td>{{owner.city}}</td>
     </tr>
     <tr>
       <td>Telephone</td>
-      <td>{{props.owner.telephone}}</td>
+      <td>{{owner.telephone}}</td>
     </tr>
   </tbody>
 </table>
 
-<a href="{{props.owner.url}}/edit">Edit Owner</a>
+<a href="{{owner.url}}/edit">Edit Owner</a>
 
 <hr>
 
@@ -31,7 +31,7 @@
 
 <table class="table-border">
   <tbody>
-{{#props.owner.pets}}
+{{#owner.pets}}
     <tr>
       <td>
         <table>
@@ -51,11 +51,11 @@
         </table>
       </td>
     </tr>
-{{/props.owner.pets}}
+{{/owner.pets}}
   </tbody>
 </table>
 
-<a href="{{props.owner.url}}/edit">New pet</a>
+<a href="{{owner.url}}/edit">New pet</a>
 
 {{/content}}
 {{/master}}

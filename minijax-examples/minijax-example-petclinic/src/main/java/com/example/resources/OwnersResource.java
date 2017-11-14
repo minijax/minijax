@@ -17,7 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-import org.minijax.mustache.View;
+import org.minijax.view.View;
 
 import com.example.model.Owner;
 import com.example.services.Dao;
@@ -38,7 +38,7 @@ public class OwnersResource {
     @GET
     public View getSearchResults(@QueryParam("q") final String q) {
         final View page = new View("owners");
-        page.getProps().put("owners", dao.findOwners(q));
+        page.getModel().put("owners", dao.findOwners(q));
         return page;
     }
 
@@ -75,7 +75,7 @@ public class OwnersResource {
         }
 
         final View page = new View("owner");
-        page.getProps().put("owner", owner);
+        page.getModel().put("owner", owner);
         return page;
     }
 
@@ -88,7 +88,7 @@ public class OwnersResource {
         }
 
         final View page = new View("editowner");
-        page.getProps().put("owner", owner);
+        page.getModel().put("owner", owner);
         return page;
     }
 

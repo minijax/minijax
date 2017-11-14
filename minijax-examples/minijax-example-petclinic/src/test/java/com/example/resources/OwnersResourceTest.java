@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minijax.mustache.View;
+import org.minijax.view.View;
 
 import com.example.PetClinicTest;
 import com.example.model.Owner;
@@ -43,7 +43,7 @@ public class OwnersResourceTest extends PetClinicTest {
         assertEquals("owners", page.getTemplateName());
 
         @SuppressWarnings("unchecked")
-        final List<Owner> vets = (List<Owner>) page.getProps().get("owners");
+        final List<Owner> vets = (List<Owner>) page.getModel().get("owners");
         assertTrue(vets.size() >= 10);
     }
 
@@ -57,7 +57,7 @@ public class OwnersResourceTest extends PetClinicTest {
         assertEquals("owners", page.getTemplateName());
 
         @SuppressWarnings("unchecked")
-        final List<Owner> vets = (List<Owner>) page.getProps().get("owners");
+        final List<Owner> vets = (List<Owner>) page.getModel().get("owners");
         assertEquals(1, vets.size());
         assertEquals("George Franklin", vets.get(0).getName());
     }
@@ -84,7 +84,7 @@ public class OwnersResourceTest extends PetClinicTest {
         assertEquals(200, r3.getStatus());
 
         final View view = (View) r3.getEntity();
-        final Owner owner = (Owner) view.getProps().get("owner");
+        final Owner owner = (Owner) view.getModel().get("owner");
         assertEquals("Barack Obama", owner.getName());
     }
 
@@ -119,7 +119,7 @@ public class OwnersResourceTest extends PetClinicTest {
         assertEquals(200, r3.getStatus());
 
         final View view = (View) r3.getEntity();
-        final Owner owner = (Owner) view.getProps().get("owner");
+        final Owner owner = (Owner) view.getModel().get("owner");
         assertEquals("New Address", owner.getAddress());
     }
 

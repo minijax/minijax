@@ -6,7 +6,7 @@ import javax.ws.rs.core.Response;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minijax.mustache.View;
+import org.minijax.view.View;
 
 import com.example.PetClinicTest;
 

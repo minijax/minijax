@@ -5,9 +5,10 @@ import static org.junit.Assert.*;
 import javax.ws.rs.core.Response;
 
 import org.junit.*;
-import org.minijax.mustache.*;
+import org.minijax.mustache.MustacheFeature;
 import org.minijax.security.*;
 import org.minijax.test.MinijaxTest;
+import org.minijax.view.*;
 
 import minitwit.Minitwit.Dao;
 import minitwit.Minitwit.User;
@@ -19,7 +20,7 @@ public class MinitwitTest extends MinijaxTest {
         getServer()
                 .property("javax.persistence.jdbc.url", "jdbc:h2:mem:test")
                 .registerPersistence()
-                .register(MinijaxMustacheFeature.class)
+                .register(MustacheFeature.class)
                 .register(new SecurityFeature(User.class))
                 .register(Dao.class, SecurityDao.class)
                 .register(Minitwit.class);
@@ -42,6 +43,6 @@ public class MinitwitTest extends MinijaxTest {
         final View view = (View) response.getEntity();
         assertNotNull(view);
         assertEquals("timeline", view.getTemplateName());
-        assertNotNull(view.getProps().get("messages"));
+        assertNotNull(view.getModel().get("messages"));
     }
 }

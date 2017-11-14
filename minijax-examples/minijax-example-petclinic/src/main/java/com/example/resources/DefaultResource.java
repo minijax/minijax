@@ -5,7 +5,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.minijax.mustache.View;
+import org.minijax.view.View;
 
 @Path("/")
 @Produces(MediaType.TEXT_HTML)

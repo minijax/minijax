@@ -13,6 +13,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 
+import org.minijax.view.View;
+
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 
@@ -42,7 +44,7 @@ public class MinijaxMustacheWriter implements MessageBodyWriter<View> {
         final Mustache mustache = mf.compile("templates/" + page.getTemplateName() + ".mustache");
 
         try (final OutputStreamWriter writer = new OutputStreamWriter(entityStream)) {
-            mustache.execute(writer, page).flush();
+            mustache.execute(writer, page.getModel()).flush();
         }
     }
 }

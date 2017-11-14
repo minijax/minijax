@@ -14,8 +14,9 @@ import javax.ws.rs.core.*;
 
 import org.minijax.Minijax;
 import org.minijax.db.*;
-import org.minijax.mustache.*;
+import org.minijax.mustache.MustacheFeature;
 import org.minijax.security.*;
+import org.minijax.view.View;
 
 @Path("/")
 @Produces(MediaType.TEXT_HTML)
@@ -55,10 +56,10 @@ public class Minitwit {
     public Response render(String templateName, Map<String, Object> properties) {
         View view = new View(templateName);
         if (currentUser != null) {
-            view.getProps().put("user", currentUser);
-            view.getProps().put("csrf", security.getSessionToken());
+            view.getModel().put("user", currentUser);
+            view.getModel().put("csrf", security.getSessionToken());
         }
-        view.getProps().putAll(properties);
+        view.getModel().putAll(properties);
         return Response.ok(view, MediaType.TEXT_HTML).build();
     }
 
@@ -133,7 +134,7 @@ public class Minitwit {
             return Response.seeOther(URI.create("/")).cookie(cookie).build();
         } catch (BadRequestException ex) {
             View view = new View("login");
-            view.getProps().put("error", ex.getMessage());
+            view.getModel().put("error", ex.getMessage());
             return Response.ok(view, MediaType.TEXT_HTML).build();
         }
     }
@@ -175,7 +176,7 @@ public class Minitwit {
         new Minijax()
                 .addStaticDirectory("static")
                 .registerPersistence()
-                .register(MinijaxMustacheFeature.class)
+                .register(MustacheFeature.class)
                 .register(new SecurityFeature(User.class))
                 .register(Dao.class, SecurityDao.class)
                 .register(Minitwit.class)

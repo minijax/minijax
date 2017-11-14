@@ -13,23 +13,23 @@
         <nav>
           <ul class="nav">
             <li class="nav-brand"><strong><a class="nav-link" href="/">Minitwit</a></strong></li>
-{{#props.user}}
+{{#user}}
             <li class="nav-item"><a class="nav-link" href="/public">Public</a></li>
             <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
-{{/props.user}}
-{{^props.user}}
+{{/user}}
+{{^user}}
             <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
             <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
-{{/props.user}}
+{{/user}}
           </ul>
         </nav>
       </header>
       <main role="main">
-{{#props.error}}
+{{#error}}
         <div class="alert alert-danger" role="alert">
-          {{props.error}}
+          {{error}}
         </div>
-{{/props.error}}
+{{/error}}
 {{$content}}
           <p>Default content.</p>
 {{/content}}

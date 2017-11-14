@@ -6,7 +6,7 @@ import javax.ws.rs.core.FeatureContext;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.MustacheFactory;
 
-public class MinijaxMustacheFeature implements Feature {
+public class MustacheFeature implements Feature {
 
     @Override
     public boolean configure(final FeatureContext context) {

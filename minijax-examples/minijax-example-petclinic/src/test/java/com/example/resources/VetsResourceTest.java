@@ -8,7 +8,7 @@ import javax.ws.rs.core.Response;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minijax.mustache.View;
+import org.minijax.view.View;
 
 import com.example.PetClinicTest;
 import com.example.model.Vet;
@@ -30,7 +30,7 @@ public class VetsResourceTest extends PetClinicTest {
         assertEquals("vets", page.getTemplateName());
 
         @SuppressWarnings("unchecked")
-        final List<Vet> vets = (List<Vet>) page.getProps().get("vets");
+        final List<Vet> vets = (List<Vet>) page.getModel().get("vets");
         assertEquals(6, vets.size());
     }
 }

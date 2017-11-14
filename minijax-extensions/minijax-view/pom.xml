@@ -6,16 +6,11 @@
         <artifactId>minijax-extensions</artifactId>
         <version>0.0.26-SNAPSHOT</version>
     </parent>
-    <artifactId>minijax-mustache</artifactId>
+    <artifactId>minijax-view</artifactId>
     <packaging>jar</packaging>
-    <name>minijax-mustache</name>
-    <description>Minijax Mustache features</description>
+    <name>minijax-view</name>
+    <description>Minijax view model</description>
     <dependencies>
-        <dependency>
-            <groupId>com.github.spullara.mustache.java</groupId>
-            <artifactId>compiler</artifactId>
-            <version>0.9.5</version>
-        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -27,11 +22,6 @@
             <artifactId>minijax-core</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.minijax</groupId>
-            <artifactId>minijax-view</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

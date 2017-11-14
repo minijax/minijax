@@ -6,7 +6,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.minijax.mustache.View;
+import org.minijax.view.View;
 
 import com.example.model.Vet;
 import com.example.services.Dao;
@@ -21,7 +21,7 @@ public class VetsResource {
     @GET
     public View getVets() {
         final View page = new View("vets");
-        page.getProps().put("vets", dao.readPage(Vet.class, 0, 1000));
+        page.getModel().put("vets", dao.readPage(Vet.class, 0, 1000));
         return page;
     }
 }

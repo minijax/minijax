@@ -2,7 +2,7 @@ package com.example;
 
 import org.minijax.Minijax;
 import org.minijax.MinijaxProperties;
-import org.minijax.mustache.MinijaxMustacheFeature;
+import org.minijax.mustache.MustacheFeature;
 
 class PetClinicApp {
 
@@ -11,7 +11,7 @@ class PetClinicApp {
                 .property(MinijaxProperties.DB_DRIVER, "org.h2.Driver")
                 .property(MinijaxProperties.DB_URL, "jdbc:h2:~/.minijax-petclinic/database")
                 .registerPersistence()
-                .register(MinijaxMustacheFeature.class)
+                .register(MustacheFeature.class)
                 .addStaticDirectory("static")
                 .packages("com.example")
                 .run(8080);

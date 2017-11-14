@@ -10,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 import org.junit.Before;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
+import org.minijax.view.View;
 
 import com.github.mustachejava.MustacheNotFoundException;
 
@@ -18,7 +19,7 @@ public class WriterTest extends MinijaxTest {
 
     @Before
     public void setUp() {
-        register(MinijaxMustacheFeature.class);
+        register(MustacheFeature.class);
         writer = getServer().get(MinijaxMustacheWriter.class);
     }
 
@@ -32,7 +33,7 @@ public class WriterTest extends MinijaxTest {
     @Test
     public void testWriteMap() throws IOException {
         final View view = new View("hello");
-        view.getProps().put("key", "value");
+        view.getModel().put("key", "value");
 
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         writer.writeTo(view, View.class, null, null, MediaType.TEXT_HTML_TYPE, null, outputStream);
@@ -46,7 +47,7 @@ public class WriterTest extends MinijaxTest {
         widget.value = "foobar";
 
         final View view = new View("widget");
-        view.getProps().put("widget", widget);
+        view.getModel().put("widget", widget);
 
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         writer.writeTo(view, View.class, null, null, MediaType.TEXT_HTML_TYPE, null, outputStream);
