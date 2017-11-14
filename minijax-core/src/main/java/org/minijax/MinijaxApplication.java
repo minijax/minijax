@@ -452,7 +452,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     }
 
 
-    private Object invoke(final MinijaxRequestContext context, final Method method) throws IOException {
+    private Object invoke(final MinijaxRequestContext context, final Method method) throws Exception {
         final Object instance;
         if (Modifier.isStatic(method.getModifiers())) {
             instance = null;
@@ -463,7 +463,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         try {
             return method.invoke(instance, getArgs(context, method));
         } catch (final InvocationTargetException ex) {
-            throw ExceptionUtils.toWebAppException(ex.getCause());
+            throw (Exception) ex.getCause();
         } catch (IllegalAccessException | IllegalArgumentException ex) {
             throw new WebApplicationException(ex.getMessage(), ex);
         }

@@ -1,6 +1,7 @@
 package org.minijax;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -113,7 +114,11 @@ public class MinijaxProviders implements Providers {
     @SuppressWarnings("unchecked")
     public <T extends Throwable> ExceptionMapper<T> getExceptionMapper(final Class<T> type, final MediaType mediaType) {
         for (final Class<? extends ExceptionMapper<?>> exceptionMapperClass : exceptionMappers.get(mediaType)) {
-            return (ExceptionMapper<T>) application.get(exceptionMapperClass);
+            final ParameterizedType parameterizedType = (ParameterizedType) exceptionMapperClass.getGenericInterfaces()[0];
+            final Class<? extends Exception> exClass = (Class<? extends Exception>) parameterizedType.getActualTypeArguments()[0];
+            if (exClass.isAssignableFrom(type)) {
+                return (ExceptionMapper<T>) application.get(exceptionMapperClass);
+            }
         }
         return null;
     }
