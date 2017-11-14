@@ -194,7 +194,12 @@ public class LiquibaseHelper {
      * Private helpers
      */
 
-    private Database getTargetDatabase() throws DatabaseException, SQLException {
+    private Database getTargetDatabase() throws LiquibaseException, SQLException {
+        try {
+            Class.forName(driver);
+        } catch (final ClassNotFoundException ex) {
+            throw new LiquibaseException(ex.getMessage(), ex);
+        }
         return getLiquibaseDatabase(getConnection(url, username, password));
     }
 
