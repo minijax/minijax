@@ -16,7 +16,7 @@ import javax.persistence.PreUpdate;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
-import org.minijax.json.MinijaxObjectMapper;
+import org.minijax.json.Json;
 import org.minijax.util.IdUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -226,7 +226,7 @@ public abstract class DefaultBaseEntity implements BaseEntity {
 
 
     public String toJson() throws IOException {
-        return MinijaxObjectMapper.getInstance().writeValueAsString(this);
+        return Json.getObjectMapper().writeValueAsString(this);
     }
 
 
@@ -285,6 +285,6 @@ public abstract class DefaultBaseEntity implements BaseEntity {
 
 
     public static <T extends DefaultBaseEntity> T fromJson(final Class<T> c, final String str) throws IOException {
-        return MinijaxObjectMapper.getInstance().readValue(str, c);
+        return Json.getObjectMapper().readValue(str, c);
     }
 }

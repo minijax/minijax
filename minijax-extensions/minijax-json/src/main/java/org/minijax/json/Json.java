@@ -7,14 +7,14 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
-public class MinijaxObjectMapper {
+public class Json {
     private static ObjectMapper instance;
 
-    MinijaxObjectMapper() {
+    Json() {
         throw new UnsupportedOperationException();
     }
 
-    public static ObjectMapper getInstance() {
+    public static ObjectMapper getObjectMapper() {
         if (instance == null) {
             instance = new ObjectMapper();
             instance.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);

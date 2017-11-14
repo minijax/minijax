@@ -19,7 +19,7 @@ public class DateTimeTest {
 
     @Before
     public void setUp() {
-        mapper = MinijaxObjectMapper.getInstance();
+        mapper = Json.getObjectMapper();
     }
 
     @Test

@@ -7,7 +7,7 @@ public class JsonFeature implements Feature {
 
     @Override
     public boolean configure(final FeatureContext context) {
-        context.register(MinijaxObjectMapper.getInstance());
+        context.register(Json.getObjectMapper());
         context.register(MinijaxJsonReader.class);
         context.register(MinijaxJsonWriter.class);
         context.register(MinijaxJsonExceptionMapper.class);

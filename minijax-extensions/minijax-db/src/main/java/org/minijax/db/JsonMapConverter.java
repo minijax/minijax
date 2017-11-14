@@ -7,7 +7,7 @@ import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 import org.minijax.MinijaxException;
-import org.minijax.json.MinijaxObjectMapper;
+import org.minijax.json.Json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -23,7 +23,7 @@ public class JsonMapConverter implements AttributeConverter<Map<String, Object>,
             return null;
         }
         try {
-            return MinijaxObjectMapper.getInstance().writeValueAsString(map);
+            return Json.getObjectMapper().writeValueAsString(map);
         } catch (final JsonProcessingException ex) {
             throw new MinijaxException(ex.getMessage(), ex);
         }
@@ -36,7 +36,7 @@ public class JsonMapConverter implements AttributeConverter<Map<String, Object>,
             return null;
         }
         try {
-            return MinijaxObjectMapper.getInstance().readValue(str, Map.class);
+            return Json.getObjectMapper().readValue(str, Map.class);
         } catch (final IOException ex) {
             throw new MinijaxException(ex.getMessage(), ex);
         }
