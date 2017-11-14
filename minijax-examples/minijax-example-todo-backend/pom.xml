@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.minijax</groupId>
         <artifactId>minijax-examples</artifactId>
-        <version>0.0.26-SNAPSHOT</version>
+        <version>0.0.26</version>
     </parent>
     <artifactId>minijax-example-todo-backend</artifactId>
     <packaging>jar</packaging>
