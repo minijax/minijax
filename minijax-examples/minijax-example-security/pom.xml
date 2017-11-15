@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.minijax</groupId>
         <artifactId>minijax-examples</artifactId>
-        <version>0.0.28</version>
+        <version>0.0.29-SNAPSHOT</version>
     </parent>
     <artifactId>minijax-example-security</artifactId>
     <packaging>jar</packaging>
