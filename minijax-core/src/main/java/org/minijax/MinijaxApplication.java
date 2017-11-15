@@ -574,9 +574,6 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         final MediaType mediaType = response.getMediaType();
         if (mediaType != null) {
             servletResponse.setContentType(mediaType.toString());
-            if (!mediaType.getParameters().containsKey(MediaType.CHARSET_PARAMETER)) {
-                servletResponse.setCharacterEncoding("UTF-8");
-            }
         }
 
         final Object obj = response.getEntity();
