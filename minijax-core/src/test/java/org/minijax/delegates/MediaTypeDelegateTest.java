@@ -60,6 +60,6 @@ public class MediaTypeDelegateTest {
         final Map<String, String> params = new HashMap<>();
         params.put("c", "d");
         final MediaType t = new MediaType("a", "b", params);
-        assertEquals("a/b; c=d", d.toString(t));
+        assertEquals("a/b;c=d", d.toString(t));
     }
 }

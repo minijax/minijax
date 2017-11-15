@@ -49,16 +49,18 @@ public class MockHttpServletResponseTest {
         assertEquals(404, r.getStatus());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetCharacterEncoding() {
         final MockHttpServletResponse r = new MockHttpServletResponse();
-        r.getCharacterEncoding();
+        assertEquals(null, r.getCharacterEncoding());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSetCharacterEncoding() {
         final MockHttpServletResponse r = new MockHttpServletResponse();
-        r.setCharacterEncoding(null);
+        r.setCharacterEncoding("UTF-8");
+        assertEquals("text/html;charset=UTF-8", r.getContentType());
+        assertEquals("UTF-8", r.getCharacterEncoding());
     }
 
     @Test(expected = UnsupportedOperationException.class)

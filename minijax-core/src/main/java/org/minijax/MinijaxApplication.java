@@ -570,9 +570,13 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         if (context.getMethod().equals("OPTIONS")) {
             return;
         }
+
         final MediaType mediaType = response.getMediaType();
         if (mediaType != null) {
             servletResponse.setContentType(mediaType.toString());
+            if (!mediaType.getParameters().containsKey(MediaType.CHARSET_PARAMETER)) {
+                servletResponse.setCharacterEncoding("UTF-8");
+            }
         }
 
         final Object obj = response.getEntity();
@@ -581,7 +585,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         }
 
         if (obj instanceof String) {
-            servletResponse.getWriter().println(obj.toString());
+            servletResponse.getWriter().write((String) obj);
             return;
         }
 

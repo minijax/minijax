@@ -5,11 +5,14 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -129,12 +132,37 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
     @Override
     public String getCharacterEncoding() {
-        throw new UnsupportedOperationException();
+        final MediaType mediaType = getMediaType();
+        return mediaType == null ? null : mediaType.getParameters().get(MediaType.CHARSET_PARAMETER);
     }
 
     @Override
     public void setCharacterEncoding(final String charset) {
-        throw new UnsupportedOperationException();
+        final String type;
+        final String subType;
+        final Map<String, String> parameters;
+
+        final MediaType prevMediaType = getMediaType();
+        if (prevMediaType != null) {
+            type = prevMediaType.getType();
+            subType = prevMediaType.getSubtype();
+            parameters = new HashMap<>(prevMediaType.getParameters());
+        } else {
+            type = "text";
+            subType = "html";
+            parameters = new HashMap<>();
+        }
+
+        parameters.put(MediaType.CHARSET_PARAMETER, charset);
+        setContentType(new MediaType(type, subType, parameters).toString());
+    }
+
+    private MediaType getMediaType() {
+        final List<String> contentType = headers.get("Content-Type");
+        if (contentType == null || contentType.isEmpty()) {
+            return null;
+        }
+        return MediaType.valueOf(contentType.get(0));
     }
 
     @Override
