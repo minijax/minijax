@@ -41,6 +41,14 @@
         <tag>HEAD</tag>
         <url>https://github.com/minijax/minijax</url>
     </scm>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/minijax/minijax/issues</url>
+    </issueManagement>
+    <ciManagement>
+        <system>Travis CI</system>
+        <url>https://travis-ci.org/minijax/minijax</url>
+    </ciManagement>
     <distributionManagement>
         <repository>
             <id>ossrh</id>
