@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.minijax</groupId>
     <artifactId>minijax</artifactId>
-    <version>0.0.28-SNAPSHOT</version>
+    <version>0.0.28</version>
     <packaging>pom</packaging>
     <name>minijax</name>
     <description>Minijax - Lightweight JAX-RS and JSR-330</description>
@@ -38,7 +38,7 @@
     <scm>
         <connection>scm:git:git@github.com:minijax/minijax.git</connection>
         <developerConnection>scm:git:git@github.com:minijax/minijax.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>minijax-0.0.28</tag>
         <url>https://github.com/minijax/minijax</url>
     </scm>
     <issueManagement>
