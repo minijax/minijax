@@ -53,7 +53,7 @@ public class ServletTest extends MinijaxTest {
         getServer().getDefaultApplication().handle(context, servletResponse);
 
         assertEquals(200, servletResponse.getStatus());
-        assertEquals("text/plain;charset=UTF-8", servletResponse.getContentType());
+        assertEquals("text/plain", servletResponse.getContentType());
         assertEquals("Hello world!", servletResponse.getOutput().trim());
     }
 
