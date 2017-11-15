@@ -306,15 +306,15 @@ public class Security<T extends SecurityUser> implements SecurityContext {
             throw new BadRequestException("short");
         }
 
-        final SecurityUser user = dao.read(userClass, pcr.getUserId());
-        if (user == null) {
+        final SecurityUser resetUser = dao.read(userClass, pcr.getUserId());
+        if (resetUser == null) {
             throw new NotFoundException();
         }
 
-        user.setPassword(newPassword);
-        dao.update(user);
+        resetUser.setPassword(newPassword);
+        dao.update(resetUser);
         dao.purge(pcr);
-        return loginAs(user);
+        return loginAs(resetUser);
     }
 
 
@@ -365,14 +365,14 @@ public class Security<T extends SecurityUser> implements SecurityContext {
             return null;
         }
 
-        final SecurityUser user = dao.read(userClass, apiKey.getUserId());
-        if (user == null) {
+        final SecurityUser apiUser = dao.read(userClass, apiKey.getUserId());
+        if (apiUser == null) {
             return null;
         }
 
         final UserSession apiSession = new UserSession();
         apiSession.setId(null);
-        apiSession.setUser(user);
+        apiSession.setUser(apiUser);
         return apiSession;
     }
 
@@ -400,14 +400,14 @@ public class Security<T extends SecurityUser> implements SecurityContext {
             return null;
         }
 
-        final SecurityUser user = dao.read(userClass, rememberedSession.getUserId());
-        if (user == null) {
+        final SecurityUser sessionUser = dao.read(userClass, rememberedSession.getUserId());
+        if (sessionUser == null) {
             // Invalid user - This can happen on database errors.
             return null;
         }
 
         // Successfully logged in.
-        rememberedSession.setUser(user);
+        rememberedSession.setUser(sessionUser);
         return rememberedSession;
     }
 

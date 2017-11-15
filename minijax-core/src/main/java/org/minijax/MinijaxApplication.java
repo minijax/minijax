@@ -452,7 +452,9 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     }
 
 
-    private Object invoke(final MinijaxRequestContext context, final Method method) throws Exception {
+    private Object invoke(final MinijaxRequestContext context, final Method method)
+            throws Exception { // NOSONAR
+
         final Object instance;
         if (Modifier.isStatic(method.getModifiers())) {
             instance = null;

@@ -25,7 +25,7 @@ public class Minitwit {
     @Entity(name = "User")
     public static class User extends SecurityUser {
         private static final long serialVersionUID = 1L;
-        @OneToMany Set<User> following = new HashSet<>();
+        @OneToMany private Set<User> following = new HashSet<>();
 
         public String gravatarUrl() throws IOException {
             return String.format(
