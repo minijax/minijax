@@ -72,12 +72,18 @@ public class Minijax {
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
+    public Minijax properties(final Properties props) {
+        properties.putAll((Map) props);
+        return this;
+    }
+
+
     public Minijax properties(final File file) throws IOException {
         final Properties props = new Properties();
         try (final FileReader r = new FileReader(file)) {
             props.load(r);
         }
-        return properties((Map) props);
+        return properties(props);
     }
 
 
@@ -199,6 +205,11 @@ public class Minijax {
     public Minijax defaultCacheControl(final CacheControl defaultCacheControl) {
         defaultApplication.register(new MinijaxCacheControlFilter(defaultCacheControl));
         return this;
+    }
+
+
+    public void run() {
+        run(Integer.parseInt((String) properties.getOrDefault("org.minijax.port", "8080")));
     }
 
 

@@ -62,6 +62,23 @@ public class ServerTest {
 
 
     @Test
+    public void testRunDefaultPort() {
+        final MockServer server = new MockServer();
+
+        final Minijax minijax = new Minijax() {
+            @Override
+            protected Server createServer() {
+                return server;
+            }
+        };
+
+        minijax.run();
+
+        assertEquals(8080, ((ServerConnector) server.connectors[0]).getPort());
+    }
+
+
+    @Test
     public void testStaticFile() {
         final MockServer server = new MockServer();
 
