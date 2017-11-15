@@ -59,8 +59,7 @@ public class RolesAllowedTest extends MinijaxTest {
         resetServer();
         getServer()
                 .registerPersistence()
-                .register(new SecurityFeature(User.class))
-                .register(Dao.class, SecurityDao.class)
+                .register(new SecurityFeature(User.class, Dao.class))
                 .register(RolesAllowedTest.class);
 
         try (final MinijaxRequestContext ctx = createRequestContext()) {

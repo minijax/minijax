@@ -6,12 +6,11 @@ import javax.ws.rs.core.Response;
 
 import org.junit.*;
 import org.minijax.mustache.MustacheFeature;
-import org.minijax.security.*;
+import org.minijax.security.SecurityFeature;
 import org.minijax.test.MinijaxTest;
-import org.minijax.view.*;
+import org.minijax.view.View;
 
-import minitwit.Minitwit.Dao;
-import minitwit.Minitwit.User;
+import minitwit.Minitwit.*;
 
 public class MinitwitTest extends MinijaxTest {
 
@@ -21,8 +20,7 @@ public class MinitwitTest extends MinijaxTest {
                 .property("javax.persistence.jdbc.url", "jdbc:h2:mem:test")
                 .registerPersistence()
                 .register(MustacheFeature.class)
-                .register(new SecurityFeature(User.class))
-                .register(Dao.class, SecurityDao.class)
+                .register(new SecurityFeature(User.class, Dao.class))
                 .register(Minitwit.class);
     }
 

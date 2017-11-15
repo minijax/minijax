@@ -177,8 +177,7 @@ public class Minitwit {
                 .addStaticDirectory("static")
                 .registerPersistence()
                 .register(MustacheFeature.class)
-                .register(new SecurityFeature(User.class))
-                .register(Dao.class, SecurityDao.class)
+                .register(new SecurityFeature(User.class, Dao.class))
                 .register(Minitwit.class)
                 .run(8080);
     }
