@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import javax.ws.rs.core.Response;
 
 import org.junit.*;
+import org.minijax.db.PersistenceFeature;
 import org.minijax.mustache.MustacheFeature;
 import org.minijax.security.SecurityFeature;
 import org.minijax.test.MinijaxTest;
@@ -18,7 +19,7 @@ public class MinitwitTest extends MinijaxTest {
     public static void setUpMinitwit() {
         getServer()
                 .property("javax.persistence.jdbc.url", "jdbc:h2:mem:test")
-                .registerPersistence()
+                .register(PersistenceFeature.class)
                 .register(MustacheFeature.class)
                 .register(new SecurityFeature(User.class, Dao.class))
                 .register(Minitwit.class);

@@ -175,7 +175,7 @@ public class Minitwit {
     public static void main(String[] args) {
         new Minijax()
                 .addStaticDirectory("static")
-                .registerPersistence()
+                .register(PersistenceFeature.class)
                 .register(MustacheFeature.class)
                 .register(new SecurityFeature(User.class, Dao.class))
                 .register(Minitwit.class)

@@ -157,12 +157,6 @@ public class Minijax {
     }
 
 
-    public Minijax registerPersistence() {
-        injector.registerPersistence();
-        return this;
-    }
-
-
     public Minijax packages(final String... packageNames) {
         defaultApplication.packages(packageNames);
         return this;

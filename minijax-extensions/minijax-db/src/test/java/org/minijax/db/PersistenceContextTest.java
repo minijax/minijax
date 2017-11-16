@@ -41,7 +41,7 @@ public class PersistenceContextTest {
                 .property(JDBC_USER, "")
                 .property(JDBC_PASSWORD, "")
                 .property(SCHEMA_GENERATION_DATABASE_ACTION, "drop-and-create")
-                .registerPersistence()
+                .register(PersistenceFeature.class)
                 .register(PersistenceContextDao.class);
 
         final MinijaxApplication application = container.getDefaultApplication();

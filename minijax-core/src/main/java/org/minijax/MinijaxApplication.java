@@ -47,6 +47,7 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.ParamConverter;
 
+import org.minijax.cdi.MinijaxInjector;
 import org.minijax.util.ClassPathScanner;
 import org.minijax.util.ExceptionUtils;
 import org.minijax.util.IOUtils;
@@ -77,6 +78,10 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         requestFilters = new ArrayList<>();
         responseFilters = new ArrayList<>();
         providers = new MinijaxProviders(this);
+    }
+
+    public MinijaxInjector getInjector() {
+        return container.getInjector();
     }
 
     public String getPath() {
@@ -140,12 +145,12 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
     @Override
     public Set<Object> getInstances() {
-        return container.getInjector().getSingletons();
+        return getInjector().getSingletons();
     }
 
     @Override
     public Set<Object> getSingletons() {
-        return container.getInjector().getSingletons();
+        return getInjector().getSingletons();
     }
 
     public List<Class<?>> getWebSockets() {
@@ -176,7 +181,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     @Override
     public MinijaxApplication register(final Class<?> componentClass, final Class<?>... contracts) {
         for (final Class<?> contract : contracts) {
-            container.getInjector().register(componentClass, contract);
+            getInjector().register(componentClass, contract);
         }
         registerImpl(componentClass);
         return this;
@@ -186,7 +191,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     @Override
     public MinijaxApplication register(final Class<?> componentClass, final Map<Class<?>, Integer> contracts) {
         for (final Class<?> contract : contracts.keySet()) {
-            container.getInjector().register(componentClass, contract);
+            getInjector().register(componentClass, contract);
         }
         registerImpl(componentClass);
         return this;
@@ -208,7 +213,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     @Override
     public MinijaxApplication register(final Object component, final Class<?>... contracts) {
         for (final Class<?> contract : contracts) {
-            container.getInjector().register(component, contract);
+            getInjector().register(component, contract);
         }
         registerImpl(component.getClass());
         return this;
@@ -218,7 +223,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     @Override
     public MinijaxApplication register(final Object component, final Map<Class<?>, Integer> contracts) {
         for (final Class<?> contract : contracts.keySet()) {
-            container.getInjector().register(component, contract);
+            getInjector().register(component, contract);
         }
         registerImpl(component.getClass());
         return this;
@@ -603,7 +608,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
 
     public <T> T get(final Class<T> c) {
-        return container.getInjector().get(c);
+        return getInjector().get(c);
     }
 
 
@@ -616,7 +621,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
      * @return The resource instance.
      */
     private <T> T get(final Class<T> c, final Annotation[] annotations) {
-        return container.getInjector().get(c, annotations);
+        return getInjector().get(c, annotations);
     }
 
 

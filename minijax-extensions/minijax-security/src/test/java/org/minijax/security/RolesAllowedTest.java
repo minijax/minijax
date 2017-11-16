@@ -16,6 +16,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.db.DefaultBaseDao;
+import org.minijax.db.PersistenceFeature;
 import org.minijax.test.MinijaxTest;
 
 public class RolesAllowedTest extends MinijaxTest {
@@ -58,7 +59,7 @@ public class RolesAllowedTest extends MinijaxTest {
     public static void setUpSecurityTest() throws IOException {
         resetServer();
         getServer()
-                .registerPersistence()
+                .register(PersistenceFeature.class)
                 .register(new SecurityFeature(User.class, Dao.class))
                 .register(RolesAllowedTest.class);
 
