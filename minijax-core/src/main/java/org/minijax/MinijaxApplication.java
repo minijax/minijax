@@ -285,13 +285,20 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
 
     private void registerResourceMethods(final Class<?> c) {
+        boolean changed = false;
+
         for (final Method method : c.getDeclaredMethods()) {
             for (final Annotation annotation : method.getAnnotations()) {
                 final HttpMethod httpMethod = annotation.annotationType().getAnnotation(HttpMethod.class);
                 if (httpMethod != null) {
                     resourceMethods.add(new MinijaxResourceMethod(httpMethod.value(), method));
+                    changed = true;
                 }
             }
+        }
+
+        if (changed) {
+            MinijaxResourceMethod.sortByLiteralLength(resourceMethods);
         }
     }
 

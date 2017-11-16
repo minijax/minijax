@@ -85,7 +85,7 @@ public class Minitwit {
     }
 
     @GET
-    @Path("/u/{handle}")
+    @Path("/{handle}")
     public Response userTimeline(@PathParam("handle") String handle) {
         User user = dao.readByHandle(User.class, handle);
         List<Message> messages = dao.getEntityManager()
@@ -96,7 +96,7 @@ public class Minitwit {
     }
 
     @GET
-    @Path("/u/{handle}/follow")
+    @Path("/{handle}/follow")
     @RolesAllowed("user")
     public Response followUser(@PathParam("handle") String handle) {
         currentUser.following.add(dao.readByHandle(User.class, handle));
