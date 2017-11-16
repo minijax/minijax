@@ -1,7 +1,5 @@
 package org.minijax.liquibase;
 
-import static org.eclipse.persistence.config.PersistenceUnitProperties.*;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -221,11 +219,11 @@ public class LiquibaseHelper {
 
     private void buildReferenceDatabase() {
         final Map<String, String> props = new HashMap<>();
-        props.put(JDBC_DRIVER, driver);
-        props.put(JDBC_URL, referenceUrl);
-        props.put(JDBC_USER, username);
-        props.put(JDBC_PASSWORD, password);
-        props.put(SCHEMA_GENERATION_DATABASE_ACTION, "drop-and-create");
+        props.put(MinijaxProperties.DB_DRIVER, driver);
+        props.put(MinijaxProperties.DB_URL, referenceUrl);
+        props.put(MinijaxProperties.DB_USERNAME, username);
+        props.put(MinijaxProperties.DB_PASSWORD, password);
+        props.put("javax.persistence.schema-generation.database.action", "drop-and-create");
 
         EntityManagerFactory emf = null;
         try {

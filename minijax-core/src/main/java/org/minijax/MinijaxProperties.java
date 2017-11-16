@@ -2,10 +2,10 @@ package org.minijax;
 
 public class MinijaxProperties {
     public static final String PERSISTENCE_UNIT_NAME = "org.minijax.db.persistenceUnitName";
-    public static final String DB_DRIVER = "org.minijax.db.driver";
-    public static final String DB_URL = "org.minijax.db.url";
-    public static final String DB_USERNAME = "org.minijax.db.username";
-    public static final String DB_PASSWORD = "org.minijax.db.password"; // NOSONAR - not a password
+    public static final String DB_DRIVER = "javax.persistence.jdbc.driver";
+    public static final String DB_URL = "javax.persistence.jdbc.url";
+    public static final String DB_USERNAME = "javax.persistence.jdbc.user";
+    public static final String DB_PASSWORD = "javax.persistence.jdbc.password"; // NOSONAR - not a password
     public static final String DB_REFERENCE_URL = "org.minijax.db.referenceUrl";
 
     public static final String SSL_KEY_STORE_PATH = "org.minijax.ssl.keyStorePath";

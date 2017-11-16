@@ -16,10 +16,9 @@
         <class>org.minijax.security.UserSession</class>
         <class>org.minijax.security.SecurityUser</class>
         <properties>
-            <property name="eclipselink.session.customizer" value="org.minijax.eclipselink.EclipselinkSessionCustomizer" />
+            <property name="javax.persistence.jdbc.driver" value="org.h2.jdbcx.JdbcDataSource" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:" />
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
-            <property name="org.minijax.db.driver" value="org.h2.jdbcx.JdbcDataSource" />
-            <property name="org.minijax.db.url" value="jdbc:h2:mem:" />
         </properties>
     </persistence-unit>
 </persistence>

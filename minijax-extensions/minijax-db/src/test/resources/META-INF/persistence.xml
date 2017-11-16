@@ -4,11 +4,5 @@
         <class>org.minijax.db.InstantConverter</class>
         <class>org.minijax.db.UuidConverter</class>
         <class>org.minijax.db.test.Widget</class>
-        <exclude-unlisted-classes>false</exclude-unlisted-classes>
-        <!-- 
-        <properties>
-            <property name="eclipselink.session.customizer" value="org.minijax.eclipselink.EclipselinkSessionCustomizer" />
-        </properties>
-         -->
     </persistence-unit>
 </persistence>

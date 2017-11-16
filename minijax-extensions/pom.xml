@@ -13,7 +13,6 @@
     <modules>
         <module>minijax-cloudwatch</module>
         <module>minijax-db</module>
-        <module>minijax-eclipselink</module>
         <module>minijax-json</module>
         <module>minijax-liquibase</module>
         <module>minijax-mustache</module>

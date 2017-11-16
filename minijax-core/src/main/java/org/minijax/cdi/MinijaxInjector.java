@@ -421,8 +421,10 @@ public class MinijaxInjector implements Closeable {
                 registerEntityManagerFactory(emf, "");
                 first = false;
             }
+            initEntityManager(emf);
         }
     }
+
 
     private void registerEntityManagerFactory(final EntityManagerFactory emf, final String name) {
         final Key<EntityManagerFactory> emfKey = Key.of(EntityManagerFactory.class, name);
@@ -432,6 +434,17 @@ public class MinijaxInjector implements Closeable {
         final Key<EntityManager> emKey = Key.ofPersistenceContext(name);
         final Provider<EntityManager> emProvider = new RequestScopedProvider<>(emKey, new EntityManagerProvider(emf));
         providers.put(emKey, emProvider);
+    }
+
+
+    private void initEntityManager(final EntityManagerFactory emf) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+            em.getMetamodel();
+        } finally {
+            CloseUtils.closeQuietly(em);
+        }
     }
 
 
