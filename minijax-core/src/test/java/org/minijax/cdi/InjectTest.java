@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
@@ -29,6 +30,10 @@ public class InjectTest extends MinijaxTest {
         int count;
     }
 
+    public static class MyBean {
+        @PathParam("a") String path;
+    }
+
     public static class InjectedResource {
         @Inject Counter counter;
         @Context UriInfo uriInfo;
@@ -37,6 +42,7 @@ public class InjectTest extends MinijaxTest {
         @HeaderParam("a") String header;
         @QueryParam("a") @DefaultValue("b") String query;
         @PathParam("a") String path;
+        @BeanParam MyBean bean;
 
         @GET
         @POST
@@ -103,5 +109,11 @@ public class InjectTest extends MinijaxTest {
     public void testPath() {
         final InjectedResource r = target("/inject/mypath").request().get(InjectedResource.class);
         assertEquals("mypath", r.path);
+    }
+
+    @Test
+    public void testBean() {
+        final InjectedResource r = target("/inject/mypath").request().get(InjectedResource.class);
+        assertEquals("mypath", r.bean.path);
     }
 }

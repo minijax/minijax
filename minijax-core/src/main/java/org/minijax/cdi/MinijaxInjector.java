@@ -258,6 +258,7 @@ public class MinijaxInjector implements Closeable {
                     t == javax.ws.rs.HeaderParam.class ||
                     t == javax.ws.rs.QueryParam.class ||
                     t == javax.ws.rs.PathParam.class ||
+                    t == javax.ws.rs.BeanParam.class ||
                     t == OptionalClasses.PERSISTENCE_CONTEXT) {
                 return true;
             }
