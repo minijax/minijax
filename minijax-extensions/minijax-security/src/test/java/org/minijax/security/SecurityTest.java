@@ -23,7 +23,7 @@ public class SecurityTest {
         final Configuration config = mock(Configuration.class);
         final Security<User> security = new Security<>(dao, config, null, null);
         assertFalse(security.isLoggedIn());
-        assertNull(security.getCurrentUser());
+        assertNull(security.getUserPrincipal());
         assertNull(security.getUserPrincipal());
         assertNull(security.getAuthenticationScheme());
         assertFalse(security.isUserInRole("user"));
@@ -66,8 +66,8 @@ public class SecurityTest {
         final Security<User> security = new Security<>(dao, config, authorization, null);
         security.requireLogin();
         assertTrue(security.isLoggedIn());
-        assertNotNull(security.getCurrentUser());
-        assertEquals(user, security.getCurrentUser());
+        assertNotNull(security.getUserPrincipal());
+        assertEquals(user, security.getUserPrincipal());
         assertEquals(user, security.getUserPrincipal());
         assertEquals(SecurityContext.BASIC_AUTH, security.getAuthenticationScheme());
     }
@@ -79,7 +79,7 @@ public class SecurityTest {
         final Configuration config = mock(Configuration.class);
         final Security<User> security = new Security<>(dao, config, authorization, null);
         assertFalse(security.isLoggedIn());
-        assertNull(security.getCurrentUser());
+        assertNull(security.getUserPrincipal());
     }
 
     @Test
@@ -99,7 +99,7 @@ public class SecurityTest {
         final Configuration config = mock(Configuration.class);
         final Security<User> security = new Security<>(dao, config, authorization, null);
         assertFalse(security.isLoggedIn());
-        assertNull(security.getCurrentUser());
+        assertNull(security.getUserPrincipal());
     }
 
     @Test
@@ -123,8 +123,8 @@ public class SecurityTest {
         security.requireLogin();
         security.validateSession(session.getId().toString());
         assertTrue(security.isLoggedIn());
-        assertNotNull(security.getCurrentUser());
-        assertEquals(user, security.getCurrentUser());
+        assertNotNull(security.getUserPrincipal());
+        assertEquals(user, security.getUserPrincipal());
         assertEquals(user, security.getUserPrincipal());
         assertEquals(SecurityContext.FORM_AUTH, security.getAuthenticationScheme());
         assertTrue(security.isUserInRole("admin"));
@@ -138,7 +138,7 @@ public class SecurityTest {
         final Configuration config = mock(Configuration.class);
         final Security<User> security = new Security<>(dao, config, null, cookie);
         assertFalse(security.isLoggedIn());
-        assertNull(security.getCurrentUser());
+        assertNull(security.getUserPrincipal());
     }
 
     @Test
@@ -148,7 +148,7 @@ public class SecurityTest {
         final Configuration config = mock(Configuration.class);
         final Security<User> security = new Security<>(dao, config, null, cookie);
         assertFalse(security.isLoggedIn());
-        assertNull(security.getCurrentUser());
+        assertNull(security.getUserPrincipal());
     }
 
     @Test
@@ -163,7 +163,7 @@ public class SecurityTest {
         final Configuration config = mock(Configuration.class);
         final Security<User> security = new Security<>(dao, config, null, cookie);
         assertFalse(security.isLoggedIn());
-        assertNull(security.getCurrentUser());
+        assertNull(security.getUserPrincipal());
     }
 
     @Test(expected = BadRequestException.class)

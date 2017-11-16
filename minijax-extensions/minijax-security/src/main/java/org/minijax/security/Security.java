@@ -2,7 +2,6 @@ package org.minijax.security;
 
 import static javax.ws.rs.core.HttpHeaders.*;
 
-import java.security.Principal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
@@ -81,8 +80,9 @@ public class Security<T extends SecurityUser> implements SecurityContext {
      *
      * @return the currently logged in user.
      */
+    @Override
     @SuppressWarnings("unchecked")
-    public T getCurrentUser() {
+    public T getUserPrincipal() {
         return (T) user;
     }
 
@@ -93,7 +93,7 @@ public class Security<T extends SecurityUser> implements SecurityContext {
      * @return true if user is logged in; false otherwise.
      */
     public boolean isLoggedIn() {
-        return getCurrentUser() != null;
+        return getUserPrincipal() != null;
     }
 
 
@@ -127,7 +127,7 @@ public class Security<T extends SecurityUser> implements SecurityContext {
     public void requireRole(final String role) {
         requireLogin();
 
-        if (!getCurrentUser().hasRole(role)) {
+        if (!getUserPrincipal().hasRole(role)) {
             throw new ForbiddenException();
         }
     }
@@ -421,12 +421,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
      */
     private NewCookie createCookie(final String value, final int maxAge) {
         return new NewCookie(COOKIE_NAME, value, COOKIE_PATH, COOKIE_DOMAIN, "", maxAge, false, COOKIE_HTTP_ONLY);
-    }
-
-
-    @Override
-    public Principal getUserPrincipal() {
-        return user;
     }
 
 
