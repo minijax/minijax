@@ -24,7 +24,7 @@ public class MediaTypeClassMap<T> {
     }
 
     public List<Class<? extends T>> get(final MediaType mediaType) {
-        return cache.computeIfAbsent(mediaType, m -> getImpl(m));
+        return cache.computeIfAbsent(mediaType, this::getImpl);
     }
 
     private List<Class<? extends T>> getImpl(final MediaType mediaType) {
