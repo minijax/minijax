@@ -1,13 +1,12 @@
 package org.minijax;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -33,19 +32,18 @@ import org.minijax.util.OptionalClasses;
 
 public class Minijax {
     private final MinijaxInjector injector;
+    private final MinijaxConfiguration configuration;
     private final MinijaxApplication defaultApplication;
     private final List<MinijaxApplication> applications;
     private final List<MinijaxStaticResource> staticResources;
-    private final Map<String, Object> properties;
-
 
     public Minijax() {
         injector = new MinijaxInjector(this);
+        configuration = new MinijaxConfiguration();
         defaultApplication = new MinijaxApplication(this, "/");
         applications = new ArrayList<>();
         applications.add(defaultApplication);
         staticResources = new ArrayList<>();
-        properties = new HashMap<>();
     }
 
 
@@ -55,35 +53,43 @@ public class Minijax {
 
 
     public Map<String, Object> getProperties() {
-        return properties;
+        return configuration.getProperties();
     }
 
 
     public Minijax property(final String name, final Object value) {
-        properties.put(name, value);
+        configuration.property(name, value);
         return this;
     }
 
 
     public Minijax properties(final Map<String, String> props) {
-        properties.putAll(props);
+        configuration.properties(props);
         return this;
     }
 
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
     public Minijax properties(final Properties props) {
-        properties.putAll((Map) props);
+        configuration.properties(props);
         return this;
     }
 
 
     public Minijax properties(final File file) throws IOException {
-        final Properties props = new Properties();
-        try (final FileReader r = new FileReader(file)) {
-            props.load(r);
-        }
-        return properties(props);
+        configuration.properties(file);
+        return this;
+    }
+
+
+    public Minijax properties(final InputStream inputStream) throws IOException {
+        configuration.properties(inputStream);
+        return this;
+    }
+
+
+    public Minijax properties(final String fileName) throws IOException {
+        configuration.properties(fileName);
+        return this;
     }
 
 
@@ -209,7 +215,7 @@ public class Minijax {
 
 
     public void run() {
-        run(Integer.parseInt((String) properties.getOrDefault("org.minijax.port", "8080")));
+        run(Integer.parseInt(configuration.getOrDefault("org.minijax.port", "8080")));
     }
 
 
@@ -297,15 +303,15 @@ public class Minijax {
      */
     @SuppressWarnings("squid:S2095")
     private ServerConnector createConnector(final Server server) {
-        final String keyStorePath = (String) properties.get(MinijaxProperties.SSL_KEY_STORE_PATH);
+        final String keyStorePath = (String) configuration.get(MinijaxProperties.SSL_KEY_STORE_PATH);
 
         if (keyStorePath == null || keyStorePath.isEmpty()) {
             // Normal HTTP
             return new ServerConnector(server);
         }
 
-        final String keyStorePassword = (String) properties.get(MinijaxProperties.SSL_KEY_STORE_PASSWORD);
-        final String keyManagerPassword = (String) properties.get(MinijaxProperties.SSL_KEY_MANAGER_PASSWORD);
+        final String keyStorePassword = (String) configuration.get(MinijaxProperties.SSL_KEY_STORE_PASSWORD);
+        final String keyManagerPassword = (String) configuration.get(MinijaxProperties.SSL_KEY_MANAGER_PASSWORD);
 
         final HttpConfiguration https = new HttpConfiguration();
         https.addCustomizer(new SecureRequestCustomizer());

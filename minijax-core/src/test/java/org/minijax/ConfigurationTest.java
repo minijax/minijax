@@ -22,4 +22,18 @@ public class ConfigurationTest {
         container.properties(new File("src/test/resources/config.properties"));
         assertEquals("b", container.getDefaultApplication().getConfiguration().getProperty("a"));
     }
+
+    @Test
+    public void testPropertiesResource() throws IOException {
+        final Minijax container = new Minijax();
+        container.properties("config.properties");
+        assertEquals("b", container.getDefaultApplication().getConfiguration().getProperty("a"));
+    }
+
+    @Test
+    public void testDiscoverFile() throws IOException {
+        final Minijax container = new Minijax();
+        container.properties("src/test/resources/config.properties");
+        assertEquals("b", container.getDefaultApplication().getConfiguration().getProperty("a"));
+    }
 }
