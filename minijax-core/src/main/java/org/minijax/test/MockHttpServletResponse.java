@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
@@ -53,7 +54,7 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
     @Override
     public String getContentType() {
-        return getHeader("Content-Type");
+        return getHeader(HttpHeaders.CONTENT_TYPE);
     }
 
     public List<Cookie> getCookies() {
@@ -97,7 +98,7 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
     @Override
     public void setContentLength(final int len) {
-        setIntHeader("Content-Length", len);
+        setIntHeader(HttpHeaders.CONTENT_LENGTH, len);
     }
 
     @Override
@@ -107,7 +108,7 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
     @Override
     public void setContentType(final String type) {
-        setHeader("Content-Type", type);
+        setHeader(HttpHeaders.CONTENT_TYPE, type);
     }
 
     @Override
@@ -158,7 +159,7 @@ public class MockHttpServletResponse implements HttpServletResponse {
     }
 
     private MediaType getMediaType() {
-        final List<String> contentType = headers.get("Content-Type");
+        final List<String> contentType = headers.get(HttpHeaders.CONTENT_TYPE);
         if (contentType == null || contentType.isEmpty()) {
             return null;
         }
