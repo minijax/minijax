@@ -17,6 +17,7 @@ import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
@@ -321,7 +322,11 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
         }
 
         if (obj instanceof Form) {
-            return IOUtils.toInputStream(UrlUtils.urlEncodeMultivaluedParams(((Form) obj).asMap()), StandardCharsets.UTF_8);
+            if (headers.containsKey(HttpHeaders.CONTENT_TYPE) && headers.getFirst(HttpHeaders.CONTENT_TYPE).equals(MediaType.MULTIPART_FORM_DATA)) {
+                return MultipartUtils.serializeMultipartForm((Form) obj);
+            } else {
+                return IOUtils.toInputStream(UrlUtils.urlEncodeMultivaluedParams(((Form) obj).asMap()), StandardCharsets.UTF_8);
+            }
         }
 
         throw new UnsupportedOperationException("Unknown entity type: " + obj.getClass());
