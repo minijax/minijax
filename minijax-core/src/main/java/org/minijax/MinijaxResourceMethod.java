@@ -44,23 +44,17 @@ class MinijaxResourceMethod {
         literalLength = calculateLiteralLength(path);
     }
 
-
-    public Method getMethod() {
-        return method;
-    }
-
-
     public List<MediaType> getProduces() {
         return produces;
     }
-
 
     public Annotation getSecurityAnnotation() {
         return securityAnnotation;
     }
 
+    Object invoke(final MinijaxRequestContext ctx)
+            throws Exception { // NOSONAR
 
-    Object invoke(final MinijaxRequestContext ctx) throws Exception {
         final Object instance;
         if (Modifier.isStatic(method.getModifiers())) {
             instance = null;
@@ -81,7 +75,6 @@ class MinijaxResourceMethod {
             throw new WebApplicationException(ex.getMessage(), ex);
         }
     }
-
 
     private static String findPath(final Method m) {
         final Annotation classAnnotation = m.getDeclaringClass().getAnnotation(Path.class);
