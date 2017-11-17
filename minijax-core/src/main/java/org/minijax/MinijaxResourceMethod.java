@@ -1,7 +1,9 @@
 package org.minijax;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,8 +12,10 @@ import java.util.regex.Matcher;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.inject.Provider;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
@@ -22,19 +26,21 @@ import org.minijax.util.UrlUtils;
 class MinijaxResourceMethod {
     private final String httpMethod;
     private final Method method;
+    private final Provider<?>[] paramProviders;
     private final String path;
     private final MinijaxPathPattern pathPattern;
     private final List<MediaType> produces;
     private final Annotation securityAnnotation;
     final int literalLength;
 
-    public MinijaxResourceMethod(final String httpMethod, final Method m) {
+    public MinijaxResourceMethod(final String httpMethod, final Method method, final Provider<?>[] paramProviders) {
         this.httpMethod = httpMethod;
-        method = m;
-        path = findPath(m);
-        pathPattern = MinijaxPathPattern.parse(m, path);
-        produces = findProduces(m);
-        securityAnnotation = findSecurityAnnotation(m);
+        this.method = method;
+        this.paramProviders = paramProviders;
+        path = findPath(method);
+        pathPattern = MinijaxPathPattern.parse(method, path);
+        produces = findProduces(method);
+        securityAnnotation = findSecurityAnnotation(method);
         literalLength = calculateLiteralLength(path);
     }
 
@@ -51,6 +57,29 @@ class MinijaxResourceMethod {
 
     public Annotation getSecurityAnnotation() {
         return securityAnnotation;
+    }
+
+
+    Object invoke(final MinijaxRequestContext ctx) throws Exception {
+        final Object instance;
+        if (Modifier.isStatic(method.getModifiers())) {
+            instance = null;
+        } else {
+            instance = ctx.get(method.getDeclaringClass());
+        }
+
+        final Object[] params = new Object[paramProviders.length];
+        for (int i = 0; i < paramProviders.length; ++i) {
+            params[i] = paramProviders[i].get();
+        }
+
+        try {
+            return method.invoke(instance, params);
+        } catch (final InvocationTargetException ex) {
+            throw (Exception) ex.getCause();
+        } catch (IllegalAccessException | IllegalArgumentException ex) {
+            throw new WebApplicationException(ex.getMessage(), ex);
+        }
     }
 
 

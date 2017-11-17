@@ -4,13 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Executable;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -22,6 +17,7 @@ import java.util.Set;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.inject.Provider;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.ForbiddenException;
@@ -29,7 +25,6 @@ import javax.ws.rs.HttpMethod;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.RuntimeType;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
@@ -38,15 +33,14 @@ import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.FeatureContext;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.ParamConverter;
 
+import org.minijax.cdi.EntityProvider;
 import org.minijax.cdi.MinijaxInjector;
 import org.minijax.util.ClassPathScanner;
 import org.minijax.util.ExceptionUtils;
@@ -291,7 +285,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
             for (final Annotation annotation : method.getAnnotations()) {
                 final HttpMethod httpMethod = annotation.annotationType().getAnnotation(HttpMethod.class);
                 if (httpMethod != null) {
-                    resourceMethods.add(new MinijaxResourceMethod(httpMethod.value(), method));
+                    resourceMethods.add(new MinijaxResourceMethod(httpMethod.value(), method, getParamProviders(method)));
                     changed = true;
                 }
             }
@@ -367,7 +361,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
             runRequestFilters(context);
             checkSecurity(context);
-            final Response response = toResponse(rm, invoke(context, rm.getMethod()));
+            final Response response = toResponse(rm, rm.invoke(context));
             runResponseFilters(context, response);
             return response;
         } catch (final Exception ex) {
@@ -464,46 +458,37 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     }
 
 
-    private Object invoke(final MinijaxRequestContext context, final Method method)
-            throws Exception { // NOSONAR
+    /**
+     * Returns the param providers for a resource method.
+     *
+     * This is very similar to the logic used in building param providers for a normal
+     * <code>@Inject</code> constructor, with one major difference.
+     *
+     * A resource method is allowed one special "entity" parameter representing the content body.
+     * This entity parameter is handled by a <code>EntityProvider</code>.
+     *
+     * @param method The resource method.
+     * @return The array of resource method param providers.
+     */
+    private Provider<?>[] getParamProviders(final Method method) {
+        final Class<?>[] paramClasses = method.getParameterTypes();
+        final Type[] paramTypes = method.getGenericParameterTypes();
+        final Annotation[][] annotations = method.getParameterAnnotations();
+        final Provider<?>[] result = new Provider<?>[paramTypes.length];
 
-        final Object instance;
-        if (Modifier.isStatic(method.getModifiers())) {
-            instance = null;
-        } else {
-            instance = get(method.getDeclaringClass());
-        }
-
-        try {
-            return method.invoke(instance, getArgs(context, method));
-        } catch (final InvocationTargetException ex) {
-            throw (Exception) ex.getCause();
-        } catch (IllegalAccessException | IllegalArgumentException ex) {
-            throw new WebApplicationException(ex.getMessage(), ex);
-        }
-    }
-
-
-    private Object[] getArgs(final MinijaxRequestContext context, final Executable executable) throws IOException {
-        final Parameter[] parameters = executable.getParameters();
-        final Annotation[][] annotations = executable.getParameterAnnotations();
-        final Object[] args = new Object[parameters.length];
-
-        // If constructor - any number of non-annotated args
-        // If resource method - only one non-annoted arg, and only if @Consumes
-        final Consumes consumes = executable.getAnnotation(Consumes.class);
+        final Consumes consumes = method.getAnnotation(Consumes.class);
         final List<MediaType> consumesTypes = MediaTypeUtils.parseMediaTypes(consumes);
         boolean consumed = false;
 
-        for (int i = 0; i < parameters.length; i++) {
-            if (annotations[i].length == 0 && consumes != null && consumesTypes.size() == 1 && context != null && !consumed) {
-                args[i] = consumeEntity(parameters[i].getType(), context.getEntityStream(), consumesTypes.get(0));
+        for (int i = 0; i < paramTypes.length; i++) {
+            if (annotations[i].length == 0 && !consumed) {
+                result[i] = new EntityProvider<>(paramClasses[i], paramTypes[i], annotations[i], consumesTypes);
                 consumed = true;
             } else {
-                args[i] = get(parameters[i].getType(), annotations[i]);
+                result[i] = getInjector().getProvider(paramClasses[i], annotations[i]);
             }
         }
-        return args;
+        return result;
     }
 
 
@@ -616,44 +601,6 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
     public <T> T get(final Class<T> c) {
         return getInjector().get(c);
-    }
-
-
-    /**
-     * Returns a resource instance.
-     *
-     * @param <T> The type of the result.
-     * @param c The class type of the result.
-     * @param annotations Annotations of the declaration (member, parameter, etc).
-     * @return The resource instance.
-     */
-    private <T> T get(final Class<T> c, final Annotation[] annotations) {
-        return getInjector().get(c, annotations);
-    }
-
-
-    /**
-     * Consumes the message body entity.
-     *
-     * @param <T> The type of the result.
-     * @param c The class type of the result.
-     * @param entityStream The content body input stream.
-     * @param mediaType The request content type.
-     * @return The entity.
-     */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    private <T> T consumeEntity(final Class<T> c, final InputStream entityStream, final MediaType mediaType) throws IOException {
-        final Type genericType = null;
-        final Annotation[] annotations = null;
-        final MultivaluedMap<String, String> httpHeaders = null;
-
-        final MessageBodyReader reader = providers.getMessageBodyReader(c, genericType, annotations, mediaType);
-        if (reader != null) {
-            return (T) reader.readFrom(c, genericType, annotations, mediaType, httpHeaders, entityStream);
-        }
-
-        // Try default primitive converters
-        return convertStringToType(IOUtils.toString(entityStream, StandardCharsets.UTF_8), c);
     }
 
 

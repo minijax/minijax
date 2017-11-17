@@ -95,7 +95,7 @@ public class MinijaxInjector implements Closeable {
         return getProvider(Key.<T>of(c), null);
     }
 
-    private <T> Provider<T> getProvider(final Class<T> c, final Annotation[] annotations) {
+    public <T> Provider<T> getProvider(final Class<T> c, final Annotation[] annotations) {
         return getProvider(Key.<T>of(c, annotations), null);
     }
 
