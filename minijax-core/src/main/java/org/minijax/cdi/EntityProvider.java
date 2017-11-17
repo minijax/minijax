@@ -49,6 +49,10 @@ public class EntityProvider<T> implements Provider<T> {
             return (T) IOUtils.toString(entityStream, StandardCharsets.UTF_8);
         }
 
+        if (entityClass == MultivaluedMap.class) {
+            return (T) context.getForm().asForm().asMap();
+        }
+
         final MediaType mediaType = consumesTypes != null && !consumesTypes.isEmpty() ? consumesTypes.get(0) : null;
         final MessageBodyReader<T> reader = context.getApplication().getProviders().getMessageBodyReader(entityClass, genericType, annotations, mediaType);
         if (reader != null) {

@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Configuration;
-import javax.ws.rs.core.Form;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.SecurityContext;
@@ -80,14 +79,6 @@ public class MinijaxContextResolver<T> implements ContextResolver<T> {
         // 10.1
         if (c == HttpServletResponse.class) {
             return (T) context.getServletResponse();
-        }
-
-        if (c == MinijaxForm.class) {
-            return (T) context.getForm();
-        }
-
-        if (c == Form.class) {
-            return (T) context.getForm().asForm();
         }
 
         throw new IllegalArgumentException("Unrecognized @Context parameter: " + c);

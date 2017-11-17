@@ -13,9 +13,9 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -41,22 +41,15 @@ public class FormParamTest extends MinijaxTest {
     @POST
     @Path("/wholeform")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public static String getWholeForm(@Context final Form form) {
-        return form.asMap().getFirst("test");
+    public static String getWholeForm(final MultivaluedMap<String, String> form) {
+        return form.getFirst("test");
     }
 
     @POST
     @Path("/multipart-form")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public static String getMultipartForm(@Context final Form form) {
-        return form.asMap().getFirst("key");
-    }
-
-    @POST
-    @Path("/multipart-minijaxform")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public static String getMultipartMinijaxForm(@Context final MinijaxForm form) {
-        return form.getString("key");
+    public static String getMultipartForm(final MultivaluedMap<String, String> form) {
+        return form.getFirst("key");
     }
 
     @POST
@@ -129,20 +122,6 @@ public class FormParamTest extends MinijaxTest {
         final Entity<String> entity = Entity.entity(mockContent, MediaType.MULTIPART_FORM_DATA_TYPE);
 
         assertEquals("myvalue1", target("/multipart-form").request().post(entity, String.class));
-    }
-
-    @Test
-    public void testMultipartMinijaxForm() {
-        final String mockContent =
-                "------WebKitFormBoundarycTqA2AimXQHBAJbZ\n" +
-                "Content-Disposition: form-data; name=\"key\"\n" +
-                "\n" +
-                "myvalue1\n" +
-                "------WebKitFormBoundarycTqA2AimXQHBAJbZ";
-
-        final Entity<String> entity = Entity.entity(mockContent, MediaType.MULTIPART_FORM_DATA_TYPE);
-
-        assertEquals("myvalue1", target("/multipart-minijaxform").request().post(entity, String.class));
     }
 
     @Test

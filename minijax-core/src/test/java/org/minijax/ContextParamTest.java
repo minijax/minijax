@@ -6,18 +6,13 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Form;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
@@ -110,20 +105,6 @@ public class ContextParamTest extends MinijaxTest {
         return "ok";
     }
 
-    @POST
-    @Path("/form")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public static String getForm(@Context final Form form) {
-        return "ok";
-    }
-
-    @POST
-    @Path("/minijaxform")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public static String getMinijaxForm(@Context final MinijaxForm form) {
-        return "ok";
-    }
-
     @GET
     @Path("/unknown")
     public static String getUnknown(@Context final Object obj) {
@@ -202,16 +183,6 @@ public class ContextParamTest extends MinijaxTest {
     @Test
     public void testHttpServletResponse() {
         assertEquals("ok", target("/httpservletresponse").request().get(String.class));
-    }
-
-    @Test
-    public void testForm() {
-        assertEquals("ok", target("/form").request().post(Entity.form(new Form()), String.class));
-    }
-
-    @Test
-    public void testMinijaxForm() {
-        assertEquals("ok", target("/minijaxform").request().post(Entity.form(new Form()), String.class));
     }
 
     @Test
