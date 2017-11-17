@@ -14,19 +14,6 @@ Minijax is a lightweight subset of Java EE standards such as JAX-RS (REST), depe
 
 **How lightweight?** We have been vigilant with dependencies.  The ["Hello World" example](https://minijax.org/minijax-examples/minijax-example-hello/dependencies.html) is around 2 MB including all dependencies.
 
-(Insert hello size comparison)
-(Insert techempower size comparison)
-
-**How fast?** All benchmarks are suspect, but Minijax holds its own.
-
-(Insert plain text benchmark)
-(Insert database benchmark)
-
-References
-----------
-
-[Gartner: Market Guide for Application Platforms](https://www.gartner.com/doc/reprints?id=1-3N8E378&ct=161205&st=sb)
-
 What's next?
 ------------
 

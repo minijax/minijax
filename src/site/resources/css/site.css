@@ -50,7 +50,8 @@ pre.prettyprint {
 }
 
 tt {
-  background-color: initial;
+  background-color: initial !important;
+  font-family: Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace !important;
 }
 
 @media (max-width: 720px) {
