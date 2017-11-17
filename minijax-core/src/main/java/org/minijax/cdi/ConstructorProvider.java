@@ -1,6 +1,7 @@
 package org.minijax.cdi;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.inject.Provider;
@@ -36,6 +37,10 @@ class ConstructorProvider<T> implements Provider<T> {
             }
 
             return result;
+
+        } catch (final InvocationTargetException ex) {
+            final Throwable inner = ex.getCause();
+            throw new InjectException(inner.getMessage(), inner);
 
         } catch (final Exception e) {
             throw new InjectException(String.format("Can't instantiate %s", ctor), e);
