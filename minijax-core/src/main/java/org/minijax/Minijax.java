@@ -30,6 +30,30 @@ import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.minijax.cdi.MinijaxInjector;
 import org.minijax.util.OptionalClasses;
 
+/**
+ * The Minijax class represents a container for JAX-RS applications.
+ *
+ * Create and launch a JAX-RS application:
+ *
+ * <pre>
+ * {@code
+ *     {@literal @}Path("/")
+ *     public class Hello {
+ *
+ *         {@literal @}GET
+ *         public static String hello() {
+ *             return "Hello world!";
+ *         }
+ *
+ *         public static void main(String[] args) {
+ *             new Minijax()
+ *                     .register(Hello.class)
+ *                     .run(8080);
+ *         }
+ *     }
+ * }
+ * </pre>
+ */
 public class Minijax {
     private final MinijaxInjector injector;
     private final MinijaxConfiguration configuration;
