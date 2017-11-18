@@ -24,8 +24,8 @@ public class HelloJson {
 
     @XmlRootElement
     public static class Widget {
-        public String id;
-        public String value;
+        String id;
+        String value;
 
         public Widget() {
         }
