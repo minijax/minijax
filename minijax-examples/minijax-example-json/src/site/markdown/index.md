@@ -135,6 +135,21 @@ Several new features:
 * The single method argument connects to the `@Consumes` annotation
 * The `Response` class contains rich functionality for all kinds of HTTP response capabilities
 
+One last thing before testing:  We need to `register()` the JSON feature:
+
+```java
+new Minijax()
+        .register(JsonFeature.class)
+        .register(HelloJson.class)
+        .run(8080);
+```
+
+In addition to the setup from "Hello World", we now include `register(JsonFeature.class)`.  That call does the following:
+
+* Initializes Jackson
+* Adds JSON-enabled `MessageBodyReader` and `MessageBodyWriter`
+* Adds a JSON-aware `ExceptionMapper` for REST endpoints
+
 At this point, it's time to run the application and start testing it out.
 
 Let's run the application using Maven:
