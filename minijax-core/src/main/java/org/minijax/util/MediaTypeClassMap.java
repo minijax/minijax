@@ -17,6 +17,9 @@ public class MediaTypeClassMap<T> {
     }
 
     public void add(final Class<T> c, final List<MediaType> mediaTypes) {
+        if (mediaTypes.isEmpty()) {
+            entries.add(new Entry(c, null));
+        }
         for (final MediaType mediaType : mediaTypes) {
             entries.add(new Entry(c, mediaType));
         }
@@ -30,7 +33,7 @@ public class MediaTypeClassMap<T> {
     private List<Class<? extends T>> getImpl(final MediaType mediaType) {
         final List<Class<? extends T>> result = new ArrayList<>();
         for (final Entry entry : entries) {
-            if (entry.mediaType.isCompatible(mediaType)) {
+            if (mediaType == null || entry.mediaType == null || entry.mediaType.isCompatible(mediaType)) {
                 result.add(entry.c);
             }
         }
