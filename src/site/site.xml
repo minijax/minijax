@@ -33,6 +33,7 @@
         <menu name="Examples">
             <item name="Hello World" href="https://minijax.org/minijax-examples/minijax-example-hello/index.html"/>
             <item name="JSON" href="https://minijax.org/minijax-examples/minijax-example-json/index.html"/>
+            <item name="Mustache" href="https://minijax.org/minijax-examples/minijax-example-mustache/index.html"/>
             <item name="Websockets" href="https://minijax.org/minijax-examples/minijax-example-websocket/index.html"/>
             <item name="HTTPS" href="https://minijax.org/minijax-examples/minijax-example-ssl/index.html"/>
             <item name="Swagger" href="https://minijax.org/minijax-examples/minijax-example-swagger/index.html"/>

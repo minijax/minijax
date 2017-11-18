@@ -83,6 +83,20 @@ body > hr {
   border: 0 !important;
 }
 
+blockquote {
+  padding: 0.5rem 1.25rem !important;
+  margin-top: 1.25rem !important;
+  margin-bottom: 1.25rem !important;
+  border: 1px solid #eee !important;
+  border-left-width: .25rem !important;
+  border-left-color: #5bc0de !important;
+  border-radius: .25rem !important;
+}
+
+blockquote p {
+  font-size: 14px !important;
+}
+
 footer div.row-fluid {
   text-align: center !important;
   font-size: 12px !important;

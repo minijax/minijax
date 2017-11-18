@@ -10,7 +10,7 @@ This example demonstrates:
 * Creating a **Resource Method**
 * Testing
 
-The source code is available at <https://github.com/minijax/minijax/tree/master/minijax-examples/minijax-example-hello>
+The source code is available at [minijax-examples/minijax-example-hello](https://github.com/minijax/minijax/tree/master/minijax-examples/minijax-example-hello)
 
 Estimated reading time: 5 minutes
 
@@ -213,4 +213,5 @@ Next
 ----
 
 * [JSON Example](https://minijax.org/minijax-examples/minijax-example-json/index.html) - Learn how to read/write JSON from resource methods
+* [Mustache Example](https://minijax.org/minijax-examples/minijax-example-mustache/index.html) - Learn how to render Mustache templates
 * [Websocket Example](https://minijax.org/minijax-examples/minijax-example-websocket/index.html) - Learn how to enable websocket endpoints

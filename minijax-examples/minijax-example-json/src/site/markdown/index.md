@@ -9,7 +9,7 @@ This example builds on [Hello World](http://minijax.org/minijax-examples/minijax
 * Using path parameters
 * Reading and writing JSON content
 
-The source code is available at <https://github.com/minijax/minijax/tree/master/minijax-examples/minijax-example-json>
+The source code is available at [minijax-examples/minijax-example-json](https://github.com/minijax/minijax/tree/master/minijax-examples/minijax-example-json)
 
 Estimated reading time: 15 minutes
 
@@ -273,5 +273,6 @@ This has poor discoverability, but it is worth committing to memory.  As you wri
 Next
 ----
 
+* [Mustache Example](https://minijax.org/minijax-examples/minijax-example-mustache/index.html) - Learn how to render Mustache templates
 * [Todo Backend](https://minijax.org/minijax-examples/minijax-example-todo-backend/index.html) - See a more elaborate JSON example
 * [Websocket Example](https://minijax.org/minijax-examples/minijax-example-websocket/index.html) - Learn how to enable websocket endpoints

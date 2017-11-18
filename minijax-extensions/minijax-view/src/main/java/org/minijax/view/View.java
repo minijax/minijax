@@ -19,6 +19,11 @@ public class View {
         model.put("title", title);
     }
 
+    public View(final String templateName, final Map<String, Object> model) {
+        this(templateName);
+        this.model.putAll(model);
+    }
+
     public String getTemplateName() {
         return templateName;
     }

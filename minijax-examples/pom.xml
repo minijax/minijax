@@ -15,6 +15,7 @@
         <module>minijax-example-json</module>
         <module>minijax-example-kotlin</module>
         <module>minijax-example-minitwit</module>
+        <module>minijax-example-mustache</module>
         <module>minijax-example-petclinic</module>
         <module>minijax-example-security</module>
         <module>minijax-example-ssl</module>

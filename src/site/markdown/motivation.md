@@ -6,7 +6,7 @@ Minijax is for developers who **love standards** and **hate bloat**.
 
 Minijax is a lightweight subset of Java EE standards such as JAX-RS (REST), dependency injection, JSON, WebSockets, and more.
 
-**Why Java?**  Java continues to be one of the most popular programming languages in existence.  It is hardened and battle tested.  It is fast and ubiquitous.
+**Why Java?**  Java continues to be one of the most popular programming languages.  It is fast, ubiquitous, and has an amazing ecosystem of libraries and tools.
 
 **Why not just use Java EE?**  Java EE application servers are big and unwieldy.  There is a growing trend toward Java SE + a subset of Java EE API's, and then using "fat jars" as popularized by [Dropwizard](http://www.dropwizard.io) and [Spring Boot](https://projects.spring.io/spring-boot/).
 
