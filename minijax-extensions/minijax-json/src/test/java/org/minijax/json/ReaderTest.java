@@ -11,17 +11,31 @@ import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.MessageBodyReader;
 
+import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.minijax.MinijaxRequestContext;
 import org.minijax.test.MinijaxTest;
 
 public class ReaderTest extends MinijaxTest {
+    private MinijaxRequestContext context;
     private MessageBodyReader<?> reader;
+
+    @BeforeClass
+    public static void setUpReaderTest() {
+        register(JsonFeature.class);
+    }
 
     @Before
     public void setUp() {
-        register(JsonFeature.class);
+        context = createRequestContext();
         reader = getServer().get(MinijaxJsonReader.class);
+    }
+
+    @After
+    public void tearDown() throws IOException {
+        context.close();
     }
 
     @Test

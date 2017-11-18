@@ -549,7 +549,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private void write(
+    public void write(
             final MinijaxRequestContext context,
             final Response response,
             final HttpServletResponse servletResponse)

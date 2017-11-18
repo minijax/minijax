@@ -2,6 +2,7 @@ package org.minijax.delegates;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Locale;
@@ -14,9 +15,24 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Variant;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.minijax.MinijaxRequestContext;
+import org.minijax.test.MinijaxTest;
 
-public class ResponseBuilderTest {
+public class ResponseBuilderTest extends MinijaxTest {
+    private MinijaxRequestContext ctx;
+
+    @Before
+    public void setUp() {
+        ctx = createRequestContext();
+    }
+
+    @After
+    public void tearDown() throws IOException {
+        ctx.close();
+    }
 
     @Test
     public void testSetStatusCode() {

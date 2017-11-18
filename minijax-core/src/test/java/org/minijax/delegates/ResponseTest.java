@@ -1,15 +1,74 @@
 package org.minijax.delegates;
 
+import static org.junit.Assert.*;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.nio.charset.StandardCharsets;
 
 import javax.ws.rs.core.GenericType;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import org.minijax.delegates.MinijaxResponse;
-import org.minijax.delegates.MinijaxResponseBuilder;
+import org.minijax.MinijaxRequestContext;
+import org.minijax.Widget;
+import org.minijax.WidgetWriter;
+import org.minijax.test.MinijaxTest;
 
-public class ResponseTest {
+public class ResponseTest extends MinijaxTest {
+    private MinijaxRequestContext ctx;
 
+    @Before
+    public void setUp() {
+        ctx = createRequestContext();
+    }
+
+    @After
+    public void tearDown() throws IOException {
+        ctx.close();
+    }
+
+    @Test
+    public void testNullEntity() {
+        final MinijaxResponse r = new MinijaxResponseBuilder().build();
+        assertNull(r.getEntity());
+        assertNull(r.getEntityClass());
+        assertNull(r.readEntity(String.class));
+    }
+
+    @Test
+    public void testStringEntity() {
+        final MinijaxResponse r = new MinijaxResponseBuilder().entity("Hello").build();
+        assertEquals("Hello", r.getEntity());
+        assertEquals(String.class, r.getEntityClass());
+        assertEquals("Hello", r.readEntity(String.class));
+    }
+
+    @Test
+    public void testInputStreamEntity() throws IOException {
+        final ByteArrayInputStream inputStream = new ByteArrayInputStream("Hello".getBytes(StandardCharsets.UTF_8));
+
+        final MinijaxResponse r = new MinijaxResponseBuilder().entity(inputStream).build();
+        assertEquals(inputStream, r.getEntity());
+        assertEquals(ByteArrayInputStream.class, r.getEntityClass());
+        assertEquals("Hello", r.readEntity(String.class));
+    }
+
+    @Test
+    public void testWidgetEntity() throws IOException {
+        register(WidgetWriter.class);
+
+        final Widget widget = new Widget();
+        widget.setId("123");
+        widget.setValue("Hello");
+
+        final MinijaxResponse r = new MinijaxResponseBuilder().entity(widget).build();
+        assertEquals(widget, r.getEntity());
+        assertEquals(Widget.class, r.getEntityClass());
+        assertEquals("(widget 123 Hello)", r.readEntity(String.class));
+    }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testBufferEntity() {
@@ -27,12 +86,6 @@ public class ResponseTest {
     public void testGetEntityAnnotations() {
         final MinijaxResponse r = new MinijaxResponseBuilder().build();
         r.getEntityAnnotations();
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void testGetEntityClass() {
-        final MinijaxResponse r = new MinijaxResponseBuilder().build();
-        r.getEntityClass();
     }
 
     @Test(expected = UnsupportedOperationException.class)
@@ -81,12 +134,6 @@ public class ResponseTest {
     public void testhasLink() {
         final MinijaxResponse r = new MinijaxResponseBuilder().build();
         r.hasLink(null);
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void testReadEntity1() {
-        final MinijaxResponse r = new MinijaxResponseBuilder().build();
-        r.readEntity((Class<?>) null);
     }
 
     @Test(expected = UnsupportedOperationException.class)

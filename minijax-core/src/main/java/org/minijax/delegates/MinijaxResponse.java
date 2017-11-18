@@ -1,5 +1,6 @@
 package org.minijax.delegates;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -20,12 +21,16 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.NewCookie;
 
+import org.minijax.MinijaxException;
+import org.minijax.MinijaxRequestContext;
+import org.minijax.test.MockHttpServletResponse;
+
 class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResponseContext {
+    private final MinijaxRequestContext context;
     private final MultivaluedMap<String, Object> headers;
     private final MinijaxStatusInfo statusInfo;
     private Date date;
     private Object entity;
-    private EntityTag entityTag;
     private Locale language;
     private Date lastModified;
     private int length;
@@ -33,6 +38,7 @@ class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResp
     private MediaType mediaType;
 
     public MinijaxResponse(final MinijaxResponseBuilder builder) {
+        context = MinijaxRequestContext.getThreadLocal();
         headers = builder.getHeaders();
         statusInfo = new MinijaxStatusInfo(builder.getStatusInfo());
         entity = builder.getEntity();
@@ -72,6 +78,9 @@ class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResp
         return date;
     }
 
+    /**
+     * Returns the entity as provided by the resource method.
+     */
     @Override
     public Object getEntity() {
         return entity;
@@ -84,7 +93,7 @@ class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResp
 
     @Override
     public Class<?> getEntityClass() {
-        throw new UnsupportedOperationException();
+        return entity == null ? null : entity.getClass();
     }
 
     @Override
@@ -94,7 +103,7 @@ class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResp
 
     @Override
     public EntityTag getEntityTag() {
-        return entityTag;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -184,9 +193,35 @@ class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResp
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Reads the entity as the specified type.
+     *
+     * The type may be one of the following:
+     *   1) The original entity type, in which case the original entity will be returned directly.
+     *   2) A string, in which case the entity will be serialized using the normal serialization flow.
+     */
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T readEntity(final Class<T> entityType) {
-        throw new UnsupportedOperationException();
+        if (entity == null) {
+            return null;
+        }
+
+        if (entityType == entity.getClass()) {
+            return (T) entity;
+        }
+
+        if (entityType != String.class) {
+            throw new IllegalArgumentException("Unsupported entity type (" + entityType + ")");
+        }
+
+        final MockHttpServletResponse servletResponse = new MockHttpServletResponse();
+        try {
+            context.getApplication().write(context, this, servletResponse);
+            return (T) servletResponse.getOutput();
+        } catch (final IOException ex) {
+            throw new MinijaxException(ex.getMessage(), ex);
+        }
     }
 
     @Override
@@ -216,7 +251,7 @@ class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResp
     }
 
     @Override
-    public void setEntityStream(final OutputStream outputStream) {
+    public void setEntityStream(final OutputStream entityStream) {
         throw new UnsupportedOperationException();
     }
 

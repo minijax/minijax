@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+import java.io.IOException;
+
 import javax.persistence.NoResultException;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotAuthorizedException;
@@ -11,11 +13,26 @@ import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.SecurityContext;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.minijax.MinijaxProperties;
+import org.minijax.MinijaxRequestContext;
+import org.minijax.test.MinijaxTest;
 import org.minijax.util.IdUtils;
 
-public class SecurityTest {
+public class SecurityTest extends MinijaxTest {
+    private MinijaxRequestContext context;
+
+    @Before
+    public void setUp() {
+        context = createRequestContext();
+    }
+
+    @After
+    public void tearDown() throws IOException {
+        context.close();
+    }
 
     @Test
     public void testAnonymous() {
