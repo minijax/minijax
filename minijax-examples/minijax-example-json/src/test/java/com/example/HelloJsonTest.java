@@ -2,6 +2,14 @@ package com.example;
 
 import static org.junit.Assert.*;
 
+import java.util.Collection;
+
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.minijax.json.JsonFeature;
@@ -19,10 +27,44 @@ public class HelloJsonTest extends MinijaxTest {
 
 
     @Test
-    public void testHelloJson() {
-        final Widget widget = target("/widgets/123").request().get(Widget.class);
+    public void testEmptyCollection() {
+        HelloJson.WIDGETS.clear();
+
+        final Collection<Widget> widgets = target("/widgets").request().get(new GenericType<Collection<Widget>>() {});
+        assertNotNull(widgets);
+        assertTrue(widgets.isEmpty());
+    }
+
+
+    @Test
+    public void testSingleWidget() {
+        HelloJson.WIDGETS.clear();
+        HelloJson.WIDGETS.put("1", new Widget("1", "Hello"));
+
+        final Collection<Widget> widgets = target("/widgets").request().get(new GenericType<Collection<Widget>>() {});
+        assertNotNull(widgets);
+        assertEquals(1, widgets.size());
+
+        final Widget widget = target("/widgets/1").request().get(Widget.class);
         assertNotNull(widget);
-        assertEquals("123", widget.id);
-        assertEquals("foo", widget.value);
+        assertEquals("1", widget.id);
+        assertEquals("Hello", widget.value);
+    }
+
+
+    @Test
+    public void testCreateWidget() {
+        HelloJson.WIDGETS.clear();
+
+        final String json = "{\"id\":\"2\",\"value\":\"World\"}";
+
+        final Response response = target("/widgets").request().post(Entity.entity(json, MediaType.APPLICATION_JSON_TYPE));
+        assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
+        assertEquals("/widgets/2", response.getLocation().toString());
+
+        final Widget widget = target(response.getLocation()).request().get(Widget.class);
+        assertNotNull(widget);
+        assertEquals("2", widget.id);
+        assertEquals("World", widget.value);
     }
 }

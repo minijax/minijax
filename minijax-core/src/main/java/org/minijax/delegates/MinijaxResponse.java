@@ -30,7 +30,6 @@ class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResp
     private Date lastModified;
     private int length;
     private Set<Link> links;
-    private URI location;
     private MediaType mediaType;
 
     public MinijaxResponse(final MinijaxResponseBuilder builder) {
@@ -146,7 +145,8 @@ class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResp
 
     @Override
     public URI getLocation() {
-        return location;
+        final String locationStr = getHeaderString(HttpHeaders.LOCATION);
+        return locationStr == null ? null : URI.create(locationStr);
     }
 
     @Override

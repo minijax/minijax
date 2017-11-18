@@ -63,7 +63,11 @@ public class MinijaxTest {
     }
 
     protected static WebTarget target(final String uri) {
-        return new MinijaxWebTarget(server, URI.create(uri));
+        return target(URI.create(uri));
+    }
+
+    protected static WebTarget target(final URI uri) {
+        return new MinijaxWebTarget(server, uri);
     }
 
     protected static MinijaxRequestContext createRequestContext() {

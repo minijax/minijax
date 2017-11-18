@@ -12,6 +12,8 @@ This example demonstrates:
 
 The source code is available at <https://github.com/minijax/minijax/tree/master/minijax-examples/minijax-example-hello>
 
+Estimated reading time: 5 minutes
+
 Lines of code:
 
 ```
@@ -49,12 +51,12 @@ The pom is short and sweet with only two dependencies:
 The "minijax-core" dependency includes everything we need for a simple demonstration:
 
 * Embedded Jetty for web server
-* Custom JAX-RS implementation for routing
+* JAX-RS implementation for routing
 
 Hello.java
 ----------
 
-Hello.java includes all Java code for our application:
+Hello.java includes all of the Java code for our application:
 
 ```java
 package com.example;
@@ -85,7 +87,7 @@ Key points:
 public class Hello {
 ```
 
-A **Resource Class** must have a ```@Path``` annotation.
+A **Resource Class** must have a `@Path` annotation.
 
 ```java
 @GET
@@ -94,7 +96,7 @@ public static String hello() {
 }
 ```
 
-A **Resource Method** must have an HTTP verb annotation such as ```@GET``` or ```@POST```.  In this example, by only using ```@GET```, we will only respond to GET requests.
+A **Resource Method** must have an HTTP verb annotation such as `@GET` or `@POST`.
 
 This is a tiny preview of JAX-RS capabilities.  For a deeper review, I recommend Oracle's [Chapter 13 Building RESTful Web Services with JAX-RS and Jersey](https://docs.oracle.com/cd/E19226-01/820-7627/6nisfjmk8/index.html).  While that documentation is for Jersey, nearly all JAX-RS features are available in Minijax.
 
@@ -104,9 +106,9 @@ Back to Hello.java:
 public static void main(final String[] args) {
     new Minijax().register(Hello.class).run(8080);
 }
-``` 
+```
 
-Obviously the ```main``` function is the application entry point.  
+Obviously the `main` function is the application entry point.
 
 `new Minijax()` creates a new Minijax container.  
 
@@ -206,3 +208,9 @@ There's a lot to unpack here, so let's take it one step at a time:
 `get(String.class)` executes the GET request, and expects a `String` result.
 
 As you might have guessed, we could have called `post()`, `put()`, or `delete()` instead.  We will see examples of those in future articles.
+
+Next
+----
+
+* [JSON Example](https://minijax.org/minijax-examples/minijax-example-json/index.html) - Learn how to read/write JSON from resource methods
+* [Websocket Example](https://minijax.org/minijax-examples/minijax-example-websocket/index.html) - Learn how to enable websocket endpoints

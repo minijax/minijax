@@ -40,14 +40,14 @@ public class Hello {
 
 3. Run and view:
 
-<http://localhost:8080>
+> <http://localhost:8080>
 
 Resource Methods
 ----------------
 
 The main building blocks of JAX-RS applications are **Resource Classes** and **Resource Methods**.
 
-A **Resource Class** is a POJO annotated with a ```@Path``` annotation.
+A **Resource Class** is a POJO annotated with a `@Path` annotation.
 
 ```java
 @Path("users")
@@ -61,7 +61,7 @@ public class WidgetsResource {
 }
 ```
 
-A **Resource Method** is a method annotated with an HTTP verb annotation such as ```@GET``` or ```@POST```.
+A **Resource Method** is a method annotated with an HTTP verb annotation such as `@GET` or `@POST`.
 
 ```java
 @GET
@@ -88,7 +88,7 @@ public Response delete() {
 Path Parameters
 ---------------
 
-Route patterns can include named parameters, accessible via ```@PathParam``` annotated arguments:
+Route patterns can include named parameters, accessible via `@PathParam` annotated arguments:
 
 ```java
 // Matches "GET /hello/foo"
@@ -103,7 +103,7 @@ public String get(@PathParam("name") String name) {
 Query Parameters
 ----------------
 
-Query string parameters are accessible via ```@QueryParam``` annotated arguments:
+Query string parameters are accessible via `@QueryParam` annotated arguments:
 
 
 ```java
@@ -121,7 +121,7 @@ Form Parameters
 
 There are several options for retrieving form parameters.
 
-Retrieve individual form elements using ```@FormParam``` annotated arguments:
+Retrieve individual form elements using `@FormParam` annotated arguments:
 
 ```java
 @POST
@@ -133,7 +133,7 @@ public String handleSubmit(
 }
 ```
 
-Retrieve the entire form as a ```MultivaluedMap<String, String>```:
+Retrieve the entire form as a `MultivaluedMap<String, String>`:
 
 ```java
 @POST
@@ -143,7 +143,7 @@ public String handleSubmit(MultivaluedMap<String, String> formParams) {
 }
 ```
 
-Retrieve multipart data (such as file uploads) using ```java.io.InputStream```:
+Retrieve multipart data (such as file uploads) using `java.io.InputStream`:
 
 ```java
 @POST
