@@ -14,7 +14,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.NewCookie;
-import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.StatusType;
 import javax.ws.rs.core.Variant;
 
@@ -61,12 +60,12 @@ class MinijaxResponseBuilder extends javax.ws.rs.core.Response.ResponseBuilder {
 
     @Override
     @SuppressWarnings({ "squid:S2975", "squid:S1182" })
-    public ResponseBuilder clone() {
+    public MinijaxResponseBuilder clone() {
         return new MinijaxResponseBuilder(this);
     }
 
     @Override
-    public ResponseBuilder status(final int status) {
+    public MinijaxResponseBuilder status(final int status) {
         // Note: Use setStatusInfo instead of setStatusCode.
         // The former will try to update family and reason phrase for known statuses.
         statusInfo.setStatusInfo(status);
@@ -74,25 +73,25 @@ class MinijaxResponseBuilder extends javax.ws.rs.core.Response.ResponseBuilder {
     }
 
     @Override
-    public ResponseBuilder status(final int status, final String reasonPhrase) {
+    public MinijaxResponseBuilder status(final int status, final String reasonPhrase) {
         statusInfo.setStatusInfo(status, reasonPhrase);
         return this;
     }
 
     @Override
-    public ResponseBuilder entity(final Object entity) {
+    public MinijaxResponseBuilder entity(final Object entity) {
         this.entity = entity;
         return this;
     }
 
     @Override
-    public ResponseBuilder entity(final Object entity, final Annotation[] annotations) {
+    public MinijaxResponseBuilder entity(final Object entity, final Annotation[] annotations) {
         this.entity = entity;
         return this;
     }
 
     @Override
-    public ResponseBuilder allow(final String... methods) {
+    public MinijaxResponseBuilder allow(final String... methods) {
         for (final String method : methods) {
             headers.add("Allow", method);
         }
@@ -100,7 +99,7 @@ class MinijaxResponseBuilder extends javax.ws.rs.core.Response.ResponseBuilder {
     }
 
     @Override
-    public ResponseBuilder allow(final Set<String> methods) {
+    public MinijaxResponseBuilder allow(final Set<String> methods) {
         for (final String method : methods) {
             headers.add("Allow", method);
         }
@@ -108,61 +107,61 @@ class MinijaxResponseBuilder extends javax.ws.rs.core.Response.ResponseBuilder {
     }
 
     @Override
-    public ResponseBuilder cacheControl(final CacheControl cacheControl) {
+    public MinijaxResponseBuilder cacheControl(final CacheControl cacheControl) {
         header("Cache-Control", cacheControl);
         return this;
     }
 
     @Override
-    public ResponseBuilder encoding(final String encoding) {
+    public MinijaxResponseBuilder encoding(final String encoding) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public ResponseBuilder header(final String name, final Object value) {
+    public MinijaxResponseBuilder header(final String name, final Object value) {
         headers.add(name, value);
         return this;
     }
 
     @Override
-    public ResponseBuilder replaceAll(final MultivaluedMap<String, Object> headers) {
+    public MinijaxResponseBuilder replaceAll(final MultivaluedMap<String, Object> headers) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public ResponseBuilder language(final String language) {
+    public MinijaxResponseBuilder language(final String language) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public ResponseBuilder language(final Locale language) {
+    public MinijaxResponseBuilder language(final Locale language) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public ResponseBuilder type(final MediaType type) {
+    public MinijaxResponseBuilder type(final MediaType type) {
         mediaType = type;
         return this;
     }
 
     @Override
-    public ResponseBuilder type(final String type) {
+    public MinijaxResponseBuilder type(final String type) {
         mediaType = MediaType.valueOf(type);
         return this;
     }
 
     @Override
-    public ResponseBuilder variant(final Variant variant) {
+    public MinijaxResponseBuilder variant(final Variant variant) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public ResponseBuilder contentLocation(final URI location) {
+    public MinijaxResponseBuilder contentLocation(final URI location) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public ResponseBuilder cookie(final NewCookie... cookies) {
+    public MinijaxResponseBuilder cookie(final NewCookie... cookies) {
         for (final NewCookie cookie : cookies) {
             headers.add("Set-Cookie", cookie);
         }
@@ -170,53 +169,53 @@ class MinijaxResponseBuilder extends javax.ws.rs.core.Response.ResponseBuilder {
     }
 
     @Override
-    public ResponseBuilder expires(final Date expires) {
+    public MinijaxResponseBuilder expires(final Date expires) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public ResponseBuilder lastModified(final Date lastModified) {
+    public MinijaxResponseBuilder lastModified(final Date lastModified) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public ResponseBuilder location(final URI location) {
+    public MinijaxResponseBuilder location(final URI location) {
         headers.add("Location", location);
         return this;
     }
 
     @Override
-    public ResponseBuilder tag(final EntityTag tag) {
+    public MinijaxResponseBuilder tag(final EntityTag tag) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public ResponseBuilder tag(final String tag) {
+    public MinijaxResponseBuilder tag(final String tag) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public ResponseBuilder variants(final Variant... variants) {
+    public MinijaxResponseBuilder variants(final Variant... variants) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public ResponseBuilder variants(final List<Variant> variants) {
+    public MinijaxResponseBuilder variants(final List<Variant> variants) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public ResponseBuilder links(final Link... links) {
+    public MinijaxResponseBuilder links(final Link... links) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public ResponseBuilder link(final URI uri, final String rel) {
+    public MinijaxResponseBuilder link(final URI uri, final String rel) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public ResponseBuilder link(final String uri, final String rel) {
+    public MinijaxResponseBuilder link(final String uri, final String rel) {
         throw new UnsupportedOperationException();
     }
 }
