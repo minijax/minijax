@@ -112,32 +112,43 @@ class ConstructorProviderBuilder<T> {
         final List<Method> methods = new ArrayList<>();
 
         for (final Method method : type.getDeclaredMethods()) {
-            final boolean candidate = method.isAnnotationPresent(Inject.class) && !Modifier.isAbstract(method.getModifiers());
-            final String shortKey = method.getReturnType().toString() + " " + method.getName() + " " + Arrays.toString(method.getParameterTypes());
-            final String packageKey = getPackageName(method) + " " + shortKey;
-            Method oldMethod;
-
-            if (map.containsKey(packageKey) && (oldMethod = map.get(packageKey)) != null) {
-                final int mod = oldMethod.getModifiers();
-                if (!(Modifier.isPrivate(mod) || Modifier.isStatic(mod) || mod == 0) || isSamePackage(oldMethod, method)) {
-                    toRemove.add(map.get(packageKey));
-                }
-            } else if (map.containsKey(shortKey) && (oldMethod = map.get(shortKey)) != null) {
-                final int mod = oldMethod.getModifiers();
-                if (Modifier.isPublic(mod) || Modifier.isProtected(mod)) {
-                    toRemove.add(map.get(shortKey));
-                }
-            }
-
-            if (candidate) {
-                method.setAccessible(true);
-                map.put(packageKey, method);
-                map.put(shortKey, method);
+            if (processMethod(method)) {
                 methods.add(method);
             }
         }
 
         typeMethods.put(type, methods);
+    }
+
+    private boolean processMethod(final Method method) {
+        final boolean candidate = isCandidate(method);
+        final String shortKey = buildShortKey(method);
+        final String packageKey = getPackageName(method) + " " + shortKey;
+        Method oldMethod;
+
+        if (map.containsKey(packageKey) && (oldMethod = map.get(packageKey)) != null) {
+            final int mod = oldMethod.getModifiers();
+            if (!(Modifier.isPrivate(mod) || Modifier.isStatic(mod) || mod == 0) || isSamePackage(oldMethod, method)) {
+                toRemove.add(map.get(packageKey));
+            }
+        } else if (map.containsKey(shortKey) && (oldMethod = map.get(shortKey)) != null) {
+            final int mod = oldMethod.getModifiers();
+            if (Modifier.isPublic(mod) || Modifier.isProtected(mod)) {
+                toRemove.add(map.get(shortKey));
+            }
+        }
+
+        if (candidate) {
+            method.setAccessible(true);
+            map.put(packageKey, method);
+            map.put(shortKey, method);
+        }
+
+        return candidate;
+    }
+
+    private static boolean isCandidate(final Method method) {
+        return method.isAnnotationPresent(Inject.class) && !Modifier.isAbstract(method.getModifiers());
     }
 
     private <T1, T2> InjectionSet<T2> buildInjectionSet(
@@ -277,6 +288,10 @@ class ConstructorProviderBuilder<T> {
             chainString.append(key.toString()).append(" -> \n");
         }
         return chainString.append(lastKey.toString()).toString();
+    }
+
+    private static String buildShortKey(final Method method) {
+        return method.getReturnType().toString() + " " + method.getName() + " " + Arrays.toString(method.getParameterTypes());
     }
 
     private static String getPackageName(final Method method) {
