@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.minijax</groupId>
         <artifactId>minijax-archetypes</artifactId>
-        <version>0.0.32-SNAPSHOT</version>
+        <version>0.0.32</version>
     </parent>
     <artifactId>minijax-archetype-quickstart</artifactId>
     <name>minijax-archetype-quickstart</name>
