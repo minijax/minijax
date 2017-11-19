@@ -20,6 +20,7 @@ import org.minijax.view.View;
 
 @Path("/")
 @Produces(MediaType.TEXT_HTML)
+@SuppressWarnings({ "squid:S1192", "squid:S2160" })
 public class Minitwit {
 
     @Entity(name = "User")
