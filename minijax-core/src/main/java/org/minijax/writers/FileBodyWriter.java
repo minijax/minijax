@@ -7,7 +7,6 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
@@ -30,7 +29,7 @@ public class FileBodyWriter implements MessageBodyWriter<File> {
             final MediaType mediaType,
             final MultivaluedMap<String, Object> httpHeaders,
             final OutputStream entityStream)
-            throws IOException, WebApplicationException {
+                    throws IOException {
 
         try (final FileInputStream inputStream = new FileInputStream(file)) {
             IOUtils.copy(inputStream, entityStream);
