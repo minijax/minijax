@@ -13,11 +13,11 @@ import org.minijax.Minijax;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class WebSocketExample {
-    private static final Logger LOG = LoggerFactory.getLogger(WebSocketExample.class);
+public class HelloWebSocket {
+    private static final Logger LOG = LoggerFactory.getLogger(HelloWebSocket.class);
 
     @ServerEndpoint("/echo")
-    public static class WebSocketResource {
+    public static class EchoEndpoint {
 
         @OnOpen
         public void onOpen(final Session session) throws IOException {
@@ -44,9 +44,9 @@ class WebSocketExample {
 
     public static void main(final String[] args) {
         new Minijax()
-                .register(WebSocketExample.class)
-                .register(WebSocketResource.class)
-                .addStaticFile("static/index.html", "/index")
+                .register(EchoEndpoint.class)
+                .addStaticFile("static/index.html", "/")
+                .addStaticDirectory("static")
                 .run(8080);
     }
 }

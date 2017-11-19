@@ -12,29 +12,29 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.example.WebSocketExample.WebSocketResource;
+import com.example.HelloWebSocket.EchoEndpoint;
 
 @RunWith(MockitoJUnitRunner.class)
-public class WebSocketResourceTest {
+public class HelloWebSocketTest {
 
     @Test
     public void testWebSocket() throws IOException {
-        final WebSocketResource resource = new WebSocketResource();
+        final EchoEndpoint endpoint = new EchoEndpoint();
         final Session session = getSession();
-        resource.onOpen(session);
-        assertEquals("hello", resource.onMessage("hello", session));
-        resource.onClose(session);
+        endpoint.onOpen(session);
+        assertEquals("hello", endpoint.onMessage("hello", session));
+        endpoint.onClose(session);
     }
 
 
 
     @Test
     public void testWebSocketError() throws IOException {
-        final WebSocketResource resource = new WebSocketResource();
+        final EchoEndpoint endpoint = new EchoEndpoint();
         final Session session = getSession();
-        resource.onOpen(session);
-        resource.onError(session, new Exception());
-        resource.onClose(session);
+        endpoint.onOpen(session);
+        endpoint.onError(session, new Exception());
+        endpoint.onClose(session);
     }
 
 
