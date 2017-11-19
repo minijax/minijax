@@ -22,13 +22,13 @@ import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.SslConnectionFactory;
-import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.minijax.cdi.MinijaxInjector;
 import org.minijax.util.OptionalClasses;
+import org.minijax.util.UrlUtils;
 
 /**
  * The Minijax class represents a container for JAX-RS applications.
@@ -59,7 +59,6 @@ public class Minijax {
     private final MinijaxConfiguration configuration;
     private final MinijaxApplication defaultApplication;
     private final List<MinijaxApplication> applications;
-    private final List<MinijaxStaticResource> staticResources;
 
     public Minijax() {
         injector = new MinijaxInjector(this);
@@ -67,7 +66,6 @@ public class Minijax {
         defaultApplication = new MinijaxApplication(this, "/");
         applications = new ArrayList<>();
         applications.add(defaultApplication);
-        staticResources = new ArrayList<>();
     }
 
 
@@ -188,26 +186,21 @@ public class Minijax {
 
 
     public Minijax addStaticFile(final String resourceName) {
-        final String pathSpec = String.format("/%s", resourceName);
+        final String pathSpec = UrlUtils.concatUrlPaths(resourceName, null);
         return addStaticFile(resourceName, pathSpec);
     }
 
 
-    public Minijax addStaticFile(final String resourceName, final String pathSpec) {
-        final String resourceUrl = Minijax.class.getClassLoader().getResource(resourceName).toExternalForm();
-        return addStaticResource(resourceUrl, pathSpec);
+    public Minijax addStaticFile(final String resourceName, final String path) {
+        final String pathSpec = UrlUtils.concatUrlPaths(path, null);
+        defaultApplication.addResourceMethod(new MinijaxStaticResource(resourceName, pathSpec));
+        return this;
     }
 
 
     public Minijax addStaticDirectory(final String resourceName) {
-        final String resourceUrl = Minijax.class.getClassLoader().getResource(resourceName).toExternalForm();
-        final String pathSpec = String.format("/%s/*", resourceName);
-        return addStaticResource(resourceUrl, pathSpec);
-    }
-
-
-    private Minijax addStaticResource(final String resourceUrl, final String pathSpec) {
-        staticResources.add(new MinijaxStaticResource(resourceUrl, pathSpec));
+        final String pathSpec = UrlUtils.concatUrlPaths(resourceName, "{file:.*}");
+        defaultApplication.addResourceMethod(new MinijaxStaticResource(resourceName, pathSpec));
         return this;
     }
 
@@ -245,23 +238,13 @@ public class Minijax {
             context.setContextPath("/");
             server.setHandler(context);
 
-            // (1) Static resources
-            for (final MinijaxStaticResource staticResource : staticResources) {
-                final ServletHolder staticHolder = new ServletHolder(new DefaultServlet());
-                staticHolder.setInitParameter("pathInfoOnly", "true");
-                staticHolder.setInitParameter("resourceBase", staticResource.getResourceBase());
-                context.addServlet(staticHolder, staticResource.getPathSpec());
-            }
-
             for (final MinijaxApplication application : applications) {
                 addApplication(context, application);
             }
 
-            // (4) HTTP or HTTPS connector
             final ServerConnector connector = createConnector(server);
             connector.setPort(port);
             server.setConnectors(new Connector[] { connector });
-
             server.start();
             server.join();
 
@@ -273,6 +256,9 @@ public class Minijax {
 
     private void addApplication(final ServletContextHandler context, final MinijaxApplication application)
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+
+        // (0) Sort the resource methods by literal length
+        application.sortResourceMethods();
 
         // (1) Add Minijax filter (must come before websocket!)
         context.addFilter(new FilterHolder(new MinijaxFilter(application)), "/*", EnumSet.of(DispatcherType.REQUEST));

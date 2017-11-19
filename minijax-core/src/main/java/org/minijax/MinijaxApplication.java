@@ -1,7 +1,6 @@
 package org.minijax;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -44,7 +43,6 @@ import org.minijax.cdi.EntityProvider;
 import org.minijax.cdi.MinijaxInjector;
 import org.minijax.util.ClassPathScanner;
 import org.minijax.util.ExceptionUtils;
-import org.minijax.util.IOUtils;
 import org.minijax.util.MediaTypeUtils;
 import org.minijax.util.OptionalClasses;
 import org.slf4j.Logger;
@@ -279,21 +277,24 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
 
     private void registerResourceMethods(final Class<?> c) {
-        boolean changed = false;
-
         for (final Method method : c.getDeclaredMethods()) {
             for (final Annotation annotation : method.getAnnotations()) {
                 final HttpMethod httpMethod = annotation.annotationType().getAnnotation(HttpMethod.class);
                 if (httpMethod != null) {
                     resourceMethods.add(new MinijaxResourceMethod(httpMethod.value(), method, getParamProviders(method)));
-                    changed = true;
                 }
             }
         }
+    }
 
-        if (changed) {
-            MinijaxResourceMethod.sortByLiteralLength(resourceMethods);
-        }
+
+    void addResourceMethod(final MinijaxResourceMethod rm) {
+        resourceMethods.add(rm);
+    }
+
+
+    void sortResourceMethods() {
+        MinijaxResourceMethod.sortByLiteralLength(resourceMethods);
     }
 
 
@@ -575,16 +576,6 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
         final Object obj = response.getEntity();
         if (obj == null) {
-            return;
-        }
-
-        if (obj instanceof String) {
-            servletResponse.getWriter().write((String) obj);
-            return;
-        }
-
-        if (obj instanceof InputStream) {
-            IOUtils.copy((InputStream) obj, servletResponse.getOutputStream());
             return;
         }
 

@@ -21,8 +21,14 @@ import javax.ws.rs.ext.Providers;
 import org.minijax.util.MediaTypeClassMap;
 import org.minijax.util.MediaTypeUtils;
 import org.minijax.util.UuidParamConverterProvider;
+import org.minijax.writers.FileBodyWriter;
+import org.minijax.writers.InputStreamBodyWriter;
+import org.minijax.writers.StringBodyWriter;
 
 public class MinijaxProviders implements Providers {
+    private static final StringBodyWriter STRING_WRITER = new StringBodyWriter();
+    private static final InputStreamBodyWriter INPUT_STREAM_WRITER = new InputStreamBodyWriter();
+    private static final FileBodyWriter FILE_WRITER = new FileBodyWriter();
     private final MinijaxApplication application;
     private final MediaTypeClassMap<MessageBodyReader<?>> readers;
     private final MediaTypeClassMap<MessageBodyWriter<?>> writers;
@@ -84,6 +90,18 @@ public class MinijaxProviders implements Providers {
             final Type genericType,
             final Annotation[] annotations,
             final MediaType mediaType) {
+
+        if (STRING_WRITER.isWriteable(type, genericType, annotations, mediaType)) {
+            return (MessageBodyWriter<T>) STRING_WRITER;
+        }
+
+        if (INPUT_STREAM_WRITER.isWriteable(type, genericType, annotations, mediaType)) {
+            return (MessageBodyWriter<T>) INPUT_STREAM_WRITER;
+        }
+
+        if (FILE_WRITER.isWriteable(type, genericType, annotations, mediaType)) {
+            return (MessageBodyWriter<T>) FILE_WRITER;
+        }
 
         for (final Class<? extends MessageBodyWriter<?>> writerClass : writers.get(mediaType)) {
             final MessageBodyWriter writer = application.get(writerClass);

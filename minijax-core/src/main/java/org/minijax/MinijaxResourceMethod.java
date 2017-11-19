@@ -27,20 +27,32 @@ class MinijaxResourceMethod {
     private final String httpMethod;
     private final Method method;
     private final Provider<?>[] paramProviders;
-    private final String path;
     private final MinijaxPathPattern pathPattern;
     private final List<MediaType> produces;
     private final Annotation securityAnnotation;
     final int literalLength;
 
     public MinijaxResourceMethod(final String httpMethod, final Method method, final Provider<?>[] paramProviders) {
+        this(httpMethod, method, paramProviders, findPath(method), findProduces(method), findSecurityAnnotation(method));
+    }
+
+    public MinijaxResourceMethod(final String httpMethod, final String path) {
+        this(httpMethod, null, null, path, null, null);
+    }
+
+    MinijaxResourceMethod(
+            final String httpMethod,
+            final Method method,
+            final Provider<?>[] paramProviders,
+            final String path,
+            final List<MediaType> produces,
+            final Annotation securityAnnotation) {
         this.httpMethod = httpMethod;
         this.method = method;
         this.paramProviders = paramProviders;
-        path = findPath(method);
+        this.produces = produces;
+        this.securityAnnotation = securityAnnotation;
         pathPattern = MinijaxPathPattern.parse(method, path);
-        produces = findProduces(method);
-        securityAnnotation = findSecurityAnnotation(method);
         literalLength = calculateLiteralLength(path);
     }
 
@@ -137,7 +149,6 @@ class MinijaxResourceMethod {
         }
 
         final String requestPath = uriInfo.getRequestUri().getPath();
-
         final Matcher matcher = pathPattern.getPattern().matcher(requestPath);
         if (!matcher.matches()) {
             return false;
