@@ -2,6 +2,7 @@ package org.minijax.validator;
 
 import java.lang.annotation.Annotation;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.validation.MessageInterpolator;
 import javax.validation.ValidationException;
@@ -18,7 +19,14 @@ public class MinijaxMessageInterpolator implements MessageInterpolator {
         throw new UnsupportedOperationException();
     }
 
-    public static String generateMessage(final String messageTemplate, final Annotation annotation) {
+    public static String generateMessage(final String messageKey, final Annotation annotation) {
+        if (messageKey == null) {
+            return null;
+        }
+
+        final ResourceBundle resourceBundle = ResourceBundle.getBundle("org.minijax.validator.ValidationMessages");
+        final String messageTemplate = resourceBundle.getString(messageKey.substring(1, messageKey.length() - 1));
+
         final StringBuilder result = new StringBuilder();
         final StringBuilder expr = new StringBuilder();
         boolean inside = false;
@@ -44,7 +52,7 @@ public class MinijaxMessageInterpolator implements MessageInterpolator {
 
     private static String evaluate(final String expr, final Annotation annotation) {
         try {
-            return String.valueOf(annotation.annotationType().getMethod(expr.toString()).invoke(annotation));
+            return String.valueOf(annotation.annotationType().getMethod(expr).invoke(annotation));
         } catch (final ReflectiveOperationException ex) {
             throw new ValidationException(ex);
         }

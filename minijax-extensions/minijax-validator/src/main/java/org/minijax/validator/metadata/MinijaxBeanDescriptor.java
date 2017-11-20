@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.metadata.BeanDescriptor;
-import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.ConstructorDescriptor;
 import javax.validation.metadata.MethodDescriptor;
 import javax.validation.metadata.MethodType;
@@ -17,13 +16,12 @@ public class MinijaxBeanDescriptor extends MinijaxElementDescriptor implements B
     private final Set<PropertyDescriptor> constrainedProperties;
 
     public MinijaxBeanDescriptor(final Class<?> elementClass) {
-        super(elementClass, buildConstraintDescriptors(elementClass));
+        super(elementClass, emptySet());
         constrainedProperties = buildConstrainedProperties(elementClass);
     }
 
     @Override
     public boolean isBeanConstrained() {
-        //throw new UnsupportedOperationException();
         return !constrainedProperties.isEmpty();
     }
 
@@ -59,10 +57,6 @@ public class MinijaxBeanDescriptor extends MinijaxElementDescriptor implements B
     @Override
     public Set<ConstructorDescriptor> getConstrainedConstructors() {
         throw new UnsupportedOperationException();
-    }
-
-    private static Set<ConstraintDescriptor<?>> buildConstraintDescriptors(final Class<?> c) {
-        return emptySet();
     }
 
     private static Set<PropertyDescriptor> buildConstrainedProperties(final Class<?> c) {

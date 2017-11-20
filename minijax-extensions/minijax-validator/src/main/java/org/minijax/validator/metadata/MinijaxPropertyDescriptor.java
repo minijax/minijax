@@ -79,12 +79,6 @@ public class MinijaxPropertyDescriptor extends MinijaxElementDescriptor implemen
         // java.util.Optional, java.util.OptionalInt, java.util.OptionalDouble,
         // java.util.OptionalLong,
 
-        final Class<?> cls = field.getClass();
-
-        if (Iterable.class.isAssignableFrom(cls)) {
-
-        }
-
         return result;
     }
 }

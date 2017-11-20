@@ -5,7 +5,6 @@ import java.lang.reflect.AnnotatedType;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.validation.Constraint;
@@ -29,13 +28,14 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
     private final ConstraintValidator<T, ?> constraintValidator;
     private final String messageTemplate;
 
-    private MinijaxConstraintDescriptor(final T annotation, final ConstraintValidator<T, ?> constraintValidator, final String messageTemplate) {
+    private MinijaxConstraintDescriptor(final T annotation, final ConstraintValidator<T, ?> constraintValidator) {
         this.annotation = annotation;
         this.constraintValidator = constraintValidator;
-        this.messageTemplate = messageTemplate;
+        messageTemplate = getMessageTemplate(annotation);
     }
 
-    public ConstraintValidator<T, ?> getConstraintValidator() {
+    @SuppressWarnings("rawtypes")
+    public ConstraintValidator getConstraintValidator() {
         return constraintValidator;
     }
 
@@ -105,53 +105,59 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
         final List<Class<? extends ConstraintValidator<T, ?>>> declared =
                 Arrays.asList((Class<? extends ConstraintValidator<T, ?>>[]) constraint.validatedBy());
 
-        final ConstraintValidator<T, ?> constraintValidator;
-        final String messageKey;
-
         if (!declared.isEmpty()) {
-            constraintValidator = declared.get(0).getConstructor().newInstance();
-            messageKey = "";
+            return new MinijaxConstraintDescriptor<>(annotation, declared.get(0).getConstructor().newInstance());
 
         } else if (annotationClass == Min.class) {
-            final Min min = (Min) annotation;
-            messageKey = min.message();
-
-            if (valueClass == int.class || valueClass == Integer.class) {
-                constraintValidator = (ConstraintValidator<T, ?>) new IntegerMinValidator(min);
-            } else {
-                throw new IllegalArgumentException("Unsupported type for @Min annotation: " + valueClass);
-            }
+            return (MinijaxConstraintDescriptor<T>) buildMinValidator((Min) annotation, valueClass);
 
         } else if (annotationClass == NotNull.class) {
-            constraintValidator = (ConstraintValidator<T, ?>) NotNullValidator.getInstance();
-            messageKey = ((NotNull) annotation).message();
+            return (MinijaxConstraintDescriptor<T>) buildNotNullValidator((NotNull) annotation);
 
         } else if (annotationClass == Pattern.class) {
-            final Pattern pattern = (Pattern) annotation;
-            messageKey = pattern.message();
-
-            if (CharSequence.class.isAssignableFrom(valueClass)) {
-                constraintValidator = (ConstraintValidator<T, ?>) new CharSequencePatternValidator(pattern);
-            } else {
-                throw new IllegalArgumentException("Unsupported type for @Pattern annotation: " + valueClass);
-            }
+            return (MinijaxConstraintDescriptor<T>) buildPatternValidator((Pattern) annotation, valueClass);
 
         } else if (annotationClass == Size.class) {
-            final Size size = (Size) annotation;
-            messageKey = size.message();
-
-            if (CharSequence.class.isAssignableFrom(valueClass)) {
-                constraintValidator = (ConstraintValidator<T, ?>) new CharSequenceSizeValidator(size);
-            } else {
-                throw new IllegalArgumentException("Unsupported type for @Size annotation: " + valueClass);
-            }
+            return (MinijaxConstraintDescriptor<T>) buildSizeValidator((Size) annotation, valueClass);
 
         } else {
             throw new IllegalArgumentException("Unrecognized constraint annotation: " + annotation);
         }
+    }
 
-        final ResourceBundle resourceBundle = ResourceBundle.getBundle("org.minijax.validator.ValidationMessages");
-        final String messageTemplate = resourceBundle.getString(messageKey.substring(1, messageKey.length() - 1));
-        return new MinijaxConstraintDescriptor<>(annotation, constraintValidator, messageTemplate);
+    private static MinijaxConstraintDescriptor<Min> buildMinValidator(final Min min, final Class<?> valueClass) {
+        if (valueClass == int.class || valueClass == Integer.class) {
+            return new MinijaxConstraintDescriptor<>(min, new IntegerMinValidator(min));
+        }
+
+        throw new IllegalArgumentException("Unsupported type for @Min annotation: " + valueClass);
+    }
+
+    private static MinijaxConstraintDescriptor<NotNull> buildNotNullValidator(final NotNull notNull) {
+        return new MinijaxConstraintDescriptor<>(notNull, NotNullValidator.getInstance());
+    }
+
+    private static MinijaxConstraintDescriptor<Pattern> buildPatternValidator(final Pattern pattern, final Class<?> valueClass) {
+        if (CharSequence.class.isAssignableFrom(valueClass)) {
+            return new MinijaxConstraintDescriptor<>(pattern, new CharSequencePatternValidator(pattern));
+        }
+
+        throw new IllegalArgumentException("Unsupported type for @Pattern annotation: " + valueClass);
+    }
+
+    private static MinijaxConstraintDescriptor<Size> buildSizeValidator(final Size size, final Class<?> valueClass) {
+        if (CharSequence.class.isAssignableFrom(valueClass)) {
+            return new MinijaxConstraintDescriptor<>(size, new CharSequenceSizeValidator(size));
+        }
+
+        throw new IllegalArgumentException("Unsupported type for @Size annotation: " + valueClass);
+    }
+
+    private static String getMessageTemplate(final Annotation annotation) {
+        try {
+            return (String) annotation.annotationType().getMethod("message").invoke(annotation);
+        } catch (final ReflectiveOperationException ex) {
+            return null;
+        }
     }
 }
