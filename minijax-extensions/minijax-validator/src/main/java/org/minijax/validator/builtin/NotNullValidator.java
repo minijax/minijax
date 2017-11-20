@@ -1,21 +1,18 @@
 package org.minijax.validator.builtin;
 
-import java.lang.annotation.Annotation;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import javax.validation.constraints.NotNull;
 
-public class NotNullValidator<A extends Annotation, T> implements ConstraintValidator<A, T> {
-    @SuppressWarnings("rawtypes")
+public class NotNullValidator implements ConstraintValidator<NotNull, Object> {
     private static final NotNullValidator INSTANCE = new NotNullValidator();
 
-    @SuppressWarnings("unchecked")
-    public static <A extends Annotation, T> NotNullValidator<A, T> getInstance() {
+    public static NotNullValidator getInstance() {
         return INSTANCE;
     }
 
     @Override
-    public boolean isValid(final T value, final ConstraintValidatorContext context) {
+    public boolean isValid(final Object value, final ConstraintValidatorContext context) {
         return value != null;
     }
 }

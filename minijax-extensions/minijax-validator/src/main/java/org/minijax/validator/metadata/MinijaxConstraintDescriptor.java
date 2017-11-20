@@ -12,12 +12,14 @@ import javax.validation.ConstraintValidator;
 import javax.validation.Payload;
 import javax.validation.ValidationException;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.ValidateUnwrappedValue;
 
+import org.minijax.validator.builtin.CharSequenceNotBlankValidator;
 import org.minijax.validator.builtin.CharSequencePatternValidator;
 import org.minijax.validator.builtin.CharSequenceSizeValidator;
 import org.minijax.validator.builtin.IntegerMinValidator;
@@ -111,6 +113,9 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
         } else if (annotationClass == Min.class) {
             return (MinijaxConstraintDescriptor<T>) buildMinValidator((Min) annotation, valueClass);
 
+        } else if (annotationClass == NotBlank.class) {
+            return (MinijaxConstraintDescriptor<T>) buildNotBlankValidator((NotBlank) annotation, valueClass);
+
         } else if (annotationClass == NotNull.class) {
             return (MinijaxConstraintDescriptor<T>) buildNotNullValidator((NotNull) annotation);
 
@@ -121,9 +126,10 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
             return (MinijaxConstraintDescriptor<T>) buildSizeValidator((Size) annotation, valueClass);
 
         } else {
-            throw new IllegalArgumentException("Unrecognized constraint annotation: " + annotation);
+            throw new ValidationException("Unrecognized constraint annotation: " + annotation);
         }
     }
+
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private static <T extends Annotation> MinijaxConstraintDescriptor<T> buildDeclaredValidator(final T annotation, final Class validatedBy) {
@@ -135,33 +141,47 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
         }
     }
 
+
     private static MinijaxConstraintDescriptor<Min> buildMinValidator(final Min min, final Class<?> valueClass) {
         if (valueClass == int.class || valueClass == Integer.class) {
             return new MinijaxConstraintDescriptor<>(min, new IntegerMinValidator(min));
         }
 
-        throw new IllegalArgumentException("Unsupported type for @Min annotation: " + valueClass);
+        throw new ValidationException("Unsupported type for @Min annotation: " + valueClass);
     }
+
+
+    private static MinijaxConstraintDescriptor<NotBlank> buildNotBlankValidator(final NotBlank notBlank, final Class<?> valueClass) {
+        if (CharSequence.class.isAssignableFrom(valueClass)) {
+            return new MinijaxConstraintDescriptor<>(notBlank, CharSequenceNotBlankValidator.getInstance());
+        }
+
+        throw new ValidationException("Unsupported type for @Pattern annotation: " + valueClass);
+    }
+
 
     private static MinijaxConstraintDescriptor<NotNull> buildNotNullValidator(final NotNull notNull) {
         return new MinijaxConstraintDescriptor<>(notNull, NotNullValidator.getInstance());
     }
+
 
     private static MinijaxConstraintDescriptor<Pattern> buildPatternValidator(final Pattern pattern, final Class<?> valueClass) {
         if (CharSequence.class.isAssignableFrom(valueClass)) {
             return new MinijaxConstraintDescriptor<>(pattern, new CharSequencePatternValidator(pattern));
         }
 
-        throw new IllegalArgumentException("Unsupported type for @Pattern annotation: " + valueClass);
+        throw new ValidationException("Unsupported type for @Pattern annotation: " + valueClass);
     }
+
 
     private static MinijaxConstraintDescriptor<Size> buildSizeValidator(final Size size, final Class<?> valueClass) {
         if (CharSequence.class.isAssignableFrom(valueClass)) {
             return new MinijaxConstraintDescriptor<>(size, new CharSequenceSizeValidator(size));
         }
 
-        throw new IllegalArgumentException("Unsupported type for @Size annotation: " + valueClass);
+        throw new ValidationException("Unsupported type for @Size annotation: " + valueClass);
     }
+
 
     private static String getMessageTemplate(final Annotation annotation) {
         try {
