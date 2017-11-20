@@ -45,6 +45,10 @@
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
+                    <groupId>javax.validation</groupId>
+                    <artifactId>validation-api</artifactId>
+                </exclusion>
+                <exclusion>
                     <groupId>org.eclipse.persistence</groupId>
                     <artifactId>javax.persistence</artifactId>
                 </exclusion>

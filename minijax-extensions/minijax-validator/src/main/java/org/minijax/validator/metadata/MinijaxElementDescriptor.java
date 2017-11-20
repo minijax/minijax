@@ -5,7 +5,7 @@ import java.util.Set;
 import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.ElementDescriptor;
 
-public class MinijaxElementDescriptor implements ElementDescriptor {
+public abstract class MinijaxElementDescriptor implements ElementDescriptor {
     private final Class<?> elementClass;
     private final Set<ConstraintDescriptor<?>> constraintDescriptors;
 

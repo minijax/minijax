@@ -22,7 +22,7 @@ public class MinijaxPath implements Path {
     public String toString() {
         final StringBuilder b = new StringBuilder();
         for (final Node node : nodes) {
-            if (b.length() > 0) {
+            if (b.length() > 0 && node.getKind() == ElementKind.PROPERTY) {
                 b.append('.');
             }
             b.append(node.toString());
@@ -77,6 +77,11 @@ public class MinijaxPath implements Path {
         }
 
         @Override
+        public ElementKind getKind() {
+            return ElementKind.PROPERTY;
+        }
+
+        @Override
         public Class<?> getContainerClass() {
             return null;
         }
@@ -85,10 +90,26 @@ public class MinijaxPath implements Path {
         public Integer getTypeArgumentIndex() {
             return 0;
         }
+    }
+
+    public static class MinijaxContainerElementNode extends MinijaxNode implements ContainerElementNode {
+        public MinijaxContainerElementNode(final int index, final String name) {
+            super(index, name);
+        }
 
         @Override
         public ElementKind getKind() {
-            return ElementKind.PROPERTY;
+            return ElementKind.CONTAINER_ELEMENT;
+        }
+
+        @Override
+        public Class<?> getContainerClass() {
+            return null;
+        }
+
+        @Override
+        public Integer getTypeArgumentIndex() {
+            return 0;
         }
     }
 }

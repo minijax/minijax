@@ -3,6 +3,7 @@ package org.minijax.validator.metadata;
 import static java.util.Collections.*;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,14 +31,19 @@ public class MinijaxBeanDescriptor extends MinijaxElementDescriptor implements B
         return constrainedProperties;
     }
 
+    @Override
+    public PropertyDescriptor getConstraintsForProperty(final String propertyName) {
+        for (final PropertyDescriptor propertyDescriptor : constrainedProperties) {
+            if (propertyDescriptor.getPropertyName().equals(propertyName)) {
+                return propertyDescriptor;
+            }
+        }
+        return null;
+    }
+
     /*
      * Not implemented
      */
-
-    @Override
-    public PropertyDescriptor getConstraintsForProperty(final String propertyName) {
-        throw new UnsupportedOperationException();
-    }
 
     @Override
     public MethodDescriptor getConstraintsForMethod(final String methodName, final Class<?>... parameterTypes) {
@@ -63,14 +69,26 @@ public class MinijaxBeanDescriptor extends MinijaxElementDescriptor implements B
         final Set<PropertyDescriptor> results = new HashSet<>();
 
         Class<?> currClass = c;
+
         while (currClass != null) {
             for (final Field field : currClass.getDeclaredFields()) {
-                final MinijaxPropertyDescriptor propertyDescriptor = new MinijaxPropertyDescriptor(field);
-                if (propertyDescriptor.hasConstraints()) {
+                final MinijaxFieldDescriptor fieldDescriptor = new MinijaxFieldDescriptor(field);
+                if (fieldDescriptor.hasConstraints()) {
                     field.setAccessible(true);
-                    results.add(propertyDescriptor);
+                    results.add(fieldDescriptor);
                 }
             }
+
+            for (final Method method : currClass.getDeclaredMethods()) {
+                if (method.getName().startsWith("get") && method.getParameterCount() == 0) {
+                    final MinijaxGetterDescriptor getterDescriptor = new MinijaxGetterDescriptor(method);
+                    if (getterDescriptor.hasConstraints()) {
+                        method.setAccessible(true);
+                        results.add(getterDescriptor);
+                    }
+                }
+            }
+
             currClass = currClass.getSuperclass();
         }
 

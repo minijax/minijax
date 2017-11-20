@@ -1,33 +1,39 @@
 package org.minijax.validator.metadata;
 
+import static java.util.Collections.*;
+
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedParameterizedType;
 import java.lang.reflect.AnnotatedType;
-import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.validation.Constraint;
-import javax.validation.ValidationException;
 import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.ContainerElementTypeDescriptor;
 import javax.validation.metadata.GroupConversionDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
-public class MinijaxPropertyDescriptor extends MinijaxElementDescriptor implements PropertyDescriptor {
-    private final Field field;
+public abstract class MinijaxPropertyDescriptor extends MinijaxElementDescriptor implements PropertyDescriptor {
+    private final Set<ContainerElementTypeDescriptor> constrainedContainerElementTypes;
 
-    public MinijaxPropertyDescriptor(final Field field) {
-        super(field.getDeclaringClass(), buildConstraintDescriptors(field));
-        this.field = field;
-    }
+    public MinijaxPropertyDescriptor(final Class<?> elementClass, final AnnotatedType annotatedType) {
+        super(elementClass, buildConstraintDescriptors(annotatedType));
 
-    public Field getField() {
-        return field;
+        if (annotatedType instanceof AnnotatedParameterizedType) {
+            constrainedContainerElementTypes = MinijaxContainerElementTypeDescriptor.build(elementClass, (AnnotatedParameterizedType) annotatedType);
+        } else {
+            constrainedContainerElementTypes = emptySet();
+        }
     }
 
     @Override
-    public String getPropertyName() {
-        return field.getName();
+    public boolean hasConstraints() {
+        return super.hasConstraints() || !constrainedContainerElementTypes.isEmpty();
+    }
+
+    @Override
+    public Set<ContainerElementTypeDescriptor> getConstrainedContainerElementTypes() {
+        return constrainedContainerElementTypes;
     }
 
     @Override
@@ -40,44 +46,17 @@ public class MinijaxPropertyDescriptor extends MinijaxElementDescriptor implemen
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public Set<ContainerElementTypeDescriptor> getConstrainedContainerElementTypes() {
-        throw new UnsupportedOperationException();
-    }
+    public abstract Object getValue(final Object object);
 
-    private static Set<ConstraintDescriptor<?>> buildConstraintDescriptors(final Field field) {
+    private static Set<ConstraintDescriptor<?>> buildConstraintDescriptors(final AnnotatedType annotatedType) {
         final Set<ConstraintDescriptor<?>> result = new HashSet<>();
-        final AnnotatedType annotatedType = field.getAnnotatedType();
 
-        for (final Annotation annotation : field.getAnnotations()) {
-            if (annotation.annotationType().isAnnotationPresent(Constraint.class)) {
-                try {
-                    result.add(MinijaxConstraintDescriptor.build(annotatedType, annotation));
-                } catch (final ReflectiveOperationException ex) {
-                    throw new ValidationException(ex);
-                }
+        for (final Annotation annotation : annotatedType.getAnnotations()) {
+            final MinijaxConstraintDescriptor<?> constraintDescriptor = MinijaxConstraintDescriptor.build(annotatedType, annotation);
+            if (constraintDescriptor != null) {
+                result.add(constraintDescriptor);
             }
         }
-
-        // 2.1.3. Container element constraints
-        // It is possible to specify constraints directly on the type argument of a
-        // parameterized type: these constraints are called container element
-        // constraints.
-        //
-        // This requires that ElementType.TYPE_USE is specified via @Target in the
-        // constraint definition. As of Bean Validation 2.0, built-in Bean Validation as
-        // well as Hibernate Validator specific constraints specify ElementType.TYPE_USE
-        // and can be used directly in this context.
-        //
-        // Hibernate Validator validates container element constraints specified on the
-        // following standard Java containers:
-        //
-        // implementations of java.util.Iterable (e.g. Lists, Sets),
-        //
-        // implementations of java.util.Map, with support for keys and values,
-        //
-        // java.util.Optional, java.util.OptionalInt, java.util.OptionalDouble,
-        // java.util.OptionalLong,
 
         return result;
     }

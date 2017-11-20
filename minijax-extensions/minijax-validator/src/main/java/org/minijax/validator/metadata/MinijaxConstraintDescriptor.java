@@ -2,7 +2,6 @@ package org.minijax.validator.metadata;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedType;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,6 +10,7 @@ import javax.validation.Constraint;
 import javax.validation.ConstraintTarget;
 import javax.validation.ConstraintValidator;
 import javax.validation.Payload;
+import javax.validation.ValidationException;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -25,18 +25,19 @@ import org.minijax.validator.builtin.NotNullValidator;
 
 public class MinijaxConstraintDescriptor<T extends Annotation> implements ConstraintDescriptor<T> {
     private final T annotation;
-    private final ConstraintValidator<T, ?> constraintValidator;
+    private final ConstraintValidator<T, ?> validator;
     private final String messageTemplate;
 
-    private MinijaxConstraintDescriptor(final T annotation, final ConstraintValidator<T, ?> constraintValidator) {
+    private MinijaxConstraintDescriptor(final T annotation, final ConstraintValidator<T, ?> validator) {
         this.annotation = annotation;
-        this.constraintValidator = constraintValidator;
+        this.validator = validator;
         messageTemplate = getMessageTemplate(annotation);
     }
 
     @SuppressWarnings("rawtypes")
-    public ConstraintValidator getConstraintValidator() {
-        return constraintValidator;
+    public ConstraintValidator getValidator() {
+        validator.initialize(annotation);
+        return validator;
     }
 
     @Override
@@ -95,18 +96,17 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends Annotation> MinijaxConstraintDescriptor<T> build(final AnnotatedType annotatedType, final T annotation)
-            throws ReflectiveOperationException {
-
+    public static <T extends Annotation> MinijaxConstraintDescriptor<T> build(final AnnotatedType annotatedType, final T annotation) {
         final Constraint constraint = annotation.annotationType().getAnnotation(Constraint.class);
+        if (constraint == null) {
+            return null;
+        }
+
         final Class<?> valueClass = (Class<?>) annotatedType.getType();
         final Class<?> annotationClass = annotation.annotationType();
 
-        final List<Class<? extends ConstraintValidator<T, ?>>> declared =
-                Arrays.asList((Class<? extends ConstraintValidator<T, ?>>[]) constraint.validatedBy());
-
-        if (!declared.isEmpty()) {
-            return new MinijaxConstraintDescriptor<>(annotation, declared.get(0).getConstructor().newInstance());
+        if (constraint.validatedBy().length > 0) {
+            return buildDeclaredValidator(annotation, constraint.validatedBy()[0]);
 
         } else if (annotationClass == Min.class) {
             return (MinijaxConstraintDescriptor<T>) buildMinValidator((Min) annotation, valueClass);
@@ -122,6 +122,16 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
 
         } else {
             throw new IllegalArgumentException("Unrecognized constraint annotation: " + annotation);
+        }
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private static <T extends Annotation> MinijaxConstraintDescriptor<T> buildDeclaredValidator(final T annotation, final Class validatedBy) {
+        final Class<? extends ConstraintValidator<T, ?>> c = validatedBy;
+        try {
+            return new MinijaxConstraintDescriptor<>(annotation, c.getConstructor().newInstance());
+        } catch (final ReflectiveOperationException ex) {
+            throw new ValidationException(ex);
         }
     }
 

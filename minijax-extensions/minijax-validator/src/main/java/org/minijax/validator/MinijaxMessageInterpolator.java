@@ -19,26 +19,39 @@ public class MinijaxMessageInterpolator implements MessageInterpolator {
         throw new UnsupportedOperationException();
     }
 
-    public static String generateMessage(final String messageKey, final Annotation annotation) {
+    public static String generateMessage(final String messageKey, final Annotation annotation, final Object invalidValue) {
         if (messageKey == null) {
             return null;
         }
 
-        final ResourceBundle resourceBundle = ResourceBundle.getBundle("org.minijax.validator.ValidationMessages");
-        final String messageTemplate = resourceBundle.getString(messageKey.substring(1, messageKey.length() - 1));
+        final String messageTemplate;
+        if (messageKey.startsWith("{") && messageKey.endsWith("}")) {
+            final ResourceBundle resourceBundle = ResourceBundle.getBundle("org.minijax.validator.ValidationMessages");
+            messageTemplate = resourceBundle.getString(messageKey.substring(1, messageKey.length() - 1));
+        } else {
+            messageTemplate = messageKey;
+        }
 
         final StringBuilder result = new StringBuilder();
         final StringBuilder expr = new StringBuilder();
         boolean inside = false;
+        boolean dollar = false;
 
         for (int i = 0; i < messageTemplate.length(); i++) {
             final char c = messageTemplate.charAt(i);
 
-            if (c == '{') {
+            if (c == '$') {
+                dollar = true;
+            } else if (c == '{') {
                 inside = true;
             } else if (c == '}') {
+                if (dollar) {
+                    result.append(String.valueOf(invalidValue));
+                } else {
+                    result.append(evaluate(expr.toString(), annotation));
+                }
                 inside = false;
-                result.append(evaluate(expr.toString(), annotation));
+                dollar = false;
                 expr.setLength(0);
             } else if (inside) {
                 expr.append(c);

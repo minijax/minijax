@@ -55,6 +55,8 @@ public class DaoTest extends MinijaxTest {
 
         // Update
         w2.setHandle("newhandle"); // Must change a value for update to happen
+        Thread.sleep(1L); // NOSONAR - Updated time should be after created time
+
         final Widget w3 = dao.update(w2);
         assertNotNull(w3);
         assertNotEquals(w2.getCreatedDateTime(), w3.getUpdatedDateTime());
