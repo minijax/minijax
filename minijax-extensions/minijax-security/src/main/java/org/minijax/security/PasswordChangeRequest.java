@@ -11,11 +11,12 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.apache.commons.lang3.Validate;
 import org.minijax.db.DefaultBaseEntity;
 import org.minijax.db.UuidConverter;
 
@@ -44,9 +45,11 @@ public class PasswordChangeRequest extends DefaultBaseEntity {
 
     @Column(columnDefinition = "BINARY(16)")
     @Convert(converter = UuidConverter.class)
+    @NotNull
     private UUID userId;
 
     @Column(length = 64, unique = true)
+    @Size(min = 32, max = 64)
     private String code;
 
     public UUID getUserId() {
@@ -63,11 +66,5 @@ public class PasswordChangeRequest extends DefaultBaseEntity {
 
     public void setCode(final String code) {
         this.code = code;
-    }
-
-    @Override
-    public void validate() {
-        Validate.isTrue(code.length() >= 32, "Password change request code must be at least 32 characters");
-        Validate.notNull(userId, "Password change request user must not be null");
     }
 }

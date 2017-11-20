@@ -4,10 +4,21 @@ import static org.junit.Assert.*;
 
 import java.util.UUID;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.util.IdUtils;
 
 public class UserSessionTest {
+    private static Validator validator;
+
+    @BeforeClass
+    public static void setUpUserSessionTest() {
+        validator = Validation.buildDefaultValidatorFactory().getValidator();
+        System.out.println(validator.getClass());
+    }
 
     @Test
     public void testGettersSetters() {
@@ -29,13 +40,13 @@ public class UserSessionTest {
     public void testValidate() {
         final UserSession s = new UserSession();
         s.setUser(new User());
-        s.validate();
+        assertTrue(validator.validate(s).isEmpty());
     }
 
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testValidateRequireUser() {
         final UserSession s = new UserSession();
-        s.validate();
+        assertEquals(1, validator.validate(s).size());
     }
 }

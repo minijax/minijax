@@ -176,19 +176,6 @@ public abstract class DefaultBaseEntity implements BaseEntity {
         updatedDateTime = Instant.now();
     }
 
-    /**
-     * Validates that the object is in a good state.
-     *
-     * This method is called by DAO's before persistence.
-     *
-     * Descending classes should override this method to enforce any special
-     * validation logic.
-     */
-    @Override
-    public void validate() {
-        // Descendant classes should override this method for custom validation
-    }
-
 
     /**
      * Returns a hash code for this details object.

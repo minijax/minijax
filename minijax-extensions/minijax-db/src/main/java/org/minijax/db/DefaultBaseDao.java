@@ -14,7 +14,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,9 +41,6 @@ public class DefaultBaseDao implements BaseDao {
      */
     @Override
     public <T extends BaseEntity> T create(final T obj) {
-        Validate.notNull(obj);
-        obj.validate();
-
         try {
             em.getTransaction().begin();
             em.persist(obj);
@@ -64,9 +60,6 @@ public class DefaultBaseDao implements BaseDao {
      */
     @Override
     public <T extends BaseEntity> T read(final Class<T> entityClass, final UUID id) {
-        Validate.notNull(entityClass);
-        Validate.notNull(id);
-
         return em.find(entityClass, id);
     }
 
@@ -106,10 +99,6 @@ public class DefaultBaseDao implements BaseDao {
             final int page,
             final int pageSize) {
 
-        Validate.notNull(entityClass);
-        Validate.inclusiveBetween(0, 1000, page);
-        Validate.inclusiveBetween(1, 1000, pageSize);
-
         final CriteriaBuilder cb = em.getCriteriaBuilder();
         final CriteriaQuery<T> cq = cb.createQuery(entityClass);
         final Root<T> root = cq.from(entityClass);
@@ -129,10 +118,6 @@ public class DefaultBaseDao implements BaseDao {
      */
     @Override
     public <T extends BaseEntity> T update(final T obj) {
-        Validate.notNull(obj);
-        Validate.notNull(obj.getId());
-        obj.validate();
-
         try {
             em.getTransaction().begin();
             em.merge(obj);
@@ -153,9 +138,6 @@ public class DefaultBaseDao implements BaseDao {
      */
     @Override
     public <T extends BaseEntity> void delete(final T obj) {
-        Validate.notNull(obj);
-        Validate.notNull(obj.getId());
-
         obj.setDeleted(true);
         update(obj);
     }
@@ -170,9 +152,6 @@ public class DefaultBaseDao implements BaseDao {
      */
     @Override
     public <T extends BaseEntity> void purge(final T obj) {
-        Validate.notNull(obj);
-        Validate.notNull(obj.getId());
-
         @SuppressWarnings("unchecked")
         final T actual = (T) em.find(obj.getClass(), obj.getId());
         if (actual != null) {
@@ -191,8 +170,6 @@ public class DefaultBaseDao implements BaseDao {
      */
     @Override
     public <T extends BaseEntity> long countAll(final Class<T> entityClass) {
-        Validate.notNull(entityClass);
-
         final CriteriaBuilder cb = em.getCriteriaBuilder();
         final CriteriaQuery<Long> cq = cb.createQuery(Long.class);
         return em.createQuery(cq.select(cb.count(cq.from(entityClass)))).getSingleResult();

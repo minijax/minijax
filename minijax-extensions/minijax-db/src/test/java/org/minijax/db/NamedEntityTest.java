@@ -7,14 +7,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import javax.validation.Validation;
+import javax.validation.Validator;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.minijax.db.Avatar;
-import org.minijax.db.NamedEntity;
 import org.minijax.db.test.Widget;
 import org.minijax.util.IdUtils;
 
 public class NamedEntityTest {
+    private static Validator validator;
+
+    @BeforeClass
+    public static void setUpNamedEntityTest() {
+        validator = Validation.buildDefaultValidatorFactory().getValidator();
+    }
 
     @Test
     public void testCtor1() {
@@ -78,7 +85,7 @@ public class NamedEntityTest {
         final Widget w = new Widget();
         w.setHandle("foo");
         w.setName("Foo");
-        w.validate();
+        assertTrue(validator.validate(w).isEmpty());
     }
 
     @Test
@@ -86,63 +93,63 @@ public class NamedEntityTest {
         final Widget w = new Widget();
         w.setHandle(null);
         w.setName("foo");
-        w.validate();
+        assertTrue(validator.validate(w).isEmpty());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testValidateEmptyHandle() {
         final Widget w = new Widget();
         w.setHandle("");
         w.setName("foo");
-        w.validate();
+        assertEquals(2, validator.validate(w).size());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testValidateHandleTooLong() {
         final Widget w = new Widget();
-        w.setHandle(StringUtils.repeat("x", 40));
+        w.setHandle(repeat("x", 40));
         w.setName("foo");
-        w.validate();
+        assertEquals(1, validator.validate(w).size());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testValidateHandleStartsWithPeriod() {
         final Widget w = new Widget();
         w.setHandle(".foo");
         w.setName("foo");
-        w.validate();
+        assertEquals(1, validator.validate(w).size());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testValidateHandleSpecialCharacters() {
         final Widget w = new Widget();
         w.setHandle("foo+");
         w.setName("foo");
-        w.validate();
+        assertEquals(1, validator.validate(w).size());
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testValidateNullName() {
         final Widget w = new Widget();
         w.setHandle("foo");
         w.setName(null);
-        w.validate();
+        assertEquals(1, validator.validate(w).size());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testValidateEmptyName() {
         final Widget w = new Widget();
         w.setHandle("foo");
         w.setName("");
-        w.validate();
+        assertEquals(1, validator.validate(w).size());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testValidateNameTooLong() {
         final Widget w = new Widget();
         w.setHandle("foo");
-        w.setName(StringUtils.repeat("x", 300));
-        w.validate();
+        w.setName(repeat("x", 300));
+        assertEquals(1, validator.validate(w).size());
     }
 
     @Test
@@ -156,5 +163,13 @@ public class NamedEntityTest {
         assertEquals("Alice", w.get(0).getName());
         assertEquals("Bob", w.get(1).getName());
         assertEquals("Carol", w.get(2).getName());
+    }
+
+    private static String repeat(final String str, final int times) {
+        final StringBuilder b = new StringBuilder();
+        for (int i = 0; i < times; i++) {
+            b.append(str);
+        }
+        return b.toString();
     }
 }

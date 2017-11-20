@@ -4,11 +4,12 @@ import java.util.Arrays;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.apache.commons.lang3.Validate;
 import org.mindrot.jbcrypt.BCrypt;
 import org.minijax.db.DefaultNamedEntity;
 
@@ -26,6 +27,8 @@ public abstract class SecurityUser extends DefaultNamedEntity {
     private String email;
 
     @XmlTransient
+    @NotNull
+    @Size(min = 1, max = 128)
     private String roles;
 
     @XmlTransient
@@ -62,27 +65,10 @@ public abstract class SecurityUser extends DefaultNamedEntity {
      * @param roles The user roles.
      */
     public void setRoles(final String... roles) {
-        Validate.notEmpty(roles, "User roles cannot be empty.");
-
         this.roles = Arrays.asList(roles).toString();
     }
 
     public boolean hasRole(final String role) {
         return roles != null && roles.contains(role);
-    }
-
-    /**
-     * Validates that the user object is in a good state.
-     *
-     * Validates that name and email are not null and not empty.
-     */
-    @Override
-    public void validate() {
-        super.validate();
-
-        Validate.notEmpty(email, "Email must not be null or empty.");
-        Validate.inclusiveBetween(1, 128, email.length(), "Email must be between 1 and 32 characters long");
-
-        Validate.notEmpty(roles, "Roles must not be null or empty.");
     }
 }

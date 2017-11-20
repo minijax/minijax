@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import javax.persistence.EntityManager;
 
-import org.apache.commons.lang3.Validate;
 import org.minijax.db.BaseDao;
 
 public interface SecurityDao extends BaseDao {
@@ -17,11 +16,8 @@ public interface SecurityDao extends BaseDao {
      * @return The list of API keys.
      */
     default List<ApiKey> findApiKeysByUser(final SecurityUser user) {
-        Validate.notNull(user);
-
         return getEntityManager()
                 .createNamedQuery("ApiKey.findByUser", ApiKey.class)
-                //.setParameter("user", user)
                 .setParameter("userId", user.getId())
                 .getResultList();
     }
@@ -85,8 +81,6 @@ public interface SecurityDao extends BaseDao {
      * @param userId The user ID.
      */
     default void deleteUserSessionsByUser(final UUID userId) {
-        Validate.notNull(userId);
-
         final EntityManager em = getEntityManager();
         em.getTransaction().begin();
         em.createNamedQuery("UserSession.deleteByUser", UserSession.class)

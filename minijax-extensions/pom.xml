@@ -18,6 +18,7 @@
         <module>minijax-mustache</module>
         <module>minijax-security</module>
         <module>minijax-swagger</module>
+        <module>minijax-validator</module>
         <module>minijax-view</module>
         <module>minijax-websocket</module>
     </modules>

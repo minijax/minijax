@@ -26,8 +26,6 @@ import javax.xml.xpath.XPathException;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Validate;
 import org.minijax.MinijaxProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -267,7 +265,7 @@ public class LiquibaseHelper {
         LOG.info("Converting diff to changelog");
         final DiffOutputControl diffOutputControl = new DiffOutputControl(false, false, true, null);
         final DiffToChangeLog diffToChangeLog = new DiffToChangeLog(diffResult, diffOutputControl);
-        diffToChangeLog.setChangeSetAuthor(getAuthor(System.getProperty("user.name")));
+        diffToChangeLog.setChangeSetAuthor(System.getProperty("user.name"));
 
         LOG.info("Reading existing changelog");
         final ChangeLogParser parser = ChangeLogParserFactory.getInstance().getParser(changeLogResourceName, resourceAccessor);
@@ -315,22 +313,9 @@ public class LiquibaseHelper {
         final Contexts contexts = new Contexts(); // all contexts
         final LabelExpression labels = new LabelExpression(); // no filters
         final List<ChangeSet> unrunChangeSets = liquibase.listUnrunChangeSets(contexts, labels);
-        Validate.isTrue(unrunChangeSets.isEmpty(), "Unrun change sets!  Please migrate the database first");
-    }
-
-
-    /**
-     * Returns the migration author name.  Tries to generate it from the system user name.
-     *
-     * @param userName The current user name.
-     * @return The author name.
-     */
-    public static String getAuthor(final String userName) {
-        if (userName == null || userName.trim().isEmpty()) {
-            return null;
+        if (!unrunChangeSets.isEmpty()) {
+            throw new IllegalStateException("Unrun change sets!  Please migrate the database first");
         }
-
-        return StringUtils.capitalize(userName.trim());
     }
 
 

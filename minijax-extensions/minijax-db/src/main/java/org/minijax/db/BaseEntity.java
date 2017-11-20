@@ -62,17 +62,6 @@ public interface BaseEntity extends Serializable {
 
 
     /**
-     * Validates that the object is in a good state.
-     *
-     * This method is called by DAO's before persistence.
-     *
-     * Descending classes should override this method to enforce any special
-     * validation logic.
-     */
-    void validate();
-
-
-    /**
      * Sorts a list of ID objects by created time (ascending).
      *
      * @param list The list of ID objects (modified in place).

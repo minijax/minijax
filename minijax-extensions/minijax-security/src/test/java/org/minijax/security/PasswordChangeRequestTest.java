@@ -2,9 +2,19 @@ package org.minijax.security;
 
 import static org.junit.Assert.*;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PasswordChangeRequestTest {
+    private static Validator validator;
+
+    @BeforeClass
+    public static void setUpPasswordChangeRequestTest() {
+        validator = Validation.buildDefaultValidatorFactory().getValidator();
+    }
 
     @Test
     public void testGettersSetters() {
@@ -21,30 +31,30 @@ public class PasswordChangeRequestTest {
         final PasswordChangeRequest pcr = new PasswordChangeRequest();
         pcr.setCode("0123456789012345678901234567890123456789");
         pcr.setUser(new User());
-        pcr.validate();
+        assertTrue(validator.validate(pcr).isEmpty());
     }
 
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testValidateNullCode() {
         final PasswordChangeRequest pcr = new PasswordChangeRequest();
         pcr.setCode(null);
-        pcr.validate();
+        assertEquals(1, validator.validate(pcr).size());
     }
 
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testValidateEmptyCode() {
         final PasswordChangeRequest pcr = new PasswordChangeRequest();
         pcr.setCode("");
-        pcr.validate();
+        assertEquals(2, validator.validate(pcr).size());
     }
 
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testValidateTooShortCode() {
         final PasswordChangeRequest pcr = new PasswordChangeRequest();
         pcr.setCode("01234567890123456789");
-        pcr.validate();
+        assertEquals(2, validator.validate(pcr).size());
     }
 }

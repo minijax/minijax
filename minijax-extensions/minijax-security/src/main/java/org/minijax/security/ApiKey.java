@@ -12,11 +12,12 @@ import javax.persistence.InheritanceType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.apache.commons.lang3.Validate;
 import org.eclipse.persistence.annotations.CacheIndex;
 import org.minijax.db.DefaultBaseEntity;
 import org.minijax.db.UuidConverter;
@@ -47,12 +48,14 @@ public class ApiKey extends DefaultBaseEntity {
 
     @Column(columnDefinition = "BINARY(16)")
     @Convert(converter = UuidConverter.class)
+    @NotNull
     private UUID userId;
 
     private String name;
 
     @Column(length = 64, unique = true)
     @CacheIndex
+    @Size(min = 8, max = 64)
     private String value;
 
     public UUID getUserId() {
@@ -77,11 +80,5 @@ public class ApiKey extends DefaultBaseEntity {
 
     public void setValue(final String value) {
         this.value = value;
-    }
-
-    @Override
-    public void validate() {
-        Validate.notNull(userId, "API key user must not be null.");
-        Validate.notEmpty(value, "API key value must not be null or empty.");
     }
 }

@@ -1,13 +1,16 @@
 package org.minijax.db;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.Validate;
 import org.eclipse.persistence.annotations.CacheIndex;
 
 /**
@@ -18,12 +21,18 @@ import org.eclipse.persistence.annotations.CacheIndex;
 @SuppressWarnings("squid:S2160")
 public abstract class DefaultNamedEntity extends DefaultBaseEntity implements NamedEntity {
     private static final long serialVersionUID = 1L;
-    private static final String HANDLE_SPECIAL_CHARS = "!#$%&'()*+,/:;=?@[\\]^`{|}~";
+    public static final String HANDLE_SPECIAL_CHARS = "!#$%&'()*+,/:;=?@[\\]^`{|}~";
+    public static final String HANDLE_SPECIAL_CHARS_REGEX = java.util.regex.Pattern.quote(HANDLE_SPECIAL_CHARS);
+    public static final String HANDLE_REGEX = "[^\\." + HANDLE_SPECIAL_CHARS_REGEX + "][^" + HANDLE_SPECIAL_CHARS_REGEX + "]*";
 
     @Column(length = 32, unique = true)
     @CacheIndex
+    @Size(min = 1, max = 32)
+    @Pattern(regexp = "[^\\.\\Q!#$%&'()*+,/:;=?@[\\]^`{|}~\\E][^\\Q!#$%&'()*+,/:;=?@[\\]^`{|}~\\E]*")
     private String handle;
 
+    @NotNull
+    @Size(min = 1, max = 128)
     private String name;
 
     @Embedded
@@ -76,41 +85,11 @@ public abstract class DefaultNamedEntity extends DefaultBaseEntity implements Na
 
 
     public void generateHandle() {
+        final String uuid = UUID.randomUUID().toString();
         if (name == null) {
-            handle = RandomStringUtils.randomAlphanumeric(16).toLowerCase();
+            handle = uuid.substring(0, 16);
         } else {
-            handle = (name.replaceAll("[^A-Za-z0-9]", "") + "-" + RandomStringUtils.randomAlphanumeric(6)).toLowerCase();
+            handle = (name.replaceAll("[^A-Za-z0-9]", "") + "-" + uuid.substring(0, 6)).toLowerCase();
         }
-    }
-
-
-    @Override
-    public void validate() {
-        super.validate();
-        validateHandle(handle);
-        validateName(name);
-    }
-
-
-    private static void validateHandle(final String handle) {
-        if (handle == null) {
-            // Null handles are ok
-            return;
-        }
-
-        Validate.notEmpty(handle, "Handle must not be empty.");
-        Validate.inclusiveBetween(1, 32, handle.length(), "Handle must be between 1 and 32 characters long");
-        Validate.isTrue(handle.charAt(0) != '.', "Handle cannot start with a period");
-
-        for (int i = 0; i < HANDLE_SPECIAL_CHARS.length(); i++) {
-            final char c = HANDLE_SPECIAL_CHARS.charAt(i);
-            Validate.isTrue(handle.indexOf(c) == -1, "Handle cannot contain any of the following special characters: %s", HANDLE_SPECIAL_CHARS);
-        }
-    }
-
-
-    private static void validateName(final String name) {
-        Validate.notEmpty(name, "Name must not be null or empty.");
-        Validate.inclusiveBetween(1, 255, name.length(), "Name must be between 1 and 255 characters long");
     }
 }

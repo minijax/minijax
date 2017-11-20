@@ -24,8 +24,6 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.Validate;
 import org.mindrot.jbcrypt.BCrypt;
 import org.minijax.MinijaxProperties;
 import org.minijax.util.IdUtils;
@@ -195,8 +193,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
      * @return The session details.
      */
     public NewCookie loginAs(final SecurityUser candidate) {
-        Validate.notNull(candidate);
-
         final UserSession newSession = new UserSession();
         newSession.setUser(candidate);
         dao.create(newSession);
@@ -225,10 +221,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
      * @param confirmNewPassword The confirmed new password.
      */
     public void changePassword(final String oldPassword, final String newPassword, final String confirmNewPassword) {
-        Validate.notEmpty(oldPassword);
-        Validate.notEmpty(newPassword);
-        Validate.notEmpty(confirmNewPassword);
-
         requireLogin();
 
         if (user.getPasswordHash() == null) {
@@ -262,11 +254,8 @@ public class Security<T extends SecurityUser> implements SecurityContext {
      * @return The reset code to be sent to the user.
      */
     public String forgotPassword(final SecurityUser user) {
-        Validate.notNull(user);
-        Validate.notEmpty(user.getEmail());
-
         final PasswordChangeRequest pcr = new PasswordChangeRequest();
-        pcr.setCode(RandomStringUtils.randomAlphanumeric(32));
+        pcr.setCode(UUID.randomUUID().toString());
         pcr.setUser(user);
         dao.create(pcr);
         return pcr.getCode();
@@ -284,10 +273,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
      * @param confirmNewPassword The confirmed new password.
      */
     public NewCookie resetPassword(final String resetId, final String newPassword, final String confirmNewPassword) {
-        Validate.notEmpty(resetId);
-        Validate.notEmpty(newPassword);
-        Validate.notEmpty(confirmNewPassword);
-
         final PasswordChangeRequest pcr = dao.findPasswordChangeRequest(resetId);
         if (pcr == null) {
             throw new NotFoundException();

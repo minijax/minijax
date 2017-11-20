@@ -5,10 +5,20 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.UUID;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.util.IdUtils;
 
 public class ApiKeyTest {
+    private static Validator validator;
+
+    @BeforeClass
+    public static void setUpApiKeyTest() {
+        validator = Validation.buildDefaultValidatorFactory().getValidator();
+    }
 
     @Test
     public void testGettersSetters() {
@@ -50,5 +60,22 @@ public class ApiKeyTest {
 
         assertNotNull(json);
         assertTrue(json.contains("\"id\":\"" + m.getId() + "\""));
+    }
+
+
+    @Test
+    public void testValidateSuccess() {
+        final ApiKey apiKey = new ApiKey();
+        apiKey.setValue("0123456789012345678901234567890123456789");
+        apiKey.setUser(new User());
+        assertTrue(validator.validate(apiKey).isEmpty());
+    }
+
+
+    @Test
+    public void testValidateNullCode() {
+        final ApiKey apiKey = new ApiKey();
+        apiKey.setValue(null);
+        assertEquals(1, validator.validate(apiKey).size());
     }
 }

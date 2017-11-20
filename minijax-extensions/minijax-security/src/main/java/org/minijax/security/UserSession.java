@@ -12,8 +12,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang3.Validate;
 import org.minijax.db.DefaultBaseEntity;
 import org.minijax.db.UuidConverter;
 
@@ -36,6 +36,7 @@ public class UserSession extends DefaultBaseEntity {
 
     @Column(columnDefinition = "BINARY(16)")
     @Convert(converter = UuidConverter.class)
+    @NotNull
     private UUID userId;
 
     @Transient
@@ -52,10 +53,5 @@ public class UserSession extends DefaultBaseEntity {
     public void setUser(final SecurityUser user) {
         userId = user.getId();
         this.user = user;
-    }
-
-    @Override
-    public void validate() {
-        Validate.notNull(userId, "User ID must not be null or empty.");
     }
 }

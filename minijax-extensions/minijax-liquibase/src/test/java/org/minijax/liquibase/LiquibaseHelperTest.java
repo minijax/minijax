@@ -121,15 +121,6 @@ public class LiquibaseHelperTest {
 
 
     @Test
-    public void testAuthorName() {
-        assertNull(LiquibaseHelper.getAuthor(null));
-        assertNull(LiquibaseHelper.getAuthor(""));
-        assertNull(LiquibaseHelper.getAuthor(" "));
-        assertEquals("Cody", LiquibaseHelper.getAuthor("cody"));
-    }
-
-
-    @Test
     public void testNotIgnoreEmptyChangeSet() {
         final ChangeSet changeSet = new ChangeSet(null);
         assertFalse(LiquibaseHelper.isIgnoredChangeSet(changeSet));
