@@ -30,7 +30,7 @@ public class MinijaxPath implements Path {
         return b.toString();
     }
 
-    public static abstract class MinijaxNode implements Node {
+    public abstract static class MinijaxNode implements Node {
         private final int index;
         private final String name;
 
