@@ -27,10 +27,6 @@ public class MinijaxConstraintValidatorContext<T> implements ConstraintValidator
         result = new HashSet<>();
     }
 
-    public MinijaxConstraintValidatorContext(final Class<T> c) {
-        this((T) null);
-    }
-
     public T getRootBean() {
         return rootBean;
     }

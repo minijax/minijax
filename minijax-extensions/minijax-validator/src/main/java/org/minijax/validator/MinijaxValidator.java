@@ -59,7 +59,7 @@ public class MinijaxValidator implements Validator, ExecutableValidator {
 
     @Override
     public <T> Set<ConstraintViolation<T>> validateValue(final Class<T> beanType, final String propertyName, final Object value, final Class<?>... groups) {
-        final MinijaxConstraintValidatorContext<T> context = new MinijaxConstraintValidatorContext<>(beanType);
+        final MinijaxConstraintValidatorContext<T> context = new MinijaxConstraintValidatorContext<>(null);
         final PropertyDescriptor property = getConstraintsForClass(beanType).getConstraintsForProperty(propertyName);
         validateProperty(context, property, value);
         return context.getResult();

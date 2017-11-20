@@ -18,7 +18,7 @@ public class MinijaxBeanDescriptor extends MinijaxElementDescriptor implements B
 
     public MinijaxBeanDescriptor(final Class<?> elementClass) {
         super(elementClass, emptySet());
-        constrainedProperties = buildConstrainedProperties(elementClass);
+        constrainedProperties = buildProperties(elementClass);
     }
 
     @Override
@@ -65,33 +65,38 @@ public class MinijaxBeanDescriptor extends MinijaxElementDescriptor implements B
         throw new UnsupportedOperationException();
     }
 
-    private static Set<PropertyDescriptor> buildConstrainedProperties(final Class<?> c) {
+    private static Set<PropertyDescriptor> buildProperties(final Class<?> c) {
         final Set<PropertyDescriptor> results = new HashSet<>();
-
         Class<?> currClass = c;
 
         while (currClass != null) {
-            for (final Field field : currClass.getDeclaredFields()) {
-                final MinijaxFieldDescriptor fieldDescriptor = new MinijaxFieldDescriptor(field);
-                if (fieldDescriptor.hasConstraints()) {
-                    field.setAccessible(true);
-                    results.add(fieldDescriptor);
-                }
-            }
-
-            for (final Method method : currClass.getDeclaredMethods()) {
-                if (method.getName().startsWith("get") && method.getParameterCount() == 0) {
-                    final MinijaxGetterDescriptor getterDescriptor = new MinijaxGetterDescriptor(method);
-                    if (getterDescriptor.hasConstraints()) {
-                        method.setAccessible(true);
-                        results.add(getterDescriptor);
-                    }
-                }
-            }
-
+            buildFields(results, currClass);
+            buildGetters(results, currClass);
             currClass = currClass.getSuperclass();
         }
 
         return results;
+    }
+
+    private static void buildFields(final Set<PropertyDescriptor> results, final Class<?> currClass) {
+        for (final Field field : currClass.getDeclaredFields()) {
+            final MinijaxFieldDescriptor fieldDescriptor = new MinijaxFieldDescriptor(field);
+            if (fieldDescriptor.hasConstraints()) {
+                field.setAccessible(true);
+                results.add(fieldDescriptor);
+            }
+        }
+    }
+
+    private static void buildGetters(final Set<PropertyDescriptor> results, final Class<?> currClass) {
+        for (final Method method : currClass.getDeclaredMethods()) {
+            if (method.getName().startsWith("get") && method.getParameterCount() == 0) {
+                final MinijaxGetterDescriptor getterDescriptor = new MinijaxGetterDescriptor(method);
+                if (getterDescriptor.hasConstraints()) {
+                    method.setAccessible(true);
+                    results.add(getterDescriptor);
+                }
+            }
+        }
     }
 }
