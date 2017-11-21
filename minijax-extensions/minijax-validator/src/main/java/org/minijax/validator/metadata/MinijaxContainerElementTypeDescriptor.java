@@ -60,16 +60,6 @@ public class MinijaxContainerElementTypeDescriptor extends MinijaxElementDescrip
 
         final Set<ContainerElementTypeDescriptor> result = new HashSet<>();
         final Class<?> containerClass = ReflectionUtils.getRawType(annotatedType);
-//        final Type containerType = annotatedType.getType();
-//        final Class<?> containerClass;
-//        if (containerType instanceof Class) {
-//            containerClass = (Class<?>) containerType;
-//        } else if (containerType instanceof ParameterizedType) {
-//            containerClass = (Class<?>) ((ParameterizedType) containerType).getRawType();
-//        } else {
-//            throw new ValidationException("unknown type: " + containerType.getClass());
-//        }
-
         int argIndex = 0;
 
         for (final AnnotatedType typeArg : annotatedType.getAnnotatedActualTypeArguments()) {

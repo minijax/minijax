@@ -14,6 +14,7 @@ import javax.validation.Payload;
 import javax.validation.ValidationException;
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -25,7 +26,8 @@ import javax.validation.metadata.ValidateUnwrappedValue;
 
 import org.minijax.validator.builtin.AssertFalseValidator;
 import org.minijax.validator.builtin.AssertTrueValidator;
-import org.minijax.validator.builtin.IntegerMinValidator;
+import org.minijax.validator.builtin.MaxValidator;
+import org.minijax.validator.builtin.MinValidator;
 import org.minijax.validator.builtin.NotBlankValidator;
 import org.minijax.validator.builtin.NotEmptyValidators.NotEmptyValidatorForArray;
 import org.minijax.validator.builtin.NotEmptyValidators.NotEmptyValidatorForCharSequence;
@@ -129,6 +131,9 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
         } else if (annotationClass == AssertTrue.class) {
             return (MinijaxConstraintDescriptor<T>) buildAssertTrueValidator((AssertTrue) annotation, valueClass);
 
+        } else if (annotationClass == Max.class) {
+            return (MinijaxConstraintDescriptor<T>) buildMaxValidator((Max) annotation, valueClass);
+
         } else if (annotationClass == Min.class) {
             return (MinijaxConstraintDescriptor<T>) buildMinValidator((Min) annotation, valueClass);
 
@@ -182,9 +187,18 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
     }
 
 
+    private static MinijaxConstraintDescriptor<Max> buildMaxValidator(final Max max, final Class<?> valueClass) {
+        if ((valueClass.isPrimitive() && valueClass != boolean.class) || Number.class.isAssignableFrom(valueClass)) {
+            return new MinijaxConstraintDescriptor<>(max, new MaxValidator(max));
+        }
+
+        throw new ValidationException("Unsupported type for @Min annotation: " + valueClass);
+    }
+
+
     private static MinijaxConstraintDescriptor<Min> buildMinValidator(final Min min, final Class<?> valueClass) {
-        if (valueClass == int.class || valueClass == Integer.class) {
-            return new MinijaxConstraintDescriptor<>(min, new IntegerMinValidator(min));
+        if ((valueClass.isPrimitive() && valueClass != boolean.class) || Number.class.isAssignableFrom(valueClass)) {
+            return new MinijaxConstraintDescriptor<>(min, new MinValidator(min));
         }
 
         throw new ValidationException("Unsupported type for @Min annotation: " + valueClass);

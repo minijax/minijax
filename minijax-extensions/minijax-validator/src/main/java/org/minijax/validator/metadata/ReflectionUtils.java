@@ -8,6 +8,9 @@ import javax.validation.ValidationException;
 
 public class ReflectionUtils {
 
+    ReflectionUtils() {
+        throw new UnsupportedOperationException();
+    }
 
     public static Class<?> getRawType(final AnnotatedType annotatedType) {
         final Type containerType = annotatedType.getType();
