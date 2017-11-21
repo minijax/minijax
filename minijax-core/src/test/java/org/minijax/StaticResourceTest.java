@@ -15,8 +15,8 @@ public class StaticResourceTest extends MinijaxTest {
     public static void setUpStaticResourceTest() {
         resetServer();
         getServer()
-                .addStaticFile("config.properties")
-                .addStaticDirectory("static");
+                .staticFiles("config.properties")
+                .staticDirectories("static");
     }
 
 

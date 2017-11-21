@@ -45,8 +45,8 @@ public class HelloWebSocket {
     public static void main(final String[] args) {
         new Minijax()
                 .register(EchoEndpoint.class)
-                .addStaticFile("static/index.html", "/")
-                .addStaticDirectory("static")
+                .staticFile("static/index.html", "/")
+                .staticDirectories("static")
                 .run(8080);
     }
 }

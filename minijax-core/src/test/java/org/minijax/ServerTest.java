@@ -89,7 +89,7 @@ public class ServerTest {
             }
         };
 
-        minijax.addStaticFile("static/hello.txt").run(8080);
+        minijax.staticFiles("static/hello.txt").run(8080);
 
         assertNotNull(server.handler);
         assertTrue(server.started);
@@ -108,7 +108,7 @@ public class ServerTest {
             }
         };
 
-        minijax.addStaticDirectory("static").run(8080);
+        minijax.staticDirectories("static").run(8080);
 
         assertNotNull(server.handler);
         assertTrue(server.started);

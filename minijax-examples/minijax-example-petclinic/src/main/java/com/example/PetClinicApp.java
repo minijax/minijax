@@ -10,7 +10,7 @@ class PetClinicApp {
         new Minijax()
                 .register(PersistenceFeature.class)
                 .register(MustacheFeature.class)
-                .addStaticDirectory("static")
+                .staticDirectories("static")
                 .packages("com.example")
                 .run(8080);
     }

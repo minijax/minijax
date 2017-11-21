@@ -185,21 +185,31 @@ public class Minijax {
     }
 
 
-    public Minijax addStaticFile(final String resourceName) {
-        final String pathSpec = UrlUtils.concatUrlPaths(resourceName, null);
-        return addStaticFile(resourceName, pathSpec);
+    public Minijax staticFiles(final String... resourceNames) {
+        for (final String resourceName : resourceNames) {
+            staticFile(resourceName, resourceName);
+        }
+        return this;
     }
 
 
-    public Minijax addStaticFile(final String resourceName, final String path) {
+    public Minijax staticFile(final String resourceName, final String path) {
         final String pathSpec = UrlUtils.concatUrlPaths(path, null);
         defaultApplication.addResourceMethod(new MinijaxStaticResource(resourceName, pathSpec));
         return this;
     }
 
 
-    public Minijax addStaticDirectory(final String resourceName) {
-        final String pathSpec = UrlUtils.concatUrlPaths(resourceName, "{file:.*}");
+    public Minijax staticDirectories(final String... resourceNames) {
+        for (final String resourceName : resourceNames) {
+            staticDirectory(resourceName, resourceName);
+        }
+        return this;
+    }
+
+
+    public Minijax staticDirectory(final String resourceName, final String path) {
+        final String pathSpec = UrlUtils.concatUrlPaths(path, "{file:.*}");
         defaultApplication.addResourceMethod(new MinijaxStaticResource(resourceName, pathSpec));
         return this;
     }

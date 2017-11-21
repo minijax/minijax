@@ -106,21 +106,21 @@ Next let's look at the `main()` function to see how to configure the WebSocket:
 public static void main(final String[] args) {
     new Minijax()
             .register(EchoEndpoint.class)
-            .addStaticFile("static/index.html", "/")
-            .addStaticDirectory("static")
+            .staticFile("static/index.html", "/")
+            .staticDirectories("static")
             .run(8080);
 }
 ```
 
 Quite similar to previous examples, we create a new `Minijax` instance and register the resource.
 
-New to this example is `addStaticFile` and `addStaticDirectory`.
+New to this example is `staticFile` and `staticDirectories`.
 
-`addStaticFile()` adds a static file.  The file can optionally be mounted at a specific path, which is what we did in this example.  The static file is a resource file located at `src/main/resources/static/index.html`.  We reference the file by its resource name, which is `static/index.html`.  We want that file to be the default file, so we mount it at the root path "/".
+`staticFile()` adds a static file.  The file can optionally be mounted at a specific path, which is what we did in this example.  The static file is a resource file located at `src/main/resources/static/index.html`.  We reference the file by its resource name, which is `static/index.html`.  We want that file to be the default file, so we mount it at the root path "/".
 
-`addStaticDirectory()` adds a directory of static files.  The `static` directory includes a CSS file and a JavaScript file.  We could have added them separately using multiple calls to `addStaticFile()`, but it's more convenient to simply mount the directory.
+`staticDirectories()` adds directories of static files.  The `static` directory includes a CSS file and a JavaScript file.  We could have added them separately using multiple calls to `addStaticFile()`, but it's more convenient to simply mount the entire directory.
 
-Speaking of static assets, let's take a look.
+Speaking of static assets, let's take a look...
 
 index.html
 ----------

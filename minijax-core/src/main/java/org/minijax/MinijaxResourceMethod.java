@@ -82,7 +82,12 @@ class MinijaxResourceMethod {
         try {
             return method.invoke(instance, params);
         } catch (final InvocationTargetException ex) {
-            throw (Exception) ex.getCause();
+            final Throwable cause = ex.getCause();
+            if (cause instanceof Exception) {
+                throw (Exception) cause;
+            } else {
+                throw ex;
+            }
         } catch (IllegalAccessException | IllegalArgumentException ex) {
             throw new WebApplicationException(ex.getMessage(), ex);
         }

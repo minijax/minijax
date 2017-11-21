@@ -54,13 +54,13 @@ public class Minitwit {
     @Inject
     private Dao dao;
 
-    public Response render(String templateName, Map<String, Object> properties) {
-        View view = new View(templateName);
+    public Response renderTimeline(List<Message> messages) {
+        View view = new View("timeline");
+        view.getModel().put("messages", messages);
         if (currentUser != null) {
             view.getModel().put("user", currentUser);
             view.getModel().put("csrf", security.getSessionToken());
         }
-        view.getModel().putAll(properties);
         return Response.ok(view, MediaType.TEXT_HTML).build();
     }
 
@@ -73,7 +73,7 @@ public class Minitwit {
                 .createQuery("SELECT m FROM Message m WHERE m.user IN :following ORDER BY m.id DESC", Message.class)
                 .setParameter("following", currentUser.following)
                 .getResultList();
-        return render("timeline", Map.of("messages", messages));
+        return renderTimeline(messages);
     }
 
     @GET
@@ -82,7 +82,7 @@ public class Minitwit {
         List<Message> messages = dao.getEntityManager()
                 .createQuery("SELECT m FROM Message m ORDER BY m.id DESC", Message.class)
                 .getResultList();
-        return render("timeline", Map.of("messages", messages));
+        return renderTimeline(messages);
     }
 
     @GET
@@ -93,7 +93,7 @@ public class Minitwit {
                 .createQuery("SELECT m FROM Message m WHERE m.user = :user ORDER BY m.id DESC", Message.class)
                 .setParameter("user", user)
                 .getResultList();
-        return render("timeline", Map.of("messages", messages));
+        return renderTimeline(messages);
     }
 
     @GET
@@ -175,7 +175,7 @@ public class Minitwit {
 
     public static void main(String[] args) {
         new Minijax()
-                .addStaticDirectory("static")
+                .staticDirectories("static")
                 .register(PersistenceFeature.class)
                 .register(MustacheFeature.class)
                 .register(new SecurityFeature(User.class, Dao.class))
