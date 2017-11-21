@@ -4,11 +4,10 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.constraints.NotBlank;
 
-public class CharSequenceNotBlankValidator implements ConstraintValidator<NotBlank, CharSequence> {
-    private static final CharSequenceNotBlankValidator INSTANCE = new CharSequenceNotBlankValidator();
+public class NotBlankValidator implements ConstraintValidator<NotBlank, CharSequence> {
+    public static final NotBlankValidator INSTANCE = new NotBlankValidator();
 
-    public static CharSequenceNotBlankValidator getInstance() {
-        return INSTANCE;
+    private NotBlankValidator() {
     }
 
     @Override

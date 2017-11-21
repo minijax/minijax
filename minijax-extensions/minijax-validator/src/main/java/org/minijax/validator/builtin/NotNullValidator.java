@@ -5,10 +5,9 @@ import javax.validation.ConstraintValidatorContext;
 import javax.validation.constraints.NotNull;
 
 public class NotNullValidator implements ConstraintValidator<NotNull, Object> {
-    private static final NotNullValidator INSTANCE = new NotNullValidator();
+    public static final NotNullValidator INSTANCE = new NotNullValidator();
 
-    public static NotNullValidator getInstance() {
-        return INSTANCE;
+    private NotNullValidator() {
     }
 
     @Override

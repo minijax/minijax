@@ -9,7 +9,7 @@ public class MinijaxGetterDescriptor extends MinijaxPropertyDescriptor {
     private final String propertyName;
 
     public MinijaxGetterDescriptor(final Method getter) {
-        super(getter.getDeclaringClass(), getter.getAnnotatedReturnType());
+        super(getter.getDeclaringClass(), getter.getAnnotatedReturnType(), getter.getAnnotations());
         this.getter = getter;
         propertyName = getter.getName().substring(3, 4).toLowerCase() + getter.getName().substring(4);
     }

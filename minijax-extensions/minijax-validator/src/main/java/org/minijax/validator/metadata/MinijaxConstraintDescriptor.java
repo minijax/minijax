@@ -2,6 +2,7 @@ package org.minijax.validator.metadata;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedType;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,19 +12,31 @@ import javax.validation.ConstraintTarget;
 import javax.validation.ConstraintValidator;
 import javax.validation.Payload;
 import javax.validation.ValidationException;
+import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.ValidateUnwrappedValue;
 
-import org.minijax.validator.builtin.CharSequenceNotBlankValidator;
-import org.minijax.validator.builtin.CharSequencePatternValidator;
-import org.minijax.validator.builtin.CharSequenceSizeValidator;
+import org.minijax.validator.builtin.AssertFalseValidator;
+import org.minijax.validator.builtin.AssertTrueValidator;
 import org.minijax.validator.builtin.IntegerMinValidator;
+import org.minijax.validator.builtin.NotBlankValidator;
+import org.minijax.validator.builtin.NotEmptyValidators.NotEmptyValidatorForArray;
+import org.minijax.validator.builtin.NotEmptyValidators.NotEmptyValidatorForCharSequence;
+import org.minijax.validator.builtin.NotEmptyValidators.NotEmptyValidatorForCollection;
+import org.minijax.validator.builtin.NotEmptyValidators.NotEmptyValidatorForMap;
 import org.minijax.validator.builtin.NotNullValidator;
+import org.minijax.validator.builtin.PatternValidator;
+import org.minijax.validator.builtin.SizeValidators.SizeValidatorForArray;
+import org.minijax.validator.builtin.SizeValidators.SizeValidatorForCharSequence;
+import org.minijax.validator.builtin.SizeValidators.SizeValidatorForCollection;
+import org.minijax.validator.builtin.SizeValidators.SizeValidatorForMap;
 
 public class MinijaxConstraintDescriptor<T extends Annotation> implements ConstraintDescriptor<T> {
     private final T annotation;
@@ -104,17 +117,26 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
             return null;
         }
 
-        final Class<?> valueClass = (Class<?>) annotatedType.getType();
+        final Class<?> valueClass = ReflectionUtils.getRawType(annotatedType);
         final Class<?> annotationClass = annotation.annotationType();
 
         if (constraint.validatedBy().length > 0) {
             return buildDeclaredValidator(annotation, constraint.validatedBy()[0]);
+
+        } else if (annotationClass == AssertFalse.class) {
+            return (MinijaxConstraintDescriptor<T>) buildAssertFalseValidator((AssertFalse) annotation, valueClass);
+
+        } else if (annotationClass == AssertTrue.class) {
+            return (MinijaxConstraintDescriptor<T>) buildAssertTrueValidator((AssertTrue) annotation, valueClass);
 
         } else if (annotationClass == Min.class) {
             return (MinijaxConstraintDescriptor<T>) buildMinValidator((Min) annotation, valueClass);
 
         } else if (annotationClass == NotBlank.class) {
             return (MinijaxConstraintDescriptor<T>) buildNotBlankValidator((NotBlank) annotation, valueClass);
+
+        } else if (annotationClass == NotEmpty.class) {
+            return (MinijaxConstraintDescriptor<T>) buildNotEmptyValidator((NotEmpty) annotation, valueClass);
 
         } else if (annotationClass == NotNull.class) {
             return (MinijaxConstraintDescriptor<T>) buildNotNullValidator((NotNull) annotation);
@@ -142,6 +164,24 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
     }
 
 
+    private static MinijaxConstraintDescriptor<AssertFalse> buildAssertFalseValidator(final AssertFalse assertFalse, final Class<?> valueClass) {
+        if (valueClass == boolean.class || valueClass == Boolean.class) {
+            return new MinijaxConstraintDescriptor<>(assertFalse, AssertFalseValidator.INSTANCE);
+        }
+
+        throw new ValidationException("Unsupported type for @AssertFalse annotation: " + valueClass);
+    }
+
+
+    private static MinijaxConstraintDescriptor<AssertTrue> buildAssertTrueValidator(final AssertTrue assertTrue, final Class<?> valueClass) {
+        if (valueClass == boolean.class || valueClass == Boolean.class) {
+            return new MinijaxConstraintDescriptor<>(assertTrue, AssertTrueValidator.INSTANCE);
+        }
+
+        throw new ValidationException("Unsupported type for @AssertTrue annotation: " + valueClass);
+    }
+
+
     private static MinijaxConstraintDescriptor<Min> buildMinValidator(final Min min, final Class<?> valueClass) {
         if (valueClass == int.class || valueClass == Integer.class) {
             return new MinijaxConstraintDescriptor<>(min, new IntegerMinValidator(min));
@@ -153,21 +193,42 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
 
     private static MinijaxConstraintDescriptor<NotBlank> buildNotBlankValidator(final NotBlank notBlank, final Class<?> valueClass) {
         if (CharSequence.class.isAssignableFrom(valueClass)) {
-            return new MinijaxConstraintDescriptor<>(notBlank, CharSequenceNotBlankValidator.getInstance());
+            return new MinijaxConstraintDescriptor<>(notBlank, NotBlankValidator.INSTANCE);
         }
 
-        throw new ValidationException("Unsupported type for @Pattern annotation: " + valueClass);
+        throw new ValidationException("Unsupported type for @NotBlank annotation: " + valueClass);
+    }
+
+
+    private static MinijaxConstraintDescriptor<NotEmpty> buildNotEmptyValidator(final NotEmpty notEmpty, final Class<?> valueClass) {
+        if (valueClass.isArray()) {
+            return new MinijaxConstraintDescriptor<>(notEmpty, NotEmptyValidatorForArray.INSTANCE);
+        }
+
+        if (CharSequence.class.isAssignableFrom(valueClass)) {
+            return new MinijaxConstraintDescriptor<>(notEmpty, NotEmptyValidatorForCharSequence.INSTANCE);
+        }
+
+        if (Collection.class.isAssignableFrom(valueClass)) {
+            return new MinijaxConstraintDescriptor<>(notEmpty, NotEmptyValidatorForCollection.INSTANCE);
+        }
+
+        if (Map.class.isAssignableFrom(valueClass)) {
+            return new MinijaxConstraintDescriptor<>(notEmpty, NotEmptyValidatorForMap.INSTANCE);
+        }
+
+        throw new ValidationException("Unsupported type for @NotEmpty annotation: " + valueClass);
     }
 
 
     private static MinijaxConstraintDescriptor<NotNull> buildNotNullValidator(final NotNull notNull) {
-        return new MinijaxConstraintDescriptor<>(notNull, NotNullValidator.getInstance());
+        return new MinijaxConstraintDescriptor<>(notNull, NotNullValidator.INSTANCE);
     }
 
 
     private static MinijaxConstraintDescriptor<Pattern> buildPatternValidator(final Pattern pattern, final Class<?> valueClass) {
         if (CharSequence.class.isAssignableFrom(valueClass)) {
-            return new MinijaxConstraintDescriptor<>(pattern, new CharSequencePatternValidator(pattern));
+            return new MinijaxConstraintDescriptor<>(pattern, new PatternValidator(pattern));
         }
 
         throw new ValidationException("Unsupported type for @Pattern annotation: " + valueClass);
@@ -175,8 +236,20 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
 
 
     private static MinijaxConstraintDescriptor<Size> buildSizeValidator(final Size size, final Class<?> valueClass) {
+        if (valueClass.isArray()) {
+            return new MinijaxConstraintDescriptor<>(size, new SizeValidatorForArray(size));
+        }
+
         if (CharSequence.class.isAssignableFrom(valueClass)) {
-            return new MinijaxConstraintDescriptor<>(size, new CharSequenceSizeValidator(size));
+            return new MinijaxConstraintDescriptor<>(size, new SizeValidatorForCharSequence(size));
+        }
+
+        if (Collection.class.isAssignableFrom(valueClass)) {
+            return new MinijaxConstraintDescriptor<>(size, new SizeValidatorForCollection(size));
+        }
+
+        if (Map.class.isAssignableFrom(valueClass)) {
+            return new MinijaxConstraintDescriptor<>(size, new SizeValidatorForMap(size));
         }
 
         throw new ValidationException("Unsupported type for @Size annotation: " + valueClass);

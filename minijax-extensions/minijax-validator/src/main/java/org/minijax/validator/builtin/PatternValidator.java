@@ -4,10 +4,10 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.constraints.Pattern;
 
-public class CharSequencePatternValidator implements ConstraintValidator<Pattern, CharSequence> {
+public class PatternValidator implements ConstraintValidator<Pattern, CharSequence> {
     private final java.util.regex.Pattern pattern;
 
-    public CharSequencePatternValidator(final Pattern pattern) {
+    public PatternValidator(final Pattern pattern) {
         this.pattern = java.util.regex.Pattern.compile(pattern.regexp());
     }
 

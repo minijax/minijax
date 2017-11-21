@@ -8,7 +8,7 @@ public class MinijaxFieldDescriptor extends MinijaxPropertyDescriptor {
     private final Field field;
 
     public MinijaxFieldDescriptor(final Field field) {
-        super(field.getDeclaringClass(), field.getAnnotatedType());
+        super(field.getDeclaringClass(), field.getAnnotatedType(), field.getAnnotations());
         this.field = field;
     }
 

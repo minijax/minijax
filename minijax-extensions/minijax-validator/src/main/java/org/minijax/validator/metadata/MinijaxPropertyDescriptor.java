@@ -16,8 +16,8 @@ import javax.validation.metadata.PropertyDescriptor;
 public abstract class MinijaxPropertyDescriptor extends MinijaxElementDescriptor implements PropertyDescriptor {
     private final Set<ContainerElementTypeDescriptor> constrainedContainerElementTypes;
 
-    public MinijaxPropertyDescriptor(final Class<?> elementClass, final AnnotatedType annotatedType) {
-        super(elementClass, buildConstraintDescriptors(annotatedType));
+    public MinijaxPropertyDescriptor(final Class<?> elementClass, final AnnotatedType annotatedType, final Annotation[] annotations) {
+        super(elementClass, buildConstraintDescriptors(annotatedType, annotations));
 
         if (annotatedType instanceof AnnotatedParameterizedType) {
             constrainedContainerElementTypes = MinijaxContainerElementTypeDescriptor.build(elementClass, (AnnotatedParameterizedType) annotatedType);
@@ -48,10 +48,10 @@ public abstract class MinijaxPropertyDescriptor extends MinijaxElementDescriptor
 
     public abstract Object getValue(final Object object);
 
-    private static Set<ConstraintDescriptor<?>> buildConstraintDescriptors(final AnnotatedType annotatedType) {
+    private static Set<ConstraintDescriptor<?>> buildConstraintDescriptors(final AnnotatedType annotatedType, final Annotation[] annotations) {
         final Set<ConstraintDescriptor<?>> result = new HashSet<>();
 
-        for (final Annotation annotation : annotatedType.getAnnotations()) {
+        for (final Annotation annotation : annotations) {
             final MinijaxConstraintDescriptor<?> constraintDescriptor = MinijaxConstraintDescriptor.build(annotatedType, annotation);
             if (constraintDescriptor != null) {
                 result.add(constraintDescriptor);

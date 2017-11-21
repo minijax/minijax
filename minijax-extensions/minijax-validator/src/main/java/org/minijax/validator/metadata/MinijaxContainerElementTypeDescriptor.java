@@ -3,12 +3,9 @@ package org.minijax.validator.metadata;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedParameterizedType;
 import java.lang.reflect.AnnotatedType;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.validation.ValidationException;
 import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.ContainerElementTypeDescriptor;
 import javax.validation.metadata.GroupConversionDescriptor;
@@ -62,15 +59,16 @@ public class MinijaxContainerElementTypeDescriptor extends MinijaxElementDescrip
             final AnnotatedParameterizedType annotatedType) {
 
         final Set<ContainerElementTypeDescriptor> result = new HashSet<>();
-        final Type containerType = annotatedType.getType();
-        final Class<?> containerClass;
-        if (containerType instanceof Class) {
-            containerClass = (Class<?>) containerType;
-        } else if (containerType instanceof ParameterizedType) {
-            containerClass = (Class<?>) ((ParameterizedType) containerType).getRawType();
-        } else {
-            throw new ValidationException("unknown type: " + containerType.getClass());
-        }
+        final Class<?> containerClass = ReflectionUtils.getRawType(annotatedType);
+//        final Type containerType = annotatedType.getType();
+//        final Class<?> containerClass;
+//        if (containerType instanceof Class) {
+//            containerClass = (Class<?>) containerType;
+//        } else if (containerType instanceof ParameterizedType) {
+//            containerClass = (Class<?>) ((ParameterizedType) containerType).getRawType();
+//        } else {
+//            throw new ValidationException("unknown type: " + containerType.getClass());
+//        }
 
         int argIndex = 0;
 
