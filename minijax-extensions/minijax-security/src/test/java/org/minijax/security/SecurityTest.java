@@ -6,7 +6,6 @@ import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 
-import javax.persistence.NoResultException;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.core.Configuration;
@@ -222,7 +221,7 @@ public class SecurityTest extends MinijaxTest {
     @Test(expected = BadRequestException.class)
     public void testLoginUserNotFound() {
         final SecurityDao dao = mock(SecurityDao.class);
-        when(dao.findUserByEmail(any(), any())).thenThrow(NoResultException.class);
+        when(dao.findUserByEmail(any(), any())).thenReturn(null);
 
         final Configuration config = mock(Configuration.class);
         when(config.getProperty(eq(MinijaxProperties.SECURITY_USER_CLASS))).thenReturn(User.class);

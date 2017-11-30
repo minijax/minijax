@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.persistence.NoResultException;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.ForbiddenException;
@@ -165,10 +164,8 @@ public class Security<T extends SecurityUser> implements SecurityContext {
      * @return the user details.
      */
     public NewCookie login(final String email, final String password) {
-        final SecurityUser candidate;
-        try {
-            candidate = dao.findUserByEmail(userClass, email);
-        } catch (final NoResultException ex) {
+        final SecurityUser candidate = dao.findUserByEmail(userClass, email);
+        if (candidate == null) {
             throw new BadRequestException("notfound");
         }
 

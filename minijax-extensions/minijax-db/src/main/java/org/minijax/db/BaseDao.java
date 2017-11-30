@@ -91,4 +91,21 @@ public interface BaseDao {
      * @return The count of rows.
      */
     <T extends BaseEntity> long countAll(final Class<T> entityClass);
+
+
+    /**
+     * Returns null if the list is empty.
+     * Returns the first element otherwise.
+     *
+     * JPA getSingleResult() throws an exception if no results,
+     * which is an annoying design.  So instead you can call
+     * getResultList() and wrap it with firstOrNull(), which is
+     * the more expected result.
+     *
+     * @param list
+     * @return
+     */
+    public static <T extends BaseEntity> T firstOrNull(final List<T> list) {
+        return list.isEmpty() ? null : list.get(0);
+    }
 }

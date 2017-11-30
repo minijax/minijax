@@ -1,5 +1,7 @@
 package org.minijax.db;
 
+import static org.minijax.db.BaseDao.*;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -7,7 +9,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -73,15 +74,10 @@ public class DefaultBaseDao implements BaseDao {
      */
     @Override
     public <T extends NamedEntity> T readByHandle(final Class<T> entityClass, final String handle) {
-        try {
-            // Unfortunately @CacheIndex does not work with CriteriaBuilder, so using string query instead.
-            return em.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e WHERE e.handle = :handle", entityClass)
-                    .setParameter("handle", handle)
-                    .getSingleResult();
-
-        } catch (final NoResultException ex) {
-            return null;
-        }
+        // Unfortunately @CacheIndex does not work with CriteriaBuilder, so using string query instead.
+        return firstOrNull(em.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e WHERE e.handle = :handle", entityClass)
+                .setParameter("handle", handle)
+                .getResultList());
     }
 
 
@@ -179,23 +175,6 @@ public class DefaultBaseDao implements BaseDao {
     /*
      * Private helper methods.
      */
-
-
-    /**
-     * Returns null if the list is empty.
-     * Returns the first element otherwise.
-     *
-     * JPA getSingleResult() throws an exception if no results,
-     * which is an annoying design.  So instead you can call
-     * getResultList() and wrap it with firstOrNull(), which is
-     * the more expected result.
-     *
-     * @param list
-     * @return
-     */
-    protected static <T extends BaseEntity> T firstOrNull(final List<T> list) {
-        return list.isEmpty() ? null : list.get(0);
-    }
 
 
     /**

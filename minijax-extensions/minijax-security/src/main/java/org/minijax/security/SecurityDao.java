@@ -1,5 +1,7 @@
 package org.minijax.security;
 
+import static org.minijax.db.BaseDao.*;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -30,10 +32,10 @@ public interface SecurityDao extends BaseDao {
      * @return The API key on success; null on failure.
      */
     default ApiKey findApiKeyByValue(final String value) {
-        return getEntityManager()
+        return firstOrNull(getEntityManager()
                 .createNamedQuery("ApiKey.findByValue", ApiKey.class)
                 .setParameter("value", value)
-                .getSingleResult();
+                .getResultList());
     }
 
 
@@ -46,10 +48,10 @@ public interface SecurityDao extends BaseDao {
      */
     default <T extends SecurityUser> T findUserByEmail(final Class<T> entityClass, final String email) {
         // Unfortunately @CacheIndex does not work with CriteriaBuilder, so using string query instead.
-        return getEntityManager()
+        return firstOrNull(getEntityManager()
                 .createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e WHERE e.email = :email", entityClass)
                 .setParameter("email", email)
-                .getSingleResult();
+                .getResultList());
     }
 
 
@@ -60,10 +62,10 @@ public interface SecurityDao extends BaseDao {
      * @return The password change request on success; null on failure.
      */
     default PasswordChangeRequest findPasswordChangeRequest(final String code) {
-        return getEntityManager()
+        return firstOrNull(getEntityManager()
                 .createNamedQuery("PasswordChangeRequest.findByCode", PasswordChangeRequest.class)
                 .setParameter("code", code)
-                .getSingleResult();
+                .getResultList());
     }
 
 
