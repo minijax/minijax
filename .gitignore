@@ -34,7 +34,3 @@ hs_err_pid*
 dependency-reduced-pom.xml
 target/
 
-# Duplicate Maven site config
-minijax-*/**/src/site/site.xml
-minijax-*/**/src/site/resources/css/site.css
-
