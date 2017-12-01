@@ -232,7 +232,7 @@ Submit a few messages.  For each message you should see the following:
 
 If you use Google Chrome, you can see the WebSocket network traffic live.  Open "Developer Tools", then go to the "Network" tab, then click on the "echo" request, then go to the "Frames" tab:
 
-[![Screenshot](./screenshot.png)](./screenshot.png)
+[![Screenshot](https://minijax.org/minijax-examples/minijax-example-websocket/screenshot.png)](https://minijax.org/minijax-examples/minijax-example-websocket/screenshot.png)
 
 Next
 ----

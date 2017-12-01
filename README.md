@@ -16,7 +16,7 @@ Getting Started
 <dependency>
     <groupId>org.minijax</groupId>
     <artifactId>minijax-core</artifactId>
-    <version>0.0.20</version>
+    <version>0.0.35</version>
 </dependency>
 ```
 
@@ -37,28 +37,15 @@ public class Hello {
     public static void main(String[] args) {
         new Minijax()
                 .register(Hello.class)
-                .run(8080);
+                .run();
     }
 }
 ```
 
-Learn more at [https://minijax.org](https://minijax.org)
-
-Developers
+Learn more
 ----------
 
-To build:
-
-```bash
-mvn clean install
-```
-
-To release:
-
-```bash
-mvn -B release:prepare release:perform
-```
-
-Release requirements:
-* GPG keys to sign for Maven Central
-* AWS credentials to update https://minijax.org
+* [Motivation](https://github.com/minijax/minijax/wiki/Motivation) - Why use Minijax?
+* [Getting Started Tutorial](https://github.com/minijax/minijax/wiki/Getting-Started) - 5 minute tutorial
+* [Sample Applications](minijax-examples/index.html) - Demonstrating Minijax capabilities
+* [Supported Java EE standards](https://github.com/minijax/minijax/wiki/Java-EE-Standards) - Overview of supported API's
