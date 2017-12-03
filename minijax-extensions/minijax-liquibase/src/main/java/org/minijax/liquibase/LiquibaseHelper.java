@@ -75,6 +75,7 @@ public class LiquibaseHelper {
     private static final Logger LOG = LoggerFactory.getLogger(LiquibaseHelper.class);
     private static final String DEFAULT_RESOURCES_DIR = "src/main/resources";
     private static final String DEFAULT_CHANGELOG_RESOURCE_NAME = "changelog.xml";
+    private static final String XML_FACTORY = "com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl";
     private final String persistenceUnitName;
     private final String driver;
     private final String url;
@@ -386,7 +387,7 @@ public class LiquibaseHelper {
             removeNodes(doc, xpath, "//text()[normalize-space()='']");
             doc.normalize();
 
-            final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            final TransformerFactory transformerFactory = TransformerFactory.newInstance(XML_FACTORY, null);
             transformerFactory.setAttribute("indent-number", 4);
 
             final Transformer transformer = transformerFactory.newTransformer();
