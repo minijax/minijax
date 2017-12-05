@@ -204,7 +204,7 @@ public class CloudWatchAppender extends AppenderBase<ILoggingEvent> {
                 try {
                     Thread.sleep(PERIOD);
                 } catch (final InterruptedException ex) {
-                    // NOSONAR - Ignore
+                    Thread.currentThread().interrupt();
                 }
             }
         }
