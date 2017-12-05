@@ -6,8 +6,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.services.logs.AWSLogs;
@@ -33,11 +31,9 @@ import ch.qos.logback.core.status.WarnStatus;
  * SLF4J appender for AWS CloudWatch Logs.
  */
 public class CloudWatchAppender extends AppenderBase<ILoggingEvent> {
-    private static final long DELAY = 5000L;
     private static final long PERIOD = 5000L;
     private final Object lockObject = new Object();
     private final List<InputLogEvent> eventQueue = Collections.synchronizedList(new ArrayList<>());
-    private Timer timer;
     private Layout<ILoggingEvent> layout;
     private String logGroupName;
     private String logStreamName;
@@ -105,8 +101,13 @@ public class CloudWatchAppender extends AppenderBase<ILoggingEvent> {
             addStatus(new ErrorStatus(e.getMessage(), this, e));
         }
 
-        timer = new Timer();
-        timer.schedule(new UploadTask(), DELAY, PERIOD);
+        // Start a new daemon time thread to periodically upload events
+        // Because this is a deamon thread, it will not block shutdown
+        new DaemonTimerThread().start();
+
+        // Add a shutdown hook to catch any final events at shutdown
+        Runtime.getRuntime().addShutdownHook(new ShutdownHook());
+
         layout.start();
         super.start();
     }
@@ -122,11 +123,6 @@ public class CloudWatchAppender extends AppenderBase<ILoggingEvent> {
         if (awsLogs != null) {
             awsLogs.shutdown();
             awsLogs = null;
-        }
-
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
         }
 
         super.stop();
@@ -187,11 +183,40 @@ public class CloudWatchAppender extends AppenderBase<ILoggingEvent> {
         }
     }
 
+
     /**
-     * The UploadTask is a TimerTask that periodically gets a batch of events
+     * The DaemonTimerThread is a thread that periodically gets a batch of events
      * and uploads them to AWS.
+     *
+     * Because this is a daemon thread, it will not block shutdown.
+     * However, it will not catch any remaining events at shutdown.
+     * For those events, see the ShutdownHook class below.
      */
-    private class UploadTask extends TimerTask {
+    private class DaemonTimerThread extends Thread {
+        public DaemonTimerThread() {
+            setDaemon(true);
+        }
+
+        @Override
+        public void run() {
+            while (true) {
+                uploadEvents(getBatch());
+                try {
+                    Thread.sleep(PERIOD);
+                } catch (final InterruptedException ex) {
+                    // NOSONAR - Ignore
+                }
+            }
+        }
+    }
+
+
+    /**
+     * The ShutdownHook class is a thread that is executed at shutdown.
+     *
+     * The thread uploads all remaining events in the queue.
+     */
+    private class ShutdownHook extends Thread {
         @Override
         public void run() {
             uploadEvents(getBatch());
