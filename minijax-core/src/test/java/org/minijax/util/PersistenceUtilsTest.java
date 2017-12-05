@@ -9,9 +9,19 @@ import org.junit.Test;
 
 public class PersistenceUtilsTest {
 
+    @Test(expected = UnsupportedOperationException.class)
+    public void testCtor() {
+        new PersistenceUtils();
+    }
+
     @Test
     public void testNotFound() {
         assertEquals(Collections.emptyList(), PersistenceUtils.getNames("not-found.xml"));
+    }
+
+    @Test
+    public void testNotXml() {
+        assertEquals(Collections.emptyList(), PersistenceUtils.getNames("config.properties"));
     }
 
     @Test

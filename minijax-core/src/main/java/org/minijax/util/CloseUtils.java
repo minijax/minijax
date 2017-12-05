@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 public class CloseUtils {
     private static final Logger LOG = LoggerFactory.getLogger(CloseUtils.class);
 
-    private CloseUtils() {
+    CloseUtils() {
         throw new UnsupportedOperationException();
     }
 
