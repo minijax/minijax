@@ -1,5 +1,7 @@
 package org.minijax.liquibase;
 
+import static java.util.Collections.*;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -40,9 +43,7 @@ import liquibase.LabelExpression;
 import liquibase.Liquibase;
 import liquibase.change.Change;
 import liquibase.change.core.DropTableChange;
-import liquibase.changelog.ChangeLogParameters;
 import liquibase.changelog.ChangeSet;
-import liquibase.changelog.DatabaseChangeLog;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
@@ -51,11 +52,8 @@ import liquibase.diff.DiffResult;
 import liquibase.diff.compare.CompareControl;
 import liquibase.diff.output.DiffOutputControl;
 import liquibase.diff.output.changelog.DiffToChangeLog;
-import liquibase.exception.ChangeLogParseException;
 import liquibase.exception.DatabaseException;
 import liquibase.exception.LiquibaseException;
-import liquibase.parser.ChangeLogParser;
-import liquibase.parser.ChangeLogParserFactory;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import liquibase.resource.ResourceAccessor;
 import liquibase.serializer.core.xml.XMLChangeLogSerializer;
@@ -73,8 +71,9 @@ import liquibase.snapshot.SnapshotControl;
  */
 public class LiquibaseHelper {
     private static final Logger LOG = LoggerFactory.getLogger(LiquibaseHelper.class);
-    private static final String DEFAULT_RESOURCES_DIR = "src/main/resources";
-    private static final String DEFAULT_CHANGELOG_RESOURCE_NAME = "changelog.xml";
+    private static final File DEFAULT_RESOURCES_DIR = new File("src/main/resources");
+    private static final String MIGRATIONS_DIR = "migrations";
+    private static final String MASTER_CHANGELOG_RESOURCE_NAME = "master.changelog.xml";
     private static final String XML_FACTORY = "com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl";
     private final String persistenceUnitName;
     private final String driver;
@@ -84,7 +83,8 @@ public class LiquibaseHelper {
     private final String referenceUrl;
     private final ResourceAccessor resourceAccessor;
     private final File resourcesDir;
-    private final String changeLogResourceName;
+    private final File migrationsDir;
+    private final File masterChangeLogFile;
 
 
     /**
@@ -93,7 +93,11 @@ public class LiquibaseHelper {
      * @param props
      */
     public LiquibaseHelper(final Map<String, String> props) {
-        this(props, new ClassLoaderResourceAccessor(), new File(DEFAULT_RESOURCES_DIR), DEFAULT_CHANGELOG_RESOURCE_NAME);
+        this(
+                props,
+                new ClassLoaderResourceAccessor(),
+                DEFAULT_RESOURCES_DIR,
+                MASTER_CHANGELOG_RESOURCE_NAME);
     }
 
 
@@ -101,7 +105,10 @@ public class LiquibaseHelper {
             final Map<String, String> props,
             final ResourceAccessor resourceAccessor,
             final File resourcesDir,
-            final String changeLogResourceName) {
+            final String masterChangeLogName) {
+
+        this.resourceAccessor = resourceAccessor;
+        this.resourcesDir = resourcesDir;
 
         persistenceUnitName = props.get(MinijaxProperties.PERSISTENCE_UNIT_NAME);
         driver = props.get(MinijaxProperties.DB_DRIVER);
@@ -109,10 +116,8 @@ public class LiquibaseHelper {
         username = props.get(MinijaxProperties.DB_USERNAME);
         password = props.get(MinijaxProperties.DB_PASSWORD);
         referenceUrl = props.get(MinijaxProperties.DB_REFERENCE_URL);
-
-        this.resourceAccessor = resourceAccessor;
-        this.resourcesDir = resourcesDir;
-        this.changeLogResourceName = changeLogResourceName;
+        migrationsDir = new File(resourcesDir, MIGRATIONS_DIR);
+        masterChangeLogFile = new File(migrationsDir, masterChangeLogName);
     }
 
 
@@ -121,8 +126,8 @@ public class LiquibaseHelper {
     }
 
 
-    public String getChangeLogResourceName() {
-        return changeLogResourceName;
+    public File getMasterChangeLogFile() {
+        return masterChangeLogFile;
     }
 
 
@@ -136,9 +141,7 @@ public class LiquibaseHelper {
 
         try {
             database = getTargetDatabase();
-
-            final Liquibase liquibase = new Liquibase(changeLogResourceName, resourceAccessor, database);
-            liquibase.update(""); // Empty string = all contexts
+            getLiquibase(database).update(""); // Empty string = all contexts
 
         } finally {
             closeQuietly(database);
@@ -146,14 +149,14 @@ public class LiquibaseHelper {
     }
 
 
-    public void generateMigrations() throws IOException, LiquibaseException, SQLException {
+    public File generateMigrations() throws IOException, LiquibaseException, SQLException {
         Database referenceDatabase = null;
         Database targetDatabase = null;
 
         try {
             referenceDatabase = getReferenceDatabase();
             targetDatabase = getTargetDatabase();
-            generateMigrations(referenceDatabase, targetDatabase);
+            return generateMigrations(referenceDatabase, targetDatabase);
 
         } finally {
             closeQuietly(referenceDatabase);
@@ -163,8 +166,18 @@ public class LiquibaseHelper {
 
 
     /*
-     * Protected overrides
+     * Private helpers
      */
+
+
+    private Liquibase getLiquibase(final Database targetDatabase) throws LiquibaseException {
+        return new Liquibase(getRelativePath(masterChangeLogFile), resourceAccessor, targetDatabase);
+    }
+
+
+    private String getRelativePath(final File resourceFile) {
+        return resourcesDir.toPath().relativize(resourceFile.toPath()).toString();
+    }
 
 
     /**
@@ -185,11 +198,6 @@ public class LiquibaseHelper {
     private Database getLiquibaseDatabase(final Connection conn) throws DatabaseException {
         return DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(conn));
     }
-
-
-    /*
-     * Private helpers
-     */
 
     private Database getTargetDatabase() throws LiquibaseException, SQLException {
         try {
@@ -233,18 +241,24 @@ public class LiquibaseHelper {
     }
 
 
-    private void generateMigrations(final Database referenceDatabase, final Database targetDatabase)
+    private File generateMigrations(final Database referenceDatabase, final Database targetDatabase)
             throws LiquibaseException, IOException {
 
         if (!resourcesDir.exists()) {
             resourcesDir.mkdirs();
         }
 
-        final File changeLogFile = new File(resourcesDir, changeLogResourceName);
+        if (!migrationsDir.exists()) {
+            migrationsDir.mkdirs();
+        }
 
-        if (changeLogFile.exists()) {
+        if (masterChangeLogFile.exists()) {
             LOG.info("Checking current database state");
             validateDatabaseState(targetDatabase);
+
+        } else {
+            LOG.info("Creating new master changelog");
+            writeChangeSets(masterChangeLogFile, emptyList());
         }
 
         @SuppressWarnings("unchecked")
@@ -268,37 +282,25 @@ public class LiquibaseHelper {
         final DiffToChangeLog diffToChangeLog = new DiffToChangeLog(diffResult, diffOutputControl);
         diffToChangeLog.setChangeSetAuthor(System.getProperty("user.name"));
 
-        LOG.info("Reading existing changelog");
-        final ChangeLogParser parser = ChangeLogParserFactory.getInstance().getParser(changeLogResourceName, resourceAccessor);
-        final ChangeLogParameters changeLogParameters = null;
-        DatabaseChangeLog existingChangeLog = null;
-        try {
-            existingChangeLog = parser.parse(changeLogResourceName, changeLogParameters, resourceAccessor);
-        } catch (final ChangeLogParseException ex) {
-            existingChangeLog = new DatabaseChangeLog();
+        final List<ChangeSet> changeSets = diffToChangeLog.generateChangeSets();
+        LOG.info("Found {} changes", changeSets.size());
+        if (changeSets.isEmpty()) {
+            return null;
         }
 
-        LOG.info("Adding new entries to changelog");
-        for (final ChangeSet changeSet : diffToChangeLog.generateChangeSets()) {
-            if (isIgnoredChangeSet(changeSet)) {
-                continue;
-            }
+        final File generatedChangeLogFile = new File(migrationsDir, generateFileName(masterChangeLogFile));
+        LOG.info("Writing new changelog: {}", generatedChangeLogFile);
+        writeChangeSets(generatedChangeLogFile, changeSets);
 
-            existingChangeLog.addChangeSet(changeSet);
-        }
-
-        LOG.info("Writing the changelog to disk");
-        final List<ChangeSet> changeSets = existingChangeLog.getChangeSets();
-        try (final FileOutputStream outputStream = new FileOutputStream(changeLogFile)) {
-            final XMLChangeLogSerializer changeLogSerializer = new XMLChangeLogSerializer();
-            changeLogSerializer.write(changeSets, outputStream);
-            outputStream.flush();
-        }
+        LOG.info("Add migration to master changelog: {}", masterChangeLogFile);
+        addIncludeFile(generatedChangeLogFile);
 
         LOG.info("Cleaning changelog");
-        removeObjectQuotingStrategy(changeLogFile);
+        cleanXmlFile(masterChangeLogFile);
+        cleanXmlFile(generatedChangeLogFile);
 
         LOG.info("Diff complete");
+        return generatedChangeLogFile;
     }
 
 
@@ -310,7 +312,7 @@ public class LiquibaseHelper {
      * @param resourceAccessor The change log file loader.
      */
     private void validateDatabaseState(final Database database) throws LiquibaseException {
-        final Liquibase liquibase = new Liquibase(changeLogResourceName, resourceAccessor, database);
+        final Liquibase liquibase = getLiquibase(database);
         final Contexts contexts = new Contexts(); // all contexts
         final LabelExpression labels = new LabelExpression(); // no filters
         final List<ChangeSet> unrunChangeSets = liquibase.listUnrunChangeSets(contexts, labels);
@@ -371,32 +373,69 @@ public class LiquibaseHelper {
     }
 
 
-    /**
-     * Removes all "objectQuotingStrategy" attributes.
-     *
-     * @param changeLogFile The changelog file.
-     */
-    private static void removeObjectQuotingStrategy(final File changeLogFile) throws IOException {
-        try {
-            final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            factory.setNamespaceAware(true);
+    private void writeChangeSets(final File file, final List<ChangeSet> changeSets) throws IOException {
+        try (final FileOutputStream outputStream = new FileOutputStream(file)) {
+            final XMLChangeLogSerializer changeLogSerializer = new XMLChangeLogSerializer();
+            changeLogSerializer.write(changeSets, outputStream);
+            outputStream.flush();
+        }
+    }
 
-            final Document doc = factory.newDocumentBuilder().parse(changeLogFile);
+
+    private void addIncludeFile(final File includeFile) throws IOException {
+        final Document doc = readXml(masterChangeLogFile);
+        final Element include = doc.createElement("include");
+        include.setAttribute("file", getRelativePath(includeFile));
+        doc.getDocumentElement().appendChild(include);
+        writeXml(doc, masterChangeLogFile);
+    }
+
+
+    /**
+     * Cleans the XML file.
+     *  1) Updates formatting and indentation.
+     *  2) Removes liquibase "objectQuotingStrategy" attributes.
+     *
+     * @param file The changelog file.
+     */
+    private static void cleanXmlFile(final File file) throws IOException {
+        try {
+            final Document doc = readXml(file);
             final XPath xpath = XPathFactory.newInstance().newXPath();
             removeNodes(doc, xpath, "//@objectQuotingStrategy");
             removeNodes(doc, xpath, "//text()[normalize-space()='']");
-            doc.normalize();
+            writeXml(doc, file);
+        } catch (final XPathException ex) {
+            throw new IOException(ex.getMessage(), ex);
+        }
+    }
 
-            final TransformerFactory transformerFactory = TransformerFactory.newInstance(XML_FACTORY, null);
-            transformerFactory.setAttribute("indent-number", 4);
 
+    private static Document readXml(final File file) throws IOException {
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+
+        try {
+            return factory.newDocumentBuilder().parse(file);
+        } catch (ParserConfigurationException | SAXException ex) {
+            throw new IOException(ex.getMessage(), ex);
+        }
+    }
+
+
+    private static void writeXml(final Document doc, final File file) throws IOException {
+        doc.normalize();
+
+        final TransformerFactory transformerFactory = TransformerFactory.newInstance(XML_FACTORY, null);
+
+        try {
             final Transformer transformer = transformerFactory.newTransformer();
             transformer.setOutputProperty(OutputKeys.METHOD, "xml");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-            transformer.transform(new DOMSource(doc), new StreamResult(changeLogFile));
-
-        } catch (final ParserConfigurationException | SAXException | TransformerException | XPathException ex) {
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+            transformer.transform(new DOMSource(doc), new StreamResult(file));
+        } catch (final TransformerException ex) {
             throw new IOException(ex.getMessage(), ex);
         }
     }
@@ -422,5 +461,11 @@ public class LiquibaseHelper {
                 node.getParentNode().removeChild(node);
             }
         }
+    }
+
+
+    private static String generateFileName(final File masterChangeLogFile) throws IOException {
+        final int id = readXml(masterChangeLogFile).getDocumentElement().getElementsByTagName("include").getLength() + 1;
+        return String.format("changelog.%04d.xml", id);
     }
 }

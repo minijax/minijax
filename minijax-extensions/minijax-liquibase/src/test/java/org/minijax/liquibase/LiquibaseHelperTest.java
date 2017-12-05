@@ -40,7 +40,7 @@ public class LiquibaseHelperTest {
         final LiquibaseHelper h = new LiquibaseHelper(props);
 
         assertEquals("resources", h.getResourcesDir().getName());
-        assertEquals("changelog.xml", h.getChangeLogResourceName());
+        assertEquals("master.changelog.xml", h.getMasterChangeLogFile().getName());
     }
 
     @Test
@@ -49,8 +49,9 @@ public class LiquibaseHelperTest {
         final File referenceFile = File.createTempFile("reference", null);
         final String targetUrl = "jdbc:h2:" + targetFile.getAbsolutePath();
         final String referenceUrl = "jdbc:h2:" + referenceFile.getAbsolutePath();
-        final String changeLogResourceName = "changes-" + System.currentTimeMillis() + ".xml";
-        final File changeLogFile = new File(TEST_RESOURCES, changeLogResourceName);
+        final String masterChangeLogResourceName = "changes-" + System.currentTimeMillis() + ".xml";
+        final File migrationsDir = new File(TEST_RESOURCES, "migrations");
+        final File masterChangeLogFile = new File(migrationsDir, masterChangeLogResourceName);
 
         final Map<String, String> props = new HashMap<>();
         props.put(MinijaxProperties.PERSISTENCE_UNIT_NAME, "testdb");
@@ -63,14 +64,14 @@ public class LiquibaseHelperTest {
         // Verify that both databases are empty and that the changelog does not exist
         assertTrue(getTables(targetUrl).isEmpty());
         assertTrue(getTables(referenceUrl).isEmpty());
-        assertFalse(changeLogFile.exists());
+        assertFalse(masterChangeLogFile.exists());
 
         final FileSystemResourceAccessor accessor = new FileSystemResourceAccessor(TEST_RESOURCES.getAbsolutePath()) {
             @Override
             protected void init() {
                 try {
                     addRootPath(TEST_RESOURCES.getAbsoluteFile().toURI().toURL());
-                    addRootPath(changeLogFile.getAbsoluteFile().toURI().toURL());
+                    addRootPath(masterChangeLogFile.getAbsoluteFile().toURI().toURL());
                 } catch (final MalformedURLException ex) {
                     ex.printStackTrace();
                 }
@@ -81,10 +82,11 @@ public class LiquibaseHelperTest {
                 props,
                 accessor,
                 TEST_RESOURCES,
-                changeLogResourceName);
+                masterChangeLogResourceName);
 
         // Generate the migration
-        m.generateMigrations();
+        final File firstGeneratedChangeLog = m.generateMigrations();
+        assertTrue(firstGeneratedChangeLog.exists());
 
         // Verify that the "target" database is still empty
         assertTrue(getTables(targetUrl).isEmpty());
@@ -93,7 +95,7 @@ public class LiquibaseHelperTest {
         assertEquals(Arrays.asList("WIDGET"), getTables(referenceUrl));
 
         // Verify that the changelog file now exists
-        assertTrue(changeLogFile.exists());
+        assertTrue(masterChangeLogFile.exists());
 
         // Run the migration
         m.migrate();
@@ -102,7 +104,8 @@ public class LiquibaseHelperTest {
         assertEquals(Arrays.asList("DATABASECHANGELOG", "DATABASECHANGELOGLOCK", "WIDGET"), getTables(targetUrl));
 
         // Generate the migration again (should be no-op)
-        m.generateMigrations();
+        final File secondGeneratedChangeLog = m.generateMigrations();
+        assertNull(secondGeneratedChangeLog);
 
         // Verify that the "reference" database is still only the "WIDGET" table
         assertEquals(Arrays.asList("WIDGET"), getTables(referenceUrl));
@@ -116,7 +119,9 @@ public class LiquibaseHelperTest {
         // Cleanup
         deleteDatabase(targetFile);
         deleteDatabase(referenceFile);
-        changeLogFile.delete();
+        masterChangeLogFile.delete();
+        firstGeneratedChangeLog.delete();
+        migrationsDir.delete();
     }
 
 
