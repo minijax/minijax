@@ -47,6 +47,10 @@ class ConstructorProviderBuilder<T> {
     private final List<Method> toRemove;
 
     public ConstructorProviderBuilder(final MinijaxInjector injector, final Key<T> key, final Set<Key<?>> chain) {
+        if (key.getType().isInterface()) {
+            throw new IllegalStateException("Cannot create interface " + key.getType());
+        }
+
         this.injector = injector;
         this.key = key;
         this.chain = chain;
