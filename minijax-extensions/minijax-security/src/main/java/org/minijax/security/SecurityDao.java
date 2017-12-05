@@ -88,7 +88,7 @@ public interface SecurityDao extends BaseDao {
         em.createNamedQuery("UserSession.deleteByUser", UserSession.class)
                 .setParameter("userId", userId)
                 .executeUpdate();
+        em.getEntityManagerFactory().getCache().evict(UserSession.class);
         em.getTransaction().commit();
     }
-
 }

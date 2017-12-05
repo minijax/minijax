@@ -115,22 +115,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
 
 
     /**
-     * Requires that the current user has the specified role.
-     *
-     * This implicitly requires that the user is logged in.
-     *
-     * @param role The role.
-     */
-    public void requireRole(final String role) {
-        requireLogin();
-
-        if (!getUserPrincipal().hasRole(role)) {
-            throw new ForbiddenException();
-        }
-    }
-
-
-    /**
      * Returns the session token.
      *
      * @return The session token.

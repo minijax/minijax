@@ -18,17 +18,12 @@ import javax.ws.rs.core.Response;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.MinijaxRequestContext;
-import org.minijax.db.DefaultBaseDao;
 import org.minijax.db.PersistenceFeature;
 import org.minijax.test.MinijaxTest;
 
 public class CsrfFilterTest extends MinijaxTest {
     private static User user;
     private static NewCookie cookie;
-
-
-    public static class Dao extends DefaultBaseDao implements SecurityDao {
-    }
 
 
     @POST

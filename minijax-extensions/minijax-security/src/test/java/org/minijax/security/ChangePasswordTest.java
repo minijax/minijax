@@ -20,15 +20,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mindrot.jbcrypt.BCrypt;
 import org.minijax.MinijaxRequestContext;
-import org.minijax.db.DefaultBaseDao;
 import org.minijax.db.PersistenceFeature;
 import org.minijax.test.MinijaxTest;
 
 public class ChangePasswordTest extends MinijaxTest {
-
-    public static class Dao extends DefaultBaseDao implements SecurityDao {
-    }
-
 
     @Inject
     private Security<User> security;
@@ -48,7 +43,7 @@ public class ChangePasswordTest extends MinijaxTest {
 
 
     @BeforeClass
-    public static void setUpCsrfFilterTest() throws IOException {
+    public static void setUpChangePasswordTest() throws IOException {
         register(PersistenceFeature.class);
         register(new SecurityFeature(User.class, Dao.class));
         register(ChangePasswordTest.class);
