@@ -168,6 +168,27 @@ public class LiquibaseHelperTest {
 
 
     @Test
+    public void testFilterChangeSets() {
+        final DropTableChange c1 = new DropTableChange();
+        c1.setTableName("foo");
+
+        final ChangeSet cs1 = new ChangeSet(null);
+        cs1.addChange(c1);
+
+        final DropTableChange c2 = new DropTableChange();
+        c2.setTableName("JGROUPSPING");
+
+        final ChangeSet cs2 = new ChangeSet(null);
+        cs2.addChange(c2);
+
+        final List<ChangeSet> original = Arrays.asList(cs1, cs2);
+        final List<ChangeSet> filtered = LiquibaseHelper.filterChangeSets(original);
+        assertEquals(1, filtered.size());
+        assertEquals(c1, filtered.get(0).getChanges().get(0));
+    }
+
+
+    @Test
     public void testCloseEntityManagerFactoryNull() {
         LiquibaseHelper.closeQuietly((EntityManagerFactory) null);
     }

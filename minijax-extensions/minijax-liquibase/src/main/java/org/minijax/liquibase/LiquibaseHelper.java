@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -282,7 +283,7 @@ public class LiquibaseHelper {
         final DiffToChangeLog diffToChangeLog = new DiffToChangeLog(diffResult, diffOutputControl);
         diffToChangeLog.setChangeSetAuthor(System.getProperty("user.name"));
 
-        final List<ChangeSet> changeSets = diffToChangeLog.generateChangeSets();
+        final List<ChangeSet> changeSets = filterChangeSets(diffToChangeLog.generateChangeSets());
         LOG.info("Found {} changes", changeSets.size());
         if (changeSets.isEmpty()) {
             return null;
@@ -323,6 +324,23 @@ public class LiquibaseHelper {
 
 
     /**
+     * Filters out all ignored change sets.
+     *
+     * @param changeSets The original list of change sets.
+     * @return The filtered list of change sets.
+     */
+    static List<ChangeSet> filterChangeSets(final List<ChangeSet> changeSets) {
+        final List<ChangeSet> result = new ArrayList<>();
+        for (final ChangeSet changeSet : changeSets) {
+            if (!isIgnoredChangeSet(changeSet)) {
+                result.add(changeSet);
+            }
+        }
+        return result;
+    }
+
+
+    /**
      * Returns true if the change set should be ignored.
      *
      * Most tables are managed by JPA.  When we create the temporary "goal" database,
@@ -336,7 +354,7 @@ public class LiquibaseHelper {
      * @param changeSet The candidate change set.
      * @return True if the change set should be ignored.
      */
-    public static boolean isIgnoredChangeSet(final ChangeSet changeSet) {
+    static boolean isIgnoredChangeSet(final ChangeSet changeSet) {
         final List<Change> changes = changeSet.getChanges();
         if (changes.size() != 1) {
             return false;
