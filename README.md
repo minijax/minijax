@@ -16,7 +16,7 @@ Getting Started
 <dependency>
     <groupId>org.minijax</groupId>
     <artifactId>minijax-core</artifactId>
-    <version>0.0.35</version>
+    <version>0.0.40</version>
 </dependency>
 ```
 
@@ -47,5 +47,5 @@ Learn more
 
 * [Motivation](https://github.com/minijax/minijax/wiki/Motivation) - Why use Minijax?
 * [Getting Started Tutorial](https://github.com/minijax/minijax/wiki/Getting-Started) - 5 minute tutorial
-* [Sample Applications](minijax-examples/index.html) - Demonstrating Minijax capabilities
+* [Sample Applications](minijax-examples/) - Demonstrating Minijax capabilities
 * [Supported Java EE standards](https://github.com/minijax/minijax/wiki/Java-EE-Standards) - Overview of supported API's
