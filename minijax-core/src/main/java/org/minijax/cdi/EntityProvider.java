@@ -15,6 +15,12 @@ import javax.ws.rs.ext.MessageBodyReader;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.util.IOUtils;
 
+/**
+ * Provides the "entity" as defined in section 4.2 of the JAX-RS specification.
+ *
+ * In short, "entity" refers to the HTTP content body.  The entity provider dispatches
+ * to the appropriate <code>MessageBodyReader</code> to parse the HTTP content.
+ */
 public class EntityProvider<T> implements Provider<T> {
     private final Class<T> entityClass;
     private final Type genericType;
