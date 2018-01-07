@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.minijax</groupId>
         <artifactId>minijax-examples</artifactId>
-        <version>0.0.41</version>
+        <version>0.0.42-SNAPSHOT</version>
     </parent>
     <artifactId>minijax-example-mustache</artifactId>
     <packaging>jar</packaging>
