@@ -11,6 +11,8 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Variant.VariantListBuilder;
 import javax.ws.rs.ext.RuntimeDelegate;
 
+import org.minijax.uri.JerseyUriBuilder;
+
 public class MinijaxRuntimeDelegate extends RuntimeDelegate {
     private static final MinijaxMediaTypeDelegate MEDIA_TYPE_DELEGATE = new MinijaxMediaTypeDelegate();
     private static final MinijaxCookieDelegate COOKIE_DELEGATE = new MinijaxCookieDelegate();
@@ -19,7 +21,7 @@ public class MinijaxRuntimeDelegate extends RuntimeDelegate {
 
     @Override
     public UriBuilder createUriBuilder() {
-        throw new UnsupportedOperationException();
+        return new JerseyUriBuilder();
     }
 
     @Override

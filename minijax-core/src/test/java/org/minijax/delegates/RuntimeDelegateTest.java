@@ -6,12 +6,21 @@ import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.ext.RuntimeDelegate;
 import javax.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
 
 import org.junit.Test;
+import org.minijax.uri.JerseyUriBuilder;
 
 public class RuntimeDelegateTest {
+
+    @Test
+    public void testCreateUriBuilder() {
+        final UriBuilder ub = RuntimeDelegate.getInstance().createUriBuilder();
+        assertNotNull(ub);
+        assertTrue(ub instanceof JerseyUriBuilder);
+    }
 
     @Test
     public void testCreateResponseBuilder() {
@@ -43,11 +52,6 @@ public class RuntimeDelegateTest {
     @Test(expected = IllegalArgumentException.class)
     public void testCreateUnknownDelegate() {
         RuntimeDelegate.getInstance().createHeaderDelegate(Object.class);
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void testCreateUriBuilder() {
-        RuntimeDelegate.getInstance().createUriBuilder();
     }
 
     @Test(expected = UnsupportedOperationException.class)
