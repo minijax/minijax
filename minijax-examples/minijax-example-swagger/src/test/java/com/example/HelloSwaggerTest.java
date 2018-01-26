@@ -16,7 +16,6 @@ import org.minijax.test.MinijaxTest;
 
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
-import io.swagger.util.Json;
 
 public class HelloSwaggerTest extends MinijaxTest {
 
@@ -40,7 +39,7 @@ public class HelloSwaggerTest extends MinijaxTest {
         assertNotNull(response);
         assertEquals(200, response.getStatus());
 
-        final Swagger swagger = Json.mapper().readValue((String) response.getEntity(), Swagger.class);
+        final Swagger swagger = (Swagger) response.getEntity();
         assertNotNull(swagger);
 
         final Path path = swagger.getPaths().get("/api/shout");

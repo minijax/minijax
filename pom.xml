@@ -60,7 +60,7 @@
         </site>
     </distributionManagement>
     <properties>
-        <aws.version>1.11.255</aws.version>
+        <aws.version>1.11.269</aws.version>
         <bcrypt.version>0.4</bcrypt.version>
         <cdi.version>2.0</cdi.version>
         <commons-lang3.version>3.7</commons-lang3.version>
@@ -68,7 +68,7 @@
         <h2.version>1.4.196</h2.version>
         <hikaricp.version>2.7.2</hikaricp.version>
         <inject.version>1</inject.version>
-        <jackson.version>2.9.3</jackson.version>
+        <jackson.version>2.9.4</jackson.version>
         <jax-rs.version>2.1</jax-rs.version>
         <jaxb.version>2.3.0</jaxb.version>
         <jetty.version>9.4.7.v20170914</jetty.version>
@@ -86,7 +86,7 @@
         <site.basedir>${session.executionRootDirectory}/src/site/</site.basedir>
         <slf4j.version>1.7.25</slf4j.version>
         <sonar.language>java</sonar.language>
-        <swagger.version>1.5.17</swagger.version>
+        <swagger.version>1.5.18</swagger.version>
         <validation.version>2.0.0.Final</validation.version>
     </properties>
     <build>
@@ -143,7 +143,7 @@
                     <dependency>
                         <groupId>com.puppycrawl.tools</groupId>
                         <artifactId>checkstyle</artifactId>
-                        <version>8.5</version>
+                        <version>8.7</version>
                     </dependency>
                 </dependencies>
                 <executions>
