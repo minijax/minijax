@@ -137,4 +137,9 @@ public class UriBuilderTest {
     public void testQueryParamAmpersand() {
         assertEquals("https://foo.com?a=b&c=d", UriBuilder.fromUri("https://foo.com").queryParam("a", "b").queryParam("c", "d").build().toString());
     }
+
+    @Test
+    public void testReplaceFragment() {
+        assertEquals("https://foo.com#foo", UriBuilder.fromUri("https://foo.com").fragment("foo").build().toString());
+    }
 }

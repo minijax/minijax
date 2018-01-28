@@ -38,6 +38,7 @@ public class MinijaxUriBuilder extends UriBuilder {
     }
 
     @Override
+    @SuppressWarnings({ "CloneDoesntCallSuperClone", "squid:S2975" })
     public MinijaxUriBuilder clone() {
         return new MinijaxUriBuilder(this);
     }
@@ -193,8 +194,7 @@ public class MinijaxUriBuilder extends UriBuilder {
     }
 
     @Override
-    public MinijaxUriBuilder resolveTemplates(final Map<String, Object> templateValues, final boolean encodeSlashInPath)
-            throws IllegalArgumentException {
+    public MinijaxUriBuilder resolveTemplates(final Map<String, Object> templateValues, final boolean encodeSlashInPath) {
         throw new UnsupportedOperationException();
     }
 
@@ -242,8 +242,7 @@ public class MinijaxUriBuilder extends UriBuilder {
     }
 
     @Override
-    public URI buildFromMap(final Map<String, ?> values, final boolean encodeSlashInPath)
-            throws IllegalArgumentException, UriBuilderException {
+    public URI buildFromMap(final Map<String, ?> values, final boolean encodeSlashInPath) {
         throw new UnsupportedOperationException();
     }
 
@@ -258,12 +257,12 @@ public class MinijaxUriBuilder extends UriBuilder {
     }
 
     @Override
-    public URI build(final Object[] values, final boolean encodeSlashInPath) throws IllegalArgumentException, UriBuilderException {
+    public URI build(final Object[] values, final boolean encodeSlashInPath) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public URI buildFromEncoded(final Object... values) throws IllegalArgumentException, UriBuilderException {
+    public URI buildFromEncoded(final Object... values) {
         throw new UnsupportedOperationException();
     }
 
@@ -335,17 +334,14 @@ public class MinijaxUriBuilder extends UriBuilder {
             } else {
                 final String[] components2 = split(str, "?");
                 if (components2.length == 2) {
-                    //replacePath(components2[0]);
                     parsePrePath(components2[0]);
                     parseQuery(components2[1]);
                 } else {
                     final String[] components3 = split(components2[0], "#");
                     if (components3.length == 2) {
-                        //replacePath(components3[0]);
                         parsePrePath(components3[0]);
                         fragment = components3[1];
                     } else {
-                        //replacePath(components3[0]);
                         parsePrePath(components3[0]);
                     }
                 }
@@ -421,10 +417,8 @@ public class MinijaxUriBuilder extends UriBuilder {
                 } else if (c == ']') {
                     squareDepth--;
 
-                } else if (curlyDepth == 0 && squareDepth == 0) {
-                    if (str.startsWith(delimeter, i)) {
-                        return new String[] { str.substring(0, i), str.substring(i + delimeter.length()) };
-                    }
+                } else if (curlyDepth == 0 && squareDepth == 0 && str.startsWith(delimeter, i)) {
+                    return new String[] { str.substring(0, i), str.substring(i + delimeter.length()) };
                 }
             }
 
