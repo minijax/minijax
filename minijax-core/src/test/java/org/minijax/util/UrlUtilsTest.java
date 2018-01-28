@@ -3,6 +3,7 @@ package org.minijax.util;
 import static org.junit.Assert.*;
 
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -46,5 +47,18 @@ public class UrlUtilsTest {
 
     private HttpServletRequest makeRequest(final String url) {
         return new MockHttpServletRequest("GET", URI.create(url));
+    }
+
+    @Test
+    public void testUrlEncodeIgnoreTemplates() {
+        assertEquals("foo", UrlUtils.urlEncodeIgnoreTemplates("foo"));
+        assertEquals("123", UrlUtils.urlEncodeIgnoreTemplates("123"));
+        assertEquals("a%20b", UrlUtils.urlEncodeIgnoreTemplates("a b"));
+        assertEquals("foo{bar}", UrlUtils.urlEncodeIgnoreTemplates("foo{bar}"));
+        assertEquals("foo{bar:[a-z]{1-3}}", UrlUtils.urlEncodeIgnoreTemplates("foo{bar:[a-z]{1-3}}"));
+
+        assertEquals("%f0%9f%98%81", UrlUtils.urlEncodeIgnoreTemplates(new String(
+                new byte[] { (byte) 0xF0, (byte) 0x9F, (byte) 0x98, (byte) 0x81 },
+                StandardCharsets.UTF_8)));
     }
 }
