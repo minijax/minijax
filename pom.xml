@@ -60,7 +60,7 @@
         </site>
     </distributionManagement>
     <properties>
-        <aws.version>1.11.269</aws.version>
+        <aws.version>1.11.279</aws.version>
         <bcrypt.version>0.4</bcrypt.version>
         <cdi.version>2.0</cdi.version>
         <commons-lang3.version>3.7</commons-lang3.version>
@@ -76,11 +76,11 @@
         <jsr250.version>1.0</jsr250.version>
         <junit.version>4.12</junit.version>
         <kotlin.version>1.2.10</kotlin.version>
-        <liquibase.version>3.5.3</liquibase.version>
+        <liquibase.version>3.5.4</liquibase.version>
         <logback.version>1.2.3</logback.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <mockito.version>2.13.0</mockito.version>
+        <mockito.version>2.15.0</mockito.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <shade.version>3.1.0</shade.version>
         <site.basedir>${session.executionRootDirectory}/src/site/</site.basedir>
@@ -143,7 +143,7 @@
                     <dependency>
                         <groupId>com.puppycrawl.tools</groupId>
                         <artifactId>checkstyle</artifactId>
-                        <version>8.7</version>
+                        <version>8.8</version>
                     </dependency>
                 </dependencies>
                 <executions>
