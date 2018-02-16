@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.minijax</groupId>
         <artifactId>minijax-extensions</artifactId>
-        <version>0.0.45-SNAPSHOT</version>
+        <version>0.0.45</version>
     </parent>
     <artifactId>minijax-websocket</artifactId>
     <packaging>jar</packaging>
