@@ -1,7 +1,7 @@
 package org.minijax.delegates;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
@@ -9,8 +9,8 @@ import javax.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
 import org.minijax.util.UrlUtils;
 
 class MinijaxMediaTypeDelegate implements HeaderDelegate<MediaType> {
-    private static final Map<String, MediaType> TO_MEDIATYPE_CACHE = new HashMap<>();
-    private static final Map<MediaType, String> TO_STRING_CACHE = new HashMap<>();
+    private static final Map<String, MediaType> TO_MEDIATYPE_CACHE = new ConcurrentHashMap<>();
+    private static final Map<MediaType, String> TO_STRING_CACHE = new ConcurrentHashMap<>();
 
     @Override
     public MediaType fromString(final String value) {
