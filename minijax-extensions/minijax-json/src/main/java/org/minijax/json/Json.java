@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
 public class Json {
@@ -22,6 +23,7 @@ public class Json {
             instance.registerModule(new JaxbAnnotationModule());
             instance.registerModule(new JavaTimeModule());
             instance.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            instance.registerModule(new AfterburnerModule());
         }
         return instance;
     }
