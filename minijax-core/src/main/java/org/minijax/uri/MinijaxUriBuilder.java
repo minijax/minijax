@@ -5,7 +5,6 @@ import java.net.URI;
 import java.util.Map;
 
 import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriBuilderException;
 
 import org.minijax.util.UrlUtils;
 
@@ -247,12 +246,12 @@ public class MinijaxUriBuilder extends UriBuilder {
     }
 
     @Override
-    public URI buildFromEncodedMap(final Map<String, ?> values) throws IllegalArgumentException, UriBuilderException {
+    public URI buildFromEncodedMap(final Map<String, ?> values) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public URI build(final Object... values) throws IllegalArgumentException, UriBuilderException {
+    public URI build(final Object... values) {
         return buildFromMap(new ImplicitTemplateMap(values));
     }
 
