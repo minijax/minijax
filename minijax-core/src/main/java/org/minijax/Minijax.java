@@ -16,6 +16,7 @@ import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.servlet.DispatcherType;
+import javax.servlet.MultipartConfigElement;
 import javax.ws.rs.core.CacheControl;
 
 import org.minijax.cdi.MinijaxInjector;
@@ -303,6 +304,7 @@ public class Minijax {
                 "MinijaxServlet",
                 MinijaxServlet.class,
                 new ImmediateInstanceFactory<>(new MinijaxServlet(application)))
+                        .setMultipartConfig(new MultipartConfigElement(""))
                         .addMapping("/*"));
     }
 

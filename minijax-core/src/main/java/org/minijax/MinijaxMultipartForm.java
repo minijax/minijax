@@ -91,7 +91,13 @@ class MinijaxMultipartForm implements MinijaxForm {
     @Override
     public void close() throws IOException {
         for (final Part part : values.values()) {
-            part.delete();
+            try {
+                part.delete();
+            } catch (final IllegalStateException ex) {
+                // Undertow complains if you try to "delete" a non-file part
+                // There is no reliable way to know if a part is a file or not
+                LOG.debug(ex.getMessage(), ex);
+            }
         }
     }
 }
