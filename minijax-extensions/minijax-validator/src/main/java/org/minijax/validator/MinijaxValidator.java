@@ -2,12 +2,12 @@ package org.minijax.validator;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintViolation;
@@ -26,7 +26,7 @@ public class MinijaxValidator implements Validator, ExecutableValidator {
     private final Map<Class<?>, MinijaxBeanDescriptor> beanDescriptors;
 
     public MinijaxValidator() {
-        beanDescriptors = new HashMap<>();
+        beanDescriptors = new ConcurrentHashMap<>();
     }
 
     @Override
