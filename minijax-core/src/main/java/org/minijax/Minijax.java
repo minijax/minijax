@@ -48,7 +48,7 @@ import io.undertow.servlet.util.ImmediateInstanceFactory;
  *         public static void main(String[] args) {
  *             new Minijax()
  *                     .register(Hello.class)
- *                     .run(8080);
+ *                     .start(8080);
  *         }
  *     }
  * }

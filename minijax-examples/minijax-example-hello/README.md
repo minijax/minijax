@@ -50,7 +50,7 @@ The pom is short and sweet with only two dependencies:
 
 The "minijax-core" dependency includes everything we need for a simple demonstration:
 
-* Embedded Jetty for web server
+* Embedded Undertow for web server
 * JAX-RS implementation for routing
 
 Hello.java
@@ -75,7 +75,7 @@ public class Hello {
     }
 
     public static void main(final String[] args) {
-        new Minijax().register(Hello.class).run(8080);
+        new Minijax().register(Hello.class).start(8080);
     }
 }
 ```
@@ -104,7 +104,7 @@ Back to Hello.java:
 
 ```java
 public static void main(final String[] args) {
-    new Minijax().register(Hello.class).run(8080);
+    new Minijax().register(Hello.class).start(8080);
 }
 ```
 
@@ -114,7 +114,7 @@ Obviously the `main` function is the application entry point.
 
 `register(Hello.class)` registers our **Resource Class** and **Resource Method**.
 
-`run(8080)` runs the container on port 8080.  The run method starts Jetty and blocks, which keeps the application alive indefinitely.
+`start(8080)` runs the container on port 8080.  The `start` method starts Undertow.  Undertow runs in the background, which keeps the application alive indefinitely.
 
 You can run the Hello World example:
 

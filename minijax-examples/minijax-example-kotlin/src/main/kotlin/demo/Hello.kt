@@ -11,6 +11,6 @@ class Hello {
 }
 
 fun main(args : Array<String>) {
-    Minijax().register(Hello::class.java).run(8080)
+    Minijax().register(Hello::class.java).start(8080)
 }
 

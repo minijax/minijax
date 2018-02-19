@@ -141,7 +141,7 @@ One last thing before testing:  We need to `register()` the JSON feature:
 new Minijax()
         .register(JsonFeature.class)
         .register(HelloJson.class)
-        .run(8080);
+        .start(8080);
 ```
 
 In addition to the setup from "Hello World", we now include `register(JsonFeature.class)`.  That call does the following:
@@ -194,7 +194,6 @@ HTTP/1.1 201 Created
 Date: Sat, 18 Nov 2017 00:30:40 GMT
 Location: /widgets/2
 Content-Length: 0
-Server: Jetty(9.4.7.v20170914)
 ```
 
 Notice the status is "201 Created", meaning that the widget was successfully created.  It also includes a "Location" header with the URI of the new entity.  You may recall that we returned these values with `Response.created()`.

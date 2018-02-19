@@ -130,7 +130,7 @@ And finally, we must register the Mustache feature using the aforementioned `Mus
 new Minijax()
         .register(MustacheFeature.class)
         .register(HelloMustache.class)
-        .run(8080);
+        .start(8080);
 ```
 
 Now you can run the example:

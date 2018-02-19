@@ -41,7 +41,7 @@ There is one new dependency in this example:
 </dependency>
 ```
 
-The "minijax-websocket" dependency adds and configures Jetty's WebSocket features:
+The "minijax-websocket" dependency adds and configures Undertow's WebSocket features:
 
 * Full support for [JSR 356](http://www.oracle.com/technetwork/articles/java/jsr356-1937161.html) WebSockets
 * JAX-RS `@Path` routes are completely compatible with JSR 356 `@ServerEndpoint` annotations
@@ -108,7 +108,7 @@ public static void main(final String[] args) {
             .register(EchoEndpoint.class)
             .staticFile("static/index.html", "/")
             .staticDirectories("static")
-            .run(8080);
+            .start(8080);
 }
 ```
 
