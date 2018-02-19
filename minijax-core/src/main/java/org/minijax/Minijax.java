@@ -59,6 +59,7 @@ public class Minijax {
     private final MinijaxConfiguration configuration;
     private final MinijaxApplication defaultApplication;
     private final List<MinijaxApplication> applications;
+    private Undertow server;
 
     public Minijax() {
         injector = new MinijaxInjector(this);
@@ -240,12 +241,12 @@ public class Minijax {
     }
 
 
-    public void run() {
-        run(Integer.parseInt(configuration.getOrDefault("org.minijax.port", "8080")));
+    public void start(final int port) {
+        property(MinijaxProperties.PORT, Integer.toString(port));
     }
 
 
-    public void run(final int port) {
+    public void start() {
         final DeploymentInfo deploymentInfo = Servlets.deployment()
                 .setContextPath("/")
                 .setDeploymentName("Minijax")
@@ -259,14 +260,20 @@ public class Minijax {
             final DeploymentManager deploymentManager = Servlets.defaultContainer().addDeployment(deploymentInfo);
             deploymentManager.deploy();
 
-            createServer(port)
+            server = createServer()
                     .setHandler(deploymentManager.start())
-                    .build()
-                    .start();
+                    .build();
+
+            server.start();
 
         } catch (final Exception ex) {
             throw new MinijaxException(ex);
         }
+    }
+
+
+    public void stop() {
+        server.stop();
     }
 
 
@@ -306,14 +313,16 @@ public class Minijax {
      *
      * @return A new web server.
      */
-    protected Undertow.Builder createServer(final int port) throws IOException, GeneralSecurityException {
+    protected Undertow.Builder createServer() throws IOException, GeneralSecurityException {
         final Undertow.Builder builder = Undertow.builder();
+        final String host = configuration.getOrDefault(MinijaxProperties.HOST, "0.0.0.0");
+        final int port = Integer.parseInt(configuration.getOrDefault(MinijaxProperties.PORT, "8080"));
 
         final SSLContext sslContext = getSslContext();
         if (sslContext != null) {
-            builder.addHttpsListener(port, "localhost", sslContext);
+            builder.addHttpsListener(port, host, sslContext);
         } else {
-            builder.addHttpListener(port, "localhost");
+            builder.addHttpListener(port, host);
         }
 
         return builder;

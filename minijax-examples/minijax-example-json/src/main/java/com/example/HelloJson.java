@@ -68,6 +68,6 @@ public class HelloJson {
         new Minijax()
                 .register(JsonFeature.class)
                 .register(HelloJson.class)
-                .run(8080);
+                .start(8080);
     }
 }

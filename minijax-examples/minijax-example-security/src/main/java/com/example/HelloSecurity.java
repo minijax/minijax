@@ -91,6 +91,6 @@ public class HelloSecurity {
         new Minijax()
                 .register(HelloSecurity.class)
                 .register(HelloSecurity.Security.class)
-                .run(8080);
+                .start(8080);
     }
 }

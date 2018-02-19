@@ -47,6 +47,6 @@ public class HelloWebSocket {
                 .register(EchoEndpoint.class)
                 .staticFile("static/index.html", "/")
                 .staticDirectories("static")
-                .run(8080);
+                .start(8080);
     }
 }

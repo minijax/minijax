@@ -31,6 +31,6 @@ public class HelloSwagger {
                 .register(io.swagger.jaxrs.listing.SwaggerSerializers.class)
                 .register(JsonFeature.class)
                 .register(HelloSwagger.class)
-                .run(8080);
+                .start(8080);
     }
 }

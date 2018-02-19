@@ -31,6 +31,6 @@ public class HelloMustache {
         new Minijax()
                 .register(MustacheFeature.class)
                 .register(HelloMustache.class)
-                .run(8080);
+                .start(8080);
     }
 }

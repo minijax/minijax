@@ -61,7 +61,7 @@ public class WebSocketTest {
     @Test
     public void testNoWebSockets() {
         final Minijax minijax = createMinijax();
-        minijax.run(8080);
+        minijax.start(8080);
     }
 
 
@@ -69,7 +69,7 @@ public class WebSocketTest {
     public void testRun() throws Exception {
         final Minijax minijax = createMinijax();
         minijax.register(WebSocketResource.class);
-        minijax.run(8080);
+        minijax.start(8080);
 
         final MinijaxApplication application = minijax.getDefaultApplication();
 

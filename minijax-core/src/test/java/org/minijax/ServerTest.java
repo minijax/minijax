@@ -16,41 +16,41 @@ public class ServerTest {
     @Test
     public void testRun() throws Exception {
         final Minijax minijax = createMinijax();
-        minijax.run(8080);
+        minijax.start(8080);
     }
 
 
     @Test
     public void testRunDefaultPort() {
         final Minijax minijax = createMinijax();
-        minijax.run();
+        minijax.start();
     }
 
 
     @Test
     public void testStaticFile() {
         final Minijax minijax = createMinijax();
-        minijax.staticFiles("static/hello.txt").run(8080);
+        minijax.staticFiles("static/hello.txt").start(8080);
     }
 
 
     @Test
     public void testStaticDirectory() {
         final Minijax minijax = createMinijax();
-        minijax.staticDirectories("static").run(8080);
+        minijax.staticDirectories("static").start(8080);
     }
 
 
     @Test
     public void testCreateHttpServer() throws Exception {
-        final Undertow.Builder builder = new Minijax().createServer(8080);
+        final Undertow.Builder builder = new Minijax().createServer();
         assertNull(getBuilderSslContext(builder));
     }
 
 
     @Test
     public void testCreateHttpsServer() throws Exception {
-        final Undertow.Builder builder = new Minijax().secure("keystore.jks", "certpassword", "certpassword").createServer(8080);
+        final Undertow.Builder builder = new Minijax().secure("keystore.jks", "certpassword", "certpassword").createServer();
         assertNotNull(getBuilderSslContext(builder));
     }
 
@@ -82,7 +82,7 @@ public class ServerTest {
     private Minijax createMinijax() {
         return new Minijax() {
             @Override
-            protected Undertow.Builder createServer(final int port) {
+            protected Undertow.Builder createServer() {
                 return Undertow.builder();
             }
         };

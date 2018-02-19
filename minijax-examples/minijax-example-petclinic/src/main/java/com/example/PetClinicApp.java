@@ -12,6 +12,6 @@ class PetClinicApp {
                 .register(MustacheFeature.class)
                 .staticDirectories("static")
                 .packages("com.example")
-                .run(8080);
+                .start(8080);
     }
 }

@@ -180,6 +180,6 @@ public class Minitwit {
                 .register(MustacheFeature.class)
                 .register(new SecurityFeature(User.class, Dao.class))
                 .register(Minitwit.class)
-                .run(8080);
+                .start(8080);
     }
 }
