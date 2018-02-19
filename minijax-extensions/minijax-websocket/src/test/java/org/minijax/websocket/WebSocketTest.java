@@ -97,7 +97,7 @@ public class WebSocketTest {
     private Minijax createMinijax() {
         return new Minijax() {
             @Override
-            protected Undertow.Builder createServer(final int port) {
+            protected Undertow.Builder createServer() {
                 return Undertow.builder();
             }
         };
