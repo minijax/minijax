@@ -2,145 +2,101 @@ package org.minijax;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
+import java.lang.reflect.Field;
 import java.util.List;
 
-import org.eclipse.jetty.server.ConnectionFactory;
-import org.eclipse.jetty.server.Connector;
-import org.eclipse.jetty.server.Handler;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
+import javax.net.ssl.SSLContext;
+
 import org.junit.Test;
+
+import io.undertow.Undertow;
 
 public class ServerTest {
 
-    static class MockServer extends Server {
-        Connector[] connectors;
-        Handler handler;
-        boolean started;
-        boolean joined;
-
-        @Override
-        public void setConnectors(final Connector[] connectors) {
-            this.connectors = connectors;
-        }
-
-        @Override
-        public void setHandler(final Handler handler) {
-            this.handler = handler;
-        }
-
-        @Override
-        protected void doStart() {
-            started = true;
-        }
-
-        @Override
-        public void join() {
-            joined = true;
-        }
-    }
-
-
     @Test
-    public void testRun() {
-        final MockServer server = new MockServer();
-
-        final Minijax minijax = new Minijax() {
-            @Override
-            protected Server createServer() {
-                return server;
-            }
-        };
-
+    public void testRun() throws Exception {
+        final Minijax minijax = createMinijax();
         minijax.run(8080);
-
-        assertNotNull(server.handler);
-        assertTrue(server.started);
-        assertTrue(server.joined);
     }
 
 
     @Test
     public void testRunDefaultPort() {
-        final MockServer server = new MockServer();
-
-        final Minijax minijax = new Minijax() {
-            @Override
-            protected Server createServer() {
-                return server;
-            }
-        };
-
+        final Minijax minijax = createMinijax();
         minijax.run();
-
-        assertEquals(8080, ((ServerConnector) server.connectors[0]).getPort());
     }
 
 
     @Test
     public void testStaticFile() {
-        final MockServer server = new MockServer();
-
-        final Minijax minijax = new Minijax() {
-            @Override
-            protected Server createServer() {
-                return server;
-            }
-        };
-
+        final Minijax minijax = createMinijax();
         minijax.staticFiles("static/hello.txt").run(8080);
-
-        assertNotNull(server.handler);
-        assertTrue(server.started);
-        assertTrue(server.joined);
     }
 
 
     @Test
     public void testStaticDirectory() {
-        final MockServer server = new MockServer();
-
-        final Minijax minijax = new Minijax() {
-            @Override
-            protected Server createServer() {
-                return server;
-            }
-        };
-
+        final Minijax minijax = createMinijax();
         minijax.staticDirectories("static").run(8080);
-
-        assertNotNull(server.handler);
-        assertTrue(server.started);
-        assertTrue(server.joined);
     }
 
 
     @Test
-    public void testSsl() {
-        final MockServer server = new MockServer();
+    public void testCreateHttpServer() throws Exception {
+        final Undertow.Builder builder = new Minijax().createServer(8080);
+        assertNull(getBuilderSslContext(builder));
+    }
 
-        final Minijax minijax = new Minijax() {
+
+    @Test
+    public void testCreateHttpsServer() throws Exception {
+        final Undertow.Builder builder = new Minijax().secure("keystore.jks", "certpassword", "certpassword").createServer(8080);
+        assertNotNull(getBuilderSslContext(builder));
+    }
+
+
+    @Test
+    public void testGetSslContext() throws Exception {
+        final Minijax minijax = new Minijax().secure("keystore.jks", "certpassword", "certpassword");
+        final SSLContext sslContext = minijax.getSslContext();
+        assertNotNull(sslContext);
+    }
+
+
+    @Test
+    public void testNullSslContext() throws Exception {
+        final Minijax minijax = new Minijax();
+        final SSLContext sslContext = minijax.getSslContext();
+        assertNull(sslContext);
+    }
+
+
+    @Test
+    public void testEmptySslContext() throws Exception {
+        final Minijax minijax = new Minijax().secure("", "", "");
+        final SSLContext sslContext = minijax.getSslContext();
+        assertNull(sslContext);
+    }
+
+
+    private Minijax createMinijax() {
+        return new Minijax() {
             @Override
-            protected Server createServer() {
-                return server;
+            protected Undertow.Builder createServer(final int port) {
+                return Undertow.builder();
             }
         };
+    }
 
-        minijax.property(MinijaxProperties.SSL_KEY_STORE_PATH, "keystore.jks")
-                .property(MinijaxProperties.SSL_KEY_STORE_PASSWORD, "certpassword")
-                .property(MinijaxProperties.SSL_KEY_MANAGER_PASSWORD, "certpassword")
-                .run(8080);
 
-        final Connector[] connectors = server.connectors;
-        assertNotNull(connectors);
-        assertEquals(1, connectors.length);
-
-        final ServerConnector connector = (ServerConnector) connectors[0];
-        assertNotNull(connector);
-
-        final List<ConnectionFactory> factories = new ArrayList<>(connector.getConnectionFactories());
-        assertEquals(2, factories.size());
-        assertEquals("org.eclipse.jetty.server.SslConnectionFactory", factories.get(0).getClass().getName());
+    @SuppressWarnings("rawtypes")
+    private SSLContext getBuilderSslContext(final Undertow.Builder builder) throws Exception {
+        final Field listenersField = builder.getClass().getDeclaredField("listeners");
+        listenersField.setAccessible(true);
+        final List listeners = (List) listenersField.get(builder);
+        final Object listener = listeners.get(0);
+        final Field sslContextField = listener.getClass().getDeclaredField("sslContext");
+        sslContextField.setAccessible(true);
+        return (SSLContext) sslContextField.get(listener);
     }
 }

@@ -2,14 +2,14 @@ package org.minijax.websocket;
 
 import javax.servlet.ServletException;
 import javax.websocket.DeploymentException;
-import javax.websocket.server.ServerContainer;
 import javax.websocket.server.ServerEndpoint;
 import javax.websocket.server.ServerEndpointConfig;
-import javax.websocket.server.ServerEndpointConfig.Configurator;
 
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.websocket.jsr356.server.deploy.WebSocketServerContainerInitializer;
 import org.minijax.MinijaxApplication;
+
+import io.undertow.servlet.api.DeploymentInfo;
+import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
+import io.undertow.websockets.jsr.annotated.AnnotatedEndpoint;
 
 public class MinijaxWebSocketUtils {
 
@@ -17,18 +17,20 @@ public class MinijaxWebSocketUtils {
         throw new UnsupportedOperationException();
     }
 
-    public static void init(final ServletContextHandler context, final MinijaxApplication application)
+    public static void init(final DeploymentInfo deploymentInfo, final MinijaxApplication application)
             throws ServletException, DeploymentException {
 
-        final ServerContainer container = WebSocketServerContainerInitializer.configureContext(context);
-        final Configurator configurator = new MinijaxWebSocketConfigurator(application);
-
-        for (final Class<?> c : application.getWebSockets()) {
-            final ServerEndpointConfig config = ServerEndpointConfig.Builder
-                    .create(c, c.getAnnotation(ServerEndpoint.class).value())
+        final WebSocketDeploymentInfo webSockets = new WebSocketDeploymentInfo();
+        for (final Class<?> endpoint : application.getWebSockets()) {
+            final ServerEndpoint serverEndpoint = endpoint.getAnnotation(ServerEndpoint.class);
+            final MinijaxWebSocketConfigurator configurator = new MinijaxWebSocketConfigurator(application, endpoint);
+            final ServerEndpointConfig endpointConfig = ServerEndpointConfig.Builder.create(AnnotatedEndpoint.class, serverEndpoint.value())
                     .configurator(configurator)
                     .build();
-            container.addEndpoint(config);
+
+            webSockets.addEndpoint(endpointConfig);
         }
+
+        deploymentInfo.addServletContextAttribute(WebSocketDeploymentInfo.ATTRIBUTE_NAME, webSockets);
     }
 }

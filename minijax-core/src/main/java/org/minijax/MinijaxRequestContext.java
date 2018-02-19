@@ -45,6 +45,7 @@ public class MinijaxRequestContext
     private MinijaxForm form;
     private SecurityContext securityContext;
     private MinijaxResourceMethod resourceMethod;
+    private boolean upgraded;
 
     public MinijaxRequestContext(
             final MinijaxApplication container,
@@ -254,6 +255,14 @@ public class MinijaxRequestContext
         } catch (final IOException | ServletException ex) {
             throw new WebApplicationException(ex.getMessage(), ex);
         }
+    }
+
+    public boolean isUpgraded() {
+        return upgraded;
+    }
+
+    public void setUpgraded(final boolean upgraded) {
+        this.upgraded = upgraded;
     }
 
     @Override

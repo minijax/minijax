@@ -5,30 +5,30 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.security.GeneralSecurityException;
+import java.security.KeyStore;
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
 import javax.servlet.DispatcherType;
-import javax.servlet.MultipartConfigElement;
 import javax.ws.rs.core.CacheControl;
 
-import org.eclipse.jetty.server.Connector;
-import org.eclipse.jetty.server.HttpConfiguration;
-import org.eclipse.jetty.server.HttpConnectionFactory;
-import org.eclipse.jetty.server.SecureRequestCustomizer;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.server.SslConnectionFactory;
-import org.eclipse.jetty.servlet.FilterHolder;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.minijax.cdi.MinijaxInjector;
 import org.minijax.util.OptionalClasses;
 import org.minijax.util.UrlUtils;
+
+import io.undertow.Undertow;
+import io.undertow.servlet.Servlets;
+import io.undertow.servlet.api.DeploymentInfo;
+import io.undertow.servlet.api.DeploymentManager;
+import io.undertow.servlet.api.FilterInfo;
+import io.undertow.servlet.api.ServletInfo;
+import io.undertow.servlet.util.ImmediateInstanceFactory;
 
 /**
  * The Minijax class represents a container for JAX-RS applications.
@@ -71,6 +71,11 @@ public class Minijax {
 
     public MinijaxInjector getInjector() {
         return injector;
+    }
+
+
+    public <T> T get(final Class<T> c) {
+        return injector.get(c);
     }
 
 
@@ -241,22 +246,23 @@ public class Minijax {
 
 
     public void run(final int port) {
+        final DeploymentInfo deploymentInfo = Servlets.deployment()
+                .setContextPath("/")
+                .setDeploymentName("Minijax")
+                .setClassLoader(Minijax.class.getClassLoader());
+
         try {
-            final Server server = createServer();
-
-            final ServletContextHandler context = new ServletContextHandler();
-            context.setContextPath("/");
-            server.setHandler(context);
-
             for (final MinijaxApplication application : applications) {
-                addApplication(context, application);
+                addApplication(deploymentInfo, application);
             }
 
-            final ServerConnector connector = createConnector(server);
-            connector.setPort(port);
-            server.setConnectors(new Connector[] { connector });
-            server.start();
-            server.join();
+            final DeploymentManager deploymentManager = Servlets.defaultContainer().addDeployment(deploymentInfo);
+            deploymentManager.deploy();
+
+            createServer(port)
+                    .setHandler(deploymentManager.start())
+                    .build()
+                    .start();
 
         } catch (final Exception ex) {
             throw new MinijaxException(ex);
@@ -264,33 +270,33 @@ public class Minijax {
     }
 
 
-    private void addApplication(final ServletContextHandler context, final MinijaxApplication application)
+    private void addApplication(final DeploymentInfo deploymentInfo, final MinijaxApplication application)
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 
         // (0) Sort the resource methods by literal length
         application.sortResourceMethods();
 
         // (1) Add Minijax filter (must come before websocket!)
-        context.addFilter(new FilterHolder(new MinijaxFilter(application)), "/*", EnumSet.of(DispatcherType.REQUEST));
+        deploymentInfo.addFilter(new FilterInfo(
+                "MinijaxFilter",
+                MinijaxFilter.class,
+                new ImmediateInstanceFactory<>(new MinijaxFilter(application))));
+        deploymentInfo.addFilterUrlMapping("MinijaxFilter", "/*", DispatcherType.REQUEST);
 
         // (2) WebSocket endpoints
         if (OptionalClasses.WEB_SOCKET_UTILS != null) {
             OptionalClasses.WEB_SOCKET_UTILS
-                    .getMethod("init", ServletContextHandler.class, MinijaxApplication.class)
-                    .invoke(null, context, application);
+                    .getMethod("init", DeploymentInfo.class, MinijaxApplication.class)
+                    .invoke(null, deploymentInfo, application);
         }
 
         // (3) Dynamic JAX-RS content
-        final MinijaxServlet servlet = new MinijaxServlet(application);
-        final ServletHolder servletHolder = new ServletHolder(servlet);
-        servletHolder.getRegistration().setMultipartConfig(new MultipartConfigElement(""));
-        context.addServlet(servletHolder, "/*");
+        deploymentInfo.addServlet(new ServletInfo(
+                "MinijaxServlet",
+                MinijaxServlet.class,
+                new ImmediateInstanceFactory<>(new MinijaxServlet(application)))
+                        .addMapping("/*"));
     }
-
-
-    /*
-     * Private helpers
-     */
 
 
     /**
@@ -300,8 +306,17 @@ public class Minijax {
      *
      * @return A new web server.
      */
-    protected Server createServer() {
-        return new Server();
+    protected Undertow.Builder createServer(final int port) throws IOException, GeneralSecurityException {
+        final Undertow.Builder builder = Undertow.builder();
+
+        final SSLContext sslContext = getSslContext();
+        if (sslContext != null) {
+            builder.addHttpsListener(port, "localhost", sslContext);
+        } else {
+            builder.addHttpListener(port, "localhost");
+        }
+
+        return builder;
     }
 
 
@@ -316,34 +331,28 @@ public class Minijax {
      * @return The server connector.
      */
     @SuppressWarnings("squid:S2095")
-    private ServerConnector createConnector(final Server server) {
+    SSLContext getSslContext() throws IOException, GeneralSecurityException {
         final String keyStorePath = (String) configuration.get(MinijaxProperties.SSL_KEY_STORE_PATH);
-
         if (keyStorePath == null || keyStorePath.isEmpty()) {
-            // Normal HTTP
-            return new ServerConnector(server);
+            return null;
         }
 
         final String keyStorePassword = (String) configuration.get(MinijaxProperties.SSL_KEY_STORE_PASSWORD);
         final String keyManagerPassword = (String) configuration.get(MinijaxProperties.SSL_KEY_MANAGER_PASSWORD);
 
-        final HttpConfiguration https = new HttpConfiguration();
-        https.addCustomizer(new SecureRequestCustomizer());
+        final KeyStore keyStore;
+        try (final InputStream in = Minijax.class.getClassLoader().getResourceAsStream(keyStorePath)) {
+            keyStore = KeyStore.getInstance("JKS");
+            keyStore.load(in, keyStorePassword.toCharArray());
+        }
 
-        final SslContextFactory sslContextFactory = new SslContextFactory();
-        sslContextFactory.setKeyStorePath(Minijax.class.getClassLoader().getResource(keyStorePath).toExternalForm());
-        sslContextFactory.setKeyStorePassword(keyStorePassword);
-        sslContextFactory.setKeyManagerPassword(keyManagerPassword);
+        final KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+        keyManagerFactory.init(keyStore, keyManagerPassword.toCharArray());
 
-        return new ServerConnector(server,
-                new SslConnectionFactory(sslContextFactory, "http/1.1"),
-                new HttpConnectionFactory(https));
+        final KeyManager[] keyManagers = keyManagerFactory.getKeyManagers();
+
+        final SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(keyManagers, null, null);
+        return sslContext;
     }
-
-
-    public <T> T get(final Class<T> c) {
-        return injector.get(c);
-    }
-
-
 }

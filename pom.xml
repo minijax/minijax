@@ -71,7 +71,6 @@
         <jackson.version>2.9.4</jackson.version>
         <jax-rs.version>2.1</jax-rs.version>
         <jaxb.version>2.3.0</jaxb.version>
-        <jetty.version>9.4.7.v20170914</jetty.version>
         <jpa.version>2.1.1</jpa.version>
         <jsr250.version>1.0</jsr250.version>
         <junit.version>4.12</junit.version>
@@ -87,6 +86,7 @@
         <slf4j.version>1.7.25</slf4j.version>
         <sonar.language>java</sonar.language>
         <swagger.version>1.5.18</swagger.version>
+        <undertow.version>1.4.22.Final</undertow.version>
         <validation.version>2.0.0.Final</validation.version>
     </properties>
     <build>
