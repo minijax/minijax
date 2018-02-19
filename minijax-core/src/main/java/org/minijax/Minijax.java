@@ -243,6 +243,7 @@ public class Minijax {
 
     public void start(final int port) {
         property(MinijaxProperties.PORT, Integer.toString(port));
+        start();
     }
 
 
