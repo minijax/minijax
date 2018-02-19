@@ -2,8 +2,8 @@ package org.minijax.cloudwatch;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -154,18 +154,20 @@ public class CloudWatchAppender extends AppenderBase<ILoggingEvent> {
         }
     }
 
-    private Collection<InputLogEvent> getBatch() {
+    private List<InputLogEvent> getBatch() {
         synchronized (lockObject) {
-            final Collection<InputLogEvent> result = new ArrayList<>(eventQueue);
+            final List<InputLogEvent> result = new ArrayList<>(eventQueue);
             eventQueue.clear();
             return result;
         }
     }
 
-    private void uploadEvents(final Collection<InputLogEvent> events) {
+    private void uploadEvents(final List<InputLogEvent> events) {
         if (events.isEmpty()) {
             return;
         }
+
+        Collections.sort(events, EventComparator.INSTANCE);
 
         try {
             final PutLogEventsRequest request = new PutLogEventsRequest()
@@ -180,6 +182,21 @@ public class CloudWatchAppender extends AppenderBase<ILoggingEvent> {
         } catch (final InvalidSequenceTokenException e) {
             sequenceToken = e.getExpectedSequenceToken();
             uploadEvents(events);
+        }
+    }
+
+
+    /**
+     * EventComparator sorts InputLogEvent instances by timestamp.
+     *
+     * Events must be sorted for AWS CloudWatch.
+     */
+    private static class EventComparator implements Comparator<InputLogEvent> {
+        public static final EventComparator INSTANCE = new EventComparator();
+
+        @Override
+        public int compare(final InputLogEvent e1, final InputLogEvent e2) {
+            return Long.compare(e1.getTimestamp(), e2.getTimestamp());
         }
     }
 
