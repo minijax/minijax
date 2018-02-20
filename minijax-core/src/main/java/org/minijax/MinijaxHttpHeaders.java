@@ -31,7 +31,7 @@ class MinijaxHttpHeaders implements HttpHeaders {
             final String name = ne.nextElement();
             final Enumeration<String> ve = request.getHeaders(name);
             while (ve.hasMoreElements()) {
-                headers.add(name, ve.nextElement());
+                headers.add(name.toLowerCase(), ve.nextElement());
             }
         }
 
@@ -50,12 +50,12 @@ class MinijaxHttpHeaders implements HttpHeaders {
 
     @Override
     public List<String> getRequestHeader(final String name) {
-        return headers.get(name);
+        return headers.get(name.toLowerCase());
     }
 
     @Override
     public String getHeaderString(final String name) {
-        return headers.getFirst(name);
+        return headers.getFirst(name.toLowerCase());
     }
 
     @Override
