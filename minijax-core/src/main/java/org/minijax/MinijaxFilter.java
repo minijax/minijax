@@ -24,6 +24,7 @@ class MinijaxFilter implements Filter {
     }
 
     @Override
+    @SuppressWarnings("squid:S2095")
     public void doFilter(
             final ServletRequest servletRequest,
             final ServletResponse servletResponse,

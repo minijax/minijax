@@ -56,6 +56,9 @@ import io.undertow.servlet.util.ImmediateInstanceFactory;
  * </pre>
  */
 public class Minijax {
+    @SuppressWarnings("squid:S1313")
+    public static final String DEFAULT_HOST = "0.0.0.0";
+    public static final String DEFAULT_PORT = "8080";
     private final MinijaxInjector injector;
     private final MinijaxConfiguration configuration;
     private final MinijaxApplication defaultApplication;
@@ -318,8 +321,8 @@ public class Minijax {
      */
     protected Undertow.Builder createServer() throws IOException, GeneralSecurityException {
         final Undertow.Builder builder = Undertow.builder();
-        final String host = configuration.getOrDefault(MinijaxProperties.HOST, "0.0.0.0");
-        final int port = Integer.parseInt(configuration.getOrDefault(MinijaxProperties.PORT, "8080"));
+        final String host = configuration.getOrDefault(MinijaxProperties.HOST, DEFAULT_HOST);
+        final int port = Integer.parseInt(configuration.getOrDefault(MinijaxProperties.PORT, DEFAULT_PORT));
 
         final SSLContext sslContext = getSslContext();
         if (sslContext != null) {
