@@ -1,7 +1,5 @@
 package org.minijax.websocket;
 
-import javax.servlet.ServletException;
-import javax.websocket.DeploymentException;
 import javax.websocket.server.ServerEndpoint;
 import javax.websocket.server.ServerEndpointConfig;
 
@@ -17,9 +15,7 @@ public class MinijaxWebSocketUtils {
         throw new UnsupportedOperationException();
     }
 
-    public static void init(final DeploymentInfo deploymentInfo, final MinijaxApplication application)
-            throws ServletException, DeploymentException {
-
+    public static void init(final DeploymentInfo deploymentInfo, final MinijaxApplication application) {
         final WebSocketDeploymentInfo webSockets = new WebSocketDeploymentInfo();
         for (final Class<?> endpoint : application.getWebSockets()) {
             final ServerEndpoint serverEndpoint = endpoint.getAnnotation(ServerEndpoint.class);
