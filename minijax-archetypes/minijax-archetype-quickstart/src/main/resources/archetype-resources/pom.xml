@@ -10,7 +10,7 @@
         <junit.version>4.12</junit.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <minijax.version>0.0.8-SNAPSHOT</minijax.version>
+        <minijax.version>0.1.2</minijax.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>

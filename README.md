@@ -16,7 +16,7 @@ Getting Started
 <dependency>
     <groupId>org.minijax</groupId>
     <artifactId>minijax-core</artifactId>
-    <version>0.0.40</version>
+    <version>0.1.2</version>
 </dependency>
 ```
 
@@ -37,7 +37,7 @@ public class Hello {
     public static void main(String[] args) {
         new Minijax()
                 .register(Hello.class)
-                .run();
+                .start();
     }
 }
 ```
