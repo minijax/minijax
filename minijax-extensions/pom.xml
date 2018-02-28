@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.minijax</groupId>
         <artifactId>minijax</artifactId>
-        <version>0.1.4-SNAPSHOT</version>
+        <version>0.1.4</version>
     </parent>
     <artifactId>minijax-extensions</artifactId>
     <packaging>pom</packaging>
