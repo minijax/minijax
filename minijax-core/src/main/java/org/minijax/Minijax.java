@@ -24,6 +24,7 @@ import org.minijax.util.OptionalClasses;
 import org.minijax.util.UrlUtils;
 
 import io.undertow.Undertow;
+import io.undertow.UndertowOptions;
 import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
@@ -330,6 +331,11 @@ public class Minijax {
         } else {
             builder.addHttpListener(port, host);
         }
+
+        // In HTTP/1.1, connections are persistent unless declared
+        // otherwise.  Adding a "Connection: keep-alive" header to every
+        // response would only add useless bytes.
+        builder.setServerOption(UndertowOptions.ALWAYS_SET_KEEP_ALIVE, false);
 
         return builder;
     }
