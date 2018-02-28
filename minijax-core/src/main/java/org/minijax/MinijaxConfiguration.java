@@ -63,11 +63,13 @@ public class MinijaxConfiguration {
         final File file = new File(fileName);
         if (file.exists()) {
             properties(file);
+            return;
         }
 
         try (final InputStream in = Minijax.class.getClassLoader().getResourceAsStream(fileName)) {
             if (in != null) {
                 properties(in);
+                return;
             }
         }
 
