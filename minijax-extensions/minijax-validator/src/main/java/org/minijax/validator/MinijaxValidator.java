@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintViolation;
@@ -22,11 +21,13 @@ import org.minijax.validator.metadata.MinijaxBeanDescriptor;
 import org.minijax.validator.metadata.MinijaxConstraintDescriptor;
 import org.minijax.validator.metadata.MinijaxPropertyDescriptor;
 
+import io.undertow.util.CopyOnWriteMap;
+
 public class MinijaxValidator implements Validator, ExecutableValidator {
     private final Map<Class<?>, MinijaxBeanDescriptor> beanDescriptors;
 
     public MinijaxValidator() {
-        beanDescriptors = new ConcurrentHashMap<>();
+        beanDescriptors = new CopyOnWriteMap<>();
     }
 
     @Override

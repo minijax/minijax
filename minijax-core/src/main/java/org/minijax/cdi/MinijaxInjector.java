@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Provider;
@@ -19,6 +18,8 @@ import org.minijax.Minijax;
 import org.minijax.util.CloseUtils;
 import org.minijax.util.PersistenceUtils;
 
+import io.undertow.util.CopyOnWriteMap;
+
 /**
  * The MinijaxInjector class provides a Minijax-container-aware implementation of Java CDI (JSR 330).
  *
@@ -26,7 +27,7 @@ import org.minijax.util.PersistenceUtils;
  */
 public class MinijaxInjector implements Closeable {
     private final Minijax container;
-    private final Map<Key<?>, Provider<?>> providers = new ConcurrentHashMap<>();
+    private final Map<Key<?>, Provider<?>> providers = new CopyOnWriteMap<>();
 
     public MinijaxInjector() {
         this(null);
