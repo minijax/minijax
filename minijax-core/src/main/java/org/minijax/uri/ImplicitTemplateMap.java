@@ -1,14 +1,15 @@
 package org.minijax.uri;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class ImplicitTemplateMap extends HashMap<String, Object> {
     private static final long serialVersionUID = 1L;
-    private final Object[] values;
+    private final transient Object[] templateValues;
     private int index;
 
-    public ImplicitTemplateMap(final Object[] values) {
-        this.values = values;
+    public ImplicitTemplateMap(final Object[] templateValues) {
+        this.templateValues = templateValues;
     }
 
     @Override
@@ -16,10 +17,25 @@ public class ImplicitTemplateMap extends HashMap<String, Object> {
         Object result = super.get(key);
 
         if (result == null) {
-            result = values[index++];
+            result = templateValues[index++];
             super.put(key.toString(), result);
         }
 
         return result;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode() ^ templateValues.hashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null || !(obj instanceof ImplicitTemplateMap)) {
+            return false;
+        }
+
+        final ImplicitTemplateMap other = (ImplicitTemplateMap) obj;
+        return super.equals(other) && Arrays.equals(templateValues, other.templateValues);
     }
 }

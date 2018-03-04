@@ -52,7 +52,7 @@ class ConstructorProvider<T> implements Provider<T> {
     }
 
     public void initImpl(final T result)
-            throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+            throws IllegalAccessException, InvocationTargetException {
 
         for (final InjectionSet<?> injectionSet : injectionSets) {
             for (final FieldProvider<?> fieldProvider : injectionSet.getFieldProviders()) {
