@@ -14,6 +14,6 @@ public class Hello {
     }
 
     public static void main(final String[] args) {
-        new Minijax().register(Hello.class).start(8080);
+        new Minijax().register(Hello.class).start();
     }
 }

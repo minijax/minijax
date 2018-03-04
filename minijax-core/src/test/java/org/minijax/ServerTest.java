@@ -16,7 +16,7 @@ public class ServerTest {
     @Test
     public void testRun() throws Exception {
         final Minijax minijax = createMinijax();
-        minijax.start(8080);
+        minijax.start();
     }
 
 
@@ -30,14 +30,14 @@ public class ServerTest {
     @Test
     public void testStaticFile() {
         final Minijax minijax = createMinijax();
-        minijax.staticFiles("static/hello.txt").start(8080);
+        minijax.staticFiles("static/hello.txt").start();
     }
 
 
     @Test
     public void testStaticDirectory() {
         final Minijax minijax = createMinijax();
-        minijax.staticDirectories("static").start(8080);
+        minijax.staticDirectories("static").start();
     }
 
 

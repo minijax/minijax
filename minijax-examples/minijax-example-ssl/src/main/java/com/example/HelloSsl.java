@@ -17,6 +17,6 @@ public class HelloSsl {
         new Minijax()
                 .register(HelloSsl.class)
                 .secure("keystore.jks", "certpassword", "certpassword")
-                .start(8080);
+                .start();
     }
 }

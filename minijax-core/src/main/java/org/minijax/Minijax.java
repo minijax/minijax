@@ -50,7 +50,7 @@ import io.undertow.servlet.util.ImmediateInstanceFactory;
  *         public static void main(String[] args) {
  *             new Minijax()
  *                     .register(Hello.class)
- *                     .start(8080);
+ *                     .start();
  *         }
  *     }
  * }

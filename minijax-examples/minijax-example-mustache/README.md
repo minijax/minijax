@@ -130,7 +130,7 @@ And finally, we must register the Mustache feature using the aforementioned `Mus
 new Minijax()
         .register(MustacheFeature.class)
         .register(HelloMustache.class)
-        .start(8080);
+        .start();
 ```
 
 Now you can run the example:
@@ -196,5 +196,5 @@ Key points:
 Next
 ----
 
-* [JSON Example](https://minijax.org/minijax-examples/minijax-example-json/index.html) - Learn how to read/write JSON from resource methods
-* [Websocket Example](https://minijax.org/minijax-examples/minijax-example-websocket/index.html) - Learn how to enable websocket endpoints
+* [JSON Example](../minijax-example-json) - Learn how to read/write JSON from resource methods
+* [Websocket Example](../minijax-example-websocket) - Learn how to enable websocket endpoints

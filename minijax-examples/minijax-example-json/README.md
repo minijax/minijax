@@ -141,7 +141,7 @@ One last thing before testing:  We need to `register()` the JSON feature:
 new Minijax()
         .register(JsonFeature.class)
         .register(HelloJson.class)
-        .start(8080);
+        .start();
 ```
 
 In addition to the setup from "Hello World", we now include `register(JsonFeature.class)`.  That call does the following:
@@ -272,6 +272,6 @@ This has poor discoverability, but it is worth committing to memory.  As you wri
 Next
 ----
 
-* [Mustache Example](https://minijax.org/minijax-examples/minijax-example-mustache/index.html) - Learn how to render Mustache templates
-* [Todo Backend](https://minijax.org/minijax-examples/minijax-example-todo-backend/index.html) - See a more elaborate JSON example
-* [Websocket Example](https://minijax.org/minijax-examples/minijax-example-websocket/index.html) - Learn how to enable websocket endpoints
+* [Mustache Example](../minijax-example-mustache) - Learn how to render Mustache templates
+* [Todo Backend](../minijax-example-todo-backend) - See a more elaborate JSON example
+* [Websocket Example](../minijax-example-websocket) - Learn how to enable websocket endpoints

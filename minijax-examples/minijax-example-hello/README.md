@@ -75,7 +75,7 @@ public class Hello {
     }
 
     public static void main(final String[] args) {
-        new Minijax().register(Hello.class).start(8080);
+        new Minijax().register(Hello.class).start();
     }
 }
 ```
@@ -104,7 +104,7 @@ Back to Hello.java:
 
 ```java
 public static void main(final String[] args) {
-    new Minijax().register(Hello.class).start(8080);
+    new Minijax().register(Hello.class).start();
 }
 ```
 
@@ -114,7 +114,7 @@ Obviously the `main` function is the application entry point.
 
 `register(Hello.class)` registers our **Resource Class** and **Resource Method**.
 
-`start(8080)` runs the container on port 8080.  The `start` method starts Undertow.  Undertow runs in the background, which keeps the application alive indefinitely.
+`start()` runs the container on port 8080.  The `start` method starts Undertow.  Undertow runs in the background, which keeps the application alive indefinitely.
 
 You can run the Hello World example:
 
@@ -212,6 +212,6 @@ As you might have guessed, we could have called `post()`, `put()`, or `delete()`
 Next
 ----
 
-* [JSON Example](https://minijax.org/minijax-examples/minijax-example-json/index.html) - Learn how to read/write JSON from resource methods
-* [Mustache Example](https://minijax.org/minijax-examples/minijax-example-mustache/index.html) - Learn how to render Mustache templates
-* [Websocket Example](https://minijax.org/minijax-examples/minijax-example-websocket/index.html) - Learn how to enable websocket endpoints
+* [JSON Example](../minijax-example-json) - Learn how to read/write JSON from resource methods
+* [Mustache Example](../minijax-example-mustache) - Learn how to render Mustache templates
+* [Websocket Example](../minijax-example-websocket) - Learn how to enable websocket endpoints

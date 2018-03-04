@@ -86,6 +86,6 @@ public class TodoBackend {
                 .register(JsonFeature.class)
                 .register(TodoBackend.class)
                 .allowCors("/")
-                .start(8080);
+                .start();
     }
 }

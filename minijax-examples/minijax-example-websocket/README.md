@@ -108,7 +108,7 @@ public static void main(final String[] args) {
             .register(EchoEndpoint.class)
             .staticFile("static/index.html", "/")
             .staticDirectories("static")
-            .start(8080);
+            .start();
 }
 ```
 
@@ -237,5 +237,5 @@ If you use Google Chrome, you can see the WebSocket network traffic live.  Open 
 Next
 ----
 
-* [Minitwit](https://minijax.org/minijax-examples/minijax-example-minitwit/index.html) - Build a miniature Twitter clone
-* [Pet Clinic](https://minijax.org/minijax-examples/minijax-example-petclinic/index.html) - Build a more full-featured Pet Clinic management application
+* [Minitwit](../minijax-example-minitwit) - Build a miniature Twitter clone
+* [Pet Clinic](../minijax-example-petclinic) - Build a more full-featured Pet Clinic management application
