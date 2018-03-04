@@ -26,7 +26,7 @@ public class ImplicitTemplateMap extends HashMap<String, Object> {
 
     @Override
     public int hashCode() {
-        return super.hashCode() ^ templateValues.hashCode();
+        return super.hashCode() ^ Arrays.hashCode(templateValues);
     }
 
     @Override
