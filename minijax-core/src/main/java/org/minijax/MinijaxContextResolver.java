@@ -53,7 +53,7 @@ public class MinijaxContextResolver<T> implements ContextResolver<T> {
 
         // 9.2.7
         if (c == ResourceContext.class) {
-            return null;
+            return (T) context.getApplication().getInjector();
         }
 
         // 9.2.8

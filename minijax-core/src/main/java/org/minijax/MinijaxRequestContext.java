@@ -281,7 +281,7 @@ public class MinijaxRequestContext
     }
 
     public <T> T get(final Class<T> c) {
-        return getApplication().get(c);
+        return getApplication().getResource(c);
     }
 
     public MinijaxResourceMethod getResourceMethod() {

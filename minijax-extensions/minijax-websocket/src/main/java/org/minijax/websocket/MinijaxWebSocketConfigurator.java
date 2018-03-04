@@ -51,7 +51,7 @@ class MinijaxWebSocketConfigurator extends io.undertow.websockets.jsr.DefaultCon
     @SuppressWarnings("unchecked")
     public <T> T getEndpointInstance(final Class<T> endpointClass) throws InstantiationException {
         try {
-            final Object instance = application.get(this.annotatedClass);
+            final Object instance = application.getResource(this.annotatedClass);
             return (T) annotatedEndpointFactory.createInstance(new ImmediateInstanceHandle<>(instance));
         } catch (final Exception ex) {
             throw new InstantiationException(ex.getMessage());

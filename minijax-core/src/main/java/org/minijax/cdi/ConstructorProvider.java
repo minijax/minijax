@@ -25,17 +25,7 @@ class ConstructorProvider<T> implements Provider<T> {
     public T get() {
         try {
             final T result = ctor.newInstance(getParams(paramProviders));
-
-            for (final InjectionSet<?> injectionSet : injectionSets) {
-                for (final FieldProvider<?> fieldProvider : injectionSet.getFieldProviders()) {
-                    fieldProvider.getField().set(result, fieldProvider.getProvider().get());
-                }
-
-                for (final MethodProvider methodProvider : injectionSet.getMethodProviders()) {
-                    methodProvider.getMethod().invoke(result, getParams(methodProvider.getParamProviders()));
-                }
-            }
-
+            initImpl(result);
             return result;
 
         } catch (final InvocationTargetException ex) {
@@ -44,6 +34,34 @@ class ConstructorProvider<T> implements Provider<T> {
 
         } catch (final Exception e) {
             throw new InjectException(String.format("Can't instantiate %s", ctor), e);
+        }
+    }
+
+    public T initResource(final T instance) {
+        try {
+            initImpl(instance);
+            return instance;
+
+        } catch (final InvocationTargetException ex) {
+            final Throwable inner = ex.getCause();
+            throw new InjectException(inner.getMessage(), inner);
+
+        } catch (final Exception e) {
+            throw new InjectException(String.format("Can't initialize %s", instance), e);
+        }
+    }
+
+    public void initImpl(final T result)
+            throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+
+        for (final InjectionSet<?> injectionSet : injectionSets) {
+            for (final FieldProvider<?> fieldProvider : injectionSet.getFieldProviders()) {
+                fieldProvider.getField().set(result, fieldProvider.getProvider().get());
+            }
+
+            for (final MethodProvider methodProvider : injectionSet.getMethodProviders()) {
+                methodProvider.getMethod().invoke(result, getParams(methodProvider.getParamProviders()));
+            }
         }
     }
 

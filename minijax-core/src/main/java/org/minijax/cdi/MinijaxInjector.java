@@ -13,6 +13,7 @@ import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.ws.rs.container.ResourceContext;
 
 import org.minijax.Minijax;
 import org.minijax.util.CloseUtils;
@@ -25,7 +26,7 @@ import io.undertow.util.CopyOnWriteMap;
  *
  * The implementation is heavily inspired by <a href="http://zsoltherpai.github.io/feather/">Feather</a>.
  */
-public class MinijaxInjector implements Closeable {
+public class MinijaxInjector implements ResourceContext, Closeable {
     private final Minijax container;
     private final Map<Key<?>, Provider<?>> providers = new CopyOnWriteMap<>();
 
@@ -70,12 +71,23 @@ public class MinijaxInjector implements Closeable {
         return result;
     }
 
-    public <T> T get(final Class<T> c) {
+    public <T> T getResource(final Class<T> c) {
         return getProvider(c).get();
     }
 
-    public <T> T get(final Class<T> c, final Annotation[] annotations) {
+    public <T> T getResource(final Class<T> c, final Annotation[] annotations) {
         return getProvider(c, annotations).get();
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T initResource(final T resource) {
+        final Provider<T> provider = (Provider<T>) getProvider(resource.getClass());
+        if (!(provider instanceof ConstructorProvider)) {
+            throw new InjectException("Cannot init resource class " + resource.getClass());
+        }
+        final ConstructorProvider<T> ctorProvider = (ConstructorProvider<T>) provider;
+        ctorProvider.initResource(resource);
+        return resource;
     }
 
     public <T> Provider<T> getProvider(final Class<T> c) {

@@ -29,7 +29,7 @@ public class MethodInjectTest extends MinijaxTest {
 
     @Test
     public void testMethodInject() {
-        final MethodInjectResource r = getServer().get(MethodInjectResource.class);
+        final MethodInjectResource r = getServer().getResource(MethodInjectResource.class);
         assertNotNull(r);
         assertTrue(r.injected);
     }

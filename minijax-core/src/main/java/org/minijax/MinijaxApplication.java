@@ -76,6 +76,10 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         return container.getInjector();
     }
 
+    public <T> T getResource(final Class<T> c) {
+        return getInjector().getResource(c);
+    }
+
     public String getPath() {
         return path;
     }
@@ -232,7 +236,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
     public MinijaxApplication allowCors(final String urlPrefix) {
         register(MinijaxCorsFilter.class);
-        get(MinijaxCorsFilter.class).addPathPrefix(urlPrefix);
+        getResource(MinijaxCorsFilter.class).addPathPrefix(urlPrefix);
         return this;
     }
 
@@ -317,7 +321,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
         final Class<? extends Feature> featureClass = (Class<? extends Feature>) c;
         try {
-            get(featureClass).configure(this);
+            getResource(featureClass).configure(this);
         } catch (final Exception ex) {
             throw new MinijaxException(ex);
         }
@@ -357,7 +361,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
         try {
             if (securityContextClass != null) {
-                context.setSecurityContext(get(securityContextClass));
+                context.setSecurityContext(getResource(securityContextClass));
             }
 
             runRequestFilters(context);
@@ -408,7 +412,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
     private void runRequestFilters(final MinijaxRequestContext context) throws IOException {
         for (final Class<? extends ContainerRequestFilter> filterClass : requestFilters) {
-            final ContainerRequestFilter filter = get(filterClass);
+            final ContainerRequestFilter filter = getResource(filterClass);
             filter.filter(context);
         }
     }
@@ -417,7 +421,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     private void runResponseFilters(final MinijaxRequestContext context, final Response response) throws IOException {
         final ContainerResponseContext responseContext = (ContainerResponseContext) response;
         for (final Class<? extends ContainerResponseFilter> filterClass : responseFilters) {
-            final ContainerResponseFilter filter = get(filterClass);
+            final ContainerResponseFilter filter = getResource(filterClass);
             filter.filter(context, responseContext);
         }
     }
@@ -587,11 +591,6 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
         // What to do
         servletResponse.getWriter().println(obj.toString());
-    }
-
-
-    public <T> T get(final Class<T> c) {
-        return getInjector().get(c);
     }
 
 

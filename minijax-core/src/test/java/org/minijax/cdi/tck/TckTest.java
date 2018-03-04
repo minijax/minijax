@@ -23,7 +23,7 @@ public class TckTest {
                 .register(DriversSeat.class, Seat.class, Drivers.class)
                 .register(V8Engine.class, Engine.class)
                 .register(Convertible.class, Car.class)
-                .get(Car.class);
+                .getResource(Car.class);
         }
     }
 

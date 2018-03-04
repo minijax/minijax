@@ -43,7 +43,7 @@ public class PersistenceContextTest {
         final MockHttpServletRequest request = new MockHttpServletRequest("GET", URI.create("/"));
 
         try (MinijaxRequestContext context = new MinijaxRequestContext(application, request, null)) {
-            final PersistenceContextDao dao = container.get(PersistenceContextDao.class);
+            final PersistenceContextDao dao = container.getResource(PersistenceContextDao.class);
 
             final Widget widget = new Widget();
             widget.setName("test");

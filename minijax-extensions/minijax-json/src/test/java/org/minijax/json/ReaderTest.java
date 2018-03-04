@@ -30,7 +30,7 @@ public class ReaderTest extends MinijaxTest {
     @Before
     public void setUp() {
         context = createRequestContext();
-        reader = getServer().get(MinijaxJsonReader.class);
+        reader = getServer().getResource(MinijaxJsonReader.class);
     }
 
     @After

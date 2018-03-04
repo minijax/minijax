@@ -60,7 +60,7 @@ public class MinijaxProviders implements Providers {
         }
 
         if (ParamConverterProvider.class.isAssignableFrom(c)) {
-            paramConverterProviders.add((ParamConverterProvider) application.get(c));
+            paramConverterProviders.add((ParamConverterProvider) application.getResource(c));
         }
     }
 
@@ -74,7 +74,7 @@ public class MinijaxProviders implements Providers {
             final MediaType mediaType) {
 
         for (final Class<? extends MessageBodyReader<?>> readerClass : readers.get(mediaType)) {
-            final MessageBodyReader reader = application.get(readerClass);
+            final MessageBodyReader reader = application.getResource(readerClass);
             if (reader.isReadable(type, genericType, annotations, mediaType)) {
                 return reader;
             }
@@ -104,7 +104,7 @@ public class MinijaxProviders implements Providers {
         }
 
         for (final Class<? extends MessageBodyWriter<?>> writerClass : writers.get(mediaType)) {
-            final MessageBodyWriter writer = application.get(writerClass);
+            final MessageBodyWriter writer = application.getResource(writerClass);
             if (writer.isWriteable(type, genericType, annotations, mediaType)) {
                 return writer;
             }
@@ -135,7 +135,7 @@ public class MinijaxProviders implements Providers {
             final ParameterizedType parameterizedType = (ParameterizedType) exceptionMapperClass.getGenericInterfaces()[0];
             final Class<? extends Exception> exClass = (Class<? extends Exception>) parameterizedType.getActualTypeArguments()[0];
             if (exClass.isAssignableFrom(type)) {
-                return (ExceptionMapper<T>) application.get(exceptionMapperClass);
+                return (ExceptionMapper<T>) application.getResource(exceptionMapperClass);
             }
         }
         return null;

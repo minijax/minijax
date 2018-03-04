@@ -54,7 +54,7 @@ public class InheritanceTest extends MinijaxTest {
 
     @Test
     public void testInheritanceInject() {
-        final MySubClass r = getServer().get(MySubClass.class);
+        final MySubClass r = getServer().getResource(MySubClass.class);
         assertNotNull(r);
         assertNotNull(r.subInjected);
         assertNotNull(r.baseInjected);

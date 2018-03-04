@@ -195,7 +195,7 @@ public class InjectorTest {
 
     @Test(expected = InjectException.class)
     public void testExplodingConstructor() {
-        injector.get(ExplodingConstructor.class);
+        injector.getResource(ExplodingConstructor.class);
     }
 
     private static class MultipleStrategies {
@@ -206,7 +206,7 @@ public class InjectorTest {
 
     @Test(expected = InjectException.class)
     public void testMultipleStrategies() {
-        injector.get(MultipleStrategies.class);
+        injector.getResource(MultipleStrategies.class);
     }
 
     private static class MultipleNames {
@@ -217,6 +217,6 @@ public class InjectorTest {
 
     @Test(expected = InjectException.class)
     public void testMultipleNames() {
-        injector.get(MultipleNames.class);
+        injector.getResource(MultipleNames.class);
     }
 }

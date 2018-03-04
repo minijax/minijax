@@ -48,7 +48,7 @@ public class QualifierTest {
 
     @Test
     public void testQualifiedSingleton() {
-        final QualifiedResource r = injector.get(QualifiedResource.class);
+        final QualifiedResource r = injector.getResource(QualifiedResource.class);
         assertNotNull(r);
         assertNotNull(r.a);
         assertNotNull(r.b);
@@ -70,6 +70,6 @@ public class QualifierTest {
 
     @Test(expected = InjectException.class)
     public void testMultipleQualifiers() {
-        injector.get(MultipleQualifiers.class);
+        injector.getResource(MultipleQualifiers.class);
     }
 }

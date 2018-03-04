@@ -17,7 +17,7 @@ public class FeatureTest extends MinijaxTest {
 
     @Test
     public void testFeature() {
-        final MustacheFactory mapper = getServer().get(MustacheFactory.class);
+        final MustacheFactory mapper = getServer().getResource(MustacheFactory.class);
         assertNotNull(mapper);
     }
 }

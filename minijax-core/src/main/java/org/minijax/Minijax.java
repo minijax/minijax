@@ -80,8 +80,8 @@ public class Minijax {
     }
 
 
-    public <T> T get(final Class<T> c) {
-        return injector.get(c);
+    public <T> T getResource(final Class<T> c) {
+        return injector.getResource(c);
     }
 
 

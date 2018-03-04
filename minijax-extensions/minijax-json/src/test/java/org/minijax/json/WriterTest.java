@@ -20,7 +20,7 @@ public class WriterTest extends MinijaxTest {
     @Before
     public void setUp() {
         register(JsonFeature.class);
-        writer = getServer().get(MinijaxJsonWriter.class);
+        writer = getServer().getResource(MinijaxJsonWriter.class);
     }
 
     @Test
