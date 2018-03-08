@@ -60,7 +60,7 @@
         </site>
     </distributionManagement>
     <properties>
-        <aws.version>1.11.286</aws.version>
+        <aws.version>1.11.291</aws.version>
         <bcrypt.version>0.4</bcrypt.version>
         <cdi.version>2.0</cdi.version>
         <commons-lang3.version>3.7</commons-lang3.version>
@@ -74,7 +74,7 @@
         <jpa.version>2.1.1</jpa.version>
         <jsr250.version>1.0</jsr250.version>
         <junit.version>4.12</junit.version>
-        <kotlin.version>1.2.21</kotlin.version>
+        <kotlin.version>1.2.30</kotlin.version>
         <liquibase.version>3.5.5</liquibase.version>
         <logback.version>1.2.3</logback.version>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -86,8 +86,8 @@
         <slf4j.version>1.7.25</slf4j.version>
         <sonar.language>java</sonar.language>
         <swagger.version>1.5.18</swagger.version>
-        <undertow.version>2.0.0.Final</undertow.version>
-        <validation.version>2.0.0.Final</validation.version>
+        <undertow.version>2.0.1.Final</undertow.version>
+        <validation.version>2.0.1.Final</validation.version>
     </properties>
     <build>
         <plugins>
