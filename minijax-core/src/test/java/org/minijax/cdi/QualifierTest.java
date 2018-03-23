@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import javax.enterprise.inject.InjectionException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Qualifier;
@@ -68,7 +69,7 @@ public class QualifierTest {
         QualifiedSingleton a;
     }
 
-    @Test(expected = InjectException.class)
+    @Test(expected = InjectionException.class)
     public void testMultipleQualifiers() {
         injector.getResource(MultipleQualifiers.class);
     }

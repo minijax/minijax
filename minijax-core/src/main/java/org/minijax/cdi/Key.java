@@ -3,6 +3,7 @@ package org.minijax.cdi;
 import java.lang.annotation.Annotation;
 import java.util.Objects;
 
+import javax.enterprise.inject.InjectionException;
 import javax.inject.Named;
 import javax.inject.Qualifier;
 import javax.persistence.EntityManager;
@@ -253,21 +254,21 @@ class Key<T> {
 
         private void setStrategy(final Strategy strategy) {
             if (this.strategy != null) {
-                throw new InjectException("Multiple injection strategies");
+                throw new InjectionException("Multiple injection strategies");
             }
             this.strategy = strategy;
         }
 
         private void setQualifier(final Class<? extends Annotation> qualifier) {
             if (this.qualifier != null) {
-                throw new InjectException("Multiple injection qualifiers");
+                throw new InjectionException("Multiple injection qualifiers");
             }
             this.qualifier = qualifier;
         }
 
         private void setName(final String name) {
             if (this.name != null) {
-                throw new InjectException("Multiple injection names");
+                throw new InjectionException("Multiple injection names");
             }
             this.name = name;
         }

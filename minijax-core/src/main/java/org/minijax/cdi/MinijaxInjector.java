@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.InjectionException;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
@@ -71,6 +72,7 @@ public class MinijaxInjector implements ResourceContext, Closeable {
         return result;
     }
 
+    @Override
     public <T> T getResource(final Class<T> c) {
         return getProvider(c).get();
     }
@@ -79,11 +81,12 @@ public class MinijaxInjector implements ResourceContext, Closeable {
         return getProvider(c, annotations).get();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public <T> T initResource(final T resource) {
         final Provider<T> provider = (Provider<T>) getProvider(resource.getClass());
         if (!(provider instanceof ConstructorProvider)) {
-            throw new InjectException("Cannot init resource class " + resource.getClass());
+            throw new InjectionException("Cannot init resource class " + resource.getClass());
         }
         final ConstructorProvider<T> ctorProvider = (ConstructorProvider<T>) provider;
         ctorProvider.initResource(resource);

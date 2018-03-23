@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import javax.enterprise.inject.InjectionException;
 import javax.inject.Provider;
 
 class ConstructorProvider<T> implements Provider<T> {
@@ -30,10 +31,10 @@ class ConstructorProvider<T> implements Provider<T> {
 
         } catch (final InvocationTargetException ex) {
             final Throwable inner = ex.getCause();
-            throw new InjectException(inner.getMessage(), inner);
+            throw new InjectionException(inner.getMessage(), inner);
 
         } catch (final Exception e) {
-            throw new InjectException(String.format("Can't instantiate %s", ctor), e);
+            throw new InjectionException(String.format("Can't instantiate %s", ctor), e);
         }
     }
 
@@ -44,10 +45,10 @@ class ConstructorProvider<T> implements Provider<T> {
 
         } catch (final InvocationTargetException ex) {
             final Throwable inner = ex.getCause();
-            throw new InjectException(inner.getMessage(), inner);
+            throw new InjectionException(inner.getMessage(), inner);
 
         } catch (final Exception e) {
-            throw new InjectException(String.format("Can't initialize %s", instance), e);
+            throw new InjectionException(String.format("Can't initialize %s", instance), e);
         }
     }
 

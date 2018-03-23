@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.enterprise.inject.InjectionException;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
@@ -81,7 +82,7 @@ class ConstructorProviderBuilder<T> {
                 if (inject == null) {
                     inject = c;
                 } else {
-                    throw new InjectException(String.format("%s has multiple @Inject constructors", key.getType()));
+                    throw new InjectionException(String.format("%s has multiple @Inject constructors", key.getType()));
                 }
             } else if (c.getParameterTypes().length == 0) {
                 noarg = c;
@@ -92,7 +93,7 @@ class ConstructorProviderBuilder<T> {
 
         final Constructor<T> constructor = inject != null ? inject : noarg;
         if (constructor == null) {
-            throw new InjectException(String.format("%s doesn't have an @Inject or no-arg constructor, or a module provider", key.getType().getName()));
+            throw new InjectionException(String.format("%s doesn't have an @Inject or no-arg constructor, or a module provider", key.getType().getName()));
         }
 
         constructor.setAccessible(true);
@@ -267,7 +268,7 @@ class ConstructorProviderBuilder<T> {
             final Key<?> newKey = Key.of(parameterClass, paramAnnotations);
             final Set<Key<?>> newChain = append(chain, key);
             if (newChain.contains(newKey)) {
-                throw new InjectException(String.format("Circular dependency: %s", chain(newChain, newKey)));
+                throw new InjectionException(String.format("Circular dependency: %s", chain(newChain, newKey)));
             }
             return injector.getProvider(newKey, newChain);
         } else {

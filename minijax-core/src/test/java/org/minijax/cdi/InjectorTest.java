@@ -2,6 +2,7 @@ package org.minijax.cdi;
 
 import static org.junit.Assert.*;
 
+import javax.enterprise.inject.InjectionException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Provider;
@@ -146,7 +147,7 @@ public class InjectorTest {
         NoValidConstructors(final int x) { }
     }
 
-    @Test(expected = InjectException.class)
+    @Test(expected = InjectionException.class)
     public void testNoValidConstructors() {
         injector.getProvider(NoValidConstructors.class);
     }
@@ -156,7 +157,7 @@ public class InjectorTest {
         @Inject MultipleInjectConstructors(final String x) { }
     }
 
-    @Test(expected = InjectException.class)
+    @Test(expected = InjectionException.class)
     public void testMultipleInjectConstructors() {
         injector.getProvider(MultipleInjectConstructors.class);
     }
@@ -169,7 +170,7 @@ public class InjectorTest {
         @Inject ParamCircularDependencyB(final ParamCircularDependencyA a) { }
     }
 
-    @Test(expected = InjectException.class)
+    @Test(expected = InjectionException.class)
     public void testParamCircularDependency() {
         injector.getProvider(ParamCircularDependencyA.class);
     }
@@ -182,7 +183,7 @@ public class InjectorTest {
         @Inject FieldCircularDependencyA a;
     }
 
-    @Test(expected = InjectException.class)
+    @Test(expected = InjectionException.class)
     public void testFieldCircularDependency() {
         injector.getProvider(FieldCircularDependencyA.class);
     }
@@ -193,7 +194,7 @@ public class InjectorTest {
         }
     }
 
-    @Test(expected = InjectException.class)
+    @Test(expected = InjectionException.class)
     public void testExplodingConstructor() {
         injector.getResource(ExplodingConstructor.class);
     }
@@ -204,7 +205,7 @@ public class InjectorTest {
         String a;
     }
 
-    @Test(expected = InjectException.class)
+    @Test(expected = InjectionException.class)
     public void testMultipleStrategies() {
         injector.getResource(MultipleStrategies.class);
     }
@@ -215,7 +216,7 @@ public class InjectorTest {
         String a;
     }
 
-    @Test(expected = InjectException.class)
+    @Test(expected = InjectionException.class)
     public void testMultipleNames() {
         injector.getResource(MultipleNames.class);
     }
@@ -227,13 +228,13 @@ public class InjectorTest {
         }
     }
 
-    @Test(expected = InjectException.class)
+    @Test(expected = InjectionException.class)
     public void testNewExplodingSetter() {
         injector.getResource(ExplodingSetter.class);
     }
 
 
-    @Test(expected = InjectException.class)
+    @Test(expected = InjectionException.class)
     public void testInitExplodingSetter() {
         final ExplodingSetter instance = new ExplodingSetter();
         injector.initResource(instance);

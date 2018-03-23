@@ -7,6 +7,7 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import javax.enterprise.inject.InjectionException;
 import javax.inject.Provider;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -45,7 +46,7 @@ public class EntityProvider<T> implements Provider<T> {
         try {
             return getImpl(context, entityStream);
         } catch (final IOException ex) {
-            throw new InjectException(ex.getMessage(), ex);
+            throw new InjectionException(ex.getMessage(), ex);
         }
     }
 
@@ -66,6 +67,6 @@ public class EntityProvider<T> implements Provider<T> {
             return reader.readFrom(entityClass, genericType, annotations, mediaType, httpHeaders, entityStream);
         }
 
-        throw new InjectException("Unknown entity type (" + entityClass + ")");
+        throw new InjectionException("Unknown entity type (" + entityClass + ")");
     }
 }
