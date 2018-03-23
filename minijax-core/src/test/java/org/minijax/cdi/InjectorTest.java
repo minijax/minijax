@@ -219,4 +219,23 @@ public class InjectorTest {
     public void testMultipleNames() {
         injector.getResource(MultipleNames.class);
     }
+
+    static class ExplodingSetter {
+        @Inject
+        public void setFoo(final C foo) {
+            throw new IllegalArgumentException("boom");
+        }
+    }
+
+    @Test(expected = InjectException.class)
+    public void testNewExplodingSetter() {
+        injector.getResource(ExplodingSetter.class);
+    }
+
+
+    @Test(expected = InjectException.class)
+    public void testInitExplodingSetter() {
+        final ExplodingSetter instance = new ExplodingSetter();
+        injector.initResource(instance);
+    }
 }
