@@ -143,6 +143,13 @@ public class InjectorTest {
         assertTrue(instance == instance2);
     }
 
+    @Test
+    public void testRegisterSingleton() {
+        final MySingleton inst = new MySingleton();
+        injector.register(inst, MySingleton.class);
+        assertTrue(injector.getSingletons().contains(inst));
+    }
+
     static class NoValidConstructors {
         NoValidConstructors(final int x) { }
     }

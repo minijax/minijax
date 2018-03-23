@@ -286,9 +286,6 @@ public class Minijax {
     private void addApplication(final DeploymentInfo deploymentInfo, final MinijaxApplication application)
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 
-        // (0) Sort the resource methods by literal length
-        application.sortResourceMethods();
-
         // (1) Add Minijax filter (must come before websocket!)
         deploymentInfo.addFilter(new FilterInfo(
                 "MinijaxFilter",

@@ -285,7 +285,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
             for (final Annotation annotation : method.getAnnotations()) {
                 final HttpMethod httpMethod = annotation.annotationType().getAnnotation(HttpMethod.class);
                 if (httpMethod != null) {
-                    resourceMethods.add(new MinijaxResourceMethod(httpMethod.value(), method, getParamProviders(method)));
+                    addResourceMethod(new MinijaxResourceMethod(httpMethod.value(), method, getParamProviders(method)));
                 }
             }
         }
@@ -294,10 +294,6 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
     void addResourceMethod(final MinijaxResourceMethod rm) {
         resourceMethods.add(rm);
-    }
-
-
-    void sortResourceMethods() {
         MinijaxResourceMethod.sortByLiteralLength(resourceMethods);
     }
 

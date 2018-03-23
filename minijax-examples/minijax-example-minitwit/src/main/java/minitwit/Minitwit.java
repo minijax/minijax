@@ -2,21 +2,21 @@ package minitwit;
 
 import static org.apache.commons.codec.digest.DigestUtils.*;
 
-import java.io.IOException;
-import java.net.URI;
+import java.io.*;
+import java.net.*;
 import java.util.*;
 
-import javax.annotation.security.RolesAllowed;
-import javax.inject.Inject;
+import javax.annotation.security.*;
+import javax.inject.*;
 import javax.persistence.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
-import org.minijax.Minijax;
+import org.minijax.*;
 import org.minijax.db.*;
-import org.minijax.mustache.MustacheFeature;
+import org.minijax.mustache.*;
 import org.minijax.security.*;
-import org.minijax.view.View;
+import org.minijax.view.*;
 
 @Path("/")
 @Produces(MediaType.TEXT_HTML)
@@ -26,7 +26,7 @@ public class Minitwit {
     @Entity(name = "User")
     public static class User extends SecurityUser {
         private static final long serialVersionUID = 1L;
-        @OneToMany private Set<User> following = new HashSet<>();
+        @OneToMany Set<User> following = new HashSet<>();
 
         public String gravatarUrl() throws IOException {
             return String.format(
@@ -54,7 +54,7 @@ public class Minitwit {
     @Inject
     private Dao dao;
 
-    public Response renderTimeline(List<Message> messages) {
+    public Response renderTimeline(final List<Message> messages) {
         View view = new View("timeline");
         view.getModel().put("messages", messages);
         if (currentUser != null) {
@@ -133,7 +133,7 @@ public class Minitwit {
         try {
             NewCookie cookie = security.login(email, password);
             return Response.seeOther(URI.create("/")).cookie(cookie).build();
-        } catch (BadRequestException ex) {
+        } catch (final BadRequestException ex) {
             View view = new View("login");
             view.getModel().put("error", ex.getMessage());
             return Response.ok(view, MediaType.TEXT_HTML).build();
@@ -173,7 +173,7 @@ public class Minitwit {
         return Response.seeOther(URI.create("/")).cookie(cookie).build();
     }
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         new Minijax()
                 .staticDirectories("static")
                 .register(PersistenceFeature.class)
