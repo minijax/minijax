@@ -260,16 +260,10 @@ class Key<T> {
         }
 
         private void setQualifier(final Class<? extends Annotation> qualifier) {
-            if (this.qualifier != null) {
-                throw new InjectionException("Multiple injection qualifiers");
-            }
             this.qualifier = qualifier;
         }
 
         private void setName(final String name) {
-            if (this.name != null) {
-                throw new InjectionException("Multiple injection names");
-            }
             this.name = name;
         }
     }
