@@ -2,8 +2,6 @@ package org.minijax.test;
 
 import java.net.URI;
 
-import javax.ws.rs.client.WebTarget;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.minijax.Minijax;
@@ -62,11 +60,11 @@ public class MinijaxTest {
         server.packages(packageNames);
     }
 
-    protected static WebTarget target(final String uri) {
+    protected static MinijaxWebTarget target(final String uri) {
         return target(URI.create(uri));
     }
 
-    protected static WebTarget target(final URI uri) {
+    protected static MinijaxWebTarget target(final URI uri) {
         return new MinijaxWebTarget(server, uri);
     }
 

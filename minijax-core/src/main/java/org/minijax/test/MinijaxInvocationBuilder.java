@@ -256,35 +256,35 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
     }
 
     @Override
-    public Builder cookie(final Cookie cookie) {
+    public MinijaxInvocationBuilder cookie(final Cookie cookie) {
         cookies.add(cookie);
         return this;
     }
 
     @Override
-    public Builder cookie(final String name, final String value) {
+    public MinijaxInvocationBuilder cookie(final String name, final String value) {
         return cookie(new Cookie(name, value));
     }
 
     @Override
-    public Builder cacheControl(final CacheControl cacheControl) {
+    public MinijaxInvocationBuilder cacheControl(final CacheControl cacheControl) {
         header("Cache-Control", cacheControl);
         return this;
     }
 
     @Override
-    public Builder header(final String name, final Object value) {
+    public MinijaxInvocationBuilder header(final String name, final Object value) {
         headers.add(name, value.toString());
         return this;
     }
 
     @Override
-    public Builder headers(final MultivaluedMap<String, Object> headers) {
+    public MinijaxInvocationBuilder headers(final MultivaluedMap<String, Object> headers) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Builder property(final String name, final Object value) {
+    public MinijaxInvocationBuilder property(final String name, final Object value) {
         throw new UnsupportedOperationException();
     }
 

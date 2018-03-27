@@ -1,5 +1,7 @@
 package org.minijax.test;
 
+import static org.junit.Assert.*;
+
 import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
@@ -7,6 +9,12 @@ import javax.ws.rs.core.MediaType;
 import org.junit.Test;
 
 public class MinijaxWebTargetTest {
+
+    @Test
+    public void testGetUriBuilder() {
+        final MinijaxWebTarget t = new MinijaxWebTarget(null, null);
+        assertNotNull(t.getUriBuilder());
+    }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testGetConfiguration() {
@@ -66,12 +74,6 @@ public class MinijaxWebTargetTest {
     public void testRegister8() {
         final MinijaxWebTarget t = new MinijaxWebTarget(null, null);
         t.register((Object) null, (Map<Class<?>, Integer>) null);
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void testGetUriBuilder() {
-        final MinijaxWebTarget t = new MinijaxWebTarget(null, null);
-        t.getUriBuilder();
     }
 
     @Test(expected = UnsupportedOperationException.class)
