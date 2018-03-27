@@ -4,10 +4,11 @@
 Minijax
 =======
 
-Lightweight subset of Java EE standards
+Lightweight ~~Java EE~~ Jakarta EE
 
-* Minimal dependencies, setup, configuration, and hassle
+* Fast and simple JAX-RS, JSON, WebSockets, JPA, dependency injection
 * Code to standard Java and Java EE API's as much as possible
+* Minimal dependencies, setup, configuration, and hassle
 
 Getting Started
 ---------------
