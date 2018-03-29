@@ -66,12 +66,11 @@
         <commons-lang3.version>3.7</commons-lang3.version>
         <eclipselink.version>2.7.0</eclipselink.version>
         <h2.version>1.4.197</h2.version>
-        <hikaricp.version>2.7.2</hikaricp.version>
         <inject.version>1</inject.version>
         <jackson.version>2.9.5</jackson.version>
         <jax-rs.version>2.1</jax-rs.version>
         <jaxb.version>2.3.0</jaxb.version>
-        <jpa.version>2.1.1</jpa.version>
+        <jpa.version>2.2.0</jpa.version>
         <jsr250.version>1.0</jsr250.version>
         <junit.version>4.12</junit.version>
         <kotlin.version>1.2.31</kotlin.version>
