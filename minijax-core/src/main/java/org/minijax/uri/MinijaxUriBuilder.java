@@ -37,7 +37,7 @@ public class MinijaxUriBuilder extends UriBuilder {
     }
 
     @Override
-    @SuppressWarnings({ "CloneDoesntCallSuperClone", "squid:S2975" })
+    @SuppressWarnings({ "CloneDoesntCallSuperClone", "squid:S2975", "squid:S1182" })
     public MinijaxUriBuilder clone() {
         return new MinijaxUriBuilder(this);
     }

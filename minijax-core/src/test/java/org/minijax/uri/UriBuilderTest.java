@@ -2,6 +2,9 @@ package org.minijax.uri;
 
 import static org.junit.Assert.*;
 
+import java.net.URI;
+import java.util.Collections;
+
 import javax.ws.rs.core.UriBuilder;
 
 import org.junit.Test;
@@ -141,5 +144,125 @@ public class UriBuilderTest {
     @Test
     public void testReplaceFragment() {
         assertEquals("https://foo.com#foo", UriBuilder.fromUri("https://foo.com").fragment("foo").build().toString());
+    }
+
+    @Test
+    public void testReplaceQueryParam() {
+        assertEquals("https://foo.com?c=d", UriBuilder.fromUri("https://foo.com?a=b").replaceQueryParam("c", "d").build().toString());
+    }
+
+    @Test
+    public void testClone() {
+        final MinijaxUriBuilder b1 = (MinijaxUriBuilder) UriBuilder.fromUri("https://u:p@example.com:8443/path?a=b#fuzz");
+        final MinijaxUriBuilder b2 = b1.clone();
+        assertEquals(b1.build(), b2.build());
+    }
+
+    @Test
+    public void testFromUriEquivalence() {
+        final String uriStr = "https://u:p@example.com:8443/path?a=b#fuzz";
+        final URI uri = URI.create(uriStr);
+        final MinijaxUriBuilder b1 = (MinijaxUriBuilder) UriBuilder.fromUri(uriStr);
+        final MinijaxUriBuilder b2 = (MinijaxUriBuilder) UriBuilder.fromUri(uri);
+        assertEquals(b1.build(), b2.build());
+    }
+
+    @Test
+    public void testTemplateWithColon() {
+        assertEquals("https://example.com/foo", UriBuilder.fromUri("https://example.com/{name: .*}").build("foo").toString());
+    }
+
+    @Test
+    public void testTemplateWithNestedCurlies() {
+        assertEquals("https://example.com/foo", UriBuilder.fromUri("https://example.com/{name: {}}").build("foo").toString());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testTrailingCurly() {
+        UriBuilder.fromUri("https://example.com/{name}}").build("foo");
+    }
+
+    /*
+     * Unsupported operations
+     */
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testPath1() {
+        new MinijaxUriBuilder().path(Object.class);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testPath2() {
+        new MinijaxUriBuilder().path(Object.class, "foo");
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testPath3() throws ReflectiveOperationException {
+        new MinijaxUriBuilder().path(Object.class.getMethod("equals", Object.class));
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testReplaceMatrix() {
+        new MinijaxUriBuilder().replaceMatrix(null);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testMatrixParam() {
+        new MinijaxUriBuilder().matrixParam("foo", null, null);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testReplaceMatrixParam() {
+        new MinijaxUriBuilder().replaceMatrixParam("foo", null, null);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testResolveTemplate1() {
+        new MinijaxUriBuilder().resolveTemplate("foo", null);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testResolveTemplate2() {
+        new MinijaxUriBuilder().resolveTemplate("foo", null, false);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testResolveTemplateFromEncoded() {
+        new MinijaxUriBuilder().resolveTemplateFromEncoded("foo", null);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testResolveTemplates1() {
+        new MinijaxUriBuilder().resolveTemplates(Collections.emptyMap());
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testResolveTemplates2() {
+        new MinijaxUriBuilder().resolveTemplates(Collections.emptyMap(), false);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testResolveTemplatesFromEncoded() {
+        new MinijaxUriBuilder().resolveTemplatesFromEncoded(Collections.emptyMap());
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testBuildFromMap() {
+        new MinijaxUriBuilder().buildFromMap(Collections.emptyMap(), false);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testBuildFromEncodedMap() {
+        new MinijaxUriBuilder().buildFromEncodedMap(Collections.emptyMap());
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testBuild() {
+        new MinijaxUriBuilder().build(new Object[0], false);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testBuildFromEncoded() {
+        new MinijaxUriBuilder().buildFromEncoded(new Object[0]);
     }
 }
