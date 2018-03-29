@@ -54,7 +54,7 @@ public class Minitwit {
     @Inject
     private Dao dao;
 
-    public Response renderTimeline(final List<Message> messages) {
+    private Response renderTimeline(final List<Message> messages) {
         View view = new View("timeline");
         view.getModel().put("messages", messages);
         if (currentUser != null) {

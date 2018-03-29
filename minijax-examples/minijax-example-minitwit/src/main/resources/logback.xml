@@ -7,7 +7,7 @@
 		</encoder>
 	</appender>
     <logger name="minitwit" level="DEBUG" />
-    <logger name="org.minijax" level="DEBUG" />
+    <logger name="org.minijax" level="INFO" />
 	<root level="INFO">
 		<appender-ref ref="STDOUT" />
 	</root>
