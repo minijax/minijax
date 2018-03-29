@@ -1,10 +1,12 @@
 
 package org.minijax;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,17 +15,25 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
+import org.minijax.test.MockPart;
 import org.minijax.util.ExceptionUtils;
 import org.minijax.util.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The Form class represents a HTTP form submission.
+ * The MinijaxMultipartForm class represents a multipart HTTP form submission.
  */
-class MinijaxMultipartForm implements MinijaxForm {
+public class MinijaxMultipartForm implements MinijaxForm {
     private static final Logger LOG = LoggerFactory.getLogger(MinijaxMultipartForm.class);
     private final Map<String, Part> values;
+
+    /**
+     * Creates an empty multipart form.
+     */
+    public MinijaxMultipartForm() {
+        values = new HashMap<>();
+    }
 
     /**
      * Creates a form with all of the provided parts.
@@ -31,12 +41,39 @@ class MinijaxMultipartForm implements MinijaxForm {
      * @param parts The multipart form parts.
      */
     public MinijaxMultipartForm(final Collection<Part> parts) {
-        values = new HashMap<>();
-        if (parts != null) {
-            for (final Part part : parts) {
-                values.put(part.getName(), part);
-            }
+        this();
+        for (final Part part : parts) {
+            values.put(part.getName(), part);
         }
+    }
+
+    /**
+     * Adds a new string value.
+     *
+     * @param name The string field name.
+     * @param value The string value.
+     */
+    public void param(final String name, final String value) {
+        values.put(name, new MockPart(name, value));
+    }
+
+    /**
+     * Adds a new file value.
+     *
+     * @param name The file field name.
+     * @param value The file value.
+     */
+    public void param(final String name, final File value) {
+        values.put(name, new MockPart(name, value));
+    }
+
+    /**
+     * Returns the parts.
+     *
+     * @return A collection of all multipart form parts.
+     */
+    public Collection<Part> getParts() {
+        return Collections.unmodifiableCollection(values.values());
     }
 
     /**

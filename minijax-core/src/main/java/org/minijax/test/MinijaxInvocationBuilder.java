@@ -17,7 +17,6 @@ import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
@@ -25,6 +24,7 @@ import javax.ws.rs.core.Response;
 
 import org.minijax.Minijax;
 import org.minijax.MinijaxApplication;
+import org.minijax.MinijaxMultipartForm;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.util.CookieUtils;
 import org.minijax.util.ExceptionUtils;
@@ -149,17 +149,19 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
         final Minijax container = target.getServer();
         final MinijaxApplication application = container.getApplication(target.getUri());
 
-        final MockHttpServletRequest request = new MockHttpServletRequest(
-                name,
-                target.getUri(),
-                headers,
-                getEntityInputStream(),
-                CookieUtils.convertJaxToServlet(cookies));
+        try {
+            final MockHttpServletRequest request = new MockHttpServletRequest(
+                    name,
+                    target.getUri(),
+                    headers,
+                    getEntityInputStream(),
+                    CookieUtils.convertJaxToServlet(cookies));
 
-        final MockHttpServletResponse response = new MockHttpServletResponse();
+            final MockHttpServletResponse response = new MockHttpServletResponse();
 
-        try (final MinijaxRequestContext context = new MinijaxRequestContext(application, request, response)) {
-            return application.handle(context);
+            try (final MinijaxRequestContext context = new MinijaxRequestContext(application, request, response)) {
+                return application.handle(context);
+            }
         } catch (final IOException ex) {
             throw ExceptionUtils.toWebAppException(ex);
         }
@@ -306,7 +308,7 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
         this.entity = entity;
     }
 
-    private InputStream getEntityInputStream() {
+    private InputStream getEntityInputStream() throws IOException {
         if (entity == null || entity.getEntity() == null) {
             return null;
         }
@@ -322,11 +324,11 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
         }
 
         if (obj instanceof Form) {
-            if (headers.containsKey(HttpHeaders.CONTENT_TYPE) && headers.getFirst(HttpHeaders.CONTENT_TYPE).equals(MediaType.MULTIPART_FORM_DATA)) {
-                return MultipartUtils.serializeMultipartForm((Form) obj);
-            } else {
-                return IOUtils.toInputStream(UrlUtils.urlEncodeMultivaluedParams(((Form) obj).asMap()), StandardCharsets.UTF_8);
-            }
+            return IOUtils.toInputStream(UrlUtils.urlEncodeMultivaluedParams(((Form) obj).asMap()), StandardCharsets.UTF_8);
+        }
+
+        if (obj instanceof MinijaxMultipartForm) {
+            return MultipartUtils.serializeMultipartForm((MinijaxMultipartForm) obj);
         }
 
         throw new UnsupportedOperationException("Unknown entity type: " + obj.getClass());

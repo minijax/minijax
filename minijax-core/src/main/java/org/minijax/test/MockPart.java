@@ -1,10 +1,14 @@
 package org.minijax.test;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -13,15 +17,29 @@ import javax.servlet.http.Part;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-class MockPart implements Part {
+public class MockPart implements Part {
     private final MultivaluedMap<String, String> headers;
     private String name;
     private String value;
     private String submittedFileName;
     private InputStream inputStream;
+    private File file;
 
     public MockPart() {
         headers = new MultivaluedHashMap<>();
+    }
+
+    public MockPart(final String name, final String value) {
+        this();
+        this.name = name;
+        this.value = value;
+    }
+
+    public MockPart(final String name, final File file) {
+        this();
+        this.name = name;
+        this.file = file;
+        submittedFileName = file.getName();
     }
 
     @Override
@@ -50,6 +68,10 @@ class MockPart implements Part {
         this.submittedFileName = submittedFileName;
     }
 
+    public void setFile(final File file) {
+        this.file = file;
+    }
+
     @Override
     public String getContentType() {
         return getHeader("Content-Type");
@@ -63,7 +85,13 @@ class MockPart implements Part {
     @Override
     public InputStream getInputStream() throws IOException {
         if (inputStream == null) {
-            inputStream = new ByteArrayInputStream(value.getBytes(StandardCharsets.UTF_8));
+            if (file != null) {
+                inputStream = new FileInputStream(file);
+            } else if (value != null) {
+                inputStream = new ByteArrayInputStream(value.getBytes(StandardCharsets.UTF_8));
+            } else {
+                inputStream = new ByteArrayInputStream(new byte[0]);
+            }
         }
         return inputStream;
     }
@@ -97,7 +125,7 @@ class MockPart implements Part {
         return headers.keySet();
     }
 
-    public static List<Part> parseAll(final String str) {
+    public static List<Part> parseAll(final String str) throws IOException {
         final int index = str.indexOf('\n');
         final String boundary = str.substring(0, index) + "\n";
         if (str.length() <= 2 * boundary.length()) {
@@ -115,7 +143,7 @@ class MockPart implements Part {
         return parts;
     }
 
-    private static MockPart parse(final String str) {
+    private static MockPart parse(final String str) throws IOException {
         final MockPart part = new MockPart();
         final StringBuilder valueBuilder = new StringBuilder();
         boolean headers = true;
@@ -135,7 +163,14 @@ class MockPart implements Part {
             }
         }
 
-        part.setValue(valueBuilder.toString());
+        if (part.getHeader("Content-Transfer-Encoding") != null) {
+            final File tmpFile = File.createTempFile("upload", ".tmp");
+            Files.write(tmpFile.toPath(), Base64.getDecoder().decode(valueBuilder.toString()));
+            part.setFile(tmpFile);
+        } else {
+            part.setValue(valueBuilder.toString());
+        }
+
         return part;
     }
 
