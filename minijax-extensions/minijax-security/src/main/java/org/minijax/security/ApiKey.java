@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -31,17 +30,15 @@ import org.minijax.db.UuidConverter;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Table(indexes = { @Index(columnList = "USERID", unique = false) })
-@NamedQueries({
 @NamedQuery(
         name = "ApiKey.findByUser",
         query = "SELECT k FROM ApiKey k" +
                 " WHERE k.userId = :userId" +
-                " AND k.deletedDateTime IS NULL"),
+                " AND k.deletedDateTime IS NULL")
 @NamedQuery(
         name = "ApiKey.findByValue",
         query = "SELECT k FROM ApiKey k" +
                 " WHERE k.value = :value")
-})
 @SuppressWarnings("squid:S2160")
 public class ApiKey extends DefaultBaseEntity {
     private static final long serialVersionUID = 1L;
