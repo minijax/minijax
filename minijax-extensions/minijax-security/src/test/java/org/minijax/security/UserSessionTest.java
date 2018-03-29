@@ -17,7 +17,6 @@ public class UserSessionTest {
     @BeforeClass
     public static void setUpUserSessionTest() {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
-        System.out.println(validator.getClass());
     }
 
     @Test

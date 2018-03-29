@@ -78,7 +78,6 @@ public class EntityProviderTest extends MinijaxTest {
         @POST
         @Consumes(MediaType.TEXT_PLAIN)
         public String handleUnknownType(final UnknownType unknown) {
-            System.out.println("handle unknown type???");
             return "unknown";
         }
 

@@ -71,7 +71,6 @@
         <jax-rs.version>2.1</jax-rs.version>
         <jaxb.version>2.3.0</jaxb.version>
         <jpa.version>2.2.0</jpa.version>
-        <jsr250.version>1.0</jsr250.version>
         <junit.version>4.12</junit.version>
         <kotlin.version>1.2.31</kotlin.version>
         <liquibase.version>3.5.5</liquibase.version>
