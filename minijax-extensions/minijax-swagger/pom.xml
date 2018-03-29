@@ -55,7 +55,7 @@
             <groupId>org.minijax</groupId>
             <artifactId>minijax-core</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
