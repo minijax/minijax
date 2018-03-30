@@ -38,7 +38,6 @@
     <scm>
         <connection>scm:git:git@github.com:minijax/minijax.git</connection>
         <developerConnection>scm:git:git@github.com:minijax/minijax.git</developerConnection>
-        <tag>minijax-0.0.44</tag>
         <url>https://github.com/minijax/minijax</url>
     </scm>
     <issueManagement>
@@ -56,7 +55,7 @@
         </repository>
         <site>
             <id>minijax-site</id>
-            <url>s3://minijax.org</url>
+            <url>s3://minijax.org/maven/${project.version}</url>
         </site>
     </distributionManagement>
     <properties>
