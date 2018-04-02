@@ -1,7 +1,7 @@
 minijax-json
 ============
 
-The minijax-json extension adds Jackson for JSON support including:
+The minijax-json extension adds [Jackson](https://github.com/FasterXML/jackson) for JSON support including:
 
 * `JaxbAnnotationModule` for JAXB annotations such as `@XmlRootElement`
 * `JavaTimeModule` for ISO-8601 serialization of `java.time` objects
