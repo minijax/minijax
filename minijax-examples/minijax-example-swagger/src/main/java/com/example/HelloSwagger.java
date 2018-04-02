@@ -31,6 +31,7 @@ public class HelloSwagger {
                 .register(io.swagger.jaxrs.listing.SwaggerSerializers.class)
                 .register(JsonFeature.class)
                 .register(HelloSwagger.class)
+                .allowCors("/")
                 .start();
     }
 }
