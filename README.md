@@ -22,10 +22,7 @@ Getting Started
 ```
 
 ```java
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-
-import org.minijax.Minijax;
+import javax.ws.rs.*;
 
 @Path("/")
 public class Hello {
@@ -36,7 +33,7 @@ public class Hello {
     }
 
     public static void main(String[] args) {
-        new Minijax()
+        new org.minijax.Minijax()
                 .register(Hello.class)
                 .start();
     }
