@@ -45,6 +45,40 @@ We pull in the following dependencies:
 * logback - Logging
 * junit - Testing
 
+persistence.xml
+---------------
+
+The "persistence.xml" file is the JPA configuration file.
+
+```xml
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" version="2.0">
+    <persistence-unit name="minitwit" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>minitwit.Minitwit$User</class>
+        <class>minitwit.Minitwit$Follower</class>
+        <class>minitwit.Minitwit$Message</class>
+        <class>org.minijax.db.InstantConverter</class>
+        <class>org.minijax.db.UuidConverter</class>
+        <class>org.minijax.security.UserSession</class>
+        <class>org.minijax.security.SecurityUser</class>
+        <properties>
+          <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
+          <property name="javax.persistence.jdbc.url" value="jdbc:h2:~/.minijax/minitwit"/>
+          <property name="javax.persistence.schema-generation.database.action" value="create" />
+        </properties>
+    </persistence-unit>
+</persistence>
+```
+
+For a full description of "persistence.xml", check out one of these tutorials:
+* <https://www.eclipse.org/webtools/dali/docs/3.2/user_guide/task_manage_persistence.htm>
+* <https://www.objectdb.com/java/jpa/entity/persistence-unit>
+* <https://examples.javacodegeeks.com/enterprise-java/jpa/java-persistence-xml-example/>
+
+In our persistence.xml, we have the following highlights:
+* `<class>` elements for our Minitwit classes and also the standard classes from minijax-db and minijax-security
+* `<property>` elements to setup the H2 database and automatically generate the database schema
+
 Minitwit.java
 -------------
 
@@ -88,28 +122,6 @@ public static class Message extends DefaultBaseEntity {
 ```
 
 Extending minijax-db's `DefaultBaseEntity` provides ID and CRUD functionality.  We just needed to add the `User` for the author and the `String` for the message contents.
-
-```java
-package com.example;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-
-import org.minijax.Minijax;
-
-@Path("/")
-public class Hello {
-
-    @GET
-    public static String hello() {
-        return "Hello world!";
-    }
-
-    public static void main(final String[] args) {
-        new Minijax().register(Hello.class).start();
-    }
-}
-```
 
 Let's now look at the logic for the default page.  If the user is not logged in, they are redirected to "/public".  Otherwise, they are shown a collection of messages for all the users they are following.
 
