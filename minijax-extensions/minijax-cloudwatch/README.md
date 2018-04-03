@@ -28,11 +28,11 @@ Step 2: Add a CloudWatch appender to your `logback.xml` file.  You can use SLF4J
 
 ```xml
 <appender name="CLOUDWATCH" class="org.minijax.cloudwatch.CloudWatchAppender">
-	<logGroupName>my-log-group</logGroupName>
-	<logStreamName>my-log-stream-${HOSTNAME}</logStreamName>
-	<layout>
-		<pattern>[%thread] %-5level %logger{35} - %msg %n</pattern>
-	</layout>
+    <logGroupName>my-log-group</logGroupName>
+    <logStreamName>my-log-stream-${HOSTNAME}</logStreamName>
+    <layout>
+        <pattern>[%thread] %-5level %logger{35} - %msg %n</pattern>
+    </layout>
 </appender>
 <root level="INFO">
     <appender-ref ref="CLOUDWATCH" />

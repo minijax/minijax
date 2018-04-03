@@ -49,6 +49,7 @@ public static class Widget {
 }
 
 @GET
+@Produces(MediaType.APPLICATION_JSON)
 public static Collection<Widget> read() {
     return WIDGETS.values();
 }
