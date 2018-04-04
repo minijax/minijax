@@ -18,6 +18,7 @@
         <module>minijax-example-mustache</module>
         <module>minijax-example-petclinic</module>
         <module>minijax-example-security</module>
+        <module>minijax-example-sns</module>
         <module>minijax-example-ssl</module>
         <module>minijax-example-swagger</module>
         <module>minijax-example-todo-backend</module>

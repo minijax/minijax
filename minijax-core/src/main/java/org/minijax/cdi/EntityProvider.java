@@ -52,6 +52,10 @@ public class EntityProvider<T> implements Provider<T> {
 
     @SuppressWarnings("unchecked")
     private T getImpl(final MinijaxRequestContext context, final InputStream entityStream) throws IOException {
+        if (entityClass == InputStream.class) {
+            return (T) entityStream;
+        }
+
         if (entityClass == String.class) {
             return (T) IOUtils.toString(entityStream, StandardCharsets.UTF_8);
         }
