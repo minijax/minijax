@@ -80,7 +80,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.example.benchmarks.App</mainClass>
+                                    <mainClass>minitwit.Minitwit</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
