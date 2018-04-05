@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 public class OptionalClasses {
     private static final Logger LOG = LoggerFactory.getLogger(OptionalClasses.class);
 
+    public static final Class<?> JSON = safeGetClass("org.minijax.json.Json");
+
     public static final Class<?> WEB_SOCKET_UTILS = safeGetClass("org.minijax.websocket.MinijaxWebSocketUtils");
 
     public static final Class<Annotation> SERVER_ENDPOINT = safeGetClass("javax.websocket.server.ServerEndpoint");

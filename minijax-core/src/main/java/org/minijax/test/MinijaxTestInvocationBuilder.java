@@ -1,8 +1,6 @@
 package org.minijax.test;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -15,7 +13,6 @@ import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.RxInvoker;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -24,26 +21,24 @@ import javax.ws.rs.core.Response;
 
 import org.minijax.Minijax;
 import org.minijax.MinijaxApplication;
-import org.minijax.MinijaxMultipartForm;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.util.CookieUtils;
+import org.minijax.util.EntityUtils;
 import org.minijax.util.ExceptionUtils;
-import org.minijax.util.IOUtils;
-import org.minijax.util.UrlUtils;
 
-public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.Builder {
+public class MinijaxTestInvocationBuilder implements javax.ws.rs.client.Invocation.Builder {
     private static final String DELETE = "DELETE";
     private static final String GET = "GET";
     private static final String HEAD = "HEAD";
     private static final String OPTIONS = "OPTIONS";
     private static final String POST = "POST";
     private static final String PUT = "PUT";
-    private final MinijaxWebTarget target;
+    private final MinijaxTestWebTarget target;
     private final MultivaluedMap<String, String> headers;
     private final List<Cookie> cookies;
     private Entity<?> entity;
 
-    public MinijaxInvocationBuilder(final MinijaxWebTarget target) {
+    public MinijaxTestInvocationBuilder(final MinijaxTestWebTarget target) {
         this.target = target;
         headers = new MultivaluedHashMap<>();
         cookies = new ArrayList<>();
@@ -154,7 +149,7 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
                     name,
                     target.getUri(),
                     headers,
-                    getEntityInputStream(),
+                    EntityUtils.convertToInputStream(entity),
                     CookieUtils.convertJaxToServlet(cookies));
 
             final MockHttpServletResponse response = new MockHttpServletResponse();
@@ -258,35 +253,35 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
     }
 
     @Override
-    public MinijaxInvocationBuilder cookie(final Cookie cookie) {
+    public MinijaxTestInvocationBuilder cookie(final Cookie cookie) {
         cookies.add(cookie);
         return this;
     }
 
     @Override
-    public MinijaxInvocationBuilder cookie(final String name, final String value) {
+    public MinijaxTestInvocationBuilder cookie(final String name, final String value) {
         return cookie(new Cookie(name, value));
     }
 
     @Override
-    public MinijaxInvocationBuilder cacheControl(final CacheControl cacheControl) {
+    public MinijaxTestInvocationBuilder cacheControl(final CacheControl cacheControl) {
         header("Cache-Control", cacheControl);
         return this;
     }
 
     @Override
-    public MinijaxInvocationBuilder header(final String name, final Object value) {
+    public MinijaxTestInvocationBuilder header(final String name, final Object value) {
         headers.add(name, value.toString());
         return this;
     }
 
     @Override
-    public MinijaxInvocationBuilder headers(final MultivaluedMap<String, Object> headers) {
+    public MinijaxTestInvocationBuilder headers(final MultivaluedMap<String, Object> headers) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MinijaxInvocationBuilder property(final String name, final Object value) {
+    public MinijaxTestInvocationBuilder property(final String name, final Object value) {
         throw new UnsupportedOperationException();
     }
 
@@ -306,31 +301,5 @@ public class MinijaxInvocationBuilder implements javax.ws.rs.client.Invocation.B
             headers.putSingle("Content-Type", entity.getMediaType().toString());
         }
         this.entity = entity;
-    }
-
-    private InputStream getEntityInputStream() throws IOException {
-        if (entity == null || entity.getEntity() == null) {
-            return null;
-        }
-
-        final Object obj = entity.getEntity();
-
-        if (obj instanceof InputStream) {
-            return (InputStream) obj;
-        }
-
-        if (obj instanceof String) {
-            return IOUtils.toInputStream((String) obj, StandardCharsets.UTF_8);
-        }
-
-        if (obj instanceof Form) {
-            return IOUtils.toInputStream(UrlUtils.urlEncodeMultivaluedParams(((Form) obj).asMap()), StandardCharsets.UTF_8);
-        }
-
-        if (obj instanceof MinijaxMultipartForm) {
-            return MultipartUtils.serializeMultipartForm((MinijaxMultipartForm) obj);
-        }
-
-        throw new UnsupportedOperationException("Unknown entity type: " + obj.getClass());
     }
 }

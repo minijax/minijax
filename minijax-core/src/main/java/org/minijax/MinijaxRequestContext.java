@@ -299,4 +299,8 @@ public class MinijaxRequestContext
         }
         return context;
     }
+
+    public static MinijaxRequestContext tryGetThreadLocal() {
+        return threadLocalContexts.get();
+    }
 }

@@ -10,11 +10,11 @@ import javax.ws.rs.core.UriBuilder;
 import org.minijax.Minijax;
 import org.minijax.uri.MinijaxUriBuilder;
 
-public class MinijaxWebTarget implements javax.ws.rs.client.WebTarget {
+public class MinijaxTestWebTarget implements javax.ws.rs.client.WebTarget {
     private final Minijax server;
     private URI requestUri;
 
-    public MinijaxWebTarget(final Minijax server, final URI requestUri) {
+    public MinijaxTestWebTarget(final Minijax server, final URI requestUri) {
         this.server = server;
         this.requestUri = requestUri;
     }
@@ -29,47 +29,47 @@ public class MinijaxWebTarget implements javax.ws.rs.client.WebTarget {
     }
 
     @Override
-    public MinijaxWebTarget property(final String name, final Object value) {
+    public MinijaxTestWebTarget property(final String name, final Object value) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MinijaxWebTarget register(final Class<?> componentClass) {
+    public MinijaxTestWebTarget register(final Class<?> componentClass) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MinijaxWebTarget register(final Class<?> componentClass, final int priority) {
+    public MinijaxTestWebTarget register(final Class<?> componentClass, final int priority) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MinijaxWebTarget register(final Class<?> componentClass, final Class<?>... contracts) {
+    public MinijaxTestWebTarget register(final Class<?> componentClass, final Class<?>... contracts) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MinijaxWebTarget register(final Class<?> componentClass, final Map<Class<?>, Integer> contracts) {
+    public MinijaxTestWebTarget register(final Class<?> componentClass, final Map<Class<?>, Integer> contracts) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MinijaxWebTarget register(final Object component) {
+    public MinijaxTestWebTarget register(final Object component) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MinijaxWebTarget register(final Object component, final int priority) {
+    public MinijaxTestWebTarget register(final Object component, final int priority) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MinijaxWebTarget register(final Object component, final Class<?>... contracts) {
+    public MinijaxTestWebTarget register(final Object component, final Class<?>... contracts) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MinijaxWebTarget register(final Object component, final Map<Class<?>, Integer> contracts) {
+    public MinijaxTestWebTarget register(final Object component, final Map<Class<?>, Integer> contracts) {
         throw new UnsupportedOperationException();
     }
 
@@ -84,63 +84,63 @@ public class MinijaxWebTarget implements javax.ws.rs.client.WebTarget {
     }
 
     @Override
-    public MinijaxWebTarget path(final String path) {
+    public MinijaxTestWebTarget path(final String path) {
         requestUri = requestUri.resolve(path);
         return this;
     }
 
     @Override
-    public MinijaxWebTarget resolveTemplate(final String name, final Object value) {
+    public MinijaxTestWebTarget resolveTemplate(final String name, final Object value) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MinijaxWebTarget resolveTemplate(final String name, final Object value, final boolean encodeSlashInPath) {
+    public MinijaxTestWebTarget resolveTemplate(final String name, final Object value, final boolean encodeSlashInPath) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MinijaxWebTarget resolveTemplateFromEncoded(final String name, final Object value) {
+    public MinijaxTestWebTarget resolveTemplateFromEncoded(final String name, final Object value) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MinijaxWebTarget resolveTemplates(final Map<String, Object> templateValues) {
+    public MinijaxTestWebTarget resolveTemplates(final Map<String, Object> templateValues) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MinijaxWebTarget resolveTemplates(final Map<String, Object> templateValues, final boolean encodeSlashInPath) {
+    public MinijaxTestWebTarget resolveTemplates(final Map<String, Object> templateValues, final boolean encodeSlashInPath) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MinijaxWebTarget resolveTemplatesFromEncoded(final Map<String, Object> templateValues) {
+    public MinijaxTestWebTarget resolveTemplatesFromEncoded(final Map<String, Object> templateValues) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MinijaxWebTarget matrixParam(final String name, final Object... values) {
+    public MinijaxTestWebTarget matrixParam(final String name, final Object... values) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MinijaxWebTarget queryParam(final String name, final Object... values) {
+    public MinijaxTestWebTarget queryParam(final String name, final Object... values) {
         return this;
     }
 
     @Override
-    public MinijaxInvocationBuilder request() {
-        return new MinijaxInvocationBuilder(this);
+    public MinijaxTestInvocationBuilder request() {
+        return new MinijaxTestInvocationBuilder(this);
     }
 
     @Override
-    public MinijaxInvocationBuilder request(final String... acceptedResponseTypes) {
+    public MinijaxTestInvocationBuilder request(final String... acceptedResponseTypes) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MinijaxInvocationBuilder request(final MediaType... acceptedResponseTypes) {
+    public MinijaxTestInvocationBuilder request(final MediaType... acceptedResponseTypes) {
         throw new UnsupportedOperationException();
     }
 }

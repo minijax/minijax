@@ -1,5 +1,6 @@
 package org.minijax.delegates;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
@@ -21,12 +22,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.NewCookie;
 
+import org.minijax.MinijaxApplication;
 import org.minijax.MinijaxException;
-import org.minijax.MinijaxRequestContext;
-import org.minijax.test.MockHttpServletResponse;
 
 class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResponseContext {
-    private final MinijaxRequestContext context;
+    private final MinijaxApplication application;
     private final MultivaluedMap<String, Object> headers;
     private final MinijaxStatusInfo statusInfo;
     private Date date;
@@ -38,7 +38,7 @@ class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResp
     private MediaType mediaType;
 
     public MinijaxResponse(final MinijaxResponseBuilder builder) {
-        context = MinijaxRequestContext.getThreadLocal();
+        application = MinijaxApplication.getApplication();
         headers = builder.getHeaders();
         statusInfo = new MinijaxStatusInfo(builder.getStatusInfo());
         entity = builder.getEntity();
@@ -207,7 +207,7 @@ class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResp
             return null;
         }
 
-        if (entityType == entity.getClass()) {
+        if (entityType.isAssignableFrom(entity.getClass())) {
             return (T) entity;
         }
 
@@ -215,12 +215,12 @@ class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResp
             throw new IllegalArgumentException("Unsupported entity type (" + entityType + ")");
         }
 
-        final MockHttpServletResponse servletResponse = new MockHttpServletResponse();
+        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
-            context.getApplication().write(context, this, servletResponse);
-            return (T) servletResponse.getOutput();
+            application.writeEntity(entity, null, outputStream);
+            return (T) outputStream.toString();
         } catch (final IOException ex) {
-            throw new MinijaxException(ex.getMessage(), ex);
+             throw new MinijaxException(ex.getMessage(), ex);
         }
     }
 

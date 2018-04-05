@@ -1,4 +1,4 @@
-package org.minijax.test;
+package org.minijax.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -10,9 +10,8 @@ import java.util.UUID;
 import javax.servlet.http.Part;
 
 import org.minijax.MinijaxMultipartForm;
-import org.minijax.util.IOUtils;
 
-class MultipartUtils {
+public class MultipartUtils {
 
     MultipartUtils() {
         throw new UnsupportedOperationException();

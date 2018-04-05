@@ -11,11 +11,15 @@
     <name>minijax-extensions</name>
     <description>Minijax extensions</description>
     <modules>
+        <module>minijax-avatar</module>
+        <module>minijax-client</module>
         <module>minijax-cloudwatch</module>
         <module>minijax-db</module>
+        <module>minijax-gplus</module>
         <module>minijax-json</module>
         <module>minijax-liquibase</module>
         <module>minijax-mustache</module>
+        <module>minijax-s3</module>
         <module>minijax-security</module>
         <module>minijax-swagger</module>
         <module>minijax-validator</module>

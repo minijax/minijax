@@ -12,7 +12,7 @@ import javax.ws.rs.core.GenericType;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.minijax.test.MinijaxInvocationBuilder;
+import org.minijax.test.MinijaxTestInvocationBuilder;
 import org.minijax.test.MinijaxTest;
 
 public class InvocationBuilderTest extends MinijaxTest {
@@ -126,41 +126,41 @@ public class InvocationBuilderTest extends MinijaxTest {
 
     @Test(expected = UnsupportedOperationException.class)
     public void testBuild() {
-        new MinijaxInvocationBuilder(null).build(null);
+        new MinijaxTestInvocationBuilder(null).build(null);
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testBuild2() {
-        new MinijaxInvocationBuilder(null).build(null, null);
+        new MinijaxTestInvocationBuilder(null).build(null, null);
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testBuildGet() {
-        new MinijaxInvocationBuilder(null).buildGet();
+        new MinijaxTestInvocationBuilder(null).buildGet();
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testBuildDelete() {
-        new MinijaxInvocationBuilder(null).buildDelete();
+        new MinijaxTestInvocationBuilder(null).buildDelete();
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testBuildPost() {
-        new MinijaxInvocationBuilder(null).buildPost(null);
+        new MinijaxTestInvocationBuilder(null).buildPost(null);
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testBuildPut() {
-        new MinijaxInvocationBuilder(null).buildPut(null);
+        new MinijaxTestInvocationBuilder(null).buildPut(null);
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testRx() {
-        new MinijaxInvocationBuilder(null).rx();
+        new MinijaxTestInvocationBuilder(null).rx();
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testRxClass() {
-        new MinijaxInvocationBuilder(null).rx(null);
+        new MinijaxTestInvocationBuilder(null).rx(null);
     }
 }

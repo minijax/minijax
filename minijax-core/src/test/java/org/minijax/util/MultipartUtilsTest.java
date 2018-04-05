@@ -1,4 +1,4 @@
-package org.minijax.test;
+package org.minijax.util;
 
 import static org.junit.Assert.*;
 
@@ -12,7 +12,9 @@ import javax.servlet.http.Part;
 
 import org.junit.Test;
 import org.minijax.MinijaxMultipartForm;
+import org.minijax.test.MockPart;
 import org.minijax.util.IOUtils;
+import org.minijax.util.MultipartUtils;
 
 public class MultipartUtilsTest {
 

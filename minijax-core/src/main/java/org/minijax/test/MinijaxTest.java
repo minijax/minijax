@@ -60,12 +60,12 @@ public class MinijaxTest {
         server.packages(packageNames);
     }
 
-    protected static MinijaxWebTarget target(final String uri) {
+    protected static MinijaxTestWebTarget target(final String uri) {
         return target(URI.create(uri));
     }
 
-    protected static MinijaxWebTarget target(final URI uri) {
-        return new MinijaxWebTarget(server, uri);
+    protected static MinijaxTestWebTarget target(final URI uri) {
+        return new MinijaxTestWebTarget(server, uri);
     }
 
     protected static MinijaxRequestContext createRequestContext() {

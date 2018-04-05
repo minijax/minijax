@@ -12,7 +12,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 import org.junit.Test;
-import org.minijax.test.MinijaxWebTarget;
+import org.minijax.test.MinijaxTestWebTarget;
 
 public class SingletonTest {
 
@@ -122,6 +122,6 @@ public class SingletonTest {
 
 
     private static int getCount(final Minijax server, final String path) {
-        return new MinijaxWebTarget(server, URI.create(path)).request().get(Integer.class);
+        return new MinijaxTestWebTarget(server, URI.create(path)).request().get(Integer.class);
     }
 }

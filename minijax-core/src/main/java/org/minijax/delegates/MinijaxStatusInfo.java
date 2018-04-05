@@ -4,7 +4,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.Response.Status.Family;
 import javax.ws.rs.core.Response.StatusType;
 
-class MinijaxStatusInfo implements StatusType {
+public class MinijaxStatusInfo implements StatusType {
     private int statusCode;
     private Family family;
     private String reasonPhrase;

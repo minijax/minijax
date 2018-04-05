@@ -60,68 +60,64 @@ public class Minijax {
     @SuppressWarnings("squid:S1313")
     public static final String DEFAULT_HOST = "0.0.0.0";
     public static final String DEFAULT_PORT = "8080";
-    private final MinijaxInjector injector;
-    private final MinijaxConfiguration configuration;
     private final MinijaxApplication defaultApplication;
     private final List<MinijaxApplication> applications;
     private Undertow server;
 
     public Minijax() {
-        injector = new MinijaxInjector(this);
-        configuration = new MinijaxConfiguration();
-        defaultApplication = new MinijaxApplication(this, "/");
+        defaultApplication = new MinijaxApplication("/");
         applications = new ArrayList<>();
         applications.add(defaultApplication);
     }
 
 
     public MinijaxInjector getInjector() {
-        return injector;
+        return defaultApplication.getInjector();
     }
 
 
     public <T> T getResource(final Class<T> c) {
-        return injector.getResource(c);
+        return defaultApplication.getResource(c);
     }
 
 
     public Map<String, Object> getProperties() {
-        return configuration.getProperties();
+        return defaultApplication.getProperties();
     }
 
 
     public Minijax property(final String name, final Object value) {
-        configuration.property(name, value);
+        defaultApplication.property(name, value);
         return this;
     }
 
 
     public Minijax properties(final Map<String, String> props) {
-        configuration.properties(props);
+        defaultApplication.properties(props);
         return this;
     }
 
 
     public Minijax properties(final Properties props) {
-        configuration.properties(props);
+        defaultApplication.properties(props);
         return this;
     }
 
 
     public Minijax properties(final File file) throws IOException {
-        configuration.properties(file);
+        defaultApplication.properties(file);
         return this;
     }
 
 
     public Minijax properties(final InputStream inputStream) throws IOException {
-        configuration.properties(inputStream);
+        defaultApplication.properties(inputStream);
         return this;
     }
 
 
     public Minijax properties(final String fileName) throws IOException {
-        configuration.properties(fileName);
+        defaultApplication.properties(fileName);
         return this;
     }
 
@@ -319,8 +315,9 @@ public class Minijax {
      */
     protected Undertow.Builder createServer() throws IOException, GeneralSecurityException {
         final Undertow.Builder builder = Undertow.builder();
-        final String host = configuration.getOrDefault(MinijaxProperties.HOST, DEFAULT_HOST);
-        final int port = Integer.parseInt(configuration.getOrDefault(MinijaxProperties.PORT, DEFAULT_PORT));
+        final Map<String, Object> configuration = defaultApplication.getProperties();
+        final String host = (String) configuration.getOrDefault(MinijaxProperties.HOST, DEFAULT_HOST);
+        final int port = Integer.parseInt((String) configuration.getOrDefault(MinijaxProperties.PORT, DEFAULT_PORT));
 
         final SSLContext sslContext = getSslContext();
         if (sslContext != null) {
@@ -350,6 +347,7 @@ public class Minijax {
      */
     @SuppressWarnings("squid:S2095")
     SSLContext getSslContext() throws IOException, GeneralSecurityException {
+        final Map<String, Object> configuration = defaultApplication.getProperties();
         final String keyStorePath = (String) configuration.get(MinijaxProperties.SSL_KEY_STORE_PATH);
         if (keyStorePath == null || keyStorePath.isEmpty()) {
             return null;

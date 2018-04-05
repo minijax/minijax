@@ -71,6 +71,11 @@ public class Security<T extends SecurityUser> implements SecurityContext {
     }
 
 
+    public Class<SecurityUser> getUserClass() {
+        return userClass;
+    }
+
+
     /**
      * Returns the currently logged in user for this HTTP request.
      * Returns null if not logged in.

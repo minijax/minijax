@@ -46,7 +46,11 @@ public class MinijaxJsonReader implements MessageBodyReader<Object> {
                     throws IOException {
 
         try {
-            return objectMapper.readValue(entityStream, type);
+            if (genericType != null) {
+                return objectMapper.readValue(entityStream, objectMapper.getTypeFactory().constructType(genericType));
+            } else {
+                return objectMapper.readValue(entityStream, type);
+            }
         } catch (final JsonProcessingException ex) {
             throw new BadRequestException(ex.getMessage(), ex);
         }

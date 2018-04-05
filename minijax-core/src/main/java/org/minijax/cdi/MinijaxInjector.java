@@ -16,7 +16,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.ws.rs.container.ResourceContext;
 
-import org.minijax.Minijax;
+import org.minijax.MinijaxApplication;
 import org.minijax.util.CloseUtils;
 import org.minijax.util.PersistenceUtils;
 
@@ -28,15 +28,15 @@ import io.undertow.util.CopyOnWriteMap;
  * The implementation is heavily inspired by <a href="http://zsoltherpai.github.io/feather/">Feather</a>.
  */
 public class MinijaxInjector implements ResourceContext, Closeable {
-    private final Minijax container;
+    private final MinijaxApplication application;
     private final Map<Key<?>, Provider<?>> providers = new CopyOnWriteMap<>();
 
     public MinijaxInjector() {
         this(null);
     }
 
-    public MinijaxInjector(final Minijax container) {
-        this.container = container;
+    public MinijaxInjector(final MinijaxApplication application) {
+        this.application = application;
     }
 
     public MinijaxInjector register(final Object instance, final Class<?> contract) {
@@ -158,7 +158,7 @@ public class MinijaxInjector implements ResourceContext, Closeable {
 
     public void registerPersistence() {
         final List<String> names = PersistenceUtils.getNames("META-INF/persistence.xml");
-        final Map<String, Object> props = container == null ? null : container.getProperties();
+        final Map<String, Object> props = application == null ? null : application.getProperties();
         boolean first = true;
 
         for (final String name : names) {

@@ -5,9 +5,11 @@ import static org.junit.Assert.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.MessageBodyReader;
 
@@ -73,5 +75,33 @@ public class ReaderTest extends MinijaxTest {
         final ByteArrayInputStream inputStream = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
         final MessageBodyReader<Object> objReader = (MessageBodyReader<Object>) reader;
         objReader.readFrom(Object.class, null, null, null, null, inputStream);
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testReadArray() throws IOException {
+        final String json = "[{\"id\":\"123\",\"value\":\"hello\"},{\"id\":\"456\",\"value\":\"world\"}]";
+        final ByteArrayInputStream inputStream = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
+        final MessageBodyReader<Widget[]> widgetReader = (MessageBodyReader<Widget[]>) reader;
+        final Widget[] widgets = widgetReader.readFrom(Widget[].class, null, null, null, null, inputStream);
+        assertEquals(2, widgets.length);
+        assertEquals("123", widgets[0].id);
+        assertEquals("hello", widgets[0].value);
+        assertEquals("456", widgets[1].id);
+        assertEquals("world", widgets[1].value);
+    }
+
+    @Test
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public void testReadGenericList() throws IOException {
+        final String json = "[{\"id\":\"123\",\"value\":\"hello\"},{\"id\":\"456\",\"value\":\"world\"}]";
+        final ByteArrayInputStream inputStream = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
+        final MessageBodyReader<List> widgetReader = (MessageBodyReader<List>) reader;
+        final List<Widget> widgets = widgetReader.readFrom(List.class, new GenericType<List<Widget>>() {}.getType(), null, null, null, inputStream);
+        assertEquals(2, widgets.size());
+        assertEquals("123", widgets.get(0).id);
+        assertEquals("hello", widgets.get(0).value);
+        assertEquals("456", widgets.get(1).id);
+        assertEquals("world", widgets.get(1).value);
     }
 }

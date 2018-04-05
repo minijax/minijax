@@ -1,21 +1,27 @@
 package org.minijax;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.enterprise.inject.InjectionException;
 import javax.inject.Provider;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -32,10 +38,12 @@ import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.FeatureContext;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.ParamConverter;
 
@@ -43,6 +51,7 @@ import org.minijax.cdi.EntityProvider;
 import org.minijax.cdi.MinijaxInjector;
 import org.minijax.util.ClassPathScanner;
 import org.minijax.util.ExceptionUtils;
+import org.minijax.util.IOUtils;
 import org.minijax.util.MediaTypeUtils;
 import org.minijax.util.OptionalClasses;
 import org.slf4j.Logger;
@@ -50,8 +59,10 @@ import org.slf4j.LoggerFactory;
 
 public class MinijaxApplication extends Application implements Configuration, FeatureContext {
     private static final Logger LOG = LoggerFactory.getLogger(MinijaxApplication.class);
-    private final Minijax container;
+    private static MinijaxApplication defaultApplication;
     private final String path;
+    private final MinijaxInjector injector;
+    private final MinijaxConfiguration configuration;
     private final Set<Class<?>> classesScanned;
     private final List<MinijaxResourceMethod> resourceMethods;
     private final List<Class<?>> webSockets;
@@ -61,19 +72,37 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     private Class<? extends SecurityContext> securityContextClass;
 
 
-    public MinijaxApplication(final Minijax container, final String path) {
-        this.container = container;
+    public MinijaxApplication(final String path) {
         this.path = path;
+        injector = new MinijaxInjector(this);
+        configuration = new MinijaxConfiguration();
         classesScanned = new HashSet<>();
         resourceMethods = new ArrayList<>();
         webSockets = new ArrayList<>();
         requestFilters = new ArrayList<>();
         responseFilters = new ArrayList<>();
         providers = new MinijaxProviders(this);
+
+        if (defaultApplication == null) {
+            defaultApplication = this;
+        }
+    }
+
+    public static MinijaxApplication getApplication() {
+        final MinijaxRequestContext ctx = MinijaxRequestContext.tryGetThreadLocal();
+        if (ctx != null) {
+            return ctx.getApplication();
+        }
+
+        if (defaultApplication == null) {
+            defaultApplication = new MinijaxApplication("/");
+        }
+
+        return defaultApplication;
     }
 
     public MinijaxInjector getInjector() {
-        return container.getInjector();
+        return injector;
     }
 
     public <T> T getResource(final Class<T> c) {
@@ -96,17 +125,17 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
     @Override
     public Map<String, Object> getProperties() {
-        return container.getProperties();
+        return configuration.getProperties();
     }
 
     @Override
     public Object getProperty(final String name) {
-        return container.getProperties().get(name);
+        return configuration.getProperties().get(name);
     }
 
     @Override
     public Collection<String> getPropertyNames() {
-        return container.getProperties().keySet();
+        return configuration.getProperties().keySet();
     }
 
     @Override
@@ -155,7 +184,37 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
     @Override
     public MinijaxApplication property(final String name, final Object value) {
-        container.getProperties().put(name, value);
+        configuration.getProperties().put(name, value);
+        return this;
+    }
+
+
+    public MinijaxApplication properties(final Map<String, String> props) {
+        configuration.properties(props);
+        return this;
+    }
+
+
+    public MinijaxApplication properties(final Properties props) {
+        configuration.properties(props);
+        return this;
+    }
+
+
+    public MinijaxApplication properties(final File file) throws IOException {
+        configuration.properties(file);
+        return this;
+    }
+
+
+    public MinijaxApplication properties(final InputStream inputStream) throws IOException {
+        configuration.properties(inputStream);
+        return this;
+    }
+
+
+    public MinijaxApplication properties(final String fileName) throws IOException {
+        configuration.properties(fileName);
         return this;
     }
 
@@ -377,9 +436,12 @@ public class MinijaxApplication extends Application implements Configuration, Fe
             final HttpServletResponse servletResponse) {
 
         try {
-            write(context, handle(context), servletResponse);
+            final Response response = handle(context);
+            if (!context.getMethod().equals("OPTIONS")) {
+                writeResponse(response, servletResponse);
+            }
         } catch (final Exception ex) {
-            LOG.debug(ex.getMessage(), ex);
+            LOG.warn(ex.getMessage(), ex);
             handleUnexpectedError(ex, servletResponse);
         }
     }
@@ -493,6 +555,49 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     }
 
 
+    /**
+     * Reads an entity from an entity stream.
+     *
+     * @param entityClass The result entity class.
+     * @param genericType The entity generic type (optional).
+     * @param annotations Array of annotations on the type declaration (optional).
+     * @param mediaType The HTTP media type.
+     * @param context The request context (optional).
+     * @param entityStream The entity input stream.
+     * @return The entity.
+     */
+    @SuppressWarnings("unchecked")
+    public <T> T readEntity(
+            final Class<T> entityClass,
+            final Type genericType,
+            final Annotation[] annotations,
+            final MediaType mediaType,
+            final MinijaxRequestContext context,
+            final InputStream entityStream)
+                    throws IOException {
+
+        if (entityClass == InputStream.class) {
+            return (T) entityStream;
+        }
+
+        if (entityClass == String.class) {
+            return (T) IOUtils.toString(entityStream, StandardCharsets.UTF_8);
+        }
+
+        if (entityClass == MultivaluedMap.class) {
+            return (T) context.getForm().asForm().asMap();
+        }
+
+        final MessageBodyReader<T> reader = getProviders().getMessageBodyReader(entityClass, genericType, annotations, mediaType);
+        if (reader != null) {
+            final MultivaluedMap<String, String> httpHeaders = context == null ? null : context.getHeaders();
+            return reader.readFrom(entityClass, genericType, annotations, mediaType, httpHeaders, entityStream);
+        }
+
+        throw new InjectionException("Unknown entity type (" + entityClass + ")");
+    }
+
+
     private Response toResponse(final MinijaxResourceMethod rm, final Object obj) {
         if (obj == null) {
             throw new NotFoundException();
@@ -549,9 +654,13 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     }
 
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    public void write(
-            final MinijaxRequestContext context,
+    /**
+     * Writes a JAX-RS response to the servlet response.
+     *
+     * @param response The JAX-RS response.
+     * @param servletResponse The servlet response.
+     */
+    public void writeResponse(
             final Response response,
             final HttpServletResponse servletResponse)
                     throws IOException {
@@ -565,28 +674,40 @@ public class MinijaxApplication extends Application implements Configuration, Fe
             }
         }
 
-        if (context.getMethod().equals("OPTIONS")) {
-            return;
-        }
-
         final MediaType mediaType = response.getMediaType();
         if (mediaType != null) {
             servletResponse.setContentType(mediaType.toString());
         }
 
-        final Object obj = response.getEntity();
-        if (obj == null) {
+        writeEntity(response.getEntity(), mediaType, servletResponse.getOutputStream());
+    }
+
+
+    /**
+     * Writes an entity to the output stream.
+     *
+     * @param entity The entity.
+     * @param mediaType The entity media type.
+     * @param outputStream The output stream.
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public void writeEntity(
+            final Object entity,
+            final MediaType mediaType,
+            final OutputStream outputStream)
+                    throws IOException {
+
+        if (entity == null) {
             return;
         }
 
-        final MessageBodyWriter writer = providers.getMessageBodyWriter(obj.getClass(), null, null, mediaType);
+        final MessageBodyWriter writer = providers.getMessageBodyWriter(entity.getClass(), null, null, mediaType);
         if (writer != null) {
-            writer.writeTo(obj, obj.getClass(), null, null, mediaType, null, servletResponse.getOutputStream());
+            writer.writeTo(entity, entity.getClass(), null, null, mediaType, null, outputStream);
             return;
         }
 
-        // What to do
-        servletResponse.getWriter().println(obj.toString());
+        throw new MinijaxException("No writer found for " + entity.getClass() + " and " + mediaType);
     }
 
 
