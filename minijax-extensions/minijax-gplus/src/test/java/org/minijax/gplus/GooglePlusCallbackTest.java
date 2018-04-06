@@ -9,7 +9,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Response;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.db.PersistenceFeature;
@@ -19,6 +19,7 @@ import org.minijax.security.Security;
 import org.minijax.security.SecurityFeature;
 import org.minijax.test.MinijaxTest;
 
+import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.LowLevelHttpRequest;
 import com.google.api.client.http.LowLevelHttpResponse;
 import com.google.api.client.json.Json;
@@ -27,16 +28,18 @@ import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 
 public class GooglePlusCallbackTest extends MinijaxTest {
-    public static User alice;
-    public static Cookie aliceCookie;
+    public User alice;
+    public Cookie aliceCookie;
 
-    @BeforeClass
-    public static void setUpGooglePlusCallbackTest() throws IOException {
+    @Before
+    public void setUp() throws IOException {
+        resetServer();
         register(PersistenceFeature.class);
         register(new SecurityFeature(User.class, Dao.class));
         register(GooglePlusCallback.class);
         register(mock(Client.class), Client.class);
         register(new MockUploadService(), UploadService.class);
+        register(GooglePlusFeature.class);
 
         try (final MinijaxRequestContext ctx = createRequestContext()) {
             alice = new User();
@@ -63,7 +66,7 @@ public class GooglePlusCallbackTest extends MinijaxTest {
 
     @Test
     public void testBadCode() throws Exception {
-        GooglePlusUtils.setHttpTransport(createTransport(false, false, "", ""));
+        register(createTransport(false, false, "", ""), HttpTransport.class);
 
         final Response response = target("http://localhost:8080/googlecallback?code=foo").request().get();
         assertNotNull(response);
@@ -74,7 +77,7 @@ public class GooglePlusCallbackTest extends MinijaxTest {
 
     @Test
     public void testSignin() throws Exception {
-        GooglePlusUtils.setHttpTransport(createTransport(true, false, "Alice", "alice@example.com"));
+        register(createTransport(true, false, "Alice", "alice@example.com"), HttpTransport.class);
 
         final Response response = target("http://localhost:8080/googlecallback?code=foo").request().get();
         assertNotNull(response);
@@ -86,7 +89,7 @@ public class GooglePlusCallbackTest extends MinijaxTest {
 
     @Test
     public void testConnectWithExisting() throws Exception {
-        GooglePlusUtils.setHttpTransport(createTransport(true, true, "Alice", "alice@example.com"));
+        register(createTransport(true, true, "Alice", "alice@example.com"), HttpTransport.class);
 
         final Response response = target("http://localhost:8080/googlecallback?code=foo").request().cookie(aliceCookie).get();
         assertNotNull(response);
@@ -98,7 +101,7 @@ public class GooglePlusCallbackTest extends MinijaxTest {
 
     @Test
     public void testUnknownRedirectToBeta() throws Exception {
-        GooglePlusUtils.setHttpTransport(createTransport(true, false, "Unknown", "unknown@example.com"));
+        register(createTransport(true, false, "Unknown", "unknown@example.com"), HttpTransport.class);
 
         final Response response = target("http://localhost:8080/googlecallback?code=foo").request().get();
         assertNotNull(response);
@@ -109,7 +112,7 @@ public class GooglePlusCallbackTest extends MinijaxTest {
 
     @Test
     public void testSuccessRedirect() throws Exception {
-        GooglePlusUtils.setHttpTransport(createTransport(true, false, "Alice", "alice@example.com"));
+        register(createTransport(true, false, "Alice", "alice@example.com"), HttpTransport.class);
 
         final Response response = target("http://localhost:8080/googlecallback?code=foo&state=/users/reshma").request().get();
         assertNotNull(response);

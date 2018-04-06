@@ -4,14 +4,13 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.UUID;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 
 import org.minijax.avatar.AvatarService;
 import org.minijax.db.Avatar;
@@ -36,6 +35,7 @@ import com.google.api.services.plus.model.Person;
  * plus-preview-appengine-sample/src/main/java/com/google/api/services/samples/plus/PlusSampleAuthCallbackServlet.java
  */
 @Path("/googlecallback")
+@RequestScoped
 public class GooglePlusCallback {
     private static final Logger LOG = LoggerFactory.getLogger(GooglePlusCallback.class);
     private static final URI ERROR_URI = URI.create("/docs/google-error");
@@ -49,10 +49,11 @@ public class GooglePlusCallback {
     @Inject
     private AvatarService avatarService;
 
+    @Inject
+    private GooglePlusService gplusService;
 
     @GET
     public Response handleCallback(
-            @Context final UriInfo uriInfo,
             @QueryParam("code") final String code,
             @QueryParam("state") final String state)
                     throws IOException {
@@ -62,16 +63,16 @@ public class GooglePlusCallback {
         }
 
         // Note that this implementation does not handle the user denying authorization.
-        final GoogleAuthorizationCodeFlow authFlow = GooglePlusUtils.initializeFlow();
+        final GoogleAuthorizationCodeFlow authFlow = gplusService.initializeFlow();
 
         // Exchange authorization code for user credentials.
         final GoogleTokenResponse tokenResponse = authFlow.newTokenRequest(code)
-                .setRedirectUri(GooglePlusUtils.getRedirectUrl(uriInfo.getRequestUri().toString()))
+                .setRedirectUri(gplusService.getRedirectUrl())
                 .execute();
 
         final UUID tempId = IdUtils.create();
         final Credential credential = authFlow.createAndStoreCredential(tokenResponse, tempId.toString());
-        final Plus plus = GooglePlusUtils.getGooglePlus(credential);
+        final Plus plus = gplusService.getPlus(credential);
         final Person person = plus.people().get("me").execute();
 
         if (person == null || person.getEmails() == null || person.getEmails().isEmpty()) {
@@ -80,7 +81,6 @@ public class GooglePlusCallback {
 
         SecurityUser user;
         NewCookie cookie = null;
-        boolean changed = false;
 
         if (security.isLoggedIn()) {
             // User is already authenticated
@@ -102,24 +102,12 @@ public class GooglePlusCallback {
             cookie = security.loginAs(user);
         }
 
-        final GooglePlusUser googleUser = (GooglePlusUser) user;
-
         if (user.getAvatar() == null || user.getAvatar().getImageType() == Avatar.IMAGE_TYPE_DEFAULT) {
             tryGooglePlus(user, person);
-            changed = true;
         }
 
-        if (credential.getRefreshToken() != null) {
-            // Extract credentials from the Google memory data store and update the database.
-            // Only do this if we have a refresh token
-            // Otherwise the cookie session is good enough on its own
-            googleUser.setGoogleCredentials(GooglePlusUtils.extractUserCredential(tempId));
-            changed = true;
-        }
-
-        if (changed) {
-            dao.update(user);
-        }
+        ((GooglePlusUser) user).setGoogleCredentials(gplusService.extractUserCredential(tempId));
+        dao.update(user);
 
         final String next = state != null ? state : "/";
 
