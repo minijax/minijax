@@ -7,10 +7,13 @@ import static org.mockito.Mockito.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.CacheControl;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -44,7 +47,7 @@ public class InvocationBuilderTest {
         client = new MinijaxClient(httpClient);
     }
 
-    public WebTarget target(final String uri) {
+    public MinijaxClientWebTarget target(final String uri) {
         return client.target(uri);
     }
 
@@ -215,9 +218,54 @@ public class InvocationBuilderTest {
         assertNotNull(target("/").request().headers(headers));
     }
 
+    @Test
+    public void testAccept1() {
+        assertEquals("text/plain, text/html", target("/").request().accept("text/plain, text/html").getHttpRequest().getLastHeader("Accept").getValue());
+    }
+
+    @Test
+    public void testAccept2() {
+        assertEquals("text/plain, text/html", target("/").request().accept(MediaType.TEXT_PLAIN_TYPE, MediaType.TEXT_HTML_TYPE).getHttpRequest().getLastHeader("Accept").getValue());
+    }
+
+    @Test
+    public void testAcceptLanguage1() {
+        assertEquals("en-US, en-GB", target("/").request().acceptLanguage("en-US", "en-GB").getHttpRequest().getLastHeader("Accept-Language").getValue());
+    }
+
+    @Test
+    public void testAcceptLanguage2() {
+        assertEquals("en-US, en-GB", target("/").request().acceptLanguage(Locale.US, Locale.UK).getHttpRequest().getLastHeader("Accept-Language").getValue());
+    }
+
+    @Test
+    public void testAcceptEncoding() {
+        assertEquals("gzip", target("/").request().acceptEncoding("gzip").getHttpRequest().getLastHeader("Accept-Encoding").getValue());
+    }
+
+    @Test
+    public void testCookie1() {
+        assertEquals("a=\"b\"", target("/").request().cookie(new Cookie("a", "b")).getHttpRequest().getLastHeader("Cookie").getValue());
+    }
+
+    @Test
+    public void testCookie2() {
+        assertEquals("a=\"b\"", target("/").request().cookie("a", "b").getHttpRequest().getLastHeader("Cookie").getValue());
+    }
+
+    @Test
+    public void testCacheControl() {
+        assertEquals("public", target("/").request().cacheControl(CacheControl.valueOf("public")).getHttpRequest().getLastHeader("Cache-Control").getValue());
+    }
+
     /*
      * Unsupported
      */
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testProperty() {
+        target("/").request().property(null, null);
+    }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testAsync() {

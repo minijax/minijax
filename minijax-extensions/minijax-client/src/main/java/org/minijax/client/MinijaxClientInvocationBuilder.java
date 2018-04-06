@@ -2,10 +2,13 @@ package org.minijax.client;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpCookie;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.client.AsyncInvoker;
 import javax.ws.rs.client.CompletionStageRxInvoker;
@@ -14,6 +17,7 @@ import javax.ws.rs.client.RxInvoker;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
@@ -30,6 +34,10 @@ public class MinijaxClientInvocationBuilder implements javax.ws.rs.client.Invoca
         this.client = client;
         httpRequest = new MinijaxClientHttpRequest();
         httpRequest.setURI(uri);
+    }
+
+    MinijaxClientHttpRequest getHttpRequest() {
+        return httpRequest;
     }
 
     @Override
@@ -217,6 +225,46 @@ public class MinijaxClientInvocationBuilder implements javax.ws.rs.client.Invoca
         return build("PUT", entity);
     }
 
+    @Override
+    public MinijaxClientInvocationBuilder accept(final String... mediaTypes) {
+        return header(HttpHeaders.ACCEPT, String.join(", ", mediaTypes));
+    }
+
+    @Override
+    public MinijaxClientInvocationBuilder accept(final MediaType... mediaTypes) {
+        return header(HttpHeaders.ACCEPT, Arrays.asList(mediaTypes).stream().map(MediaType::toString).collect(Collectors.joining(", ")));
+    }
+
+    @Override
+    public MinijaxClientInvocationBuilder acceptLanguage(final String... locales) {
+        return header(HttpHeaders.ACCEPT_LANGUAGE, String.join(", ", locales));
+    }
+
+    @Override
+    public MinijaxClientInvocationBuilder acceptLanguage(final Locale... locales) {
+        return header(HttpHeaders.ACCEPT_LANGUAGE, Arrays.asList(locales).stream().map(Locale::toLanguageTag).collect(Collectors.joining(", ")));
+    }
+
+    @Override
+    public MinijaxClientInvocationBuilder acceptEncoding(final String... encodings) {
+        return header(HttpHeaders.ACCEPT_ENCODING, String.join(", ", encodings));
+    }
+
+    @Override
+    public MinijaxClientInvocationBuilder cookie(final Cookie cookie) {
+        return header(HttpHeaders.COOKIE, cookie);
+    }
+
+    @Override
+    public MinijaxClientInvocationBuilder cookie(final String name, final String value) {
+        return header(HttpHeaders.COOKIE, new HttpCookie(name, value));
+    }
+
+    @Override
+    public MinijaxClientInvocationBuilder cacheControl(final CacheControl cacheControl) {
+        return header(HttpHeaders.CACHE_CONTROL, cacheControl);
+    }
+
 
     /*
      * Unsupported
@@ -224,52 +272,12 @@ public class MinijaxClientInvocationBuilder implements javax.ws.rs.client.Invoca
 
 
     @Override
-    public AsyncInvoker async() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public MinijaxClientInvocationBuilder accept(final String... mediaTypes) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public MinijaxClientInvocationBuilder accept(final MediaType... mediaTypes) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public MinijaxClientInvocationBuilder acceptLanguage(final Locale... locales) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public MinijaxClientInvocationBuilder acceptLanguage(final String... locales) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public MinijaxClientInvocationBuilder acceptEncoding(final String... encodings) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public MinijaxClientInvocationBuilder cookie(final Cookie cookie) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public MinijaxClientInvocationBuilder cookie(final String name, final String value) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public MinijaxClientInvocationBuilder cacheControl(final CacheControl cacheControl) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public MinijaxClientInvocationBuilder property(final String name, final Object value) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public AsyncInvoker async() {
         throw new UnsupportedOperationException();
     }
 
