@@ -86,7 +86,7 @@ public class MinijaxMultipartForm implements MinijaxForm {
     public String getString(final String name) {
         try {
             final InputStream inputStream = getInputStream(name);
-            return inputStream == null ? null : IOUtils.toString(getInputStream(name), StandardCharsets.UTF_8);
+            return inputStream == null ? null : IOUtils.toString(inputStream, StandardCharsets.UTF_8);
         } catch (final IOException ex) {
             throw ExceptionUtils.toWebAppException(ex);
         }
@@ -128,12 +128,8 @@ public class MinijaxMultipartForm implements MinijaxForm {
     @Override
     public void close() throws IOException {
         for (final Part part : values.values()) {
-            try {
+            if (part.getSubmittedFileName() != null) {
                 part.delete();
-            } catch (final IllegalStateException ex) {
-                // Undertow complains if you try to "delete" a non-file part
-                // There is no reliable way to know if a part is a file or not
-                LOG.debug(ex.getMessage(), ex);
             }
         }
     }
