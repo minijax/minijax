@@ -2,6 +2,7 @@ package org.minijax.uri;
 
 import java.lang.reflect.Method;
 import java.net.URI;
+import java.util.Collections;
 import java.util.Map;
 
 import javax.ws.rs.core.UriBuilder;
@@ -153,9 +154,9 @@ public class MinijaxUriBuilder extends UriBuilder {
             if (queryBuilder.length() > 0) {
                 queryBuilder.append('&');
             }
-            queryBuilder.append(UrlUtils.urlEncodeIgnoreTemplates(name));
+            queryBuilder.append(UrlUtils.urlEncode(name, true, false));
             queryBuilder.append('=');
-            queryBuilder.append(UrlUtils.urlEncodeIgnoreTemplates(value.toString()));
+            queryBuilder.append(UrlUtils.urlEncode(value.toString(), true, false));
         }
         return this;
     }
@@ -174,80 +175,51 @@ public class MinijaxUriBuilder extends UriBuilder {
 
     @Override
     public MinijaxUriBuilder resolveTemplate(final String name, final Object value) {
-        throw new UnsupportedOperationException();
+        return resolveTemplate(name, value, true);
     }
 
     @Override
     public MinijaxUriBuilder resolveTemplate(final String name, final Object value, final boolean encodeSlashInPath) {
-        throw new UnsupportedOperationException();
+        uri(resolveTemplateImpl(Collections.singletonMap(name, value), s -> UrlUtils.urlEncode(s, true, !encodeSlashInPath)));
+        return this;
     }
 
     @Override
     public MinijaxUriBuilder resolveTemplateFromEncoded(final String name, final Object value) {
-        throw new UnsupportedOperationException();
+        uri(resolveTemplateImpl(Collections.singletonMap(name, value), s -> s));
+        return this;
     }
 
     @Override
     public MinijaxUriBuilder resolveTemplates(final Map<String, Object> templateValues) {
-        throw new UnsupportedOperationException();
+        return resolveTemplates(templateValues, true);
     }
 
     @Override
     public MinijaxUriBuilder resolveTemplates(final Map<String, Object> templateValues, final boolean encodeSlashInPath) {
-        throw new UnsupportedOperationException();
+        uri(resolveTemplateImpl(templateValues, s -> UrlUtils.urlEncode(s, true, !encodeSlashInPath)));
+        return this;
     }
 
     @Override
     public MinijaxUriBuilder resolveTemplatesFromEncoded(final Map<String, Object> templateValues) {
-        throw new UnsupportedOperationException();
+        uri(resolveTemplateImpl(templateValues, s -> s));
+        return this;
     }
 
     @Override
     public URI buildFromMap(final Map<String, ?> values) {
-        final String template = toTemplate();
-        final StringBuilder result = new StringBuilder();
-        final StringBuilder templateName = new StringBuilder();
-        int curlyDepth = 0;
-        boolean colon = false;
-
-        for (int i = 0; i < template.length(); i++) {
-            final char c = template.charAt(i);
-
-            if (c == '{') {
-                curlyDepth++;
-                colon = false;
-                templateName.setLength(0);
-
-            } else if (curlyDepth > 0 && c == '}') {
-                curlyDepth--;
-                if (curlyDepth == 0) {
-                    result.append(values.get(templateName.toString()).toString());
-                }
-
-            } else if (curlyDepth > 0 && c == ':') {
-                colon = true;
-
-            } else if (curlyDepth > 0) {
-                if (!colon) {
-                    templateName.append(c);
-                }
-
-            } else {
-                result.append(c);
-            }
-        }
-
-        return URI.create(result.toString());
+        return buildFromMap(values, true);
     }
 
     @Override
     public URI buildFromMap(final Map<String, ?> values, final boolean encodeSlashInPath) {
-        throw new UnsupportedOperationException();
+        return URI.create(resolveTemplateImpl(values, s -> UrlUtils.urlEncode(s, false, !encodeSlashInPath)));
     }
 
     @Override
     public URI buildFromEncodedMap(final Map<String, ?> values) {
-        throw new UnsupportedOperationException();
+        return URI.create(resolveTemplateImpl(values, s -> s));
     }
 
     @Override
@@ -257,12 +229,12 @@ public class MinijaxUriBuilder extends UriBuilder {
 
     @Override
     public URI build(final Object[] values, final boolean encodeSlashInPath) {
-        throw new UnsupportedOperationException();
+        return buildFromMap(new ImplicitTemplateMap(values), encodeSlashInPath);
     }
 
     @Override
     public URI buildFromEncoded(final Object... values) {
-        throw new UnsupportedOperationException();
+        return buildFromEncodedMap(new ImplicitTemplateMap(values));
     }
 
     @Override
@@ -304,6 +276,48 @@ public class MinijaxUriBuilder extends UriBuilder {
         }
 
         return sb.toString();
+    }
+
+    @FunctionalInterface
+    private static interface EncodePredicate {
+        String encode(String str);
+    }
+
+    private String resolveTemplateImpl(final Map<String, ?> values, final EncodePredicate encoder) {
+        final String template = toTemplate();
+        final StringBuilder result = new StringBuilder();
+        final StringBuilder templateName = new StringBuilder();
+        int curlyDepth = 0;
+        boolean colon = false;
+
+        for (int i = 0; i < template.length(); i++) {
+            final char c = template.charAt(i);
+
+            if (c == '{') {
+                curlyDepth++;
+                colon = false;
+                templateName.setLength(0);
+
+            } else if (curlyDepth > 0 && c == '}') {
+                curlyDepth--;
+                if (curlyDepth == 0) {
+                    result.append(encoder.encode(values.get(templateName.toString()).toString()));
+                }
+
+            } else if (curlyDepth > 0 && c == ':') {
+                colon = true;
+
+            } else if (curlyDepth > 0) {
+                if (!colon) {
+                    templateName.append(c);
+                }
+
+            } else {
+                result.append(c);
+            }
+        }
+
+        return result.toString();
     }
 
 

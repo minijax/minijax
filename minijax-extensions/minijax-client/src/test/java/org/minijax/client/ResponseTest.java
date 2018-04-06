@@ -9,12 +9,26 @@ import java.util.Locale;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response.Status;
 
+import org.apache.http.HttpVersion;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.message.BasicHeader;
+import org.apache.http.message.BasicStatusLine;
 import org.junit.Test;
 
 public class ResponseTest {
+
+    @Test
+    public void testStatus() {
+        final CloseableHttpResponse innerResponse = mock(CloseableHttpResponse.class);
+        when(innerResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, 200, "OK"));
+
+        try (final MinijaxClientResponse response = new MinijaxClientResponse(innerResponse)) {
+            assertEquals(200, response.getStatus());
+            assertEquals(Status.OK, response.getStatusInfo());
+        }
+    }
 
     @Test
     public void testMediaType() {

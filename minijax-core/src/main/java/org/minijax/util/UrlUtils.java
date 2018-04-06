@@ -269,9 +269,11 @@ public class UrlUtils {
      * Encodes a URL but preserves curly brace template syntax.
      *
      * @param str The input URL.
+     * @param ignoreTemplates Flag to ignore curly brace templates.
+     * @param ignoreSlashes Flag to ignore forward slashes.
      * @return Encoded URL component.
      */
-    public static String urlEncodeIgnoreTemplates(final String str) {
+    public static String urlEncode(final String str, final boolean ignoreTemplates, final boolean ignoreSlashes) {
         final StringBuilder result = new StringBuilder();
         final byte[] byteArray = str.getBytes(StandardCharsets.UTF_8);
         int curlyDepth = 0;
@@ -279,7 +281,7 @@ public class UrlUtils {
         for (int i = 0; i < byteArray.length; i++) {
             final int b = byteArray[i] & 0xFF;
             final char c = (char) b;
-            if (b == '{') {
+            if (ignoreTemplates && b == '{') {
                 result.append(c);
                 curlyDepth++;
             } else if (curlyDepth > 0) {
@@ -287,6 +289,8 @@ public class UrlUtils {
                 if (b == '}') {
                     curlyDepth--;
                 }
+            } else if (ignoreSlashes && b == '/') {
+                result.append(c);
             } else if (b < 256 && URI_WHITELIST_CHARS.get(b)) {
                 result.append(c);
             } else if (b >= 0xF0) {

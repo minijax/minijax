@@ -216,53 +216,94 @@ public class UriBuilderTest {
         new MinijaxUriBuilder().replaceMatrixParam("foo", null, null);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void testResolveTemplate1() {
-        new MinijaxUriBuilder().resolveTemplate("foo", null);
+    @Test
+    public void testResolveTemplateDefaultEncodeSlash() {
+        assertEquals(
+                "https://example.com/p1%2fp2",
+                UriBuilder.fromUri("https://example.com/{name}").resolveTemplate("name", "p1/p2").toTemplate());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void testResolveTemplate2() {
-        new MinijaxUriBuilder().resolveTemplate("foo", null, false);
+    @Test
+    public void testResolveTemplateDoNotEncodeSlash() {
+        assertEquals(
+                "https://example.com/p1/p2",
+                UriBuilder.fromUri("https://example.com/{name}").resolveTemplate("name", "p1/p2", false).toTemplate());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
+    public void testResolveTemplateEncodeSlash() {
+        assertEquals(
+                "https://example.com/p1%2fp2",
+                UriBuilder.fromUri("https://example.com/{name}").resolveTemplate("name", "p1/p2", true).toTemplate());
+    }
+
+    @Test
     public void testResolveTemplateFromEncoded() {
-        new MinijaxUriBuilder().resolveTemplateFromEncoded("foo", null);
+        assertEquals(
+                "https://example.com/%20",
+                UriBuilder.fromUri("https://example.com/{name}").resolveTemplateFromEncoded("name", "%20").toTemplate());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void testResolveTemplates1() {
-        new MinijaxUriBuilder().resolveTemplates(Collections.emptyMap());
+    @Test
+    public void testResolveTemplatesDefaultEncodeSlash() {
+        assertEquals(
+                "https://example.com/p1%2fp2",
+                UriBuilder.fromUri("https://example.com/{name}").resolveTemplates(Collections.singletonMap("name", "p1/p2")).toTemplate());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void testResolveTemplates2() {
-        new MinijaxUriBuilder().resolveTemplates(Collections.emptyMap(), false);
+    @Test
+    public void testResolveTemplatesDoNotEncodeSlash() {
+        assertEquals(
+                "https://example.com/p1/p2",
+                UriBuilder.fromUri("https://example.com/{name}").resolveTemplates(Collections.singletonMap("name", "p1/p2"), false).toTemplate());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
+    public void testResolveTemplatesEncodeSlash() {
+        assertEquals(
+                "https://example.com/p1%2fp2",
+                UriBuilder.fromUri("https://example.com/{name}").resolveTemplates(Collections.singletonMap("name", "p1/p2"), true).toTemplate());
+    }
+
+    @Test
     public void testResolveTemplatesFromEncoded() {
-        new MinijaxUriBuilder().resolveTemplatesFromEncoded(Collections.emptyMap());
+        assertEquals(
+                "https://example.com/%20",
+                UriBuilder.fromUri("https://example.com/{name}").resolveTemplatesFromEncoded(Collections.singletonMap("name", "%20")).toTemplate());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testBuildFromMap() {
-        new MinijaxUriBuilder().buildFromMap(Collections.emptyMap(), false);
+        assertEquals(
+                "https://example.com/%20",
+                UriBuilder.fromUri("https://example.com/{name}").buildFromMap(Collections.singletonMap("name", " ")).toString());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testBuildFromEncodedMap() {
-        new MinijaxUriBuilder().buildFromEncodedMap(Collections.emptyMap());
+        assertEquals(
+                "https://example.com/%20",
+                UriBuilder.fromUri("https://example.com/{name}").buildFromEncodedMap(Collections.singletonMap("name", "%20")).toString());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void testBuild() {
-        new MinijaxUriBuilder().build(new Object[0], false);
+    @Test
+    public void testBuildEncodeSlashes() {
+        assertEquals(
+                "https://example.com/p1%2fp2",
+                UriBuilder.fromUri("https://example.com/{name}").build(new Object[] { "p1/p2" }, true).toString());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
+    public void testBuildDoNotEncodeSlashes() {
+        assertEquals(
+                "https://example.com/p1/p2",
+                UriBuilder.fromUri("https://example.com/{name}").build(new Object[] { "p1/p2" }, false).toString());
+    }
+
+    @Test
     public void testBuildFromEncoded() {
-        new MinijaxUriBuilder().buildFromEncoded(new Object[0]);
+        assertEquals(
+                "https://example.com/%20",
+                UriBuilder.fromUri("https://example.com/{name}").buildFromEncoded(new Object[] { "%20" }).toString());
     }
 }

@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import javax.ws.rs.core.Response.Status;
 
 import org.junit.Test;
-import org.minijax.delegates.MinijaxStatusInfo;
 
 public class StatusInfoTest {
 
@@ -29,10 +28,9 @@ public class StatusInfoTest {
     public void testSetters() {
         final MinijaxStatusInfo i = new MinijaxStatusInfo();
         i.setStatusCode(101);
-        i.setFamily(Status.Family.OTHER);
         i.setReasonPhrase("Switching Protocols");
         assertEquals(101, i.getStatusCode());
-        assertEquals(Status.Family.OTHER, i.getFamily());
+        assertEquals(Status.Family.INFORMATIONAL, i.getFamily());
         assertEquals("Switching Protocols", i.getReasonPhrase());
     }
 

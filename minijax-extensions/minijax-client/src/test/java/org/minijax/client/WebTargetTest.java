@@ -3,6 +3,8 @@ package org.minijax.client;
 import static org.junit.Assert.*;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,11 +56,43 @@ public class WebTargetTest {
         assertEquals("https://foo.com?a=b&c=d", target("https://foo.com").queryParam("a", "b").queryParam("c", "d").getUri().toString());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testResolveTemplate() {
-        final MinijaxClientWebTarget target = target("http://foo.com/{x}");
-        target.resolveTemplate("x", "bar");
-        assertEquals("http://foo.com/bar", target.getUri().toString());
+        assertEquals("http://foo.com/bar", target("http://foo.com/{x}").resolveTemplate("x", "bar").getUri().toString());
+    }
+
+    @Test
+    public void testResolveTemplateIgnoreSlashes() {
+        assertEquals("http://foo.com/p1/p2", target("http://foo.com/{x}").resolveTemplate("x", "p1/p2", false).getUri().toString());
+    }
+
+    @Test
+    public void testResolveTemplateFromEncoded() {
+        assertEquals("http://foo.com/%20", target("http://foo.com/{x}").resolveTemplateFromEncoded("x", "%20").getUri().toString());
+    }
+
+    @Test
+    public void testResolveTemplates() {
+        final Map<String, Object> map = new HashMap<>();
+        map.put("x", "bar");
+        map.put("y", "baz");
+        assertEquals("http://foo.com/bar/baz", target("http://foo.com/{x}/{y}").resolveTemplates(map).getUri().toString());
+    }
+
+    @Test
+    public void testResolveTemplatesIgnoreSlashes() {
+        final Map<String, Object> map = new HashMap<>();
+        map.put("x", "bar");
+        map.put("y", "p1/p2");
+        assertEquals("http://foo.com/bar/p1/p2", target("http://foo.com/{x}/{y}").resolveTemplates(map, false).getUri().toString());
+    }
+
+    @Test
+    public void testResolveTemplatesFromEncoded() {
+        final Map<String, Object> map = new HashMap<>();
+        map.put("x", "bar");
+        map.put("y", "%20");
+        assertEquals("http://foo.com/bar/%20", target("http://foo.com/{x}/{y}").resolveTemplatesFromEncoded(map).getUri().toString());
     }
 
     @Test(expected = UnsupportedOperationException.class)

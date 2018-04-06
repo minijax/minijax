@@ -6,7 +6,6 @@ import javax.ws.rs.core.Response.StatusType;
 
 public class MinijaxStatusInfo implements StatusType {
     private int statusCode;
-    private Family family;
     private String reasonPhrase;
 
     public MinijaxStatusInfo() {
@@ -15,6 +14,11 @@ public class MinijaxStatusInfo implements StatusType {
 
     public MinijaxStatusInfo(final StatusType other) {
         setStatusInfo(other);
+    }
+
+    public MinijaxStatusInfo(final int statusCode, final String reasonPhrase) {
+        this.statusCode = statusCode;
+        this.reasonPhrase = reasonPhrase;
     }
 
     @Override
@@ -28,11 +32,7 @@ public class MinijaxStatusInfo implements StatusType {
 
     @Override
     public Family getFamily() {
-        return family;
-    }
-
-    public void setFamily(final Family family) {
-        this.family = family;
+        return Status.Family.familyOf(statusCode);
     }
 
     @Override
@@ -47,7 +47,6 @@ public class MinijaxStatusInfo implements StatusType {
     public void setStatusInfo(final StatusType statusInfo) {
         if (statusInfo != null) {
             statusCode = statusInfo.getStatusCode();
-            family = statusInfo.getFamily();
             reasonPhrase = statusInfo.getReasonPhrase();
         } else {
             setStatusInfo(Status.OK);
@@ -60,7 +59,6 @@ public class MinijaxStatusInfo implements StatusType {
             setStatusInfo(status);
         } else {
             setStatusCode(statusCode);
-            setFamily(Status.Family.OTHER);
             setReasonPhrase(null);
         }
     }

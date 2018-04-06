@@ -19,12 +19,13 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.NewCookie;
 
 import org.apache.http.Header;
+import org.apache.http.StatusLine;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.minijax.delegates.MinijaxStatusInfo;
 
 public class MinijaxClientResponse extends javax.ws.rs.core.Response {
     private final CloseableHttpResponse innerResponse;
-    private MinijaxStatusInfo statusInfo;
+    private StatusType statusInfo;
 
     public MinijaxClientResponse(final CloseableHttpResponse innerResponse) {
         this.innerResponse = innerResponse;
@@ -38,9 +39,11 @@ public class MinijaxClientResponse extends javax.ws.rs.core.Response {
     @Override
     public StatusType getStatusInfo() {
         if (statusInfo == null) {
-            statusInfo = new MinijaxStatusInfo();
-            statusInfo.setStatusCode(innerResponse.getStatusLine().getStatusCode());
-            statusInfo.setReasonPhrase(innerResponse.getStatusLine().getReasonPhrase());
+            final StatusLine sl = innerResponse.getStatusLine();
+            statusInfo = Status.fromStatusCode(sl.getStatusCode());
+            if (statusInfo == null) {
+                statusInfo = new MinijaxStatusInfo(sl.getStatusCode(), sl.getReasonPhrase());
+            }
         }
         return statusInfo;
     }

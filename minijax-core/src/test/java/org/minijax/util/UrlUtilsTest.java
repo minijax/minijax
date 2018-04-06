@@ -51,14 +51,15 @@ public class UrlUtilsTest {
 
     @Test
     public void testUrlEncodeIgnoreTemplates() {
-        assertEquals("foo", UrlUtils.urlEncodeIgnoreTemplates("foo"));
-        assertEquals("123", UrlUtils.urlEncodeIgnoreTemplates("123"));
-        assertEquals("a%20b", UrlUtils.urlEncodeIgnoreTemplates("a b"));
-        assertEquals("foo{bar}", UrlUtils.urlEncodeIgnoreTemplates("foo{bar}"));
-        assertEquals("foo{bar:[a-z]{1-3}}", UrlUtils.urlEncodeIgnoreTemplates("foo{bar:[a-z]{1-3}}"));
+        assertEquals("foo", UrlUtils.urlEncode("foo", true, false));
+        assertEquals("123", UrlUtils.urlEncode("123", true, false));
+        assertEquals("a%20b", UrlUtils.urlEncode("a b", true, false));
+        assertEquals("foo{bar}", UrlUtils.urlEncode("foo{bar}", true, false));
+        assertEquals("foo{bar:[a-z]{1-3}}", UrlUtils.urlEncode("foo{bar:[a-z]{1-3}}", true, false));
 
-        assertEquals("%f0%9f%98%81", UrlUtils.urlEncodeIgnoreTemplates(new String(
+        assertEquals("%f0%9f%98%81", UrlUtils.urlEncode(new String(
                 new byte[] { (byte) 0xF0, (byte) 0x9F, (byte) 0x98, (byte) 0x81 },
-                StandardCharsets.UTF_8)));
+                StandardCharsets.UTF_8),
+                true, false));
     }
 }
