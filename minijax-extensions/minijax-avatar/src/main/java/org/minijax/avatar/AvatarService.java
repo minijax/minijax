@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.client.Client;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -310,8 +311,11 @@ public class AvatarService {
 
 
     private void downloadFile(final String url, final File destFile) throws IOException {
-        try (final InputStream in = client.target(url).request().header(HttpHeaders.USER_AGENT, USER_AGENT).get(InputStream.class)) {
-            Files.copy(in, destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        final WebTarget target = client.target(url);
+        if (target != null) {
+            try (final InputStream in = target.request().header(HttpHeaders.USER_AGENT, USER_AGENT).get(InputStream.class)) {
+                Files.copy(in, destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
         }
     }
 
