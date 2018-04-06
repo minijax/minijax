@@ -40,6 +40,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     private final Cookie[] cookies;
     private final MockServletInputStream inputStream;
     private Collection<Part> parts;
+    private boolean inputStreamTouched;
 
     public MockHttpServletRequest(final String method, final URI requestUri) {
         this(method, requestUri, null, null, null);
@@ -96,6 +97,10 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     @Override
     public ServletInputStream getInputStream() throws IOException {
+        if (inputStreamTouched) {
+            throw new IllegalStateException("Input stream already used");
+        }
+        inputStreamTouched = true;
         return inputStream;
     }
 
@@ -125,7 +130,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     @Override
     public Collection<Part> getParts() throws IOException, ServletException {
         if (parts == null) {
-            parts = MockPart.parseAll(IOUtils.toString(inputStream, StandardCharsets.UTF_8));
+            parts = MockPart.parseAll(IOUtils.toString(getInputStream(), StandardCharsets.UTF_8));
         }
         return parts;
     }

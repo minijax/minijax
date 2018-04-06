@@ -9,6 +9,7 @@ import java.util.List;
 import javax.enterprise.inject.InjectionException;
 import javax.inject.Provider;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 
 import org.minijax.MinijaxRequestContext;
 
@@ -35,9 +36,17 @@ public class EntityProvider<T> implements Provider<T> {
         mediaType = consumesTypes != null && !consumesTypes.isEmpty() ? consumesTypes.get(0) : null;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public T get() {
         final MinijaxRequestContext context = MinijaxRequestContext.getThreadLocal();
+
+        // Must check for forms BEFORE touching HttpServletRequest.getInputStream().
+        // If you call getInputStream -- even if you don't read from it -- the input stream is moved.
+        if (entityClass == MultivaluedMap.class) {
+            return (T) context.getForm().asForm().asMap();
+        }
+
         final InputStream entityStream = context.getEntityStream();
         try {
             return context.getApplication().readEntity(entityClass, genericType, annotations, mediaType, context, entityStream);
