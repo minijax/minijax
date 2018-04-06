@@ -11,6 +11,10 @@ import org.minijax.MinijaxException;
 
 public class ConversionUtils {
 
+    ConversionUtils() {
+        throw new UnsupportedOperationException();
+    }
+
     public static <T> T convertApacheToJax(final HttpEntity apacheEntity, final Class<T> targetClass) {
         final MediaType mediaType = MediaType.valueOf(apacheEntity.getContentType().getValue());
 

@@ -25,40 +25,54 @@ public class AvatarServiceTest extends MinijaxTest {
         register(new MockUploadService(), UploadService.class);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testCreateThumbnailNullImage() {
-        try {
-            AvatarService.createThumbnail(null, Color.white, 256);
-            fail("Expected NullPointerException");
-        } catch (final NullPointerException ex) {
-            assertNotNull(ex);
-        }
+        AvatarService.createThumbnail(null, Color.white, 256);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testCreateThumbnailNullColor() {
-        try {
-            AvatarService.createThumbnail(image, null, 256);
-            fail("Expected NullPointerException");
-        } catch (final NullPointerException ex) {
-            assertNotNull(ex);
-        }
+        AvatarService.createThumbnail(image, null, 256);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testCreateThumbnailZeroTarget() {
-        try {
-            AvatarService.createThumbnail(image, Color.white, 0);
-            fail("Expected IllegalArgumentException");
-        } catch (final IllegalArgumentException ex) {
-            assertNotNull(ex);
-        }
+        AvatarService.createThumbnail(image, Color.white, 0);
     }
 
     @Test
     public void testCreateThumbnail() {
-        final BufferedImage result = AvatarService.createThumbnail(image, Color.white, 256);
+        final BufferedImage original = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
+        final BufferedImage result = AvatarService.createThumbnail(original, Color.white, 32);
 
+        assertNotNull(result);
+        assertEquals(32, result.getWidth());
+        assertEquals(32, result.getHeight());
+    }
+
+    @Test
+    public void testCreateThumbnailFromWideImage() {
+        final BufferedImage original = new BufferedImage(200, 100, BufferedImage.TYPE_INT_ARGB);
+        final BufferedImage result = AvatarService.createThumbnail(original, Color.white, 32);
+
+        assertNotNull(result);
+        assertEquals(32, result.getWidth());
+        assertEquals(32, result.getHeight());
+    }
+
+    @Test
+    public void testCreateThumbnailFromTallImage() {
+        final BufferedImage original = new BufferedImage(100, 200, BufferedImage.TYPE_INT_ARGB);
+        final BufferedImage result = AvatarService.createThumbnail(original, Color.white, 32);
+
+        assertNotNull(result);
+        assertEquals(32, result.getWidth());
+        assertEquals(32, result.getHeight());
+    }
+
+    @Test
+    public void testGenerateAvatar() {
+        final BufferedImage result = AvatarService.generateAvatarImage();
         assertNotNull(result);
         assertEquals(256, result.getWidth());
         assertEquals(256, result.getHeight());

@@ -44,7 +44,6 @@ public class GooglePlusCallback {
     private Security<SecurityUser> security;
 
     @Inject
-    //private Dao dao;
     private SecurityDao dao;
 
     @Inject
@@ -106,7 +105,6 @@ public class GooglePlusCallback {
         final GooglePlusUser googleUser = (GooglePlusUser) user;
 
         if (user.getAvatar() == null || user.getAvatar().getImageType() == Avatar.IMAGE_TYPE_DEFAULT) {
-            //avatarService.tryGooglePlus(googleUser, person);
             tryGooglePlus(user, person);
             changed = true;
         }

@@ -319,8 +319,6 @@ public class AvatarService {
 
 
     private static void forceDelete(final File file) throws IOException {
-        if (!file.delete()) {
-            throw new IOException("Unable to delete file: " + file);
-        }
+        Files.delete(file.toPath());
     }
 }

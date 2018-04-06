@@ -440,12 +440,11 @@ public class MinijaxApplication extends Application implements Configuration, Fe
             final Response response = toResponse(rm, rm.invoke(context));
             runResponseFilters(context, response);
             return response;
+        } catch (final WebApplicationException ex) {
+            LOG.debug(ex.getMessage(), ex);
+            return toResponse(context, ex);
         } catch (final Exception ex) {
-            if (ex instanceof WebApplicationException) {
-                LOG.debug(ex.getMessage(), ex);
-            } else {
-                LOG.warn(ex.getMessage(), ex);
-            }
+            LOG.warn(ex.getMessage(), ex);
             return toResponse(context, ex);
         }
     }
