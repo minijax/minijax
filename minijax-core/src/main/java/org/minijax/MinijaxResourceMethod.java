@@ -23,7 +23,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import org.minijax.util.MediaTypeUtils;
 import org.minijax.util.UrlUtils;
 
-class MinijaxResourceMethod {
+class MinijaxResourceMethod implements javax.ws.rs.container.ResourceInfo {
     private final String httpMethod;
     private final Method method;
     private final Provider<?>[] paramProviders;
@@ -54,6 +54,16 @@ class MinijaxResourceMethod {
         this.securityAnnotation = securityAnnotation;
         pathPattern = MinijaxPathPattern.parse(method, path);
         literalLength = calculateLiteralLength(path);
+    }
+
+    @Override
+    public Method getResourceMethod() {
+        return method;
+    }
+
+    @Override
+    public Class<?> getResourceClass() {
+        return method.getDeclaringClass();
     }
 
     public List<MediaType> getProduces() {

@@ -30,9 +30,11 @@ import javax.ws.rs.HttpMethod;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.RuntimeType;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
+import javax.ws.rs.container.DynamicFeature;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.Feature;
@@ -66,6 +68,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     private final Set<Class<?>> classesScanned;
     private final List<MinijaxResourceMethod> resourceMethods;
     private final List<Class<?>> webSockets;
+    private final List<DynamicFeature> dynamicFeatures;
     private final List<Class<? extends ContainerRequestFilter>> requestFilters;
     private final List<Class<? extends ContainerResponseFilter>> responseFilters;
     private final MinijaxProviders providers;
@@ -79,6 +82,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         classesScanned = new HashSet<>();
         resourceMethods = new ArrayList<>();
         webSockets = new ArrayList<>();
+        dynamicFeatures = new ArrayList<>();
         requestFilters = new ArrayList<>();
         responseFilters = new ArrayList<>();
         providers = new MinijaxProviders(this);
@@ -332,6 +336,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         registerResourceMethods(c);
         registerWebSockets(c);
         registerFeature(c);
+        registerDynamicFeature(c);
         registerFilter(c);
         registerSecurityContext(c);
         providers.register(c);
@@ -352,6 +357,10 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
 
     void addResourceMethod(final MinijaxResourceMethod rm) {
+        for (final DynamicFeature dynamicFeature : dynamicFeatures) {
+            dynamicFeature.configure(rm, this);
+        }
+
         resourceMethods.add(rm);
         MinijaxResourceMethod.sortByLiteralLength(resourceMethods);
     }
@@ -379,6 +388,13 @@ public class MinijaxApplication extends Application implements Configuration, Fe
             getResource(featureClass).configure(this);
         } catch (final Exception ex) {
             throw new MinijaxException(ex);
+        }
+    }
+
+
+    private void registerDynamicFeature(final Class<?> c) {
+        if (DynamicFeature.class.isAssignableFrom(c)) {
+            dynamicFeatures.add((DynamicFeature) getResource(c));
         }
     }
 
@@ -425,7 +441,11 @@ public class MinijaxApplication extends Application implements Configuration, Fe
             runResponseFilters(context, response);
             return response;
         } catch (final Exception ex) {
-            LOG.debug(ex.getMessage(), ex);
+            if (ex instanceof WebApplicationException) {
+                LOG.debug(ex.getMessage(), ex);
+            } else {
+                LOG.warn(ex.getMessage(), ex);
+            }
             return toResponse(context, ex);
         }
     }
