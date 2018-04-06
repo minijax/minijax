@@ -16,9 +16,9 @@ import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.client.Client;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.ext.Provider;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class AvatarService {
     private static final Logger LOG = LoggerFactory.getLogger(AvatarService.class);
+    private static final String USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36";
 
     /**
      * Per the recommendations of the Java/Sun team, we do a multi step
@@ -309,11 +310,8 @@ public class AvatarService {
 
 
     private void downloadFile(final String url, final File destFile) throws IOException {
-        final WebTarget target = client.target(url);
-        if (target != null) {
-            try (final InputStream in = target.request().get(InputStream.class)) {
-                Files.copy(in, destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            }
+        try (final InputStream in = client.target(url).request().header(HttpHeaders.USER_AGENT, USER_AGENT).get(InputStream.class)) {
+            Files.copy(in, destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         }
     }
 

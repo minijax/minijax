@@ -5,12 +5,15 @@ import static org.mockito.Mockito.*;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.minijax.MinijaxRequestContext;
+import org.minijax.db.Avatar;
 import org.minijax.s3.MockUploadService;
 import org.minijax.s3.UploadService;
 import org.minijax.test.MinijaxTest;
@@ -21,7 +24,7 @@ public class AvatarServiceTest extends MinijaxTest {
     @Before
     public void setUp() {
         image = mock(BufferedImage.class);
-        register(mock(Client.class), Client.class);
+        register(ClientBuilder.newClient(), Client.class);
         register(new MockUploadService(), UploadService.class);
     }
 
@@ -79,12 +82,73 @@ public class AvatarServiceTest extends MinijaxTest {
     }
 
     @Test
+    public void testGenerateAvatarForUser() throws IOException {
+        try (final MinijaxRequestContext ctx = createRequestContext()) {
+            final User user = new User();
+
+            final AvatarService avatarService = ctx.get(AvatarService.class);
+            avatarService.generateAvatarImage(user);
+
+            assertNotNull(user.getAvatar());
+            assertNotNull(user.getAvatar().getImageUrl());
+        }
+    }
+
+    @Test
     public void testGravatar() throws Exception {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
             final User user = new User();
             user.setEmail("reshma.khilnani@gmail.com");
 
             ctx.get(AvatarService.class).tryGravatar(user);
+        }
+    }
+
+    @Test
+    public void testRemoteImageNotImage() throws IOException {
+        try (final MinijaxRequestContext ctx = createRequestContext()) {
+            final User user = new User();
+
+            final AvatarService avatarService = ctx.get(AvatarService.class);
+            avatarService.tryRemotePicture(user, "https://minijax.org/test/hello.txt", Avatar.IMAGE_TYPE_MANUAL);
+
+            assertNull(user.getAvatar());
+        }
+    }
+
+    @Test
+    public void testUploadNullFile() throws IOException {
+        try (final MinijaxRequestContext ctx = createRequestContext()) {
+            final User user = new User();
+
+            final AvatarService avatarService = ctx.get(AvatarService.class);
+            avatarService.handleFileUpload(user, null);
+
+            assertNull(user.getAvatar());
+        }
+    }
+
+    @Test
+    public void testUploadNonImage() throws IOException {
+        try (final MinijaxRequestContext ctx = createRequestContext()) {
+            final User user = new User();
+
+            final AvatarService avatarService = ctx.get(AvatarService.class);
+            avatarService.handleFileUpload(user, AvatarServiceTest.class.getClassLoader().getResourceAsStream("hello.txt"));
+
+            assertNull(user.getAvatar());
+        }
+    }
+
+    @Test
+    public void testUploadImage() throws IOException {
+        try (final MinijaxRequestContext ctx = createRequestContext()) {
+            final User user = new User();
+
+            final AvatarService avatarService = ctx.get(AvatarService.class);
+            avatarService.handleFileUpload(user, AvatarServiceTest.class.getClassLoader().getResourceAsStream("image.png"));
+
+            assertNotNull(user.getAvatar());
         }
     }
 }
