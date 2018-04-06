@@ -11,6 +11,8 @@ import java.nio.charset.StandardCharsets;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -199,6 +201,18 @@ public class InvocationBuilderTest {
     @Test
     public void testMethodEntityGenericType() {
         assertNotNull(target("/").request().method("POST", Entity.text("Hello"), new GenericType<String>() {}));
+    }
+
+    @Test
+    public void testHeader() {
+        assertNotNull(target("/").request().header("foo", "bar"));
+    }
+
+    @Test
+    public void testHeaders() {
+        final MultivaluedMap<String, Object> headers = new MultivaluedHashMap<>();
+        headers.add("foo", "bar");
+        assertNotNull(target("/").request().headers(headers));
     }
 
     /*

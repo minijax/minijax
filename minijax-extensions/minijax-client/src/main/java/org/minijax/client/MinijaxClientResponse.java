@@ -11,12 +11,14 @@ import java.util.Set;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Link.Builder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.NewCookie;
 
+import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.minijax.delegates.MinijaxStatusInfo;
 
@@ -44,6 +46,24 @@ public class MinijaxClientResponse extends javax.ws.rs.core.Response {
     }
 
     @Override
+    public MediaType getMediaType() {
+        final Header contentTypeHeader = innerResponse.getLastHeader(HttpHeaders.CONTENT_TYPE);
+        return MediaType.valueOf(contentTypeHeader.getValue());
+    }
+
+    @Override
+    public Locale getLanguage() {
+        return innerResponse.getLocale();
+    }
+
+    @Override
+    public int getLength() {
+        final Header lengthHeader = innerResponse.getLastHeader(HttpHeaders.CONTENT_LENGTH);
+        final String lengthStr = lengthHeader.getValue();
+        return Integer.parseInt(lengthStr);
+    }
+
+    @Override
     public Object getEntity() {
         return innerResponse.getEntity();
     }
@@ -57,6 +77,19 @@ public class MinijaxClientResponse extends javax.ws.rs.core.Response {
     public <T> T readEntity(final GenericType<T> entityType) {
         return ConversionUtils.convertToGenericType(innerResponse.getEntity(), entityType);
     }
+
+    @Override
+    public void close() {
+        try {
+            innerResponse.close();
+        } catch (final IOException ex) {
+            throw new WebApplicationException(ex);
+        }
+    }
+
+    /*
+     * Unsupported
+     */
 
     @Override
     public <T> T readEntity(final Class<T> entityType, final Annotation[] annotations) {
@@ -75,30 +108,6 @@ public class MinijaxClientResponse extends javax.ws.rs.core.Response {
 
     @Override
     public boolean bufferEntity() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void close() {
-        try {
-            innerResponse.close();
-        } catch (final IOException ex) {
-            throw new WebApplicationException(ex);
-        }
-    }
-
-    @Override
-    public MediaType getMediaType() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Locale getLanguage() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public int getLength() {
         throw new UnsupportedOperationException();
     }
 
