@@ -1,5 +1,7 @@
 package org.minijax.json;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
@@ -15,7 +17,7 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Singleton
-@Produces(MediaType.APPLICATION_JSON)
+@Produces(APPLICATION_JSON)
 public class MinijaxJsonWriter implements MessageBodyWriter<Object> {
 
     @Inject
@@ -29,7 +31,7 @@ public class MinijaxJsonWriter implements MessageBodyWriter<Object> {
             final Annotation[] annotations,
             final MediaType mediaType) {
 
-        return mediaType != null && mediaType.isCompatible(MediaType.APPLICATION_JSON_TYPE);
+        return mediaType != null && mediaType.isCompatible(APPLICATION_JSON_TYPE);
     }
 
 

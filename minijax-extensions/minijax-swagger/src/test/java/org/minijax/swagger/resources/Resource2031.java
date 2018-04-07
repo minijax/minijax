@@ -1,10 +1,11 @@
 package org.minijax.swagger.resources;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import io.swagger.annotations.Api;
@@ -15,7 +16,7 @@ import io.swagger.annotations.ApiOperation;
 public class Resource2031 {
     @GET
     @Path("paged")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
     @ApiOperation("Get list of the paged pickticket for datatable")
     public Response getRequestData(@BeanParam final NonFieldMethodBean object) throws Exception {
         return Response.ok().build();

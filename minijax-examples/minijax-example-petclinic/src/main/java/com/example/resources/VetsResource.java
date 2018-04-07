@@ -1,10 +1,11 @@
 package com.example.resources;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 import org.minijax.view.View;
 
@@ -12,7 +13,7 @@ import com.example.model.Vet;
 import com.example.services.Dao;
 
 @Path("/vets")
-@Produces(MediaType.TEXT_HTML)
+@Produces(TEXT_HTML)
 public class VetsResource {
 
     @Inject

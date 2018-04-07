@@ -1,15 +1,16 @@
 package org.minijax.util;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import static org.junit.Assert.*;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 import org.junit.Test;
 
-@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-@Produces(MediaType.TEXT_HTML)
+@Consumes(APPLICATION_FORM_URLENCODED)
+@Produces(TEXT_HTML)
 public class MediaTypeUtilsTest {
 
     @Test(expected = UnsupportedOperationException.class)
@@ -25,7 +26,7 @@ public class MediaTypeUtilsTest {
     @Test
     public void testParseConsumes() {
         assertEquals(
-                MediaType.APPLICATION_FORM_URLENCODED_TYPE,
+                APPLICATION_FORM_URLENCODED_TYPE,
                 MediaTypeUtils.parseMediaTypes(MediaTypeUtilsTest.class.getAnnotation(Consumes.class)).get(0));
     }
 
@@ -37,7 +38,7 @@ public class MediaTypeUtilsTest {
     @Test
     public void testParseProduces() {
         assertEquals(
-                MediaType.TEXT_HTML_TYPE,
+                TEXT_HTML_TYPE,
                 MediaTypeUtils.parseMediaTypes(MediaTypeUtilsTest.class.getAnnotation(Produces.class)).get(0));
     }
 }

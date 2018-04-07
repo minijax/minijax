@@ -1,6 +1,7 @@
 package org.minijax;
 
 import static javax.ws.rs.HttpMethod.*;
+import static javax.ws.rs.core.MediaType.*;
 
 import java.io.File;
 import java.net.URL;
@@ -43,7 +44,7 @@ class MinijaxStaticResource extends MinijaxResourceMethod {
         }
 
         final String contentType = Files.probeContentType(resourceFile.toPath());
-        final MediaType mediaType = contentType == null ? MediaType.APPLICATION_OCTET_STREAM_TYPE : MediaType.valueOf(contentType);
+        final MediaType mediaType = contentType == null ? APPLICATION_OCTET_STREAM_TYPE : MediaType.valueOf(contentType);
         return Response.ok(resourceUrl.openStream(), mediaType).cacheControl(PUBLIC).build();
     }
 }

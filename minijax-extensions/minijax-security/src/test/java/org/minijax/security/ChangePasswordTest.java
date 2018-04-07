@@ -1,5 +1,7 @@
 package org.minijax.security;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import static org.junit.Assert.*;
 
 import java.io.IOException;
@@ -13,7 +15,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.junit.BeforeClass;
@@ -31,7 +32,7 @@ public class ChangePasswordTest extends MinijaxTest {
 
     @POST
     @Path("/changepassword")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(APPLICATION_FORM_URLENCODED)
     @RolesAllowed("user")
     public Response handleChangePassword(
             @FormParam("oldPassword") final String oldPassword,

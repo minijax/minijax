@@ -1,9 +1,10 @@
 package org.minijax.mustache;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -13,7 +14,7 @@ import org.minijax.util.ExceptionUtils;
 import org.minijax.view.View;
 
 @Provider
-@Produces(MediaType.TEXT_HTML)
+@Produces(TEXT_HTML)
 public class MinijaxMustacheExceptionMapper implements ExceptionMapper<Exception> {
 
     @Context
@@ -31,6 +32,6 @@ public class MinijaxMustacheExceptionMapper implements ExceptionMapper<Exception
         final int status = webAppException.getResponse().getStatus();
         final View view = new View("error");
         view.getModel().put("message", message);
-        return Response.status(status).type(MediaType.TEXT_HTML_TYPE).entity(view).build();
+        return Response.status(status).type(TEXT_HTML_TYPE).entity(view).build();
     }
 }

@@ -1,5 +1,7 @@
 package org.minijax.json;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import static org.junit.Assert.*;
 
 import java.io.ByteArrayInputStream;
@@ -10,7 +12,6 @@ import java.util.Map;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.MessageBodyReader;
 
 import org.junit.After;
@@ -43,8 +44,8 @@ public class ReaderTest extends MinijaxTest {
     @Test
     public void testIsReadable() {
         assertFalse(reader.isReadable(null, null, null, null));
-        assertFalse(reader.isReadable(null, null, null, MediaType.TEXT_PLAIN_TYPE));
-        assertTrue(reader.isReadable(null, null, null, MediaType.APPLICATION_JSON_TYPE));
+        assertFalse(reader.isReadable(null, null, null, TEXT_PLAIN_TYPE));
+        assertTrue(reader.isReadable(null, null, null, APPLICATION_JSON_TYPE));
     }
 
     @Test

@@ -1,5 +1,7 @@
 package org.minijax.cdi;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import static org.junit.Assert.*;
 
 import java.io.IOException;
@@ -76,7 +78,7 @@ public class EntityProviderTest extends MinijaxTest {
 
         @Path("/unknowntype")
         @POST
-        @Consumes(MediaType.TEXT_PLAIN)
+        @Consumes(TEXT_PLAIN)
         public String handleUnknownType(final UnknownType unknown) {
             return "unknown";
         }
@@ -106,7 +108,7 @@ public class EntityProviderTest extends MinijaxTest {
 
     @Test
     public void testUnknownType() {
-        final Response response = target("/entityprovider/unknowntype").request().post(Entity.entity("blah blah blah", MediaType.TEXT_PLAIN));
+        final Response response = target("/entityprovider/unknowntype").request().post(Entity.entity("blah blah blah", TEXT_PLAIN));
         assertNotNull(response);
         assertEquals(500, response.getStatus());
     }
@@ -114,7 +116,7 @@ public class EntityProviderTest extends MinijaxTest {
 
     @Test
     public void testCustomType() {
-        final Response response = target("/entityprovider/customtype").request().post(Entity.entity("blah blah blah", MediaType.TEXT_PLAIN));
+        final Response response = target("/entityprovider/customtype").request().post(Entity.entity("blah blah blah", TEXT_PLAIN));
         assertNotNull(response);
         assertEquals(200, response.getStatus());
     }
@@ -122,7 +124,7 @@ public class EntityProviderTest extends MinijaxTest {
 
     @Test
     public void testExplodingType() {
-        final Response response = target("/entityprovider/explodingtype").request().post(Entity.entity("blah blah blah", MediaType.TEXT_PLAIN));
+        final Response response = target("/entityprovider/explodingtype").request().post(Entity.entity("blah blah blah", TEXT_PLAIN));
         assertNotNull(response);
         assertEquals(500, response.getStatus());
     }

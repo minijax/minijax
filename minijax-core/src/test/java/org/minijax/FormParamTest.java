@@ -1,5 +1,7 @@
 package org.minijax;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import static org.junit.Assert.*;
 
 import java.io.IOException;
@@ -14,7 +16,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.junit.BeforeClass;
@@ -26,35 +27,35 @@ public class FormParamTest extends MinijaxTest {
 
     @POST
     @Path("/formtest")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(APPLICATION_FORM_URLENCODED)
     public static String formPassThrough(@FormParam("test") final String test) {
         return test;
     }
 
     @POST
     @Path("/defval")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(APPLICATION_FORM_URLENCODED)
     public static String getDefaultValue(@FormParam("test") @DefaultValue("foo") final String test) {
         return test;
     }
 
     @POST
     @Path("/wholeform")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(APPLICATION_FORM_URLENCODED)
     public static String getWholeForm(final MultivaluedMap<String, String> form) {
         return form.getFirst("test");
     }
 
     @POST
     @Path("/multipart-form")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Consumes(MULTIPART_FORM_DATA)
     public static String getMultipartForm(final MultivaluedMap<String, String> form) {
         return form.getFirst("key");
     }
 
     @POST
     @Path("/multipart-params")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Consumes(MULTIPART_FORM_DATA)
     public static String getMultipartParams(
             @FormParam("key") final String key,
             @FormParam("content") final InputStream content)
@@ -64,7 +65,7 @@ public class FormParamTest extends MinijaxTest {
 
     @POST
     @Path("/multipart-optional")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Consumes(MULTIPART_FORM_DATA)
     public static String getMultipartOptionalInputStream(
             @FormParam("content") final InputStream content)
                     throws IOException {
@@ -73,7 +74,7 @@ public class FormParamTest extends MinijaxTest {
 
     @POST
     @Path("/multipart-part")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Consumes(MULTIPART_FORM_DATA)
     public static String getMultipartPart(
             @FormParam("content") final Part content)
                     throws IOException {
@@ -119,7 +120,7 @@ public class FormParamTest extends MinijaxTest {
                 "myvalue1\n" +
                 "------WebKitFormBoundarycTqA2AimXQHBAJbZ";
 
-        final Entity<String> entity = Entity.entity(mockContent, MediaType.MULTIPART_FORM_DATA_TYPE);
+        final Entity<String> entity = Entity.entity(mockContent, MULTIPART_FORM_DATA_TYPE);
 
         assertEquals("myvalue1", target("/multipart-form").request().post(entity, String.class));
     }
@@ -138,7 +139,7 @@ public class FormParamTest extends MinijaxTest {
                 "Hello world\n" +
                 "------WebKitFormBoundarycTqA2AimXQHBAJbZ";
 
-        final Entity<String> entity = Entity.entity(mockContent, MediaType.MULTIPART_FORM_DATA_TYPE);
+        final Entity<String> entity = Entity.entity(mockContent, MULTIPART_FORM_DATA_TYPE);
 
         assertEquals("myvalue1-Hello world", target("/multipart-params").request().post(entity, String.class));
     }
@@ -153,7 +154,7 @@ public class FormParamTest extends MinijaxTest {
                 "Hello world\n" +
                 "------WebKitFormBoundarycTqA2AimXQHBAJbZ";
 
-        final Entity<String> entity = Entity.entity(mockContent, MediaType.MULTIPART_FORM_DATA_TYPE);
+        final Entity<String> entity = Entity.entity(mockContent, MULTIPART_FORM_DATA_TYPE);
 
         assertEquals("Hello world", target("/multipart-optional").request().post(entity, String.class));
     }
@@ -164,7 +165,7 @@ public class FormParamTest extends MinijaxTest {
                 "------WebKitFormBoundarycTqA2AimXQHBAJbZ\n" +
                 "------WebKitFormBoundarycTqA2AimXQHBAJbZ";
 
-        final Entity<String> entity = Entity.entity(mockContent, MediaType.MULTIPART_FORM_DATA_TYPE);
+        final Entity<String> entity = Entity.entity(mockContent, MULTIPART_FORM_DATA_TYPE);
 
         assertEquals("null", target("/multipart-optional").request().post(entity, String.class));
     }
@@ -179,7 +180,7 @@ public class FormParamTest extends MinijaxTest {
                 "Hello world\n" +
                 "------WebKitFormBoundarycTqA2AimXQHBAJbZ";
 
-        final Entity<String> entity = Entity.entity(mockContent, MediaType.MULTIPART_FORM_DATA_TYPE);
+        final Entity<String> entity = Entity.entity(mockContent, MULTIPART_FORM_DATA_TYPE);
 
         assertEquals("hello.txt", target("/multipart-part").request().post(entity, String.class));
     }

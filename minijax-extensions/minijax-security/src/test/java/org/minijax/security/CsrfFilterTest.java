@@ -1,5 +1,7 @@
 package org.minijax.security;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import static org.junit.Assert.*;
 
 import java.io.IOException;
@@ -10,7 +12,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
@@ -28,7 +29,7 @@ public class CsrfFilterTest extends MinijaxTest {
 
     @POST
     @Path("/public_form")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(APPLICATION_FORM_URLENCODED)
     public static Response handlePublicForm(final MultivaluedMap<String, String> form) {
         return Response.ok().build();
     }
@@ -36,7 +37,7 @@ public class CsrfFilterTest extends MinijaxTest {
 
     @POST
     @Path("/private_form")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(APPLICATION_FORM_URLENCODED)
     @RolesAllowed("user")
     public static Response handlePrivateForm(final MultivaluedMap<String, String> form) {
         return Response.ok().build();

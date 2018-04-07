@@ -1,6 +1,7 @@
 package org.minijax;
 
 import static javax.ws.rs.HttpMethod.*;
+import static javax.ws.rs.core.MediaType.*;
 
 import static org.junit.Assert.*;
 
@@ -11,7 +12,6 @@ import javax.servlet.http.Cookie;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -25,14 +25,14 @@ public class ServletTest extends MinijaxTest {
 
     @GET
     @Path("/servlet")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(TEXT_PLAIN)
     public static String getText() {
         return "Hello world!";
     }
 
     @GET
     @Path("/null")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(TEXT_PLAIN)
     public static String getNull() {
         return null;
     }

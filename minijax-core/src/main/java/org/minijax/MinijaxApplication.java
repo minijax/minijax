@@ -1,6 +1,7 @@
 package org.minijax;
 
 import static javax.ws.rs.HttpMethod.*;
+import static javax.ws.rs.core.MediaType.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -671,7 +672,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
             }
         }
 
-        return MediaType.TEXT_PLAIN_TYPE;
+        return TEXT_PLAIN_TYPE;
     }
 
 

@@ -1,10 +1,11 @@
 package com.example;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 import org.minijax.Minijax;
 import org.minijax.json.JsonFeature;
@@ -13,13 +14,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @Path("/api")
-@Produces(MediaType.APPLICATION_JSON)
+@Produces(APPLICATION_JSON)
 @Api
 public class HelloSwagger {
 
     @POST
     @Path("/shout")
-    @Consumes(MediaType.TEXT_PLAIN)
+    @Consumes(TEXT_PLAIN)
     @ApiOperation("Shouts an input string")
     public static String shout(final String s) {
         return s.toUpperCase();

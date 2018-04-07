@@ -1,5 +1,7 @@
 package org.minijax.mustache;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -19,7 +21,7 @@ import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 
 @Singleton
-@Produces(MediaType.TEXT_HTML)
+@Produces(TEXT_HTML)
 public class MinijaxMustacheWriter implements MessageBodyWriter<View> {
 
     @Inject

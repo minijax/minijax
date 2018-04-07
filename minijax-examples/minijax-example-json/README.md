@@ -52,7 +52,7 @@ Key points:
 
 ```java
 @Path("/widgets")
-@Produces(MediaType.APPLICATION_JSON)
+@Produces(APPLICATION_JSON)
 public class HelloJson {
 ```
 
@@ -121,7 +121,7 @@ Ok, we have now demonstrated how to "GET" content.  How do we create content?  O
 
 ```java
 @POST
-@Consumes(MediaType.APPLICATION_JSON)
+@Consumes(APPLICATION_JSON)
 public static Response create(final Widget widget) {
     WIDGETS.put(widget.id, widget);
     return Response.created(URI.create("/widgets/" + widget.id)).build();
@@ -257,7 +257,7 @@ final String json = "{\"id\":\"2\",\"value\":\"World\"}";
 
 final Response response = target("/widgets")
         .request()
-        .post(Entity.entity(json, MediaType.APPLICATION_JSON_TYPE));
+        .post(Entity.entity(json, APPLICATION_JSON_TYPE));
 
 assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
 assertEquals("/widgets/2", response.getLocation().toString());

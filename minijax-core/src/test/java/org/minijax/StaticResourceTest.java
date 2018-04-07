@@ -1,8 +1,9 @@
 package org.minijax;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import static org.junit.Assert.*;
 
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.junit.BeforeClass;
@@ -53,7 +54,7 @@ public class StaticResourceTest extends MinijaxTest {
         final Response response = target("/static/hello.txt").request().get();
         assertNotNull(response);
         assertEquals(200, response.getStatus());
-        assertEquals(MediaType.TEXT_PLAIN_TYPE, response.getMediaType());
+        assertEquals(TEXT_PLAIN_TYPE, response.getMediaType());
 
         final String str = response.readEntity(String.class);
         assertNotNull(str);

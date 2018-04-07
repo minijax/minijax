@@ -1,12 +1,13 @@
 package com.example;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import static org.junit.Assert.*;
 
 import java.util.Collection;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -58,7 +59,7 @@ public class HelloJsonTest extends MinijaxTest {
 
         final String json = "{\"id\":\"2\",\"value\":\"World\"}";
 
-        final Response response = target("/widgets").request().post(Entity.entity(json, MediaType.APPLICATION_JSON_TYPE));
+        final Response response = target("/widgets").request().post(Entity.entity(json, APPLICATION_JSON_TYPE));
         assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
         assertEquals("/widgets/2", response.getLocation().toString());
 

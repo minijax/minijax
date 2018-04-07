@@ -1,6 +1,7 @@
 package org.minijax.client;
 
 import static javax.ws.rs.HttpMethod.*;
+import static javax.ws.rs.core.MediaType.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -15,7 +16,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -227,7 +227,7 @@ public class InvocationBuilderTest {
 
     @Test
     public void testAccept2() {
-        assertEquals("text/plain, text/html", target("/").request().accept(MediaType.TEXT_PLAIN_TYPE, MediaType.TEXT_HTML_TYPE).getHttpRequest().getLastHeader("Accept").getValue());
+        assertEquals("text/plain, text/html", target("/").request().accept(TEXT_PLAIN_TYPE, TEXT_HTML_TYPE).getHttpRequest().getLastHeader("Accept").getValue());
     }
 
     @Test

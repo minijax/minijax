@@ -1,5 +1,7 @@
 package org.minijax.util;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,7 +9,6 @@ import java.nio.charset.StandardCharsets;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MediaType;
 
 import org.minijax.MinijaxApplication;
 import org.minijax.MinijaxMultipartForm;
@@ -41,7 +42,7 @@ public class EntityUtils {
             return MultipartUtils.serializeMultipartForm((MinijaxMultipartForm) obj);
         }
 
-        if (entity.getMediaType() == MediaType.APPLICATION_JSON_TYPE && OptionalClasses.JSON != null) {
+        if (entity.getMediaType() == APPLICATION_JSON_TYPE && OptionalClasses.JSON != null) {
             final MinijaxApplication application = MinijaxApplication.getApplication();
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             application.writeEntity(obj, entity.getMediaType(), outputStream);

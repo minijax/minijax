@@ -1,5 +1,7 @@
 package com.example;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import java.net.URI;
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,7 +13,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -21,7 +22,7 @@ import org.minijax.Minijax;
 import org.minijax.json.JsonFeature;
 
 @Path("/widgets")
-@Produces(MediaType.APPLICATION_JSON)
+@Produces(APPLICATION_JSON)
 public class HelloJson {
 
     @XmlRootElement
@@ -57,7 +58,7 @@ public class HelloJson {
 
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(APPLICATION_JSON)
     public static Response create(final Widget widget) {
         WIDGETS.put(widget.id, widget);
         return Response.created(URI.create("/widgets/" + widget.id)).build();

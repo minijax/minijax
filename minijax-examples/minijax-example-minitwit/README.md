@@ -151,7 +151,7 @@ private Response renderTimeline(final List<Message> messages) {
         view.getModel().put("user", currentUser);
         view.getModel().put("csrf", security.getSessionToken());
     }
-    return Response.ok(view, MediaType.TEXT_HTML).build();
+    return Response.ok(view, TEXT_HTML).build();
 }
 ```
 
@@ -166,7 +166,7 @@ public View login() {
 
 @POST
 @Path("/login")
-@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+@Consumes(APPLICATION_FORM_URLENCODED)
 public Response login(
         @FormParam("email") String email,
         @FormParam("password") String password) {
@@ -177,7 +177,7 @@ public Response login(
     } catch (final BadRequestException ex) {
         View view = new View("login");
         view.getModel().put("error", ex.getMessage());
-        return Response.ok(view, MediaType.TEXT_HTML).build();
+        return Response.ok(view, TEXT_HTML).build();
     }
 }
 

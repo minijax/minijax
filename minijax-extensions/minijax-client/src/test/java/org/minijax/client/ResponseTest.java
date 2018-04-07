@@ -1,5 +1,7 @@
 package org.minijax.client;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -8,7 +10,6 @@ import java.lang.annotation.Annotation;
 import java.util.Locale;
 
 import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.http.HttpVersion;
@@ -36,7 +37,7 @@ public class ResponseTest {
         when(innerResponse.getLastHeader(eq("Content-Type"))).thenReturn(new BasicHeader("Content-Type", "text/plain"));
 
         try (final MinijaxClientResponse response = new MinijaxClientResponse(innerResponse)) {
-            assertEquals(MediaType.TEXT_PLAIN_TYPE, response.getMediaType());
+            assertEquals(TEXT_PLAIN_TYPE, response.getMediaType());
         }
     }
 

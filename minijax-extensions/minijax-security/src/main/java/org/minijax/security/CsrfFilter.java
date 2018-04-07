@@ -1,6 +1,7 @@
 package org.minijax.security;
 
 import static javax.ws.rs.HttpMethod.*;
+import static javax.ws.rs.core.MediaType.*;
 
 import java.io.IOException;
 
@@ -32,8 +33,8 @@ class CsrfFilter implements ContainerRequestFilter {
             return;
         }
 
-        if (!contentType.isCompatible(MediaType.APPLICATION_FORM_URLENCODED_TYPE) &&
-                !contentType.isCompatible(MediaType.MULTIPART_FORM_DATA_TYPE)) {
+        if (!contentType.isCompatible(APPLICATION_FORM_URLENCODED_TYPE) &&
+                !contentType.isCompatible(MULTIPART_FORM_DATA_TYPE)) {
             return;
         }
 

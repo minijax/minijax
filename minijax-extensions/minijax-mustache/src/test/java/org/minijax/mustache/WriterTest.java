@@ -1,11 +1,11 @@
 package org.minijax.mustache;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import static org.junit.Assert.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
-import javax.ws.rs.core.MediaType;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +36,7 @@ public class WriterTest extends MinijaxTest {
         view.getModel().put("key", "value");
 
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        writer.writeTo(view, View.class, null, null, MediaType.TEXT_HTML_TYPE, null, outputStream);
+        writer.writeTo(view, View.class, null, null, TEXT_HTML_TYPE, null, outputStream);
         assertEquals("key=value", outputStream.toString().trim());
     }
 
@@ -50,7 +50,7 @@ public class WriterTest extends MinijaxTest {
         view.getModel().put("widget", widget);
 
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        writer.writeTo(view, View.class, null, null, MediaType.TEXT_HTML_TYPE, null, outputStream);
+        writer.writeTo(view, View.class, null, null, TEXT_HTML_TYPE, null, outputStream);
 
         final String expected =
                 "<h1>Widget</h1>\n" +
@@ -65,6 +65,6 @@ public class WriterTest extends MinijaxTest {
         final View view = new View("oops");
 
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        writer.writeTo(view, View.class, null, null, MediaType.TEXT_HTML_TYPE, null, outputStream);
+        writer.writeTo(view, View.class, null, null, TEXT_HTML_TYPE, null, outputStream);
     }
 }

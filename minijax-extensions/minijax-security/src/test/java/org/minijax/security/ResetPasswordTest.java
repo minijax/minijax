@@ -1,5 +1,7 @@
 package org.minijax.security;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import static org.junit.Assert.*;
 
 import java.io.IOException;
@@ -12,7 +14,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 
@@ -31,7 +32,7 @@ public class ResetPasswordTest extends MinijaxTest {
 
     @POST
     @Path("/resetpassword/{id}")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(APPLICATION_FORM_URLENCODED)
     public Response handleSubmit(
             @PathParam("id") final String resetId,
             @FormParam("newPassword") final String newPassword,

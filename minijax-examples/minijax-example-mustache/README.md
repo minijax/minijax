@@ -73,13 +73,13 @@ Key points:
 
 ```java
 @Path("/")
-@Produces(MediaType.TEXT_HTML)
+@Produces(TEXT_HTML)
 public class HelloMustache {
 ```
 
 As in the previous examples, our resource class includes a `@Path` annotation.
 
-In Hello World, we did not use a `@Produces` annotation.  In Hello JSON, we used `@Produces(MediaType.APPLICATION_JSON)`.  Here, because we are producing HTML, we use `@Produces(MediaType.TEXT_HTML)`.
+In Hello World, we did not use a `@Produces` annotation.  In Hello JSON, we used `@Produces(APPLICATION_JSON)`.  Here, because we are producing HTML, we use `@Produces(TEXT_HTML)`.
 
 Next, let's actually render a Mustache template:
 

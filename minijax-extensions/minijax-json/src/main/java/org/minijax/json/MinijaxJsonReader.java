@@ -1,5 +1,7 @@
 package org.minijax.json;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
@@ -17,7 +19,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Singleton
-@Consumes(MediaType.APPLICATION_JSON)
+@Consumes(APPLICATION_JSON)
 public class MinijaxJsonReader implements MessageBodyReader<Object> {
 
     @Inject
@@ -31,7 +33,7 @@ public class MinijaxJsonReader implements MessageBodyReader<Object> {
             final Annotation[] annotations,
             final MediaType mediaType) {
 
-        return mediaType != null && mediaType.isCompatible(MediaType.APPLICATION_JSON_TYPE);
+        return mediaType != null && mediaType.isCompatible(APPLICATION_JSON_TYPE);
     }
 
 

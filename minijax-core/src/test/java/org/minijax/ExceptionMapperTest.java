@@ -1,12 +1,13 @@
 package org.minijax;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import static org.junit.Assert.*;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 
@@ -24,7 +25,7 @@ public class ExceptionMapperTest extends MinijaxTest {
         private static final long serialVersionUID = 1L;
     }
 
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(TEXT_PLAIN)
     public static class NotFoundMapper implements ExceptionMapper<NotFoundException> {
         @Override
         public Response toResponse(final NotFoundException exception) {
@@ -32,7 +33,7 @@ public class ExceptionMapperTest extends MinijaxTest {
         }
     }
 
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(TEXT_PLAIN)
     public static class MapperA implements ExceptionMapper<ExceptionA> {
         @Override
         public Response toResponse(final ExceptionA exception) {
@@ -42,21 +43,21 @@ public class ExceptionMapperTest extends MinijaxTest {
 
     @GET
     @Path("/notfound")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(TEXT_PLAIN)
     public static Response throwNotFound() {
         throw new NotFoundException();
     }
 
     @GET
     @Path("/throw_a")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(TEXT_PLAIN)
     public static Response throwA() throws ExceptionA {
         throw new ExceptionA();
     }
 
     @GET
     @Path("/throw_b")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(TEXT_PLAIN)
     public static Response throwB() throws ExceptionA {
         throw new ExceptionB();
     }

@@ -1,5 +1,7 @@
 package org.minijax;
 
+import static javax.ws.rs.core.MediaType.*;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
@@ -244,9 +246,9 @@ public class MinijaxRequestContext
         }
 
         try {
-            if (contentType.isCompatible(MediaType.APPLICATION_FORM_URLENCODED_TYPE)) {
+            if (contentType.isCompatible(APPLICATION_FORM_URLENCODED_TYPE)) {
                 form = new MinijaxUrlEncodedForm(IOUtils.toString(getEntityStream(), StandardCharsets.UTF_8));
-            } else if (contentType.isCompatible(MediaType.MULTIPART_FORM_DATA_TYPE)) {
+            } else if (contentType.isCompatible(MULTIPART_FORM_DATA_TYPE)) {
                 form = new MinijaxMultipartForm(request.getParts());
             } else {
                 throw new BadRequestException("Unsupported content type (" + contentType + ")");
