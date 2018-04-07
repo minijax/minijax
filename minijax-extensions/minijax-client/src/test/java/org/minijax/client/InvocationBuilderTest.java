@@ -1,5 +1,7 @@
 package org.minijax.client;
 
+import static javax.ws.rs.HttpMethod.*;
+
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -178,32 +180,32 @@ public class InvocationBuilderTest {
 
     @Test
     public void testMethod() {
-        assertNotNull(target("/").request().method("GET"));
+        assertNotNull(target("/").request().method(GET));
     }
 
     @Test
     public void testMethodClass() {
-        assertNotNull(target("/").request().method("GET", String.class));
+        assertNotNull(target("/").request().method(GET, String.class));
     }
 
     @Test
     public void testMethodGenericType() {
-        assertNotNull(target("/").request().method("GET", new GenericType<String>() {}));
+        assertNotNull(target("/").request().method(GET, new GenericType<String>() {}));
     }
 
     @Test
     public void testMethodEntity() {
-        assertNotNull(target("/").request().method("POST", Entity.text("Hello")));
+        assertNotNull(target("/").request().method(POST, Entity.text("Hello")));
     }
 
     @Test
     public void testMethodEntityClass() {
-        assertNotNull(target("/").request().method("POST", Entity.text("Hello"), String.class));
+        assertNotNull(target("/").request().method(POST, Entity.text("Hello"), String.class));
     }
 
     @Test
     public void testMethodEntityGenericType() {
-        assertNotNull(target("/").request().method("POST", Entity.text("Hello"), new GenericType<String>() {}));
+        assertNotNull(target("/").request().method(POST, Entity.text("Hello"), new GenericType<String>() {}));
     }
 
     @Test

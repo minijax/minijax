@@ -1,5 +1,7 @@
 package org.minijax;
 
+import static javax.ws.rs.HttpMethod.*;
+
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Files;
@@ -15,7 +17,7 @@ class MinijaxStaticResource extends MinijaxResourceMethod {
     private final boolean directory;
 
     public MinijaxStaticResource(final String resourceName, final String path) {
-        super("GET", null, null, path, null, null);
+        super(GET, null, null, path, null, null);
         baseResourceName = resourceName;
         directory = path.contains("{");
     }

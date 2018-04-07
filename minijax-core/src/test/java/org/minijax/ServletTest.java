@@ -1,5 +1,7 @@
 package org.minijax;
 
+import static javax.ws.rs.HttpMethod.*;
+
 import static org.junit.Assert.*;
 
 import java.io.IOException;
@@ -46,7 +48,7 @@ public class ServletTest extends MinijaxTest {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         final Cookie[] cookies = new Cookie[0];
 
-        final MockHttpServletRequest servletRequest = new MockHttpServletRequest("GET", URI.create("/servlet"), headers, null, cookies);
+        final MockHttpServletRequest servletRequest = new MockHttpServletRequest(GET, URI.create("/servlet"), headers, null, cookies);
         final MockHttpServletResponse servletResponse = new MockHttpServletResponse();
         final MinijaxRequestContext context = new MinijaxRequestContext(null, servletRequest, servletResponse);
 
@@ -62,7 +64,7 @@ public class ServletTest extends MinijaxTest {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         final Cookie[] cookies = new Cookie[0];
 
-        final MockHttpServletRequest servletRequest = new MockHttpServletRequest("GET", URI.create("/null"), headers, null, cookies);
+        final MockHttpServletRequest servletRequest = new MockHttpServletRequest(GET, URI.create("/null"), headers, null, cookies);
         final MockHttpServletResponse servletResponse = new MockHttpServletResponse();
         final MinijaxRequestContext context = new MinijaxRequestContext(null, servletRequest, servletResponse);
 

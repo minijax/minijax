@@ -1,5 +1,7 @@
 package org.minijax;
 
+import static javax.ws.rs.HttpMethod.*;
+
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -25,10 +27,10 @@ public class ResourceMethodTest {
 
     @Test
     public void testResourceMethodSorting() throws Exception {
-        final MinijaxResourceMethod m1 = new MinijaxResourceMethod("GET", ResourceMethodTest.class.getMethod("x", String.class), null);
+        final MinijaxResourceMethod m1 = new MinijaxResourceMethod(GET, ResourceMethodTest.class.getMethod("x", String.class), null);
         assertEquals(1, m1.literalLength);
 
-        final MinijaxResourceMethod m2 = new MinijaxResourceMethod("GET", ResourceMethodTest.class.getMethod("x"), null);
+        final MinijaxResourceMethod m2 = new MinijaxResourceMethod(GET, ResourceMethodTest.class.getMethod("x"), null);
         assertEquals(2, m2.literalLength);
 
         final List<MinijaxResourceMethod> list = new ArrayList<>(Arrays.asList(m1, m2));

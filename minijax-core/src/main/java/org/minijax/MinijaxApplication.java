@@ -1,5 +1,7 @@
 package org.minijax;
 
+import static javax.ws.rs.HttpMethod.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -456,7 +458,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
         try {
             final Response response = handle(context);
-            if (!context.getMethod().equals("OPTIONS")) {
+            if (!context.getMethod().equals(OPTIONS)) {
                 writeResponse(response, servletResponse);
             }
         } catch (final Exception ex) {
@@ -479,8 +481,8 @@ public class MinijaxApplication extends Application implements Configuration, Fe
             }
         }
 
-        if (httpMethod.equals("OPTIONS")) {
-            return findRoute("GET", uriInfo);
+        if (httpMethod.equals(OPTIONS)) {
+            return findRoute(GET, uriInfo);
         }
 
         return null;

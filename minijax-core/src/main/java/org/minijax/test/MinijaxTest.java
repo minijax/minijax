@@ -1,5 +1,7 @@
 package org.minijax.test;
 
+import static javax.ws.rs.HttpMethod.*;
+
 import java.net.URI;
 
 import org.junit.Before;
@@ -69,7 +71,7 @@ public class MinijaxTest {
     }
 
     protected static MinijaxRequestContext createRequestContext() {
-        return createRequestContext("GET", "/");
+        return createRequestContext(GET, "/");
     }
 
     private static MinijaxRequestContext createRequestContext(final String method, final String uri) {

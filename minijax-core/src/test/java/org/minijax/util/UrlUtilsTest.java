@@ -1,5 +1,7 @@
 package org.minijax.util;
 
+import static javax.ws.rs.HttpMethod.*;
+
 import static org.junit.Assert.*;
 
 import java.net.URI;
@@ -46,7 +48,7 @@ public class UrlUtilsTest {
     }
 
     private HttpServletRequest makeRequest(final String url) {
-        return new MockHttpServletRequest("GET", URI.create(url));
+        return new MockHttpServletRequest(GET, URI.create(url));
     }
 
     @Test

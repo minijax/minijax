@@ -1,5 +1,7 @@
 package org.minijax.test;
 
+import static javax.ws.rs.HttpMethod.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +29,6 @@ import org.minijax.util.EntityUtils;
 import org.minijax.util.ExceptionUtils;
 
 public class MinijaxTestInvocationBuilder implements javax.ws.rs.client.Invocation.Builder {
-    private static final String DELETE = "DELETE";
-    private static final String GET = "GET";
-    private static final String HEAD = "HEAD";
-    private static final String OPTIONS = "OPTIONS";
-    private static final String POST = "POST";
-    private static final String PUT = "PUT";
     private final MinijaxTestWebTarget target;
     private final MultivaluedMap<String, String> headers;
     private final List<Cookie> cookies;

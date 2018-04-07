@@ -1,5 +1,7 @@
 package org.minijax.db;
 
+import static javax.ws.rs.HttpMethod.*;
+
 import static org.junit.Assert.*;
 
 import java.io.IOException;
@@ -40,7 +42,7 @@ public class PersistenceContextTest {
 
         final MinijaxApplication application = container.getDefaultApplication();
 
-        final MockHttpServletRequest request = new MockHttpServletRequest("GET", URI.create("/"));
+        final MockHttpServletRequest request = new MockHttpServletRequest(GET, URI.create("/"));
 
         try (MinijaxRequestContext context = new MinijaxRequestContext(application, request, null)) {
             final PersistenceContextDao dao = container.getResource(PersistenceContextDao.class);

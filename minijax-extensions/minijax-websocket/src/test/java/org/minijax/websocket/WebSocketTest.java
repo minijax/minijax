@@ -1,5 +1,7 @@
 package org.minijax.websocket;
 
+import static javax.ws.rs.HttpMethod.*;
+
 import static org.junit.Assert.*;
 
 import java.net.URI;
@@ -83,7 +85,7 @@ public class WebSocketTest {
 
         final MinijaxWebSocketConfigurator configurator = (MinijaxWebSocketConfigurator) endpointConfig.getConfigurator();
 
-        final MockHttpServletRequest request = new MockHttpServletRequest("GET", URI.create("/echo"));
+        final MockHttpServletRequest request = new MockHttpServletRequest(GET, URI.create("/echo"));
 
         try (MinijaxRequestContext context = new MinijaxRequestContext(application, request, null)) {
             configurator.modifyHandshake(endpointConfig, null, null);

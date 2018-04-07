@@ -1,5 +1,7 @@
 package org.minijax.cdi;
 
+import static javax.ws.rs.HttpMethod.*;
+
 import static org.junit.Assert.*;
 
 import java.io.IOException;
@@ -24,7 +26,7 @@ public class RequestScopedTest {
         final Minijax container = new Minijax();
         final MinijaxApplication application = container.getDefaultApplication();
 
-        final MockHttpServletRequest r1 = new MockHttpServletRequest("GET", URI.create("/"));
+        final MockHttpServletRequest r1 = new MockHttpServletRequest(GET, URI.create("/"));
         A a1;
         A a2;
 
@@ -36,7 +38,7 @@ public class RequestScopedTest {
             assertTrue(a1 == a2);
         }
 
-        final MockHttpServletRequest r2 = new MockHttpServletRequest("GET", URI.create("/"));
+        final MockHttpServletRequest r2 = new MockHttpServletRequest(GET, URI.create("/"));
         A a3;
         A a4;
 

@@ -1,5 +1,7 @@
 package org.minijax;
 
+import static javax.ws.rs.HttpMethod.*;
+
 import static org.junit.Assert.*;
 
 import java.io.IOException;
@@ -28,7 +30,7 @@ public class ServletFilterTest {
         final MinijaxFilter filter = new MinijaxFilter(application);
         filter.init(null);
 
-        final MockHttpServletRequest request = new MockHttpServletRequest("GET", URI.create("/"));
+        final MockHttpServletRequest request = new MockHttpServletRequest(GET, URI.create("/"));
         final MockHttpServletResponse response = new MockHttpServletResponse();
         filter.doFilter(request, response, chain);
 

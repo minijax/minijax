@@ -1,5 +1,6 @@
 package com.example;
 
+import static javax.ws.rs.HttpMethod.*;
 import static javax.ws.rs.core.MediaType.*;
 
 import static org.junit.Assert.*;
@@ -9,7 +10,8 @@ import java.util.Collection;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.minijax.json.JsonFeature;
 import org.minijax.test.MinijaxTest;
 
@@ -56,7 +58,7 @@ public class TodoBackendTest extends MinijaxTest {
         final Post post = (Post) r1.getEntity();
         assertEquals("initial title", post.title);
 
-        final Response r2 = target(post.url).request().method("PATCH", Entity.entity("{\"title\":\"bathe the cat\"}", APPLICATION_JSON));
+        final Response r2 = target(post.url).request().method(PATCH, Entity.entity("{\"title\":\"bathe the cat\"}", APPLICATION_JSON));
         assertNotNull(r2);
 
         final Response r3 = target(post.url).request().get();
@@ -69,7 +71,7 @@ public class TodoBackendTest extends MinijaxTest {
     public void testUpdateOrder() {
         final Response r1 = target("/").request().post(Entity.entity("{\"title\":\"blah\"}", APPLICATION_JSON));
         final Post post = (Post) r1.getEntity();
-        target(post.url).request().method("PATCH", Entity.entity("{\"order\":10}", APPLICATION_JSON));
+        target(post.url).request().method(PATCH, Entity.entity("{\"order\":10}", APPLICATION_JSON));
         final Response r3 = target(post.url).request().get();
         assertEquals(10, ((Post) r3.getEntity()).order);
     }
@@ -78,7 +80,7 @@ public class TodoBackendTest extends MinijaxTest {
     public void testSetCompleted() {
         final Response r1 = target("/").request().post(Entity.entity("{\"title\":\"blah\"}", APPLICATION_JSON));
         final Post post = (Post) r1.getEntity();
-        target(post.url).request().method("PATCH", Entity.entity("{\"completed\":true}", APPLICATION_JSON));
+        target(post.url).request().method(PATCH, Entity.entity("{\"completed\":true}", APPLICATION_JSON));
         final Response r3 = target(post.url).request().get();
         assertTrue(((Post) r3.getEntity()).completed);
     }

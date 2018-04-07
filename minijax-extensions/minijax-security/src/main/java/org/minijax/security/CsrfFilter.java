@@ -1,5 +1,7 @@
 package org.minijax.security;
 
+import static javax.ws.rs.HttpMethod.*;
+
 import java.io.IOException;
 
 import javax.enterprise.context.RequestScoped;
@@ -15,7 +17,7 @@ class CsrfFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(final ContainerRequestContext requestContext) throws IOException {
-        if (!requestContext.getMethod().equals("POST")) {
+        if (!requestContext.getMethod().equals(POST)) {
             return;
         }
 

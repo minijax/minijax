@@ -1,5 +1,7 @@
 package org.minijax.gplus;
 
+import static javax.ws.rs.HttpMethod.*;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -128,7 +130,7 @@ public class GooglePlusCallbackTest extends MinijaxTest {
                 return new MockLowLevelHttpRequest() {
                     @Override
                     public LowLevelHttpResponse execute() throws IOException {
-                        if (method.equals("POST") && url.equals("https://accounts.google.com/o/oauth2/token")) {
+                        if (method.equals(POST) && url.equals("https://accounts.google.com/o/oauth2/token")) {
                             final String content;
                             if (success && refresh) {
                                 content = "{\"success\":true,\"refresh_token\":\"foo\"}";
@@ -145,7 +147,7 @@ public class GooglePlusCallbackTest extends MinijaxTest {
                             return response;
                         }
 
-                        if (method.equals("GET") && url.equals("https://www.googleapis.com/plus/v1/people/me")) {
+                        if (method.equals(GET) && url.equals("https://www.googleapis.com/plus/v1/people/me")) {
                             final String content;
                             if (success) {
                                 content = "{" +

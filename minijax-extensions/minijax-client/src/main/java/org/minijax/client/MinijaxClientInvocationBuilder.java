@@ -1,5 +1,7 @@
 package org.minijax.client;
 
+import static javax.ws.rs.HttpMethod.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpCookie;
@@ -27,6 +29,7 @@ import org.minijax.MinijaxException;
 import org.minijax.util.EntityUtils;
 
 public class MinijaxClientInvocationBuilder implements javax.ws.rs.client.Invocation.Builder {
+    private static final String TRACE = "TRACE";
     private final MinijaxClient client;
     private final MinijaxClientHttpRequest httpRequest;
 
@@ -118,37 +121,37 @@ public class MinijaxClientInvocationBuilder implements javax.ws.rs.client.Invoca
 
     @Override
     public Response head() {
-        return build("HEAD").invoke();
+        return build(HEAD).invoke();
     }
 
     @Override
     public Response options() {
-        return build("OPTIONS").invoke();
+        return build(OPTIONS).invoke();
     }
 
     @Override
     public <T> T options(final Class<T> responseType) {
-        return build("OPTIONS").invoke(responseType);
+        return build(OPTIONS).invoke(responseType);
     }
 
     @Override
     public <T> T options(final GenericType<T> responseType) {
-        return build("OPTIONS").invoke(responseType);
+        return build(OPTIONS).invoke(responseType);
     }
 
     @Override
     public Response trace() {
-        return build("TRACE").invoke();
+        return build(TRACE).invoke();
     }
 
     @Override
     public <T> T trace(final Class<T> responseType) {
-        return build("TRACE").invoke(responseType);
+        return build(TRACE).invoke(responseType);
     }
 
     @Override
     public <T> T trace(final GenericType<T> responseType) {
-        return build("TRACE").invoke(responseType);
+        return build(TRACE).invoke(responseType);
     }
 
     @Override
@@ -207,22 +210,22 @@ public class MinijaxClientInvocationBuilder implements javax.ws.rs.client.Invoca
 
     @Override
     public MinijaxClientInvocation buildGet() {
-        return build("GET");
+        return build(GET);
     }
 
     @Override
     public MinijaxClientInvocation buildDelete() {
-        return build("DELETE");
+        return build(DELETE);
     }
 
     @Override
     public MinijaxClientInvocation buildPost(final Entity<?> entity) {
-        return build("POST", entity);
+        return build(POST, entity);
     }
 
     @Override
     public MinijaxClientInvocation buildPut(final Entity<?> entity) {
-        return build("PUT", entity);
+        return build(PUT, entity);
     }
 
     @Override
