@@ -37,11 +37,7 @@ public class GooglePlusFeature implements Feature {
             context.register(GooglePlusCallback.class);
             return true;
 
-        } catch (final GeneralSecurityException ex) {
-            LOG.error(ex.getMessage(), ex);
-            return false;
-
-        } catch (final IOException ex) {
+        } catch (final IOException | GeneralSecurityException ex) {
             LOG.error(ex.getMessage(), ex);
             return false;
         }
