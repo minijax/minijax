@@ -75,11 +75,6 @@ public class MinijaxTest {
     }
 
     private static MinijaxRequestContext createRequestContext(final String method, final String uri) {
-//        return new MinijaxRequestContext(
-//                getServer().getDefaultApplication(),
-//                new MockHttpServletRequest(method, URI.create(uri)),
-//                null);
-
         return new MinijaxTestRequestContext(
                 getServer().getDefaultApplication(),
                 method,

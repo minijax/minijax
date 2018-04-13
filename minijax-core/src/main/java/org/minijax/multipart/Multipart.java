@@ -128,10 +128,6 @@ public class Multipart implements MinijaxForm {
 
     @Override
     public void close() throws IOException {
-        for (final Part part : values.values()) {
-            if (part.getSubmittedFileName() != null) {
-                //part.delete();
-            }
-        }
+        // Nothing to do
     }
 }

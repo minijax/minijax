@@ -51,9 +51,4 @@ class MinijaxUndertowRequestContext extends MinijaxRequestContext {
         }
         return entityStream;
     }
-
-//    @Override
-//    public MinijaxForm getForm() {
-//        throw new UnsupportedOperationException();
-//    }
 }
