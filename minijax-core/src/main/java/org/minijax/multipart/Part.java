@@ -1,4 +1,4 @@
-package org.minijax.test;
+package org.minijax.multipart;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -13,11 +13,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import javax.servlet.http.Part;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-public class MockPart implements Part {
+public class Part {
     private final MultivaluedMap<String, String> headers;
     private String name;
     private String value;
@@ -25,24 +24,23 @@ public class MockPart implements Part {
     private InputStream inputStream;
     private File file;
 
-    public MockPart() {
+    public Part() {
         headers = new MultivaluedHashMap<>();
     }
 
-    public MockPart(final String name, final String value) {
+    public Part(final String name, final String value) {
         this();
         this.name = name;
         this.value = value;
     }
 
-    public MockPart(final String name, final File file) {
+    public Part(final String name, final File file) {
         this();
         this.name = name;
         this.file = file;
         submittedFileName = file.getName();
     }
 
-    @Override
     public String getName() {
         return name;
     }
@@ -59,7 +57,6 @@ public class MockPart implements Part {
         this.value = value;
     }
 
-    @Override
     public String getSubmittedFileName() {
         return submittedFileName;
     }
@@ -72,17 +69,14 @@ public class MockPart implements Part {
         this.file = file;
     }
 
-    @Override
     public String getContentType() {
         return getHeader("Content-Type");
     }
 
-    @Override
     public long getSize() {
         return value.length();
     }
 
-    @Override
     public InputStream getInputStream() throws IOException {
         if (inputStream == null) {
             if (file != null) {
@@ -96,55 +90,51 @@ public class MockPart implements Part {
         return inputStream;
     }
 
-    @Override
-    public void write(final String fileName) throws IOException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void delete() throws IOException {
-        // No-op
-    }
-
     private void addHeader(final String name, final String value) {
         headers.add(name, value);
     }
 
-    @Override
     public String getHeader(final String name) {
         return headers.getFirst(name);
     }
 
-    @Override
     public Collection<String> getHeaders(final String name) {
         return headers.get(name);
     }
 
-    @Override
     public Collection<String> getHeaderNames() {
         return headers.keySet();
     }
 
     public static List<Part> parseAll(final String str) throws IOException {
         final int index = str.indexOf('\n');
-        final String boundary = str.substring(0, index) + "\n";
-        if (str.length() <= 2 * boundary.length()) {
+        if (index < 0) {
             return Collections.emptyList();
         }
 
-        final String content = str.substring(index + 1, str.length() - boundary.length());
-        final String[] strParts = content.split(boundary, 0);
+        final String boundary = str.substring(0, index);
+        final String endBoundary = boundary + "--";
+        final int endIndex = str.indexOf(endBoundary);
+        final String content;
+        if (endIndex > 0) {
+            content = str.substring(index + 1, endIndex);
+        } else {
+            content = str.substring(index + 1);
+        }
+
+        final String separator = boundary + "\n";
+        final String[] strParts = content.split(separator, 0);
         final List<Part> parts = new ArrayList<>(strParts.length);
 
         for (final String strPart : strParts) {
-            parts.add(MockPart.parse(strPart));
+            parts.add(Part.parse(strPart));
         }
 
         return parts;
     }
 
-    private static MockPart parse(final String str) throws IOException {
-        final MockPart part = new MockPart();
+    private static Part parse(final String str) throws IOException {
+        final Part part = new Part();
         final StringBuilder valueBuilder = new StringBuilder();
         boolean headers = true;
 
@@ -174,7 +164,7 @@ public class MockPart implements Part {
         return part;
     }
 
-    private static void parseHeader(final MockPart part, final String line) {
+    private static void parseHeader(final Part part, final String line) {
         final int index = line.indexOf(':');
         final String key = line.substring(0, index).trim();
         final String value = line.substring(index + 1).trim();
@@ -185,7 +175,7 @@ public class MockPart implements Part {
         }
     }
 
-    private static void parseContentDisposition(final MockPart part, final String contentDisposition) {
+    private static void parseContentDisposition(final Part part, final String contentDisposition) {
         // Content-Disposition: form-data; name="key"
         // Content-Disposition: form-data; name="attachdoc"; filename="ajibot-256x256.png"
         for (final String str : contentDisposition.split(";\\s*")) {

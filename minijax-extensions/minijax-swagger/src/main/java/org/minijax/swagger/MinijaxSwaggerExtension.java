@@ -10,6 +10,8 @@ import java.util.Set;
 
 import javax.ws.rs.FormParam;
 
+import org.minijax.multipart.Part;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.converter.ModelConverters;
@@ -46,7 +48,7 @@ public class MinijaxSwaggerExtension extends AbstractSwaggerExtension {
                 if (java.io.InputStream.class.isAssignableFrom(constructType(type).getRawClass())) {
                     parameters.add(new FormParameter().type("file").name(fd.value()));
 
-                } else if (javax.servlet.http.Part.class.isAssignableFrom(constructType(type).getRawClass())) {
+                } else if (Part.class.isAssignableFrom(constructType(type).getRawClass())) {
                     parameters.add(new FormParameter().type("file").name(fd.value()));
 
                 } else {

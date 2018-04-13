@@ -1,4 +1,4 @@
-package org.minijax;
+package org.minijax.multipart;
 
 import static org.junit.Assert.*;
 
@@ -9,11 +9,12 @@ import java.util.Arrays;
 import javax.ws.rs.WebApplicationException;
 
 import org.junit.Test;
-import org.minijax.test.MockPart;
+import org.minijax.multipart.Multipart;
+import org.minijax.multipart.Part;
 
-public class MultipartFormTest {
+public class MultipartTest {
 
-    public static class ExplodingPart extends MockPart {
+    public static class ExplodingPart extends Part {
 
         public ExplodingPart(final String name) {
             super(name, "");
@@ -27,21 +28,21 @@ public class MultipartFormTest {
 
     @Test
     public void testSimple() throws IOException {
-        try (final MinijaxMultipartForm form = new MinijaxMultipartForm(Arrays.asList(new MockPart("a", "b")))) {
+        try (final Multipart form = new Multipart(Arrays.asList(new Part("a", "b")))) {
             assertEquals("b", form.getString("a"));
         }
     }
 
     @Test(expected = WebApplicationException.class)
     public void testGetStringException() throws IOException {
-        try (final MinijaxMultipartForm form = new MinijaxMultipartForm(Arrays.asList(new ExplodingPart("a")))) {
+        try (final Multipart form = new Multipart(Arrays.asList(new ExplodingPart("a")))) {
             form.getString("a");
         }
     }
 
     @Test(expected = WebApplicationException.class)
     public void testGetInputStreamException() throws IOException {
-        try (final MinijaxMultipartForm form = new MinijaxMultipartForm(Arrays.asList(new ExplodingPart("a")))) {
+        try (final Multipart form = new Multipart(Arrays.asList(new ExplodingPart("a")))) {
             form.getInputStream("a");
         }
     }

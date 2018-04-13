@@ -18,9 +18,8 @@ import javax.ws.rs.container.ResourceContext;
 
 import org.minijax.MinijaxApplication;
 import org.minijax.util.CloseUtils;
+import org.minijax.util.CopyOnWriteMap;
 import org.minijax.util.PersistenceUtils;
-
-import io.undertow.util.CopyOnWriteMap;
 
 /**
  * The MinijaxInjector class provides a Minijax-container-aware implementation of Java CDI (JSR 330).

@@ -1,4 +1,4 @@
-package org.minijax.test;
+package org.minijax.multipart;
 
 import static org.junit.Assert.*;
 
@@ -8,12 +8,10 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-import javax.servlet.http.Part;
-
 import org.junit.Test;
 import org.minijax.util.IOUtils;
 
-public class MockPartTest {
+public class PartTest {
 
     @Test
     public void testKeyValue() throws IOException {
@@ -22,9 +20,9 @@ public class MockPartTest {
                 "Content-Disposition: form-data; name=\"key\"\n" +
                 "\n" +
                 "myvalue1\n" +
-                "------WebKitFormBoundarycTqA2AimXQHBAJbZ";
+                "------WebKitFormBoundarycTqA2AimXQHBAJbZ--";
 
-        final List<Part> parts = MockPart.parseAll(mockContent);
+        final List<Part> parts = Part.parseAll(mockContent);
         assertNotNull(parts);
         assertEquals(1, parts.size());
 
@@ -41,9 +39,9 @@ public class MockPartTest {
                 "\n" +
                 "myvalue1\n" +
                 "myvalue1\n" +
-                "------WebKitFormBoundarycTqA2AimXQHBAJbZ";
+                "------WebKitFormBoundarycTqA2AimXQHBAJbZ--";
 
-        final List<Part> parts = MockPart.parseAll(mockContent);
+        final List<Part> parts = Part.parseAll(mockContent);
         assertNotNull(parts);
         assertEquals(1, parts.size());
 
@@ -63,9 +61,9 @@ public class MockPartTest {
                 "Content-Disposition: form-data; name=\"key2\"\n" +
                 "\n" +
                 "myvalue2\n" +
-                "------WebKitFormBoundarycTqA2AimXQHBAJbZ";
+                "------WebKitFormBoundarycTqA2AimXQHBAJbZ--";
 
-        final List<Part> parts = MockPart.parseAll(mockContent);
+        final List<Part> parts = Part.parseAll(mockContent);
         assertNotNull(parts);
         assertEquals(2, parts.size());
 
@@ -88,9 +86,9 @@ public class MockPartTest {
                 "X-Other-Header: bar\n" +
                 "\n" +
                 "Hello world\n" +
-                "------WebKitFormBoundaryoyr33TDQmcUAD5A7";
+                "------WebKitFormBoundaryoyr33TDQmcUAD5A7--";
 
-        final List<Part> parts = MockPart.parseAll(mockContent);
+        final List<Part> parts = Part.parseAll(mockContent);
         assertNotNull(parts);
         assertEquals(1, parts.size());
 
@@ -100,24 +98,12 @@ public class MockPartTest {
         assertEquals("hello.txt", part.getSubmittedFileName());
         assertEquals(11, part.getSize());
         assertEquals("Hello world", IOUtils.toString(part.getInputStream(), StandardCharsets.UTF_8));
-        assertEquals("Hello world", ((MockPart) part).getValue());
+        assertEquals("Hello world", part.getValue());
 
         assertEquals(
                 new HashSet<>(Arrays.asList("Content-Disposition", "Content-Type", "X-Other-Header")),
                 new HashSet<>(part.getHeaderNames()));
 
         assertEquals(Arrays.asList("foo", "bar"), part.getHeaders("X-Other-Header"));
-    }
-
-    @Test
-    public void testDelete() throws IOException {
-        final MockPart p = new MockPart();
-        p.delete();
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void testWrite() throws IOException {
-        final MockPart p = new MockPart();
-        p.write(null);
     }
 }

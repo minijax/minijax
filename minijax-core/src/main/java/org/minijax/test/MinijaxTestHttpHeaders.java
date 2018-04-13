@@ -1,41 +1,43 @@
-package org.minijax;
+package org.minijax.test;
 
 import java.util.Date;
-import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.minijax.util.CookieUtils;
 import org.minijax.util.LocaleUtils;
 import org.minijax.util.MediaTypeUtils;
 
-class MinijaxHttpHeaders implements HttpHeaders {
-    private final MultivaluedHashMap<String, String> headers;
+public class MinijaxTestHttpHeaders implements HttpHeaders {
+    private final MultivaluedMap<String, String> headers;
     private final Map<String, Cookie> cookies;
     private List<Locale> acceptableLanguages;
     private List<MediaType> acceptableMediaTypes;
 
-    public MinijaxHttpHeaders(final HttpServletRequest request) {
-        headers = new MultivaluedHashMap<>();
+    public MinijaxTestHttpHeaders() {
+        this(new MultivaluedHashMap<>(), new HashMap<>());
+    }
 
-        final Enumeration<String> ne = request.getHeaderNames();
-        while (ne.hasMoreElements()) {
-            final String name = ne.nextElement();
-            final Enumeration<String> ve = request.getHeaders(name);
-            while (ve.hasMoreElements()) {
-                headers.add(name.toLowerCase(), ve.nextElement());
-            }
-        }
+    public MinijaxTestHttpHeaders(final MultivaluedMap<String, String> headers, final Map<String, Cookie> cookies) {
+        this.headers = headers;
+        this.cookies = cookies;
+    }
 
-        cookies = CookieUtils.convertServletToJax(request.getCookies());
+    @Override
+    public List<String> getRequestHeader(final String name) {
+        return headers.get(name);
+    }
+
+    @Override
+    public String getHeaderString(final String name) {
+        return headers.getFirst(name);
     }
 
     @Override
@@ -46,16 +48,6 @@ class MinijaxHttpHeaders implements HttpHeaders {
     @Override
     public Map<String, Cookie> getCookies() {
         return cookies;
-    }
-
-    @Override
-    public List<String> getRequestHeader(final String name) {
-        return headers.get(name.toLowerCase());
-    }
-
-    @Override
-    public String getHeaderString(final String name) {
-        return headers.getFirst(name.toLowerCase());
     }
 
     @Override

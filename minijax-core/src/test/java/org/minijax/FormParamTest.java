@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-import javax.servlet.http.Part;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
@@ -20,6 +19,8 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.minijax.multipart.Multipart;
+import org.minijax.multipart.Part;
 import org.minijax.test.MinijaxTest;
 import org.minijax.util.IOUtils;
 
@@ -112,76 +113,42 @@ public class FormParamTest extends MinijaxTest {
     }
 
     @Test
-    public void testMultipartForm() {
-        final String mockContent =
-                "------WebKitFormBoundarycTqA2AimXQHBAJbZ\n" +
-                "Content-Disposition: form-data; name=\"key\"\n" +
-                "\n" +
-                "myvalue1\n" +
-                "------WebKitFormBoundarycTqA2AimXQHBAJbZ";
+    public void testMultipartForm() throws IOException {
+        try (final Multipart multipart = new Multipart()) {
+            multipart.param("key", "myvalue1");
 
-        final Entity<String> entity = Entity.entity(mockContent, MULTIPART_FORM_DATA_TYPE);
-
-        assertEquals("myvalue1", target("/multipart-form").request().post(entity, String.class));
+            final Entity<Multipart> entity = Entity.entity(multipart, MULTIPART_FORM_DATA_TYPE);
+            assertEquals("myvalue1", target("/multipart-form").request().post(entity, String.class));
+        }
     }
 
     @Test
-    public void testMultipartParams() {
-        final String mockContent =
-                "------WebKitFormBoundarycTqA2AimXQHBAJbZ\n" +
-                "Content-Disposition: form-data; name=\"key\"\n" +
-                "\n" +
-                "myvalue1\n" +
-                "------WebKitFormBoundarycTqA2AimXQHBAJbZ\n" +
-                "Content-Disposition: form-data; name=\"content\"; filename=\"hello.txt\"\n" +
-                "Content-Type: text/plain\n" +
-                "\n" +
-                "Hello world\n" +
-                "------WebKitFormBoundarycTqA2AimXQHBAJbZ";
+    public void testMultipartParams() throws IOException {
+        try (final Multipart multipart = new Multipart()) {
+            multipart.param("key", "myvalue1");
+            multipart.param("content", "Hello world\n");
 
-        final Entity<String> entity = Entity.entity(mockContent, MULTIPART_FORM_DATA_TYPE);
-
-        assertEquals("myvalue1-Hello world", target("/multipart-params").request().post(entity, String.class));
+            final Entity<Multipart> entity = Entity.entity(multipart, MULTIPART_FORM_DATA_TYPE);
+            assertEquals("myvalue1", target("/multipart-form").request().post(entity, String.class));
+        }
     }
 
     @Test
-    public void testMultipartOptionalWithFile() {
-        final String mockContent =
-                "------WebKitFormBoundarycTqA2AimXQHBAJbZ\n" +
-                "Content-Disposition: form-data; name=\"content\"; filename=\"hello.txt\"\n" +
-                "Content-Type: text/plain\n" +
-                "\n" +
-                "Hello world\n" +
-                "------WebKitFormBoundarycTqA2AimXQHBAJbZ";
+    public void testMultipartOptionalWithFile() throws IOException {
+        try (final Multipart multipart = new Multipart()) {
+            multipart.param("key", "myvalue1");
+            multipart.param("content", "Hello world");
 
-        final Entity<String> entity = Entity.entity(mockContent, MULTIPART_FORM_DATA_TYPE);
-
-        assertEquals("Hello world", target("/multipart-optional").request().post(entity, String.class));
+            final Entity<Multipart> entity = Entity.entity(multipart, MULTIPART_FORM_DATA_TYPE);
+            assertEquals("Hello world", target("/multipart-optional").request().post(entity, String.class));
+        }
     }
 
     @Test
-    public void testMultipartOptionalWithoutFile() {
-        final String mockContent =
-                "------WebKitFormBoundarycTqA2AimXQHBAJbZ\n" +
-                "------WebKitFormBoundarycTqA2AimXQHBAJbZ";
-
-        final Entity<String> entity = Entity.entity(mockContent, MULTIPART_FORM_DATA_TYPE);
-
-        assertEquals("null", target("/multipart-optional").request().post(entity, String.class));
-    }
-
-    @Test
-    public void testMultipartPart() {
-        final String mockContent =
-                "------WebKitFormBoundarycTqA2AimXQHBAJbZ\n" +
-                "Content-Disposition: form-data; name=\"content\"; filename=\"hello.txt\"\n" +
-                "Content-Type: text/plain\n" +
-                "\n" +
-                "Hello world\n" +
-                "------WebKitFormBoundarycTqA2AimXQHBAJbZ";
-
-        final Entity<String> entity = Entity.entity(mockContent, MULTIPART_FORM_DATA_TYPE);
-
-        assertEquals("hello.txt", target("/multipart-part").request().post(entity, String.class));
+    public void testMultipartOptionalWithoutFile() throws IOException {
+        try (final Multipart multipart = new Multipart()) {
+            final Entity<Multipart> entity = Entity.entity(multipart, MULTIPART_FORM_DATA_TYPE);
+            assertEquals("null", target("/multipart-optional").request().post(entity, String.class));
+        }
     }
 }

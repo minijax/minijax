@@ -2,11 +2,12 @@ package org.minijax.swagger.resources;
 
 import java.io.InputStream;
 
-import javax.servlet.http.Part;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+
+import org.minijax.multipart.Part;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

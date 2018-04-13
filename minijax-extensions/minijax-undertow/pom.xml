@@ -3,14 +3,19 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.minijax</groupId>
-        <artifactId>minijax-examples</artifactId>
+        <artifactId>minijax-extensions</artifactId>
         <version>0.2.4-SNAPSHOT</version>
     </parent>
-    <artifactId>minijax-example-hello</artifactId>
+    <artifactId>minijax-undertow</artifactId>
     <packaging>jar</packaging>
-    <name>minijax-example-hello</name>
-    <description>Simple 'hello world' application</description>
+    <name>minijax-undertow</name>
+    <description>Minijax Undertow server implementation</description>
     <dependencies>
+        <dependency>
+            <groupId>io.undertow</groupId>
+            <artifactId>undertow-core</artifactId>
+            <version>${undertow.version}</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -19,7 +24,7 @@
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
-            <artifactId>minijax-undertow</artifactId>
+            <artifactId>minijax-core</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

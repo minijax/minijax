@@ -22,6 +22,7 @@
         <module>minijax-s3</module>
         <module>minijax-security</module>
         <module>minijax-swagger</module>
+        <module>minijax-undertow</module>
         <module>minijax-validator</module>
         <module>minijax-view</module>
         <module>minijax-websocket</module>

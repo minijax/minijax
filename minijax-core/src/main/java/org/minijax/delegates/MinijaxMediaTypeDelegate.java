@@ -5,9 +5,8 @@ import java.util.Map;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
 
+import org.minijax.util.CopyOnWriteMap;
 import org.minijax.util.UrlUtils;
-
-import io.undertow.util.CopyOnWriteMap;
 
 class MinijaxMediaTypeDelegate implements HeaderDelegate<MediaType> {
     private static final Map<String, MediaType> TO_MEDIATYPE_CACHE = new CopyOnWriteMap<>();

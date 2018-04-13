@@ -7,9 +7,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.UUID;
 
-import javax.servlet.http.Part;
-
-import org.minijax.MinijaxMultipartForm;
+import org.minijax.multipart.Multipart;
+import org.minijax.multipart.Part;
 
 public class MultipartUtils {
 
@@ -17,8 +16,8 @@ public class MultipartUtils {
         throw new UnsupportedOperationException();
     }
 
-    public static InputStream serializeMultipartForm(final MinijaxMultipartForm form) throws IOException {
-        final String boundary = "------Boundary" + UUID.randomUUID().toString();
+    public static InputStream serializeMultipartForm(final Multipart form) throws IOException {
+        final String boundary = "----Boundary" + UUID.randomUUID().toString().replaceAll("-", "");
 
         final StringBuilder b = new StringBuilder();
 
@@ -33,6 +32,7 @@ public class MultipartUtils {
         }
 
         b.append(boundary);
+        b.append("--");
         return new ByteArrayInputStream(b.toString().getBytes(StandardCharsets.UTF_8));
     }
 

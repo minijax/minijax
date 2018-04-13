@@ -8,13 +8,9 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import javax.servlet.http.Part;
-
 import org.junit.Test;
-import org.minijax.MinijaxMultipartForm;
-import org.minijax.test.MockPart;
-import org.minijax.util.IOUtils;
-import org.minijax.util.MultipartUtils;
+import org.minijax.multipart.Multipart;
+import org.minijax.multipart.Part;
 
 public class MultipartUtilsTest {
 
@@ -24,15 +20,27 @@ public class MultipartUtilsTest {
     }
 
     @Test
+    public void testEmpty() throws IOException {
+        final Multipart form = new Multipart();
+
+        final InputStream inputStream = MultipartUtils.serializeMultipartForm(form);
+
+        final String str = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+
+        final List<Part> parts = Part.parseAll(str);
+        assertTrue(parts.isEmpty());
+    }
+
+    @Test
     public void testSimple() throws IOException {
-        final MinijaxMultipartForm form = new MinijaxMultipartForm();
+        final Multipart form = new Multipart();
         form.param("a", "b");
 
         final InputStream inputStream = MultipartUtils.serializeMultipartForm(form);
 
         final String str = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
 
-        final List<Part> parts = MockPart.parseAll(str);
+        final List<Part> parts = Part.parseAll(str);
         assertEquals(1, parts.size());
         assertEquals("a", parts.get(0).getName());
         assertEquals("b", IOUtils.toString(parts.get(0).getInputStream(), StandardCharsets.UTF_8));
@@ -40,7 +48,7 @@ public class MultipartUtilsTest {
 
     @Test
     public void testFileUpload() throws IOException {
-        final MinijaxMultipartForm form = new MinijaxMultipartForm();
+        final Multipart form = new Multipart();
         form.param("a", "b");
         form.param("myfile", new File("src/test/resources/config.properties"));
 
@@ -48,7 +56,7 @@ public class MultipartUtilsTest {
 
         final String str = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
 
-        final List<Part> parts = MockPart.parseAll(str);
+        final List<Part> parts = Part.parseAll(str);
         assertEquals(2, parts.size());
         assertEquals("a", parts.get(0).getName());
         assertEquals("b", IOUtils.toString(parts.get(0).getInputStream(), StandardCharsets.UTF_8));

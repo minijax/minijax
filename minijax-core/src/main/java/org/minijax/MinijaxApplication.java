@@ -17,7 +17,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
@@ -26,7 +25,6 @@ import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.inject.InjectionException;
 import javax.inject.Provider;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.HttpMethod;
@@ -453,28 +451,6 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     }
 
 
-    public void handle(
-            final MinijaxRequestContext context,
-            final HttpServletResponse servletResponse) {
-
-        try {
-            final Response response = handle(context);
-            if (!context.getMethod().equals(OPTIONS)) {
-                writeResponse(response, servletResponse);
-            }
-        } catch (final Exception ex) {
-            LOG.warn(ex.getMessage(), ex);
-            handleUnexpectedError(ex, servletResponse);
-        }
-    }
-
-
-    private void handleUnexpectedError(final Exception ex, final HttpServletResponse servletResponse) {
-        LOG.warn("Unexpected error: {}", ex.getMessage(), ex);
-        servletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-    }
-
-
     private MinijaxResourceMethod findRoute(final String httpMethod, final MinijaxUriInfo uriInfo) {
         for (final MinijaxResourceMethod rm : resourceMethods) {
             if (rm.tryMatch(httpMethod, uriInfo)) {
@@ -673,35 +649,6 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         }
 
         return TEXT_PLAIN_TYPE;
-    }
-
-
-    /**
-     * Writes a JAX-RS response to the servlet response.
-     *
-     * @param response The JAX-RS response.
-     * @param servletResponse The servlet response.
-     */
-    public void writeResponse(
-            final Response response,
-            final HttpServletResponse servletResponse)
-                    throws IOException {
-
-        servletResponse.setStatus(response.getStatus());
-
-        for (final Entry<String, List<Object>> entry : response.getHeaders().entrySet()) {
-            final String name = entry.getKey();
-            for (final Object value : entry.getValue()) {
-                servletResponse.addHeader(name, value.toString());
-            }
-        }
-
-        final MediaType mediaType = response.getMediaType();
-        if (mediaType != null) {
-            servletResponse.setContentType(mediaType.toString());
-        }
-
-        writeEntity(response.getEntity(), mediaType, servletResponse.getOutputStream());
     }
 
 

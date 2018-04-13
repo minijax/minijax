@@ -1,9 +1,5 @@
 package org.minijax;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Configuration;
@@ -62,23 +58,8 @@ public class MinijaxContextResolver<T> implements ContextResolver<T> {
         }
 
         // 10.1
-        if (c == ServletConfig.class) {
+        if (c.getName().startsWith("javax.servlet.")) {
             return null;
-        }
-
-        // 10.1
-        if (c == ServletContext.class) {
-            return (T) context.getServletRequest().getServletContext();
-        }
-
-        // 10.1
-        if (c == HttpServletRequest.class) {
-            return (T) context.getServletRequest();
-        }
-
-        // 10.1
-        if (c == HttpServletResponse.class) {
-            return (T) context.getServletResponse();
         }
 
         throw new IllegalArgumentException("Unrecognized @Context parameter: " + c);

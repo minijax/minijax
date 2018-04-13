@@ -5,7 +5,6 @@ import static javax.ws.rs.HttpMethod.*;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.net.URI;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +14,7 @@ import org.minijax.Minijax;
 import org.minijax.MinijaxApplication;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.db.test.Widget;
-import org.minijax.test.MockHttpServletRequest;
+import org.minijax.test.MinijaxTestRequestContext;
 
 public class PersistenceContextTest {
 
@@ -42,9 +41,7 @@ public class PersistenceContextTest {
 
         final MinijaxApplication application = container.getDefaultApplication();
 
-        final MockHttpServletRequest request = new MockHttpServletRequest(GET, URI.create("/"));
-
-        try (MinijaxRequestContext context = new MinijaxRequestContext(application, request, null)) {
+        try (MinijaxRequestContext context = new MinijaxTestRequestContext(application, GET, "/")) {
             final PersistenceContextDao dao = container.getResource(PersistenceContextDao.class);
 
             final Widget widget = new Widget();

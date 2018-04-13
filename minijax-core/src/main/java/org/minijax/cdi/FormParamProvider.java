@@ -3,11 +3,11 @@ package org.minijax.cdi;
 import java.io.InputStream;
 
 import javax.inject.Provider;
-import javax.servlet.http.Part;
 import javax.ws.rs.DefaultValue;
 
 import org.minijax.MinijaxForm;
 import org.minijax.MinijaxRequestContext;
+import org.minijax.multipart.Part;
 
 class FormParamProvider<T> implements Provider<T> {
     private final Key<T> key;

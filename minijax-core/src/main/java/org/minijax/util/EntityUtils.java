@@ -11,7 +11,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 
 import org.minijax.MinijaxApplication;
-import org.minijax.MinijaxMultipartForm;
+import org.minijax.multipart.Multipart;
 
 public class EntityUtils {
 
@@ -38,8 +38,8 @@ public class EntityUtils {
             return IOUtils.toInputStream(UrlUtils.urlEncodeMultivaluedParams(((Form) obj).asMap()), StandardCharsets.UTF_8);
         }
 
-        if (obj instanceof MinijaxMultipartForm) {
-            return MultipartUtils.serializeMultipartForm((MinijaxMultipartForm) obj);
+        if (obj instanceof Multipart) {
+            return MultipartUtils.serializeMultipartForm((Multipart) obj);
         }
 
         if (entity.getMediaType() == APPLICATION_JSON_TYPE && OptionalClasses.JSON != null) {

@@ -34,11 +34,6 @@
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
-            <artifactId>minijax-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.minijax</groupId>
             <artifactId>minijax-db</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -50,6 +45,11 @@
         <dependency>
             <groupId>org.minijax</groupId>
             <artifactId>minijax-security</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.minijax</groupId>
+            <artifactId>minijax-undertow</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

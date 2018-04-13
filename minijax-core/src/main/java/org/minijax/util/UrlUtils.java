@@ -2,7 +2,6 @@
 package org.minijax.util;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -12,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -77,42 +75,6 @@ public class UrlUtils {
         }
 
         return result;
-    }
-
-
-    /**
-     * Returns the full request URL for a servlet request.
-     *
-     * 1) Fixes HTTPS protocol if forwarded by load balancer.
-     * 2) Handles query strings.
-     *
-     * See:
-     * http://stackoverflow.com/a/2222268/2051724
-     * http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/x-forwarded-headers.html
-     *
-     * @param request The original HTTP servlet request.
-     * @return The full request URL.
-     */
-    public static URI getFullRequestUrl(final HttpServletRequest request) {
-        if (request == null) {
-            return null;
-        }
-
-        String url = request.getRequestURL().toString();
-
-        // Fix HTTPS->HTTP rewriting from HTTP proxy.
-        // For example, "https://www.ajibot.com" will appear as "http://www.ajibot.com"
-        final String forwarded = request.getHeader("X-Forwarded-Proto");
-        if (forwarded != null && forwarded.equals("https")) {
-            url = url.replaceFirst("http://", "https://");
-        }
-
-        final String queryString = request.getQueryString();
-        if (queryString != null) {
-            url += "?" + queryString;
-        }
-
-        return URI.create(url);
     }
 
 

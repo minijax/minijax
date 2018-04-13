@@ -1,17 +1,13 @@
-package org.minijax;
-
-import static javax.ws.rs.HttpMethod.*;
+package org.minijax.test;
 
 import static org.junit.Assert.*;
 
-import java.net.URI;
 import java.util.Arrays;
 
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.junit.Test;
-import org.minijax.test.MockHttpServletRequest;
 
 public class HttpHeadersTest {
 
@@ -21,17 +17,14 @@ public class HttpHeadersTest {
         headers.add("a", "b");
         headers.add("a", "c");
 
-        final MockHttpServletRequest request = new MockHttpServletRequest(GET, URI.create("/"), headers, null, null);
-
-        final MinijaxHttpHeaders httpHeaders = new MinijaxHttpHeaders(request);
+        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers, null);
         assertEquals(Arrays.asList("b", "c"), httpHeaders.getRequestHeader("a"));
     }
 
     @Test
     public void testLanguageMissing() {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
-        final MockHttpServletRequest request = new MockHttpServletRequest(GET, URI.create("/"), headers, null, null);
-        final MinijaxHttpHeaders httpHeaders = new MinijaxHttpHeaders(request);
+        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers, null);
         assertNull(httpHeaders.getLanguage());
     }
 
@@ -39,16 +32,15 @@ public class HttpHeadersTest {
     public void testLanguage() {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         headers.add("Content-Language", "en-US");
-        final MockHttpServletRequest request = new MockHttpServletRequest(GET, URI.create("/"), headers, null, null);
-        final MinijaxHttpHeaders httpHeaders = new MinijaxHttpHeaders(request);
+
+        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers, null);
         assertEquals("en-US", httpHeaders.getLanguage().toLanguageTag());
     }
 
     @Test
     public void testContentLengthMissing() {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
-        final MockHttpServletRequest request = new MockHttpServletRequest(GET, URI.create("/"), headers, null, null);
-        final MinijaxHttpHeaders httpHeaders = new MinijaxHttpHeaders(request);
+        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers, null);
         assertEquals(-1, httpHeaders.getLength());
     }
 
@@ -56,8 +48,8 @@ public class HttpHeadersTest {
     public void testContentLengthMalformed() {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         headers.add("Content-Length", "x");
-        final MockHttpServletRequest request = new MockHttpServletRequest(GET, URI.create("/"), headers, null, null);
-        final MinijaxHttpHeaders httpHeaders = new MinijaxHttpHeaders(request);
+
+        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers, null);
         assertEquals(-1, httpHeaders.getLength());
     }
 
@@ -65,16 +57,15 @@ public class HttpHeadersTest {
     public void testContentLength() {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         headers.add("Content-Length", "1024");
-        final MockHttpServletRequest request = new MockHttpServletRequest(GET, URI.create("/"), headers, null, null);
-        final MinijaxHttpHeaders httpHeaders = new MinijaxHttpHeaders(request);
+
+        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers, null);
         assertEquals(1024, httpHeaders.getLength());
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testDate() {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
-        final MockHttpServletRequest request = new MockHttpServletRequest(GET, URI.create("/"), headers, null, null);
-        final MinijaxHttpHeaders httpHeaders = new MinijaxHttpHeaders(request);
+        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers, null);
         httpHeaders.getDate();
     }
 }

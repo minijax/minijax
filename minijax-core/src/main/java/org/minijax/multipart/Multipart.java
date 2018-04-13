@@ -1,5 +1,5 @@
 
-package org.minijax;
+package org.minijax.multipart;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,12 +10,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.Part;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.minijax.test.MockPart;
+import org.minijax.MinijaxForm;
 import org.minijax.util.ExceptionUtils;
 import org.minijax.util.IOUtils;
 import org.slf4j.Logger;
@@ -24,14 +23,14 @@ import org.slf4j.LoggerFactory;
 /**
  * The MinijaxMultipartForm class represents a multipart HTTP form submission.
  */
-public class MinijaxMultipartForm implements MinijaxForm {
-    private static final Logger LOG = LoggerFactory.getLogger(MinijaxMultipartForm.class);
+public class Multipart implements MinijaxForm {
+    private static final Logger LOG = LoggerFactory.getLogger(Multipart.class);
     private final Map<String, Part> values;
 
     /**
      * Creates an empty multipart form.
      */
-    public MinijaxMultipartForm() {
+    public Multipart() {
         values = new HashMap<>();
     }
 
@@ -40,7 +39,7 @@ public class MinijaxMultipartForm implements MinijaxForm {
      *
      * @param parts The multipart form parts.
      */
-    public MinijaxMultipartForm(final Collection<Part> parts) {
+    public Multipart(final Collection<Part> parts) {
         this();
         for (final Part part : parts) {
             values.put(part.getName(), part);
@@ -53,8 +52,9 @@ public class MinijaxMultipartForm implements MinijaxForm {
      * @param name The string field name.
      * @param value The string value.
      */
-    public void param(final String name, final String value) {
-        values.put(name, new MockPart(name, value));
+    public Multipart param(final String name, final String value) {
+        values.put(name, new Part(name, value));
+        return this;
     }
 
     /**
@@ -63,8 +63,9 @@ public class MinijaxMultipartForm implements MinijaxForm {
      * @param name The file field name.
      * @param value The file value.
      */
-    public void param(final String name, final File value) {
-        values.put(name, new MockPart(name, value));
+    public Multipart param(final String name, final File value) {
+        values.put(name, new Part(name, value));
+        return this;
     }
 
     /**
@@ -129,7 +130,7 @@ public class MinijaxMultipartForm implements MinijaxForm {
     public void close() throws IOException {
         for (final Part part : values.values()) {
             if (part.getSubmittedFileName() != null) {
-                part.delete();
+                //part.delete();
             }
         }
     }
