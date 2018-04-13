@@ -23,7 +23,7 @@ class MinijaxUndertowRequestContext extends MinijaxRequestContext {
             final HttpServerExchange exchange) {
         super(container);
         this.exchange = exchange;
-        uriInfo = new MinijaxUriInfo(URI.create(exchange.getRequestURL()));
+        uriInfo = new MinijaxUriInfo(URI.create(exchange.getRequestURL() + "?" + exchange.getQueryString()));
     }
 
     @Override

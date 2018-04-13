@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.Test;
@@ -25,9 +27,7 @@ public class MultipartUtilsTest {
 
         final InputStream inputStream = MultipartUtils.serializeMultipartForm(form);
 
-        final String str = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
-
-        final List<Part> parts = Part.parseAll(str);
+        final Collection<Part> parts = Multipart.read(form.getContentType(), -1, inputStream).getParts();
         assertTrue(parts.isEmpty());
     }
 
@@ -38,9 +38,7 @@ public class MultipartUtilsTest {
 
         final InputStream inputStream = MultipartUtils.serializeMultipartForm(form);
 
-        final String str = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
-
-        final List<Part> parts = Part.parseAll(str);
+        final List<Part> parts = new ArrayList<>(Multipart.read(form.getContentType(), -1, inputStream).getParts());
         assertEquals(1, parts.size());
         assertEquals("a", parts.get(0).getName());
         assertEquals("b", IOUtils.toString(parts.get(0).getInputStream(), StandardCharsets.UTF_8));
@@ -54,9 +52,7 @@ public class MultipartUtilsTest {
 
         final InputStream inputStream = MultipartUtils.serializeMultipartForm(form);
 
-        final String str = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
-
-        final List<Part> parts = Part.parseAll(str);
+        final List<Part> parts = new ArrayList<>(Multipart.read(form.getContentType(), -1, inputStream).getParts());
         assertEquals(2, parts.size());
         assertEquals("a", parts.get(0).getName());
         assertEquals("b", IOUtils.toString(parts.get(0).getInputStream(), StandardCharsets.UTF_8));

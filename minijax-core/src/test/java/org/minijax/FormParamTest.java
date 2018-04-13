@@ -117,7 +117,7 @@ public class FormParamTest extends MinijaxTest {
         try (final Multipart multipart = new Multipart()) {
             multipart.param("key", "myvalue1");
 
-            final Entity<Multipart> entity = Entity.entity(multipart, MULTIPART_FORM_DATA_TYPE);
+            final Entity<Multipart> entity = Entity.entity(multipart, multipart.getContentType());
             assertEquals("myvalue1", target("/multipart-form").request().post(entity, String.class));
         }
     }
@@ -128,7 +128,7 @@ public class FormParamTest extends MinijaxTest {
             multipart.param("key", "myvalue1");
             multipart.param("content", "Hello world\n");
 
-            final Entity<Multipart> entity = Entity.entity(multipart, MULTIPART_FORM_DATA_TYPE);
+            final Entity<Multipart> entity = Entity.entity(multipart, multipart.getContentType());
             assertEquals("myvalue1", target("/multipart-form").request().post(entity, String.class));
         }
     }
@@ -139,7 +139,7 @@ public class FormParamTest extends MinijaxTest {
             multipart.param("key", "myvalue1");
             multipart.param("content", "Hello world");
 
-            final Entity<Multipart> entity = Entity.entity(multipart, MULTIPART_FORM_DATA_TYPE);
+            final Entity<Multipart> entity = Entity.entity(multipart, multipart.getContentType());
             assertEquals("Hello world", target("/multipart-optional").request().post(entity, String.class));
         }
     }
@@ -147,7 +147,7 @@ public class FormParamTest extends MinijaxTest {
     @Test
     public void testMultipartOptionalWithoutFile() throws IOException {
         try (final Multipart multipart = new Multipart()) {
-            final Entity<Multipart> entity = Entity.entity(multipart, MULTIPART_FORM_DATA_TYPE);
+            final Entity<Multipart> entity = Entity.entity(multipart, multipart.getContentType());
             assertEquals("null", target("/multipart-optional").request().post(entity, String.class));
         }
     }

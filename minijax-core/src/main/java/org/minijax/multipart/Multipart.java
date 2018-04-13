@@ -1,6 +1,8 @@
 
 package org.minijax.multipart;
 
+import static java.util.Collections.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,12 +10,19 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUpload;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.minijax.MinijaxForm;
 import org.minijax.util.ExceptionUtils;
 import org.minijax.util.IOUtils;
@@ -25,25 +34,28 @@ import org.slf4j.LoggerFactory;
  */
 public class Multipart implements MinijaxForm {
     private static final Logger LOG = LoggerFactory.getLogger(Multipart.class);
+    private final MediaType contentType;
     private final Map<String, Part> values;
 
     /**
      * Creates an empty multipart form.
      */
     public Multipart() {
+        this(new MediaType("multipart", "form-data", singletonMap("boundary", createBoundary())));
+    }
+
+    public Multipart(final MediaType contentType) {
+        this.contentType = contentType;
         values = new HashMap<>();
     }
 
-    /**
-     * Creates a form with all of the provided parts.
-     *
-     * @param parts The multipart form parts.
-     */
-    public Multipart(final Collection<Part> parts) {
-        this();
-        for (final Part part : parts) {
-            values.put(part.getName(), part);
-        }
+    public MediaType getContentType() {
+        return contentType;
+    }
+
+    public Multipart param(final Part part) {
+        values.put(part.getName(), part);
+        return this;
     }
 
     /**
@@ -53,8 +65,7 @@ public class Multipart implements MinijaxForm {
      * @param value The string value.
      */
     public Multipart param(final String name, final String value) {
-        values.put(name, new Part(name, value));
-        return this;
+        return param(new Part(name, value));
     }
 
     /**
@@ -64,8 +75,7 @@ public class Multipart implements MinijaxForm {
      * @param value The file value.
      */
     public Multipart param(final String name, final File value) {
-        values.put(name, new Part(name, value));
-        return this;
+        return param(new Part(name, value));
     }
 
     /**
@@ -129,5 +139,69 @@ public class Multipart implements MinijaxForm {
     @Override
     public void close() throws IOException {
         // Nothing to do
+    }
+
+
+    public static Multipart read(final MediaType contentType, final int contentLength, final InputStream inputStream) throws IOException {
+        final FileUpload fileUpload = new FileUpload();
+        fileUpload.setFileItemFactory(new DiskFileItemFactory());
+
+        final List<FileItem> fileItems;
+
+        try {
+            fileItems = fileUpload.parseRequest(new UploadRequest(contentType, contentLength, inputStream));
+        } catch (final FileUploadException ex) {
+            throw new IOException("Error parsing form: " + ex.getMessage(), ex);
+        }
+
+        final Multipart result = new Multipart(contentType);
+
+        for (final FileItem fileItem : fileItems) {
+            if (fileItem.isFormField()) {
+                result.param(new Part(fileItem.getFieldName(), fileItem.getString()));
+            } else {
+                result.param(new Part(fileItem.getFieldName(), fileItem.getName(), fileItem.getInputStream()));
+            }
+        }
+
+        return result;
+    }
+
+
+    private static String createBoundary() {
+        return "Boundary" + UUID.randomUUID().toString().replaceAll("-", "");
+    }
+
+
+    private static class UploadRequest implements org.apache.commons.fileupload.RequestContext {
+        private final MediaType contentType;
+        private final int contentLength;
+        private final InputStream inputStream;
+
+        public UploadRequest(final MediaType contentType, final int contentLength, final InputStream inputStream) {
+            this.contentType = contentType;
+            this.contentLength = contentLength;
+            this.inputStream = inputStream;
+        }
+
+        @Override
+        public String getCharacterEncoding() {
+            return null;
+        }
+
+        @Override
+        public String getContentType() {
+            return contentType.toString();
+        }
+
+        @Override
+        public int getContentLength() {
+            return contentLength;
+        }
+
+        @Override
+        public InputStream getInputStream() throws IOException {
+            return inputStream;
+        }
     }
 }

@@ -27,7 +27,6 @@ import javax.ws.rs.core.SecurityContext;
 
 import org.minijax.cdi.ResourceCache;
 import org.minijax.multipart.Multipart;
-import org.minijax.multipart.Part;
 import org.minijax.util.IOUtils;
 
 public abstract class MinijaxRequestContext
@@ -197,7 +196,7 @@ public abstract class MinijaxRequestContext
             if (contentType.isCompatible(APPLICATION_FORM_URLENCODED_TYPE)) {
                 form = new MinijaxUrlEncodedForm(IOUtils.toString(getEntityStream(), StandardCharsets.UTF_8));
             } else if (contentType.isCompatible(MULTIPART_FORM_DATA_TYPE)) {
-                form = new Multipart(Part.parseAll(IOUtils.toString(getEntityStream(), StandardCharsets.UTF_8)));
+                form = Multipart.read(contentType, getLength(), getEntityStream());
             } else {
                 throw new BadRequestException("Unsupported content type (" + contentType + ")");
             }

@@ -4,13 +4,10 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 
 import javax.ws.rs.WebApplicationException;
 
 import org.junit.Test;
-import org.minijax.multipart.Multipart;
-import org.minijax.multipart.Part;
 
 public class MultipartTest {
 
@@ -28,22 +25,17 @@ public class MultipartTest {
 
     @Test
     public void testSimple() throws IOException {
-        try (final Multipart form = new Multipart(Arrays.asList(new Part("a", "b")))) {
+        try (final Multipart form = new Multipart()) {
+            form.param("a", "b");
             assertEquals("b", form.getString("a"));
         }
     }
 
     @Test(expected = WebApplicationException.class)
     public void testGetStringException() throws IOException {
-        try (final Multipart form = new Multipart(Arrays.asList(new ExplodingPart("a")))) {
+        try (final Multipart form = new Multipart()) {
+            form.param(new ExplodingPart("a"));
             form.getString("a");
-        }
-    }
-
-    @Test(expected = WebApplicationException.class)
-    public void testGetInputStreamException() throws IOException {
-        try (final Multipart form = new Multipart(Arrays.asList(new ExplodingPart("a")))) {
-            form.getInputStream("a");
         }
     }
 }
