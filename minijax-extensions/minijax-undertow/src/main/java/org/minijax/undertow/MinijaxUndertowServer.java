@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map.Entry;
 
+import javax.websocket.server.ServerEndpoint;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -12,11 +13,14 @@ import org.minijax.Minijax;
 import org.minijax.MinijaxApplication;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.MinijaxServer;
+import org.minijax.undertow.websockets.MinijaxWebSocketConnectionCallback;
 
+import io.undertow.Handlers;
 import io.undertow.Undertow;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.server.handlers.BlockingHandler;
+import io.undertow.server.handlers.PathHandler;
 import io.undertow.util.Headers;
 
 public class MinijaxUndertowServer implements MinijaxServer, HttpHandler {
@@ -27,7 +31,7 @@ public class MinijaxUndertowServer implements MinijaxServer, HttpHandler {
         this.minijax = minijax;
         undertow = Undertow.builder()
                 .addHttpListener(8080, "localhost")
-                .setHandler(new BlockingHandler(this))
+                .setHandler(buildHandler())
                 .build();
     }
 
@@ -68,5 +72,18 @@ public class MinijaxUndertowServer implements MinijaxServer, HttpHandler {
             final ByteBuffer byteBuffer = ByteBuffer.wrap(outputStream.toByteArray());
             exchange.getResponseSender().send(byteBuffer);
         }
+    }
+
+    private HttpHandler buildHandler() {
+        final PathHandler result = Handlers.path();
+
+        final MinijaxApplication application = minijax.getDefaultApplication();
+        for (final Class<?> webSocketClass : application.getWebSockets()) {
+            final ServerEndpoint serverEndpoint = webSocketClass.getAnnotation(ServerEndpoint.class);
+            result.addPrefixPath(serverEndpoint.value(), Handlers.websocket(new MinijaxWebSocketConnectionCallback(webSocketClass)));
+        }
+
+        result.addPrefixPath("/", new BlockingHandler(this));
+        return result;
     }
 }

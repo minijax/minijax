@@ -24,17 +24,17 @@
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
-            <artifactId>minijax-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.minijax</groupId>
             <artifactId>minijax-json</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
             <artifactId>minijax-swagger</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.minijax</groupId>
+            <artifactId>minijax-undertow</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
