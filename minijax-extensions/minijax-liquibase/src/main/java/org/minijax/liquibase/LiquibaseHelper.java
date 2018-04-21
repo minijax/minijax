@@ -171,7 +171,7 @@ public class LiquibaseHelper {
      */
 
 
-    private Liquibase getLiquibase(final Database targetDatabase) throws LiquibaseException {
+    private Liquibase getLiquibase(final Database targetDatabase) {
         return new Liquibase(getRelativePath(masterChangeLogFile), resourceAccessor, targetDatabase);
     }
 
