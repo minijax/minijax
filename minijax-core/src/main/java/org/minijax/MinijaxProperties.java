@@ -17,6 +17,8 @@ public class MinijaxProperties {
 
     public static final String SECURITY_USER_CLASS = "org.minijax.security.userClass";
 
+    public static final String GPLUS_APP_NAME = "org.minijax.gplus.appName";
+
     MinijaxProperties() {
         throw new UnsupportedOperationException();
     }
