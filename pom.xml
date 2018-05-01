@@ -64,6 +64,7 @@
         <bcrypt.version>0.4</bcrypt.version>
         <cdi.version>2.0</cdi.version>
         <commons-lang3.version>3.7</commons-lang3.version>
+        <dockerfile.version>1.4.0</dockerfile.version>
         <eclipselink.version>2.7.0</eclipselink.version>
         <gplus.version>v1-rev545-1.23.0</gplus.version>
         <h2.version>1.4.197</h2.version>
