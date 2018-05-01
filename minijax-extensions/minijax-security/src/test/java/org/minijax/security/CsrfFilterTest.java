@@ -54,7 +54,7 @@ public class CsrfFilterTest extends MinijaxTest {
         try (MinijaxRequestContext ctx = createRequestContext()) {
             user = new User();
             user.setName("Alice");
-            user.setEmail("alice@example.com");
+            user.setEmail("alice_csrf@example.com");
             user.setRoles("user");
 
             final Dao dao = ctx.get(Dao.class);
