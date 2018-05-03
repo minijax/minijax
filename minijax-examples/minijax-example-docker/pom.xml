@@ -10,6 +10,9 @@
     <packaging>jar</packaging>
     <name>minijax-example-docker</name>
     <description>Slim docker image using Alpine Linux</description>
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -85,7 +88,6 @@
                         <id>default</id>
                         <goals>
                             <goal>build</goal>
-                            <goal>push</goal>
                         </goals>
                     </execution>
                 </executions>
