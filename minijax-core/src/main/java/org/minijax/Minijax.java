@@ -367,7 +367,7 @@ public class Minijax {
 
         final KeyManager[] keyManagers = keyManagerFactory.getKeyManagers();
 
-        final SSLContext sslContext = SSLContext.getInstance("TLS");
+        final SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
         sslContext.init(keyManagers, null, null);
         return sslContext;
     }

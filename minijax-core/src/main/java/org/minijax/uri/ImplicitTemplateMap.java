@@ -31,7 +31,7 @@ public class ImplicitTemplateMap extends HashMap<String, Object> {
 
     @Override
     public boolean equals(final Object obj) {
-        if (obj == null || !(obj instanceof ImplicitTemplateMap)) {
+        if (!(obj instanceof ImplicitTemplateMap)) {
             return false;
         }
 
