@@ -16,6 +16,10 @@ public class ConversionUtils {
     }
 
     public static <T> T convertApacheToJax(final HttpEntity apacheEntity, final Class<T> targetClass) {
+        if (apacheEntity == null) {
+            return null;
+        }
+
         final MediaType mediaType = MediaType.valueOf(apacheEntity.getContentType().getValue());
 
         try {
@@ -33,6 +37,10 @@ public class ConversionUtils {
 
     @SuppressWarnings("unchecked")
     public static <T> T convertToGenericType(final HttpEntity apacheEntity, final GenericType<T> genericType) {
+        if (apacheEntity == null) {
+            return null;
+        }
+
         final MediaType mediaType = MediaType.valueOf(apacheEntity.getContentType().getValue());
 
         try {
