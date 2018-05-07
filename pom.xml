@@ -87,7 +87,7 @@
         <slf4j.version>1.7.25</slf4j.version>
         <sonar.language>java</sonar.language>
         <swagger.version>1.5.19</swagger.version>
-        <undertow.version>2.0.5.Final</undertow.version>
+        <undertow.version>2.0.6.Final</undertow.version>
         <validation.version>2.0.1.Final</validation.version>
     </properties>
     <build>
