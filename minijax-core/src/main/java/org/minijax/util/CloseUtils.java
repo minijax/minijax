@@ -35,12 +35,8 @@ public class CloseUtils {
         if (OptionalClasses.ENTITY_MANAGER_FACTORY != null) {
             if (obj instanceof EntityManagerFactory) {
                 closeEntityManagerFactory((EntityManagerFactory) obj);
-                return;
-            }
-
-            if (obj instanceof EntityManager) {
+            } else if (obj instanceof EntityManager) {
                 closeEntityManager((EntityManager) obj);
-                return;
             }
         }
     }

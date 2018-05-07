@@ -4,13 +4,14 @@
     <parent>
         <groupId>org.minijax</groupId>
         <artifactId>minijax</artifactId>
-        <version>0.2.4-SNAPSHOT</version>
+        <version>0.2.7-SNAPSHOT</version>
     </parent>
     <artifactId>minijax-examples</artifactId>
     <packaging>pom</packaging>
     <name>minijax-examples</name>
     <description>Minijax example applications</description>
     <modules>
+        <module>minijax-example-docker</module>
         <module>minijax-example-hello</module>
         <module>minijax-example-json</module>
         <module>minijax-example-kotlin</module>

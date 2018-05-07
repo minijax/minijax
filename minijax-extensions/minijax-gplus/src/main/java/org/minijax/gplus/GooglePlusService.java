@@ -11,10 +11,12 @@ import java.util.UUID;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 
+import org.minijax.MinijaxProperties;
 import org.minijax.security.Security;
 import org.minijax.security.SecurityUser;
 
@@ -37,9 +39,11 @@ import com.google.api.services.plus.model.Person;
 @Provider
 @RequestScoped
 public class GooglePlusService {
-    private static final String APP_NAME = "Ajibot";
     private static final List<String> SCOPES = Collections.unmodifiableList(Arrays.asList(
             PlusScopes.PLUS_ME, PlusScopes.USERINFO_EMAIL, PlusScopes.USERINFO_PROFILE));
+
+    @Context
+    private Configuration configuration;
 
     @Context
     private UriInfo uriInfo;
@@ -60,6 +64,24 @@ public class GooglePlusService {
     private HttpTransport httpTransport;
 
 
+    /**
+     * Returns the configured application name which will be used by the Google+ user interface.
+     *
+     * @return The configured application name.
+     * @see org.minijax.MinijaxProperties#GPLUS_APP_NAME
+     */
+    public String getAppName() {
+        return (String) configuration.getProperty(MinijaxProperties.GPLUS_APP_NAME);
+    }
+
+
+    /**
+     * Returns the current user's Google+ profile.
+     *
+     * Returns null if not connected.
+     *
+     * @return The user profile or null.
+     */
     public Person getProfile() throws IOException {
         final Plus plus = getPlus(getCredential((GooglePlusUser) security.getUserPrincipal()));
         return plus == null ? null : plus.people().get("me").execute();
@@ -113,8 +135,11 @@ public class GooglePlusService {
      * @return A Google+ client.
      */
     public Plus getPlus(final Credential credential) {
+        if (credential == null) {
+            return null;
+        }
         return new Plus.Builder(httpTransport, jsonFactory, credential)
-                .setApplicationName(APP_NAME)
+                .setApplicationName(getAppName())
                 .build();
     }
 
@@ -168,7 +193,7 @@ public class GooglePlusService {
      * @return The credential object if available; null otherwise.
      */
     private Credential getCredential(final GooglePlusUser user) throws IOException {
-        if (user.getGoogleCredentials() == null) {
+        if (user == null || user.getGoogleCredentials() == null) {
             return null;
         }
 

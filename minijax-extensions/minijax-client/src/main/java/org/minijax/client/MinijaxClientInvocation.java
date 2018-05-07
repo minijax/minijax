@@ -29,12 +29,16 @@ public class MinijaxClientInvocation implements javax.ws.rs.client.Invocation {
 
     @Override
     public <T> T invoke(final Class<T> responseType) {
-        return invoke().readEntity(responseType);
+        try (final MinijaxClientResponse response = invoke()) {
+            return response.readEntity(responseType);
+        }
     }
 
     @Override
     public <T> T invoke(final GenericType<T> responseType) {
-        return invoke().readEntity(responseType);
+        try (final MinijaxClientResponse response = invoke()) {
+            return response.readEntity(responseType);
+        }
     }
 
     /*
