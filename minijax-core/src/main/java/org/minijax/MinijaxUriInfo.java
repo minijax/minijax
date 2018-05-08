@@ -11,7 +11,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.minijax.util.UrlUtils;
 
-class MinijaxUriInfo implements javax.ws.rs.core.UriInfo {
+public class MinijaxUriInfo implements javax.ws.rs.core.UriInfo {
     private final URI requestUri;
     private List<PathSegment> pathSegments;
     private MultivaluedMap<String, String> pathParameters;

@@ -43,12 +43,12 @@ The pom is short and sweet with only two dependencies:
 </dependency>
 <dependency>
     <groupId>org.minijax</groupId>
-    <artifactId>minijax-core</artifactId>
+    <artifactId>minijax-undertow</artifactId>
     <version>${project.version}</version>
 </dependency>
 ```
 
-The "minijax-core" dependency includes everything we need for a simple demonstration:
+The "minijax-undertow" dependency includes everything we need for a simple demonstration:
 
 * Embedded Undertow for web server
 * JAX-RS implementation for routing

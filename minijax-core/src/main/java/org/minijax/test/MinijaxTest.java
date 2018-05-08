@@ -75,9 +75,9 @@ public class MinijaxTest {
     }
 
     protected static MinijaxRequestContext createRequestContext(final String method, final String uri) {
-        return new MinijaxRequestContext(
+        return new MinijaxTestRequestContext(
                 getServer().getDefaultApplication(),
-                new MockHttpServletRequest(method, URI.create(uri)),
-                null);
+                method,
+                uri);
     }
 }

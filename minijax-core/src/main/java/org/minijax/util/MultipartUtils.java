@@ -1,15 +1,15 @@
 package org.minijax.util;
 
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-import java.util.UUID;
 
-import javax.servlet.http.Part;
-
-import org.minijax.MinijaxMultipartForm;
+import org.minijax.multipart.Multipart;
+import org.minijax.multipart.Part;
 
 public class MultipartUtils {
 
@@ -17,42 +17,49 @@ public class MultipartUtils {
         throw new UnsupportedOperationException();
     }
 
-    public static InputStream serializeMultipartForm(final MinijaxMultipartForm form) throws IOException {
-        final String boundary = "------Boundary" + UUID.randomUUID().toString();
+    public static InputStream serializeMultipartForm(final Multipart form) throws IOException {
+        final String boundary = form.getContentType().getParameters().get("boundary");
 
-        final StringBuilder b = new StringBuilder();
+        try (final ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            try (final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream))) {
+                for (final Part part : form.getParts()) {
+                    writer.write("--");
+                    writer.write(boundary);
+                    writer.write("\r\n");
 
-        for (final Part part : form.getParts()) {
-            b.append(boundary);
+                    if (part.getSubmittedFileName() != null) {
+                        addFilePart(writer, part);
+                    } else {
+                        addStringPart(writer, part);
+                    }
+                }
 
-            if (part.getSubmittedFileName() != null) {
-                addFilePart(b, part);
-            } else {
-                addStringPart(b, part);
+                writer.write("--");
+                writer.write(boundary);
+                writer.write("--");
             }
+
+            return new ByteArrayInputStream(outputStream.toByteArray());
         }
-
-        b.append(boundary);
-        return new ByteArrayInputStream(b.toString().getBytes(StandardCharsets.UTF_8));
     }
 
 
-    private static void addFilePart(final StringBuilder b, final Part part) throws IOException {
-        b.append("\nContent-Disposition: form-data; name=\"");
-        b.append(part.getName());
-        b.append("\"; filename=\"");
-        b.append(part.getSubmittedFileName());
-        b.append("\"\nContent-Transfer-Encoding: base64\n\n");
-        b.append(new String(Base64.getEncoder().encode(IOUtils.toByteArray(part.getInputStream()))));
-        b.append("\n");
+    private static void addFilePart(final BufferedWriter writer, final Part part) throws IOException {
+        writer.write("Content-Disposition: form-data; name=\"");
+        writer.write(part.getName());
+        writer.write("\"; filename=\"");
+        writer.write(part.getSubmittedFileName());
+        writer.write("\"\r\n\r\n");
+        writer.write(IOUtils.toString(part.getInputStream(), StandardCharsets.UTF_8));
+        writer.write("\r\n");
     }
 
 
-    private static void addStringPart(final StringBuilder b, final Part part) throws IOException {
-        b.append("\nContent-Disposition: form-data; name=\"");
-        b.append(part.getName());
-        b.append("\"\n\n");
-        b.append(IOUtils.toString(part.getInputStream(), StandardCharsets.UTF_8));
-        b.append("\n");
+    private static void addStringPart(final BufferedWriter writer, final Part part) throws IOException {
+        writer.write("Content-Disposition: form-data; name=\"");
+        writer.write(part.getName());
+        writer.write("\"\r\n\r\n");
+        writer.write(IOUtils.toString(part.getInputStream(), StandardCharsets.UTF_8));
+        writer.write("\r\n");
     }
 }

@@ -17,11 +17,10 @@ import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.ContainerElementTypeDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
+import org.minijax.util.CopyOnWriteMap;
 import org.minijax.validator.metadata.MinijaxBeanDescriptor;
 import org.minijax.validator.metadata.MinijaxConstraintDescriptor;
 import org.minijax.validator.metadata.MinijaxPropertyDescriptor;
-
-import io.undertow.util.CopyOnWriteMap;
 
 public class MinijaxValidator implements Validator, ExecutableValidator {
     private final Map<Class<?>, MinijaxBeanDescriptor> beanDescriptors;

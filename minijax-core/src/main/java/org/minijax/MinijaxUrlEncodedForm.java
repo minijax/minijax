@@ -3,16 +3,16 @@ package org.minijax;
 
 import java.io.InputStream;
 
-import javax.servlet.http.Part;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedMap;
 
+import org.minijax.multipart.Part;
 import org.minijax.util.UrlUtils;
 
 /**
  * The Form class represents a HTTP form submission.
  */
-class MinijaxUrlEncodedForm implements MinijaxForm {
+public class MinijaxUrlEncodedForm implements MinijaxForm {
     private final MultivaluedMap<String, String> values;
 
     /**
@@ -24,7 +24,7 @@ class MinijaxUrlEncodedForm implements MinijaxForm {
         this(UrlUtils.urlDecodeMultivaluedParams(encodedForm));
     }
 
-    private MinijaxUrlEncodedForm(final MultivaluedMap<String, String> values) {
+    public MinijaxUrlEncodedForm(final MultivaluedMap<String, String> values) {
         this.values = values;
     }
 

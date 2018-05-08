@@ -15,9 +15,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Cookie;
@@ -27,36 +24,25 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.core.UriInfo;
 
 import org.minijax.cdi.ResourceCache;
+import org.minijax.multipart.Multipart;
 import org.minijax.util.IOUtils;
-import org.minijax.util.UrlUtils;
 
-public class MinijaxRequestContext
+public abstract class MinijaxRequestContext
         implements javax.ws.rs.container.ContainerRequestContext, Closeable {
 
     private static final ThreadLocal<MinijaxRequestContext> threadLocalContexts = new ThreadLocal<>();
     private final MinijaxApplication application;
-    private final HttpServletRequest request;
-    private final HttpServletResponse response;
-    private final MinijaxUriInfo uriInfo;
     private final ResourceCache resourceCache;
     private final Map<String, Object> properties;
-    private MinijaxHttpHeaders headers;
     private MinijaxForm form;
     private SecurityContext securityContext;
     private MinijaxResourceMethod resourceMethod;
     private boolean upgraded;
 
-    public MinijaxRequestContext(
-            final MinijaxApplication container,
-            final HttpServletRequest request,
-            final HttpServletResponse response) {
+    public MinijaxRequestContext(final MinijaxApplication container) {
         application = container;
-        this.request = request;
-        this.response = response;
-        uriInfo = new MinijaxUriInfo(UrlUtils.getFullRequestUrl(request));
         resourceCache = new ResourceCache();
         properties = new HashMap<>();
         threadLocalContexts.set(this);
@@ -64,19 +50,6 @@ public class MinijaxRequestContext
 
     public MinijaxApplication getApplication() {
         return application;
-    }
-
-    public HttpServletRequest getServletRequest() {
-        return request;
-    }
-
-    public HttpServletResponse getServletResponse() {
-        return response;
-    }
-
-    @Override
-    public UriInfo getUriInfo() {
-        return uriInfo;
     }
 
     @Override
@@ -100,24 +73,7 @@ public class MinijaxRequestContext
     }
 
 
-    /**
-     * Get the request method.
-     *
-     * @return the request method.
-     * @see javax.ws.rs.HttpMethod
-     */
-    @Override
-    public String getMethod() {
-        return request.getMethod();
-    }
-
-
-    public HttpHeaders getHttpHeaders() {
-        if (headers == null) {
-            headers = new MinijaxHttpHeaders(request);
-        }
-        return headers;
-    }
+    public abstract HttpHeaders getHttpHeaders();
 
 
     /**
@@ -222,15 +178,6 @@ public class MinijaxRequestContext
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public InputStream getEntityStream() {
-        try {
-            return request.getInputStream();
-        } catch (final IOException ex) {
-            throw new MinijaxException(ex);
-        }
-    }
-
     public MinijaxForm getForm() {
         if (form == null) {
             readForm();
@@ -249,12 +196,12 @@ public class MinijaxRequestContext
             if (contentType.isCompatible(APPLICATION_FORM_URLENCODED_TYPE)) {
                 form = new MinijaxUrlEncodedForm(IOUtils.toString(getEntityStream(), StandardCharsets.UTF_8));
             } else if (contentType.isCompatible(MULTIPART_FORM_DATA_TYPE)) {
-                form = new MinijaxMultipartForm(request.getParts());
+                form = Multipart.read(contentType, getLength(), getEntityStream());
             } else {
                 throw new BadRequestException("Unsupported content type (" + contentType + ")");
             }
 
-        } catch (final IOException | ServletException ex) {
+        } catch (final IOException ex) {
             throw new WebApplicationException(ex.getMessage(), ex);
         }
     }

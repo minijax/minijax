@@ -13,11 +13,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.Part;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.FormParam;
 
 import org.junit.Test;
+import org.minijax.multipart.Part;
 import org.minijax.swagger.models.TestEnum;
 import org.minijax.swagger.params.BaseBean;
 import org.minijax.swagger.params.ChildBean;

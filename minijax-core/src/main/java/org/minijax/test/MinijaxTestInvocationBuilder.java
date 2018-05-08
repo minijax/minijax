@@ -3,9 +3,9 @@ package org.minijax.test;
 import static javax.ws.rs.HttpMethod.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.ws.rs.client.AsyncInvoker;
 import javax.ws.rs.client.CompletionStageRxInvoker;
@@ -24,20 +24,20 @@ import javax.ws.rs.core.Response;
 import org.minijax.Minijax;
 import org.minijax.MinijaxApplication;
 import org.minijax.MinijaxRequestContext;
-import org.minijax.util.CookieUtils;
+import org.minijax.MinijaxUriInfo;
 import org.minijax.util.EntityUtils;
 import org.minijax.util.ExceptionUtils;
 
 public class MinijaxTestInvocationBuilder implements javax.ws.rs.client.Invocation.Builder {
     private final MinijaxTestWebTarget target;
     private final MultivaluedMap<String, String> headers;
-    private final List<Cookie> cookies;
+    private final Map<String, Cookie> cookies;
     private Entity<?> entity;
 
     public MinijaxTestInvocationBuilder(final MinijaxTestWebTarget target) {
         this.target = target;
         headers = new MultivaluedHashMap<>();
-        cookies = new ArrayList<>();
+        cookies = new HashMap<>();
     }
 
     @Override
@@ -140,19 +140,14 @@ public class MinijaxTestInvocationBuilder implements javax.ws.rs.client.Invocati
         final Minijax container = target.getServer();
         final MinijaxApplication application = container.getApplication(target.getUri());
 
-        try {
-            final MockHttpServletRequest request = new MockHttpServletRequest(
-                    name,
-                    target.getUri(),
-                    headers,
-                    EntityUtils.convertToInputStream(entity),
-                    CookieUtils.convertJaxToServlet(cookies));
+        try (final MinijaxRequestContext context = new MinijaxTestRequestContext(
+                application,
+                name,
+                new MinijaxUriInfo(target.getUri()),
+                new MinijaxTestHttpHeaders(headers, cookies),
+                EntityUtils.convertToInputStream(entity))) {
+            return application.handle(context);
 
-            final MockHttpServletResponse response = new MockHttpServletResponse();
-
-            try (final MinijaxRequestContext context = new MinijaxRequestContext(application, request, response)) {
-                return application.handle(context);
-            }
         } catch (final IOException ex) {
             throw ExceptionUtils.toWebAppException(ex);
         }
@@ -250,7 +245,7 @@ public class MinijaxTestInvocationBuilder implements javax.ws.rs.client.Invocati
 
     @Override
     public MinijaxTestInvocationBuilder cookie(final Cookie cookie) {
-        cookies.add(cookie);
+        cookies.put(cookie.getName(), cookie);
         return this;
     }
 

@@ -2,10 +2,6 @@ package org.minijax;
 
 import static org.junit.Assert.*;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.container.ResourceContext;
@@ -80,31 +76,6 @@ public class ContextParamTest extends MinijaxTest {
         return "ok";
     }
 
-    // 10.1
-    @GET
-    @Path("/servletconfig")
-    public static String getHttpServletConfig(@Context final ServletConfig servletConfig) {
-        return "ok";
-    }
-
-    @GET
-    @Path("/servletcontext")
-    public static String getHttpServletContext(@Context final ServletContext servletContext) {
-        return "ok";
-    }
-
-    @GET
-    @Path("/httpservletrequest")
-    public static String getHttpServletRequest(@Context final HttpServletRequest request) {
-        return "ok";
-    }
-
-    @GET
-    @Path("/httpservletresponse")
-    public static String getHttpServletResponse(@Context final HttpServletResponse response) {
-        return "ok";
-    }
-
     @GET
     @Path("/unknown")
     public static String getUnknown(@Context final Object obj) {
@@ -163,26 +134,6 @@ public class ContextParamTest extends MinijaxTest {
     @Test
     public void testConfiguration() {
         assertEquals("ok", target("/configuration").request().get(String.class));
-    }
-
-    @Test
-    public void testServletConfig() {
-        assertEquals("ok", target("/servletconfig").request().get(String.class));
-    }
-
-    @Test
-    public void testServletContext() {
-        assertEquals("ok", target("/servletcontext").request().get(String.class));
-    }
-
-    @Test
-    public void testHttpServletRequest() {
-        assertEquals("ok", target("/httpservletrequest").request().get(String.class));
-    }
-
-    @Test
-    public void testHttpServletResponse() {
-        assertEquals("ok", target("/httpservletresponse").request().get(String.class));
     }
 
     @Test

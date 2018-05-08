@@ -4,8 +4,9 @@ package org.minijax;
 import java.io.Closeable;
 import java.io.InputStream;
 
-import javax.servlet.http.Part;
 import javax.ws.rs.core.Form;
+
+import org.minijax.multipart.Part;
 
 /**
  * The Form class represents a HTTP form submission.
