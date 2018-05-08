@@ -3,9 +3,6 @@ package org.minijax.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.BitSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,25 +20,6 @@ import org.slf4j.LoggerFactory;
 public class UrlUtils {
     private static final Logger LOG = LoggerFactory.getLogger(UrlUtils.class);
     private static final String UTF8 = "UTF-8";
-    private static final BitSet URI_WHITELIST_CHARS;
-
-    static {
-        URI_WHITELIST_CHARS = new BitSet(256);
-        int i;
-        for (i = 'a'; i <= 'z'; i++) {
-            URI_WHITELIST_CHARS.set(i);
-        }
-        for (i = 'A'; i <= 'Z'; i++) {
-            URI_WHITELIST_CHARS.set(i);
-        }
-        for (i = '0'; i <= '9'; i++) {
-            URI_WHITELIST_CHARS.set(i);
-        }
-        URI_WHITELIST_CHARS.set('-');
-        URI_WHITELIST_CHARS.set('_');
-        URI_WHITELIST_CHARS.set('.');
-        URI_WHITELIST_CHARS.set('*');
-    }
 
 
     UrlUtils() {
@@ -189,9 +167,6 @@ public class UrlUtils {
     /**
      * Encodes a string to be used as a URL parameter.
      *
-     * Handles spaces.  URLEncoder uses plus, but we want %20.
-     * http://stackoverflow.com/questions/4737841/urlencoder-not-able-to-translate-space-character
-     *
      * @param str The decoded input string.
      * @return The encoded output string.
      */
@@ -199,12 +174,7 @@ public class UrlUtils {
         if (str == null) {
             return "";
         }
-        try {
-            return URLEncoder.encode(str, UTF8).replaceAll("\\+", "%20");
-        } catch (final UnsupportedEncodingException ex) {
-            LOG.error("Unsupported Encoding", ex);
-            return str;
-        }
+        return new UrlEncoder(str, false, false).encode();
     }
 
 
@@ -236,54 +206,6 @@ public class UrlUtils {
      * @return Encoded URL component.
      */
     public static String urlEncode(final String str, final boolean ignoreTemplates, final boolean ignoreSlashes) {
-        final StringBuilder result = new StringBuilder();
-        final byte[] byteArray = str.getBytes(StandardCharsets.UTF_8);
-        int curlyDepth = 0;
-
-        for (int i = 0; i < byteArray.length; i++) {
-            final int b = byteArray[i] & 0xFF;
-            final char c = (char) b;
-            if (ignoreTemplates && b == '{') {
-                result.append(c);
-                curlyDepth++;
-            } else if (curlyDepth > 0) {
-                result.append(c);
-                if (b == '}') {
-                    curlyDepth--;
-                }
-            } else if (ignoreSlashes && b == '/') {
-                result.append(c);
-            } else if (b < 256 && URI_WHITELIST_CHARS.get(b)) {
-                result.append(c);
-            } else if (b >= 0xF0) {
-                // 4-byte UTF-8
-                escapeBytes(result, byteArray, i, 4);
-                i += 3;
-            } else if (b >= 0xE0) {
-                // 3-byte UTF-8
-                escapeBytes(result, byteArray, i, 3);
-                i += 2;
-            } else if (b >= 0xC0) {
-                // 2-byte UTF-8
-                escapeBytes(result, byteArray, i, 2);
-                i++;
-            } else {
-                escapeByte(result, b);
-            }
-        }
-
-        return result.toString();
-    }
-
-    private static void escapeBytes(final StringBuilder builder, final byte[] byteArray, final int offset, final int length) {
-        for (int i = 0; i < length; i++) {
-            escapeByte(builder, byteArray[offset + i]);
-        }
-    }
-
-    private static void escapeByte(final StringBuilder builder, final int b) {
-        builder.append('%');
-        builder.append(Character.forDigit((b >> 4) & 0x0F, 16));
-        builder.append(Character.forDigit(b & 0x0F, 16));
+        return new UrlEncoder(str, ignoreTemplates, ignoreSlashes).encode();
     }
 }

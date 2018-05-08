@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.minijax.db.UrlEncodedMapConverter;
 
 public class UrlEncodedMapConverterTest {
 
@@ -41,7 +40,7 @@ public class UrlEncodedMapConverterTest {
         m1.put("&", "=");
 
         final String s1 = c.convertToDatabaseColumn(m1);
-        assertEquals("%26=%3D", s1);
+        assertEquals("%26=%3d", s1);
 
         final Map<String, String> m2 = c.convertToEntityAttribute(s1);
         assertEquals(1, m2.size());
