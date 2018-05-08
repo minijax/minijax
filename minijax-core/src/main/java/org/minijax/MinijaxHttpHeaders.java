@@ -3,32 +3,16 @@ package org.minijax;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
-import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 
 import org.minijax.util.LocaleUtils;
 import org.minijax.util.MediaTypeUtils;
 
 public abstract class MinijaxHttpHeaders implements HttpHeaders {
-    protected Map<String, Cookie> cookies;
-    protected List<Locale> acceptableLanguages;
-    protected List<MediaType> acceptableMediaTypes;
-
-    @Override
-    public abstract List<String> getRequestHeader(final String name);
-
-    @Override
-    public abstract String getHeaderString(final String name);
-
-    @Override
-    public abstract MultivaluedMap<String, String> getRequestHeaders();
-
-    @Override
-    public abstract Map<String, Cookie> getCookies();
+    private List<Locale> acceptableLanguages;
+    private List<MediaType> acceptableMediaTypes;
 
     @Override
     public List<MediaType> getAcceptableMediaTypes() {
