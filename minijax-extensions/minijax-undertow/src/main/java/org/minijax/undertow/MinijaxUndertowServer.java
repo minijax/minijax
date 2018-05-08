@@ -1,7 +1,5 @@
 package org.minijax.undertow;
 
-import java.io.ByteArrayOutputStream;
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -70,11 +68,7 @@ public class MinijaxUndertowServer implements MinijaxServer, HttpHandler {
                 exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, mediaType.toString());
             }
 
-            final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            application.writeEntity(response.getEntity(), mediaType, outputStream);
-
-            final ByteBuffer byteBuffer = ByteBuffer.wrap(outputStream.toByteArray());
-            exchange.getResponseSender().send(byteBuffer);
+            application.writeEntity(response.getEntity(), mediaType, exchange.getOutputStream());
         }
     }
 
