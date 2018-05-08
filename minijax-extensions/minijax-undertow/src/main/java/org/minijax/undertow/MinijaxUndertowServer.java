@@ -9,7 +9,6 @@ import javax.ws.rs.core.Response;
 
 import org.minijax.Minijax;
 import org.minijax.MinijaxApplication;
-import org.minijax.MinijaxProperties;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.MinijaxServer;
 import org.minijax.undertow.websocket.MinijaxUndertowWebSocketConnectionCallback;
@@ -21,18 +20,20 @@ import io.undertow.server.HttpServerExchange;
 import io.undertow.server.handlers.BlockingHandler;
 import io.undertow.server.handlers.PathHandler;
 import io.undertow.util.Headers;
+import io.undertow.util.HttpString;
 
 public class MinijaxUndertowServer implements MinijaxServer, HttpHandler {
     private final Minijax minijax;
     private final Undertow undertow;
 
     public MinijaxUndertowServer(final Minijax minijax) {
+        this(minijax, Undertow.builder());
+    }
+
+    MinijaxUndertowServer(final Minijax minijax, final Undertow.Builder undertowBuilder) {
         this.minijax = minijax;
-
-        final int port = Integer.parseInt((String) minijax.getProperties().getOrDefault(MinijaxProperties.PORT, "8080"));
-
-        undertow = Undertow.builder()
-                .addHttpListener(port, "0.0.0.0")
+        undertow = undertowBuilder
+                .addHttpListener(minijax.getPort(), minijax.getHost())
                 .setHandler(buildHandler())
                 .build();
     }
@@ -59,7 +60,11 @@ public class MinijaxUndertowServer implements MinijaxServer, HttpHandler {
             for (final Entry<String, List<Object>> entry : response.getHeaders().entrySet()) {
                 final String name = entry.getKey();
                 for (final Object value : entry.getValue()) {
-                    exchange.getResponseHeaders().add(Headers.fromCache(name), value.toString());
+                    HttpString headerString = Headers.fromCache(name);
+                    if (headerString == null) {
+                        headerString = HttpString.tryFromString(name);
+                    }
+                    exchange.getResponseHeaders().add(headerString, value.toString());
                 }
             }
 

@@ -19,9 +19,9 @@ class MinijaxUndertowRequestContext extends MinijaxRequestContext {
     private InputStream entityStream;
 
     public MinijaxUndertowRequestContext(
-            final MinijaxApplication container,
+            final MinijaxApplication application,
             final HttpServerExchange exchange) {
-        super(container);
+        super(application);
         this.exchange = exchange;
         uriInfo = new MinijaxUriInfo(URI.create(exchange.getRequestURL() + "?" + exchange.getQueryString()));
     }

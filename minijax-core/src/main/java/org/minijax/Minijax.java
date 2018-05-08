@@ -225,6 +225,16 @@ public class Minijax {
     }
 
 
+    public String getHost() {
+        return (String) defaultApplication.getProperties().getOrDefault(MinijaxProperties.HOST, DEFAULT_HOST);
+    }
+
+
+    public int getPort() {
+        return Integer.parseInt((String) defaultApplication.getProperties().getOrDefault(MinijaxProperties.PORT, DEFAULT_PORT));
+    }
+
+
     public void start(final int port) {
         property(MinijaxProperties.PORT, Integer.toString(port));
         start();
