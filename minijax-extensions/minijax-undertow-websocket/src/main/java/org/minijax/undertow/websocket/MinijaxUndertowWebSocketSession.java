@@ -49,7 +49,7 @@ public class MinijaxUndertowWebSocketSession implements Session {
     }
 
     @Override
-    public void addMessageHandler(final MessageHandler handler) throws IllegalStateException {
+    public void addMessageHandler(final MessageHandler handler) {
         throw new UnsupportedOperationException();
     }
 
