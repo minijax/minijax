@@ -13,7 +13,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.HeaderMap;
@@ -28,7 +27,7 @@ public class HttpHeadersTest {
         final HeaderMap headerMap = new HeaderMap();
         headerMap.add(Headers.CONTENT_TYPE, "text/plain");
 
-        final HttpServerExchange exchange = Mockito.mock(HttpServerExchange.class);
+        final HttpServerExchange exchange = mock(HttpServerExchange.class);
         when(exchange.getRequestMethod()).thenReturn(Methods.GET);
         when(exchange.getRequestHeaders()).thenReturn(headerMap);
 
@@ -42,7 +41,7 @@ public class HttpHeadersTest {
         headerMap.add(new HttpString("X-Foo"), "bar");
         headerMap.add(new HttpString("X-Foo"), "baz");
 
-        final HttpServerExchange exchange = Mockito.mock(HttpServerExchange.class);
+        final HttpServerExchange exchange = mock(HttpServerExchange.class);
         when(exchange.getRequestMethod()).thenReturn(Methods.GET);
         when(exchange.getRequestHeaders()).thenReturn(headerMap);
 
@@ -59,7 +58,7 @@ public class HttpHeadersTest {
         final HeaderMap headerMap = new HeaderMap();
         headerMap.add(Headers.ACCEPT, "text/plain");
 
-        final HttpServerExchange exchange = Mockito.mock(HttpServerExchange.class);
+        final HttpServerExchange exchange = mock(HttpServerExchange.class);
         when(exchange.getRequestMethod()).thenReturn(Methods.GET);
         when(exchange.getRequestHeaders()).thenReturn(headerMap);
 
@@ -73,7 +72,7 @@ public class HttpHeadersTest {
         final HeaderMap headerMap = new HeaderMap();
         headerMap.add(Headers.ACCEPT_LANGUAGE, "en-US");
 
-        final HttpServerExchange exchange = Mockito.mock(HttpServerExchange.class);
+        final HttpServerExchange exchange = mock(HttpServerExchange.class);
         when(exchange.getRequestMethod()).thenReturn(Methods.GET);
         when(exchange.getRequestHeaders()).thenReturn(headerMap);
 
@@ -87,7 +86,7 @@ public class HttpHeadersTest {
         final HeaderMap headerMap = new HeaderMap();
         headerMap.add(Headers.CONTENT_TYPE, "text/plain");
 
-        final HttpServerExchange exchange = Mockito.mock(HttpServerExchange.class);
+        final HttpServerExchange exchange = mock(HttpServerExchange.class);
         when(exchange.getRequestMethod()).thenReturn(Methods.GET);
         when(exchange.getRequestHeaders()).thenReturn(headerMap);
 
@@ -99,7 +98,7 @@ public class HttpHeadersTest {
     public void testNullMediaType() throws Exception {
         final HeaderMap headerMap = new HeaderMap();
 
-        final HttpServerExchange exchange = Mockito.mock(HttpServerExchange.class);
+        final HttpServerExchange exchange = mock(HttpServerExchange.class);
         when(exchange.getRequestMethod()).thenReturn(Methods.GET);
         when(exchange.getRequestHeaders()).thenReturn(headerMap);
 
@@ -112,7 +111,7 @@ public class HttpHeadersTest {
         final HeaderMap headerMap = new HeaderMap();
         headerMap.add(Headers.CONTENT_LANGUAGE, "en-US");
 
-        final HttpServerExchange exchange = Mockito.mock(HttpServerExchange.class);
+        final HttpServerExchange exchange = mock(HttpServerExchange.class);
         when(exchange.getRequestMethod()).thenReturn(Methods.GET);
         when(exchange.getRequestHeaders()).thenReturn(headerMap);
 
@@ -124,7 +123,7 @@ public class HttpHeadersTest {
     public void testNullLanguage() throws Exception {
         final HeaderMap headerMap = new HeaderMap();
 
-        final HttpServerExchange exchange = Mockito.mock(HttpServerExchange.class);
+        final HttpServerExchange exchange = mock(HttpServerExchange.class);
         when(exchange.getRequestMethod()).thenReturn(Methods.GET);
         when(exchange.getRequestHeaders()).thenReturn(headerMap);
 
@@ -137,7 +136,7 @@ public class HttpHeadersTest {
         final HeaderMap headerMap = new HeaderMap();
         headerMap.add(Headers.CONTENT_LENGTH, "1024");
 
-        final HttpServerExchange exchange = Mockito.mock(HttpServerExchange.class);
+        final HttpServerExchange exchange = mock(HttpServerExchange.class);
         when(exchange.getRequestMethod()).thenReturn(Methods.GET);
         when(exchange.getRequestHeaders()).thenReturn(headerMap);
 
@@ -149,7 +148,7 @@ public class HttpHeadersTest {
     public void testNullContentLength() throws Exception {
         final HeaderMap headerMap = new HeaderMap();
 
-        final HttpServerExchange exchange = Mockito.mock(HttpServerExchange.class);
+        final HttpServerExchange exchange = mock(HttpServerExchange.class);
         when(exchange.getRequestMethod()).thenReturn(Methods.GET);
         when(exchange.getRequestHeaders()).thenReturn(headerMap);
 
@@ -162,7 +161,7 @@ public class HttpHeadersTest {
         final HeaderMap headerMap = new HeaderMap();
         headerMap.add(Headers.CONTENT_LENGTH, "x");
 
-        final HttpServerExchange exchange = Mockito.mock(HttpServerExchange.class);
+        final HttpServerExchange exchange = mock(HttpServerExchange.class);
         when(exchange.getRequestMethod()).thenReturn(Methods.GET);
         when(exchange.getRequestHeaders()).thenReturn(headerMap);
 
@@ -179,7 +178,7 @@ public class HttpHeadersTest {
 
         final HeaderMap headerMap = new HeaderMap();
 
-        final HttpServerExchange exchange = Mockito.mock(HttpServerExchange.class);
+        final HttpServerExchange exchange = mock(HttpServerExchange.class);
         when(exchange.getRequestMethod()).thenReturn(Methods.GET);
         when(exchange.getRequestHeaders()).thenReturn(headerMap);
         when(exchange.getRequestCookies()).thenReturn(undertowCookies);
@@ -194,7 +193,7 @@ public class HttpHeadersTest {
 
     @Test(expected = UnsupportedOperationException.class)
     public void testDate() {
-        final HttpServerExchange exchange = Mockito.mock(HttpServerExchange.class);
+        final HttpServerExchange exchange = mock(HttpServerExchange.class);
         final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(exchange);
         httpHeaders.getDate();
     }

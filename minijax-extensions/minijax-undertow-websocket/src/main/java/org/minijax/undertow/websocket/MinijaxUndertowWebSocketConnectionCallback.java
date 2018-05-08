@@ -5,12 +5,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.minijax.MinijaxApplication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.undertow.websockets.WebSocketConnectionCallback;
 import io.undertow.websockets.core.WebSocketChannel;
 import io.undertow.websockets.spi.WebSocketHttpExchange;
 
 public class MinijaxUndertowWebSocketConnectionCallback implements WebSocketConnectionCallback {
+    private static final Logger LOG = LoggerFactory.getLogger(MinijaxUndertowWebSocketConnectionCallback.class);
     private final MinijaxApplication application;
     private final Class<?> endpointClass;
 
@@ -35,8 +38,8 @@ public class MinijaxUndertowWebSocketConnectionCallback implements WebSocketConn
             channel.getReceiveSetter().set(new MinijaxUndertowWebSocketListener(application, endpoint, exchange));
             channel.resumeReceives();
 
-        } catch (final IOException e) {
-            e.printStackTrace();
+        } catch (final IOException ex) {
+            LOG.warn("Exception during websocket connection: {}", ex.getMessage(), ex);
         }
     }
 }

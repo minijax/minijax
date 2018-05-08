@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.minijax.MinijaxApplication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.undertow.websockets.core.AbstractReceiveListener;
 import io.undertow.websockets.core.BufferedTextMessage;
@@ -12,6 +14,7 @@ import io.undertow.websockets.core.WebSocketChannel;
 import io.undertow.websockets.spi.WebSocketHttpExchange;
 
 public class MinijaxUndertowWebSocketListener extends AbstractReceiveListener {
+    private static final Logger LOG = LoggerFactory.getLogger(MinijaxUndertowWebSocketListener.class);
     private final MinijaxApplication application;
     private final MinijaxUndertowWebSocketAdapter endpoint;
     private final WebSocketHttpExchange exchange;
@@ -36,8 +39,8 @@ public class MinijaxUndertowWebSocketListener extends AbstractReceiveListener {
 
             endpoint.onMessage(params);
 
-        } catch (final IOException e) {
-            e.printStackTrace();
+        } catch (final IOException ex) {
+            LOG.warn("Exception handling websocket message: {}", ex.getMessage(), ex);
         }
     }
 }

@@ -20,30 +20,30 @@ public class MinijaxUndertowWebSocketAdapter {
     public MinijaxUndertowWebSocketAdapter(final Class<?> endpointClass) {
         endpoint = MinijaxRequestContext.getThreadLocal().get(endpointClass);
 
-        MinijaxUndertowWebSocketMethod openMethod = null;
-        MinijaxUndertowWebSocketMethod closeMethod = null;
-        MinijaxUndertowWebSocketMethod messageMethod = null;
-        MinijaxUndertowWebSocketMethod errorMethod = null;
+        MinijaxUndertowWebSocketMethod open = null;
+        MinijaxUndertowWebSocketMethod close = null;
+        MinijaxUndertowWebSocketMethod message = null;
+        MinijaxUndertowWebSocketMethod error = null;
 
         for (final Method method : endpointClass.getDeclaredMethods()) {
             if (method.getAnnotation(OnOpen.class) != null) {
-                openMethod = new MinijaxUndertowWebSocketMethod(endpoint, method);
+                open = new MinijaxUndertowWebSocketMethod(endpoint, method);
             }
             if (method.getAnnotation(OnClose.class) != null) {
-                closeMethod = new MinijaxUndertowWebSocketMethod(endpoint, method);
+                close = new MinijaxUndertowWebSocketMethod(endpoint, method);
             }
             if (method.getAnnotation(OnMessage.class) != null) {
-                messageMethod = new MinijaxUndertowWebSocketMethod(endpoint, method);
+                message = new MinijaxUndertowWebSocketMethod(endpoint, method);
             }
             if (method.getAnnotation(OnError.class) != null) {
-                errorMethod = new MinijaxUndertowWebSocketMethod(endpoint, method);
+                error = new MinijaxUndertowWebSocketMethod(endpoint, method);
             }
         }
 
-        this.openMethod = openMethod;
-        this.closeMethod = closeMethod;
-        this.messageMethod = messageMethod;
-        this.errorMethod = errorMethod;
+        this.openMethod = open;
+        this.closeMethod = close;
+        this.messageMethod = message;
+        this.errorMethod = error;
     }
 
     public void onOpen(final Map<Class<?>, Object> params) {

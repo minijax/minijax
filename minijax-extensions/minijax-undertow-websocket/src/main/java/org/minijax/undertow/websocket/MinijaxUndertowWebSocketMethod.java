@@ -5,7 +5,11 @@ import java.util.Map;
 
 import javax.websocket.Session;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class MinijaxUndertowWebSocketMethod {
+    private static final Logger LOG = LoggerFactory.getLogger(MinijaxUndertowWebSocketMethod.class);
     private final Object instance;
     private final Method method;
 
@@ -26,8 +30,8 @@ public class MinijaxUndertowWebSocketMethod {
                 ((Session) args.get(Session.class)).getBasicRemote().sendText((String) result);
             }
 
-        } catch (final Exception e) {
-            e.printStackTrace();
+        } catch (final Exception ex) {
+            LOG.warn("Exception invoking websocket handler: {}", ex.getMessage(), ex);
         }
     }
 }

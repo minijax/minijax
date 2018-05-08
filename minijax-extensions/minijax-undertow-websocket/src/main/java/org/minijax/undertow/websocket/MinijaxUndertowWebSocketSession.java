@@ -34,6 +34,11 @@ public class MinijaxUndertowWebSocketSession implements Session {
         return basicRemote;
     }
 
+    @Override
+    public void close() {
+        // Nothing to do?
+    }
+
     /*
      * Unsupported
      */
@@ -125,11 +130,6 @@ public class MinijaxUndertowWebSocketSession implements Session {
 
     @Override
     public Async getAsyncRemote() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void close() throws IOException {
         throw new UnsupportedOperationException();
     }
 

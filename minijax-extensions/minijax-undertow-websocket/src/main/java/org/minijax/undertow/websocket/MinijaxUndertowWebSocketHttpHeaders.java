@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.minijax.util.LocaleUtils;
@@ -18,6 +19,7 @@ import io.undertow.websockets.spi.WebSocketHttpExchange;
 
 class MinijaxUndertowWebSocketHttpHeaders implements HttpHeaders {
     private final Map<String, List<String>> headerMap;
+    private MultivaluedMap<String, String> requestHeaders;
     private Map<String, Cookie> cookies;
     private List<Locale> acceptableLanguages;
     private List<MediaType> acceptableMediaTypes;
@@ -39,7 +41,11 @@ class MinijaxUndertowWebSocketHttpHeaders implements HttpHeaders {
 
     @Override
     public MultivaluedMap<String, String> getRequestHeaders() {
-        throw new UnsupportedOperationException();
+        if (requestHeaders == null) {
+            requestHeaders = new MultivaluedHashMap<>();
+            requestHeaders.putAll(headerMap);
+        }
+        return requestHeaders;
     }
 
     @Override
