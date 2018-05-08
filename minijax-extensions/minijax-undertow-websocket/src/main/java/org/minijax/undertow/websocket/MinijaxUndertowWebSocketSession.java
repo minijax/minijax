@@ -1,4 +1,4 @@
-package org.minijax.undertow.websockets;
+package org.minijax.undertow.websocket;
 
 import java.io.IOException;
 import java.net.URI;
@@ -17,12 +17,21 @@ import javax.websocket.RemoteEndpoint.Basic;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
-public class MinijaxWebSocketSession implements Session {
+public class MinijaxUndertowWebSocketSession implements Session {
+    private final MinijaxUndertowWebSocketBasicRemote basicRemote;
 
+    public MinijaxUndertowWebSocketSession(final MinijaxUndertowWebSocketBasicRemote basicRemote) {
+        this.basicRemote = basicRemote;
+    }
+
+    @Override
+    public String getId() {
+        return null;
+    }
 
     @Override
     public Basic getBasicRemote() {
-        throw new UnsupportedOperationException();
+        return basicRemote;
     }
 
     /*
@@ -116,11 +125,6 @@ public class MinijaxWebSocketSession implements Session {
 
     @Override
     public Async getAsyncRemote() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public String getId() {
         throw new UnsupportedOperationException();
     }
 

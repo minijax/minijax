@@ -1,14 +1,15 @@
-package org.minijax.undertow.websockets;
+package org.minijax.undertow.websocket;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-public class MinijaxWebSocketMethod {
+import javax.websocket.Session;
+
+public class MinijaxUndertowWebSocketMethod {
     private final Object instance;
     private final Method method;
 
-    public MinijaxWebSocketMethod(final Object instance, final Method method) {
+    public MinijaxUndertowWebSocketMethod(final Object instance, final Method method) {
         this.instance = instance;
         this.method = method;
     }
@@ -20,9 +21,12 @@ public class MinijaxWebSocketMethod {
             params[i] = args.get(paramTypes[i]);
         }
         try {
-            method.invoke(instance, params);
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            // TODO Auto-generated catch block
+            final Object result = method.invoke(instance, params);
+            if (result instanceof String) {
+                ((Session) args.get(Session.class)).getBasicRemote().sendText((String) result);
+            }
+
+        } catch (final Exception e) {
             e.printStackTrace();
         }
     }

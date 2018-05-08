@@ -29,7 +29,7 @@
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
-            <artifactId>minijax-websocket</artifactId>
+            <artifactId>minijax-undertow-websocket</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

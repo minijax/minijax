@@ -1,6 +1,7 @@
-package org.minijax.undertow.websockets;
+package org.minijax.undertow.websocket;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -9,35 +10,33 @@ import javax.websocket.OnOpen;
 
 import org.minijax.MinijaxRequestContext;
 
-public class MinijaxWebSocketAdapter {
-    private final Class<?> endpointClass;
+public class MinijaxUndertowWebSocketAdapter {
     private final Object endpoint;
-    private final MinijaxWebSocketMethod openMethod;
-    private final MinijaxWebSocketMethod closeMethod;
-    private final MinijaxWebSocketMethod messageMethod;
-    private final MinijaxWebSocketMethod errorMethod;
+    private final MinijaxUndertowWebSocketMethod openMethod;
+    private final MinijaxUndertowWebSocketMethod closeMethod;
+    private final MinijaxUndertowWebSocketMethod messageMethod;
+    private final MinijaxUndertowWebSocketMethod errorMethod;
 
-    public MinijaxWebSocketAdapter(final Class<?> endpointClass) {
-        this.endpointClass = endpointClass;
+    public MinijaxUndertowWebSocketAdapter(final Class<?> endpointClass) {
         endpoint = MinijaxRequestContext.getThreadLocal().get(endpointClass);
 
-        MinijaxWebSocketMethod openMethod = null;
-        MinijaxWebSocketMethod closeMethod = null;
-        MinijaxWebSocketMethod messageMethod = null;
-        MinijaxWebSocketMethod errorMethod = null;
+        MinijaxUndertowWebSocketMethod openMethod = null;
+        MinijaxUndertowWebSocketMethod closeMethod = null;
+        MinijaxUndertowWebSocketMethod messageMethod = null;
+        MinijaxUndertowWebSocketMethod errorMethod = null;
 
         for (final Method method : endpointClass.getDeclaredMethods()) {
             if (method.getAnnotation(OnOpen.class) != null) {
-                openMethod = new MinijaxWebSocketMethod(endpoint, method);
+                openMethod = new MinijaxUndertowWebSocketMethod(endpoint, method);
             }
             if (method.getAnnotation(OnClose.class) != null) {
-                closeMethod = new MinijaxWebSocketMethod(endpoint, method);
+                closeMethod = new MinijaxUndertowWebSocketMethod(endpoint, method);
             }
             if (method.getAnnotation(OnMessage.class) != null) {
-                messageMethod = new MinijaxWebSocketMethod(endpoint, method);
+                messageMethod = new MinijaxUndertowWebSocketMethod(endpoint, method);
             }
             if (method.getAnnotation(OnError.class) != null) {
-                errorMethod = new MinijaxWebSocketMethod(endpoint, method);
+                errorMethod = new MinijaxUndertowWebSocketMethod(endpoint, method);
             }
         }
 
@@ -47,9 +46,9 @@ public class MinijaxWebSocketAdapter {
         this.errorMethod = errorMethod;
     }
 
-    public void onOpen() {
+    public void onOpen(final Map<Class<?>, Object> params) {
         if (openMethod != null) {
-            openMethod.invoke(null);
+            openMethod.invoke(params);
         }
     }
 
@@ -59,9 +58,9 @@ public class MinijaxWebSocketAdapter {
         }
     }
 
-    public void onMessage(final String text) {
+    public void onMessage(final Map<Class<?>, Object> params) {
         if (messageMethod != null) {
-            messageMethod.invoke(null);
+            messageMethod.invoke(params);
         }
     }
 

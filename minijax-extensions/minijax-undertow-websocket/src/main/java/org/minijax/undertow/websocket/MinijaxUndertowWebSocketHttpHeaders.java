@@ -1,4 +1,4 @@
-package org.minijax.undertow;
+package org.minijax.undertow.websocket;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -9,26 +9,20 @@ import java.util.Map;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.minijax.util.LocaleUtils;
 import org.minijax.util.MediaTypeUtils;
 
-import io.undertow.server.HttpServerExchange;
-import io.undertow.util.HeaderMap;
-import io.undertow.util.HttpString;
+import io.undertow.websockets.spi.WebSocketHttpExchange;
 
-class MinijaxUndertowHttpHeaders implements HttpHeaders {
-    private final HttpServerExchange exchange;
-    private final HeaderMap headerMap;
-    private MultivaluedMap<String, String> requestHeaders;
+class MinijaxUndertowWebSocketHttpHeaders implements HttpHeaders {
+    private final Map<String, List<String>> headerMap;
     private Map<String, Cookie> cookies;
     private List<Locale> acceptableLanguages;
     private List<MediaType> acceptableMediaTypes;
 
-    public MinijaxUndertowHttpHeaders(final HttpServerExchange exchange) {
-        this.exchange = exchange;
+    public MinijaxUndertowWebSocketHttpHeaders(final WebSocketHttpExchange exchange) {
         headerMap = exchange.getRequestHeaders();
     }
 
@@ -39,26 +33,26 @@ class MinijaxUndertowHttpHeaders implements HttpHeaders {
 
     @Override
     public String getHeaderString(final String name) {
-        return headerMap.getFirst(name);
+        final List<String> values = headerMap.get(name);
+        return values == null || values.isEmpty() ? null : values.get(0);
     }
 
     @Override
     public MultivaluedMap<String, String> getRequestHeaders() {
-        if (requestHeaders == null) {
-            requestHeaders = new MultivaluedHashMap<>();
-            for (final HttpString name : headerMap.getHeaderNames()) {
-                requestHeaders.put(name.toString(), headerMap.get(name));
-            }
-        }
-        return requestHeaders;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Map<String, Cookie> getCookies() {
         if (cookies == null) {
             cookies = new HashMap<>();
-            for (final io.undertow.server.handlers.Cookie cookie : exchange.getRequestCookies().values()) {
-                cookies.put(cookie.getName(), new Cookie(cookie.getName(), cookie.getValue()));
+
+            final List<String> cookieStrings = headerMap.get("Cookie");
+            if (cookieStrings != null) {
+                for (final String cookieString : cookieStrings) {
+                    final String[] cookieParts = cookieString.split("=", 2);
+                    cookies.put(cookieParts[0], new Cookie(cookieParts[0], cookieParts[1]));
+                }
             }
         }
         return cookies;

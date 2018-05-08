@@ -6,15 +6,20 @@
         <artifactId>minijax-extensions</artifactId>
         <version>0.2.7-SNAPSHOT</version>
     </parent>
-    <artifactId>minijax-websocket</artifactId>
+    <artifactId>minijax-undertow-websocket</artifactId>
     <packaging>jar</packaging>
-    <name>minijax-websocket</name>
-    <description>Minijax WebSocket features</description>
+    <name>minijax-undertow-websocket</name>
+    <description>Minijax Undertow Websocket implementation</description>
     <dependencies>
         <dependency>
             <groupId>io.undertow</groupId>
-            <artifactId>undertow-websockets-jsr</artifactId>
+            <artifactId>undertow-core</artifactId>
             <version>${undertow.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.websocket</groupId>
+            <artifactId>javax.websocket-api</artifactId>
+            <version>${jsr356.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -26,7 +31,6 @@
             <groupId>org.minijax</groupId>
             <artifactId>minijax-core</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

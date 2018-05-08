@@ -11,7 +11,6 @@
     <name>minijax-examples</name>
     <description>Minijax example applications</description>
     <modules>
-        <module>minijax-example-docker</module>
         <module>minijax-example-hello</module>
         <module>minijax-example-json</module>
         <module>minijax-example-kotlin</module>
