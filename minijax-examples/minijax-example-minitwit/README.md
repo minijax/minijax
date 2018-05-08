@@ -36,7 +36,7 @@ pom.xml
 -------
 
 We pull in the following dependencies:
-* minijax-core - Base Minijax
+* minijax-undertow - Base Minijax
 * minijax-db - Database, ORM, and entity framework
 * minijax-security - User account, login, logout
 * minijax-mustache - Mustache templates for HTML rendering

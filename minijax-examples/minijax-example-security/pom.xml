@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
-            <artifactId>minijax-core</artifactId>
+            <artifactId>minijax-undertow</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

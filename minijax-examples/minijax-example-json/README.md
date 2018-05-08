@@ -31,7 +31,7 @@ pom.xml
 
 As with the Hello World example, let's start with the Maven pom.xml.
 
-In addition to "minijax-core", we add one new dependency:
+In addition to "minijax-undertow", we add one new dependency:
 
 ```xml
 <dependency>

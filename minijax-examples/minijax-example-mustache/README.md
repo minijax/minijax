@@ -179,7 +179,7 @@ Key points:
 
 > If you are coming from Jersey, there are a couple differences between `MinijaxTest` and `JerseyTest` to be aware of.
 >
-> First, you will notice that we never included a test dependency.  The `minijax-core` module includes all of the test scaffolding.  `MinijaxTest` executes simulated requests completely in-memory, much like `jersey-test-framework-provider-inmemory`.
+> First, you will notice that we never included a test dependency.  The `minijax-undertow` module includes all of the test scaffolding.  `MinijaxTest` executes simulated requests completely in-memory, much like `jersey-test-framework-provider-inmemory`.
 >
 > Second, the behavior regarding "entities" is somewhat different.
 >

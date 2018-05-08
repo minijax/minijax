@@ -56,12 +56,6 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>javax.websocket</groupId>
-            <artifactId>javax.websocket-api</artifactId>
-            <version>${jsr356.version}</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>
             <version>${jax-rs.version}</version>

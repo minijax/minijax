@@ -19,12 +19,12 @@
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
-            <artifactId>minijax-core</artifactId>
+            <artifactId>minijax-json</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
-            <artifactId>minijax-json</artifactId>
+            <artifactId>minijax-undertow</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
