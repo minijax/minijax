@@ -40,10 +40,10 @@ public class MinijaxUndertowWebSocketAdapter {
             }
         }
 
-        this.openMethod = open;
-        this.closeMethod = close;
-        this.messageMethod = message;
-        this.errorMethod = error;
+        openMethod = open;
+        closeMethod = close;
+        messageMethod = message;
+        errorMethod = error;
     }
 
     public void onOpen(final Map<Class<?>, Object> params) {
@@ -52,9 +52,9 @@ public class MinijaxUndertowWebSocketAdapter {
         }
     }
 
-    public void onClose() {
+    public void onClose(final Map<Class<?>, Object> params) {
         if (closeMethod != null) {
-            closeMethod.invoke(null);
+            closeMethod.invoke(params);
         }
     }
 
@@ -64,9 +64,9 @@ public class MinijaxUndertowWebSocketAdapter {
         }
     }
 
-    public void onError(final Exception ex) {
+    public void onError(final Map<Class<?>, Object> params) {
         if (errorMethod != null) {
-            errorMethod.invoke(null);
+            errorMethod.invoke(params);
         }
     }
 }

@@ -46,8 +46,8 @@ public class AdapterTest extends MinijaxTest {
             final MinijaxUndertowWebSocketAdapter adapter = new MinijaxUndertowWebSocketAdapter(TestSocket1.class);
             adapter.onOpen(emptyMap());
             adapter.onMessage(emptyMap());
-            adapter.onClose();
-            adapter.onError(null);
+            adapter.onClose(emptyMap());
+            adapter.onError(emptyMap());
         }
     }
 
@@ -57,8 +57,8 @@ public class AdapterTest extends MinijaxTest {
             final MinijaxUndertowWebSocketAdapter adapter = new MinijaxUndertowWebSocketAdapter(TestSocket2.class);
             adapter.onOpen(emptyMap());
             adapter.onMessage(singletonMap(String.class, "test"));
-            adapter.onClose();
-            adapter.onError(null);
+            adapter.onClose(emptyMap());
+            adapter.onError(emptyMap());
         }
     }
 
@@ -68,8 +68,8 @@ public class AdapterTest extends MinijaxTest {
             final MinijaxUndertowWebSocketAdapter adapter = new MinijaxUndertowWebSocketAdapter(TestSocket3.class);
             adapter.onOpen(emptyMap());
             adapter.onMessage(emptyMap());
-            adapter.onClose();
-            adapter.onError(null);
+            adapter.onClose(emptyMap());
+            adapter.onError(emptyMap());
         }
     }
 
@@ -79,8 +79,8 @@ public class AdapterTest extends MinijaxTest {
             final MinijaxUndertowWebSocketAdapter adapter = new MinijaxUndertowWebSocketAdapter(TestSocket4.class);
             adapter.onOpen(emptyMap());
             adapter.onMessage(emptyMap());
-            adapter.onClose();
-            adapter.onError(null);
+            adapter.onClose(emptyMap());
+            adapter.onError(emptyMap());
         }
     }
 }

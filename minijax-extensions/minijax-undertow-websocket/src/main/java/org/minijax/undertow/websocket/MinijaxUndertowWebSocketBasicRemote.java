@@ -43,12 +43,12 @@ public class MinijaxUndertowWebSocketBasicRemote implements RemoteEndpoint.Basic
     }
 
     @Override
-    public void sendPing(final ByteBuffer applicationData) throws IOException, IllegalArgumentException {
+    public void sendPing(final ByteBuffer applicationData) throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void sendPong(final ByteBuffer applicationData) throws IOException, IllegalArgumentException {
+    public void sendPong(final ByteBuffer applicationData) throws IOException {
         throw new UnsupportedOperationException();
     }
 
