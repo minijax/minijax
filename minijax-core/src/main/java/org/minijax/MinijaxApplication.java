@@ -320,7 +320,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
             for (final Class<?> c : ClassPathScanner.scan(packageName)) {
                 if (c.isAnnotationPresent(javax.ws.rs.ext.Provider.class)
                         || c.isAnnotationPresent(javax.ws.rs.Path.class)
-                        || c == OptionalClasses.SERVER_ENDPOINT) {
+                        || (OptionalClasses.SERVER_ENDPOINT != null && c.isAnnotationPresent(OptionalClasses.SERVER_ENDPOINT))) {
                     registerImpl(c);
                 }
             }
