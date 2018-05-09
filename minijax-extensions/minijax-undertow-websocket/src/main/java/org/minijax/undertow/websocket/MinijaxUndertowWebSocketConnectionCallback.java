@@ -4,12 +4,16 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response.StatusType;
+
 import org.minijax.MinijaxApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.undertow.websockets.WebSocketConnectionCallback;
 import io.undertow.websockets.core.WebSocketChannel;
+import io.undertow.websockets.core.WebSockets;
 import io.undertow.websockets.spi.WebSocketHttpExchange;
 
 public class MinijaxUndertowWebSocketConnectionCallback implements WebSocketConnectionCallback {
@@ -37,6 +41,11 @@ public class MinijaxUndertowWebSocketConnectionCallback implements WebSocketConn
 
             channel.getReceiveSetter().set(new MinijaxUndertowWebSocketListener(application, endpoint, exchange));
             channel.resumeReceives();
+
+        } catch (final WebApplicationException ex) {
+            LOG.debug("Web exception during websocket connection: {}", ex.getMessage(), ex);
+            final StatusType status = ex.getResponse().getStatusInfo();
+            WebSockets.sendClose(status.getStatusCode(), status.getReasonPhrase(), channel, null);
 
         } catch (final IOException ex) {
             LOG.warn("Exception during websocket connection: {}", ex.getMessage(), ex);

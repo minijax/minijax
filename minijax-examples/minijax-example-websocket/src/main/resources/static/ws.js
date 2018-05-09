@@ -29,7 +29,7 @@ function init() {
     };
 
     ws.onclose = function(e) {
-        log('WebSocket closed');
+        log('WebSocket closed (' + e.reason + ')');
     };
 
     ws.onerror = function(e) {

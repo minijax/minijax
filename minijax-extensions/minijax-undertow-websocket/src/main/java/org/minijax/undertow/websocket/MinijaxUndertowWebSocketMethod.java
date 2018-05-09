@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 import javax.websocket.Session;
+import javax.ws.rs.WebApplicationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,10 @@ public class MinijaxUndertowWebSocketMethod {
             }
 
         } catch (final Exception ex) {
+            final Throwable cause = ex.getCause();
+            if (cause instanceof WebApplicationException) {
+                throw (WebApplicationException) cause;
+            }
             LOG.warn("Exception invoking websocket handler: {}", ex.getMessage(), ex);
         }
     }
