@@ -318,15 +318,26 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     private void scanPackage(final String packageName) {
         try {
             for (final Class<?> c : ClassPathScanner.scan(packageName)) {
-                if (c.isAnnotationPresent(javax.ws.rs.ext.Provider.class)
-                        || c.isAnnotationPresent(javax.ws.rs.Path.class)
-                        || (OptionalClasses.SERVER_ENDPOINT != null && c.isAnnotationPresent(OptionalClasses.SERVER_ENDPOINT))) {
+                if (isAutoScanClass(c)) {
                     registerImpl(c);
                 }
             }
         } catch (final IOException ex) {
             throw new MinijaxException(ex.getMessage(), ex);
         }
+    }
+
+
+    private boolean isAutoScanClass(final Class<?> c) {
+        for (final Annotation a : c.getAnnotations()) {
+            final Class<?> t = a.annotationType();
+            if (t == javax.ws.rs.ext.Provider.class
+                    || t == javax.ws.rs.Path.class
+                    || t == OptionalClasses.SERVER_ENDPOINT) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
