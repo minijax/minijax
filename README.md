@@ -1,5 +1,5 @@
 
-[![Build status](https://travis-ci.org/minijax/minijax.svg?branch=master)](https://travis-ci.org/minijax/minijax) [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=org.minijax:minijax)](https://sonarcloud.io/dashboard/index/org.minijax:minijax)
+[![Build status](https://travis-ci.org/minijax/minijax.svg?branch=master)](https://travis-ci.org/minijax/minijax) [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=org.minijax%3Aminijax&metric=alert_status)](https://sonarcloud.io/dashboard/index/org.minijax:minijax)
 
 Minijax
 =======
