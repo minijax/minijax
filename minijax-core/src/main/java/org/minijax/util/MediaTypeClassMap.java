@@ -1,9 +1,9 @@
 package org.minijax.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.ws.rs.core.MediaType;
 
@@ -12,8 +12,8 @@ public class MediaTypeClassMap<T> {
     private final Map<MediaType, List<Class<? extends T>>> cache;
 
     public MediaTypeClassMap() {
-        entries = new ArrayList<>();
-        cache = new HashMap<>();
+        entries = new CopyOnWriteArrayList<>();
+        cache = new CopyOnWriteMap<>();
     }
 
     public void add(final Class<T> c, final List<MediaType> mediaTypes) {
