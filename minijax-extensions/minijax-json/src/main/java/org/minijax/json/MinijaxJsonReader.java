@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
@@ -21,10 +20,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Singleton
 @Consumes(APPLICATION_JSON)
 public class MinijaxJsonReader implements MessageBodyReader<Object> {
-
-    @Inject
-    private ObjectMapper objectMapper;
-
 
     @Override
     public boolean isReadable(
@@ -46,6 +41,8 @@ public class MinijaxJsonReader implements MessageBodyReader<Object> {
             final MultivaluedMap<String, String> httpHeaders,
             final InputStream entityStream)
                     throws IOException {
+
+        final ObjectMapper objectMapper = Json.getObjectMapper();
 
         try {
             if (genericType != null) {

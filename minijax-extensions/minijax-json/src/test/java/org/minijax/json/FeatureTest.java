@@ -6,8 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class FeatureTest extends MinijaxTest {
 
     @Before
@@ -17,7 +15,7 @@ public class FeatureTest extends MinijaxTest {
 
     @Test
     public void testFeature() {
-        final ObjectMapper mapper = getServer().getResource(ObjectMapper.class);
-        assertNotNull(mapper);
+        assertNotNull(getServer().getResource(MinijaxJsonReader.class));
+        assertNotNull(getServer().getResource(MinijaxJsonWriter.class));
     }
 }

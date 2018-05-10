@@ -7,22 +7,15 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 @Singleton
 @Produces(APPLICATION_JSON)
 public class MinijaxJsonWriter implements MessageBodyWriter<Object> {
-
-    @Inject
-    private ObjectMapper objectMapper;
-
 
     @Override
     public boolean isWriteable(
@@ -46,6 +39,6 @@ public class MinijaxJsonWriter implements MessageBodyWriter<Object> {
             final OutputStream entityStream)
                     throws IOException {
 
-        objectMapper.writeValue(entityStream, t);
+        Json.getObjectMapper().writeValue(entityStream, t);
     }
 }
