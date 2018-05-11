@@ -1,7 +1,6 @@
 package org.minijax.gplus;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Base64;
@@ -119,7 +118,7 @@ public class GooglePlusService {
      *
      * @return The redirect URI.
      */
-    public URI getRedirectUri() throws MalformedURLException {
+    public URI getRedirectUri() {
         // See https://console.developers.google.com
         // Go to "Credentials" page
         // Go to "Authorized redirect URIs" section
