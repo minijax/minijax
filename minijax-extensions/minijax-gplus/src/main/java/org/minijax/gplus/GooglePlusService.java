@@ -122,7 +122,9 @@ public class GooglePlusService {
         // See https://console.developers.google.com
         // Go to "Credentials" page
         // Go to "Authorized redirect URIs" section
-        final UriBuilder builder = UriBuilder.fromUri(uriInfo.getRequestUri()).replacePath("/googlecallback");
+        final UriBuilder builder = UriBuilder.fromUri(uriInfo.getRequestUri())
+                .replacePath("/googlecallback")
+                .replaceQuery("");
 
         final String forwardedProtocol = httpHeaders.getHeaderString("X-Forwarded-Proto");
         if (forwardedProtocol != null) {

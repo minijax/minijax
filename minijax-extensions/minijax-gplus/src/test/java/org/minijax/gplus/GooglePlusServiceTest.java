@@ -85,7 +85,31 @@ public class GooglePlusServiceTest extends MinijaxTest {
             final MultivaluedMap<String, String> queryParams = UrlUtils.urlDecodeMultivaluedParams(loginUri.getQuery());
             final String redirectUri = queryParams.getFirst("redirect_uri");
             assertNotNull(redirectUri);
-            assertTrue(redirectUri.startsWith("https://"));
+            assertEquals("https://example.com/googlecallback", redirectUri.toString());
+        }
+    }
+
+
+    @Test
+    public void testLoginUrlQueryString() throws IOException {
+        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders();
+        httpHeaders.getRequestHeaders().add("X-Forwarded-Proto", "https");
+
+        try (final MinijaxRequestContext ctx = new MinijaxTestRequestContext(
+                getServer().getDefaultApplication(),
+                GET,
+                new MinijaxUriInfo(URI.create("http://example.com/path/to/test?foo")),
+                httpHeaders,
+                null)) {
+
+            final String loginUrl = ctx.get(GooglePlusService.class).getLoginUrl();
+            assertNotNull(loginUrl);
+
+            final URI loginUri = URI.create(loginUrl);
+            final MultivaluedMap<String, String> queryParams = UrlUtils.urlDecodeMultivaluedParams(loginUri.getQuery());
+            final String redirectUri = queryParams.getFirst("redirect_uri");
+            assertNotNull(redirectUri);
+            assertEquals("https://example.com/googlecallback", redirectUri.toString());
         }
     }
 }

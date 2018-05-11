@@ -95,7 +95,7 @@ public class GooglePlusCallback {
                 // This email address is not registered in the database
                 // In the future, we may consider auto-creating new user accounts
                 // For now, show an error message that we are in private beta.
-                LOG.info("Attempted login from {}", email);
+                LOG.info("Attempted login from \"{}\"", email);
                 return Response.seeOther(URI.create("/docs/beta")).build();
             }
 
