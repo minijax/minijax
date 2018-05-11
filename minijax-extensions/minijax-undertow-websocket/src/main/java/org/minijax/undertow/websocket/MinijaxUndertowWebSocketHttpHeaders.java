@@ -46,11 +46,13 @@ class MinijaxUndertowWebSocketHttpHeaders extends MinijaxHttpHeaders {
         if (cookies == null) {
             cookies = new HashMap<>();
 
-            final List<String> cookieStrings = headerMap.get("Cookie");
-            if (cookieStrings != null) {
-                for (final String cookieString : cookieStrings) {
-                    final String[] cookieParts = cookieString.split("=", 2);
-                    cookies.put(cookieParts[0], new Cookie(cookieParts[0], cookieParts[1]));
+            final List<String> cookieHeaders = headerMap.get("Cookie");
+            if (cookieHeaders != null) {
+                for (final String cookieHeader : cookieHeaders) {
+                    for (final String cookieString : cookieHeader.split(";\\s*")) {
+                        final String[] cookieParts = cookieString.split("=", 2);
+                        cookies.put(cookieParts[0], new Cookie(cookieParts[0], cookieParts[1]));
+                    }
                 }
             }
         }

@@ -32,6 +32,7 @@ public class MinijaxUndertowWebSocketMethod {
             }
 
         } catch (final Exception ex) {
+            LOG.debug("Websocket method invoke excpetion: {}", ex.getMessage(), ex);
             final Throwable cause = ex.getCause();
             if (cause instanceof WebApplicationException) {
                 throw (WebApplicationException) cause;

@@ -173,6 +173,26 @@ public class HttpHeadersTest {
         assertEquals(cookies, httpHeaders.getCookies());
     }
 
+    @Test
+    public void testCompoundCookies() throws Exception {
+        final Map<String, List<String>> headerMap = new HashMap<>();
+        headerMap.computeIfAbsent(HttpHeaders.COOKIE, k -> new ArrayList<>()).add("k=v; a=b;c=d");
+        headerMap.computeIfAbsent(HttpHeaders.COOKIE, k -> new ArrayList<>()).add("e=f");
+
+        final WebSocketHttpExchange exchange = mock(WebSocketHttpExchange.class);
+        when(exchange.getRequestHeaders()).thenReturn(headerMap);
+
+        final MinijaxUndertowWebSocketHttpHeaders httpHeaders = new MinijaxUndertowWebSocketHttpHeaders(exchange);
+        final Map<String, Cookie> cookies = httpHeaders.getCookies();
+        assertNotNull(cookies);
+        assertEquals(4, cookies.size());
+        assertEquals("v", cookies.get("k").getValue());
+        assertEquals("b", cookies.get("a").getValue());
+        assertEquals("d", cookies.get("c").getValue());
+        assertEquals("f", cookies.get("e").getValue());
+        assertEquals(cookies, httpHeaders.getCookies());
+    }
+
     @Test(expected = UnsupportedOperationException.class)
     public void testDate() {
         final WebSocketHttpExchange exchange = mock(WebSocketHttpExchange.class);
