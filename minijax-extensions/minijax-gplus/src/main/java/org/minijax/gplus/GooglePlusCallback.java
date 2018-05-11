@@ -67,7 +67,7 @@ public class GooglePlusCallback {
 
         // Exchange authorization code for user credentials.
         final GoogleTokenResponse tokenResponse = authFlow.newTokenRequest(code)
-                .setRedirectUri(gplusService.getRedirectUrl())
+                .setRedirectUri(gplusService.getRedirectUri().toString())
                 .execute();
 
         final UUID tempId = IdUtils.create();

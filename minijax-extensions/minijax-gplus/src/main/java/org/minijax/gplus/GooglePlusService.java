@@ -2,7 +2,7 @@ package org.minijax.gplus;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collections;
@@ -13,6 +13,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 
@@ -47,6 +49,9 @@ public class GooglePlusService {
 
     @Context
     private UriInfo uriInfo;
+
+    @Context
+    private HttpHeaders httpHeaders;
 
     @Inject
     private Security<SecurityUser> security;
@@ -95,7 +100,7 @@ public class GooglePlusService {
      */
     public String getLoginUrl() throws IOException {
         return initializeFlow().newAuthorizationUrl()
-                .setRedirectUri(getRedirectUrl())
+                .setRedirectUri(getRedirectUri().toString())
                 .build();
     }
 
@@ -110,17 +115,22 @@ public class GooglePlusService {
 
 
     /**
-     * Returns the redirect URL.
+     * Returns the redirect URI.
      *
-     * @return The redirect URL.
+     * @return The redirect URI.
      */
-    public String getRedirectUrl() throws MalformedURLException {
+    public URI getRedirectUri() throws MalformedURLException {
         // See https://console.developers.google.com
         // Go to "Credentials" page
         // Go to "Authorized redirect URIs" section
-        final String currentUrl = uriInfo.getRequestUri().toString();
-        final URL url = new URL(currentUrl);
-        return url.getProtocol() + "://" + url.getAuthority() + "/googlecallback";
+        final UriBuilder builder = UriBuilder.fromUri(uriInfo.getRequestUri()).replacePath("/googlecallback");
+
+        final String forwardedProtocol = httpHeaders.getHeaderString("X-Forwarded-Proto");
+        if (forwardedProtocol != null) {
+            builder.scheme(forwardedProtocol);
+        }
+
+        return builder.build();
     }
 
 
