@@ -137,6 +137,7 @@
                     <keepStagingRepositoryOnFailure>true</keepStagingRepositoryOnFailure>
                     <keepStagingRepositoryOnCloseRuleFailure>true</keepStagingRepositoryOnCloseRuleFailure>
                     <stagingProgressTimeoutMinutes>30</stagingProgressTimeoutMinutes>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
             <plugin>
