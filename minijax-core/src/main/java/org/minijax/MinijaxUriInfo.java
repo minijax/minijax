@@ -53,7 +53,7 @@ public class MinijaxUriInfo implements javax.ws.rs.core.UriInfo {
 
     @Override
     public UriBuilder getRequestUriBuilder() {
-        throw new IllegalStateException();
+        return UriBuilder.fromUri(requestUri);
     }
 
     @Override

@@ -175,7 +175,7 @@ public abstract class MinijaxRequestContext
 
     @Override
     public void abortWith(final Response response) {
-        throw new UnsupportedOperationException();
+        throw new WebApplicationException(response);
     }
 
     public MinijaxForm getForm() {
