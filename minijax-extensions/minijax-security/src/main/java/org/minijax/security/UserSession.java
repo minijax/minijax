@@ -27,9 +27,11 @@ import org.minijax.db.UuidConverter;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Table(indexes = { @Index(columnList = "USERID", unique = false) })
 @NamedQuery(
+        name = "UserSession.readByUser",
+        query = "SELECT s FROM UserSession s WHERE s.userId = :userId")
+@NamedQuery(
         name = "UserSession.deleteByUser",
-        query = "DELETE FROM UserSession s" +
-                " WHERE s.userId = :userId")
+        query = "DELETE FROM UserSession s WHERE s.userId = :userId")
 @SuppressWarnings("squid:S2160")
 public class UserSession extends DefaultBaseEntity {
     private static final long serialVersionUID = 1L;

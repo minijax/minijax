@@ -75,6 +75,21 @@ public interface SecurityDao extends BaseDao {
 
 
     /**
+     * Returns a list of all sessions for a user by user ID.
+     *
+     * This can be used to show all locations and devices where a user is currently logged in.
+     *
+     * @param userId The user ID.
+     */
+    default List<UserSession> readUserSessionsByUser(final UUID userId) {
+        return getEntityManager()
+                .createNamedQuery("UserSession.readByUser", UserSession.class)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
+
+
+    /**
      * Deletes all sessions for a user by user ID.
      *
      * This should be used when there is evidence for potential security or

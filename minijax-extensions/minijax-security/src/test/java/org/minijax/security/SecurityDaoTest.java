@@ -84,6 +84,8 @@ public class SecurityDaoTest extends MinijaxTest {
             assertNotNull(s2);
             assertEquals(user, s2.getUser());
 
+            assertEquals(2, dao.readUserSessionsByUser(user.getId()).size());
+
             dao.deleteUserSessionsByUser(user.getId());
         }
 
