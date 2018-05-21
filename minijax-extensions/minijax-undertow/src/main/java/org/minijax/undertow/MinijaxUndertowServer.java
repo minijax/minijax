@@ -12,6 +12,8 @@ import org.minijax.MinijaxApplication;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.MinijaxServer;
 import org.minijax.undertow.websocket.MinijaxUndertowWebSocketConnectionCallback;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.undertow.Handlers;
 import io.undertow.Undertow;
@@ -23,6 +25,7 @@ import io.undertow.util.Headers;
 import io.undertow.util.HttpString;
 
 public class MinijaxUndertowServer implements MinijaxServer, HttpHandler {
+    private static final Logger LOG = LoggerFactory.getLogger(MinijaxUndertowServer.class);
     private final Minijax minijax;
     private final Undertow undertow;
 
@@ -74,6 +77,10 @@ public class MinijaxUndertowServer implements MinijaxServer, HttpHandler {
             }
 
             application.writeEntity(response.getEntity(), mediaType, exchange.getOutputStream());
+
+        } catch (final Exception ex) {
+            LOG.error("Unhandled exception: {}", ex.getMessage(), ex);
+            throw ex;
         }
     }
 
