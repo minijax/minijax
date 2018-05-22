@@ -13,7 +13,7 @@ public class StringListConverterTest {
     public void testNull() {
         final StringListConverter c = new StringListConverter();
         assertNull(c.convertToDatabaseColumn(null));
-        assertNull(c.convertToEntityAttribute(null));
+        assertTrue(c.convertToEntityAttribute(null).isEmpty());
     }
 
     @Test

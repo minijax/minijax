@@ -2,6 +2,7 @@ package org.minijax.db.converters;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.AttributeConverter;
@@ -21,7 +22,7 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
     @Override
     public List<String> convertToEntityAttribute(final String joined) {
         if (joined == null) {
-            return null;
+            return Collections.emptyList();
         }
         return new ArrayList<>(Arrays.asList(joined.split(",")));
     }
