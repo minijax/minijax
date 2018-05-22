@@ -6,6 +6,8 @@ import static org.mockito.Mockito.*;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
+import javax.ws.rs.core.UriInfo;
+
 import org.junit.Test;
 import org.minijax.Minijax;
 import org.mockito.Mockito;
@@ -26,6 +28,7 @@ public class RequestContextTest {
 
         final HttpServerExchange exchange = Mockito.mock(HttpServerExchange.class);
         when(exchange.getRequestMethod()).thenReturn(Methods.GET);
+        when(exchange.getRequestURL()).thenReturn("http://www.example.com/");
         when(exchange.getRequestHeaders()).thenReturn(headerMap);
 
         try (final MinijaxUndertowRequestContext ctx = new MinijaxUndertowRequestContext(minijax.getDefaultApplication(), exchange)) {
@@ -46,7 +49,8 @@ public class RequestContextTest {
         headerMap.add(Headers.CONTENT_TYPE, "text/plain");
 
         final HttpServerExchange exchange = Mockito.mock(HttpServerExchange.class);
-        when(exchange.getRequestMethod()).thenReturn(Methods.GET);
+        when(exchange.getRequestMethod()).thenReturn(Methods.POST);
+        when(exchange.getRequestURL()).thenReturn("http://www.example.com/");
         when(exchange.getRequestHeaders()).thenReturn(headerMap);
         when(exchange.getInputStream()).thenReturn(entityStream);
 
@@ -55,6 +59,26 @@ public class RequestContextTest {
             assertNotNull(entityStreamCheck);
             assertEquals(entityStream, entityStreamCheck);
             assertEquals(entityStream, ctx.getEntityStream());
+        }
+    }
+
+
+    @Test
+    public void testForwardedHttpsProto() throws Exception {
+        final Minijax minijax = new Minijax();
+
+        final HeaderMap headerMap = new HeaderMap();
+        headerMap.add(Headers.X_FORWARDED_PROTO, "https");
+
+        final HttpServerExchange exchange = Mockito.mock(HttpServerExchange.class);
+        when(exchange.getRequestMethod()).thenReturn(Methods.GET);
+        when(exchange.getRequestURL()).thenReturn("http://www.example.com/");
+        when(exchange.getRequestHeaders()).thenReturn(headerMap);
+
+        try (final MinijaxUndertowRequestContext ctx = new MinijaxUndertowRequestContext(minijax.getDefaultApplication(), exchange)) {
+            final UriInfo uriInfo = ctx.getUriInfo();
+            assertNotNull(uriInfo);
+            assertEquals("https://www.example.com/", uriInfo.getRequestUri().toString());
         }
     }
 }

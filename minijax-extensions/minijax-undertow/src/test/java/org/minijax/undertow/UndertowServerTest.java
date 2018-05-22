@@ -10,7 +10,7 @@ import org.mockito.Mockito;
 import io.undertow.Undertow;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.HeaderMap;
-import io.undertow.util.HttpString;
+import io.undertow.util.Methods;
 
 public class UndertowServerTest {
 
@@ -21,7 +21,8 @@ public class UndertowServerTest {
         final MinijaxUndertowServer server = new MinijaxUndertowServer(minijax);
 
         final HttpServerExchange exchange = Mockito.mock(HttpServerExchange.class);
-        when(exchange.getRequestMethod()).thenReturn(new HttpString("GET"));
+        when(exchange.getRequestMethod()).thenReturn(Methods.GET);
+        when(exchange.getRequestURL()).thenReturn("https://www.example.com/");
         when(exchange.getRequestHeaders()).thenReturn(new HeaderMap());
 
         server.handleRequest(exchange);
