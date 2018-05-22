@@ -20,6 +20,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -313,7 +314,8 @@ public class AvatarService {
     private void downloadFile(final String url, final File destFile) throws IOException {
         final WebTarget target = client.target(url);
         if (target != null) {
-            try (final InputStream in = target.request().header(HttpHeaders.USER_AGENT, USER_AGENT).get(InputStream.class)) {
+            try (final Response response = target.request().header(HttpHeaders.USER_AGENT, USER_AGENT).get();
+                    final InputStream in = response.readEntity(InputStream.class)) {
                 Files.copy(in, destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
         }
