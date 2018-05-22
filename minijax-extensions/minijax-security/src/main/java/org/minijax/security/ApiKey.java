@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.eclipse.persistence.annotations.CacheIndex;
 import org.minijax.db.DefaultBaseEntity;
-import org.minijax.db.UuidConverter;
+import org.minijax.db.converters.UuidConverter;
 
 /**
  * The ApiKey class represents a single API key for a user.

@@ -1,4 +1,4 @@
-package org.minijax.db;
+package org.minijax.db.converters;
 
 import java.util.UUID;
 

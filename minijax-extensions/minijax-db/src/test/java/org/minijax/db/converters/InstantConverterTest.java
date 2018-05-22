@@ -1,4 +1,4 @@
-package org.minijax.db;
+package org.minijax.db.converters;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 import org.junit.Test;
+import org.minijax.db.converters.InstantConverter;
 
 public class InstantConverterTest {
 

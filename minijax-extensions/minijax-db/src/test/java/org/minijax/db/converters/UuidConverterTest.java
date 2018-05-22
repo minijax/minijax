@@ -1,4 +1,4 @@
-package org.minijax.db;
+package org.minijax.db.converters;
 
 import static org.junit.Assert.*;
 
@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minijax.db.UuidConverter;
+import org.minijax.db.converters.UuidConverter;
 import org.minijax.util.IdUtils;
 
 public class UuidConverterTest {

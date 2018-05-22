@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.minijax.db.DefaultBaseEntity;
-import org.minijax.db.UuidConverter;
+import org.minijax.db.converters.UuidConverter;
 
 /**
  * The PasswordChangeRequest class represents a password change request.

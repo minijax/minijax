@@ -1,4 +1,4 @@
-package org.minijax.db;
+package org.minijax.db.converters;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 import org.junit.Test;
+import org.minijax.db.converters.LocalDateConverter;
 
 public class LocalDateConverterTest {
 

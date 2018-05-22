@@ -16,6 +16,8 @@ import javax.persistence.PreUpdate;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+import org.minijax.db.converters.InstantConverter;
+import org.minijax.db.converters.UuidConverter;
 import org.minijax.json.Json;
 import org.minijax.util.IdUtils;
 import org.slf4j.Logger;

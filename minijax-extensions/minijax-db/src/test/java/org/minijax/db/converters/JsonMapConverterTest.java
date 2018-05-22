@@ -1,4 +1,4 @@
-package org.minijax.db;
+package org.minijax.db.converters;
 
 import static org.junit.Assert.*;
 
@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.minijax.MinijaxException;
-import org.minijax.db.JsonMapConverter;
+import org.minijax.db.converters.JsonMapConverter;
 
 public class JsonMapConverterTest {
 

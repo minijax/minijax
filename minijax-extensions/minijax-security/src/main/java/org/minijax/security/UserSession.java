@@ -15,7 +15,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.minijax.db.DefaultBaseEntity;
-import org.minijax.db.UuidConverter;
+import org.minijax.db.converters.UuidConverter;
 
 /**
  * The UserSession class represents an authenticated session which
