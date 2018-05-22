@@ -182,6 +182,16 @@ public class UriBuilderTest {
         UriBuilder.fromUri("https://example.com/{name}}").build("foo");
     }
 
+    @Test
+    public void testMinimumPath() {
+        assertEquals("https://www.example.com/", UriBuilder.fromUri("https://www.example.com/").build().toString());
+    }
+
+    @Test
+    public void testTrailingSlash() {
+        assertEquals("https://www.example.com/foo/", UriBuilder.fromUri("https://www.example.com/foo/").build().toString());
+    }
+
     /*
      * Unsupported operations
      */

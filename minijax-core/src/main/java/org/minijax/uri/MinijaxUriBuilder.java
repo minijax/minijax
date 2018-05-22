@@ -431,7 +431,11 @@ public class MinijaxUriBuilder extends UriBuilder {
                     squareDepth--;
 
                 } else if (curlyDepth == 0 && squareDepth == 0 && str.startsWith(delimeter, i)) {
-                    return new String[] { str.substring(0, i), str.substring(i + delimeter.length()) };
+                    if (delimeter.equals("/")) {
+                        return new String[] { str.substring(0, i), str.substring(i) };
+                    } else {
+                        return new String[] { str.substring(0, i), str.substring(i + delimeter.length()) };
+                    }
                 }
             }
 
