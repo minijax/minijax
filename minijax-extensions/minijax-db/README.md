@@ -66,6 +66,8 @@ The minijax-db library provides several of these `AttributeConverter` utility cl
 | JsonMapConverter        | java.util.Map<String, Object>  | java.lang.String    | JSON encoding          |
 | LocalDateConverter      | java.time.LocalDate            | java.sql.Date       | Direct conversion      |
 | StringListConverter     | java.util.List<String>         | java.lang.String    | Comma delimited        |
+| UriConverter            | java.net.URI                   | java.lang.String    | String conversion      |
+| UrlConverter            | java.net.URL                   | java.lang.String    | String conversion      |
 | UrlEncodedMapConverter  | java.util.Map<String, String>  | java.lang.String    | URL encoded key value  |
 | UuidConverter           | java.util.UUID                 | byte[]              | Direct conversion      |
 

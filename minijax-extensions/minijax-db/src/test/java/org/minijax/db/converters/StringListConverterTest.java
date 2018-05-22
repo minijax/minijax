@@ -6,15 +6,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
-import org.minijax.db.converters.StringListConverter;
 
 public class StringListConverterTest {
 
     @Test
     public void testNull() {
         final StringListConverter c = new StringListConverter();
-        assertNotNull(c.convertToDatabaseColumn(null));
-        assertNotNull(c.convertToEntityAttribute(null));
+        assertNull(c.convertToDatabaseColumn(null));
+        assertNull(c.convertToEntityAttribute(null));
     }
 
     @Test
