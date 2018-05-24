@@ -6,6 +6,7 @@ import static javax.ws.rs.core.MediaType.*;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.Collections;
 
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
@@ -18,7 +19,7 @@ class MinijaxStaticResource extends MinijaxResourceMethod {
     private final boolean directory;
 
     public MinijaxStaticResource(final String resourceName, final String path) {
-        super(GET, null, null, path, null, null);
+        super(GET, null, null, path, Collections.emptyList(), null);
         baseResourceName = resourceName;
         directory = path.contains("{");
     }

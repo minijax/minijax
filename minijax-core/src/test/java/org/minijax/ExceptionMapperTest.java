@@ -62,6 +62,12 @@ public class ExceptionMapperTest extends MinijaxTest {
         throw new ExceptionB();
     }
 
+    @GET
+    @Path("/throw_b_no_produces")
+    public static Response throwBNoProduces() throws ExceptionB {
+        throw new ExceptionB();
+    }
+
     @BeforeClass
     public static void setUpExceptionMapperTest() {
         resetServer();
@@ -83,5 +89,11 @@ public class ExceptionMapperTest extends MinijaxTest {
     @Test
     public void testThrowB() {
         assertEquals("A", target("/throw_b").request().get().getEntity());
+    }
+
+    @Test
+    public void testThrowBNoProduces() {
+        final Response response = target("/throw_b_no_produces").request().get();
+        assertEquals(500, response.getStatus());
     }
 }

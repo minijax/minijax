@@ -7,6 +7,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 
 import javax.annotation.security.DenyAll;
@@ -36,10 +37,6 @@ class MinijaxResourceMethod implements javax.ws.rs.container.ResourceInfo {
         this(httpMethod, method, paramProviders, findPath(method), findProduces(method), findSecurityAnnotation(method));
     }
 
-    public MinijaxResourceMethod(final String httpMethod, final String path) {
-        this(httpMethod, null, null, path, null, null);
-    }
-
     MinijaxResourceMethod(
             final String httpMethod,
             final Method method,
@@ -47,10 +44,10 @@ class MinijaxResourceMethod implements javax.ws.rs.container.ResourceInfo {
             final String path,
             final List<MediaType> produces,
             final Annotation securityAnnotation) {
-        this.httpMethod = httpMethod;
+        this.httpMethod = Objects.requireNonNull(httpMethod);
         this.method = method;
         this.paramProviders = paramProviders;
-        this.produces = produces;
+        this.produces = Objects.requireNonNull(produces);
         this.securityAnnotation = securityAnnotation;
         pathPattern = MinijaxPathPattern.parse(method, path);
         literalLength = calculateLiteralLength(path);
