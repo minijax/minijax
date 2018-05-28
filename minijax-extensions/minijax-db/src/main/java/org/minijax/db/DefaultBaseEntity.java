@@ -220,21 +220,6 @@ public abstract class DefaultBaseEntity implements BaseEntity {
 
 
     /**
-     * Returns a SQL hint for super admin debugging.
-     *
-     * Note that this value *IS NOT* used in any database code.  This is merely
-     * to help developers quickly navigate their developer databases.
-     *
-     * @return A SQL hint.
-     */
-    public String getSqlHint() {
-        final String tableName = getClass().getSimpleName().toUpperCase();
-        final String hexId = getId().toString().replaceAll("-", "");
-        return "SELECT * FROM `" + tableName + "` WHERE ID=UNHEX('" + hexId + "');";
-    }
-
-
-    /**
      * Copies all non-null properties from the other object to this object.
      *
      * @param other The other entity.

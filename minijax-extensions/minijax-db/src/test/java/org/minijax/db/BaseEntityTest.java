@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.junit.Test;
-import org.minijax.db.BaseEntity;
-import org.minijax.db.DefaultBaseEntity;
 import org.minijax.db.test.Widget;
 
 public class BaseEntityTest {
@@ -48,14 +46,6 @@ public class BaseEntityTest {
         w.setCreatedDateTime(ZonedDateTime.of(2017, 10, 30, 4, 38, 0, 0, ZoneId.of("America/Los_Angeles")).toInstant());
         w.setName("foo");
         assertEquals("{\"id\":\"00000000-0000-0000-0000-000000000000\",\"createdDateTime\":\"2017-10-30T11:38:00Z\",\"name\":\"foo\"}", w.toJson());
-    }
-
-
-    @Test
-    public void testSqlHint() {
-        final Widget w = new Widget();
-        w.setId(UUID.fromString("00000000-0000-0000-0000-000000000000"));
-        assertEquals("SELECT * FROM `WIDGET` WHERE ID=UNHEX('00000000000000000000000000000000');", w.getSqlHint());
     }
 
 
