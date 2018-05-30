@@ -369,7 +369,10 @@ public class MinijaxApplication extends Application implements Configuration, Fe
                 final ParameterizedType parameterizedType = (ParameterizedType) genericInterface;
                 if (parameterizedType.getRawType() == javax.inject.Provider.class
                         && parameterizedType.getActualTypeArguments().length == 1) {
-                    getInjector().register(c, (Class<?>) parameterizedType.getActualTypeArguments()[0]);
+                    final Type typeArgument = parameterizedType.getActualTypeArguments()[0];
+                    if (typeArgument instanceof Class) {
+                        getInjector().register(c, (Class<?>) typeArgument);
+                    }
                 }
             }
         }
