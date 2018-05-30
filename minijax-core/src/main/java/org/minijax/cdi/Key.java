@@ -141,6 +141,9 @@ class Key<T> {
 
         Builder(final Class<T> type) {
             this.type = type;
+            if (javax.inject.Provider.class.isAssignableFrom(type)) {
+                strategy = Strategy.DIRECT;
+            }
         }
 
         Key<T> build() {

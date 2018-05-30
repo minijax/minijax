@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -346,6 +347,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
             return;
         }
 
+        registerProvider(c);
         registerResourceMethods(c);
         registerWebSockets(c);
         registerFeature(c);
@@ -354,6 +356,23 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         registerSecurityContext(c);
         providers.register(c);
         classesScanned.add(c);
+    }
+
+
+    private void registerProvider(final Class<?> c) {
+        if (!javax.inject.Provider.class.isAssignableFrom(c)) {
+            return;
+        }
+
+        for (final Type genericInterface : c.getGenericInterfaces()) {
+            if (genericInterface instanceof ParameterizedType) {
+                final ParameterizedType parameterizedType = (ParameterizedType) genericInterface;
+                if (parameterizedType.getRawType() == javax.inject.Provider.class
+                        && parameterizedType.getActualTypeArguments().length == 1) {
+                    getInjector().register(c, (Class<?>) parameterizedType.getActualTypeArguments()[0]);
+                }
+            }
+        }
     }
 
 

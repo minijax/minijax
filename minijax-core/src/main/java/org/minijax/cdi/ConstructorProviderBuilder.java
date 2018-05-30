@@ -61,7 +61,7 @@ class ConstructorProviderBuilder<T> {
         toRemove = new ArrayList<>();
     }
 
-    public Provider<T> buildConstructorProvider() {
+    public ConstructorProvider<T> build() {
         final Constructor<T> constructor = getConstructor(key);
         final Provider<?>[] paramProviders = getParamProviders(key, constructor, chain);
         final List<InjectionSet<? super T>> injectionSets = buildInjectionSets();

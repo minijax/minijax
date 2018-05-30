@@ -113,10 +113,14 @@ public class MinijaxInjector implements ResourceContext, Closeable {
     }
 
 
+    @SuppressWarnings("unchecked")
     private <T> Provider<T> buildProvider(final Key<T> key, final Set<Key<?>> chain) {
         final Provider<T> p;
 
         switch (key.getStrategy()) {
+        case DIRECT:
+            p = ((Provider<Provider<T>>) getConstructorProvider(key, chain)).get();
+            break;
         case CONTEXT:
             p = new ContextProvider<>(key);
             break;
@@ -136,7 +140,7 @@ public class MinijaxInjector implements ResourceContext, Closeable {
             p = new QueryParamProvider<>(key);
             break;
         default:
-            p = new ConstructorProviderBuilder<>(this, key, chain).buildConstructorProvider();
+            p = getConstructorProvider(key, chain);
             break;
         }
 
@@ -147,6 +151,11 @@ public class MinijaxInjector implements ResourceContext, Closeable {
         } else {
             return p;
         }
+    }
+
+
+    private <T> ConstructorProvider<T> getConstructorProvider(final Key<T> key, final Set<Key<?>> chain) {
+        return new ConstructorProviderBuilder<>(this, key, chain).build();
     }
 
 
