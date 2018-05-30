@@ -7,8 +7,10 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -38,7 +40,15 @@ public class ResetPasswordTest extends MinijaxTest {
             @FormParam("newPassword") final String newPassword,
             @FormParam("confirmNewPassword") final String confirmNewPassword) {
 
-        final NewCookie cookie = security.resetPassword(resetId, newPassword, confirmNewPassword);
+        final ResetPasswordResult result = security.resetPassword(resetId, newPassword, confirmNewPassword);
+        if (result.getStatus() == ResetPasswordResult.Status.NOT_FOUND) {
+            throw new NotFoundException();
+        }
+        if (result.getStatus() != ResetPasswordResult.Status.SUCCESS) {
+            throw new BadRequestException();
+        }
+
+        final NewCookie cookie = result.getCookie();
         return Response.ok().cookie(cookie).build();
     }
 

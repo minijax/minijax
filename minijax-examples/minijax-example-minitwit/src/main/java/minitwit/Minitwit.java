@@ -130,12 +130,12 @@ public class Minitwit {
             @FormParam("email") String email,
             @FormParam("password") String password) {
 
-        try {
-            NewCookie cookie = security.login(email, password);
-            return Response.seeOther(URI.create("/")).cookie(cookie).build();
-        } catch (final BadRequestException ex) {
+        LoginResult result = security.login(email, password);
+        if (result.getStatus() == LoginResult.Status.SUCCESS) {
+            return Response.seeOther(URI.create("/")).cookie(result.getCookie()).build();
+        } else {
             View view = new View("login");
-            view.getModel().put("error", ex.getMessage());
+            view.getModel().put("error", result.getStatus());
             return Response.ok(view, MediaType.TEXT_HTML).build();
         }
     }

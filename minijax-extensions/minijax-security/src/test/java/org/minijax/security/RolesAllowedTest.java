@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.BadRequestException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.NewCookie;
@@ -121,25 +120,28 @@ public class RolesAllowedTest extends MinijaxTest {
     @Test
     public void testLogin() throws Exception {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
-            final NewCookie cookie = ctx.get(Security.class).login("alice@example.com", "alicepwd");
+            final LoginResult result = ctx.get(Security.class).login("alice@example.com", "alicepwd");
+            final NewCookie cookie = result.getCookie();
             assertNotNull(cookie);
             assertNotNull(cookie.getValue());
         }
     }
 
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void testLoginUserNotFound() throws Exception {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
-            ctx.get(Security.class).login("notfound@example.com", "alicepwd");
+            final LoginResult result = ctx.get(Security.class).login("notfound@example.com", "alicepwd");
+            assertEquals(LoginResult.Status.NOT_FOUND, result.getStatus());
         }
     }
 
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void testLoginIncorrectPassword() throws Exception {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
-            ctx.get(Security.class).login("alice@example.com", "wrong_password");
+            final LoginResult result = ctx.get(Security.class).login("alice@example.com", "wrong_password");
+            assertEquals(LoginResult.Status.INCORRECT, result.getStatus());
         }
     }
 }

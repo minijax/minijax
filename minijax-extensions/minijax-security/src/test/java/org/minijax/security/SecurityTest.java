@@ -214,11 +214,12 @@ public class SecurityTest extends MinijaxTest {
         when(config.getProperty(eq(MinijaxProperties.SECURITY_USER_CLASS))).thenReturn(User.class);
 
         final Security<User> security = new Security<>(dao, config, null, null);
-        final NewCookie cookie = security.login("user@example.com", "testtest");
+        final LoginResult result = security.login("user@example.com", "testtest");
+        final NewCookie cookie = result.getCookie();
         assertNotNull(cookie);
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void testLoginUserNotFound() {
         final SecurityDao dao = mock(SecurityDao.class);
         when(dao.findUserByEmail(any(), any())).thenReturn(null);
@@ -227,10 +228,11 @@ public class SecurityTest extends MinijaxTest {
         when(config.getProperty(eq(MinijaxProperties.SECURITY_USER_CLASS))).thenReturn(User.class);
 
         final Security<User> security = new Security<>(dao, config, null, null);
-        security.login("user@example.com", "testtest");
+        final LoginResult result = security.login("user@example.com", "testtest");
+        assertEquals(LoginResult.Status.NOT_FOUND, result.getStatus());
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void testLoginPasswordNotSet() {
         final User user = new User();
 
@@ -241,10 +243,11 @@ public class SecurityTest extends MinijaxTest {
         when(config.getProperty(eq(MinijaxProperties.SECURITY_USER_CLASS))).thenReturn(User.class);
 
         final Security<User> security = new Security<>(dao, config, null, null);
-        security.login("user@example.com", "testtest");
+        final LoginResult result = security.login("user@example.com", "testtest");
+        assertEquals(LoginResult.Status.INVALID, result.getStatus());
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void testLoginIncorrectPassword() {
         final User user = new User();
         user.setPassword("testtest");
@@ -256,7 +259,8 @@ public class SecurityTest extends MinijaxTest {
         when(config.getProperty(eq(MinijaxProperties.SECURITY_USER_CLASS))).thenReturn(User.class);
 
         final Security<User> security = new Security<>(dao, config, null, null);
-        security.login("user@example.com", "wrong-password");
+        final LoginResult result = security.login("user@example.com", "wrong-password");
+        assertEquals(LoginResult.Status.INCORRECT, result.getStatus());
     }
 
     @Test

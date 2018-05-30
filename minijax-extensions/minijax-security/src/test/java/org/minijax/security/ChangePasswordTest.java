@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -38,7 +39,10 @@ public class ChangePasswordTest extends MinijaxTest {
             @FormParam("oldPassword") final String oldPassword,
             @FormParam("newPassword") final String newPassword,
             @FormParam("confirmNewPassword") final String confirmNewPassword) {
-        security.changePassword(oldPassword, newPassword, confirmNewPassword);
+        final ChangePasswordResult result = security.changePassword(oldPassword, newPassword, confirmNewPassword);
+        if (result != ChangePasswordResult.SUCCESS) {
+            throw new BadRequestException();
+        }
         return Response.ok().build();
     }
 

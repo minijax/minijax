@@ -14,7 +14,6 @@ import javax.ws.rs.CookieParam;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.NotAuthorizedException;
-import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.NewCookie;
@@ -152,37 +151,34 @@ public class Security<T extends SecurityUser> implements SecurityContext {
      * @param password The user's plain text password.
      * @return the user details.
      */
-    public NewCookie login(final String email, final String password) {
+    public LoginResult login(final String email, final String password) {
         final SecurityUser candidate = dao.findUserByEmail(userClass, email);
         if (candidate == null) {
-            throw new BadRequestException("notfound");
+            return LoginResult.NOT_FOUND;
         }
 
         if (candidate.getPasswordHash() == null) {
-            throw new BadRequestException("invalid");
+            return LoginResult.INVALID;
         }
 
         if (!BCrypt.checkpw(password, candidate.getPasswordHash())) {
-            throw new BadRequestException("incorrect");
+            return LoginResult.INCORRECT;
         }
 
-        return loginAs(candidate);
+        return new LoginResult(loginAs(candidate));
     }
 
 
     /**
      * Logs in as another user.
      *
-     * This is used for SSO such as Google authentication.
-     *
      * @param candidate The candidate user account.
-     * @return The session details.
+     * @return The login cookie.
      */
     public NewCookie loginAs(final SecurityUser candidate) {
         final UserSession newSession = new UserSession();
         newSession.setUser(candidate);
         dao.create(newSession);
-
         return createCookie(newSession.getId().toString(), COOKIE_MAX_AGE);
     }
 
@@ -205,28 +201,30 @@ public class Security<T extends SecurityUser> implements SecurityContext {
      * @param oldPassword The old password.
      * @param newPassword The new password.
      * @param confirmNewPassword The confirmed new password.
+     * @return The change password result.
      */
-    public void changePassword(final String oldPassword, final String newPassword, final String confirmNewPassword) {
+    public ChangePasswordResult changePassword(final String oldPassword, final String newPassword, final String confirmNewPassword) {
         requireLogin();
 
         if (user.getPasswordHash() == null) {
-            throw new BadRequestException("unset");
+            return ChangePasswordResult.INVALID;
         }
 
         if (!BCrypt.checkpw(oldPassword, user.getPasswordHash())) {
-            throw new BadRequestException("incorrect");
+            return ChangePasswordResult.INCORRECT;
         }
 
         if (!newPassword.equals(confirmNewPassword)) {
-            throw new BadRequestException("mismatch");
+            return ChangePasswordResult.MISMATCH;
         }
 
         if (newPassword.length() < MINIMUM_PASSWORD_LENGTH) {
-            throw new BadRequestException("short");
+            return ChangePasswordResult.TOO_SHORT;
         }
 
         user.setPassword(newPassword);
         dao.update(user);
+        return ChangePasswordResult.SUCCESS;
     }
 
 
@@ -257,35 +255,36 @@ public class Security<T extends SecurityUser> implements SecurityContext {
      * @param resetId The reset ID.
      * @param newPassword The new password.
      * @param confirmNewPassword The confirmed new password.
+     * @return The reset password result with optional cookie.
      */
-    public NewCookie resetPassword(final String resetId, final String newPassword, final String confirmNewPassword) {
+    public ResetPasswordResult resetPassword(final String resetId, final String newPassword, final String confirmNewPassword) {
         final PasswordChangeRequest pcr = dao.findPasswordChangeRequest(resetId);
         if (pcr == null) {
-            throw new NotFoundException();
+            return ResetPasswordResult.NOT_FOUND;
         }
 
         final Instant expiration = pcr.getCreatedDateTime().plus(24, ChronoUnit.HOURS);
         if (Instant.now().isAfter(expiration)) {
-            throw new BadRequestException("expired");
+            return ResetPasswordResult.EXPIRED;
         }
 
         if (!newPassword.equals(confirmNewPassword)) {
-            throw new BadRequestException("mismatch");
+            return ResetPasswordResult.MISMATCH;
         }
 
         if (newPassword.length() < MINIMUM_PASSWORD_LENGTH) {
-            throw new BadRequestException("short");
+            return ResetPasswordResult.TOO_SHORT;
         }
 
         final SecurityUser resetUser = dao.read(userClass, pcr.getUserId());
         if (resetUser == null) {
-            throw new NotFoundException();
+            return ResetPasswordResult.NOT_FOUND;
         }
 
         resetUser.setPassword(newPassword);
         dao.update(resetUser);
         dao.purge(pcr);
-        return loginAs(resetUser);
+        return new ResetPasswordResult(loginAs(resetUser));
     }
 
 
