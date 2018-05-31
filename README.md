@@ -16,7 +16,7 @@ Getting Started
 ```xml
 <dependency>
     <groupId>org.minijax</groupId>
-    <artifactId>minijax-core</artifactId>
+    <artifactId>minijax-undertow</artifactId>
     <version>0.3.11</version>
 </dependency>
 ```
