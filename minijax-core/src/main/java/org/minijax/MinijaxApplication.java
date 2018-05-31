@@ -321,6 +321,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
             for (final Class<?> c : ClassPathScanner.scan(packageName)) {
                 if (isAutoScanClass(c)) {
                     registerImpl(c);
+                    registerInterfaces(c);
                 }
             }
         } catch (final IOException ex) {
@@ -359,6 +360,29 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     }
 
 
+    /**
+     * Registers a class for all implemented interfaces.
+     *
+     * For example, imagine <code>class MyServiceImpl implements MyService</code>.
+     *
+     * Make sure that <code>MyServiceImpl</code> is registered as a provider for <code>MyService</code>.
+     *
+     * @param c The auto scanned class.
+     */
+    private void registerInterfaces(final Class<?> c) {
+        for (final Class<?> implementedInterface : c.getInterfaces()) {
+            getInjector().register(c, implementedInterface);
+        }
+    }
+
+
+    /**
+     * Registers a <code>javax.inject.Provider</code> directly.
+     *
+     * If a class implements the <code>Provider</code> interface, register it as a provider.
+     *
+     * @param c The auto scanned class.
+     */
     private void registerProvider(final Class<?> c) {
         if (!javax.inject.Provider.class.isAssignableFrom(c)) {
             return;

@@ -13,6 +13,7 @@
     <modules>
         <module>minijax-example-docker</module>
         <module>minijax-example-hello</module>
+        <module>minijax-example-inject</module>
         <module>minijax-example-json</module>
         <module>minijax-example-kotlin</module>
         <module>minijax-example-minitwit</module>

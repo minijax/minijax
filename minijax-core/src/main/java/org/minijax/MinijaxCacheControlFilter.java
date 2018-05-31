@@ -7,9 +7,7 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.CacheControl;
-import javax.ws.rs.ext.Provider;
 
-@Provider
 @Singleton
 class MinijaxCacheControlFilter implements ContainerResponseFilter {
     private final CacheControl defaultCacheControl;

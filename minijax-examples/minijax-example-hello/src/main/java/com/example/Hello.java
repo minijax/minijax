@@ -1,6 +1,9 @@
 package com.example;
 
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+
+import org.minijax.Minijax;
 
 @Path("/")
 public class Hello {
@@ -11,7 +14,7 @@ public class Hello {
     }
 
     public static void main(String[] args) {
-        new org.minijax.Minijax()
+        new Minijax()
                 .register(Hello.class)
                 .start();
     }

@@ -17,12 +17,15 @@ Getting Started
 <dependency>
     <groupId>org.minijax</groupId>
     <artifactId>minijax-core</artifactId>
-    <version>0.1.2</version>
+    <version>0.3.11</version>
 </dependency>
 ```
 
 ```java
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+
+import org.minijax.Minijax;
 
 @Path("/")
 public class Hello {
@@ -33,9 +36,105 @@ public class Hello {
     }
 
     public static void main(String[] args) {
-        new org.minijax.Minijax()
+        new Minijax()
                 .register(Hello.class)
                 .start();
+    }
+}
+```
+
+Dependency Injection
+--------------------
+
+Minijax uses the JSR-330 standard for dependency injection.  It recognizes standard annotations such as `@Provider` and `@Inject`.
+
+```java
+package com.example;
+
+import javax.inject.Inject;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.ext.Provider;
+
+import org.minijax.Minijax;
+
+public class HelloInjection {
+
+    public interface MyService {
+
+        public String shout(String str);
+    }
+
+    @Provider
+    public class MyServiceImpl implements MyService {
+
+        @Override
+        public String shout(final String str) {
+            return str.toUpperCase();
+        }
+    }
+
+    @Path("/")
+    public class MyResource {
+
+        @Inject
+        private MyService service;
+
+        @GET
+        public String get(@QueryParam("name") @DefaultValue("friend") final String name) {
+            return "Hello " + service.shout(name);
+        }
+    }
+
+    public static void main(final String[] args) {
+        new Minijax()
+                .packages("com.example")
+                .start();
+    }
+}
+```
+
+Testing
+-------
+
+Minijax provides a rich set of testing features that integrate with standard testing libraries such as [JUnit](https://junit.org/) and [Mockito](http://site.mockito.org/).
+
+```java
+package com.example;
+
+import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.minijax.test.MinijaxTest;
+
+import com.example.HelloInjection.MyResource;
+import com.example.HelloInjection.MyService;
+
+public class HelloInjectionTest extends MinijaxTest {
+
+    @Before
+    public void setUp() {
+        final MyService mockService = mock(MyService.class);
+        when(mockService.shout(eq("friend"))).thenReturn("FRIEND");
+        when(mockService.shout(eq("cody"))).thenReturn("CODY");
+
+        register(mockService, MyService.class);
+        register(MyResource.class);
+    }
+
+    @Test
+    public void testDefault() {
+        assertEquals("Hello FRIEND", target("/").request().get(String.class));
+    }
+
+    @Test
+    public void testQueryString() {
+        assertEquals("Hello CODY", target("/?name=cody").request().get(String.class));
     }
 }
 ```
