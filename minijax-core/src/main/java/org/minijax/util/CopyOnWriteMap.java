@@ -36,7 +36,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class CopyOnWriteMap<K, V> implements ConcurrentMap<K, V> {
 
-    private volatile Map<K, V> delegate = Collections.emptyMap();
+    private Map<K, V> delegate = Collections.emptyMap();
 
     public CopyOnWriteMap() {
     }
