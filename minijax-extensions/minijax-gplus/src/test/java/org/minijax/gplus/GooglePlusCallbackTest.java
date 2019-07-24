@@ -130,7 +130,7 @@ public class GooglePlusCallbackTest extends MinijaxTest {
                 return new MockLowLevelHttpRequest() {
                     @Override
                     public LowLevelHttpResponse execute() throws IOException {
-                        if (method.equals(POST) && url.equals("https://accounts.google.com/o/oauth2/token")) {
+                        if (method.equals(POST) && (url.equals("https://oauth2.googleapis.com/token") || url.equals("https://accounts.google.com/o/oauth2/token"))) {
                             final String content;
                             if (success && refresh) {
                                 content = "{\"success\":true,\"refresh_token\":\"foo\"}";
@@ -169,7 +169,7 @@ public class GooglePlusCallbackTest extends MinijaxTest {
                             return response;
                         }
 
-                        return null;
+                        throw new RuntimeException("Unexpected buildRequest method=" + method + ", url=" + url);
                     }
                 };
             }

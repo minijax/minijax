@@ -2,6 +2,7 @@ package org.minijax.cdi;
 
 import java.io.Closeable;
 import java.lang.annotation.Annotation;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.ws.rs.container.ResourceContext;
 
+import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.minijax.MinijaxApplication;
 import org.minijax.util.CloseUtils;
 import org.minijax.util.CopyOnWriteMap;
@@ -166,7 +168,12 @@ public class MinijaxInjector implements ResourceContext, Closeable {
 
     public void registerPersistence() {
         final List<String> names = PersistenceUtils.getNames("META-INF/persistence.xml");
-        final Map<String, Object> props = application == null ? null : application.getProperties();
+        final Map<String, Object> props = new HashMap<>();
+        props.put(PersistenceUnitProperties.CLASSLOADER, this.getClass().getClassLoader());
+        if (application != null) {
+            props.putAll(application.getProperties());
+        }
+
         boolean first = true;
 
         for (final String name : names) {

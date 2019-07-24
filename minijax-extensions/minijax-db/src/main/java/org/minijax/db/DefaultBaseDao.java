@@ -186,7 +186,8 @@ public class DefaultBaseDao implements BaseDao {
     private static ConflictException convertRollbackToConflict(final PersistenceException ex) {
         final List<Pattern> patterns = Arrays.asList(
                 Pattern.compile("Duplicate entry '(?<value>[^']+)' for key '(?<key>[^']+)'"),
-                Pattern.compile("CONSTRAINT_INDEX_[a-zA-Z0-9_]+ ON PUBLIC\\.[a-zA-Z]+\\((?<key>[a-zA-Z]+)\\) VALUES \\('(?<value>[^']+)'"));
+                Pattern.compile("CONSTRAINT_INDEX_[a-zA-Z0-9_]+ ON PUBLIC\\.[a-zA-Z]+\\((?<key>[a-zA-Z]+)\\) VALUES \\('(?<value>[^']+)'"),
+                Pattern.compile("CONSTRAINT_INDEX_[a-zA-Z0-9_]+ ON PUBLIC\\.[a-zA-Z]+\\((?<key>[a-zA-Z]+)\\) VALUES (?<value>\\d+)"));
 
         for (final Pattern pattern : patterns) {
             final Matcher matcher = pattern.matcher(ex.getMessage());

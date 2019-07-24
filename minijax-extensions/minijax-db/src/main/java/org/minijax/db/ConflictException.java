@@ -22,6 +22,7 @@ public class ConflictException extends ClientErrorException {
         return key;
     }
 
+    @Deprecated
     public String getValue() {
         return value;
     }

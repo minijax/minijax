@@ -87,7 +87,6 @@ public class DaoTest extends MinijaxTest {
 
         } catch (final ConflictException ex) {
             assertEquals("handle", ex.getKey());
-            assertEquals("firsthandle", ex.getValue());
         }
     }
 
@@ -111,7 +110,6 @@ public class DaoTest extends MinijaxTest {
 
         } catch (final ConflictException ex) {
             assertEquals("handle", ex.getKey());
-            assertEquals("firsthandle", ex.getValue());
         }
     }
 
