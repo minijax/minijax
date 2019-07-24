@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.minijax</groupId>
         <artifactId>minijax-extensions</artifactId>
-        <version>0.3.17</version>
+        <version>0.3.18-SNAPSHOT</version>
     </parent>
     <artifactId>minijax-avatar</artifactId>
     <packaging>jar</packaging>
