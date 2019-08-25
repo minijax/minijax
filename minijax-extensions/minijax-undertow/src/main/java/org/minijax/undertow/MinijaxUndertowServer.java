@@ -43,6 +43,7 @@ public class MinijaxUndertowServer implements MinijaxServer, HttpHandler {
 
     @Override
     public void start() {
+        LOG.info("Minijax starting on port {}", minijax.getPort());
         undertow.start();
     }
 

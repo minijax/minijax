@@ -17,9 +17,9 @@
             <version>${undertow.version}</version>
         </dependency>
         <dependency>
-            <groupId>javax.websocket</groupId>
-            <artifactId>javax.websocket-api</artifactId>
-            <version>${jsr356.version}</version>
+            <groupId>jakarta.websocket</groupId>
+            <artifactId>jakarta.websocket-api</artifactId>
+            <version>${jakarta-websocket.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
