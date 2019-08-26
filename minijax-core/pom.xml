@@ -66,6 +66,12 @@
             <artifactId>javax.inject-tck</artifactId>
             <version>1</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.inject</groupId>
+                    <artifactId>javax.inject</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
