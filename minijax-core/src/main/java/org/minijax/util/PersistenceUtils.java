@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -50,6 +51,7 @@ public class PersistenceUtils {
     private static List<String> scanPersistenceXml(final InputStream in)
             throws Exception { // NOSONAR
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
         final Document doc = factory.newDocumentBuilder().parse(in);
         final XPathExpression expr = XPathFactory.newInstance().newXPath().compile("/persistence/persistence-unit/@name");
         final NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);

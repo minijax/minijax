@@ -435,6 +435,7 @@ public class LiquibaseHelper {
         factory.setNamespaceAware(true);
 
         try {
+            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             return factory.newDocumentBuilder().parse(file);
         } catch (ParserConfigurationException | SAXException ex) {
             throw new IOException(ex.getMessage(), ex);
