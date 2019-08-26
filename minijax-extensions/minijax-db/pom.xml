@@ -46,7 +46,7 @@
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
-            <artifactId>minijax-validator</artifactId>
+            <artifactId>minijax-validation</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

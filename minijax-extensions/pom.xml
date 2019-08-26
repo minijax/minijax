@@ -23,7 +23,7 @@
         <module>minijax-swagger</module>
         <module>minijax-undertow</module>
         <module>minijax-undertow-websocket</module>
-        <module>minijax-validator</module>
+        <module>minijax-validation</module>
         <module>minijax-view</module>
     </modules>
 </project>
