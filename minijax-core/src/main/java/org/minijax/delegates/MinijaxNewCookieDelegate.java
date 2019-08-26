@@ -9,6 +9,7 @@ import javax.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
 class MinijaxNewCookieDelegate implements HeaderDelegate<NewCookie> {
 
     @Override
+    @SuppressWarnings("squid:S3330") // Not a javax.servlet.http.Cookie
     public NewCookie fromString(final String value) {
         if (value == null || value.isEmpty()) {
             return null;

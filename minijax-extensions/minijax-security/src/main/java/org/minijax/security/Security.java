@@ -44,7 +44,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
     private static final String COOKIE_PATH = "/";
     private static final String COOKIE_DOMAIN = "";
     private static final int COOKIE_MAX_AGE = 365 * 24 * 60 * 60;
-    private static final boolean COOKIE_HTTP_ONLY = true;
     private final Class<SecurityUser> userClass;
     private final SecurityDao dao;
     private final String authorization;
@@ -389,8 +388,9 @@ public class Security<T extends SecurityUser> implements SecurityContext {
      * @param maxAge The max age of the cookie.
      * @return The new cookie.
      */
+    @SuppressWarnings("squid:S3330") // Not a javax.servlet.http.Cookie
     private NewCookie createCookie(final String value, final int maxAge) {
-        return new NewCookie(COOKIE_NAME, value, COOKIE_PATH, COOKIE_DOMAIN, "", maxAge, false, COOKIE_HTTP_ONLY);
+        return new NewCookie(COOKIE_NAME, value, COOKIE_PATH, COOKIE_DOMAIN, "", maxAge, false, true);
     }
 
 
