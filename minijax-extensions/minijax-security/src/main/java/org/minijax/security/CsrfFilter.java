@@ -24,7 +24,12 @@ class CsrfFilter implements ContainerRequestFilter {
 
         final MinijaxRequestContext ctx = (MinijaxRequestContext) requestContext;
         final Security<?> security = ctx.get(Security.class);
-        if (!security.isLoggedIn() || security.getAuthenticationScheme() != SecurityContext.FORM_AUTH) {
+        if (!security.isLoggedIn()) {
+            return;
+        }
+
+        final String scheme = security.getAuthenticationScheme();
+        if (scheme == null || !scheme.equals(SecurityContext.FORM_AUTH)) {
             return;
         }
 
