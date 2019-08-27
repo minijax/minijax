@@ -20,6 +20,7 @@
         <module>minijax-mustache</module>
         <module>minijax-s3</module>
         <module>minijax-security</module>
+        <module>minijax-servlet</module>
         <module>minijax-swagger</module>
         <module>minijax-undertow</module>
         <module>minijax-undertow-websocket</module>

@@ -29,14 +29,14 @@ public class MinijaxProviders implements Providers {
     private static final StringBodyWriter STRING_WRITER = new StringBodyWriter();
     private static final InputStreamBodyWriter INPUT_STREAM_WRITER = new InputStreamBodyWriter();
     private static final FileBodyWriter FILE_WRITER = new FileBodyWriter();
-    private final MinijaxApplication application;
+    private final MinijaxApplicationContext application;
     private final MediaTypeClassMap<MessageBodyReader<?>> readers;
     private final MediaTypeClassMap<MessageBodyWriter<?>> writers;
     private final MediaTypeClassMap<ExceptionMapper<?>> exceptionMappers;
     private final List<ParamConverterProvider> paramConverterProviders;
 
 
-    public MinijaxProviders(final MinijaxApplication application) {
+    public MinijaxProviders(final MinijaxApplicationContext application) {
         this.application = application;
         readers = new MediaTypeClassMap<>();
         writers = new MediaTypeClassMap<>();

@@ -6,7 +6,7 @@ import java.net.URI;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.UriInfo;
 
-import org.minijax.MinijaxApplication;
+import org.minijax.MinijaxApplicationContext;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.MinijaxUriInfo;
 
@@ -17,21 +17,21 @@ public class MinijaxTestRequestContext extends MinijaxRequestContext {
     private final InputStream entityStream;
 
     public MinijaxTestRequestContext(
-            final MinijaxApplication application,
+            final MinijaxApplicationContext application,
             final String method,
             final String uri) {
         this(application, method, new MinijaxUriInfo(URI.create(uri)));
     }
 
     public MinijaxTestRequestContext(
-            final MinijaxApplication application,
+            final MinijaxApplicationContext application,
             final String method,
             final UriInfo uriInfo) {
         this(application, method, uriInfo, new MinijaxTestHttpHeaders(), null);
     }
 
     public MinijaxTestRequestContext(
-            final MinijaxApplication container,
+            final MinijaxApplicationContext container,
             final String method,
             final UriInfo uriInfo,
             final HttpHeaders httpHeaders,

@@ -11,7 +11,7 @@ import javax.persistence.PersistenceContext;
 
 import org.junit.Test;
 import org.minijax.Minijax;
-import org.minijax.MinijaxApplication;
+import org.minijax.MinijaxApplicationContext;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.db.test.Widget;
 import org.minijax.test.MinijaxTestRequestContext;
@@ -39,7 +39,7 @@ public class PersistenceContextTest {
                 .register(PersistenceFeature.class)
                 .register(PersistenceContextDao.class);
 
-        final MinijaxApplication application = container.getDefaultApplication();
+        final MinijaxApplicationContext application = container.getDefaultApplication();
 
         try (MinijaxRequestContext context = new MinijaxTestRequestContext(application, GET, "/")) {
             final PersistenceContextDao dao = container.getResource(PersistenceContextDao.class);

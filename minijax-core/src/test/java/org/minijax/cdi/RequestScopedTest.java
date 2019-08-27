@@ -10,7 +10,7 @@ import javax.enterprise.context.RequestScoped;
 
 import org.junit.Test;
 import org.minijax.Minijax;
-import org.minijax.MinijaxApplication;
+import org.minijax.MinijaxApplicationContext;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.test.MinijaxTestRequestContext;
 
@@ -23,7 +23,7 @@ public class RequestScopedTest {
     @Test
     public void testRequestScoped() throws IOException {
         final Minijax container = new Minijax();
-        final MinijaxApplication application = container.getDefaultApplication();
+        final MinijaxApplicationContext application = container.getDefaultApplication();
 
         A a1;
         A a2;

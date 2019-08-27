@@ -22,11 +22,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.NewCookie;
 
-import org.minijax.MinijaxApplication;
+import org.minijax.MinijaxApplicationContext;
 import org.minijax.MinijaxException;
 
 class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResponseContext {
-    private final MinijaxApplication application;
+    private final MinijaxApplicationContext application;
     private final MultivaluedMap<String, Object> headers;
     private final MinijaxStatusInfo statusInfo;
     private Date date;
@@ -38,7 +38,7 @@ class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResp
     private MediaType mediaType;
 
     public MinijaxResponse(final MinijaxResponseBuilder builder) {
-        application = MinijaxApplication.getApplication();
+        application = MinijaxApplicationContext.getApplicationContext();
         headers = builder.getHeaders();
         statusInfo = new MinijaxStatusInfo(builder.getStatusInfo());
         entity = builder.getEntity();

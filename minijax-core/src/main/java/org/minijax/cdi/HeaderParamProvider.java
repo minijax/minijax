@@ -14,6 +14,6 @@ class HeaderParamProvider<T> implements Provider<T> {
     @Override
     public T get() {
         final MinijaxRequestContext context = MinijaxRequestContext.getThreadLocal();
-        return context.getApplication().convertParamToType(context.getHeaderString(key.getName()), key.getType(), key.getAnnotations());
+        return context.getApplicationContext().convertParamToType(context.getHeaderString(key.getName()), key.getType(), key.getAnnotations());
     }
 }

@@ -39,6 +39,6 @@ class FormParamProvider<T> implements Provider<T> {
             value = defaultValue.value();
         }
 
-        return (T) context.getApplication().convertParamToType(value, c, key.getAnnotations());
+        return (T) context.getApplicationContext().convertParamToType(value, c, key.getAnnotations());
     }
 }

@@ -22,7 +22,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.minijax.Minijax;
-import org.minijax.MinijaxApplication;
+import org.minijax.MinijaxApplicationContext;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.MinijaxUriInfo;
 import org.minijax.util.EntityUtils;
@@ -138,7 +138,7 @@ public class MinijaxTestInvocationBuilder implements javax.ws.rs.client.Invocati
     @Override
     public Response method(final String name) {
         final Minijax container = target.getServer();
-        final MinijaxApplication application = container.getApplication(target.getUri());
+        final MinijaxApplicationContext application = container.getApplication(target.getUri());
 
         try (final MinijaxRequestContext context = new MinijaxTestRequestContext(
                 application,

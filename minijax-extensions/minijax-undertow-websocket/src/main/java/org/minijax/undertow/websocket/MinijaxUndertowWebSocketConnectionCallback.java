@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.StatusType;
 
-import org.minijax.MinijaxApplication;
+import org.minijax.MinijaxApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,11 +18,11 @@ import io.undertow.websockets.spi.WebSocketHttpExchange;
 
 public class MinijaxUndertowWebSocketConnectionCallback implements WebSocketConnectionCallback {
     private static final Logger LOG = LoggerFactory.getLogger(MinijaxUndertowWebSocketConnectionCallback.class);
-    private final MinijaxApplication application;
+    private final MinijaxApplicationContext application;
     private final Class<?> endpointClass;
 
     public MinijaxUndertowWebSocketConnectionCallback(
-            final MinijaxApplication application,
+            final MinijaxApplicationContext application,
             final Class<?> endpointClass) {
         this.application = application;
         this.endpointClass = endpointClass;

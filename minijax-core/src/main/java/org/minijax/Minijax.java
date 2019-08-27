@@ -43,12 +43,12 @@ public class Minijax {
     @SuppressWarnings("squid:S1313")
     public static final String DEFAULT_HOST = "0.0.0.0";
     public static final String DEFAULT_PORT = "8080";
-    private final MinijaxApplication defaultApplication;
-    private final List<MinijaxApplication> applications;
+    private final MinijaxApplicationContext defaultApplication;
+    private final List<MinijaxApplicationContext> applications;
     private MinijaxServer server;
 
     public Minijax() {
-        defaultApplication = new MinijaxApplication("/");
+        defaultApplication = new MinijaxApplicationContext("/");
         applications = new ArrayList<>();
         applications.add(defaultApplication);
     }
@@ -105,14 +105,14 @@ public class Minijax {
     }
 
 
-    public MinijaxApplication getDefaultApplication() {
+    public MinijaxApplicationContext getDefaultApplication() {
         return defaultApplication;
     }
 
 
-    public MinijaxApplication getApplication(final URI requestUri) {
+    public MinijaxApplicationContext getApplication(final URI requestUri) {
         final String requestPath = requestUri.getPath();
-        for (final MinijaxApplication application : applications) {
+        for (final MinijaxApplicationContext application : applications) {
             if (requestPath.startsWith(application.getPath())) {
                 return application;
             }

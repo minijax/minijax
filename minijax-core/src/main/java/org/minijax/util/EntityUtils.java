@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 
-import org.minijax.MinijaxApplication;
+import org.minijax.MinijaxApplicationContext;
 import org.minijax.multipart.Multipart;
 
 public class EntityUtils {
@@ -43,7 +43,7 @@ public class EntityUtils {
         }
 
         if (entity.getMediaType() == APPLICATION_JSON_TYPE && OptionalClasses.JSON != null) {
-            final MinijaxApplication application = MinijaxApplication.getApplication();
+            final MinijaxApplicationContext application = MinijaxApplicationContext.getApplicationContext();
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             application.writeEntity(obj, entity.getMediaType(), outputStream);
             return IOUtils.toInputStream(outputStream.toString(), StandardCharsets.UTF_8);

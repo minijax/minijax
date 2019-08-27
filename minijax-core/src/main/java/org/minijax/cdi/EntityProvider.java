@@ -49,7 +49,7 @@ public class EntityProvider<T> implements Provider<T> {
 
         final InputStream entityStream = context.getEntityStream();
         try {
-            return context.getApplication().readEntity(entityClass, genericType, annotations, mediaType, context, entityStream);
+            return context.getApplicationContext().readEntity(entityClass, genericType, annotations, mediaType, context, entityStream);
         } catch (final IOException ex) {
             throw new InjectionException(ex.getMessage(), ex);
         }

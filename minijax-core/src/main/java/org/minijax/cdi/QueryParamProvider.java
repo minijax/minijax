@@ -20,6 +20,6 @@ class QueryParamProvider<T> implements Provider<T> {
             value = key.getDefaultValue().value();
         }
 
-        return context.getApplication().convertParamToType(value, key.getType(), key.getAnnotations());
+        return context.getApplicationContext().convertParamToType(value, key.getType(), key.getAnnotations());
     }
 }

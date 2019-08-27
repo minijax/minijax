@@ -15,7 +15,7 @@ class ContextProvider<T> implements Provider<T> {
     public T get() {
         final Class<T> c = key.getType();
         return MinijaxRequestContext.getThreadLocal()
-                .getApplication()
+                .getApplicationContext()
                 .getProviders()
                 .getContextResolver(c, null)
                 .getContext(c);

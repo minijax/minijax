@@ -1,6 +1,7 @@
 package org.minijax;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,9 +13,9 @@ import javax.ws.rs.core.FeatureContext;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ApplicationTest {
+public class ApplicationContextTest {
     private Minijax minijax;
-    private MinijaxApplication app;
+    private MinijaxApplicationContext app;
 
     @Before
     public void setUp() {
@@ -27,7 +28,6 @@ public class ApplicationTest {
         assertEquals(RuntimeType.SERVER, app.getRuntimeType());
         assertNotNull(app.getProperties());
         assertNotNull(app.getPropertyNames());
-        assertNotNull(app.getSingletons());
         assertNotNull(app.getInstances());
         assertNotNull(app.getWebSockets());
     }
@@ -48,7 +48,7 @@ public class ApplicationTest {
 
     @Test
     public void testPropertiesFile() throws Exception {
-        minijax.properties(ApplicationTest.class.getClassLoader().getResourceAsStream("config.properties"));
+        minijax.properties(ApplicationContextTest.class.getClassLoader().getResourceAsStream("config.properties"));
         assertEquals("b", app.getProperty("a"));
     }
 

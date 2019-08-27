@@ -1,7 +1,8 @@
 package org.minijax;
 
-import static javax.ws.rs.HttpMethod.*;
-import static javax.ws.rs.core.MediaType.*;
+import static javax.ws.rs.HttpMethod.GET;
+import static javax.ws.rs.HttpMethod.OPTIONS;
+import static javax.ws.rs.core.MediaType.TEXT_PLAIN_TYPE;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,9 +62,9 @@ import org.minijax.util.OptionalClasses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MinijaxApplication extends Application implements Configuration, FeatureContext {
-    private static final Logger LOG = LoggerFactory.getLogger(MinijaxApplication.class);
-    private static MinijaxApplication defaultApplication;
+public class MinijaxApplicationContext implements Configuration, FeatureContext {
+    private static final Logger LOG = LoggerFactory.getLogger(MinijaxApplicationContext.class);
+    private static MinijaxApplicationContext defaultApplicationContext;
     private final String path;
     private final MinijaxInjector injector;
     private final MinijaxConfiguration configuration;
@@ -77,7 +78,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     private Class<? extends SecurityContext> securityContextClass;
 
 
-    public MinijaxApplication(final String path) {
+    public MinijaxApplicationContext(final String path) {
         this.path = path;
         injector = new MinijaxInjector(this);
         configuration = new MinijaxConfiguration();
@@ -89,22 +90,22 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         responseFilters = new ArrayList<>();
         providers = new MinijaxProviders(this);
 
-        if (defaultApplication == null) {
-            defaultApplication = this;
+        if (defaultApplicationContext == null) {
+            defaultApplicationContext = this;
         }
     }
 
-    public static MinijaxApplication getApplication() {
+    public static MinijaxApplicationContext getApplicationContext() {
         final MinijaxRequestContext ctx = MinijaxRequestContext.tryGetThreadLocal();
         if (ctx != null) {
-            return ctx.getApplication();
+            return ctx.getApplicationContext();
         }
 
-        if (defaultApplication == null) {
-            defaultApplication = new MinijaxApplication("/");
+        if (defaultApplicationContext == null) {
+            defaultApplicationContext = new MinijaxApplicationContext("/");
         }
 
-        return defaultApplication;
+        return defaultApplicationContext;
     }
 
     public MinijaxInjector getInjector() {
@@ -179,68 +180,63 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         return getInjector().getSingletons();
     }
 
-    @Override
-    public Set<Object> getSingletons() {
-        return getInjector().getSingletons();
-    }
-
     public List<Class<?>> getWebSockets() {
         return webSockets;
     }
 
     @Override
-    public MinijaxApplication property(final String name, final Object value) {
+    public MinijaxApplicationContext property(final String name, final Object value) {
         configuration.getProperties().put(name, value);
         return this;
     }
 
 
-    public MinijaxApplication properties(final Map<String, String> props) {
+    public MinijaxApplicationContext properties(final Map<String, String> props) {
         configuration.properties(props);
         return this;
     }
 
 
-    public MinijaxApplication properties(final Properties props) {
+    public MinijaxApplicationContext properties(final Properties props) {
         configuration.properties(props);
         return this;
     }
 
 
-    public MinijaxApplication properties(final File file) throws IOException {
+    public MinijaxApplicationContext properties(final File file) throws IOException {
         configuration.properties(file);
         return this;
     }
 
 
-    public MinijaxApplication properties(final InputStream inputStream) throws IOException {
+    public MinijaxApplicationContext properties(final InputStream inputStream) throws IOException {
         configuration.properties(inputStream);
         return this;
     }
 
 
-    public MinijaxApplication properties(final String fileName) throws IOException {
+    public MinijaxApplicationContext properties(final String fileName) throws IOException {
         configuration.properties(fileName);
         return this;
     }
 
 
     @Override
-    public MinijaxApplication register(final Class<?> componentClass) {
+    public MinijaxApplicationContext register(final Class<?> componentClass) {
         registerImpl(componentClass);
         return this;
     }
 
 
     @Override
-    public MinijaxApplication register(final Class<?> componentClass, final int priority) {
+    public MinijaxApplicationContext register(final Class<?> componentClass, final int priority) {
         registerImpl(componentClass);
         return this;
     }
 
 
     @Override
-    public MinijaxApplication register(final Class<?> componentClass, final Class<?>... contracts) {
+    public MinijaxApplicationContext register(final Class<?> componentClass, final Class<?>... contracts) {
         for (final Class<?> contract : contracts) {
             getInjector().register(componentClass, contract);
         }
@@ -250,7 +246,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
 
     @Override
-    public MinijaxApplication register(final Class<?> componentClass, final Map<Class<?>, Integer> contracts) {
+    public MinijaxApplicationContext register(final Class<?> componentClass, final Map<Class<?>, Integer> contracts) {
         for (final Class<?> contract : contracts.keySet()) {
             getInjector().register(componentClass, contract);
         }
@@ -260,19 +256,19 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
 
     @Override
-    public MinijaxApplication register(final Object component) {
+    public MinijaxApplicationContext register(final Object component) {
         return this.register(component, component.getClass());
     }
 
 
     @Override
-    public MinijaxApplication register(final Object component, final int priority) {
+    public MinijaxApplicationContext register(final Object component, final int priority) {
         return this.register(component, component.getClass());
     }
 
 
     @Override
-    public MinijaxApplication register(final Object component, final Class<?>... contracts) {
+    public MinijaxApplicationContext register(final Object component, final Class<?>... contracts) {
         for (final Class<?> contract : contracts) {
             getInjector().register(component, contract);
         }
@@ -282,7 +278,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
 
     @Override
-    public MinijaxApplication register(final Object component, final Map<Class<?>, Integer> contracts) {
+    public MinijaxApplicationContext register(final Object component, final Map<Class<?>, Integer> contracts) {
         for (final Class<?> contract : contracts.keySet()) {
             getInjector().register(component, contract);
         }
@@ -291,7 +287,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     }
 
 
-    public MinijaxApplication packages(final String... packageNames) {
+    public MinijaxApplicationContext packages(final String... packageNames) {
         for (final String packageName : packageNames) {
             scanPackage(packageName);
         }
@@ -299,7 +295,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     }
 
 
-    public MinijaxApplication allowCors(final String urlPrefix) {
+    public MinijaxApplicationContext allowCors(final String urlPrefix) {
         register(MinijaxCorsFilter.class);
         getResource(MinijaxCorsFilter.class).addPathPrefix(urlPrefix);
         return this;
@@ -334,6 +330,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         for (final Annotation a : c.getAnnotations()) {
             final Class<?> t = a.annotationType();
             if (t == javax.ws.rs.ext.Provider.class
+                    || t == javax.ws.rs.ApplicationPath.class
                     || t == javax.ws.rs.Path.class
                     || t == OptionalClasses.SERVER_ENDPOINT) {
                 return true;
@@ -348,6 +345,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
             return;
         }
 
+        registerApplication(c);
         registerProvider(c);
         registerResourceMethods(c);
         registerWebSockets(c);
@@ -372,6 +370,49 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     private void registerInterfaces(final Class<?> c) {
         for (final Class<?> implementedInterface : c.getInterfaces()) {
             getInjector().register(c, implementedInterface);
+        }
+    }
+
+
+    /**
+     * Registers a <code>javax.ws.rs.core.Application</code> class.
+     *
+     * Instantiate the class and register the individual components.
+     *
+     * Note the somewhat indirect relationship between:
+     *   1) Registering an Application
+     *   2) Creating an ApplicationContext
+     *   3) Using an Application later via MinijaxApplicationView.
+     *
+     * Minijax does not make any guarantees about the consistency of the application instance.
+     *
+     * @param c The auto scanned class.
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private void registerApplication(final Class<?> c) {
+        if (!javax.ws.rs.core.Application.class.isAssignableFrom(c)) {
+            return;
+        }
+
+        final Application app = (Application) getInjector().getResource(c);
+
+        final Map<String, Object> properties = app.getProperties();
+        if (properties != null) {
+            properties((Map) properties);
+        }
+
+        final Set<Class<?>> classes = app.getClasses();
+        if (classes != null) {
+            for (final Class<?> c2 : classes) {
+                register(c2);
+            }
+        }
+
+        final Set<Object> singletons = app.getSingletons();
+        if (singletons != null) {
+            for (final Object singleton : singletons) {
+                register(singleton);
+            }
         }
     }
 

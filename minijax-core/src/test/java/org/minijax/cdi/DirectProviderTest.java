@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import javax.inject.Provider;
 
 import org.junit.Test;
-import org.minijax.MinijaxApplication;
+import org.minijax.MinijaxApplicationContext;
 
 public class DirectProviderTest {
 
@@ -55,7 +55,7 @@ public class DirectProviderTest {
 
     @Test
     public void testAutoScanProvider() {
-        final MinijaxApplication app = new MinijaxApplication("/");
+        final MinijaxApplicationContext app = new MinijaxApplicationContext("/");
         app.packages("org.minijax.cdi");
 
         final MinijaxInjector injector = app.getInjector();

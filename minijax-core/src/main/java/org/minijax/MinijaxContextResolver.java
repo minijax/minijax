@@ -19,7 +19,7 @@ public class MinijaxContextResolver<T> implements ContextResolver<T> {
 
         // 9.2.1
         if (c == Application.class) {
-            return (T) context.getApplication();
+            return (T) new MinijaxApplicationView(context.getApplicationContext());
         }
 
         // 9.2.2
@@ -44,17 +44,17 @@ public class MinijaxContextResolver<T> implements ContextResolver<T> {
 
         // 9.2.6
         if (c == Providers.class) {
-            return (T) context.getApplication().getProviders();
+            return (T) context.getApplicationContext().getProviders();
         }
 
         // 9.2.7
         if (c == ResourceContext.class) {
-            return (T) context.getApplication().getInjector();
+            return (T) context.getApplicationContext().getInjector();
         }
 
         // 9.2.8
         if (c == Configuration.class) {
-            return (T) context.getApplication().getConfiguration();
+            return (T) context.getApplicationContext().getConfiguration();
         }
 
         // 10.1

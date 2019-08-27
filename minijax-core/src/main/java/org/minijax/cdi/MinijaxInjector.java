@@ -18,7 +18,7 @@ import javax.persistence.Persistence;
 import javax.ws.rs.container.ResourceContext;
 
 import org.eclipse.persistence.config.PersistenceUnitProperties;
-import org.minijax.MinijaxApplication;
+import org.minijax.MinijaxApplicationContext;
 import org.minijax.util.CloseUtils;
 import org.minijax.util.CopyOnWriteMap;
 import org.minijax.util.PersistenceUtils;
@@ -29,14 +29,14 @@ import org.minijax.util.PersistenceUtils;
  * The implementation is heavily inspired by <a href="http://zsoltherpai.github.io/feather/">Feather</a>.
  */
 public class MinijaxInjector implements ResourceContext, Closeable {
-    private final MinijaxApplication application;
+    private final MinijaxApplicationContext application;
     private final Map<Key<?>, Provider<?>> providers = new CopyOnWriteMap<>();
 
     public MinijaxInjector() {
         this(null);
     }
 
-    public MinijaxInjector(final MinijaxApplication application) {
+    public MinijaxInjector(final MinijaxApplicationContext application) {
         this.application = application;
     }
 

@@ -14,7 +14,7 @@ import javax.ws.rs.core.HttpHeaders;
 
 import org.junit.Test;
 import org.minijax.Minijax;
-import org.minijax.MinijaxApplication;
+import org.minijax.MinijaxApplicationContext;
 
 import io.undertow.websockets.spi.WebSocketHttpExchange;
 
@@ -23,7 +23,7 @@ public class RequestContextTest {
     @Test
     public void testBasic() throws Exception {
         final Minijax minijax = new Minijax();
-        final MinijaxApplication app = minijax.getDefaultApplication();
+        final MinijaxApplicationContext app = minijax.getDefaultApplication();
 
         final Map<String, List<String>> headerMap = new HashMap<>();
         headerMap.computeIfAbsent(HttpHeaders.CONTENT_TYPE, k -> new ArrayList<>()).add("text/plain");
