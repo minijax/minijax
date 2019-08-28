@@ -45,11 +45,7 @@ public class MinijaxServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(
-            final HttpServletRequest servletRequest,
-            final HttpServletResponse servletResponse)
-                    throws ServletException, IOException {
-
+    protected void doGet(final HttpServletRequest servletRequest, final HttpServletResponse servletResponse) {
         final MinijaxApplicationContext application = minijax.getDefaultApplication();
 
         try (final MinijaxRequestContext ctx = new MinijaxServletRequestContext(application, servletRequest)) {
@@ -70,9 +66,8 @@ public class MinijaxServlet extends HttpServlet {
 
             application.writeEntity(response.getEntity(), mediaType, servletResponse.getOutputStream());
 
-        } catch (final Exception ex) {
+        } catch (final IOException ex) {
             LOG.error("Unhandled exception: {}", ex.getMessage(), ex);
-            throw ex;
         }
     }
 }
