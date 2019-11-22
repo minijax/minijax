@@ -8,7 +8,6 @@ Minijax Examples
 |  3 | [Mustache](minijax-example-mustache)         | Render HTML templates with Mustache            |
 |  4 | [Websockets](minijax-example-websocket)      | Persistent connection with websockets          |
 |  5 | [HTTPS](minijax-example-ssl)                 | SSL encryption demo                            |
-|  6 | [Swagger](minijax-example-swagger)           | Swagger annotated API endpoints                |
-|  7 | [Todo Backend](minijax-example-todo-backend) | REST API's for a Todo MVC applkication         |
-|  8 | [Pet Clinic](minijax-example-petclinic)      | Full stack site for a pet clinic               |
-|  9 | [Minitwit](minijax-example-minitwit)         | Miniature Twitter clone                        |
+|  6 | [Todo Backend](minijax-example-todo-backend) | REST API's for a Todo MVC applkication         |
+|  7 | [Pet Clinic](minijax-example-petclinic)      | Full stack site for a pet clinic               |
+|  8 | [Minitwit](minijax-example-minitwit)         | Miniature Twitter clone                        |

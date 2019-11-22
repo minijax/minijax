@@ -1,8 +1,7 @@
 package org.minijax;
 
-import static javax.ws.rs.HttpMethod.GET;
-import static javax.ws.rs.HttpMethod.OPTIONS;
-import static javax.ws.rs.core.MediaType.TEXT_PLAIN_TYPE;
+import static javax.ws.rs.HttpMethod.*;
+import static javax.ws.rs.core.MediaType.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -106,6 +105,10 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         }
 
         return defaultApplicationContext;
+    }
+
+    public Application getApplication() {
+        return new MinijaxApplicationView(this);
     }
 
     public MinijaxInjector getInjector() {

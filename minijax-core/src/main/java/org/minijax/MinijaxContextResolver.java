@@ -19,7 +19,7 @@ public class MinijaxContextResolver<T> implements ContextResolver<T> {
 
         // 9.2.1
         if (c == Application.class) {
-            return (T) new MinijaxApplicationView(context.getApplicationContext());
+            return (T) context.getApplicationContext().getApplication();
         }
 
         // 9.2.2
