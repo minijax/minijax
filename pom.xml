@@ -51,8 +51,9 @@
     </ciManagement>
     <distributionManagement>
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>github</id>
+            <name>GitHub minijax Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/minijax/minijax</url>
         </repository>
         <site>
             <id>minijax-site</id>
@@ -268,6 +269,26 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>github</id>
+            <repositories>
+                <repository>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>central</id>
+                    <url>https://repo1.maven.org/maven2</url>
+                </repository>
+                <repository>
+                    <id>github</id>
+                    <name>GitHub minijax Apache Maven Packages</name>
+                    <url>https://maven.pkg.github.com/minijax/minijax</url>
+                </repository>
+            </repositories>
         </profile>
     </profiles>
 </project>
