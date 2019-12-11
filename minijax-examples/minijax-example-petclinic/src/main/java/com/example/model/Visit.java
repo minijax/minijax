@@ -27,7 +27,6 @@ public class Visit extends DefaultBaseEntity {
     private String description;
 
     @Convert(converter = InstantConverter.class)
-    @SuppressWarnings("squid:S3437")
     private Instant date;
 
     @ManyToOne
