@@ -11,7 +11,7 @@ public class ConflictException extends ClientErrorException {
     private static final long serialVersionUID = 1L;
     private final String key;
 
-    public ConflictException(final String key, final String value) {
+    public ConflictException(final String key) {
         super("The " + key + " already exists", Response.Status.CONFLICT);
         this.key = key;
     }

@@ -79,9 +79,9 @@ public class MinijaxUndertowServer implements MinijaxServer, HttpHandler {
 
             application.writeEntity(response.getEntity(), mediaType, exchange.getOutputStream());
 
-        } catch (final Exception ex) {
+        } catch (final Exception ex) { // NOSONAR
             LOG.error("Unhandled exception: {}", ex.getMessage(), ex);
-            throw ex;
+            throw ex; // NOSONAR
         }
     }
 
