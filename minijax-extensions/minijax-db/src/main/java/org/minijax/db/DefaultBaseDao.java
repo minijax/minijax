@@ -193,7 +193,6 @@ public class DefaultBaseDao implements BaseDao {
             final Matcher matcher = pattern.matcher(ex.getMessage());
             if (matcher.find()) {
                 final String key = matcher.group("key").toLowerCase();
-                final String value = matcher.group("value");
                 return new ConflictException(key);
             }
         }
