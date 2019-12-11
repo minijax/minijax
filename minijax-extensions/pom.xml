@@ -14,7 +14,6 @@
         <module>minijax-avatar</module>
         <module>minijax-client</module>
         <module>minijax-db</module>
-        <module>minijax-gplus</module>
         <module>minijax-json</module>
         <module>minijax-liquibase</module>
         <module>minijax-mustache</module>

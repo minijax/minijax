@@ -14,38 +14,31 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>${h2.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3.version}</version>
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
             <artifactId>minijax-db</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
             <artifactId>minijax-mustache</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
             <artifactId>minijax-undertow</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

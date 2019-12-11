@@ -14,40 +14,33 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>${h2.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
-            <version>${jakarta-persistence.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>org.eclipse.persistence.jpa</artifactId>
-            <version>${eclipselink.version}</version>
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
             <artifactId>minijax-core</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
             <artifactId>minijax-json</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
             <artifactId>minijax-validation</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

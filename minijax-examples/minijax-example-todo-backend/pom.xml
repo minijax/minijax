@@ -14,18 +14,15 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
             <artifactId>minijax-json</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
             <artifactId>minijax-undertow</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>
