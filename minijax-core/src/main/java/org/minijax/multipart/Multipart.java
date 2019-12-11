@@ -170,7 +170,7 @@ public class Multipart implements MinijaxForm {
 
 
     private static String createBoundary() {
-        return "Boundary" + UUID.randomUUID().toString().replaceAll("-", "");
+        return "Boundary" + UUID.randomUUID().toString().replace("-", "");
     }
 
 

@@ -100,7 +100,7 @@ public class AvatarServiceTest extends MinijaxTest {
             final User user = new User();
             user.setEmail("reshma.khilnani@gmail.com");
 
-            ctx.get(AvatarService.class).tryGravatar(user);
+            assertTrue(ctx.get(AvatarService.class).tryGravatar(user));
         }
     }
 

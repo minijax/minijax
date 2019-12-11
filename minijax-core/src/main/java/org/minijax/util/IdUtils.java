@@ -67,7 +67,7 @@ public class IdUtils {
             return null;
         }
 
-        final String clean = str.replaceAll("-", "");
+        final String clean = str.replace("-", "");
         if (clean.length() != 32) {
             return null;
         }

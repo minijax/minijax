@@ -19,6 +19,7 @@ public class CloseUtilsTest {
     }
 
     @Test
+    @SuppressWarnings("squid:S2699")
     public void testCloseNull() {
         CloseUtils.closeQuietly((Object) null);
     }
@@ -31,6 +32,7 @@ public class CloseUtilsTest {
     }
 
     @Test
+    @SuppressWarnings("squid:S2699")
     public void testExplodingAutoCloseable() {
         final ExplodingAutoCloseable obj = new ExplodingAutoCloseable();
         CloseUtils.closeQuietly(obj);
