@@ -9,14 +9,13 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
-import javax.enterprise.inject.InjectionException;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 
 import org.minijax.MinijaxApplicationContext;
+import org.minijax.MinijaxException;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.multipart.Multipart;
 
@@ -55,10 +54,6 @@ public class EntityUtils {
             return (T) IOUtils.toString(entityStream, StandardCharsets.UTF_8);
         }
 
-        if (entityClass == MultivaluedMap.class) {
-            return (T) context.getForm().asForm().asMap();
-        }
-
         if (context != null) {
             final MinijaxApplicationContext appCtx = context.getApplicationContext();
             final MessageBodyReader<T> reader = appCtx.getProviders().getMessageBodyReader(
@@ -77,10 +72,20 @@ public class EntityUtils {
             }
         }
 
-        throw new InjectionException("Unknown entity type (" + entityClass + ")");
+        throw new MinijaxException("Unknown entity type (" + entityClass + ")");
     }
 
-    public static InputStream convertToInputStream(final Entity<?> entity) throws IOException {
+
+    /**
+     * Writes an entity to an input stream.
+     *
+     * This is not used in normal operation of minijax-core.
+     * It is used in tests and in minijax-client.
+     *
+     * @param entity The JAX-RS entity to write.
+     * @return An input stream that can be consumed.
+     */
+    public static InputStream writeEntity(final Entity<?> entity) throws IOException {
         if (entity == null || entity.getEntity() == null) {
             return null;
         }
@@ -110,6 +115,6 @@ public class EntityUtils {
             return IOUtils.toInputStream(outputStream.toString(), StandardCharsets.UTF_8);
         }
 
-        throw new UnsupportedOperationException("Unknown entity type: " + obj.getClass());
+        throw new MinijaxException("Unknown entity type: " + obj.getClass());
     }
 }

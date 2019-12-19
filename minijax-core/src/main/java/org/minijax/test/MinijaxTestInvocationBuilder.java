@@ -145,7 +145,7 @@ public class MinijaxTestInvocationBuilder implements javax.ws.rs.client.Invocati
                 name,
                 new MinijaxUriInfo(target.getUri()),
                 new MinijaxTestHttpHeaders(headers, cookies),
-                EntityUtils.convertToInputStream(entity))) {
+                EntityUtils.writeEntity(entity))) {
             return application.handle(context);
 
         } catch (final IOException ex) {

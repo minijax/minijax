@@ -196,7 +196,7 @@ public class MinijaxClientInvocationBuilder implements javax.ws.rs.client.Invoca
 
         final InputStream inputStream;
         try {
-            inputStream = EntityUtils.convertToInputStream(entity);
+            inputStream = EntityUtils.writeEntity(entity);
         } catch (final IOException ex) {
             throw new MinijaxException("Error converting entity to input stream: " + ex.getMessage(), ex);
         }
