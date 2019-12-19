@@ -49,6 +49,7 @@ import javax.ws.rs.ext.ParamConverter;
 
 import org.minijax.cdi.EntityProvider;
 import org.minijax.cdi.MinijaxInjector;
+import org.minijax.delegates.MinijaxResponseBuilder;
 import org.minijax.util.ClassPathScanner;
 import org.minijax.util.ExceptionUtils;
 import org.minijax.util.MediaTypeUtils;
@@ -649,7 +650,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
             return (Response) obj;
         }
 
-        return Response.ok()
+        return new MinijaxResponseBuilder()
                 .entity(obj)
                 .type(findResponseType(obj, rm.getProduces()))
                 .build();

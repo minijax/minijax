@@ -17,7 +17,7 @@ import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response.StatusType;
 import javax.ws.rs.core.Variant;
 
-class MinijaxResponseBuilder extends javax.ws.rs.core.Response.ResponseBuilder {
+public class MinijaxResponseBuilder extends javax.ws.rs.core.Response.ResponseBuilder {
     private final MultivaluedMap<String, Object> headers;
     private final MinijaxStatusInfo statusInfo;
     private Object entity;
