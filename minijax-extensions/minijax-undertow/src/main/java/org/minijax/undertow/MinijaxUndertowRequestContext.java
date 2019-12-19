@@ -40,7 +40,7 @@ class MinijaxUndertowRequestContext extends MinijaxRequestContext {
             uriBuilder.scheme(forwardedProto);
         }
 
-        uriInfo = new MinijaxUriInfo(uriBuilder.build(Collections.emptyMap()));
+        uriInfo = new MinijaxUriInfo(uriBuilder.buildFromMap(Collections.emptyMap()));
     }
 
     @Override
