@@ -4,12 +4,12 @@ import java.io.InputStream;
 import java.util.Collections;
 
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import org.minijax.MinijaxApplicationContext;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.MinijaxUriInfo;
+import org.minijax.uri.MinijaxUriBuilder;
 
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.Headers;
@@ -27,7 +27,8 @@ class MinijaxUndertowRequestContext extends MinijaxRequestContext {
         super(application);
         this.exchange = exchange;
 
-        final UriBuilder uriBuilder = UriBuilder.fromUri(exchange.getRequestURL());
+        final MinijaxUriBuilder uriBuilder = new MinijaxUriBuilder();
+        uriBuilder.uri(exchange.getRequestURL());
 
         final String queryString = exchange.getQueryString();
         if (queryString != null) {
