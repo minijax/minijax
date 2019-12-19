@@ -2,7 +2,7 @@ package org.minijax.util;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -48,7 +48,7 @@ public class MultipartUtilsTest {
     public void testFileUpload() throws IOException {
         final Multipart form = new Multipart();
         form.param("a", "b");
-        form.param("myfile", new File("src/test/resources/config.properties"));
+        form.param("myfile", "config.properties", new FileInputStream("src/test/resources/config.properties"));
 
         final InputStream inputStream = MultipartUtils.serializeMultipartForm(form);
 

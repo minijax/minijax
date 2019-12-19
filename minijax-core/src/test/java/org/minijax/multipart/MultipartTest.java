@@ -5,21 +5,15 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.ws.rs.WebApplicationException;
-
 import org.junit.Test;
+import org.minijax.MinijaxException;
 
 public class MultipartTest {
 
-    public static class ExplodingPart extends Part {
-
-        public ExplodingPart(final String name) {
-            super(name, "");
-        }
-
+    public static class ExplodingInputStream extends InputStream {
         @Override
-        public InputStream getInputStream() throws IOException {
-            throw new IOException("ExplodingPart");
+        public int read() throws IOException {
+            throw new IOException("ExplodingInputStream");
         }
     }
 
@@ -31,10 +25,11 @@ public class MultipartTest {
         }
     }
 
-    @Test(expected = WebApplicationException.class)
+
+    @Test(expected = MinijaxException.class)
     public void testGetStringException() throws IOException {
         try (final Multipart form = new Multipart()) {
-            form.param(new ExplodingPart("a"));
+            form.param("a", "a.txt", new ExplodingInputStream());
             form.getString("a");
         }
     }

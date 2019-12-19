@@ -86,10 +86,10 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
 
     public static MinijaxApplicationContext getApplicationContext() {
         final MinijaxRequestContext ctx = MinijaxRequestContext.tryGetThreadLocal();
-        if (ctx != null) {
-            return ctx.getApplicationContext();
+        if (ctx == null) {
+            throw new MinijaxException("No request context");
         }
-        return null;
+        return ctx.getApplicationContext();
     }
 
     public Application getApplication() {

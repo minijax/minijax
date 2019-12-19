@@ -1,7 +1,6 @@
 package org.minijax;
 
 import static javax.ws.rs.core.MediaType.*;
-
 import static org.junit.Assert.*;
 
 import java.io.IOException;

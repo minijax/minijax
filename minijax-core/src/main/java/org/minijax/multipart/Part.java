@@ -1,62 +1,35 @@
 package org.minijax.multipart;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 
-public class Part {
-    private final String name;
-    private String value;
-    private String submittedFileName;
-    private InputStream inputStream;
-    private File file;
+/**
+ * The Part interface represents one form element in a multipart form.
+ */
+public interface Part {
 
-    private Part(final String name) {
-        this.name = name;
-    }
+    /**
+     * Returns the form element name.
+     * @return The form element name.
+     */
+    public String getName();
 
-    public Part(final String name, final String value) {
-        this(name);
-        this.value = value;
-    }
+    /**
+     * Returns the form value as a string.
+     * @return The form value as a string.
+     */
+    public String getValue();
 
-    public Part(final String name, final String submittedFileName, final InputStream inputStream) {
-        this(name);
-        this.submittedFileName = submittedFileName;
-        this.inputStream = inputStream;
-    }
+    /**
+     * Returns the submitted file name (only applicable for file elements).
+     * @return The submitted file name.
+     */
+    public String getSubmittedFileName();
 
-    public Part(final String name, final File file) {
-        this(name);
-        this.file = file;
-        submittedFileName = file.getName();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public String getSubmittedFileName() {
-        return submittedFileName;
-    }
-
-    public InputStream getInputStream() throws IOException {
-        if (inputStream == null) {
-            if (file != null) {
-                inputStream = new FileInputStream(file);
-            } else if (value != null) {
-                inputStream = new ByteArrayInputStream(value.getBytes(StandardCharsets.UTF_8));
-            } else {
-                inputStream = new ByteArrayInputStream(new byte[0]);
-            }
-        }
-        return inputStream;
-    }
+    /**
+     * Returns an input stream for consuming the value content.
+     * @return An input stream for consuming the value content.
+     * @throws IOException
+     */
+    public InputStream getInputStream() throws IOException;
 }

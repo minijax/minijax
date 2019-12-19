@@ -3,10 +3,8 @@ package org.minijax.multipart;
 
 import static java.util.Collections.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -23,17 +21,13 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.minijax.MinijaxException;
 import org.minijax.MinijaxForm;
-import org.minijax.util.ExceptionUtils;
-import org.minijax.util.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The MinijaxMultipartForm class represents a multipart HTTP form submission.
  */
 public class Multipart implements MinijaxForm {
-    private static final Logger LOG = LoggerFactory.getLogger(Multipart.class);
     private final MediaType contentType;
     private final Map<String, Part> values;
 
@@ -53,11 +47,6 @@ public class Multipart implements MinijaxForm {
         return contentType;
     }
 
-    public Multipart param(final Part part) {
-        values.put(part.getName(), part);
-        return this;
-    }
-
     /**
      * Adds a new string value.
      *
@@ -65,17 +54,20 @@ public class Multipart implements MinijaxForm {
      * @param value The string value.
      */
     public Multipart param(final String name, final String value) {
-        return param(new Part(name, value));
+        values.put(name, new StringPart(name, value));
+        return this;
     }
 
     /**
      * Adds a new file value.
      *
      * @param name The file field name.
-     * @param value The file value.
+     * @param filename The submitted file name.
+     * @param inputStream The file contents.
      */
-    public Multipart param(final String name, final File value) {
-        return param(new Part(name, value));
+    public Multipart param(final String name, final String filename, final InputStream inputStream) {
+        values.put(name, new FilePart(name, filename, inputStream));
+        return this;
     }
 
     /**
@@ -95,12 +87,8 @@ public class Multipart implements MinijaxForm {
      */
     @Override
     public String getString(final String name) {
-        try {
-            final InputStream inputStream = getInputStream(name);
-            return inputStream == null ? null : IOUtils.toString(inputStream, StandardCharsets.UTF_8);
-        } catch (final IOException ex) {
-            throw ExceptionUtils.toWebAppException(ex);
-        }
+        final Part part = values.get(name);
+        return part == null ? null : part.getValue();
     }
 
     @Override
@@ -109,7 +97,7 @@ public class Multipart implements MinijaxForm {
             final Part part = values.get(name);
             return part == null ? null : part.getInputStream();
         } catch (final IOException ex) {
-            throw ExceptionUtils.toWebAppException(ex);
+            throw new MinijaxException(ex);
         }
     }
 
@@ -123,13 +111,8 @@ public class Multipart implements MinijaxForm {
         final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
 
         for (final Part part : values.values()) {
-            if (part.getSubmittedFileName() != null) {
-                continue;
-            }
-            try {
-                map.add(part.getName(), IOUtils.toString(part.getInputStream(), StandardCharsets.UTF_8));
-            } catch (final IOException ex) {
-                LOG.error(ex.getMessage(), ex);
+            if (part instanceof StringPart) {
+                map.add(part.getName(), part.getValue());
             }
         }
 
@@ -159,9 +142,9 @@ public class Multipart implements MinijaxForm {
 
         for (final FileItem fileItem : fileItems) {
             if (fileItem.isFormField()) {
-                result.param(new Part(fileItem.getFieldName(), fileItem.getString()));
+                result.param(fileItem.getFieldName(), fileItem.getString());
             } else {
-                result.param(new Part(fileItem.getFieldName(), fileItem.getName(), fileItem.getInputStream()));
+                result.param(fileItem.getFieldName(), fileItem.getName(), fileItem.getInputStream());
             }
         }
 

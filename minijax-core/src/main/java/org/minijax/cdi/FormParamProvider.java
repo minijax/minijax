@@ -34,9 +34,11 @@ class FormParamProvider<T> implements Provider<T> {
 
         String value = form == null ? null : form.getString(name);
 
-        final DefaultValue defaultValue = key.getDefaultValue();
-        if (value == null && defaultValue != null) {
-            value = defaultValue.value();
+        if (value == null) {
+            final DefaultValue defaultValue = key.getDefaultValue();
+            if (defaultValue != null) {
+                value = defaultValue.value();
+            }
         }
 
         return (T) context.getApplicationContext().convertParamToType(value, c, key.getAnnotations());
