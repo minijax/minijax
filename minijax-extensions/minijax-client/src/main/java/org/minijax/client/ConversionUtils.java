@@ -6,8 +6,8 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.http.HttpEntity;
-import org.minijax.MinijaxApplicationContext;
 import org.minijax.MinijaxException;
+import org.minijax.util.EntityUtils;
 
 public class ConversionUtils {
 
@@ -23,7 +23,7 @@ public class ConversionUtils {
         final MediaType mediaType = MediaType.valueOf(apacheEntity.getContentType().getValue());
 
         try {
-            return MinijaxApplicationContext.getApplicationContext().readEntity(
+            return EntityUtils.readEntity(
                     targetClass,
                     null,
                     null,
@@ -44,7 +44,7 @@ public class ConversionUtils {
         final MediaType mediaType = MediaType.valueOf(apacheEntity.getContentType().getValue());
 
         try {
-            return MinijaxApplicationContext.getApplicationContext().readEntity(
+            return EntityUtils.readEntity(
                     (Class<T>) genericType.getRawType(),
                     genericType.getType(),
                     null,

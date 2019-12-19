@@ -12,7 +12,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -24,7 +23,6 @@ import java.util.Set;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.enterprise.inject.InjectionException;
 import javax.inject.Provider;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.ForbiddenException;
@@ -42,12 +40,10 @@ import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.FeatureContext;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.ParamConverter;
 
@@ -55,7 +51,6 @@ import org.minijax.cdi.EntityProvider;
 import org.minijax.cdi.MinijaxInjector;
 import org.minijax.util.ClassPathScanner;
 import org.minijax.util.ExceptionUtils;
-import org.minijax.util.IOUtils;
 import org.minijax.util.MediaTypeUtils;
 import org.minijax.util.OptionalClasses;
 import org.slf4j.Logger;
@@ -63,7 +58,6 @@ import org.slf4j.LoggerFactory;
 
 public class MinijaxApplicationContext implements Configuration, FeatureContext {
     private static final Logger LOG = LoggerFactory.getLogger(MinijaxApplicationContext.class);
-    private static MinijaxApplicationContext defaultApplicationContext;
     private final String path;
     private final MinijaxInjector injector;
     private final MinijaxConfiguration configuration;
@@ -88,10 +82,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         requestFilters = new ArrayList<>();
         responseFilters = new ArrayList<>();
         providers = new MinijaxProviders(this);
-
-        if (defaultApplicationContext == null) {
-            defaultApplicationContext = this;
-        }
     }
 
     public static MinijaxApplicationContext getApplicationContext() {
@@ -99,12 +89,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         if (ctx != null) {
             return ctx.getApplicationContext();
         }
-
-        if (defaultApplicationContext == null) {
-            defaultApplicationContext = new MinijaxApplicationContext("/");
-        }
-
-        return defaultApplicationContext;
+        return null;
     }
 
     public Application getApplication() {
@@ -652,49 +637,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
             }
         }
         return result;
-    }
-
-
-    /**
-     * Reads an entity from an entity stream.
-     *
-     * @param entityClass The result entity class.
-     * @param genericType The entity generic type (optional).
-     * @param annotations Array of annotations on the type declaration (optional).
-     * @param mediaType The HTTP media type.
-     * @param context The request context (optional).
-     * @param entityStream The entity input stream.
-     * @return The entity.
-     */
-    @SuppressWarnings("unchecked")
-    public <T> T readEntity(
-            final Class<T> entityClass,
-            final Type genericType,
-            final Annotation[] annotations,
-            final MediaType mediaType,
-            final MinijaxRequestContext context,
-            final InputStream entityStream)
-                    throws IOException {
-
-        if (entityClass == InputStream.class) {
-            return (T) entityStream;
-        }
-
-        if (entityClass == String.class) {
-            return (T) IOUtils.toString(entityStream, StandardCharsets.UTF_8);
-        }
-
-        if (entityClass == MultivaluedMap.class) {
-            return (T) context.getForm().asForm().asMap();
-        }
-
-        final MessageBodyReader<T> reader = getProviders().getMessageBodyReader(entityClass, genericType, annotations, mediaType);
-        if (reader != null) {
-            final MultivaluedMap<String, String> httpHeaders = context == null ? null : context.getHeaders();
-            return reader.readFrom(entityClass, genericType, annotations, mediaType, httpHeaders, entityStream);
-        }
-
-        throw new InjectionException("Unknown entity type (" + entityClass + ")");
     }
 
 
