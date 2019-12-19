@@ -45,7 +45,7 @@ public class MinijaxServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(final HttpServletRequest servletRequest, final HttpServletResponse servletResponse) {
+    protected void service(final HttpServletRequest servletRequest, final HttpServletResponse servletResponse) {
         final MinijaxApplicationContext application = minijax.getDefaultApplication();
 
         try (final MinijaxRequestContext ctx = new MinijaxServletRequestContext(application, servletRequest)) {

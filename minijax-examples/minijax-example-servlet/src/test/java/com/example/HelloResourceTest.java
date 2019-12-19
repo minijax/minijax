@@ -1,16 +1,16 @@
 package com.example;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
 
-public class HelloServletTest extends MinijaxTest {
+public class HelloResourceTest extends MinijaxTest {
 
     @Before
     public void setUp() {
-        register(HelloApplication.class);
+        register(HelloResource.class);
     }
 
     @Test

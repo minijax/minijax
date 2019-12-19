@@ -1,213 +1,132 @@
 
-Hello World
-===========
+Hello Servlet
+=============
 
-This example demonstrates:
+This example demonstrates how to use Minijax with a servlet container -- both Jetty and Tomcat.
 
-* Basic intro to Minijax
-* Setting up a Maven project
-* Creating a **Resource Class**
-* Creating a **Resource Method**
-* Testing
+The source code is available at [minijax-examples/minijax-example-servlet](https://github.com/minijax/minijax/tree/master/minijax-examples/minijax-example-servlet)
 
-The source code is available at [minijax-examples/minijax-example-hello](https://github.com/minijax/minijax/tree/master/minijax-examples/minijax-example-hello)
+For documentation on how to use the Jetty Maven plugin:
+https://www.eclipse.org/jetty/documentation/9.4.x/jetty-maven-plugin.html
 
-Estimated reading time: 5 minutes
+For documentation on how to use the Tomcat Maven plugin:
 
-Lines of code:
 
+To run the application using Jetty ([jetty-maven-plugin](https://www.eclipse.org/jetty/documentation/9.4.x/jetty-maven-plugin.html)):
 ```
--------------------------------------------------------------------------------
-Language                     files          blank        comment           code
--------------------------------------------------------------------------------
-Java                             2             10              0             29
-Maven                            1              0              0             26
--------------------------------------------------------------------------------
-SUM:                             3             10              0             55
--------------------------------------------------------------------------------
+mvn jetty:run
 ```
+
+To run the application using Tomcat ([tomcat7-maven-plugin](http://tomcat.apache.org/maven-plugin-2.2/)):
+```
+mvn tomcat7:run-war
+```
+
+Then, with either Jetty or Tomcat, you can view the running app at:  http://localhost:8080
 
 pom.xml
 -------
 
-Let's start with the Maven pom.xml.  If you're not familiar with Maven, I strongly encourage you to [start there](https://maven.apache.org/pom.html).
-
-The pom is short and sweet with only two dependencies:
+To use the Jetty Maven Plugin:
 
 ```xml
-<dependency>
-    <groupId>junit</groupId>
-    <artifactId>junit</artifactId>
-    <version>${junit.version}</version>
-    <scope>test</scope>
-</dependency>
-<dependency>
-    <groupId>org.minijax</groupId>
-    <artifactId>minijax-undertow</artifactId>
-    <version>${project.version}</version>
-</dependency>
+<project>
+    <!-- ... -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.4.20.v20190813</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>
 ```
 
-The "minijax-undertow" dependency includes everything we need for a simple demonstration:
+To use the Tomcat Maven Plugin:
 
-* Embedded Undertow for web server
-* JAX-RS implementation for routing
+```xml
+<project>
+    <!-- ... -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <path>/</path>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+```
 
-Hello.java
-----------
+web.xml
+-------
 
-Hello.java includes all of the Java code for our application:
+In normal embedded Minijax, a `web.xml` file is not required.  However, when using a servlet container, you will need a `web.xml` file.
+
+The `web.xml` file goes in the `src/main/webapp/WEB-INF/` directory.
+
+Example contents:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<servlet>
+		<servlet-name>minijax-servlet</servlet-name>
+		<servlet-class>org.minijax.servlet.MinijaxServlet</servlet-class>
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>com.example.HelloApplication</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>minijax-servlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+</web-app>
+```
+
+This instructs the servlet container to initialize Minijax.  For your own app, you will need to change `com.example.HelloApplication` to your own application class.
+
+HelloApplication.java
+=====================
+
+Your app will need at least one instance of `javax.ws.rs.core.Application`.
+
+For example, here is our `HelloApplication`:
 
 ```java
 package com.example;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.minijax.Minijax;
+import javax.ws.rs.core.Application;
 
-@Path("/")
-public class Hello {
+public class HelloApplication extends Application {
 
-    @GET
-    public static String hello() {
-        return "Hello world!";
-    }
-
-    public static void main(final String[] args) {
-        new Minijax().register(Hello.class).start();
-    }
-}
-```
-
-Key points:
-
-```java
-@Path("/")
-public class Hello {
-```
-
-A **Resource Class** must have a `@Path` annotation.
-
-```java
-@GET
-public static String hello() {
-    return "Hello world!";
-}
-```
-
-A **Resource Method** must have an HTTP verb annotation such as `@GET` or `@POST`.
-
-This is a tiny preview of JAX-RS capabilities.  For a deeper review, I recommend Oracle's [Chapter 13 Building RESTful Web Services with JAX-RS and Jersey](https://docs.oracle.com/cd/E19226-01/820-7627/6nisfjmk8/index.html).  While that documentation is for Jersey, nearly all JAX-RS features are available in Minijax.
-
-Back to Hello.java:
-
-```java
-public static void main(final String[] args) {
-    new Minijax().register(Hello.class).start();
-}
-```
-
-Obviously the `main` function is the application entry point.
-
-`new Minijax()` creates a new Minijax container.  
-
-`register(Hello.class)` registers our **Resource Class** and **Resource Method**.
-
-`start()` runs the container on port 8080.  The `start` method starts Undertow.  Undertow runs in the background, which keeps the application alive indefinitely.
-
-You can run the Hello World example:
-
-```bash
-mvn exec:java -Dexec.mainClass="com.example.Hello"
-```
-
-You can view the results in your web browser:
-
-> <http://localhost:8080>
-
-Notice that we did not have to manually install Tomcat or an Application Server.  Notice that Maven did pretty much everything for us.
-
-In a traditional Java EE application, you would not include a `main` function.  Instead, you would bundle as a WAR and run in an Application Server such as JBoss, Wildfly, Weblogic, etc.
-
-In modern Java web development, there is a clear trend *away* from Application Servers.  The new model is to create a "fat jar" and simply run `java -jar myjar.jar`.
-
-The fat jar model has many benefits:
-
-* Simple to build and deploy
-* No installation step for Application Server
-* Consistent environment because Maven handles everything
-* Development is faster because IDE does not have to rebuild WAR for every run
-
-Onward...
-
-HelloTest.java
---------------
-
-You write tests, right? :)
-
-Testing is very straightforward in Minijax.
-
-```java
-package com.example;
-
-import static org.junit.Assert.*;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.minijax.test.MinijaxTest;
-
-public class HelloTest extends MinijaxTest {
-
-    @Before
-    public void setUp() {
-        register(Hello.class);
-    }
-
-    @Test
-    public void testHello() {
-        assertEquals("Hello world!", target("/").request().get(String.class));
+    @Override
+    public Set<Class<?>> getClasses() {
+        return new HashSet<>(Arrays.asList(
+                HelloResource.class,
+                PostResource.class,
+                ShoutResource.class));
     }
 }
 ```
 
-Key points:
+See [the docs for `Application`](https://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Application.html) for more information on how to use this class.
 
-```java
-public class HelloTest extends MinijaxTest {
-```
-
-Extending `MinijaxTest` provides a handful of convenient setup steps.  Notably, it starts a test server and provides `register()` and `target()` methods.
-
-Before running the test, we have to register our **Resource Class** `Hello`:
-
-```java
-@Before
-public void setUp() {
-    register(Hello.class);
-}
-```
-
-And now we can test:
-
-```java
-@Test
-public void testHello() {
-    assertEquals("Hello world!", target("/").request().get(String.class));
-}
-```
-
-Here we execute a simulated GET request to the "/" endpoint, and assert that the result equals "Hello world!".
-
-There's a lot to unpack here, so let's take it one step at a time:
-
-`target("/")` returns a `WebTarget`.  Think of this as a reference to the endpoint.
-
-`request()` starts a new request.
-
-`get(String.class)` executes the GET request, and expects a `String` result.
-
-As you might have guessed, we could have called `post()`, `put()`, or `delete()` instead.  We will see examples of those in future articles.
+After that, you can continue to use Minijax normally.
 
 Next
 ----

@@ -33,6 +33,14 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>9.4.20.v20190813</version>
             </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <path>/</path>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
