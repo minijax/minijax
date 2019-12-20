@@ -11,6 +11,7 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Variant.VariantListBuilder;
 import javax.ws.rs.ext.RuntimeDelegate;
 
+import org.minijax.MinijaxApplicationContext;
 import org.minijax.uri.MinijaxUriBuilder;
 
 public class MinijaxRuntimeDelegate extends RuntimeDelegate {
@@ -26,7 +27,7 @@ public class MinijaxRuntimeDelegate extends RuntimeDelegate {
 
     @Override
     public ResponseBuilder createResponseBuilder() {
-        return new MinijaxResponseBuilder();
+        return new MinijaxResponseBuilder(MinijaxApplicationContext.getApplicationContext());
     }
 
     @Override

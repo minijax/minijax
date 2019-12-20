@@ -12,6 +12,7 @@ import org.minijax.MinijaxApplicationContext;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.MinijaxServer;
 import org.minijax.undertow.websocket.MinijaxUndertowWebSocketConnectionCallback;
+import org.minijax.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,7 +78,7 @@ public class MinijaxUndertowServer implements MinijaxServer, HttpHandler {
                 exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, mediaType.toString());
             }
 
-            application.writeEntity(response.getEntity(), mediaType, exchange.getOutputStream());
+            EntityUtils.writeEntity(response.getEntity(), mediaType, application, exchange.getOutputStream());
 
         } catch (final Exception ex) { // NOSONAR
             LOG.error("Unhandled exception: {}", ex.getMessage(), ex);

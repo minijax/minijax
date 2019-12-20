@@ -24,6 +24,7 @@ import javax.ws.rs.core.NewCookie;
 
 import org.minijax.MinijaxApplicationContext;
 import org.minijax.MinijaxException;
+import org.minijax.util.EntityUtils;
 
 class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResponseContext {
     private final MinijaxApplicationContext application;
@@ -38,7 +39,7 @@ class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResp
     private MediaType mediaType;
 
     public MinijaxResponse(final MinijaxResponseBuilder builder) {
-        application = MinijaxApplicationContext.getApplicationContext();
+        application = builder.getApplicationContext();
         headers = builder.getHeaders();
         statusInfo = new MinijaxStatusInfo(builder.getStatusInfo());
         entity = builder.getEntity();
@@ -217,7 +218,7 @@ class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResp
 
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
-            application.writeEntity(entity, null, outputStream);
+            EntityUtils.writeEntity(entity, null, application, outputStream);
             return (T) outputStream.toString();
         } catch (final IOException ex) {
              throw new MinijaxException(ex.getMessage(), ex);

@@ -111,6 +111,10 @@ public class Minijax {
 
 
     public MinijaxApplicationContext getApplication(final URI requestUri) {
+        if (applications.size() == 1) {
+            // Common case is only the default application
+            return defaultApplication;
+        }
         final String requestPath = requestUri.getPath();
         for (final MinijaxApplicationContext application : applications) {
             if (requestPath.startsWith(application.getPath())) {

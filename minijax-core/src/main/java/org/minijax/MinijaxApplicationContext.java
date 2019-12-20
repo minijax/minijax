@@ -6,7 +6,6 @@ import static javax.ws.rs.core.MediaType.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -87,10 +86,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
 
     public static MinijaxApplicationContext getApplicationContext() {
         final MinijaxRequestContext ctx = MinijaxRequestContext.tryGetThreadLocal();
-        if (ctx == null) {
-            throw new MinijaxException("No request context");
-        }
-        return ctx.getApplicationContext();
+        return ctx == null ? null : ctx.getApplicationContext();
     }
 
     public Application getApplication() {
@@ -650,7 +646,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
             return (Response) obj;
         }
 
-        return new MinijaxResponseBuilder()
+        return new MinijaxResponseBuilder(this)
                 .entity(obj)
                 .type(findResponseType(obj, rm.getProduces()))
                 .build();
@@ -694,34 +690,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         }
 
         return TEXT_PLAIN_TYPE;
-    }
-
-
-    /**
-     * Writes an entity to the output stream.
-     *
-     * @param entity The entity.
-     * @param mediaType The entity media type.
-     * @param outputStream The output stream.
-     */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    public void writeEntity(
-            final Object entity,
-            final MediaType mediaType,
-            final OutputStream outputStream)
-                    throws IOException {
-
-        if (entity == null) {
-            return;
-        }
-
-        final MessageBodyWriter writer = providers.getMessageBodyWriter(entity.getClass(), null, null, mediaType);
-        if (writer != null) {
-            writer.writeTo(entity, entity.getClass(), null, null, mediaType, null, outputStream);
-            return;
-        }
-
-        throw new MinijaxException("No writer found for " + entity.getClass() + " and " + mediaType);
     }
 
 

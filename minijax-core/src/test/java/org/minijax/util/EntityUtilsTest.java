@@ -48,13 +48,13 @@ public class EntityUtilsTest {
 
     @Test
     public void testWriteNull() throws IOException {
-        assertNull(EntityUtils.writeEntity(null));
-        assertNull(EntityUtils.writeEntity(Entity.entity(null, "text/plain")));
+        assertNull(EntityUtils.writeEntity(null, null));
+        assertNull(EntityUtils.writeEntity(Entity.entity(null, "text/plain"), null));
     }
 
     @Test
     public void testWriteInputStream() throws IOException {
         final InputStream input = new ByteArrayInputStream(new byte[1]);
-        assertEquals(input, EntityUtils.writeEntity(Entity.entity(input, "text/plain")));
+        assertEquals(input, EntityUtils.writeEntity(Entity.entity(input, "text/plain"), null));
     }
 }

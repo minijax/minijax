@@ -6,9 +6,12 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
 /**
  * The MinijaxPathPattern class is a rich representation of a parameterized URL path.
@@ -18,24 +21,52 @@ class MinijaxPathPattern {
     private static final String HEX_DIGITS_REGEX = "(\\p{XDigit}+)";
     private static final String EXP_REGEX = "[eE][+-]?" + DIGITS_REGEX;
     private static final String DOUBLE_REGEX = getDoubleRegex();
+    private static final MultivaluedHashMap<String, String> EMPTY_PARAMS = new MultivaluedHashMap<>();
+    private final String patternString;
     private final Pattern pattern;
     private final List<String> params;
 
-    private MinijaxPathPattern(final Pattern pattern, final List<String> params) {
-        this.pattern = pattern;
-        this.params = params;
+    private MinijaxPathPattern(final String patternString, final List<String> params) {
+        this.patternString = patternString;
+        if (params == null) {
+            this.pattern = null;
+            this.params = null;
+        } else {
+            this.pattern = Pattern.compile(patternString);
+            this.params = params;
+        }
     }
 
-    public Pattern getPattern() {
+    String getPatternString() {
+        return patternString;
+    }
+
+    Pattern getPattern() {
         return pattern;
     }
 
-    public String getPatternString() {
-        return pattern.pattern();
+    List<String> getParams() {
+        return params;
     }
 
-    public List<String> getParams() {
-        return params;
+    public MultivaluedMap<String, String> tryMatch(final MinijaxUriInfo uriInfo) {
+        final String requestPath = uriInfo.getRequestUri().getPath();
+
+        if (params == null) {
+            // Simple case, no params, no regex
+            return patternString.equals(requestPath) ? EMPTY_PARAMS : null;
+        }
+
+        final Matcher matcher = pattern.matcher(requestPath);
+        if (!matcher.matches()) {
+            return null;
+        }
+
+        final MultivaluedMap<String, String> pathParameters = new MultivaluedHashMap<>();
+        for (final String name : params) {
+            pathParameters.add(name, matcher.group(name));
+        }
+        return pathParameters;
     }
 
     public static MinijaxPathPattern parse(final Method method, final String path) {
@@ -47,8 +78,8 @@ class MinijaxPathPattern {
         private final String path;
         private final StringBuilder regexBuilder = new StringBuilder();
         private final StringBuilder paramBuilder = new StringBuilder();
-        private final List<String> params = new ArrayList<>();
-        private int curlyDepth = 0;
+        private List<String> params;
+        private int curlyDepth;
         private int index;
 
         Builder(final Method method, final String path) {
@@ -72,7 +103,7 @@ class MinijaxPathPattern {
                 throw new IllegalArgumentException("Unexpected end of input, missing '}'");
             }
 
-            return new MinijaxPathPattern(Pattern.compile(regexBuilder.toString()), params);
+            return new MinijaxPathPattern(regexBuilder.toString(), params);
         }
 
         private void handleOpen() {
@@ -124,6 +155,9 @@ class MinijaxPathPattern {
                 throw new IllegalArgumentException("Parameter name cannot be empty");
             }
 
+            if (params == null) {
+                params = new ArrayList<>();
+            }
             params.add(paramName);
             regexBuilder.append("(?<").append(paramName).append(">").append(paramRegex).append(")");
         }

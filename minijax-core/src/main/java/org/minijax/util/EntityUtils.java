@@ -1,10 +1,9 @@
 package org.minijax.util;
 
-import static javax.ws.rs.core.MediaType.*;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
@@ -13,9 +12,11 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.MessageBodyReader;
+import javax.ws.rs.ext.MessageBodyWriter;
 
 import org.minijax.MinijaxApplicationContext;
 import org.minijax.MinijaxException;
+import org.minijax.MinijaxProviders;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.multipart.Multipart;
 
@@ -77,44 +78,89 @@ public class EntityUtils {
 
 
     /**
+     * Writes an entity to the output stream.
+     *
+     * @param entity The entity.
+     * @param mediaType The entity media type.
+     * @param context Optional application context for custom writers.
+     * @param outputStream The output stream.
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public static void writeEntity(
+            final Object entity,
+            final MediaType mediaType,
+            final MinijaxApplicationContext context,
+            final OutputStream outputStream)
+                    throws IOException {
+
+        if (entity == null) {
+            return;
+        }
+
+        if (entity instanceof InputStream) {
+            IOUtils.copy((InputStream) entity, outputStream);
+            return;
+        }
+
+        if (entity instanceof String) {
+            outputStream.write(((String) entity).getBytes(StandardCharsets.UTF_8));
+            return;
+        }
+
+        if (entity instanceof Form) {
+            final String str = UrlUtils.urlEncodeMultivaluedParams(((Form) entity).asMap());
+            outputStream.write(str.getBytes(StandardCharsets.UTF_8));
+            return;
+        }
+
+        if (entity instanceof Multipart) {
+            MultipartUtils.serializeMultipartForm((Multipart) entity, outputStream);
+            return;
+        }
+
+        if (context != null) {
+            final MinijaxProviders providers = context.getProviders();
+            final MessageBodyWriter writer = providers.getMessageBodyWriter(entity.getClass(), null, null, mediaType);
+            if (writer != null) {
+                writer.writeTo(entity, entity.getClass(), null, null, mediaType, null, outputStream);
+                return;
+            }
+        }
+
+        throw new MinijaxException("No writer found for " + entity.getClass() + " and " + mediaType);
+    }
+
+
+    /**
      * Writes an entity to an input stream.
      *
      * This is not used in normal operation of minijax-core.
      * It is used in tests and in minijax-client.
      *
      * @param entity The JAX-RS entity to write.
+     * @param context Optional application context for custom writers.
      * @return An input stream that can be consumed.
      */
-    public static InputStream writeEntity(final Entity<?> entity) throws IOException {
-        if (entity == null || entity.getEntity() == null) {
+    public static <T> InputStream writeEntity(
+            final Entity<T> entity,
+            final MinijaxApplicationContext context)
+                    throws IOException {
+
+        if (entity == null) {
             return null;
         }
 
-        final Object obj = entity.getEntity();
+        final T obj = entity.getEntity();
+        if (obj == null) {
+            return null;
+        }
 
         if (obj instanceof InputStream) {
             return (InputStream) obj;
         }
 
-        if (obj instanceof String) {
-            return IOUtils.toInputStream((String) obj, StandardCharsets.UTF_8);
-        }
-
-        if (obj instanceof Form) {
-            return IOUtils.toInputStream(UrlUtils.urlEncodeMultivaluedParams(((Form) obj).asMap()), StandardCharsets.UTF_8);
-        }
-
-        if (obj instanceof Multipart) {
-            return MultipartUtils.serializeMultipartForm((Multipart) obj);
-        }
-
-        if (entity.getMediaType() == APPLICATION_JSON_TYPE && OptionalClasses.JSON != null) {
-            final MinijaxApplicationContext application = MinijaxApplicationContext.getApplicationContext();
-            final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            application.writeEntity(obj, entity.getMediaType(), outputStream);
-            return IOUtils.toInputStream(outputStream.toString(), StandardCharsets.UTF_8);
-        }
-
-        throw new MinijaxException("Unknown entity type: " + obj.getClass());
+        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        EntityUtils.writeEntity(entity.getEntity(), entity.getMediaType(), context, outputStream);
+        return IOUtils.toInputStream(outputStream.toString(), StandardCharsets.UTF_8);
     }
 }

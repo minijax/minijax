@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
@@ -18,7 +17,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.minijax.util.MediaTypeUtils;
@@ -160,15 +158,9 @@ class MinijaxResourceMethod implements javax.ws.rs.container.ResourceInfo {
             return false;
         }
 
-        final String requestPath = uriInfo.getRequestUri().getPath();
-        final Matcher matcher = pathPattern.getPattern().matcher(requestPath);
-        if (!matcher.matches()) {
+        final MultivaluedMap<String, String> pathParameters = pathPattern.tryMatch(uriInfo);
+        if (pathParameters == null) {
             return false;
-        }
-
-        final MultivaluedMap<String, String> pathParameters = new MultivaluedHashMap<>();
-        for (final String name : pathPattern.getParams()) {
-            pathParameters.add(name, matcher.group(name));
         }
 
         uriInfo.setPathParameters(pathParameters);

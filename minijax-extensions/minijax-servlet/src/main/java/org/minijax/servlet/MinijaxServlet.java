@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import org.minijax.Minijax;
 import org.minijax.MinijaxApplicationContext;
 import org.minijax.MinijaxRequestContext;
+import org.minijax.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,7 +65,7 @@ public class MinijaxServlet extends HttpServlet {
                 servletResponse.setContentType(mediaType.toString());
             }
 
-            application.writeEntity(response.getEntity(), mediaType, servletResponse.getOutputStream());
+            EntityUtils.writeEntity(response.getEntity(), mediaType, application, servletResponse.getOutputStream());
 
         } catch (final IOException ex) {
             LOG.error("Unhandled exception: {}", ex.getMessage(), ex);

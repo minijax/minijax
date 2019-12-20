@@ -42,9 +42,9 @@ public class PathPatternTest {
 
     @Test
     public void testGetPathParams() {
-        assertTrue(MinijaxPathPattern.parse(getMethod("get1"), "").getParams().isEmpty());
-        assertTrue(MinijaxPathPattern.parse(getMethod("get1"), "/").getParams().isEmpty());
-        assertTrue(MinijaxPathPattern.parse(getMethod("get1"), "/foo").getParams().isEmpty());
+        assertTrue(MinijaxPathPattern.parse(getMethod("get1"), "").getParams() == null);
+        assertTrue(MinijaxPathPattern.parse(getMethod("get1"), "/").getParams() == null);
+        assertTrue(MinijaxPathPattern.parse(getMethod("get1"), "/foo").getParams() == null);
         assertEquals("x", MinijaxPathPattern.parse(getMethod("get2"), "/{x}").getParams().get(0));
         assertEquals("x", MinijaxPathPattern.parse(getMethod("get2"), "/foo/{x}").getParams().get(0));
         assertEquals("x", MinijaxPathPattern.parse(getMethod("get2"), "/foo/{x:[A-Z]+}").getParams().get(0));

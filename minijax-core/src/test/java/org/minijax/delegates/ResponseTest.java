@@ -64,7 +64,7 @@ public class ResponseTest extends MinijaxTest {
         widget.setId("123");
         widget.setValue("Hello");
 
-        final MinijaxResponse r = new MinijaxResponseBuilder().entity(widget).build();
+        final MinijaxResponse r = new MinijaxResponseBuilder(getServer().getDefaultApplication()).entity(widget).build();
         assertEquals(widget, r.getEntity());
         assertEquals(Widget.class, r.getEntityClass());
         assertEquals("(widget 123 Hello)", r.readEntity(String.class));
