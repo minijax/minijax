@@ -313,6 +313,11 @@
             </dependency>
             <dependency>
                 <groupId>org.minijax</groupId>
+                <artifactId>minijax-nio</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.minijax</groupId>
                 <artifactId>minijax-s3</artifactId>
                 <version>${project.version}</version>
             </dependency>

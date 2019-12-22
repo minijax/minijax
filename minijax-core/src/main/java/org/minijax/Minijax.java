@@ -12,6 +12,7 @@ import java.util.Properties;
 
 import javax.ws.rs.core.CacheControl;
 
+import org.apache.commons.io.IOUtils;
 import org.minijax.cdi.MinijaxInjector;
 import org.minijax.util.UrlUtils;
 
@@ -248,7 +249,9 @@ public class Minijax {
     public void start() {
         if (server == null) {
             try {
-                final Class<? extends MinijaxServer> serverClass = (Class<? extends MinijaxServer>) Class.forName("org.minijax.undertow.MinijaxUndertowServer");
+                final String serviceFile = "META-INF/services/org.minijax.MinijaxServer";
+                final String className = IOUtils.toString(Minijax.class.getClassLoader().getResourceAsStream(serviceFile)).trim();
+                final Class<? extends MinijaxServer> serverClass = (Class<? extends MinijaxServer>) Class.forName(className);
                 final Constructor<? extends MinijaxServer> serverConstructor = serverClass.getConstructor(Minijax.class);
                 server = serverConstructor.newInstance(this);
             } catch (final Exception ex) {

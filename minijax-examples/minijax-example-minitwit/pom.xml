@@ -38,11 +38,11 @@
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
-            <artifactId>minijax-security</artifactId>
+            <artifactId>minijax-nio</artifactId>
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
-            <artifactId>minijax-undertow</artifactId>
+            <artifactId>minijax-security</artifactId>
         </dependency>
     </dependencies>
     <build>

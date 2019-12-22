@@ -38,7 +38,7 @@
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
-            <artifactId>minijax-undertow</artifactId>
+            <artifactId>minijax-nio</artifactId>
         </dependency>
     </dependencies>
 </project>
