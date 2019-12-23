@@ -3,6 +3,7 @@ package org.minijax.nio;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -36,17 +37,22 @@ import org.minijax.Minijax;
 import org.minijax.MinijaxApplicationContext;
 import org.minijax.MinijaxServer;
 import org.minijax.MinijaxUriInfo;
+import org.minijax.util.CloseUtils;
 import org.minijax.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MinijaxNioServer implements MinijaxServer {
+public class MinijaxNioServer implements MinijaxServer, Closeable {
     private static final Logger LOG = LoggerFactory.getLogger(MinijaxNioServer.class);
     private static final SocketAddress ENDPOINT = new InetSocketAddress(8020);
     private static final int KEEP_ALIVE_TIMEOUT = 20000;
     private final Minijax minijax;
     private final ExecutorService executor;
     private final ExecutorCompletionService<SocketChannel> keepAliveChannels;
+    ServerSocketChannel serverChannel;
+    ServerSocket serverSocket;
+    Selector selector;
+    volatile boolean running;
 
     public MinijaxNioServer(final Minijax minijax) {
         this.minijax = minijax;
@@ -57,25 +63,18 @@ public class MinijaxNioServer implements MinijaxServer {
     @Override
     public void start() {
         try {
-            final ServerSocketChannel serverChannel = ServerSocketChannel.open();
-            serverChannel.configureBlocking(false);
-
-            final ServerSocket theServer = serverChannel.socket();
-            theServer.bind(ENDPOINT);
-
-            final Selector selector = Selector.open();
-            serverChannel.register(selector, SelectionKey.OP_ACCEPT);
+            initSocket();
 
             long lastCleanup = System.currentTimeMillis();
-            while (true) {
-                registerKeepAliveChannels(selector);
+            while (running) {
+                registerKeepAliveChannels();
                 lastCleanup = cleanupKeepAliveChannels(lastCleanup, selector.keys());
 
                 if (selector.select(10) == 0) {
                     continue;
                 }
 
-                for (final SelectionKey key: selector.selectedKeys()) {
+                for (final SelectionKey key : selector.selectedKeys()) {
                     if (key.isAcceptable()) {
                         // First connection.
                         final SocketChannel clientChannel = serverChannel.accept();
@@ -94,20 +93,54 @@ public class MinijaxNioServer implements MinijaxServer {
                 selector.selectNow();
                 serverChannel.register(selector, SelectionKey.OP_ACCEPT);
             }
-        } catch (IOException | InterruptedException | ExecutionException ex) {
+
+        } catch (final InterruptedException ex) {
+            LOG.error("Interrupted: {}", ex.getMessage(), ex);
+            Thread.currentThread().interrupt();
+
+        } catch (IOException | ExecutionException ex) {
             LOG.error("Unexpected: {}", ex.getMessage(), ex);
+
+        } finally {
+            close();
         }
     }
 
     @Override
     public void stop() {
+        running = false;
+    }
+
+    @Override
+    public void close() {
+        running = false;
+        CloseUtils.closeQuietly(selector);
+        CloseUtils.closeQuietly(serverSocket);
+        CloseUtils.closeQuietly(serverChannel);
+    }
+
+    /**
+     * Initializes the server socket and selector.
+     * Package private so tests can override.
+     */
+    void initSocket() throws IOException {
+        serverChannel = ServerSocketChannel.open();
+        serverChannel.configureBlocking(false);
+
+        serverSocket = serverChannel.socket();
+        serverSocket.bind(ENDPOINT);
+
+        selector = Selector.open();
+        serverChannel.register(selector, SelectionKey.OP_ACCEPT);
+
+        running = true;
     }
 
     /**
      * Check the pool for completion of one or more of its task and in case it's
      * keep-alive register the connection with the selector.
      */
-    private void registerKeepAliveChannels(final Selector selector)
+    private void registerKeepAliveChannels()
             throws IOException, InterruptedException, ExecutionException {
 
         final long now = System.currentTimeMillis();
