@@ -57,7 +57,7 @@ public class MinijaxNioServer implements MinijaxServer, Closeable {
     public MinijaxNioServer(final Minijax minijax) {
         this.minijax = minijax;
         this.executor = Executors.newFixedThreadPool(2);
-        this.keepAliveChannels = new ExecutorCompletionService<SocketChannel>(executor);
+        this.keepAliveChannels = new ExecutorCompletionService<>(executor);
     }
 
     @Override
