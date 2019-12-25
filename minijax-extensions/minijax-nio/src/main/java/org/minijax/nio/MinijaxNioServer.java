@@ -56,7 +56,7 @@ public class MinijaxNioServer implements MinijaxServer, Closeable {
 
     public MinijaxNioServer(final Minijax minijax) {
         this.minijax = minijax;
-        this.executor = Executors.newFixedThreadPool(2);
+        this.executor = Executors.newFixedThreadPool(8);
         this.keepAliveChannels = new ExecutorCompletionService<>(executor);
     }
 
@@ -70,7 +70,7 @@ public class MinijaxNioServer implements MinijaxServer, Closeable {
                 registerKeepAliveChannels();
                 lastCleanup = cleanupKeepAliveChannels(lastCleanup, selector.keys());
 
-                if (selector.select(10) == 0) {
+                if (selector.select(50) == 0) {
                     continue;
                 }
 
@@ -128,6 +128,8 @@ public class MinijaxNioServer implements MinijaxServer, Closeable {
         serverChannel.configureBlocking(false);
 
         serverSocket = serverChannel.socket();
+        serverSocket.setReceiveBufferSize(16 * 1024);
+        serverSocket.setReuseAddress(true);
         serverSocket.bind(ENDPOINT);
 
         selector = Selector.open();
@@ -200,6 +202,9 @@ public class MinijaxNioServer implements MinijaxServer, Closeable {
         final InputStream is = client.getInputStream();
         final BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         final String requestLine = reader.readLine();
+        if (requestLine == null) {
+            return false;
+        }
 
         // Format: VERB URI PROTOCOL/VERSION
         // Example: GET /users HTTP/1.1
