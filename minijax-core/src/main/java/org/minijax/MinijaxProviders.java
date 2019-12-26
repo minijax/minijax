@@ -155,7 +155,7 @@ public class MinijaxProviders implements Providers {
 
     @Override
     public <T> ContextResolver<T> getContextResolver(final Class<T> contextType, final MediaType mediaType) {
-        return new MinijaxContextResolver<>();
+        throw new UnsupportedOperationException();
     }
 
 

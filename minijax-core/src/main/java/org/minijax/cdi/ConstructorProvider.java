@@ -5,16 +5,17 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.enterprise.inject.InjectionException;
-import javax.inject.Provider;
 
-class ConstructorProvider<T> implements Provider<T> {
+import org.minijax.MinijaxRequestContext;
+
+class ConstructorProvider<T> implements MinijaxProvider<T> {
     private final Constructor<T> ctor;
-    private final Provider<?>[] paramProviders;
+    private final MinijaxProvider<?>[] paramProviders;
     private final List<InjectionSet<? super T>> injectionSets;
 
     public ConstructorProvider(
             final Constructor<T> ctor,
-            final Provider<?>[] paramProviders,
+            final MinijaxProvider<?>[] paramProviders,
             final List<InjectionSet<? super T>> injectionSets) {
 
         this.ctor = ctor;
@@ -23,10 +24,10 @@ class ConstructorProvider<T> implements Provider<T> {
     }
 
     @Override
-    public T get() {
+    public T get(final MinijaxRequestContext context) {
         try {
-            final T result = ctor.newInstance(getParams(paramProviders));
-            initImpl(result);
+            final T result = ctor.newInstance(getParams(paramProviders, context));
+            initImpl(result, context);
             return result;
 
         } catch (final InvocationTargetException ex) {
@@ -38,9 +39,9 @@ class ConstructorProvider<T> implements Provider<T> {
         }
     }
 
-    public T initResource(final T instance) {
+    public T initResource(final T instance, final MinijaxRequestContext context) {
         try {
-            initImpl(instance);
+            initImpl(instance, context);
             return instance;
 
         } catch (final InvocationTargetException ex) {
@@ -52,24 +53,24 @@ class ConstructorProvider<T> implements Provider<T> {
         }
     }
 
-    public void initImpl(final T result)
+    public void initImpl(final T result, final MinijaxRequestContext context)
             throws IllegalAccessException, InvocationTargetException {
 
         for (final InjectionSet<?> injectionSet : injectionSets) {
             for (final FieldProvider<?> fieldProvider : injectionSet.getFieldProviders()) {
-                fieldProvider.getField().set(result, fieldProvider.getProvider().get());
+                fieldProvider.getField().set(result, fieldProvider.getProvider().get(context));
             }
 
             for (final MethodProvider methodProvider : injectionSet.getMethodProviders()) {
-                methodProvider.getMethod().invoke(result, getParams(methodProvider.getParamProviders()));
+                methodProvider.getMethod().invoke(result, getParams(methodProvider.getParamProviders(), context));
             }
         }
     }
 
-    private Object[] getParams(final Provider<?>[] providers) {
+    private Object[] getParams(final MinijaxProvider<?>[] providers, final MinijaxRequestContext context) {
         final Object[] params = new Object[providers.length];
         for (int i = 0; i < providers.length; ++i) {
-            params[i] = providers[i].get();
+            params[i] = providers[i].get(context);
         }
         return params;
     }

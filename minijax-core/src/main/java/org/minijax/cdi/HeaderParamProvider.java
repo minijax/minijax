@@ -1,10 +1,8 @@
 package org.minijax.cdi;
 
-import javax.inject.Provider;
-
 import org.minijax.MinijaxRequestContext;
 
-class HeaderParamProvider<T> implements Provider<T> {
+class HeaderParamProvider<T> implements MinijaxProvider<T> {
     private final Key<T> key;
 
     public HeaderParamProvider(final Key<T> key) {
@@ -12,8 +10,7 @@ class HeaderParamProvider<T> implements Provider<T> {
     }
 
     @Override
-    public T get() {
-        final MinijaxRequestContext context = MinijaxRequestContext.getThreadLocal();
+    public T get(final MinijaxRequestContext context) {
         return context.getApplicationContext().convertParamToType(context.getHeaderString(key.getName()), key.getType(), key.getAnnotations());
     }
 }

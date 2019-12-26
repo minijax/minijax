@@ -30,7 +30,6 @@ public class DirectProviderTest {
 
             final Provider<MyWidget> provider = injector.getProvider(MyWidget.class);
             assertNotNull(provider);
-            assertEquals(MyWidgetProvider.class, provider.getClass());
 
             final MyWidget resource = injector.getResource(MyWidget.class);
             assertNotNull(resource);
@@ -45,7 +44,6 @@ public class DirectProviderTest {
 
             final Provider<MyWidget> provider = injector.getProvider(MyWidget.class);
             assertNotNull(provider);
-            assertEquals(MyWidgetProvider.class, provider.getClass());
 
             final MyWidget resource = injector.getResource(MyWidget.class);
             assertNotNull(resource);
@@ -62,7 +60,6 @@ public class DirectProviderTest {
 
         final Provider<MyWidget> provider = injector.getProvider(MyWidget.class);
         assertNotNull(provider);
-        assertEquals(MyWidgetProvider.class, provider.getClass());
 
         final MyWidget resource = injector.getResource(MyWidget.class);
         assertNotNull(resource);

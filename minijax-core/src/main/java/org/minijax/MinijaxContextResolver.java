@@ -11,12 +11,20 @@ import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Providers;
 
 public class MinijaxContextResolver<T> implements ContextResolver<T> {
+    private final MinijaxRequestContext context;
+
+    public MinijaxContextResolver(final MinijaxRequestContext context) {
+        this.context = context;
+    }
 
     @Override
     @SuppressWarnings("unchecked")
     public T getContext(final Class<?> c) {
-        final MinijaxRequestContext context = MinijaxRequestContext.getThreadLocal();
+        return (T) MinijaxContextResolver.getContext(context, c);
+    }
 
+    @SuppressWarnings("unchecked")
+    public static <T> T getContext(final MinijaxRequestContext context, final Class<T> c) {
         // 9.2.1
         if (c == Application.class) {
             return (T) context.getApplicationContext().getApplication();

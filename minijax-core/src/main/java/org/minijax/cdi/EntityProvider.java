@@ -7,7 +7,6 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import javax.enterprise.inject.InjectionException;
-import javax.inject.Provider;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -20,7 +19,7 @@ import org.minijax.util.EntityUtils;
  * In short, "entity" refers to the HTTP content body.  The entity provider dispatches
  * to the appropriate <code>MessageBodyReader</code> to parse the HTTP content.
  */
-public class EntityProvider<T> implements Provider<T> {
+public class EntityProvider<T> implements MinijaxProvider<T> {
     private final Class<T> entityClass;
     private final Type genericType;
     private final Annotation[] annotations;
@@ -39,9 +38,7 @@ public class EntityProvider<T> implements Provider<T> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public T get() {
-        final MinijaxRequestContext context = MinijaxRequestContext.getThreadLocal();
-
+    public T get(final MinijaxRequestContext context) {
         // Must check for forms BEFORE touching HttpServletRequest.getInputStream().
         // If you call getInputStream -- even if you don't read from it -- the input stream is moved.
         if (entityClass == MultivaluedMap.class) {

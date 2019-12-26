@@ -4,9 +4,7 @@ import static javax.ws.rs.core.MediaType.*;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
@@ -16,9 +14,6 @@ import org.minijax.view.View;
 @Provider
 @Produces(TEXT_HTML)
 public class MinijaxMustacheExceptionMapper implements ExceptionMapper<Exception> {
-
-    @Context
-    private UriInfo uriInfo;
 
     @Override
     public Response toResponse(final Exception exception) {

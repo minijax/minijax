@@ -32,7 +32,6 @@ import org.minijax.util.IOUtils;
 public abstract class MinijaxRequestContext
         implements javax.ws.rs.container.ContainerRequestContext, Closeable {
 
-    private static final ThreadLocal<MinijaxRequestContext> threadLocalContexts = new ThreadLocal<>();
     private final MinijaxApplicationContext applicationContext;
     private final ResourceCache resourceCache;
     private final Map<String, Object> properties;
@@ -45,7 +44,6 @@ public abstract class MinijaxRequestContext
         applicationContext = container;
         resourceCache = new ResourceCache();
         properties = new HashMap<>();
-        threadLocalContexts.set(this);
     }
 
     public MinijaxApplicationContext getApplicationContext() {
@@ -221,8 +219,6 @@ public abstract class MinijaxRequestContext
         if (form != null) {
             form.close();
         }
-
-        threadLocalContexts.remove();
     }
 
     public ResourceCache getResourceCache() {
@@ -230,7 +226,7 @@ public abstract class MinijaxRequestContext
     }
 
     public <T> T get(final Class<T> c) {
-        return getApplicationContext().getResource(c);
+        return applicationContext.getInjector().getResource(c, this);
     }
 
     public MinijaxResourceMethod getResourceMethod() {
@@ -239,17 +235,5 @@ public abstract class MinijaxRequestContext
 
     public void setResourceMethod(final MinijaxResourceMethod resourceMethod) {
         this.resourceMethod = resourceMethod;
-    }
-
-    public static MinijaxRequestContext getThreadLocal() {
-        final MinijaxRequestContext context = threadLocalContexts.get();
-        if (context == null) {
-            throw new IllegalStateException("Minijax request context not found");
-        }
-        return context;
-    }
-
-    public static MinijaxRequestContext tryGetThreadLocal() {
-        return threadLocalContexts.get();
     }
 }

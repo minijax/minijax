@@ -17,8 +17,8 @@ public class MinijaxUndertowWebSocketAdapter {
     private final MinijaxUndertowWebSocketMethod messageMethod;
     private final MinijaxUndertowWebSocketMethod errorMethod;
 
-    public MinijaxUndertowWebSocketAdapter(final Class<?> endpointClass) {
-        endpoint = MinijaxRequestContext.getThreadLocal().get(endpointClass);
+    public MinijaxUndertowWebSocketAdapter(final MinijaxRequestContext context, final Class<?> endpointClass) {
+        endpoint = context.get(endpointClass);
 
         MinijaxUndertowWebSocketMethod open = null;
         MinijaxUndertowWebSocketMethod close = null;

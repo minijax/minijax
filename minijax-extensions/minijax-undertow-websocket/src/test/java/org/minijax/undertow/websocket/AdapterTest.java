@@ -43,7 +43,7 @@ public class AdapterTest extends MinijaxTest {
     @Test
     public void testOnOpen() throws IOException {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
-            final MinijaxUndertowWebSocketAdapter adapter = new MinijaxUndertowWebSocketAdapter(TestSocket1.class);
+            final MinijaxUndertowWebSocketAdapter adapter = new MinijaxUndertowWebSocketAdapter(ctx, TestSocket1.class);
             adapter.onOpen(emptyMap());
             adapter.onMessage(emptyMap());
             adapter.onClose(emptyMap());
@@ -54,7 +54,7 @@ public class AdapterTest extends MinijaxTest {
     @Test
     public void testOnMessage() throws IOException {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
-            final MinijaxUndertowWebSocketAdapter adapter = new MinijaxUndertowWebSocketAdapter(TestSocket2.class);
+            final MinijaxUndertowWebSocketAdapter adapter = new MinijaxUndertowWebSocketAdapter(ctx, TestSocket2.class);
             adapter.onOpen(emptyMap());
             adapter.onMessage(singletonMap(String.class, "test"));
             adapter.onClose(emptyMap());
@@ -65,7 +65,7 @@ public class AdapterTest extends MinijaxTest {
     @Test
     public void testOnClose() throws IOException {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
-            final MinijaxUndertowWebSocketAdapter adapter = new MinijaxUndertowWebSocketAdapter(TestSocket3.class);
+            final MinijaxUndertowWebSocketAdapter adapter = new MinijaxUndertowWebSocketAdapter(ctx, TestSocket3.class);
             adapter.onOpen(emptyMap());
             adapter.onMessage(emptyMap());
             adapter.onClose(emptyMap());
@@ -76,7 +76,7 @@ public class AdapterTest extends MinijaxTest {
     @Test
     public void testOnError() throws IOException {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
-            final MinijaxUndertowWebSocketAdapter adapter = new MinijaxUndertowWebSocketAdapter(TestSocket4.class);
+            final MinijaxUndertowWebSocketAdapter adapter = new MinijaxUndertowWebSocketAdapter(ctx, TestSocket4.class);
             adapter.onOpen(emptyMap());
             adapter.onMessage(emptyMap());
             adapter.onClose(emptyMap());

@@ -36,7 +36,7 @@ public class MinijaxUndertowWebSocketConnectionCallback implements WebSocketConn
             final Map<Class<?>, Object> params = new HashMap<>();
             params.put(javax.websocket.Session.class, new MinijaxUndertowWebSocketSession(basicRemote));
 
-            final MinijaxUndertowWebSocketAdapter endpoint = new MinijaxUndertowWebSocketAdapter(endpointClass);
+            final MinijaxUndertowWebSocketAdapter endpoint = new MinijaxUndertowWebSocketAdapter(ctx, endpointClass);
             endpoint.onOpen(params);
 
             channel.getReceiveSetter().set(new MinijaxUndertowWebSocketListener(application, endpoint, exchange));

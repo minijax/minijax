@@ -1,7 +1,6 @@
 package org.minijax.cdi;
 
 import static javax.ws.rs.HttpMethod.*;
-
 import static org.junit.Assert.*;
 
 import java.io.IOException;
@@ -29,9 +28,9 @@ public class RequestScopedTest {
         A a2;
 
         try (MinijaxRequestContext context = new MinijaxTestRequestContext(application, GET, "/")) {
-            a1 = container.getResource(A.class);
+            a1 = context.get(A.class);
             assertNotNull(a1);
-            a2 = container.getResource(A.class);
+            a2 = context.get(A.class);
             assertEquals(a1, a2);
             assertTrue(a1 == a2);
         }
@@ -40,9 +39,9 @@ public class RequestScopedTest {
         A a4;
 
         try (MinijaxRequestContext context = new MinijaxTestRequestContext(application, GET, "/")) {
-            a3 = container.getResource(A.class);
+            a3 = context.get(A.class);
             assertNotNull(a3);
-            a4 = container.getResource(A.class);
+            a4 = context.get(A.class);
             assertEquals(a3, a4);
             assertTrue(a3 == a4);
         }

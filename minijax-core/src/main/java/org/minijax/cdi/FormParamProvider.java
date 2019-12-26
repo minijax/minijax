@@ -2,14 +2,13 @@ package org.minijax.cdi;
 
 import java.io.InputStream;
 
-import javax.inject.Provider;
 import javax.ws.rs.DefaultValue;
 
 import org.minijax.MinijaxForm;
 import org.minijax.MinijaxRequestContext;
 import org.minijax.multipart.Part;
 
-class FormParamProvider<T> implements Provider<T> {
+class FormParamProvider<T> implements MinijaxProvider<T> {
     private final Key<T> key;
 
     public FormParamProvider(final Key<T> key) {
@@ -18,8 +17,7 @@ class FormParamProvider<T> implements Provider<T> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public T get() {
-        final MinijaxRequestContext context = MinijaxRequestContext.getThreadLocal();
+    public T get(final MinijaxRequestContext context) {
         final Class<?> c = key.getType();
         final MinijaxForm form = context.getForm();
         final String name = key.getName();

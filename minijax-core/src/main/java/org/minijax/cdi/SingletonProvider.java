@@ -2,15 +2,14 @@ package org.minijax.cdi;
 
 import java.io.Closeable;
 
-import javax.inject.Provider;
-
+import org.minijax.MinijaxRequestContext;
 import org.minijax.util.CloseUtils;
 
-class SingletonProvider<T> implements Provider<T>, Closeable {
-    private final Provider<T> sourceProvider;
+class SingletonProvider<T> implements MinijaxProvider<T>, Closeable {
+    private final MinijaxProvider<T> sourceProvider;
     private T instance;
 
-    public SingletonProvider(final Provider<T> sourceProvider) {
+    public SingletonProvider(final MinijaxProvider<T> sourceProvider) {
         this.sourceProvider = sourceProvider;
     }
 
@@ -20,9 +19,9 @@ class SingletonProvider<T> implements Provider<T>, Closeable {
     }
 
     @Override
-    public T get() {
+    public T get(final MinijaxRequestContext context) {
         if (instance == null) {
-            instance = sourceProvider.get();
+            instance = sourceProvider.get(context);
         }
         return instance;
     }

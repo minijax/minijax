@@ -22,7 +22,6 @@ import java.util.Set;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.inject.Provider;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.HttpMethod;
@@ -48,6 +47,7 @@ import javax.ws.rs.ext.ParamConverter;
 
 import org.minijax.cdi.EntityProvider;
 import org.minijax.cdi.MinijaxInjector;
+import org.minijax.cdi.MinijaxProvider;
 import org.minijax.delegates.MinijaxResponseBuilder;
 import org.minijax.util.ClassPathScanner;
 import org.minijax.util.ExceptionUtils;
@@ -84,11 +84,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         providers = new MinijaxProviders(this);
     }
 
-    public static MinijaxApplicationContext getApplicationContext() {
-        final MinijaxRequestContext ctx = MinijaxRequestContext.tryGetThreadLocal();
-        return ctx == null ? null : ctx.getApplicationContext();
-    }
-
     public Application getApplication() {
         return new MinijaxApplicationView(this);
     }
@@ -98,7 +93,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
     }
 
     public <T> T getResource(final Class<T> c) {
-        return getInjector().getResource(c);
+        return getInjector().getResource(c, null);
     }
 
     public String getPath() {
@@ -517,7 +512,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
 
         try {
             if (securityContextClass != null) {
-                context.setSecurityContext(getResource(securityContextClass));
+                context.setSecurityContext(context.get(securityContextClass));
             }
 
             runRequestFilters(context);
@@ -552,7 +547,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
 
     private void runRequestFilters(final MinijaxRequestContext context) throws IOException {
         for (final Class<? extends ContainerRequestFilter> filterClass : requestFilters) {
-            final ContainerRequestFilter filter = getResource(filterClass);
+            final ContainerRequestFilter filter = context.get(filterClass);
             filter.filter(context);
         }
     }
@@ -561,7 +556,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
     private void runResponseFilters(final MinijaxRequestContext context, final Response response) throws IOException {
         final ContainerResponseContext responseContext = (ContainerResponseContext) response;
         for (final Class<? extends ContainerResponseFilter> filterClass : responseFilters) {
-            final ContainerResponseFilter filter = getResource(filterClass);
+            final ContainerResponseFilter filter = context.get(filterClass);
             filter.filter(context, responseContext);
         }
     }
@@ -615,11 +610,11 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
      * @param method The resource method.
      * @return The array of resource method param providers.
      */
-    private Provider<?>[] getParamProviders(final Method method) {
+    private MinijaxProvider<?>[] getParamProviders(final Method method) {
         final Class<?>[] paramClasses = method.getParameterTypes();
         final Type[] paramTypes = method.getGenericParameterTypes();
         final Annotation[][] annotations = method.getParameterAnnotations();
-        final Provider<?>[] result = new Provider<?>[paramTypes.length];
+        final MinijaxProvider<?>[] result = new MinijaxProvider<?>[paramTypes.length];
 
         final Consumes consumes = method.getAnnotation(Consumes.class);
         final List<MediaType> consumesTypes = MediaTypeUtils.parseMediaTypes(consumes);

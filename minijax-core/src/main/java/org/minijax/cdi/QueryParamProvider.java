@@ -1,10 +1,8 @@
 package org.minijax.cdi;
 
-import javax.inject.Provider;
-
 import org.minijax.MinijaxRequestContext;
 
-class QueryParamProvider<T> implements Provider<T> {
+class QueryParamProvider<T> implements MinijaxProvider<T> {
     private final Key<T> key;
 
     public QueryParamProvider(final Key<T> key) {
@@ -12,8 +10,7 @@ class QueryParamProvider<T> implements Provider<T> {
     }
 
     @Override
-    public T get() {
-        final MinijaxRequestContext context = MinijaxRequestContext.getThreadLocal();
+    public T get(final MinijaxRequestContext context) {
         String value = context.getUriInfo().getQueryParameters().getFirst(key.getName());
 
         if (value == null && key.getDefaultValue() != null) {

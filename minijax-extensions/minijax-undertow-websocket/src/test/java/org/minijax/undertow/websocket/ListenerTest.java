@@ -31,7 +31,7 @@ public class ListenerTest extends MinijaxTest {
         final MinijaxApplicationContext application = minijax.getDefaultApplication();
 
         try (final MinijaxRequestContext ctx = createRequestContext()) {
-            final MinijaxUndertowWebSocketAdapter adapter = new MinijaxUndertowWebSocketAdapter(TestSocket.class);
+            final MinijaxUndertowWebSocketAdapter adapter = new MinijaxUndertowWebSocketAdapter(ctx, TestSocket.class);
             final WebSocketHttpExchange exchange = mock(WebSocketHttpExchange.class);
             final MinijaxUndertowWebSocketListener listener = new MinijaxUndertowWebSocketListener(application, adapter, exchange);
             final WebSocketChannel channel = mock(WebSocketChannel.class);

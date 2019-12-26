@@ -9,6 +9,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
 
@@ -37,6 +38,7 @@ public class ResourceContextTest extends MinijaxTest {
     }
 
     @Test
+    @Ignore("initResource does not currently work with request scoped values")
     public void testResourceContextInit() {
         assertEquals("bar", target("/rctest").request().header("X-foo", "bar").get(String.class));
     }

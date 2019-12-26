@@ -12,33 +12,33 @@ import java.util.Objects;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.inject.Provider;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
+import org.minijax.cdi.MinijaxProvider;
 import org.minijax.util.MediaTypeUtils;
 import org.minijax.util.UrlUtils;
 
 class MinijaxResourceMethod implements javax.ws.rs.container.ResourceInfo {
     private final String httpMethod;
     private final Method method;
-    private final Provider<?>[] paramProviders;
+    private final MinijaxProvider<?>[] paramProviders;
     private final MinijaxPathPattern pathPattern;
     private final List<MediaType> produces;
     private final Annotation securityAnnotation;
     final int literalLength;
 
-    public MinijaxResourceMethod(final String httpMethod, final Method method, final Provider<?>[] paramProviders) {
+    public MinijaxResourceMethod(final String httpMethod, final Method method, final MinijaxProvider<?>[] paramProviders) {
         this(httpMethod, method, paramProviders, findPath(method), findProduces(method), findSecurityAnnotation(method));
     }
 
     MinijaxResourceMethod(
             final String httpMethod,
             final Method method,
-            final Provider<?>[] paramProviders,
+            final MinijaxProvider<?>[] paramProviders,
             final String path,
             final List<MediaType> produces,
             final Annotation securityAnnotation) {
@@ -81,7 +81,7 @@ class MinijaxResourceMethod implements javax.ws.rs.container.ResourceInfo {
 
         final Object[] params = new Object[paramProviders.length];
         for (int i = 0; i < paramProviders.length; ++i) {
-            params[i] = paramProviders[i].get();
+            params[i] = paramProviders[i].get(ctx);
         }
 
         try {

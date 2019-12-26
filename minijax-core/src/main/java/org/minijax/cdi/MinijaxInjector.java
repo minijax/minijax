@@ -19,6 +19,7 @@ import javax.ws.rs.container.ResourceContext;
 
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.minijax.MinijaxApplicationContext;
+import org.minijax.MinijaxRequestContext;
 import org.minijax.util.CloseUtils;
 import org.minijax.util.CopyOnWriteMap;
 import org.minijax.util.PersistenceUtils;
@@ -30,7 +31,7 @@ import org.minijax.util.PersistenceUtils;
  */
 public class MinijaxInjector implements ResourceContext, Closeable {
     private final MinijaxApplicationContext application;
-    private final Map<Key<?>, Provider<?>> providers = new CopyOnWriteMap<>();
+    private final Map<Key<?>, MinijaxProvider<?>> providers = new CopyOnWriteMap<>();
 
     public MinijaxInjector() {
         this(null);
@@ -41,9 +42,14 @@ public class MinijaxInjector implements ResourceContext, Closeable {
     }
 
     public MinijaxInjector register(final Object instance, final Class<?> contract) {
-        final Provider<?> provider = instance instanceof Provider
-                ? (Provider<?>) instance
-                : new SingletonProvider<>(instance);
+        final MinijaxProvider<?> provider;
+        if (instance instanceof MinijaxProvider) {
+            provider = (MinijaxProvider<?>) instance;
+        } else if (instance instanceof Provider) {
+            provider = new WrapperProvider<>((Provider<?>) instance);
+        } else {
+            provider = new SingletonProvider<>(instance);
+        }
         providers.put(Key.of(contract), provider);
         return this;
     }
@@ -65,9 +71,9 @@ public class MinijaxInjector implements ResourceContext, Closeable {
 
     public Set<Object> getSingletons() {
         final Set<Object> result = new HashSet<>();
-        for (final Provider<?> provider : providers.values()) {
+        for (final MinijaxProvider<?> provider : providers.values()) {
             if (provider instanceof SingletonProvider) {
-                result.add(provider.get());
+                result.add(provider.get(null));
             }
         }
         return result;
@@ -78,8 +84,8 @@ public class MinijaxInjector implements ResourceContext, Closeable {
         return getProvider(c).get();
     }
 
-    public <T> T getResource(final Class<T> c, final Annotation[] annotations) {
-        return getProvider(c, annotations).get();
+    public <T> T getResource(final Class<T> c, final MinijaxRequestContext context) {
+        return getProvider(c).get(context);
     }
 
     @Override
@@ -90,21 +96,21 @@ public class MinijaxInjector implements ResourceContext, Closeable {
             throw new InjectionException("Cannot init resource class " + resource.getClass());
         }
         final ConstructorProvider<T> ctorProvider = (ConstructorProvider<T>) provider;
-        ctorProvider.initResource(resource);
+        ctorProvider.initResource(resource, null);
         return resource;
     }
 
-    public <T> Provider<T> getProvider(final Class<T> c) {
+    public <T> MinijaxProvider<T> getProvider(final Class<T> c) {
         return getProvider(Key.<T>of(c), null);
     }
 
-    public <T> Provider<T> getProvider(final Class<T> c, final Annotation[] annotations) {
+    public <T> MinijaxProvider<T> getProvider(final Class<T> c, final Annotation[] annotations) {
         return getProvider(Key.<T>of(c, annotations), null);
     }
 
     @SuppressWarnings({ "squid:S3824", "unchecked" })
-    <T> Provider<T> getProvider(final Key<T> key, final Set<Key<?>> chain) {
-        Provider<T> result = (Provider<T>) providers.get(key);
+    <T> MinijaxProvider<T> getProvider(final Key<T> key, final Set<Key<?>> chain) {
+        MinijaxProvider<T> result = (MinijaxProvider<T>) providers.get(key);
 
         if (result == null) {
             result = buildProvider(key, chain);
@@ -116,12 +122,17 @@ public class MinijaxInjector implements ResourceContext, Closeable {
 
 
     @SuppressWarnings("unchecked")
-    private <T> Provider<T> buildProvider(final Key<T> key, final Set<Key<?>> chain) {
-        final Provider<T> p;
+    private <T> MinijaxProvider<T> buildProvider(final Key<T> key, final Set<Key<?>> chain) {
+        final MinijaxProvider<T> p;
 
         switch (key.getStrategy()) {
         case DIRECT:
-            p = ((Provider<Provider<T>>) getConstructorProvider(key, chain)).get();
+            final T ctorProvider = getConstructorProvider(key, chain).get(null);
+            if (!(ctorProvider instanceof MinijaxProvider)) {
+                p = new WrapperProvider<>((Provider<T>) ctorProvider);
+            } else {
+                p = (MinijaxProvider<T>) ctorProvider;
+            }
             break;
         case CONTEXT:
             p = new ContextProvider<>(key);
@@ -190,11 +201,11 @@ public class MinijaxInjector implements ResourceContext, Closeable {
 
     private void registerEntityManagerFactory(final EntityManagerFactory emf, final String name) {
         final Key<EntityManagerFactory> emfKey = Key.of(EntityManagerFactory.class, name);
-        final Provider<EntityManagerFactory> emfProvider = new SingletonProvider<>(emf);
+        final MinijaxProvider<EntityManagerFactory> emfProvider = new SingletonProvider<>(emf);
         providers.put(emfKey, emfProvider);
 
         final Key<EntityManager> emKey = Key.ofPersistenceContext(name);
-        final Provider<EntityManager> emProvider = new RequestScopedProvider<>(emKey, new EntityManagerProvider(emf));
+        final MinijaxProvider<EntityManager> emProvider = new RequestScopedProvider<>(emKey, new EntityManagerProvider(emf));
         providers.put(emKey, emProvider);
     }
 

@@ -1,10 +1,9 @@
 package org.minijax.cdi;
 
-import javax.inject.Provider;
-
+import org.minijax.MinijaxContextResolver;
 import org.minijax.MinijaxRequestContext;
 
-class ContextProvider<T> implements Provider<T> {
+class ContextProvider<T> implements MinijaxProvider<T> {
     private final Key<T> key;
 
     public ContextProvider(final Key<T> key) {
@@ -12,12 +11,7 @@ class ContextProvider<T> implements Provider<T> {
     }
 
     @Override
-    public T get() {
-        final Class<T> c = key.getType();
-        return MinijaxRequestContext.getThreadLocal()
-                .getApplicationContext()
-                .getProviders()
-                .getContextResolver(c, null)
-                .getContext(c);
+    public T get(final MinijaxRequestContext context) {
+        return MinijaxContextResolver.getContext(context, key.getType());
     }
 }

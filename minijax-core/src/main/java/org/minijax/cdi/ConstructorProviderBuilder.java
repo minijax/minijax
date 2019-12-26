@@ -63,7 +63,7 @@ class ConstructorProviderBuilder<T> {
 
     public ConstructorProvider<T> build() {
         final Constructor<T> constructor = getConstructor(key);
-        final Provider<?>[] paramProviders = getParamProviders(key, constructor, chain);
+        final MinijaxProvider<?>[] paramProviders = getParamProviders(key, constructor, chain);
         final List<InjectionSet<? super T>> injectionSets = buildInjectionSets();
         return new ConstructorProvider<>(constructor, paramProviders, injectionSets);
     }
@@ -242,18 +242,18 @@ class ConstructorProviderBuilder<T> {
         return false;
     }
 
-    private Provider<?>[] getParamProviders(final Key<?> key, final Executable executable, final Set<Key<?>> chain) {
+    private MinijaxProvider<?>[] getParamProviders(final Key<?> key, final Executable executable, final Set<Key<?>> chain) {
         final Class<?>[] paramClasses = executable.getParameterTypes();
         final Type[] paramTypes = executable.getGenericParameterTypes();
         final Annotation[][] annotations = executable.getParameterAnnotations();
-        final Provider<?>[] result = new Provider<?>[paramTypes.length];
+        final MinijaxProvider<?>[] result = new MinijaxProvider<?>[paramTypes.length];
         for (int i = 0; i < paramTypes.length; ++i) {
             result[i] = getParamProvider(key, paramClasses[i], paramTypes[i], annotations[i], chain);
         }
         return result;
     }
 
-    private Provider<?> getParamProvider(
+    private MinijaxProvider<?> getParamProvider(
             final Key<?> key,
             final Class<?> parameterClass,
             final Type paramType,
@@ -273,7 +273,7 @@ class ConstructorProviderBuilder<T> {
             return injector.getProvider(newKey, newChain);
         } else {
             final Key<?> newKey = Key.of(providerType, paramAnnotations);
-            return () -> injector.getProvider(newKey, null);
+            return context -> injector.getProvider(newKey, null);
         }
     }
 

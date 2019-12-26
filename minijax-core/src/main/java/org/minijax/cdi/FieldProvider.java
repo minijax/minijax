@@ -2,13 +2,11 @@ package org.minijax.cdi;
 
 import java.lang.reflect.Field;
 
-import javax.inject.Provider;
-
 class FieldProvider<T> {
     private final Field field;
-    private final Provider<T> provider;
+    private final MinijaxProvider<T> provider;
 
-    public FieldProvider(final Field field, final Provider<T> provider) {
+    public FieldProvider(final Field field, final MinijaxProvider<T> provider) {
         this.field = field;
         this.provider = provider;
     }
@@ -17,7 +15,7 @@ class FieldProvider<T> {
         return field;
     }
 
-    public Provider<T> getProvider() {
+    public MinijaxProvider<T> getProvider() {
         return provider;
     }
 }

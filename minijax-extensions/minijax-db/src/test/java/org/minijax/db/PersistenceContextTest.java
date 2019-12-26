@@ -1,7 +1,6 @@
 package org.minijax.db;
 
 import static javax.ws.rs.HttpMethod.*;
-
 import static org.junit.Assert.*;
 
 import java.io.IOException;
@@ -42,7 +41,7 @@ public class PersistenceContextTest {
         final MinijaxApplicationContext application = container.getDefaultApplication();
 
         try (MinijaxRequestContext context = new MinijaxTestRequestContext(application, GET, "/")) {
-            final PersistenceContextDao dao = container.getResource(PersistenceContextDao.class);
+            final PersistenceContextDao dao = context.get(PersistenceContextDao.class);
 
             final Widget widget = new Widget();
             widget.setName("test");

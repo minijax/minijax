@@ -2,13 +2,11 @@ package org.minijax.cdi;
 
 import java.lang.reflect.Method;
 
-import javax.inject.Provider;
-
 class MethodProvider {
     private final Method method;
-    private final Provider<?>[] paramProviders;
+    private final MinijaxProvider<?>[] paramProviders;
 
-    public MethodProvider(final Method method, final Provider<?>[] paramProviders) {
+    public MethodProvider(final Method method, final MinijaxProvider<?>[] paramProviders) {
         this.method = method;
         this.paramProviders = paramProviders;
     }
@@ -18,7 +16,7 @@ class MethodProvider {
     }
 
     @SuppressWarnings("squid:S1452")
-    public Provider<?>[] getParamProviders() {
+    public MinijaxProvider<?>[] getParamProviders() {
         return paramProviders;
     }
 }
