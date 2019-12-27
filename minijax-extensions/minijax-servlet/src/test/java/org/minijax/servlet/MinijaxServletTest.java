@@ -20,6 +20,7 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -33,6 +34,7 @@ import org.junit.Test;
 
 public class MinijaxServletTest {
 
+    @ApplicationPath("/")
     public static class TestApp extends Application {
 
         @Override

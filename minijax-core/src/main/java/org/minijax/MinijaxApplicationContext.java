@@ -22,6 +22,7 @@ import java.util.Set;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.HttpMethod;
@@ -49,7 +50,6 @@ import org.minijax.cdi.EntityProvider;
 import org.minijax.cdi.MinijaxInjector;
 import org.minijax.cdi.MinijaxProvider;
 import org.minijax.delegates.MinijaxResponseBuilder;
-import org.minijax.util.ClassPathScanner;
 import org.minijax.util.ExceptionUtils;
 import org.minijax.util.MediaTypeUtils;
 import org.minijax.util.OptionalClasses;
@@ -82,6 +82,27 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         requestFilters = new ArrayList<>();
         responseFilters = new ArrayList<>();
         providers = new MinijaxProviders(this);
+    }
+
+
+    /**
+     * Registers a <code>javax.ws.rs.core.Application</code> class.
+     *
+     * Instantiate the class and register the individual components.
+     *
+     * Note the somewhat indirect relationship between:
+     *   1) Registering an Application
+     *   2) Creating an ApplicationContext
+     *   3) Using an Application later via MinijaxApplicationView.
+     *
+     * Minijax does not make any guarantees about the consistency of the application instance.
+     *
+     * @param applicationClass The application class.
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public MinijaxApplicationContext(final Class<Application> applicationClass) {
+        this(applicationClass.getAnnotation(ApplicationPath.class).value());
+        registerApplication(applicationClass);
     }
 
     public Application getApplication() {
@@ -267,14 +288,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
     }
 
 
-    public MinijaxApplicationContext packages(final String... packageNames) {
-        for (final String packageName : packageNames) {
-            scanPackage(packageName);
-        }
-        return this;
-    }
-
-
     public MinijaxApplicationContext allowCors(final String urlPrefix) {
         register(MinijaxCorsFilter.class);
         getResource(MinijaxCorsFilter.class).addPathPrefix(urlPrefix);
@@ -291,41 +304,11 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
      * Private helpers
      */
 
-
-    private void scanPackage(final String packageName) {
-        try {
-            for (final Class<?> c : ClassPathScanner.scan(packageName)) {
-                if (isAutoScanClass(c)) {
-                    registerImpl(c);
-                    registerInterfaces(c);
-                }
-            }
-        } catch (final IOException ex) {
-            throw new MinijaxException(ex.getMessage(), ex);
-        }
-    }
-
-
-    private boolean isAutoScanClass(final Class<?> c) {
-        for (final Annotation a : c.getAnnotations()) {
-            final Class<?> t = a.annotationType();
-            if (t == javax.ws.rs.ext.Provider.class
-                    || t == javax.ws.rs.ApplicationPath.class
-                    || t == javax.ws.rs.Path.class
-                    || t == OptionalClasses.SERVER_ENDPOINT) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
     private void registerImpl(final Class<?> c) {
         if (classesScanned.contains(c)) {
             return;
         }
 
-        registerApplication(c);
         registerProvider(c);
         registerResourceMethods(c);
         registerWebSockets(c);
@@ -336,23 +319,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         providers.register(c);
         classesScanned.add(c);
     }
-
-
-    /**
-     * Registers a class for all implemented interfaces.
-     *
-     * For example, imagine <code>class MyServiceImpl implements MyService</code>.
-     *
-     * Make sure that <code>MyServiceImpl</code> is registered as a provider for <code>MyService</code>.
-     *
-     * @param c The auto scanned class.
-     */
-    private void registerInterfaces(final Class<?> c) {
-        for (final Class<?> implementedInterface : c.getInterfaces()) {
-            getInjector().register(c, implementedInterface);
-        }
-    }
-
 
     /**
      * Registers a <code>javax.ws.rs.core.Application</code> class.
@@ -370,10 +336,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private void registerApplication(final Class<?> c) {
-        if (!javax.ws.rs.core.Application.class.isAssignableFrom(c)) {
-            return;
-        }
-
         final Application app = (Application) getInjector().getResource(c);
 
         final Map<String, Object> properties = app.getProperties();
@@ -412,12 +374,9 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         for (final Type genericInterface : c.getGenericInterfaces()) {
             if (genericInterface instanceof ParameterizedType) {
                 final ParameterizedType parameterizedType = (ParameterizedType) genericInterface;
-                if (parameterizedType.getRawType() == javax.inject.Provider.class
-                        && parameterizedType.getActualTypeArguments().length == 1) {
+                if (parameterizedType.getRawType() == javax.inject.Provider.class) {
                     final Type typeArgument = parameterizedType.getActualTypeArguments()[0];
-                    if (typeArgument instanceof Class) {
-                        getInjector().register(c, (Class<?>) typeArgument);
-                    }
+                    getInjector().register(c, (Class<?>) typeArgument);
                 }
             }
         }

@@ -1,10 +1,10 @@
 package org.minijax;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.ws.rs.RuntimeType;
 import javax.ws.rs.core.Feature;
@@ -35,6 +35,14 @@ public class ApplicationContextTest {
     @Test
     public void testSetProperty() {
         app.property("foo", "bar");
+        assertEquals("bar", app.getProperty("foo"));
+    }
+
+    @Test
+    public void testProperties() {
+        final Properties props = new Properties();
+        props.put("foo", "bar");
+        minijax.properties(props);
         assertEquals("bar", app.getProperty("foo"));
     }
 

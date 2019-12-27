@@ -130,7 +130,7 @@ public class MinijaxNioServer implements MinijaxServer, Closeable {
         serverSocket = serverChannel.socket();
         serverSocket.setReceiveBufferSize(16 * 1024);
         serverSocket.setReuseAddress(true);
-        serverSocket.bind(ENDPOINT);
+        serverSocket.bind(ENDPOINT, 16 * 1024);
 
         selector = Selector.open();
         serverChannel.register(selector, SelectionKey.OP_ACCEPT);
@@ -279,6 +279,7 @@ public class MinijaxNioServer implements MinijaxServer, Closeable {
                 bufferedOutputStream.writeTo(outputStream);
             }
 
+            outputStream.flush();
             return keepAlive;
         }
     }

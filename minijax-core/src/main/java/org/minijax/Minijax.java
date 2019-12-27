@@ -3,6 +3,7 @@ package org.minijax;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.net.URI;
 import java.util.ArrayList;
@@ -10,10 +11,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.ws.rs.core.Application;
 import javax.ws.rs.core.CacheControl;
 
 import org.apache.commons.io.IOUtils;
 import org.minijax.cdi.MinijaxInjector;
+import org.minijax.util.ClassPathScanner;
+import org.minijax.util.OptionalClasses;
 import org.minijax.util.UrlUtils;
 
 /**
@@ -44,77 +48,66 @@ public class Minijax {
     @SuppressWarnings("squid:S1313")
     public static final String DEFAULT_HOST = "0.0.0.0";
     public static final String DEFAULT_PORT = "8080";
-    private final MinijaxApplicationContext defaultApplication;
     private final List<MinijaxApplicationContext> applications;
     private MinijaxServer server;
 
     public Minijax() {
-        defaultApplication = new MinijaxApplicationContext("/");
         applications = new ArrayList<>();
-        applications.add(defaultApplication);
     }
 
-
-    public MinijaxInjector getInjector() {
-        return defaultApplication.getInjector();
+    List<MinijaxApplicationContext> getApplications() {
+        return applications;
     }
-
-
-    public <T> T getResource(final Class<T> c) {
-        return defaultApplication.getResource(c);
-    }
-
-
-    public Map<String, Object> getProperties() {
-        return defaultApplication.getProperties();
-    }
-
-
-    public Minijax property(final String name, final Object value) {
-        defaultApplication.property(name, value);
-        return this;
-    }
-
-
-    public Minijax properties(final Map<String, String> props) {
-        defaultApplication.properties(props);
-        return this;
-    }
-
-
-    public Minijax properties(final Properties props) {
-        defaultApplication.properties(props);
-        return this;
-    }
-
-
-    public Minijax properties(final File file) throws IOException {
-        defaultApplication.properties(file);
-        return this;
-    }
-
-
-    public Minijax properties(final InputStream inputStream) throws IOException {
-        defaultApplication.properties(inputStream);
-        return this;
-    }
-
-
-    public Minijax properties(final String fileName) throws IOException {
-        defaultApplication.properties(fileName);
-        return this;
-    }
-
 
     public MinijaxApplicationContext getDefaultApplication() {
-        return defaultApplication;
+        if (applications.isEmpty()) {
+            applications.add(new MinijaxApplicationContext("/"));
+        }
+        return applications.get(0);
     }
 
+    public MinijaxInjector getInjector() {
+        return getDefaultApplication().getInjector();
+    }
+
+    public <T> T getResource(final Class<T> c) {
+        return getDefaultApplication().getResource(c);
+    }
+
+    public Minijax property(final String name, final Object value) {
+        getDefaultApplication().property(name, value);
+        return this;
+    }
+
+    public Minijax properties(final Map<String, String> props) {
+        getDefaultApplication().properties(props);
+        return this;
+    }
+
+    public Minijax properties(final Properties props) {
+        getDefaultApplication().properties(props);
+        return this;
+    }
+
+    public Minijax properties(final File file) throws IOException {
+        getDefaultApplication().properties(file);
+        return this;
+    }
+
+    public Minijax properties(final InputStream inputStream) throws IOException {
+        getDefaultApplication().properties(inputStream);
+        return this;
+    }
+
+    public Minijax properties(final String fileName) throws IOException {
+        getDefaultApplication().properties(fileName);
+        return this;
+    }
 
     public MinijaxApplicationContext getApplication(final URI requestUri) {
         if (applications.size() == 1) {
             // Common case is only the default application
-            return defaultApplication;
+            return applications.get(0);
         }
         final String requestPath = requestUri.getPath();
         for (final MinijaxApplicationContext application : applications) {
@@ -125,60 +118,82 @@ public class Minijax {
         return null;
     }
 
-
+    @SuppressWarnings("unchecked")
     public Minijax register(final Class<?> componentClass) {
-        defaultApplication.register(componentClass);
+        if (javax.ws.rs.core.Application.class.isAssignableFrom(componentClass)) {
+            applications.add(new MinijaxApplicationContext((Class<Application>) componentClass));
+        } else {
+            getDefaultApplication().register(componentClass);
+        }
         return this;
     }
-
 
     public Minijax register(final Class<?> componentClass, final int priority) {
-        defaultApplication.register(componentClass, priority);
+        getDefaultApplication().register(componentClass, priority);
         return this;
     }
-
 
     public Minijax register(final Class<?> componentClass, final Class<?>... contracts) {
-        defaultApplication.register(componentClass, contracts);
+        getDefaultApplication().register(componentClass, contracts);
         return this;
     }
-
 
     public Minijax register(final Class<?> componentClass, final Map<Class<?>, Integer> contracts) {
-        defaultApplication.register(componentClass, contracts);
+        getDefaultApplication().register(componentClass, contracts);
         return this;
     }
-
 
     public Minijax register(final Object component) {
-        defaultApplication.register(component);
+        getDefaultApplication().register(component);
         return this;
     }
-
 
     public Minijax register(final Object component, final int priority) {
-        defaultApplication.register(component, priority);
+        getDefaultApplication().register(component, priority);
         return this;
     }
-
 
     public Minijax register(final Object component, final Class<?>... contracts) {
-        defaultApplication.register(component, contracts);
+        getDefaultApplication().register(component, contracts);
         return this;
     }
-
 
     public Minijax register(final Object component, final Map<Class<?>, Integer> contracts) {
-        defaultApplication.register(component, contracts);
+        getDefaultApplication().register(component, contracts);
         return this;
     }
-
 
     public Minijax packages(final String... packageNames) {
-        defaultApplication.packages(packageNames);
+        for (final String packageName : packageNames) {
+            scanPackage(packageName);
+        }
         return this;
     }
 
+    private void scanPackage(final String packageName) {
+        try {
+            for (final Class<?> c : ClassPathScanner.scan(packageName)) {
+                if (isAutoScanClass(c)) {
+                    register(c);
+                }
+            }
+        } catch (final IOException ex) {
+            throw new MinijaxException(ex.getMessage(), ex);
+        }
+    }
+
+    private boolean isAutoScanClass(final Class<?> c) {
+        for (final Annotation a : c.getAnnotations()) {
+            final Class<?> t = a.annotationType();
+            if (t == javax.ws.rs.ext.Provider.class
+                    || t == javax.ws.rs.ApplicationPath.class
+                    || t == javax.ws.rs.Path.class
+                    || t == OptionalClasses.SERVER_ENDPOINT) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public Minijax staticFiles(final String... resourceNames) {
         for (final String resourceName : resourceNames) {
@@ -187,13 +202,11 @@ public class Minijax {
         return this;
     }
 
-
     public Minijax staticFile(final String resourceName, final String path) {
         final String pathSpec = UrlUtils.concatUrlPaths(path, null);
-        defaultApplication.addResourceMethod(new MinijaxStaticResource(resourceName, pathSpec));
+        getDefaultApplication().addResourceMethod(new MinijaxStaticResource(resourceName, pathSpec));
         return this;
     }
-
 
     public Minijax staticDirectories(final String... resourceNames) {
         for (final String resourceName : resourceNames) {
@@ -202,19 +215,16 @@ public class Minijax {
         return this;
     }
 
-
     public Minijax staticDirectory(final String resourceName, final String path) {
         final String pathSpec = UrlUtils.concatUrlPaths(path, "{file:.*}");
-        defaultApplication.addResourceMethod(new MinijaxStaticResource(resourceName, pathSpec));
+        getDefaultApplication().addResourceMethod(new MinijaxStaticResource(resourceName, pathSpec));
         return this;
     }
-
 
     public Minijax allowCors(final String urlPrefix) {
-        defaultApplication.allowCors(urlPrefix);
+        getDefaultApplication().allowCors(urlPrefix);
         return this;
     }
-
 
     public Minijax secure(final String keyStorePath, final String keyStorePassword, final String keyManagerPassword) {
         property(MinijaxProperties.SSL_KEY_STORE_PATH, keyStorePath);
@@ -223,22 +233,18 @@ public class Minijax {
         return this;
     }
 
-
     public Minijax defaultCacheControl(final CacheControl defaultCacheControl) {
-        defaultApplication.register(new MinijaxCacheControlFilter(defaultCacheControl));
+        getDefaultApplication().register(new MinijaxCacheControlFilter(defaultCacheControl));
         return this;
     }
 
-
     public String getHost() {
-        return (String) defaultApplication.getProperties().getOrDefault(MinijaxProperties.HOST, DEFAULT_HOST);
+        return (String) getDefaultApplication().getProperties().getOrDefault(MinijaxProperties.HOST, DEFAULT_HOST);
     }
-
 
     public int getPort() {
-        return Integer.parseInt((String) defaultApplication.getProperties().getOrDefault(MinijaxProperties.PORT, DEFAULT_PORT));
+        return Integer.parseInt((String) getDefaultApplication().getProperties().getOrDefault(MinijaxProperties.PORT, DEFAULT_PORT));
     }
-
 
     public void start(final int port) {
         property(MinijaxProperties.PORT, Integer.toString(port));
