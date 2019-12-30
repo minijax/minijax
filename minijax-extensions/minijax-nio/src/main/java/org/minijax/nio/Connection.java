@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 
 import org.minijax.Minijax;
 import org.minijax.MinijaxApplicationContext;
+import org.minijax.MinijaxException;
 import org.minijax.MinijaxUriInfo;
 import org.minijax.util.EntityUtils;
 import org.slf4j.Logger;
@@ -30,8 +31,12 @@ class Connection {
     private String method;
     private String protocol;
     private String version;
+    private boolean onlyHeader;
+    private boolean keepAlive;
     private MultivaluedMap<String, String> requestHeaders;
     private InputStream requestEntityStream;
+    private Response response;
+    private ByteArrayOutputStream bufferedOutputStream;
 
     public Connection(final Minijax minijax, final ByteChannel channel, final ByteBuffer buffer) {
         this.minijax = minijax;
@@ -48,6 +53,14 @@ class Connection {
     }
 
     public boolean handle() throws IOException {
+        if (!read()) {
+            return false;
+        }
+        process();
+        return write();
+    }
+
+    private boolean read() {
         // Clears the buffer back to blank slate.
         buffer.clear();
 
@@ -96,14 +109,14 @@ class Connection {
 
         requestHeaders = readHeaders();
         requestEntityStream = readContentBody();
+        onlyHeader = method.equals("HEAD");
+        keepAlive = shouldKeepAlive();
+        return true;
+    }
 
-        final boolean onlyHeader = method.equals("HEAD");
-        final boolean keepAlive = shouldKeepAlive();
 
+    private void process() throws IOException {
         final MinijaxApplicationContext application = minijax.getDefaultApplication();
-        final Response response;
-        final ByteArrayOutputStream bufferedOutputStream;
-
         try (final MinijaxNioRequestContext ctx = new MinijaxNioRequestContext(
                 application,
                 method,
@@ -121,7 +134,9 @@ class Connection {
                 response.getHeaders().putSingle("Content-Length", Integer.toString(bufferedOutputStream.size()));
             }
         }
+    }
 
+    private boolean write() throws IOException {
         // Switch to writing
         buffer.clear();
         buffer.put("HTTP/".getBytes());
@@ -159,14 +174,16 @@ class Connection {
         return keepAlive;
     }
 
-    private String readLine() throws IOException {
+    // Additional helpers
+
+    private String readLine() {
         // TODO: Handle channel size greater than buffer size
         final StringBuilder b = new StringBuilder();
         while (buffer.hasRemaining()) {
             final int curr = buffer.get();
             if (curr == '\r') {
                 if (buffer.get() != '\n') {
-                    throw new IOException("Unexpected CRLF pattern");
+                    throw new MinijaxException("Unexpected CRLF pattern");
                 }
                 break;
             }
@@ -175,7 +192,7 @@ class Connection {
         return b.toString();
     }
 
-    private MultivaluedMap<String, String> readHeaders() throws IOException {
+    private MultivaluedMap<String, String> readHeaders() {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         String line;
         while ((line = readLine()) != null && line.length() > 0) {
@@ -190,7 +207,7 @@ class Connection {
         return headers;
     }
 
-    private InputStream readContentBody() throws IOException {
+    private InputStream readContentBody() {
         final String lenStr = requestHeaders.getFirst("Content-Length");
         if (lenStr == null) {
             return null;

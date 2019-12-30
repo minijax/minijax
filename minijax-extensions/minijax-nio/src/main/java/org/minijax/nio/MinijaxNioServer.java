@@ -17,7 +17,7 @@ public class MinijaxNioServer implements MinijaxServer {
     final Listener listener;
     final Worker[] workers;
 
-    public MinijaxNioServer(final Minijax minijax, final SelectorProvider selectorProvider) throws IOException, InterruptedException {
+    public MinijaxNioServer(final Minijax minijax, final SelectorProvider selectorProvider) throws IOException {
         final int threadCount = Runtime.getRuntime().availableProcessors() * 2;
         final int workerCount = threadCount - 1;
 
