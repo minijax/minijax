@@ -496,7 +496,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
             }
         }
 
-        if (httpMethod.equals(OPTIONS)) {
+        if (httpMethod.equals(HEAD) || httpMethod.equals(OPTIONS)) {
             return findRoute(GET, uriInfo);
         }
 

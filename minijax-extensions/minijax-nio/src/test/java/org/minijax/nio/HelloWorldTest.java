@@ -1,11 +1,6 @@
 package org.minijax.nio;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.net.Socket;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -40,52 +35,80 @@ public class HelloWorldTest {
     @Test
     public void testHello() throws Exception {
         final Minijax minijax = new Minijax().register(HelloResource.class);
+        final String request = "GET / HTTP/1.1\r\n";
+        final MockSocketChannel channel = new MockSocketChannel(null, request);
+        final Connection conn = new Connection(minijax, channel);
+        conn.handle();
 
-        try (final MinijaxNioServer server = new MinijaxNioServer(minijax)) {
-            final String request = "GET / HTTP/1.1\r\n";
+        final String expected = "HTTP/1.1 200\r\n" +
+                "Content-Length: 12\r\n" +
+                "X-foo: bar\r\n" +
+                "\r\n" +
+                "Hello world!";
+        assertEquals(expected, channel.getOutputAsString());
+    }
 
-            final ByteArrayInputStream inputStream = new ByteArrayInputStream(request.getBytes());
-            final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    @Test
+    public void testHead() throws Exception {
+        final Minijax minijax = new Minijax().register(HelloResource.class);
+        final String request = "HEAD / HTTP/1.1\r\n";
+        final MockSocketChannel channel = new MockSocketChannel(null, request);
+        final Connection conn = new Connection(minijax, channel);
+        conn.handle();
 
-            final Socket socket = mock(Socket.class);
-            when(socket.getInputStream()).thenReturn(inputStream);
-            when(socket.getOutputStream()).thenReturn(outputStream);
+        final String expected = "HTTP/1.1 200\r\n" +
+                "X-foo: bar\r\n" +
+                "\r\n";
+        assertEquals(expected, channel.getOutputAsString());
+    }
 
-            server.handleRequest(socket);
+    @Test
+    public void testHttp10KeepAlive() throws Exception {
+        final Minijax minijax = new Minijax().register(HelloResource.class);
+        final String request = "HEAD / HTTP/1.0\r\n" +
+                    "Connection: keep-alive\r\n";
+        final MockSocketChannel channel = new MockSocketChannel(null, request);
+        final Connection conn = new Connection(minijax, channel);
+        conn.handle();
 
-            final String expected = "HTTP/1.1 200\r\n" +
-                    "Content-Length: 12\r\n" +
-                    "X-foo: bar\r\n" +
-                    "\r\n" +
-                    "Hello world!";
-            assertEquals(expected, outputStream.toString());
-        }
+        final String expected = "HTTP/1.0 200\r\n" +
+                "X-foo: bar\r\n" +
+                "Connection: keep-alive\r\n" +
+                "\r\n";
+        assertEquals(expected, channel.getOutputAsString());
+    }
+
+    @Test
+    public void testHttp11ConnectionClose() throws Exception {
+        final Minijax minijax = new Minijax().register(HelloResource.class);
+        final String request = "HEAD / HTTP/1.1\r\n" +
+                    "Connection: close\r\n";
+        final MockSocketChannel channel = new MockSocketChannel(null, request);
+        final Connection conn = new Connection(minijax, channel);
+        conn.handle();
+
+        final String expected = "HTTP/1.1 200\r\n" +
+                "X-foo: bar\r\n" +
+                "Connection: close\r\n" +
+                "\r\n";
+        assertEquals(expected, channel.getOutputAsString());
     }
 
     @Test
     public void testEcho() throws Exception {
         final Minijax minijax = new Minijax().register(HelloResource.class);
+        final String request = "POST / HTTP/1.1\r\n" +
+                "Content-Length: 3\r\n" +
+                "\r\n" +
+                "xyz";
+        final MockSocketChannel channel = new MockSocketChannel(null, request);
+        final Connection conn = new Connection(minijax, channel);
+        conn.handle();
 
-        try (final MinijaxNioServer server = new MinijaxNioServer(minijax)) {
-            final String request = "POST / HTTP/1.1\r\n" +
-                    "Content-Length: 3\r\n" +
-                    "\r\n" +
-                    "xyz";
-
-            final ByteArrayInputStream inputStream = new ByteArrayInputStream(request.getBytes());
-            final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-            final Socket socket = mock(Socket.class);
-            when(socket.getInputStream()).thenReturn(inputStream);
-            when(socket.getOutputStream()).thenReturn(outputStream);
-
-            server.handleRequest(socket);
-
-            final String expected = "HTTP/1.1 200\r\n" +
-                    "Content-Length: 13\r\n" +
-                    "\r\n" +
-                    "You said: xyz";
-            assertEquals(expected, outputStream.toString());
-        }
+        final String expected = "HTTP/1.1 200\r\n" +
+                "Content-Length: 13\r\n" +
+                "\r\n" +
+                "You said: xyz";
+        assertEquals(expected, channel.getOutputAsString());
     }
 }

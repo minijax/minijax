@@ -5,45 +5,46 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 
 public class MockSelectionKey extends SelectionKey {
-    private final int readyOps;
+    private final MockSelector selector;
+    private final SelectableChannel channel;
+    private int interestOps;
+    private int readyOps;
 
-    public MockSelectionKey(final int readyOps) {
-        this.readyOps = readyOps;
-    }
-
-    @Override
-    public SelectableChannel channel() {
-        return new MockSocketChannel(null);
+    public MockSelectionKey(final MockSelector selector, final SelectableChannel channel, final int interestOps, final Object attachment) {
+        this.selector = selector;
+        this.channel = channel;
+        this.interestOps = interestOps;
+        this.attach(attachment);
     }
 
     @Override
     public Selector selector() {
-        // TODO Auto-generated method stub
-        return null;
+        return selector;
+    }
+
+    @Override
+    public SelectableChannel channel() {
+        return channel;
     }
 
     @Override
     public boolean isValid() {
-        // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override
     public void cancel() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public int interestOps() {
-        // TODO Auto-generated method stub
-        return 0;
+        return interestOps;
     }
 
     @Override
     public SelectionKey interestOps(final int ops) {
-        // TODO Auto-generated method stub
-        return null;
+        interestOps = ops;
+        return this;
     }
 
     @Override

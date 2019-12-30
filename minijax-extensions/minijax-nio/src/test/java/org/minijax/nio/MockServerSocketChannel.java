@@ -10,62 +10,56 @@ import java.nio.channels.spi.SelectorProvider;
 import java.util.Set;
 
 public class MockServerSocketChannel extends ServerSocketChannel {
+    private final ServerSocket socket;
 
-    protected MockServerSocketChannel(final SelectorProvider provider) {
+    protected MockServerSocketChannel(final SelectorProvider provider) throws IOException {
         super(provider);
-    }
-
-    @Override
-    public <T> T getOption(final SocketOption<T> name) throws IOException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Set<SocketOption<?>> supportedOptions() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public ServerSocketChannel bind(final SocketAddress local, final int backlog) throws IOException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public <T> ServerSocketChannel setOption(final SocketOption<T> name, final T value) throws IOException {
-        // TODO Auto-generated method stub
-        return null;
+        socket = new ServerSocket();
     }
 
     @Override
     public ServerSocket socket() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public SocketChannel accept() throws IOException {
-        return new MockSocketChannel(null);
-    }
-
-    @Override
-    public SocketAddress getLocalAddress() throws IOException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    protected void implCloseSelectableChannel() throws IOException {
-        // TODO Auto-generated method stub
-
+        return socket;
     }
 
     @Override
     protected void implConfigureBlocking(final boolean block) throws IOException {
-        // TODO Auto-generated method stub
-
     }
 
+    @Override
+    public SocketChannel accept() throws IOException {
+        return new MockSocketChannel(provider());
+    }
+
+    // Unsupported
+
+    @Override
+    public <T> T getOption(final SocketOption<T> name) throws IOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Set<SocketOption<?>> supportedOptions() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ServerSocketChannel bind(final SocketAddress local, final int backlog) throws IOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <T> ServerSocketChannel setOption(final SocketOption<T> name, final T value) throws IOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public SocketAddress getLocalAddress() throws IOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    protected void implCloseSelectableChannel() throws IOException {
+        throw new UnsupportedOperationException();
+    }
 }

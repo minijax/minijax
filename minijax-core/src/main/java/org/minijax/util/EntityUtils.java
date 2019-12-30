@@ -97,6 +97,11 @@ public class EntityUtils {
             return;
         }
 
+        if (entity instanceof byte[]) {
+            outputStream.write((byte[]) entity);
+            return;
+        }
+
         if (entity instanceof InputStream) {
             IOUtils.copy((InputStream) entity, outputStream);
             return;
