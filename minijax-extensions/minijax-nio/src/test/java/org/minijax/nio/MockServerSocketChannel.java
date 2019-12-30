@@ -31,6 +31,10 @@ public class MockServerSocketChannel extends ServerSocketChannel {
         return new MockSocketChannel(provider());
     }
 
+    @Override
+    protected void implCloseSelectableChannel() throws IOException {
+    }
+
     // Unsupported
 
     @Override
@@ -55,11 +59,6 @@ public class MockServerSocketChannel extends ServerSocketChannel {
 
     @Override
     public SocketAddress getLocalAddress() throws IOException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    protected void implCloseSelectableChannel() throws IOException {
         throw new UnsupportedOperationException();
     }
 }

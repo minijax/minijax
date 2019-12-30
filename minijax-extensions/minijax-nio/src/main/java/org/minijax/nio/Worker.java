@@ -25,7 +25,7 @@ class Worker implements Runnable {
     private final Queue<SocketChannel> incoming;
     private final List<Connection> connections;
     private volatile boolean running;
-    private volatile Worker nextWorker;
+    private Worker nextWorker;
 
     public Worker(final Minijax minijax, final SelectorProvider selectorProvider) throws IOException {
         this.minijax = minijax;

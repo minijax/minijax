@@ -17,7 +17,7 @@ class Listener implements Runnable {
     private static final Logger LOG = LoggerFactory.getLogger(Listener.class);
     private final SelectorProvider selectorProvider;
     private volatile boolean running;
-    private volatile Worker currentWorker;
+    private Worker currentWorker;
 
     public Listener(final SelectorProvider selectorProvider) {
         this.selectorProvider = selectorProvider;
@@ -44,9 +44,8 @@ class Listener implements Runnable {
         LOG.info("Starting listener...");
         running = true;
 
-        try {
-            LOG.info("Creating server channel...");
-            final ServerSocketChannel serverChannel = selectorProvider.openServerSocketChannel();
+        LOG.info("Creating server channel...");
+        try (final ServerSocketChannel serverChannel = selectorProvider.openServerSocketChannel()) {
             serverChannel.configureBlocking(false);
 
             LOG.info("Creating server socket...");
