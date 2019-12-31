@@ -299,7 +299,7 @@
             </dependency>
             <dependency>
                 <groupId>org.minijax</groupId>
-                <artifactId>minijax-db</artifactId>
+                <artifactId>minijax-dao</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

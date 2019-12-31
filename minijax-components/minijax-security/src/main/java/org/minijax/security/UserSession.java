@@ -14,8 +14,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import org.minijax.db.DefaultBaseEntity;
-import org.minijax.db.converters.UuidConverter;
+import org.minijax.dao.DefaultBaseEntity;
+import org.minijax.dao.converters.UuidConverter;
 
 /**
  * The UserSession class represents an authenticated session which

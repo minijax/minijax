@@ -10,7 +10,7 @@ import javax.ws.rs.core.Cookie;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.MinijaxRequestContext;
-import org.minijax.db.PersistenceFeature;
+import org.minijax.dao.PersistenceFeature;
 import org.minijax.test.MinijaxTest;
 import org.minijax.util.IdUtils;
 

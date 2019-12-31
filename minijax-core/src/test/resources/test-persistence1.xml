@@ -1,8 +1,8 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
     <persistence-unit name="testdb" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <class>org.minijax.db.InstantConverter</class>
-        <class>org.minijax.db.UuidConverter</class>
-        <class>org.minijax.db.test.Widget</class>
+        <class>org.minijax.dao.InstantConverter</class>
+        <class>org.minijax.dao.UuidConverter</class>
+        <class>org.minijax.dao.test.Widget</class>
     </persistence-unit>
 </persistence>

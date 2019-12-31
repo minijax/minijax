@@ -14,8 +14,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.minijax.db.DefaultBaseEntity;
-import org.minijax.db.converters.InstantConverter;
+import org.minijax.dao.DefaultBaseEntity;
+import org.minijax.dao.converters.InstantConverter;
 
 @Entity
 @Cacheable

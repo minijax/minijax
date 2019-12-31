@@ -30,7 +30,7 @@
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
-            <artifactId>minijax-db</artifactId>
+            <artifactId>minijax-dao</artifactId>
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>

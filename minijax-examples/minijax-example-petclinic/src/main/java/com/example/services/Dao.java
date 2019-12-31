@@ -2,7 +2,7 @@ package com.example.services;
 
 import java.util.List;
 
-import org.minijax.db.DefaultBaseDao;
+import org.minijax.dao.DefaultBaseDao;
 
 import com.example.model.Owner;
 

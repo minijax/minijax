@@ -22,7 +22,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mindrot.jbcrypt.BCrypt;
 import org.minijax.MinijaxRequestContext;
-import org.minijax.db.PersistenceFeature;
+import org.minijax.dao.PersistenceFeature;
 import org.minijax.test.MinijaxTest;
 
 public class ChangePasswordTest extends MinijaxTest {

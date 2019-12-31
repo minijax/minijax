@@ -14,8 +14,8 @@ import javax.ws.rs.core.Response;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.MinijaxRequestContext;
-import org.minijax.db.DefaultBaseDao;
-import org.minijax.db.PersistenceFeature;
+import org.minijax.dao.DefaultBaseDao;
+import org.minijax.dao.PersistenceFeature;
 import org.minijax.test.MinijaxTest;
 
 public class RolesAllowedTest extends MinijaxTest {

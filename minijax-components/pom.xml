@@ -12,7 +12,7 @@
     <description>Minijax components</description>
     <modules>
         <module>minijax-client</module>
-        <module>minijax-db</module>
+        <module>minijax-dao</module>
         <module>minijax-json</module>
         <module>minijax-liquibase</module>
         <module>minijax-mustache</module>

@@ -4,8 +4,8 @@
         <class>minitwit.Minitwit$User</class>
         <class>minitwit.Minitwit$Follower</class>
         <class>minitwit.Minitwit$Message</class>
-        <class>org.minijax.db.converters.InstantConverter</class>
-        <class>org.minijax.db.converters.UuidConverter</class>
+        <class>org.minijax.dao.converters.InstantConverter</class>
+        <class>org.minijax.dao.converters.UuidConverter</class>
         <class>org.minijax.security.UserSession</class>
         <class>org.minijax.security.SecurityUser</class>
         <properties>

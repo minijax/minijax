@@ -13,7 +13,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
 import org.minijax.*;
-import org.minijax.db.*;
+import org.minijax.dao.*;
 import org.minijax.mustache.*;
 import org.minijax.security.*;
 import org.minijax.view.*;

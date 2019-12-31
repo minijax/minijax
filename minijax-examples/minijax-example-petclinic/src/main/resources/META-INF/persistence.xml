@@ -5,8 +5,8 @@
         <class>com.example.model.Pet</class>
         <class>com.example.model.Vet</class>
         <class>com.example.model.Visit</class>
-        <class>org.minijax.db.converters.InstantConverter</class>
-        <class>org.minijax.db.converters.UuidConverter</class>
+        <class>org.minijax.dao.converters.InstantConverter</class>
+        <class>org.minijax.dao.converters.UuidConverter</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.h2.jdbcx.JdbcDataSource" />
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:~/.minijax-petclinic/database" />

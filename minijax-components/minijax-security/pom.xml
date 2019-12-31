@@ -37,7 +37,7 @@
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
-            <artifactId>minijax-db</artifactId>
+            <artifactId>minijax-dao</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>

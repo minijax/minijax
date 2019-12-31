@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.mindrot.jbcrypt.BCrypt;
-import org.minijax.db.DefaultNamedEntity;
+import org.minijax.dao.DefaultNamedEntity;
 
 /**
  * The SecurityUser class is an abstract base class for "security" entities

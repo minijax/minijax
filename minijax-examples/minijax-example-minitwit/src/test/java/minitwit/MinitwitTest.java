@@ -9,7 +9,7 @@ import javax.ws.rs.core.*;
 
 import org.junit.*;
 import org.minijax.*;
-import org.minijax.db.*;
+import org.minijax.dao.*;
 import org.minijax.mustache.*;
 import org.minijax.security.*;
 import org.minijax.test.*;

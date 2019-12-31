@@ -1,13 +1,13 @@
 package org.minijax.security;
 
-import static org.minijax.db.BaseDao.*;
+import static org.minijax.dao.BaseDao.*;
 
 import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.EntityManager;
 
-import org.minijax.db.BaseDao;
+import org.minijax.dao.BaseDao;
 
 public interface SecurityDao extends BaseDao {
 
