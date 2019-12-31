@@ -34,6 +34,7 @@
         <module>minijax-core</module>
         <module>minijax-examples</module>
         <module>minijax-extensions</module>
+        <module>minijax-servers</module>
     </modules>
     <scm>
         <connection>scm:git:git@github.com:minijax/minijax.git</connection>

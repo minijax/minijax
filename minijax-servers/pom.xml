@@ -6,18 +6,14 @@
         <artifactId>minijax</artifactId>
         <version>0.4.15-SNAPSHOT</version>
     </parent>
-    <artifactId>minijax-extensions</artifactId>
+    <artifactId>minijax-servers</artifactId>
     <packaging>pom</packaging>
-    <name>minijax-extensions</name>
-    <description>Minijax extensions</description>
+    <name>minijax-servers</name>
+    <description>Minijax servers</description>
     <modules>
-        <module>minijax-client</module>
-        <module>minijax-db</module>
-        <module>minijax-json</module>
-        <module>minijax-liquibase</module>
-        <module>minijax-mustache</module>
-        <module>minijax-security</module>
-        <module>minijax-validation</module>
-        <module>minijax-view</module>
+        <module>minijax-nio</module>
+        <module>minijax-servlet</module>
+        <module>minijax-undertow</module>
+        <module>minijax-undertow-websocket</module>
     </modules>
 </project>

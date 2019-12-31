@@ -3,18 +3,22 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.minijax</groupId>
-        <artifactId>minijax-extensions</artifactId>
+        <artifactId>minijax-servers</artifactId>
         <version>0.4.15-SNAPSHOT</version>
     </parent>
-    <artifactId>minijax-nio</artifactId>
+    <artifactId>minijax-undertow</artifactId>
     <packaging>jar</packaging>
-    <name>minijax-nio</name>
-    <description>Minijax NIO server implementation</description>
+    <name>minijax-undertow</name>
+    <description>Minijax Undertow server implementation</description>
     <dependencies>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.undertow</groupId>
+            <artifactId>undertow-core</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -24,6 +28,11 @@
         <dependency>
             <groupId>org.minijax</groupId>
             <artifactId>minijax-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.minijax</groupId>
+            <artifactId>minijax-undertow-websocket</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
