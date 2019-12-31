@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.minijax</groupId>
-        <artifactId>minijax-extensions</artifactId>
+        <artifactId>minijax-components</artifactId>
         <version>0.4.15-SNAPSHOT</version>
     </parent>
-    <artifactId>minijax-validation</artifactId>
+    <artifactId>minijax-client</artifactId>
     <packaging>jar</packaging>
-    <name>minijax-validation</name>
-    <description>Minijax JSR 380 Validator</description>
+    <name>minijax-client</name>
+    <description>Minijax JSON features</description>
     <dependencies>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -17,18 +17,27 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.minijax</groupId>
             <artifactId>minijax-core</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

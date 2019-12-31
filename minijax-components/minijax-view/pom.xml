@@ -3,22 +3,17 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.minijax</groupId>
-        <artifactId>minijax-extensions</artifactId>
+        <artifactId>minijax-components</artifactId>
         <version>0.4.15-SNAPSHOT</version>
     </parent>
-    <artifactId>minijax-security</artifactId>
+    <artifactId>minijax-view</artifactId>
     <packaging>jar</packaging>
-    <name>minijax-security</name>
-    <description>Minijax security features</description>
+    <name>minijax-view</name>
+    <description>Minijax view model</description>
     <dependencies>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -27,23 +22,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.mindrot</groupId>
-            <artifactId>jbcrypt</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.minijax</groupId>
             <artifactId>minijax-core</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.minijax</groupId>
-            <artifactId>minijax-db</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

@@ -3,18 +3,22 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.minijax</groupId>
-        <artifactId>minijax-extensions</artifactId>
+        <artifactId>minijax-components</artifactId>
         <version>0.4.15-SNAPSHOT</version>
     </parent>
-    <artifactId>minijax-view</artifactId>
+    <artifactId>minijax-validation</artifactId>
     <packaging>jar</packaging>
-    <name>minijax-view</name>
-    <description>Minijax view model</description>
+    <name>minijax-validation</name>
+    <description>Minijax JSR 380 Validator</description>
     <dependencies>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

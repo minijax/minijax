@@ -6,10 +6,10 @@
         <artifactId>minijax</artifactId>
         <version>0.4.15-SNAPSHOT</version>
     </parent>
-    <artifactId>minijax-extensions</artifactId>
+    <artifactId>minijax-components</artifactId>
     <packaging>pom</packaging>
-    <name>minijax-extensions</name>
-    <description>Minijax extensions</description>
+    <name>minijax-components</name>
+    <description>Minijax components</description>
     <modules>
         <module>minijax-client</module>
         <module>minijax-db</module>

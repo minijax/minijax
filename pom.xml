@@ -31,9 +31,9 @@
     </developers>
     <modules>
         <module>minijax-archetypes</module>
+        <module>minijax-components</module>
         <module>minijax-core</module>
         <module>minijax-examples</module>
-        <module>minijax-extensions</module>
         <module>minijax-servers</module>
     </modules>
     <scm>

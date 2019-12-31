@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.minijax</groupId>
-        <artifactId>minijax-extensions</artifactId>
+        <artifactId>minijax-components</artifactId>
         <version>0.4.15-SNAPSHOT</version>
     </parent>
-    <artifactId>minijax-mustache</artifactId>
+    <artifactId>minijax-db</artifactId>
     <packaging>jar</packaging>
-    <name>minijax-mustache</name>
-    <description>Minijax Mustache features</description>
+    <name>minijax-db</name>
+    <description>Minijax database and entity model</description>
     <dependencies>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -17,8 +17,14 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.spullara.mustache.java</groupId>
-            <artifactId>compiler</artifactId>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -26,13 +32,20 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.minijax</groupId>
-            <artifactId>minijax-core</artifactId>
-            <scope>provided</scope>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.jpa</artifactId>
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
-            <artifactId>minijax-view</artifactId>
+            <artifactId>minijax-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.minijax</groupId>
+            <artifactId>minijax-json</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.minijax</groupId>
+            <artifactId>minijax-validation</artifactId>
         </dependency>
     </dependencies>
 </project>

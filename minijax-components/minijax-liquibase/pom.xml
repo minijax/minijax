@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.minijax</groupId>
-        <artifactId>minijax-extensions</artifactId>
+        <artifactId>minijax-components</artifactId>
         <version>0.4.15-SNAPSHOT</version>
     </parent>
     <artifactId>minijax-liquibase</artifactId>
