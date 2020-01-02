@@ -47,7 +47,7 @@ class ServerHandler extends ChannelInboundHandlerAdapter {
 
     private static final CharSequence SERVER_NAME = AsciiString.cached("Netty");
 
-    private volatile CharSequence date = new AsciiString(FORMAT.get().format(new Date()));
+    private CharSequence date = new AsciiString(FORMAT.get().format(new Date()));
 
     ServerHandler(final Minijax minijax, final ScheduledExecutorService service) {
         this.minijax = minijax;
@@ -63,7 +63,9 @@ class ServerHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void channelRead(final ChannelHandlerContext ctx, final Object msg) throws Exception {
+    public void channelRead(final ChannelHandlerContext ctx, final Object msg)
+            throws Exception { // NOSONAR
+
         if (msg instanceof FullHttpRequest) {
             try {
                 final FullHttpRequest request = (FullHttpRequest) msg;
@@ -74,7 +76,9 @@ class ServerHandler extends ChannelInboundHandlerAdapter {
         }
     }
 
-    private void process(final ChannelHandlerContext nettyCtx, final FullHttpRequest request) throws Exception {
+    private void process(final ChannelHandlerContext nettyCtx, final FullHttpRequest request)
+            throws Exception { // NOSONAR
+
         final MinijaxApplicationContext application = minijax.getDefaultApplication();
 
         try (final MinijaxRequestContext minijaxCtx = new MinijaxNettyRequestContext(application, request)) {

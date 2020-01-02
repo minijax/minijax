@@ -13,11 +13,11 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.ServerChannel;
 import io.netty.channel.epoll.Epoll;
-import io.netty.channel.epoll.EpollChannelOption;
 import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.channel.unix.UnixChannelOption;
 
 public class MinijaxNettyServer implements MinijaxServer {
     private static final Logger LOG = LoggerFactory.getLogger(MinijaxNettyServer.class);
@@ -49,7 +49,7 @@ public class MinijaxNettyServer implements MinijaxServer {
             final InetSocketAddress inet = new InetSocketAddress(minijax.getPort());
 
             final ServerBootstrap b = new ServerBootstrap();
-            b.option(EpollChannelOption.SO_REUSEPORT, true);
+            b.option(UnixChannelOption.SO_REUSEPORT, true);
             b.option(ChannelOption.SO_BACKLOG, 8192);
             b.option(ChannelOption.SO_REUSEADDR, true);
             b.group(loopGroup).channel(channelClass).childHandler(new ServerInitializer(minijax, loopGroup.next()));
