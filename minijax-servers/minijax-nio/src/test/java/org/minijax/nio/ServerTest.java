@@ -21,7 +21,7 @@ public class ServerTest {
             public void run() {
                 server.stop();
             }
-        }, 100);
+        }, 500);
 
         server.start();
         assertNotNull(server);

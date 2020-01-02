@@ -17,7 +17,21 @@ public class MinijaxNioServer implements MinijaxServer {
     final Listener listener;
     final Worker[] workers;
 
-    public MinijaxNioServer(final Minijax minijax, final SelectorProvider selectorProvider) throws IOException {
+    /**
+     * Create a new server using the system default SelectorProvider.
+     * @param minijax The minijax application.
+     */
+    public MinijaxNioServer(final Minijax minijax) throws IOException {
+        this(minijax, SelectorProvider.provider());
+    }
+
+    /**
+     * Create a new server using the specified SelectorProvider.
+     * This is only used for tests.
+     * @param minijax The minijax application.
+     * @param selectorProvider The test selector provider.
+     */
+    MinijaxNioServer(final Minijax minijax, final SelectorProvider selectorProvider) throws IOException {
         final int threadCount = Runtime.getRuntime().availableProcessors() * 2;
         final int workerCount = threadCount - 1;
 
@@ -26,7 +40,7 @@ public class MinijaxNioServer implements MinijaxServer {
 
         // Create the listener.
         // The listeners job is only to listen on the server socket for incoming connections.
-        listener = new Listener(selectorProvider);
+        listener = new Listener(minijax, selectorProvider);
 
         // Create the workers.
         // The workers process incoming connections and manage the reading and writing.

@@ -1,5 +1,6 @@
-package org.minijax.undertow;
+package org.minijax.netty;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Collections;
 
@@ -11,35 +12,23 @@ import org.minijax.MinijaxRequestContext;
 import org.minijax.MinijaxUriInfo;
 import org.minijax.uri.MinijaxUriBuilder;
 
-import io.undertow.server.HttpServerExchange;
-import io.undertow.util.Headers;
+import io.netty.handler.codec.http.FullHttpRequest;
 
-class MinijaxUndertowRequestContext extends MinijaxRequestContext {
-    private final HttpServerExchange exchange;
+class MinijaxNettyRequestContext extends MinijaxRequestContext {
+    private final FullHttpRequest request;
     private final MinijaxUriInfo uriInfo;
-    private MinijaxUndertowHttpHeaders httpHeaders;
+    private MinijaxNettyHttpHeaders httpHeaders;
     private InputStream entityStream;
 
-    public MinijaxUndertowRequestContext(
+    MinijaxNettyRequestContext(
             final MinijaxApplicationContext application,
-            final HttpServerExchange exchange) {
+            final FullHttpRequest request) {
 
         super(application);
-        this.exchange = exchange;
+        this.request = request;
 
         final MinijaxUriBuilder uriBuilder = new MinijaxUriBuilder();
-        uriBuilder.uri(exchange.getRequestURL());
-
-        final String queryString = exchange.getQueryString();
-        if (queryString != null) {
-            uriBuilder.replaceQuery(queryString);
-        }
-
-        final String forwardedProto = exchange.getRequestHeaders().getFirst(Headers.X_FORWARDED_PROTO);
-        if (forwardedProto != null) {
-            uriBuilder.scheme(forwardedProto);
-        }
-
+        uriBuilder.uri(request.uri());
         uriInfo = new MinijaxUriInfo(uriBuilder.buildFromMap(Collections.emptyMap()));
     }
 
@@ -50,13 +39,13 @@ class MinijaxUndertowRequestContext extends MinijaxRequestContext {
 
     @Override
     public String getMethod() {
-        return exchange.getRequestMethod().toString();
+        return request.method().name();
     }
 
     @Override
     public HttpHeaders getHttpHeaders() {
         if (httpHeaders == null) {
-            httpHeaders = new MinijaxUndertowHttpHeaders(exchange.getRequestHeaders());
+            httpHeaders = new MinijaxNettyHttpHeaders(request);
         }
         return httpHeaders;
     }
@@ -64,7 +53,7 @@ class MinijaxUndertowRequestContext extends MinijaxRequestContext {
     @Override
     public InputStream getEntityStream() {
         if (entityStream == null) {
-            entityStream = exchange.getInputStream();
+            entityStream = new ByteArrayInputStream(request.content().array());
         }
         return entityStream;
     }

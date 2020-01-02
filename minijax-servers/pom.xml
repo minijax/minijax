@@ -11,6 +11,7 @@
     <name>minijax-servers</name>
     <description>Minijax servers</description>
     <modules>
+        <module>minijax-netty</module>
         <module>minijax-nio</module>
         <module>minijax-servlet</module>
         <module>minijax-undertow</module>

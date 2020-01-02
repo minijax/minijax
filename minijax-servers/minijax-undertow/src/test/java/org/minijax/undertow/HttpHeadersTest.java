@@ -1,10 +1,8 @@
 package org.minijax.undertow;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -14,11 +12,9 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import org.junit.Test;
 
-import io.undertow.server.HttpServerExchange;
 import io.undertow.util.HeaderMap;
 import io.undertow.util.Headers;
 import io.undertow.util.HttpString;
-import io.undertow.util.Methods;
 
 public class HttpHeadersTest {
 
@@ -27,11 +23,7 @@ public class HttpHeadersTest {
         final HeaderMap headerMap = new HeaderMap();
         headerMap.add(Headers.CONTENT_TYPE, "text/plain");
 
-        final HttpServerExchange exchange = mock(HttpServerExchange.class);
-        when(exchange.getRequestMethod()).thenReturn(Methods.GET);
-        when(exchange.getRequestHeaders()).thenReturn(headerMap);
-
-        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(exchange);
+        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(headerMap);
         assertEquals("text/plain", httpHeaders.getHeaderString("Content-Type"));
     }
 
@@ -41,11 +33,7 @@ public class HttpHeadersTest {
         headerMap.add(new HttpString("X-Foo"), "bar");
         headerMap.add(new HttpString("X-Foo"), "baz");
 
-        final HttpServerExchange exchange = mock(HttpServerExchange.class);
-        when(exchange.getRequestMethod()).thenReturn(Methods.GET);
-        when(exchange.getRequestHeaders()).thenReturn(headerMap);
-
-        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(exchange);
+        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(headerMap);
         assertEquals(Arrays.asList("bar", "baz"), httpHeaders.getRequestHeader("X-Foo"));
 
         final MultivaluedMap<String, String> multiMap = httpHeaders.getRequestHeaders();
@@ -58,11 +46,7 @@ public class HttpHeadersTest {
         final HeaderMap headerMap = new HeaderMap();
         headerMap.add(Headers.ACCEPT, "text/plain");
 
-        final HttpServerExchange exchange = mock(HttpServerExchange.class);
-        when(exchange.getRequestMethod()).thenReturn(Methods.GET);
-        when(exchange.getRequestHeaders()).thenReturn(headerMap);
-
-        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(exchange);
+        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(headerMap);
         assertEquals(Arrays.asList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
         assertEquals(Arrays.asList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
     }
@@ -72,11 +56,7 @@ public class HttpHeadersTest {
         final HeaderMap headerMap = new HeaderMap();
         headerMap.add(Headers.ACCEPT_LANGUAGE, "en-US");
 
-        final HttpServerExchange exchange = mock(HttpServerExchange.class);
-        when(exchange.getRequestMethod()).thenReturn(Methods.GET);
-        when(exchange.getRequestHeaders()).thenReturn(headerMap);
-
-        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(exchange);
+        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(headerMap);
         assertEquals(Arrays.asList(Locale.US), httpHeaders.getAcceptableLanguages());
         assertEquals(Arrays.asList(Locale.US), httpHeaders.getAcceptableLanguages());
     }
@@ -86,11 +66,7 @@ public class HttpHeadersTest {
         final HeaderMap headerMap = new HeaderMap();
         headerMap.add(Headers.CONTENT_TYPE, "text/plain");
 
-        final HttpServerExchange exchange = mock(HttpServerExchange.class);
-        when(exchange.getRequestMethod()).thenReturn(Methods.GET);
-        when(exchange.getRequestHeaders()).thenReturn(headerMap);
-
-        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(exchange);
+        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(headerMap);
         assertEquals(MediaType.TEXT_PLAIN_TYPE, httpHeaders.getMediaType());
     }
 
@@ -98,11 +74,7 @@ public class HttpHeadersTest {
     public void testNullMediaType() throws Exception {
         final HeaderMap headerMap = new HeaderMap();
 
-        final HttpServerExchange exchange = mock(HttpServerExchange.class);
-        when(exchange.getRequestMethod()).thenReturn(Methods.GET);
-        when(exchange.getRequestHeaders()).thenReturn(headerMap);
-
-        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(exchange);
+        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(headerMap);
         assertNull(httpHeaders.getMediaType());
     }
 
@@ -111,11 +83,7 @@ public class HttpHeadersTest {
         final HeaderMap headerMap = new HeaderMap();
         headerMap.add(Headers.CONTENT_LANGUAGE, "en-US");
 
-        final HttpServerExchange exchange = mock(HttpServerExchange.class);
-        when(exchange.getRequestMethod()).thenReturn(Methods.GET);
-        when(exchange.getRequestHeaders()).thenReturn(headerMap);
-
-        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(exchange);
+        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(headerMap);
         assertEquals(Locale.US, httpHeaders.getLanguage());
     }
 
@@ -123,11 +91,7 @@ public class HttpHeadersTest {
     public void testNullLanguage() throws Exception {
         final HeaderMap headerMap = new HeaderMap();
 
-        final HttpServerExchange exchange = mock(HttpServerExchange.class);
-        when(exchange.getRequestMethod()).thenReturn(Methods.GET);
-        when(exchange.getRequestHeaders()).thenReturn(headerMap);
-
-        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(exchange);
+        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(headerMap);
         assertNull(httpHeaders.getLanguage());
     }
 
@@ -136,11 +100,7 @@ public class HttpHeadersTest {
         final HeaderMap headerMap = new HeaderMap();
         headerMap.add(Headers.CONTENT_LENGTH, "1024");
 
-        final HttpServerExchange exchange = mock(HttpServerExchange.class);
-        when(exchange.getRequestMethod()).thenReturn(Methods.GET);
-        when(exchange.getRequestHeaders()).thenReturn(headerMap);
-
-        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(exchange);
+        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(headerMap);
         assertEquals(1024, httpHeaders.getLength());
     }
 
@@ -148,11 +108,7 @@ public class HttpHeadersTest {
     public void testNullContentLength() throws Exception {
         final HeaderMap headerMap = new HeaderMap();
 
-        final HttpServerExchange exchange = mock(HttpServerExchange.class);
-        when(exchange.getRequestMethod()).thenReturn(Methods.GET);
-        when(exchange.getRequestHeaders()).thenReturn(headerMap);
-
-        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(exchange);
+        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(headerMap);
         assertEquals(-1, httpHeaders.getLength());
     }
 
@@ -161,29 +117,16 @@ public class HttpHeadersTest {
         final HeaderMap headerMap = new HeaderMap();
         headerMap.add(Headers.CONTENT_LENGTH, "x");
 
-        final HttpServerExchange exchange = mock(HttpServerExchange.class);
-        when(exchange.getRequestMethod()).thenReturn(Methods.GET);
-        when(exchange.getRequestHeaders()).thenReturn(headerMap);
-
-        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(exchange);
+        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(headerMap);
         assertEquals(-1, httpHeaders.getLength());
     }
 
     @Test
     public void testCookies() throws Exception {
-        final io.undertow.server.handlers.Cookie undertowCookie = new io.undertow.server.handlers.CookieImpl("k", "v");
-
-        final Map<String, io.undertow.server.handlers.Cookie> undertowCookies = new HashMap<>();
-        undertowCookies.put(undertowCookie.getName(), undertowCookie);
-
         final HeaderMap headerMap = new HeaderMap();
+        headerMap.add(Headers.COOKIE, "k=v");
 
-        final HttpServerExchange exchange = mock(HttpServerExchange.class);
-        when(exchange.getRequestMethod()).thenReturn(Methods.GET);
-        when(exchange.getRequestHeaders()).thenReturn(headerMap);
-        when(exchange.getRequestCookies()).thenReturn(undertowCookies);
-
-        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(exchange);
+        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(headerMap);
         final Map<String, Cookie> cookies = httpHeaders.getCookies();
         assertNotNull(cookies);
         assertEquals(1, cookies.size());
@@ -193,8 +136,8 @@ public class HttpHeadersTest {
 
     @Test(expected = UnsupportedOperationException.class)
     public void testDate() {
-        final HttpServerExchange exchange = mock(HttpServerExchange.class);
-        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(exchange);
+        final HeaderMap headerMap = new HeaderMap();
+        final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(headerMap);
         httpHeaders.getDate();
     }
 }

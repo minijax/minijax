@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
-            <artifactId>minijax-nio</artifactId>
+            <artifactId>minijax-netty</artifactId>
         </dependency>
     </dependencies>
     <build>

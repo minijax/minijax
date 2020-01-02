@@ -47,12 +47,16 @@ import org.minijax.util.UrlUtils;
 public class Minijax {
     @SuppressWarnings("squid:S1313")
     public static final String DEFAULT_HOST = "0.0.0.0";
-    public static final String DEFAULT_PORT = "8080";
+    public static final int DEFAULT_PORT = 8080;
     private final List<MinijaxApplicationContext> applications;
     private MinijaxServer server;
+    private String host;
+    private int port;
 
     public Minijax() {
         applications = new ArrayList<>();
+        host = DEFAULT_HOST;
+        port = DEFAULT_PORT;
     }
 
     List<MinijaxApplicationContext> getApplications() {
@@ -238,16 +242,26 @@ public class Minijax {
         return this;
     }
 
+    public Minijax host(final String host) {
+        this.host = host;
+        return this;
+    }
+
     public String getHost() {
-        return (String) getDefaultApplication().getProperties().getOrDefault(MinijaxProperties.HOST, DEFAULT_HOST);
+        return host;
+    }
+
+    public Minijax port(final int port) {
+        this.port = port;
+        return this;
     }
 
     public int getPort() {
-        return Integer.parseInt((String) getDefaultApplication().getProperties().getOrDefault(MinijaxProperties.PORT, DEFAULT_PORT));
+        return port;
     }
 
     public void start(final int port) {
-        property(MinijaxProperties.PORT, Integer.toString(port));
+        this.port = port;
         start();
     }
 

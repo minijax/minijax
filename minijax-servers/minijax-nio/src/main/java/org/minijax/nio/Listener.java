@@ -1,6 +1,7 @@
 package org.minijax.nio;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -10,16 +11,19 @@ import java.nio.channels.spi.SelectorProvider;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.minijax.Minijax;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 class Listener implements Runnable {
     private static final Logger LOG = LoggerFactory.getLogger(Listener.class);
+    private final Minijax minijax;
     private final SelectorProvider selectorProvider;
     private volatile boolean running;
     private Worker currentWorker;
 
-    public Listener(final SelectorProvider selectorProvider) {
+    public Listener(final Minijax minijax, final SelectorProvider selectorProvider) {
+        this.minijax = minijax;
         this.selectorProvider = selectorProvider;
     }
 
@@ -52,7 +56,7 @@ class Listener implements Runnable {
             final ServerSocket serverSocket = serverChannel.socket();
             serverSocket.setReceiveBufferSize(Config.RECEIVE_BUFFER_SIZE);
             serverSocket.setReuseAddress(true);
-            serverSocket.bind(Config.ENDPOINT, Config.MAX_CONNECTIONS);
+            serverSocket.bind(new InetSocketAddress(minijax.getPort()), Config.MAX_CONNECTIONS);
 
             LOG.info("Registering server...");
             final Selector selector = selectorProvider.openSelector();
