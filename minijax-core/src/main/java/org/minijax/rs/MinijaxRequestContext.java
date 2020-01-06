@@ -108,7 +108,7 @@ public abstract class MinijaxRequestContext
 
     @Override
     public Request getRequest() {
-        throw new UnsupportedOperationException();
+        return null;
     }
 
     @Override

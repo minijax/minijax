@@ -16,14 +16,14 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+import org.minijax.Minijax;
 import org.minijax.commons.IOUtils;
 import org.minijax.rs.multipart.Multipart;
 import org.minijax.rs.multipart.Part;
-import org.minijax.rs.test.MinijaxTest;
 
-public class FormParamTest extends MinijaxTest {
+public class FormParamTest {
 
     @POST
     @Path("/formtest")
@@ -81,10 +81,11 @@ public class FormParamTest extends MinijaxTest {
         return content.getSubmittedFileName();
     }
 
-    @BeforeClass
-    public static void setUpFormParamTest() {
-        resetServer();
-        register(FormParamTest.class);
+    private Minijax server;
+
+    @Before
+    public void setUp() {
+        server = new Minijax().register(FormParamTest.class);
     }
 
     @Test
@@ -92,7 +93,7 @@ public class FormParamTest extends MinijaxTest {
         final Entity<Form> form = Entity.form(new Form("test", "Hello"));
         assertEquals(
                 "Hello",
-                target("/formtest").request().post(form, String.class));
+                server.target("/formtest").request().post(form, String.class));
     }
 
     @Test
@@ -100,7 +101,7 @@ public class FormParamTest extends MinijaxTest {
         final Entity<Form> form = Entity.form(new Form());
         assertEquals(
                 "foo",
-                target("/defval").request().post(form, String.class));
+                server.target("/defval").request().post(form, String.class));
     }
 
     @Test
@@ -108,7 +109,7 @@ public class FormParamTest extends MinijaxTest {
         final Entity<Form> form = Entity.form(new Form("test", "Hello"));
         assertEquals(
                 "Hello",
-                target("/wholeform").request().post(form, String.class));
+                server.target("/wholeform").request().post(form, String.class));
     }
 
     @Test
@@ -117,7 +118,7 @@ public class FormParamTest extends MinijaxTest {
             multipart.param("key", "myvalue1");
 
             final Entity<Multipart> entity = Entity.entity(multipart, multipart.getContentType());
-            assertEquals("myvalue1", target("/multipart-form").request().post(entity, String.class));
+            assertEquals("myvalue1", server.target("/multipart-form").request().post(entity, String.class));
         }
     }
 
@@ -128,7 +129,7 @@ public class FormParamTest extends MinijaxTest {
             multipart.param("content", "Hello world\n");
 
             final Entity<Multipart> entity = Entity.entity(multipart, multipart.getContentType());
-            assertEquals("myvalue1", target("/multipart-form").request().post(entity, String.class));
+            assertEquals("myvalue1", server.target("/multipart-form").request().post(entity, String.class));
         }
     }
 
@@ -139,7 +140,7 @@ public class FormParamTest extends MinijaxTest {
             multipart.param("content", "Hello world");
 
             final Entity<Multipart> entity = Entity.entity(multipart, multipart.getContentType());
-            assertEquals("Hello world", target("/multipart-optional").request().post(entity, String.class));
+            assertEquals("Hello world", server.target("/multipart-optional").request().post(entity, String.class));
         }
     }
 
@@ -147,7 +148,7 @@ public class FormParamTest extends MinijaxTest {
     public void testMultipartOptionalWithoutFile() throws IOException {
         try (final Multipart multipart = new Multipart()) {
             final Entity<Multipart> entity = Entity.entity(multipart, multipart.getContentType());
-            assertEquals("null", target("/multipart-optional").request().post(entity, String.class));
+            assertEquals("null", server.target("/multipart-optional").request().post(entity, String.class));
         }
     }
 }

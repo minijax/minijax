@@ -1,5 +1,7 @@
 package org.minijax;
 
+import static javax.ws.rs.HttpMethod.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,8 +22,11 @@ import org.minijax.rs.MinijaxApplicationContext;
 import org.minijax.rs.MinijaxCacheControlFilter;
 import org.minijax.rs.MinijaxException;
 import org.minijax.rs.MinijaxProperties;
+import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.MinijaxServer;
 import org.minijax.rs.MinijaxStaticResource;
+import org.minijax.rs.test.MinijaxTestRequestContext;
+import org.minijax.rs.test.MinijaxTestWebTarget;
 import org.minijax.rs.util.ClassPathScanner;
 import org.minijax.rs.util.OptionalClasses;
 import org.minijax.rs.util.UrlUtils;
@@ -289,5 +294,25 @@ public class Minijax {
 
     public void stop() {
         server.stop();
+    }
+
+    /*
+     * Test helpers
+     */
+
+    public MinijaxTestWebTarget target(final String uri) {
+        return new MinijaxTestWebTarget(this, URI.create(uri));
+    }
+
+    public MinijaxTestWebTarget target(final URI uri) {
+        return new MinijaxTestWebTarget(this, uri);
+    }
+
+    public MinijaxRequestContext createRequestContext() {
+        return new MinijaxTestRequestContext(getDefaultApplication(), GET, "/");
+    }
+
+    public MinijaxRequestContext createRequestContext(final String method, final String uri) {
+        return new MinijaxTestRequestContext(getDefaultApplication(), method, uri);
     }
 }

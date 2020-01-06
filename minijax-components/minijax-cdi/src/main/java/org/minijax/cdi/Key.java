@@ -91,7 +91,7 @@ public class Key<T> {
         @SuppressWarnings("rawtypes")
         final Key other = (Key) obj;
         return type == other.type &&
-                Objects.equals(injectAnnotation, other.injectAnnotation) &&
+                injectAnnotation == other.injectAnnotation &&
                 Objects.equals(qualifier, other.qualifier) &&
                 Objects.equals(name, other.name);
     }
