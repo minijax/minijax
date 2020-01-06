@@ -2,7 +2,7 @@ package org.minijax.cdi;
 
 import java.util.List;
 
-class InjectionSet<T> {
+class InjectionSet {
     private final List<FieldProvider<?>> fieldProviders;
     private final List<MethodProvider> methodProviders;
 

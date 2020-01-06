@@ -33,20 +33,28 @@ public class MinijaxInjector implements Closeable {
         fieldAnnotationProcessors.put(Inject.class, new DefaultFieldAnnotationProcessor<>());
     }
 
-    public Map<Class<? extends Annotation>, TypeAnnotationProcessor<?>> getTypeAnnotationProcessors() {
-        return typeAnnotationProcessors;
+    public void addTypeAnnotationProcessor(final Class<? extends Annotation> annotationType, final TypeAnnotationProcessor<?> processor) {
+        typeAnnotationProcessors.put(annotationType, processor);
     }
 
-    public Map<Class<? extends Annotation>, FieldAnnotationProcessor<?>> getFieldAnnotationProcessors() {
-        return fieldAnnotationProcessors;
+    public void addFieldAnnotationProcessor(final Class<? extends Annotation> annotationType, final FieldAnnotationProcessor<?> processor) {
+        fieldAnnotationProcessors.put(annotationType, processor);
     }
 
     public boolean isInjectedField(final Class<?> annotationType) {
         return fieldAnnotationProcessors.containsKey(annotationType);
     }
 
-    public <T> Key<T> buildKey(final Class<T> type) {
-        return new Key<T>(type);
+    <T> Key<T> buildKey(final Class<T> type) {
+        return new Key<>(type);
+    }
+
+    <T> Key<T> buildKey(final Class<T> type, final Class<? extends Annotation> qualifier) {
+        return new Key<>(type, qualifier);
+    }
+
+    <T> Key<T> buildKey(final Class<T> type, final String name) {
+        return new Key<>(type, name);
     }
 
     @SuppressWarnings("unchecked")
@@ -63,15 +71,7 @@ public class MinijaxInjector implements Closeable {
             }
         }
 
-        return new Key<T>(type, injectAnnotation, annotations);
-    }
-
-    public <T> Key<T> buildKey(final Class<T> type, final Class<? extends Annotation> qualifier) {
-        return new Key<T>(type, qualifier);
-    }
-
-    public <T> Key<T> buildKey(final Class<T> type, final String name) {
-        return new Key<T>(type, name);
+        return new Key<>(type, injectAnnotation, annotations);
     }
 
     public MinijaxInjector register(final Object instance, final Class<?> contract) {
@@ -127,7 +127,7 @@ public class MinijaxInjector implements Closeable {
             throw new InjectionException("Cannot init resource class " + resource.getClass());
         }
         final ConstructorProvider<T> ctorProvider = (ConstructorProvider<T>) provider;
-        ctorProvider.initResource(resource, null);
+        ctorProvider.initResource(resource, context);
         return resource;
     }
 

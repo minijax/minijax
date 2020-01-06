@@ -64,7 +64,7 @@ public class ConstructorProviderBuilder<T> {
     public ConstructorProvider<T> build() {
         final Constructor<T> constructor = getConstructor(key.getType());
         final MinijaxProvider<?>[] paramProviders = getParamProviders(key, constructor, chain);
-        final List<InjectionSet<? super T>> injectionSets = buildInjectionSets();
+        final List<InjectionSet> injectionSets = buildInjectionSets();
         return new ConstructorProvider<>(constructor, paramProviders, injectionSets);
     }
 
@@ -101,14 +101,14 @@ public class ConstructorProviderBuilder<T> {
     }
 
     @SuppressWarnings("unchecked")
-    private List<InjectionSet<? super T>> buildInjectionSets() {
+    private List<InjectionSet> buildInjectionSets() {
         for (final Class<?> type : types) {
             processType(type);
         }
 
-        final List<InjectionSet<? super T>> result = new ArrayList<>(types.size());
+        final List<InjectionSet> result = new ArrayList<>(types.size());
         for (final Class<?> type : types) {
-            result.add((InjectionSet<? super T>) buildInjectionSet(key, chain, type, typeMethods, toRemove));
+            result.add(buildInjectionSet(key, chain, type, typeMethods, toRemove));
         }
         return result;
     }
@@ -156,7 +156,7 @@ public class ConstructorProviderBuilder<T> {
         return method.isAnnotationPresent(Inject.class) && !Modifier.isAbstract(method.getModifiers());
     }
 
-    private <T1, T2> InjectionSet<T2> buildInjectionSet(
+    private <T1, T2> InjectionSet buildInjectionSet(
             final Key<T1> key,
             final Set<Key<?>> chain,
             final Class<T2> type,
@@ -188,7 +188,7 @@ public class ConstructorProviderBuilder<T> {
             methodProviders.add(new MethodProvider(method, getParamProviders(key, method, chain)));
         }
 
-        return new InjectionSet<>(fieldProviders, methodProviders);
+        return new InjectionSet(fieldProviders, methodProviders);
     }
 
     private static List<Class<?>> getTypeList(final Class<?> type) {

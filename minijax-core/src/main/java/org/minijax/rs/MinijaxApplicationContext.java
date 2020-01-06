@@ -90,14 +90,14 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
     public MinijaxApplicationContext(final String path) {
         this.path = path;
         injector = new MinijaxInjector();
-        injector.getTypeAnnotationProcessors().put(RequestScoped.class, new RequestScopedAnnotationProcessor<>());
-        injector.getFieldAnnotationProcessors().put(BeanParam.class, new DefaultFieldAnnotationProcessor<>());
-        injector.getFieldAnnotationProcessors().put(CookieParam.class, new CookieParamAnnotationProcessor<>());
-        injector.getFieldAnnotationProcessors().put(FormParam.class, new FormParamAnnotationProcessor<>());
-        injector.getFieldAnnotationProcessors().put(HeaderParam.class, new HeaderParamAnnotationProcessor<>());
-        injector.getFieldAnnotationProcessors().put(PathParam.class, new PathParamAnnotationProcessor<>());
-        injector.getFieldAnnotationProcessors().put(QueryParam.class, new QueryParamAnnotationProcessor<>());
-        injector.getFieldAnnotationProcessors().put(Context.class, new ContextAnnotationProcessor<>());
+        injector.addTypeAnnotationProcessor(RequestScoped.class, new RequestScopedAnnotationProcessor<>());
+        injector.addFieldAnnotationProcessor(BeanParam.class, new DefaultFieldAnnotationProcessor<>());
+        injector.addFieldAnnotationProcessor(CookieParam.class, new CookieParamAnnotationProcessor<>());
+        injector.addFieldAnnotationProcessor(FormParam.class, new FormParamAnnotationProcessor<>());
+        injector.addFieldAnnotationProcessor(HeaderParam.class, new HeaderParamAnnotationProcessor<>());
+        injector.addFieldAnnotationProcessor(PathParam.class, new PathParamAnnotationProcessor<>());
+        injector.addFieldAnnotationProcessor(QueryParam.class, new QueryParamAnnotationProcessor<>());
+        injector.addFieldAnnotationProcessor(Context.class, new ContextAnnotationProcessor<>());
 
         configuration = new MinijaxConfiguration();
         classesScanned = new HashSet<>();

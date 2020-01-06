@@ -25,10 +25,8 @@ abstract class AbstractParamProvider<T> implements MinijaxProvider<T> {
         final MinijaxRequestContext context = (MinijaxRequestContext) obj;
         String value = getStringValue(context);
 
-        if (value == null) {
-            if (defaultValue != null) {
-                value = defaultValue.value();
-            }
+        if (value == null && defaultValue != null) {
+            value = defaultValue.value();
         }
 
         return context.getApplicationContext().convertParamToType(value, type, annotations);

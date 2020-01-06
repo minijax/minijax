@@ -9,12 +9,12 @@ import javax.enterprise.inject.InjectionException;
 public class ConstructorProvider<T> implements MinijaxProvider<T> {
     private final Constructor<T> ctor;
     private final MinijaxProvider<?>[] paramProviders;
-    private final List<InjectionSet<? super T>> injectionSets;
+    private final List<InjectionSet> injectionSets;
 
     public ConstructorProvider(
             final Constructor<T> ctor,
             final MinijaxProvider<?>[] paramProviders,
-            final List<InjectionSet<? super T>> injectionSets) {
+            final List<InjectionSet> injectionSets) {
 
         this.ctor = ctor;
         this.paramProviders = paramProviders;
@@ -54,7 +54,7 @@ public class ConstructorProvider<T> implements MinijaxProvider<T> {
     public void initImpl(final T result, final Object context)
             throws IllegalAccessException, InvocationTargetException {
 
-        for (final InjectionSet<?> injectionSet : injectionSets) {
+        for (final InjectionSet injectionSet : injectionSets) {
             for (final FieldProvider<?> fieldProvider : injectionSet.getFieldProviders()) {
                 fieldProvider.getField().set(result, fieldProvider.getProvider().get(context));
             }

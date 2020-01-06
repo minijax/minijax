@@ -7,7 +7,7 @@ import javax.enterprise.inject.InjectionException;
 import javax.inject.Named;
 import javax.inject.Qualifier;
 
-public class Key<T> {
+class Key<T> {
     protected final Class<T> type;
     private final Annotation injectAnnotation;
     private final Class<? extends Annotation> qualifier;

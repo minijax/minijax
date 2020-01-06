@@ -44,8 +44,8 @@ public class PersistenceFeature implements Feature {
             }
         }
 
-        app.getInjector().getFieldAnnotationProcessors().put(
+        app.getInjector().addFieldAnnotationProcessor(
                 PersistenceContext.class,
-                new PersistenceContextAnnotationProcessor<>(factories));
+                new PersistenceContextAnnotationProcessor(factories));
     }
 }

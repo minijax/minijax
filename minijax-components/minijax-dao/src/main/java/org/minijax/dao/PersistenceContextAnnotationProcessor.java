@@ -12,7 +12,7 @@ import org.minijax.cdi.MinijaxInjectorState;
 import org.minijax.cdi.MinijaxProvider;
 import org.minijax.cdi.annotation.FieldAnnotationProcessor;
 
-public class PersistenceContextAnnotationProcessor<T> implements FieldAnnotationProcessor<T> {
+public class PersistenceContextAnnotationProcessor implements FieldAnnotationProcessor<EntityManager> {
     private final Map<String, EntityManagerFactory> factories;
 
     public PersistenceContextAnnotationProcessor(final Map<String, EntityManagerFactory> factories) {
@@ -21,22 +21,26 @@ public class PersistenceContextAnnotationProcessor<T> implements FieldAnnotation
 
     @Override
     @SuppressWarnings("unchecked")
-    public MinijaxProvider<T> buildProvider(final MinijaxInjectorState state, final Class<T> type, final Annotation[] annotations) {
-        if (type != EntityManager.class) {
-            throw new InjectionException("Unexpected inject class for @PersistenceContext");
-        }
+    public MinijaxProvider<EntityManager> buildProvider(
+            final MinijaxInjectorState state,
+            final Class<EntityManager> type,
+            final Annotation[] annotations) {
 
         final PersistenceContext persistenceContext = getPersistenceContextAnnotation(annotations);
         final EntityManagerFactory emf = factories.get(persistenceContext.name());
-        return (MinijaxProvider<T>) new EntityManagerProvider(emf);
+        if (emf == null) {
+            throw new InjectionException("Persistence context \"" + persistenceContext.name() + "\" not found");
+        }
+
+        return new EntityManagerProvider(emf);
     }
 
-    private PersistenceContext getPersistenceContextAnnotation(final Annotation[] annotations) {
+    PersistenceContext getPersistenceContextAnnotation(final Annotation[] annotations) {
         for (final Annotation annotation : annotations) {
             if (annotation.annotationType() == PersistenceContext.class) {
                 return (PersistenceContext) annotation;
             }
         }
-        return null;
+        throw new InjectionException("Missing @PersistenceContext annotation");
     }
 }
