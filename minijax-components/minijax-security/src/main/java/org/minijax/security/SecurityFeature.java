@@ -33,7 +33,7 @@ public class SecurityFeature implements Feature {
         @Override
         @SuppressWarnings("unchecked")
         public SecurityUser get(final Object context) {
-            return ((MinijaxRequestContext) context).get(Security.class).getUserPrincipal();
+            return ((MinijaxRequestContext) context).getResource(Security.class).getUserPrincipal();
         }
 
         @Override

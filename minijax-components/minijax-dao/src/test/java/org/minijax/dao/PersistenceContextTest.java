@@ -42,7 +42,7 @@ public class PersistenceContextTest {
         final MinijaxApplicationContext application = container.getDefaultApplication();
 
         try (MinijaxRequestContext context = new MinijaxTestRequestContext(application, GET, "/")) {
-            final PersistenceContextDao dao = context.get(PersistenceContextDao.class);
+            final PersistenceContextDao dao = context.getResource(PersistenceContextDao.class);
 
             final Widget widget = new Widget();
             widget.setName("test");

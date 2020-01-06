@@ -17,7 +17,6 @@ import java.util.Map;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -31,7 +30,7 @@ import org.minijax.rs.cdi.ResourceCache;
 import org.minijax.rs.multipart.Multipart;
 
 public abstract class MinijaxRequestContext
-        implements javax.ws.rs.container.ContainerRequestContext, Closeable {
+        implements javax.ws.rs.container.ContainerRequestContext, javax.ws.rs.container.ResourceContext, Closeable {
 
     private final MinijaxApplicationContext applicationContext;
     private final ResourceCache resourceCache;
@@ -226,8 +225,14 @@ public abstract class MinijaxRequestContext
         return resourceCache;
     }
 
-    public <T> T get(final Class<T> c) {
+    @Override
+    public <T> T getResource(final Class<T> c) {
         return applicationContext.getInjector().getResource(c, this);
+    }
+
+    @Override
+    public <T> T initResource(final T resource) {
+        return applicationContext.getInjector().initResource(resource, this);
     }
 
     public MinijaxResourceMethod getResourceMethod() {
@@ -236,23 +241,5 @@ public abstract class MinijaxRequestContext
 
     public void setResourceMethod(final MinijaxResourceMethod resourceMethod) {
         this.resourceMethod = resourceMethod;
-    }
-
-
-    public ResourceContext getResourceContext() {
-        return new ResourceContext() {
-
-            @Override
-            public <T> T getResource(final Class<T> resourceClass) {
-                //throw new UnsupportedOperationException();
-//                return injector.getResource(resourceClass, context)
-                return MinijaxRequestContext.this.getApplicationContext().getInjector().getResource(resourceClass, MinijaxRequestContext.this);
-            }
-
-            @Override
-            public <T> T initResource(final T resource) {
-//                throw new UnsupportedOperationException();
-                return MinijaxRequestContext.this.getApplicationContext().getInjector().initResource(resource, MinijaxRequestContext.this);
-            }};
     }
 }

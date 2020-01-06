@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 import org.junit.Test;
-import org.minijax.commons.IOUtils;
 
 public class IOUtilsTest {
 

@@ -26,7 +26,7 @@ public class SecurityDaoTest extends MinijaxTest {
     @Test
     public void testApiKeys() throws IOException {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
-            final Dao dao = ctx.get(Dao.class);
+            final Dao dao = ctx.getResource(Dao.class);
 
             final User user = new User();
             user.setName("Alice");
@@ -64,7 +64,7 @@ public class SecurityDaoTest extends MinijaxTest {
         UserSession s2 = null;
 
         try (final MinijaxRequestContext ctx = createRequestContext()) {
-            final Dao dao = ctx.get(Dao.class);
+            final Dao dao = ctx.getResource(Dao.class);
 
             final User user = new User();
             user.setName("Alice");
@@ -72,7 +72,7 @@ public class SecurityDaoTest extends MinijaxTest {
             user.setRoles("user");
             dao.create(user);
 
-            final Security<User> security = ctx.get(Security.class);
+            final Security<User> security = ctx.getResource(Security.class);
 
             final Cookie c1 = security.loginAs(user);
             s1 = dao.read(UserSession.class, IdUtils.tryParse(c1.getValue()));
@@ -90,7 +90,7 @@ public class SecurityDaoTest extends MinijaxTest {
         }
 
         try (final MinijaxRequestContext ctx = createRequestContext()) {
-            final Dao dao = ctx.get(Dao.class);
+            final Dao dao = ctx.getResource(Dao.class);
             assertNull(dao.read(UserSession.class, s1.getId()));
             assertNull(dao.read(UserSession.class, s2.getId()));
         }

@@ -4,6 +4,8 @@ import java.io.Closeable;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.minijax.rs.util.CloseUtils;
+
 /**
  * The ResourceCache maps a CDI <code>Key</code> to instances of the class.
  */
@@ -23,12 +25,8 @@ public class ResourceCache implements Closeable {
         return (T) innerMap.get(key);
     }
 
-//    private Collection<Object> values() {
-//        return innerMap.values();
-//    }
-
     @Override
     public void close() {
-//        CloseUtils.closeQuietly(values());
+        CloseUtils.closeQuietly(innerMap.values());
     }
 }

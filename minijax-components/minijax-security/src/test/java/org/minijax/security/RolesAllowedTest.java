@@ -63,7 +63,7 @@ public class RolesAllowedTest extends MinijaxTest {
                 .register(RolesAllowedTest.class);
 
         try (final MinijaxRequestContext ctx = createRequestContext()) {
-            final Dao dao = ctx.get(Dao.class);
+            final Dao dao = ctx.getResource(Dao.class);
 
             alice = new User();
             alice.setName("Alice");
@@ -81,8 +81,8 @@ public class RolesAllowedTest extends MinijaxTest {
             bob.setRoles("user");
             dao.create(bob);
 
-            aliceCookie = ctx.get(Security.class).loginAs(alice);
-            bobCookie = ctx.get(Security.class).loginAs(bob);
+            aliceCookie = ctx.getResource(Security.class).loginAs(alice);
+            bobCookie = ctx.getResource(Security.class).loginAs(bob);
         }
     }
 
@@ -120,7 +120,7 @@ public class RolesAllowedTest extends MinijaxTest {
     @Test
     public void testLogin() throws Exception {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
-            final LoginResult result = ctx.get(Security.class).login("alice@example.com", "alicepwd");
+            final LoginResult result = ctx.getResource(Security.class).login("alice@example.com", "alicepwd");
             final NewCookie cookie = result.getCookie();
             assertNotNull(cookie);
             assertNotNull(cookie.getValue());
@@ -131,7 +131,7 @@ public class RolesAllowedTest extends MinijaxTest {
     @Test
     public void testLoginUserNotFound() throws Exception {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
-            final LoginResult result = ctx.get(Security.class).login("notfound@example.com", "alicepwd");
+            final LoginResult result = ctx.getResource(Security.class).login("notfound@example.com", "alicepwd");
             assertEquals(LoginResult.Status.NOT_FOUND, result.getStatus());
         }
     }
@@ -140,7 +140,7 @@ public class RolesAllowedTest extends MinijaxTest {
     @Test
     public void testLoginIncorrectPassword() throws Exception {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
-            final LoginResult result = ctx.get(Security.class).login("alice@example.com", "wrong_password");
+            final LoginResult result = ctx.getResource(Security.class).login("alice@example.com", "wrong_password");
             assertEquals(LoginResult.Status.INCORRECT, result.getStatus());
         }
     }

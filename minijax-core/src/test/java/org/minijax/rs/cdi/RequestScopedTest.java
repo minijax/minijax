@@ -28,9 +28,9 @@ public class RequestScopedTest {
         A a2;
 
         try (MinijaxRequestContext context = new MinijaxTestRequestContext(application, GET, "/")) {
-            a1 = context.get(A.class);
+            a1 = context.getResource(A.class);
             assertNotNull(a1);
-            a2 = context.get(A.class);
+            a2 = context.getResource(A.class);
             assertEquals(a1, a2);
             assertTrue(a1 == a2);
         }
@@ -39,9 +39,9 @@ public class RequestScopedTest {
         A a4;
 
         try (MinijaxRequestContext context = new MinijaxTestRequestContext(application, GET, "/")) {
-            a3 = context.get(A.class);
+            a3 = context.getResource(A.class);
             assertNotNull(a3);
-            a4 = context.get(A.class);
+            a4 = context.getResource(A.class);
             assertEquals(a3, a4);
             assertTrue(a3 == a4);
         }

@@ -19,15 +19,8 @@ public class MethodInjectTest {
         }
     }
 
-//    @BeforeClass
-//    public static void setUpMethodInjectTest() {
-//        resetServer();
-//        register(MethodInjectResource.class);
-//    }
-
     @Test
     public void testMethodInject() {
-//        final MethodInjectResource r = getServer().getResource(MethodInjectResource.class);
         try (final MinijaxInjector injector = new MinijaxInjector()) {
             final MethodInjectResource r = injector.getResource(MethodInjectResource.class);
             assertNotNull(r);

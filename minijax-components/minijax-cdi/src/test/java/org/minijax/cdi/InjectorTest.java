@@ -203,28 +203,6 @@ public class InjectorTest {
         injector.getResource(ExplodingConstructor.class);
     }
 
-//    private static class MultipleStrategies {
-//        @Context
-//        @HeaderParam("a")
-//        String a;
-//    }
-//
-//    @Test(expected = InjectionException.class)
-//    public void testMultipleStrategies() {
-//        injector.getResource(MultipleStrategies.class);
-//    }
-//
-//    private static class MultipleNames {
-//        @Named("a")
-//        @HeaderParam("a")
-//        String a;
-//    }
-//
-//    @Test(expected = InjectionException.class)
-//    public void testMultipleNames() {
-//        injector.getResource(MultipleNames.class);
-//    }
-
     static class ExplodingSetter {
         @Inject
         public void setFoo(final C foo) {

@@ -23,7 +23,7 @@ class CsrfFilter implements ContainerRequestFilter {
         }
 
         final MinijaxRequestContext ctx = (MinijaxRequestContext) requestContext;
-        final Security<?> security = ctx.get(Security.class);
+        final Security<?> security = ctx.getResource(Security.class);
         if (!security.isLoggedIn()) {
             return;
         }

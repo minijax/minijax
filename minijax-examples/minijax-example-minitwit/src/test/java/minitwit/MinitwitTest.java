@@ -34,7 +34,7 @@ public class MinitwitTest extends MinijaxTest {
                 .register(Minitwit.class);
 
         try (final MinijaxRequestContext ctx = createRequestContext()) {
-            final Dao dao = ctx.get(Dao.class);
+            final Dao dao = ctx.getResource(Dao.class);
             alice = new User();
             alice.setName("Alice Smith");
             alice.setHandle("alice");
@@ -43,7 +43,7 @@ public class MinitwitTest extends MinijaxTest {
             alice.setRoles("user");
             dao.create(alice);
 
-            aliceCookie = ctx.get(Security.class).loginAs(alice);
+            aliceCookie = ctx.getResource(Security.class).loginAs(alice);
 
             bob = new User();
             bob.setName("Bob Johnson");
@@ -53,7 +53,7 @@ public class MinitwitTest extends MinijaxTest {
             bob.setRoles("bob");
             dao.create(bob);
 
-            bobCookie = ctx.get(Security.class).loginAs(bob);
+            bobCookie = ctx.getResource(Security.class).loginAs(bob);
         }
     }
 
@@ -110,7 +110,7 @@ public class MinitwitTest extends MinijaxTest {
         assertEquals(303, response.getStatus());
 
         try (final MinijaxRequestContext ctx = createRequestContext()) {
-            final Dao dao = ctx.get(Dao.class);
+            final Dao dao = ctx.getResource(Dao.class);
             assertTrue(dao.read(User.class, alice.getId()).following.contains(bob));
         }
     }

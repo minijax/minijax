@@ -86,8 +86,8 @@ public class ResetPasswordTest extends MinijaxTest {
         String code = null;
 
         try (MinijaxRequestContext ctx = createRequestContext()) {
-            ctx.get(Dao.class).create(user);
-            code = ctx.get(Security.class).forgotPassword(user);
+            ctx.getResource(Dao.class).create(user);
+            code = ctx.getResource(Security.class).forgotPassword(user);
         }
 
         final Form form = new Form();
@@ -100,7 +100,7 @@ public class ResetPasswordTest extends MinijaxTest {
         assertFalse(r.getCookies().isEmpty());
 
         try (MinijaxRequestContext ctx = createRequestContext()) {
-            final User check = ctx.get(Dao.class).read(User.class, user.getId());
+            final User check = ctx.getResource(Dao.class).read(User.class, user.getId());
             assertFalse(BCrypt.checkpw("my-old-password", check.getPasswordHash()));
             assertTrue(BCrypt.checkpw("my-new-password", check.getPasswordHash()));
         }
@@ -117,8 +117,8 @@ public class ResetPasswordTest extends MinijaxTest {
         String code = null;
 
         try (MinijaxRequestContext ctx = createRequestContext()) {
-            ctx.get(Dao.class).create(user);
-            code = ctx.get(Security.class).forgotPassword(user);
+            ctx.getResource(Dao.class).create(user);
+            code = ctx.getResource(Security.class).forgotPassword(user);
         }
 
         final Form form = new Form();
@@ -142,8 +142,8 @@ public class ResetPasswordTest extends MinijaxTest {
         String code = null;
 
         try (MinijaxRequestContext ctx = createRequestContext()) {
-            ctx.get(Dao.class).create(user);
-            code = ctx.get(Security.class).forgotPassword(user);
+            ctx.getResource(Dao.class).create(user);
+            code = ctx.getResource(Security.class).forgotPassword(user);
         }
 
         final Form form = new Form();

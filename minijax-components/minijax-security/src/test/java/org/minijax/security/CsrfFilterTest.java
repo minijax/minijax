@@ -57,10 +57,10 @@ public class CsrfFilterTest extends MinijaxTest {
             user.setEmail("alice_csrf@example.com");
             user.setRoles("user");
 
-            final Dao dao = ctx.get(Dao.class);
+            final Dao dao = ctx.getResource(Dao.class);
             user = dao.create(user);
 
-            final Security<User> security = ctx.get(Security.class);
+            final Security<User> security = ctx.getResource(Security.class);
             cookie = security.loginAs(user);
         }
     }

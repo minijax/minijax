@@ -76,7 +76,7 @@ class MinijaxResourceMethod implements javax.ws.rs.container.ResourceInfo {
         if (Modifier.isStatic(method.getModifiers())) {
             instance = null;
         } else {
-            instance = ctx.get(method.getDeclaringClass());
+            instance = ctx.getResource(method.getDeclaringClass());
         }
 
         final Object[] params = new Object[paramProviders.length];

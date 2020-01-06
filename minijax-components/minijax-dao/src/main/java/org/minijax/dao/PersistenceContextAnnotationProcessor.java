@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.enterprise.inject.InjectionException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 
 import org.minijax.cdi.MinijaxInjectorState;
 import org.minijax.cdi.MinijaxProvider;
@@ -24,10 +25,18 @@ public class PersistenceContextAnnotationProcessor<T> implements FieldAnnotation
         if (type != EntityManager.class) {
             throw new InjectionException("Unexpected inject class for @PersistenceContext");
         }
-        //throw new UnsupportedOperationException();
 
-        final EntityManagerFactory emf = factories.get("");
+        final PersistenceContext persistenceContext = getPersistenceContextAnnotation(annotations);
+        final EntityManagerFactory emf = factories.get(persistenceContext.name());
         return (MinijaxProvider<T>) new EntityManagerProvider(emf);
     }
 
+    private PersistenceContext getPersistenceContextAnnotation(final Annotation[] annotations) {
+        for (final Annotation annotation : annotations) {
+            if (annotation.annotationType() == PersistenceContext.class) {
+                return (PersistenceContext) annotation;
+            }
+        }
+        return null;
+    }
 }

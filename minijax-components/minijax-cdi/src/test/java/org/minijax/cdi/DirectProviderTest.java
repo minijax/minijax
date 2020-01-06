@@ -12,7 +12,6 @@ public class DirectProviderTest {
         public int a;
     }
 
-//    @javax.ws.rs.ext.Provider
     public static class MyWidgetProvider implements Provider<MyWidget> {
         @Override
         public MyWidget get() {
@@ -49,19 +48,4 @@ public class DirectProviderTest {
             assertEquals(42, resource.a);
         }
     }
-
-//    @Test
-//    public void testAutoScanProvider() {
-//        final Minijax minijax = new Minijax();
-//        minijax.packages("org.minijax.cdi");
-//
-//        final MinijaxInjector injector = minijax.getDefaultApplication().getInjector();
-//
-//        final Provider<MyWidget> provider = injector.getProvider(MyWidget.class);
-//        assertNotNull(provider);
-//
-//        final MyWidget resource = injector.getResource(MyWidget.class);
-//        assertNotNull(resource);
-//        assertEquals(42, resource.a);
-//    }
 }

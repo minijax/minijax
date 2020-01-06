@@ -66,8 +66,8 @@ public class ChangePasswordTest extends MinijaxTest {
         Cookie cookie = null;
 
         try (MinijaxRequestContext ctx = createRequestContext()) {
-            ctx.get(Dao.class).create(user);
-            cookie = ctx.get(Security.class).loginAs(user);
+            ctx.getResource(Dao.class).create(user);
+            cookie = ctx.getResource(Security.class).loginAs(user);
         }
 
         final Form form = new Form();
@@ -81,7 +81,7 @@ public class ChangePasswordTest extends MinijaxTest {
         assertEquals(200, r.getStatus());
 
         try (MinijaxRequestContext ctx = createRequestContext()) {
-            final User check = ctx.get(Dao.class).read(User.class, user.getId());
+            final User check = ctx.getResource(Dao.class).read(User.class, user.getId());
             assertFalse(BCrypt.checkpw("my-old-password", check.getPasswordHash()));
             assertTrue(BCrypt.checkpw("my-new-password", check.getPasswordHash()));
         }
@@ -98,8 +98,8 @@ public class ChangePasswordTest extends MinijaxTest {
         Cookie cookie = null;
 
         try (MinijaxRequestContext ctx = createRequestContext()) {
-            ctx.get(Dao.class).create(user);
-            cookie = ctx.get(Security.class).loginAs(user);
+            ctx.getResource(Dao.class).create(user);
+            cookie = ctx.getResource(Security.class).loginAs(user);
         }
 
         final Form form = new Form();
@@ -125,8 +125,8 @@ public class ChangePasswordTest extends MinijaxTest {
         Cookie cookie = null;
 
         try (MinijaxRequestContext ctx = createRequestContext()) {
-            ctx.get(Dao.class).create(user);
-            cookie = ctx.get(Security.class).loginAs(user);
+            ctx.getResource(Dao.class).create(user);
+            cookie = ctx.getResource(Security.class).loginAs(user);
         }
 
         final Form form = new Form();
@@ -152,8 +152,8 @@ public class ChangePasswordTest extends MinijaxTest {
         Cookie cookie = null;
 
         try (MinijaxRequestContext ctx = createRequestContext()) {
-            ctx.get(Dao.class).create(user);
-            cookie = ctx.get(Security.class).loginAs(user);
+            ctx.getResource(Dao.class).create(user);
+            cookie = ctx.getResource(Security.class).loginAs(user);
         }
 
         final Form form = new Form();
@@ -179,8 +179,8 @@ public class ChangePasswordTest extends MinijaxTest {
         Cookie cookie = null;
 
         try (MinijaxRequestContext ctx = createRequestContext()) {
-            ctx.get(Dao.class).create(user);
-            cookie = ctx.get(Security.class).loginAs(user);
+            ctx.getResource(Dao.class).create(user);
+            cookie = ctx.getResource(Security.class).loginAs(user);
         }
 
         final Form form = new Form();

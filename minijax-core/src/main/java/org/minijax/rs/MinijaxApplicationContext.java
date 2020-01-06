@@ -496,7 +496,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
 
         try {
             if (securityContextClass != null) {
-                context.setSecurityContext(context.get(securityContextClass));
+                context.setSecurityContext(context.getResource(securityContextClass));
             }
 
             runRequestFilters(context);
@@ -531,7 +531,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
 
     private void runRequestFilters(final MinijaxRequestContext context) throws IOException {
         for (final Class<? extends ContainerRequestFilter> filterClass : requestFilters) {
-            final ContainerRequestFilter filter = context.get(filterClass);
+            final ContainerRequestFilter filter = context.getResource(filterClass);
             filter.filter(context);
         }
     }
@@ -540,7 +540,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
     private void runResponseFilters(final MinijaxRequestContext context, final Response response) throws IOException {
         final ContainerResponseContext responseContext = (ContainerResponseContext) response;
         for (final Class<? extends ContainerResponseFilter> filterClass : responseFilters) {
-            final ContainerResponseFilter filter = context.get(filterClass);
+            final ContainerResponseFilter filter = context.getResource(filterClass);
             filter.filter(context, responseContext);
         }
     }

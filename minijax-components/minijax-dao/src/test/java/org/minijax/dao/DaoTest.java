@@ -31,7 +31,7 @@ public class DaoTest extends MinijaxTest {
     @Before
     public void setUp() {
         context = createRequestContext();
-        dao = context.get(Dao.class);
+        dao = context.getResource(Dao.class);
     }
 
     @After
