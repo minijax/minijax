@@ -24,7 +24,6 @@ public class Minitwit {
 
     @Entity(name = "User")
     public static class User extends SecurityUser {
-        private static final long serialVersionUID = 1L;
         @OneToMany Set<User> following = new HashSet<>();
 
         public String gravatarUrl() throws IOException {
@@ -36,7 +35,6 @@ public class Minitwit {
 
     @Entity(name = "Message")
     public static class Message extends DefaultBaseEntity {
-        private static final long serialVersionUID = 1L;
         @ManyToOne User user;
         String text;
     }
@@ -48,16 +46,13 @@ public class Minitwit {
     private Security<User> security;
 
     @Inject
-    private User currentUser;
-
-    @Inject
     private Dao dao;
 
-    private Response renderTimeline(final List<Message> messages) {
-        final View view = new View("timeline");
+    private Response renderTimeline(List<Message> messages) {
+        View view = new View("timeline");
         view.getModel().put("messages", messages);
-        if (currentUser != null) {
-            view.getModel().put("user", currentUser);
+        if (security.isLoggedIn()) {
+            view.getModel().put("user", security.getUserPrincipal());
             view.getModel().put("csrf", security.getSessionToken());
         }
         return Response.ok(view, MediaType.TEXT_HTML).build();
@@ -65,12 +60,12 @@ public class Minitwit {
 
     @GET
     public Response timeline() {
-        if (currentUser == null) {
+        if (!security.isLoggedIn()) {
             return Response.seeOther(URI.create("/public")).build();
         }
-        final List<Message> messages = dao.getEntityManager()
+        List<Message> messages = dao.getEntityManager()
                 .createQuery("SELECT m FROM Message m WHERE m.user IN :following ORDER BY m.id DESC", Message.class)
-                .setParameter("following", currentUser.following)
+                .setParameter("following", security.getUserPrincipal().following)
                 .getResultList();
         return renderTimeline(messages);
     }
@@ -78,7 +73,7 @@ public class Minitwit {
     @GET
     @Path("/public")
     public Response publicTimeline() {
-        final List<Message> messages = dao.getEntityManager()
+        List<Message> messages = dao.getEntityManager()
                 .createQuery("SELECT m FROM Message m ORDER BY m.id DESC", Message.class)
                 .getResultList();
         return renderTimeline(messages);
@@ -86,9 +81,9 @@ public class Minitwit {
 
     @GET
     @Path("/{handle}")
-    public Response userTimeline(@PathParam("handle") final String handle) {
-        final User user = dao.readByHandle(User.class, handle);
-        final List<Message> messages = dao.getEntityManager()
+    public Response userTimeline(@PathParam("handle") String handle) {
+        User user = dao.readByHandle(User.class, handle);
+        List<Message> messages = dao.getEntityManager()
                 .createQuery("SELECT m FROM Message m WHERE m.user = :user ORDER BY m.id DESC", Message.class)
                 .setParameter("user", user)
                 .getResultList();
@@ -98,9 +93,9 @@ public class Minitwit {
     @GET
     @Path("/{handle}/follow")
     @RolesAllowed("user")
-    public Response followUser(@PathParam("handle") final String handle) {
-        currentUser.following.add(dao.readByHandle(User.class, handle));
-        dao.update(currentUser);
+    public Response followUser(@PathParam("handle") String handle) {
+        security.getUserPrincipal().following.add(dao.readByHandle(User.class, handle));
+        dao.update(security.getUserPrincipal());
         return Response.seeOther(URI.create("/")).build();
     }
 
@@ -108,10 +103,10 @@ public class Minitwit {
     @Path("/addmessage")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @RolesAllowed("user")
-    public Response addMessage(@FormParam("text") final String text) {
-        final Message msg = new Message();
+    public Response addMessage(@FormParam("text") String text) {
+        Message msg = new Message();
         msg.text = text;
-        msg.user = currentUser;
+        msg.user = security.getUserPrincipal();
         dao.create(msg);
         return Response.seeOther(URI.create("/")).build();
     }
@@ -126,14 +121,14 @@ public class Minitwit {
     @Path("/login")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response login(
-            @FormParam("email") final String email,
-            @FormParam("password") final String password) {
+            @FormParam("email") String email,
+            @FormParam("password") String password) {
 
-        final LoginResult result = security.login(email, password);
+        LoginResult result = security.login(email, password);
         if (result.getStatus() == LoginResult.Status.SUCCESS) {
             return Response.seeOther(URI.create("/")).cookie(result.getCookie()).build();
         } else {
-            final View view = new View("login");
+            View view = new View("login");
             view.getModel().put("error", result.getStatus());
             return Response.ok(view, MediaType.TEXT_HTML).build();
         }
@@ -142,7 +137,7 @@ public class Minitwit {
     @GET
     @Path("/logout")
     public Response logout() {
-        final NewCookie cookie = security.logout();
+        NewCookie cookie = security.logout();
         return Response.seeOther(URI.create("/")).cookie(cookie).build();
     }
 
@@ -156,11 +151,11 @@ public class Minitwit {
     @Path("/register")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response register(
-            @FormParam("handle") final String handle,
-            @FormParam("email") final String email,
-            @FormParam("password") final String password) {
+            @FormParam("handle") String handle,
+            @FormParam("email") String email,
+            @FormParam("password") String password) {
 
-        final User user = new User();
+        User user = new User();
         user.setName(handle);
         user.setHandle(handle);
         user.setEmail(email);
@@ -168,11 +163,11 @@ public class Minitwit {
         user.setPassword(password);
         user.following.add(user);
         dao.create(user);
-        final NewCookie cookie = security.loginAs(user);
+        NewCookie cookie = security.loginAs(user);
         return Response.seeOther(URI.create("/")).cookie(cookie).build();
     }
 
-    public static void main(final String[] args) {
+    public static void main(String[] args) {
         new Minijax()
                 .staticDirectories("static")
                 .register(PersistenceFeature.class)
