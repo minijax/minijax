@@ -5,7 +5,7 @@ import java.util.List;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.minijax.MinijaxHttpHeaders;
+import org.minijax.rs.MinijaxHttpHeaders;
 
 import io.netty.handler.codec.http.HttpRequest;
 

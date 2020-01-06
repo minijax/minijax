@@ -25,8 +25,8 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.apache.http.entity.InputStreamEntity;
-import org.minijax.MinijaxException;
-import org.minijax.util.EntityUtils;
+import org.minijax.rs.MinijaxException;
+import org.minijax.rs.util.EntityUtils;
 
 public class MinijaxClientInvocationBuilder implements javax.ws.rs.client.Invocation.Builder {
     private static final String TRACE = "TRACE";

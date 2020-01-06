@@ -6,7 +6,7 @@ import java.util.Map;
 import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.MediaType;
 
-import org.minijax.uri.MinijaxUriBuilder;
+import org.minijax.rs.uri.MinijaxUriBuilder;
 
 public class MinijaxClientWebTarget implements javax.ws.rs.client.WebTarget {
     private final MinijaxClient client;

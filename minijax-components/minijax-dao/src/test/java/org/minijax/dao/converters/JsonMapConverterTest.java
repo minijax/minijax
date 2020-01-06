@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.minijax.MinijaxException;
 import org.minijax.dao.converters.JsonMapConverter;
+import org.minijax.rs.MinijaxException;
 
 public class JsonMapConverterTest {
 

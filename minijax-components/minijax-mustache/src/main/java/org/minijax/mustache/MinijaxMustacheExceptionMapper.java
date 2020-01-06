@@ -8,7 +8,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.minijax.util.ExceptionUtils;
+import org.minijax.rs.util.ExceptionUtils;
 import org.minijax.view.View;
 
 @Provider

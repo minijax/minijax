@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response.Status;
 import org.junit.Before;
 import org.junit.Test;
 import org.minijax.json.JsonFeature;
-import org.minijax.test.MinijaxTest;
+import org.minijax.rs.test.MinijaxTest;
 
 import com.example.HelloJson.Widget;
 

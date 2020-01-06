@@ -9,10 +9,10 @@ import javax.ws.rs.core.Cookie;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.minijax.MinijaxRequestContext;
+import org.minijax.commons.IdUtils;
 import org.minijax.dao.PersistenceFeature;
-import org.minijax.test.MinijaxTest;
-import org.minijax.util.IdUtils;
+import org.minijax.rs.MinijaxRequestContext;
+import org.minijax.rs.test.MinijaxTest;
 
 public class SecurityDaoTest extends MinijaxTest {
 
@@ -77,12 +77,12 @@ public class SecurityDaoTest extends MinijaxTest {
             final Cookie c1 = security.loginAs(user);
             s1 = dao.read(UserSession.class, IdUtils.tryParse(c1.getValue()));
             assertNotNull(s1);
-            assertEquals(user, s1.getUser());
+            assertEquals(user.getId(), s1.getUserId());
 
             final Cookie c2 = security.loginAs(user);
             s2 = dao.read(UserSession.class, IdUtils.tryParse(c2.getValue()));
             assertNotNull(s2);
-            assertEquals(user, s2.getUser());
+            assertEquals(user.getId(), s2.getUserId());
 
             assertEquals(2, dao.readUserSessionsByUser(user.getId()).size());
 

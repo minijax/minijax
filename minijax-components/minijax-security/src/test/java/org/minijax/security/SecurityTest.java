@@ -15,10 +15,10 @@ import javax.ws.rs.core.SecurityContext;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.minijax.MinijaxProperties;
-import org.minijax.MinijaxRequestContext;
-import org.minijax.test.MinijaxTest;
-import org.minijax.util.IdUtils;
+import org.minijax.commons.IdUtils;
+import org.minijax.rs.MinijaxProperties;
+import org.minijax.rs.MinijaxRequestContext;
+import org.minijax.rs.test.MinijaxTest;
 
 public class SecurityTest extends MinijaxTest {
     private MinijaxRequestContext context;

@@ -11,7 +11,9 @@
     <name>minijax-components</name>
     <description>Minijax components</description>
     <modules>
+        <module>minijax-cdi</module>
         <module>minijax-client</module>
+        <module>minijax-commons</module>
         <module>minijax-dao</module>
         <module>minijax-json</module>
         <module>minijax-liquibase</module>

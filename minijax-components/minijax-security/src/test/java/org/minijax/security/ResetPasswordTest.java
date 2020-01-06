@@ -22,9 +22,9 @@ import javax.ws.rs.core.Response;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mindrot.jbcrypt.BCrypt;
-import org.minijax.MinijaxRequestContext;
 import org.minijax.dao.PersistenceFeature;
-import org.minijax.test.MinijaxTest;
+import org.minijax.rs.MinijaxRequestContext;
+import org.minijax.rs.test.MinijaxTest;
 
 public class ResetPasswordTest extends MinijaxTest {
 

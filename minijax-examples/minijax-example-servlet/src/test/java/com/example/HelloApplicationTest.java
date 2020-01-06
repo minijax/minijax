@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import java.util.Set;
 
 import org.junit.Test;
-import org.minijax.test.MinijaxTest;
+import org.minijax.rs.test.MinijaxTest;
 
 public class HelloApplicationTest extends MinijaxTest {
 

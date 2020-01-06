@@ -10,7 +10,7 @@ import javax.validation.Validator;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.minijax.util.IdUtils;
+import org.minijax.commons.IdUtils;
 
 public class ApiKeyTest {
     private static Validator validator;

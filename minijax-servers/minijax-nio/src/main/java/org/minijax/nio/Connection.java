@@ -15,10 +15,10 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.minijax.Minijax;
-import org.minijax.MinijaxApplicationContext;
-import org.minijax.MinijaxException;
-import org.minijax.MinijaxUriInfo;
-import org.minijax.util.EntityUtils;
+import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxException;
+import org.minijax.rs.MinijaxUriInfo;
+import org.minijax.rs.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

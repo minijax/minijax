@@ -7,7 +7,7 @@ import javax.ws.rs.core.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.minijax.mustache.MustacheFeature;
-import org.minijax.test.MinijaxTest;
+import org.minijax.rs.test.MinijaxTest;
 import org.minijax.view.View;
 
 public class HelloMustacheTest extends MinijaxTest {

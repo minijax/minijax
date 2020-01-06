@@ -5,9 +5,9 @@ import java.io.InputStream;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.UriInfo;
 
-import org.minijax.MinijaxApplicationContext;
-import org.minijax.MinijaxRequestContext;
-import org.minijax.MinijaxUriInfo;
+import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxRequestContext;
+import org.minijax.rs.MinijaxUriInfo;
 
 class MinijaxNioRequestContext extends MinijaxRequestContext {
     private final String method;

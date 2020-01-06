@@ -5,7 +5,7 @@ import java.util.Map;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import org.minijax.util.UrlUtils;
+import org.minijax.rs.util.UrlUtils;
 
 /**
  * The UrlEncodedMapConverter class implements the JPA converter from Map to URL-encoded String.

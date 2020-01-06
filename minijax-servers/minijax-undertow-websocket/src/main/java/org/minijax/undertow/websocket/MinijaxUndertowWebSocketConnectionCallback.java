@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.StatusType;
 
-import org.minijax.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -6,8 +6,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.junit.Test;
-import org.minijax.MinijaxException;
 import org.minijax.dao.converters.UrlConverter;
+import org.minijax.rs.MinijaxException;
 
 public class UrlConverterTest {
 

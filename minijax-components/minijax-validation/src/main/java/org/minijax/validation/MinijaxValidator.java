@@ -17,7 +17,7 @@ import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.ContainerElementTypeDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
-import org.minijax.util.CopyOnWriteMap;
+import org.minijax.commons.CopyOnWriteMap;
 import org.minijax.validation.metadata.MinijaxBeanDescriptor;
 import org.minijax.validation.metadata.MinijaxConstraintDescriptor;
 import org.minijax.validation.metadata.MinijaxPropertyDescriptor;

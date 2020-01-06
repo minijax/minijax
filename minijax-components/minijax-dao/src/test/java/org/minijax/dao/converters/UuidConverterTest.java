@@ -6,8 +6,8 @@ import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.minijax.commons.IdUtils;
 import org.minijax.dao.converters.UuidConverter;
-import org.minijax.util.IdUtils;
 
 public class UuidConverterTest {
     private UuidConverter converter;

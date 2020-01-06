@@ -7,7 +7,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import org.minijax.Minijax;
-import org.minijax.MinijaxServer;
+import org.minijax.rs.MinijaxServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

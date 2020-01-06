@@ -16,9 +16,15 @@ import javax.ws.rs.core.CacheControl;
 
 import org.apache.commons.io.IOUtils;
 import org.minijax.cdi.MinijaxInjector;
-import org.minijax.util.ClassPathScanner;
-import org.minijax.util.OptionalClasses;
-import org.minijax.util.UrlUtils;
+import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxCacheControlFilter;
+import org.minijax.rs.MinijaxException;
+import org.minijax.rs.MinijaxProperties;
+import org.minijax.rs.MinijaxServer;
+import org.minijax.rs.MinijaxStaticResource;
+import org.minijax.rs.util.ClassPathScanner;
+import org.minijax.rs.util.OptionalClasses;
+import org.minijax.rs.util.UrlUtils;
 
 /**
  * The Minijax class represents a container for JAX-RS applications.
@@ -59,7 +65,7 @@ public class Minijax {
         port = DEFAULT_PORT;
     }
 
-    List<MinijaxApplicationContext> getApplications() {
+    public List<MinijaxApplicationContext> getApplications() {
         return applications;
     }
 

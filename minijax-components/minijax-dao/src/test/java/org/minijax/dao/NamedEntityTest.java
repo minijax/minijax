@@ -12,10 +12,10 @@ import javax.validation.Validator;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.minijax.commons.IdUtils;
 import org.minijax.dao.Avatar;
 import org.minijax.dao.NamedEntity;
 import org.minijax.dao.test.Widget;
-import org.minijax.util.IdUtils;
 
 public class NamedEntityTest {
     private static Validator validator;

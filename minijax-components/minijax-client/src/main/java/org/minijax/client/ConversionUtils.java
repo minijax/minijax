@@ -6,8 +6,8 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.http.HttpEntity;
-import org.minijax.MinijaxException;
-import org.minijax.util.EntityUtils;
+import org.minijax.rs.MinijaxException;
+import org.minijax.rs.util.EntityUtils;
 
 public class ConversionUtils {
 

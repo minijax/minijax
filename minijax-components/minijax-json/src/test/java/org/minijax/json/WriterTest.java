@@ -13,7 +13,7 @@ import javax.ws.rs.ext.MessageBodyWriter;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minijax.test.MinijaxTest;
+import org.minijax.rs.test.MinijaxTest;
 
 public class WriterTest extends MinijaxTest {
     private MessageBodyWriter<?> writer;

@@ -5,7 +5,7 @@ import java.util.UUID;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import org.minijax.util.IdUtils;
+import org.minijax.commons.IdUtils;
 
 /**
  * The UuidConverter class implements the JPA converter from UUID to byte array.

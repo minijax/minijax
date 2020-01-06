@@ -8,11 +8,11 @@ import javax.ws.rs.client.*;
 import javax.ws.rs.core.*;
 
 import org.junit.*;
-import org.minijax.*;
 import org.minijax.dao.*;
 import org.minijax.mustache.*;
+import org.minijax.rs.*;
+import org.minijax.rs.test.*;
 import org.minijax.security.*;
-import org.minijax.test.*;
 import org.minijax.view.*;
 
 import minitwit.Minitwit.Dao;

@@ -11,7 +11,7 @@ import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.minijax.MinijaxHttpHeaders;
+import org.minijax.rs.MinijaxHttpHeaders;
 
 class MinijaxServletHttpHeaders extends MinijaxHttpHeaders {
     private final HttpServletRequest request;

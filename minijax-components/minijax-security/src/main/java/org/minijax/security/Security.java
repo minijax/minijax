@@ -23,8 +23,8 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
 
 import org.mindrot.jbcrypt.BCrypt;
-import org.minijax.MinijaxProperties;
-import org.minijax.util.IdUtils;
+import org.minijax.commons.IdUtils;
+import org.minijax.rs.MinijaxProperties;
 
 
 /**

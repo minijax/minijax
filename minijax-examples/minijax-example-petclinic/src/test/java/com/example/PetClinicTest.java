@@ -1,9 +1,9 @@
 package com.example;
 
-import org.minijax.MinijaxProperties;
 import org.minijax.dao.PersistenceFeature;
 import org.minijax.mustache.MustacheFeature;
-import org.minijax.test.MinijaxTest;
+import org.minijax.rs.MinijaxProperties;
+import org.minijax.rs.test.MinijaxTest;
 
 public abstract class PetClinicTest extends MinijaxTest {
     protected PetClinicTest() {

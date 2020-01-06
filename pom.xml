@@ -302,12 +302,17 @@
             </dependency>
             <dependency>
                 <groupId>org.minijax</groupId>
-                <artifactId>minijax-avatar</artifactId>
+                <artifactId>minijax-cdi</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.minijax</groupId>
                 <artifactId>minijax-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.minijax</groupId>
+                <artifactId>minijax-commons</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

@@ -54,7 +54,7 @@ public class Minitwit {
     private Dao dao;
 
     private Response renderTimeline(final List<Message> messages) {
-        View view = new View("timeline");
+        final View view = new View("timeline");
         view.getModel().put("messages", messages);
         if (currentUser != null) {
             view.getModel().put("user", currentUser);
@@ -68,7 +68,7 @@ public class Minitwit {
         if (currentUser == null) {
             return Response.seeOther(URI.create("/public")).build();
         }
-        List<Message> messages = dao.getEntityManager()
+        final List<Message> messages = dao.getEntityManager()
                 .createQuery("SELECT m FROM Message m WHERE m.user IN :following ORDER BY m.id DESC", Message.class)
                 .setParameter("following", currentUser.following)
                 .getResultList();
@@ -78,7 +78,7 @@ public class Minitwit {
     @GET
     @Path("/public")
     public Response publicTimeline() {
-        List<Message> messages = dao.getEntityManager()
+        final List<Message> messages = dao.getEntityManager()
                 .createQuery("SELECT m FROM Message m ORDER BY m.id DESC", Message.class)
                 .getResultList();
         return renderTimeline(messages);
@@ -86,9 +86,9 @@ public class Minitwit {
 
     @GET
     @Path("/{handle}")
-    public Response userTimeline(@PathParam("handle") String handle) {
-        User user = dao.readByHandle(User.class, handle);
-        List<Message> messages = dao.getEntityManager()
+    public Response userTimeline(@PathParam("handle") final String handle) {
+        final User user = dao.readByHandle(User.class, handle);
+        final List<Message> messages = dao.getEntityManager()
                 .createQuery("SELECT m FROM Message m WHERE m.user = :user ORDER BY m.id DESC", Message.class)
                 .setParameter("user", user)
                 .getResultList();
@@ -98,7 +98,7 @@ public class Minitwit {
     @GET
     @Path("/{handle}/follow")
     @RolesAllowed("user")
-    public Response followUser(@PathParam("handle") String handle) {
+    public Response followUser(@PathParam("handle") final String handle) {
         currentUser.following.add(dao.readByHandle(User.class, handle));
         dao.update(currentUser);
         return Response.seeOther(URI.create("/")).build();
@@ -108,8 +108,8 @@ public class Minitwit {
     @Path("/addmessage")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @RolesAllowed("user")
-    public Response addMessage(@FormParam("text") String text) {
-        Message msg = new Message();
+    public Response addMessage(@FormParam("text") final String text) {
+        final Message msg = new Message();
         msg.text = text;
         msg.user = currentUser;
         dao.create(msg);
@@ -126,14 +126,14 @@ public class Minitwit {
     @Path("/login")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response login(
-            @FormParam("email") String email,
-            @FormParam("password") String password) {
+            @FormParam("email") final String email,
+            @FormParam("password") final String password) {
 
-        LoginResult result = security.login(email, password);
+        final LoginResult result = security.login(email, password);
         if (result.getStatus() == LoginResult.Status.SUCCESS) {
             return Response.seeOther(URI.create("/")).cookie(result.getCookie()).build();
         } else {
-            View view = new View("login");
+            final View view = new View("login");
             view.getModel().put("error", result.getStatus());
             return Response.ok(view, MediaType.TEXT_HTML).build();
         }
@@ -142,7 +142,7 @@ public class Minitwit {
     @GET
     @Path("/logout")
     public Response logout() {
-        NewCookie cookie = security.logout();
+        final NewCookie cookie = security.logout();
         return Response.seeOther(URI.create("/")).cookie(cookie).build();
     }
 
@@ -156,11 +156,11 @@ public class Minitwit {
     @Path("/register")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response register(
-            @FormParam("handle") String handle,
-            @FormParam("email") String email,
-            @FormParam("password") String password) {
+            @FormParam("handle") final String handle,
+            @FormParam("email") final String email,
+            @FormParam("password") final String password) {
 
-        User user = new User();
+        final User user = new User();
         user.setName(handle);
         user.setHandle(handle);
         user.setEmail(email);
@@ -168,7 +168,7 @@ public class Minitwit {
         user.setPassword(password);
         user.following.add(user);
         dao.create(user);
-        NewCookie cookie = security.loginAs(user);
+        final NewCookie cookie = security.loginAs(user);
         return Response.seeOther(URI.create("/")).cookie(cookie).build();
     }
 

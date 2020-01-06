@@ -11,7 +11,7 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 
-import org.minijax.MinijaxRequestContext;
+import org.minijax.rs.MinijaxRequestContext;
 
 @RequestScoped
 class CsrfFilter implements ContainerRequestFilter {

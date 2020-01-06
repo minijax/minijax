@@ -10,11 +10,11 @@ import javax.persistence.PersistenceContext;
 
 import org.junit.Test;
 import org.minijax.Minijax;
-import org.minijax.MinijaxApplicationContext;
-import org.minijax.MinijaxRequestContext;
 import org.minijax.dao.PersistenceFeature;
 import org.minijax.dao.test.Widget;
-import org.minijax.test.MinijaxTestRequestContext;
+import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxRequestContext;
+import org.minijax.rs.test.MinijaxTestRequestContext;
 
 public class PersistenceContextTest {
 

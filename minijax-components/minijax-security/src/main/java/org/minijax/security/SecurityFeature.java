@@ -3,9 +3,9 @@ package org.minijax.security;
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.FeatureContext;
 
-import org.minijax.MinijaxProperties;
-import org.minijax.MinijaxRequestContext;
 import org.minijax.cdi.MinijaxProvider;
+import org.minijax.rs.MinijaxProperties;
+import org.minijax.rs.MinijaxRequestContext;
 
 public class SecurityFeature implements Feature {
     private final Class<? extends SecurityUser> userClass;
@@ -32,8 +32,8 @@ public class SecurityFeature implements Feature {
 
         @Override
         @SuppressWarnings("unchecked")
-        public SecurityUser get(final MinijaxRequestContext context) {
-            return context.get(Security.class).getUserPrincipal();
+        public SecurityUser get(final Object context) {
+            return ((MinijaxRequestContext) context).get(Security.class).getUserPrincipal();
         }
 
         @Override

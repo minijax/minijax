@@ -8,11 +8,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.minijax.Minijax;
-import org.minijax.MinijaxApplicationContext;
-import org.minijax.MinijaxRequestContext;
-import org.minijax.MinijaxServer;
+import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxRequestContext;
+import org.minijax.rs.MinijaxServer;
+import org.minijax.rs.util.EntityUtils;
 import org.minijax.undertow.websocket.MinijaxUndertowWebSocketConnectionCallback;
-import org.minijax.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

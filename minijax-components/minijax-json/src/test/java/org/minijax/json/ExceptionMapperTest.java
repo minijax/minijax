@@ -8,8 +8,8 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
 
 import org.junit.Test;
-import org.minijax.MinijaxRequestContext;
-import org.minijax.test.MinijaxTest;
+import org.minijax.rs.MinijaxRequestContext;
+import org.minijax.rs.test.MinijaxTest;
 
 public class ExceptionMapperTest extends MinijaxTest {
 

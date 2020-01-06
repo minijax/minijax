@@ -9,12 +9,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.minijax.MinijaxRequestContext;
 import org.minijax.dao.ConflictException;
 import org.minijax.dao.DefaultBaseDao;
 import org.minijax.dao.PersistenceFeature;
 import org.minijax.dao.test.Widget;
-import org.minijax.test.MinijaxTest;
+import org.minijax.rs.MinijaxRequestContext;
+import org.minijax.rs.test.MinijaxTest;
 
 public class DaoTest extends MinijaxTest {
     private MinijaxRequestContext context;

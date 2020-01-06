@@ -6,10 +6,10 @@ import java.util.Collections;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.UriInfo;
 
-import org.minijax.MinijaxApplicationContext;
-import org.minijax.MinijaxRequestContext;
-import org.minijax.MinijaxUriInfo;
-import org.minijax.uri.MinijaxUriBuilder;
+import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxRequestContext;
+import org.minijax.rs.MinijaxUriInfo;
+import org.minijax.rs.uri.MinijaxUriBuilder;
 
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.Headers;

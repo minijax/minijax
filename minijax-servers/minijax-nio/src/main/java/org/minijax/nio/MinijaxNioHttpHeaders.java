@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.minijax.MinijaxHttpHeaders;
+import org.minijax.rs.MinijaxHttpHeaders;
 
 class MinijaxNioHttpHeaders extends MinijaxHttpHeaders {
     private final MultivaluedMap<String, String> requestHeaders;

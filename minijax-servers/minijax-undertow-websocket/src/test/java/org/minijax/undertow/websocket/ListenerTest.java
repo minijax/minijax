@@ -8,9 +8,9 @@ import javax.websocket.OnMessage;
 
 import org.junit.Test;
 import org.minijax.Minijax;
-import org.minijax.MinijaxApplicationContext;
-import org.minijax.MinijaxRequestContext;
-import org.minijax.test.MinijaxTest;
+import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxRequestContext;
+import org.minijax.rs.test.MinijaxTest;
 
 import io.undertow.websockets.core.BufferedTextMessage;
 import io.undertow.websockets.core.WebSocketChannel;

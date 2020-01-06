@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minijax.test.MinijaxTest;
+import org.minijax.rs.test.MinijaxTest;
 import org.minijax.view.View;
 
 import com.github.mustachejava.MustacheNotFoundException;

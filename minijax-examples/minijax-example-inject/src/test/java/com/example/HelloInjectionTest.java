@@ -6,7 +6,7 @@ import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minijax.test.MinijaxTest;
+import org.minijax.rs.test.MinijaxTest;
 
 import com.example.HelloInjection.MyResource;
 import com.example.HelloInjection.MyService;

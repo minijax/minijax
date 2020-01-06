@@ -3,7 +3,7 @@ package org.minijax.netty;
 import java.net.InetSocketAddress;
 
 import org.minijax.Minijax;
-import org.minijax.MinijaxServer;
+import org.minijax.rs.MinijaxServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

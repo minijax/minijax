@@ -14,7 +14,7 @@ import javax.ws.rs.core.HttpHeaders;
 
 import org.junit.Test;
 import org.minijax.Minijax;
-import org.minijax.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxApplicationContext;
 
 import io.undertow.websockets.spi.WebSocketHttpExchange;
 

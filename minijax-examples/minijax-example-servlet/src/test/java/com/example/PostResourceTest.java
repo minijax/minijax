@@ -6,7 +6,7 @@ import javax.ws.rs.client.Entity;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minijax.test.MinijaxTest;
+import org.minijax.rs.test.MinijaxTest;
 
 public class PostResourceTest extends MinijaxTest {
 
