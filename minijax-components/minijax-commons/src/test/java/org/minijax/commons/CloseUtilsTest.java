@@ -1,16 +1,17 @@
-package org.minijax.rs.util;
+package org.minijax.commons;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 import org.junit.Test;
-import org.minijax.rs.util.CloseUtils;
 
 public class CloseUtilsTest {
 
@@ -33,6 +34,14 @@ public class CloseUtilsTest {
     }
 
     @Test
+    public void testAutoCloseableCollection() {
+        final List<MyAutoCloseable> list = Arrays.asList(new MyAutoCloseable(), new MyAutoCloseable());
+        CloseUtils.closeQuietly(list);
+        assertTrue(list.get(0).closed);
+        assertTrue(list.get(1).closed);
+    }
+
+    @Test
     @SuppressWarnings("squid:S2699")
     public void testExplodingAutoCloseable() {
         final ExplodingAutoCloseable obj = new ExplodingAutoCloseable();
@@ -47,20 +56,39 @@ public class CloseUtilsTest {
     }
 
     @Test
-    public void testEntityManager() {
-        final EntityManagerFactory emf = Persistence.createEntityManagerFactory("testdb");
-        assertNotNull(emf);
-        assertTrue(emf.isOpen());
-
-        final EntityManager em = emf.createEntityManager();
-        assertNotNull(em);
-        assertTrue(em.isOpen());
-
-        CloseUtils.closeQuietly(em);
-        assertFalse(em.isOpen());
-
+    public void testEntityManagerFactoryOpen() {
+        final EntityManagerFactory emf = mock(EntityManagerFactory.class);
+        when(emf.isOpen()).thenReturn(true);
         CloseUtils.closeQuietly(emf);
-        assertFalse(emf.isOpen());
+        verify(emf, times(1)).isOpen();
+        verify(emf, times(1)).close();
+    }
+
+    @Test
+    public void testEntityManagerFactoryClosed() {
+        final EntityManagerFactory emf = mock(EntityManagerFactory.class);
+        when(emf.isOpen()).thenReturn(false);
+        CloseUtils.closeQuietly(emf);
+        verify(emf, times(1)).isOpen();
+        verify(emf, never()).close();
+    }
+
+    @Test
+    public void testEntityManagerOpen() {
+        final EntityManager em = mock(EntityManager.class);
+        when(em.isOpen()).thenReturn(true);
+        CloseUtils.closeQuietly(em);
+        verify(em, times(1)).isOpen();
+        verify(em, times(1)).close();
+    }
+
+    @Test
+    public void testEntityManagerClosed() {
+        final EntityManager em = mock(EntityManager.class);
+        when(em.isOpen()).thenReturn(false);
+        CloseUtils.closeQuietly(em);
+        verify(em, times(1)).isOpen();
+        verify(em, never()).close();
     }
 
     /*

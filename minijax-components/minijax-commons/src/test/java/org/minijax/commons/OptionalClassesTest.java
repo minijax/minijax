@@ -1,9 +1,9 @@
-package org.minijax.rs.util;
+package org.minijax.commons;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.minijax.rs.util.OptionalClasses;
+import org.minijax.commons.OptionalClasses;
 
 public class OptionalClassesTest {
 

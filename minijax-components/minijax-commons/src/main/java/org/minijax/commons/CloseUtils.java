@@ -2,6 +2,9 @@ package org.minijax.commons;
 
 import java.util.Collection;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,12 +31,38 @@ public class CloseUtils {
             closeAutoCloseable((AutoCloseable) obj);
             return;
         }
+
+        if (OptionalClasses.ENTITY_MANAGER_FACTORY != null) {
+            if (EntityManagerFactory.class.isAssignableFrom(obj.getClass())) {
+                closeEntityManagerFactory((EntityManagerFactory) obj);
+            } else if (EntityManager.class.isAssignableFrom(obj.getClass())) {
+                closeEntityManager((EntityManager) obj);
+            }
+        }
     }
 
     private static void closeAutoCloseable(final AutoCloseable obj) {
         try {
-            if (obj != null) {
-                obj.close();
+            obj.close();
+        } catch (final Exception ex) {
+            LOG.warn(ex.getMessage(), ex);
+        }
+    }
+
+    private static void closeEntityManagerFactory(final EntityManagerFactory emf) {
+        try {
+            if (emf.isOpen()) {
+                emf.close();
+            }
+        } catch (final Exception ex) {
+            LOG.warn(ex.getMessage(), ex);
+        }
+    }
+
+    private static void closeEntityManager(final EntityManager em) {
+        try {
+            if (em.isOpen()) {
+                em.close();
             }
         } catch (final Exception ex) {
             LOG.warn(ex.getMessage(), ex);

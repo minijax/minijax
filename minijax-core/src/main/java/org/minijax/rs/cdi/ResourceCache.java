@@ -4,7 +4,7 @@ import java.io.Closeable;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.minijax.rs.util.CloseUtils;
+import org.minijax.commons.CloseUtils;
 
 /**
  * The ResourceCache maps a CDI <code>Key</code> to instances of the class.

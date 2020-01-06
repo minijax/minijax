@@ -18,6 +18,7 @@ import javax.ws.rs.core.CacheControl;
 
 import org.apache.commons.io.IOUtils;
 import org.minijax.cdi.MinijaxInjector;
+import org.minijax.commons.OptionalClasses;
 import org.minijax.rs.MinijaxApplicationContext;
 import org.minijax.rs.MinijaxCacheControlFilter;
 import org.minijax.rs.MinijaxException;
@@ -28,7 +29,6 @@ import org.minijax.rs.MinijaxStaticResource;
 import org.minijax.rs.test.MinijaxTestRequestContext;
 import org.minijax.rs.test.MinijaxTestWebTarget;
 import org.minijax.rs.util.ClassPathScanner;
-import org.minijax.rs.util.OptionalClasses;
 import org.minijax.rs.util.UrlUtils;
 
 /**

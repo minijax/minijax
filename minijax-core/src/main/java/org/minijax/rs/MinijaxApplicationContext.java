@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -57,6 +56,7 @@ import javax.ws.rs.ext.ParamConverter;
 import org.minijax.cdi.MinijaxInjector;
 import org.minijax.cdi.MinijaxProvider;
 import org.minijax.cdi.annotation.DefaultFieldAnnotationProcessor;
+import org.minijax.commons.OptionalClasses;
 import org.minijax.rs.cdi.ContextAnnotationProcessor;
 import org.minijax.rs.cdi.CookieParamAnnotationProcessor;
 import org.minijax.rs.cdi.EntityProvider;
@@ -68,7 +68,6 @@ import org.minijax.rs.cdi.RequestScopedAnnotationProcessor;
 import org.minijax.rs.delegates.MinijaxResponseBuilder;
 import org.minijax.rs.util.ExceptionUtils;
 import org.minijax.rs.util.MediaTypeUtils;
-import org.minijax.rs.util.OptionalClasses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -334,7 +333,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
             return;
         }
 
-        registerProvider(c);
+//        registerProvider(c);
         registerResourceMethods(c);
         registerWebSockets(c);
         registerFeature(c);
@@ -384,28 +383,28 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
     }
 
 
-    /**
-     * Registers a <code>javax.inject.Provider</code> directly.
-     *
-     * If a class implements the <code>Provider</code> interface, register it as a provider.
-     *
-     * @param c The auto scanned class.
-     */
-    private void registerProvider(final Class<?> c) {
-        if (!javax.inject.Provider.class.isAssignableFrom(c)) {
-            return;
-        }
-
-        for (final Type genericInterface : c.getGenericInterfaces()) {
-            if (genericInterface instanceof ParameterizedType) {
-                final ParameterizedType parameterizedType = (ParameterizedType) genericInterface;
-                if (parameterizedType.getRawType() == javax.inject.Provider.class) {
-                    final Type typeArgument = parameterizedType.getActualTypeArguments()[0];
-                    getInjector().register(c, (Class<?>) typeArgument);
-                }
-            }
-        }
-    }
+//    /**
+//     * Registers a <code>javax.inject.Provider</code> directly.
+//     *
+//     * If a class implements the <code>Provider</code> interface, register it as a provider.
+//     *
+//     * @param c The auto scanned class.
+//     */
+//    private void registerProvider(final Class<?> c) {
+//        if (!javax.inject.Provider.class.isAssignableFrom(c)) {
+//            return;
+//        }
+//
+//        for (final Type genericInterface : c.getGenericInterfaces()) {
+//            if (genericInterface instanceof ParameterizedType) {
+//                final ParameterizedType parameterizedType = (ParameterizedType) genericInterface;
+//                if (parameterizedType.getRawType() == javax.inject.Provider.class) {
+//                    final Type typeArgument = parameterizedType.getActualTypeArguments()[0];
+//                    getInjector().register(c, (Class<?>) typeArgument);
+//                }
+//            }
+//        }
+//    }
 
 
     private void registerResourceMethods(final Class<?> c) {
