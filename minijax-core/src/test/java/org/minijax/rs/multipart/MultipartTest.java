@@ -26,7 +26,6 @@ public class MultipartTest {
         }
     }
 
-
     @Test(expected = MinijaxException.class)
     public void testGetStringException() throws IOException {
         try (final Multipart form = new Multipart()) {

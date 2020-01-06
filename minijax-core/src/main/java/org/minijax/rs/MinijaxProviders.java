@@ -35,7 +35,6 @@ public class MinijaxProviders implements Providers {
     private final MediaTypeClassMap<ExceptionMapper<?>> exceptionMappers;
     private final List<ParamConverterProvider> paramConverterProviders;
 
-
     public MinijaxProviders(final MinijaxApplicationContext application) {
         this.application = application;
         readers = new MediaTypeClassMap<>();
@@ -43,7 +42,6 @@ public class MinijaxProviders implements Providers {
         exceptionMappers = new MediaTypeClassMap<>();
         paramConverterProviders = new ArrayList<>(getDefaultParamConverterProviders());
     }
-
 
     @SuppressWarnings("unchecked")
     public void register(final Class<?> c) {
@@ -64,7 +62,6 @@ public class MinijaxProviders implements Providers {
         }
     }
 
-
     @Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public <T> MessageBodyReader<T> getMessageBodyReader(
@@ -81,7 +78,6 @@ public class MinijaxProviders implements Providers {
         }
         return null;
     }
-
 
     @Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -112,12 +108,10 @@ public class MinijaxProviders implements Providers {
         return null;
     }
 
-
     @Override
     public <T extends Throwable> ExceptionMapper<T> getExceptionMapper(final Class<T> type) {
         throw new UnsupportedOperationException();
     }
-
 
     /**
      * Get an exception mapping provider for a particular class of exception.
@@ -141,7 +135,6 @@ public class MinijaxProviders implements Providers {
         return null;
     }
 
-
     public <T> ParamConverter<T> getParamConverter(final Class<T> rawType, final Type genericType, final Annotation[] annotations) {
         for (final ParamConverterProvider provider : paramConverterProviders) {
             final ParamConverter<T> converter = provider.getConverter(rawType, genericType, annotations);
@@ -152,12 +145,10 @@ public class MinijaxProviders implements Providers {
         return null;
     }
 
-
     @Override
     public <T> ContextResolver<T> getContextResolver(final Class<T> contextType, final MediaType mediaType) {
         throw new UnsupportedOperationException();
     }
-
 
     private static List<ParamConverterProvider> getDefaultParamConverterProviders() {
         return Collections.singletonList(new UuidParamConverterProvider());

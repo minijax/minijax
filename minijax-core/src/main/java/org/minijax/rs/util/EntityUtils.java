@@ -77,7 +77,6 @@ public class EntityUtils {
         throw new MinijaxException("Unknown entity type (" + entityClass + ")");
     }
 
-
     /**
      * Writes an entity to the output stream.
      *
@@ -135,7 +134,6 @@ public class EntityUtils {
 
         throw new MinijaxException("No writer found for " + entity.getClass() + " and " + mediaType);
     }
-
 
     /**
      * Writes an entity to an input stream.

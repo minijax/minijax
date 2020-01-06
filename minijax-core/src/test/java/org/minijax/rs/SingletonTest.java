@@ -31,7 +31,6 @@ public class SingletonTest {
         }
     }
 
-
     static class SingletonResource {
         @Inject
         private SingletonCounter counter;
@@ -42,7 +41,6 @@ public class SingletonTest {
             return counter.getCount();
         }
     }
-
 
     static class CounterResource {
         @Inject
@@ -55,7 +53,6 @@ public class SingletonTest {
         }
     }
 
-
     @Test
     public void testRegisterClass() {
         final Minijax server = new Minijax()
@@ -66,7 +63,6 @@ public class SingletonTest {
         assertEquals(2, getCount(server, "/singleton"));
         assertEquals(3, getCount(server, "/singleton"));
     }
-
 
     @Test
     public void testRegisterInstance() {
@@ -79,7 +75,6 @@ public class SingletonTest {
         assertEquals(3, getCount(server, "/singleton"));
     }
 
-
     @Test
     public void testRegisterInstanceWithContract() {
         final Minijax server = new Minijax()
@@ -91,7 +86,6 @@ public class SingletonTest {
         assertEquals(3, getCount(server, "/counter"));
     }
 
-
     @Test
     public void testRegisterInstanceWithIgnoredPriority() {
         final Minijax server = new Minijax()
@@ -102,7 +96,6 @@ public class SingletonTest {
         assertEquals(2, getCount(server, "/singleton"));
         assertEquals(3, getCount(server, "/singleton"));
     }
-
 
     @Test
     public void testRegisterInstanceWithContractMap() {
@@ -120,7 +113,6 @@ public class SingletonTest {
         assertEquals(2, getCount(server, "/counter"));
         assertEquals(3, getCount(server, "/counter"));
     }
-
 
     private static int getCount(final Minijax server, final String path) {
         return new MinijaxTestWebTarget(server, URI.create(path)).request().get(Integer.class);

@@ -26,7 +26,6 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.minijax.commons.IdUtils;
 import org.minijax.rs.MinijaxProperties;
 
-
 /**
  * The Security class manages logging in and out of the application.
  *
@@ -51,7 +50,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
     private final UserSession session;
     private final SecurityUser user;
 
-
     @Inject
     @SuppressWarnings("unchecked")
     public Security(
@@ -68,11 +66,9 @@ public class Security<T extends SecurityUser> implements SecurityContext {
         user = session != null ? session.getUser() : null;
     }
 
-
     public Class<SecurityUser> getUserClass() {
         return userClass;
     }
-
 
     /**
      * Returns the currently logged in user for this HTTP request.
@@ -86,7 +82,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
         return (T) user;
     }
 
-
     /**
      * Returns true if a user is logged in for this HTTP request.
      *
@@ -95,7 +90,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
     public boolean isLoggedIn() {
         return getUserPrincipal() != null;
     }
-
 
     /**
      * Requires that the user is logged in.
@@ -106,7 +100,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
         }
     }
 
-
     /**
      * Requires a cookie session (prevents API access).
      */
@@ -115,7 +108,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
             throw new ForbiddenException();
         }
     }
-
 
     /**
      * Returns the session token.
@@ -129,7 +121,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
         return session.getId().toString();
     }
 
-
     /**
      * Validates a session token to guard against a CSRF attack.
      *
@@ -140,7 +131,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
             throw new BadRequestException("Invalid session ID");
         }
     }
-
 
     /**
      * Logs in the user with email address and password.
@@ -167,7 +157,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
         return new LoginResult(loginAs(candidate));
     }
 
-
     /**
      * Logs in as another user.
      *
@@ -181,7 +170,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
         return createCookie(newSession.getId().toString(), COOKIE_MAX_AGE);
     }
 
-
     /**
      * Logs out the user.
      */
@@ -192,7 +180,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
 
         return createCookie("", 0);
     }
-
 
     /**
      * Changes the current user's password.
@@ -226,7 +213,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
         return ChangePasswordResult.SUCCESS;
     }
 
-
     /**
      * Handles a request for "Forgot Password".
      *
@@ -243,7 +229,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
         dao.create(pcr);
         return pcr.getCode();
     }
-
 
     /**
      * Handles a request for "Reset Password".
@@ -286,11 +271,9 @@ public class Security<T extends SecurityUser> implements SecurityContext {
         return new ResetPasswordResult(loginAs(resetUser));
     }
 
-
     /*
      * Private helper methods.
      */
-
 
     /**
      * Initializes the user object.
@@ -315,7 +298,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
         // Otherwise, not logged in.
         return null;
     }
-
 
     /**
      * Tries to retrieve a user from API key in the Authorization header.
@@ -344,7 +326,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
         apiSession.setUser(apiUser);
         return apiSession;
     }
-
 
     /**
      * Tries to login with a session cookie.
@@ -380,7 +361,6 @@ public class Security<T extends SecurityUser> implements SecurityContext {
         return rememberedSession;
     }
 
-
     /**
      * Returns a new cookie with specified value.
      *
@@ -393,18 +373,15 @@ public class Security<T extends SecurityUser> implements SecurityContext {
         return new NewCookie(COOKIE_NAME, value, COOKIE_PATH, COOKIE_DOMAIN, "", maxAge, false, true);
     }
 
-
     @Override
     public boolean isUserInRole(final String role) {
         return user != null && user.hasRole(role);
     }
 
-
     @Override
     public boolean isSecure() {
         return true;
     }
-
 
     @Override
     public String getAuthenticationScheme() {

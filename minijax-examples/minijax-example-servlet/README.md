@@ -11,7 +11,6 @@ https://www.eclipse.org/jetty/documentation/9.4.x/jetty-maven-plugin.html
 
 For documentation on how to use the Tomcat Maven plugin:
 
-
 To run the application using Jetty ([jetty-maven-plugin](https://www.eclipse.org/jetty/documentation/9.4.x/jetty-maven-plugin.html)):
 ```
 mvn jetty:run

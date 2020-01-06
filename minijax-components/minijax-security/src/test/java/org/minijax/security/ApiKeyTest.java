@@ -36,7 +36,6 @@ public class ApiKeyTest {
         assertEquals(user.getId(), e.getUserId());
     }
 
-
     @Test
     public void testEquals() {
         final ApiKey m1 = new ApiKey();
@@ -52,7 +51,6 @@ public class ApiKeyTest {
         assertFalse(m1.equals(null));
     }
 
-
     @Test
     public void testToJson() throws IOException {
         final ApiKey m = new ApiKey();
@@ -62,7 +60,6 @@ public class ApiKeyTest {
         assertTrue(json.contains("\"id\":\"" + m.getId() + "\""));
     }
 
-
     @Test
     public void testValidateSuccess() {
         final ApiKey apiKey = new ApiKey();
@@ -70,7 +67,6 @@ public class ApiKeyTest {
         apiKey.setUser(new User());
         assertTrue(validator.validate(apiKey).isEmpty());
     }
-
 
     @Test
     public void testValidateNullCode() {

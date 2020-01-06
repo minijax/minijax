@@ -34,7 +34,6 @@ public class StringConversionTest extends MinijaxTest {
         }
     }
 
-
     @GET @Path("/boolean") @Consumes(TEXT_PLAIN) @Produces(TEXT_PLAIN)
     public static String getBoolean(@QueryParam("x") final boolean x) {
         return "Received: " + x;

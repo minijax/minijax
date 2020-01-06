@@ -124,13 +124,11 @@ public class LiquibaseHelperTest {
         migrationsDir.delete();
     }
 
-
     @Test
     public void testNotIgnoreEmptyChangeSet() {
         final ChangeSet changeSet = new ChangeSet(null);
         assertFalse(LiquibaseHelper.isIgnoredChangeSet(changeSet));
     }
-
 
     @Test
     public void testNotIgnoreAddColumn() {
@@ -141,7 +139,6 @@ public class LiquibaseHelperTest {
 
         assertFalse(LiquibaseHelper.isIgnoredChangeSet(changeSet));
     }
-
 
     @Test
     public void testNotIgnoreDropOtherTable() {
@@ -154,7 +151,6 @@ public class LiquibaseHelperTest {
         assertFalse(LiquibaseHelper.isIgnoredChangeSet(changeSet));
     }
 
-
     @Test
     public void testIgnoreChangeSet() {
         final DropTableChange change = new DropTableChange();
@@ -165,7 +161,6 @@ public class LiquibaseHelperTest {
 
         assertTrue(LiquibaseHelper.isIgnoredChangeSet(changeSet));
     }
-
 
     @Test
     public void testFilterChangeSets() {
@@ -187,12 +182,10 @@ public class LiquibaseHelperTest {
         assertEquals(c1, filtered.get(0).getChanges().get(0));
     }
 
-
     @Test
     public void testCloseEntityManagerFactoryNull() {
         LiquibaseHelper.closeQuietly((EntityManagerFactory) null);
     }
-
 
     @Test
     public void testCloseEntityManagerFactoryException() throws Exception {
@@ -204,12 +197,10 @@ public class LiquibaseHelperTest {
         verify(emf).close();
     }
 
-
     @Test
     public void testCloseDatabaseNull() {
         LiquibaseHelper.closeQuietly((Database) null);
     }
-
 
     @Test
     public void testCloseDatabaseException() throws Exception {
@@ -220,7 +211,6 @@ public class LiquibaseHelperTest {
 
         verify(database).close();
     }
-
 
     private static List<String> getTables(final String url) throws SQLException {
         final List<String> result = new ArrayList<>();
@@ -233,7 +223,6 @@ public class LiquibaseHelperTest {
         }
         return result;
     }
-
 
     private static void deleteDatabase(final File dbFile) throws IOException {
         final String name = dbFile.getName();

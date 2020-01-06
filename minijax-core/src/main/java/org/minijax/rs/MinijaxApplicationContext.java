@@ -85,7 +85,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
     private final MinijaxProviders providers;
     private Class<? extends SecurityContext> securityContextClass;
 
-
     public MinijaxApplicationContext(final String path) {
         this.path = path;
         injector = new MinijaxInjector();
@@ -107,7 +106,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         responseFilters = new ArrayList<>();
         providers = new MinijaxProviders(this);
     }
-
 
     /**
      * Registers a <code>javax.ws.rs.core.Application</code> class.
@@ -215,36 +213,30 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         return this;
     }
 
-
     public MinijaxApplicationContext properties(final Map<String, String> props) {
         configuration.properties(props);
         return this;
     }
-
 
     public MinijaxApplicationContext properties(final Properties props) {
         configuration.properties(props);
         return this;
     }
 
-
     public MinijaxApplicationContext properties(final File file) throws IOException {
         configuration.properties(file);
         return this;
     }
-
 
     public MinijaxApplicationContext properties(final InputStream inputStream) throws IOException {
         configuration.properties(inputStream);
         return this;
     }
 
-
     public MinijaxApplicationContext properties(final String fileName) throws IOException {
         configuration.properties(fileName);
         return this;
     }
-
 
     @Override
     public MinijaxApplicationContext register(final Class<?> componentClass) {
@@ -252,13 +244,11 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         return this;
     }
 
-
     @Override
     public MinijaxApplicationContext register(final Class<?> componentClass, final int priority) {
         registerImpl(componentClass);
         return this;
     }
-
 
     @Override
     public MinijaxApplicationContext register(final Class<?> componentClass, final Class<?>... contracts) {
@@ -269,7 +259,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         return this;
     }
 
-
     @Override
     public MinijaxApplicationContext register(final Class<?> componentClass, final Map<Class<?>, Integer> contracts) {
         for (final Class<?> contract : contracts.keySet()) {
@@ -279,18 +268,15 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         return this;
     }
 
-
     @Override
     public MinijaxApplicationContext register(final Object component) {
         return this.register(component, component.getClass());
     }
 
-
     @Override
     public MinijaxApplicationContext register(final Object component, final int priority) {
         return this.register(component, component.getClass());
     }
-
 
     @Override
     public MinijaxApplicationContext register(final Object component, final Class<?>... contracts) {
@@ -301,7 +287,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         return this;
     }
 
-
     @Override
     public MinijaxApplicationContext register(final Object component, final Map<Class<?>, Integer> contracts) {
         for (final Class<?> contract : contracts.keySet()) {
@@ -311,24 +296,24 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         return this;
     }
 
-
     public MinijaxApplicationContext allowCors(final String urlPrefix) {
         register(MinijaxCorsFilter.class);
         getResource(MinijaxCorsFilter.class).addPathPrefix(urlPrefix);
         return this;
     }
 
-
     public MinijaxProviders getProviders() {
         return providers;
     }
-
 
     /*
      * Private helpers
      */
 
     private void registerImpl(final Class<?> c) {
+        if (classesScanned.contains(c)) {
+            return;
+        }
         registerResourceMethods(c);
         registerWebSockets(c);
         registerFeature(c);
@@ -377,7 +362,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         }
     }
 
-
     private void registerResourceMethods(final Class<?> c) {
         for (final Method method : c.getDeclaredMethods()) {
             for (final Annotation annotation : method.getAnnotations()) {
@@ -389,7 +373,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         }
     }
 
-
     public void addResourceMethod(final MinijaxResourceMethod rm) {
         for (final DynamicFeature dynamicFeature : dynamicFeatures) {
             dynamicFeature.configure(rm, this);
@@ -398,7 +381,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         resourceMethods.add(rm);
         MinijaxResourceMethod.sortByLiteralLength(resourceMethods);
     }
-
 
     private void registerWebSockets(final Class<?> c) {
         if (OptionalClasses.SERVER_ENDPOINT == null) {
@@ -409,7 +391,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
             webSockets.add(c);
         }
     }
-
 
     @SuppressWarnings("unchecked")
     private void registerFeature(final Class<?> c) {
@@ -425,13 +406,11 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         }
     }
 
-
     private void registerDynamicFeature(final Class<?> c) {
         if (DynamicFeature.class.isAssignableFrom(c)) {
             dynamicFeatures.add((DynamicFeature) getResource(c));
         }
     }
-
 
     @SuppressWarnings("unchecked")
     private void registerFilter(final Class<?> c) {
@@ -444,7 +423,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         }
     }
 
-
     @SuppressWarnings("unchecked")
     private void registerSecurityContext(final Class<?> c) {
         if (SecurityContext.class.isAssignableFrom(c)) {
@@ -454,7 +432,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
             securityContextClass = (Class<? extends SecurityContext>) c;
         }
     }
-
 
     public Response handle(final MinijaxRequestContext context) {
         final MinijaxResourceMethod rm = findRoute(context.getMethod(), (MinijaxUriInfo) context.getUriInfo());
@@ -483,7 +460,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         }
     }
 
-
     private MinijaxResourceMethod findRoute(final String httpMethod, final MinijaxUriInfo uriInfo) {
         for (final MinijaxResourceMethod rm : resourceMethods) {
             if (rm.tryMatch(httpMethod, uriInfo)) {
@@ -498,14 +474,12 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         return null;
     }
 
-
     private void runRequestFilters(final MinijaxRequestContext context) throws IOException {
         for (final Class<? extends ContainerRequestFilter> filterClass : requestFilters) {
             final ContainerRequestFilter filter = context.getResource(filterClass);
             filter.filter(context);
         }
     }
-
 
     private void runResponseFilters(final MinijaxRequestContext context, final Response response) throws IOException {
         final ContainerResponseContext responseContext = (ContainerResponseContext) response;
@@ -514,7 +488,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
             filter.filter(context, responseContext);
         }
     }
-
 
     private void checkSecurity(final MinijaxRequestContext context) {
         final Annotation a = context.getResourceMethod().getSecurityAnnotation();
@@ -551,7 +524,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         }
     }
 
-
     /**
      * Returns the param providers for a resource method.
      *
@@ -585,7 +557,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         return result;
     }
 
-
     private Response toResponse(final MinijaxResourceMethod rm, final Object obj) {
         if (obj == null) {
             throw new NotFoundException();
@@ -600,7 +571,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
                 .type(findResponseType(obj, rm.getProduces()))
                 .build();
     }
-
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private Response toResponse(final MinijaxRequestContext context, final Exception ex) {
@@ -623,7 +593,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         return ExceptionUtils.toWebAppException(ex).getResponse();
     }
 
-
     @SuppressWarnings("rawtypes")
     private MediaType findResponseType(
             final Object obj,
@@ -640,7 +609,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
 
         return TEXT_PLAIN_TYPE;
     }
-
 
     /**
      * Converts a parameter to a type.
@@ -663,7 +631,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         // Try default primitive converters
         return convertStringToType(str, c);
     }
-
 
     @SuppressWarnings({ "unchecked" })
     private <T> T convertStringToType(final String str, final Class<T> c) {
@@ -699,7 +666,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
 
         throw new MinijaxException("No string conversion for \"" + c + "\"");
     }
-
 
     @SuppressWarnings({ "unchecked" })
     private <T> T convertStringToPrimitive(final String str, final Class<T> c) {

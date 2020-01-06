@@ -20,7 +20,6 @@ public interface BaseEntity extends Serializable {
 
     void setId(UUID id);
 
-
     /**
      * Returns the date/time when the object was created in the database.
      *
@@ -28,14 +27,12 @@ public interface BaseEntity extends Serializable {
      */
     Instant getCreatedDateTime();
 
-
     /**
      * Returns the date/time when the object was last updated in the database.
      *
      * @return The updated date/time.
      */
     Instant getUpdatedDateTime();
-
 
     /**
      * Returns whether the object is deleted.
@@ -49,7 +46,6 @@ public interface BaseEntity extends Serializable {
 
     void setDeleted(boolean deleted);
 
-
     /**
      * Returns the date/time when the object was last deleted in the database.
      *
@@ -59,7 +55,6 @@ public interface BaseEntity extends Serializable {
      * @return The deleted date/time.
      */
     Instant getDeletedDateTime();
-
 
     /**
      * Sorts a list of ID objects by created time (ascending).

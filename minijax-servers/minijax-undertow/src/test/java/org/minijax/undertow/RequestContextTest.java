@@ -38,7 +38,6 @@ public class RequestContextTest {
         }
     }
 
-
     @Test
     public void testEntityStream() throws Exception {
         final Minijax minijax = new Minijax();
@@ -61,7 +60,6 @@ public class RequestContextTest {
             assertEquals(entityStream, ctx.getEntityStream());
         }
     }
-
 
     @Test
     public void testForwardedHttpsProto() throws Exception {

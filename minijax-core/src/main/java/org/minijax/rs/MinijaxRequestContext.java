@@ -70,9 +70,7 @@ public abstract class MinijaxRequestContext
         properties.remove(name);
     }
 
-
     public abstract HttpHeaders getHttpHeaders();
-
 
     /**
      * Get the mutable request headers multivalued map.
@@ -84,7 +82,6 @@ public abstract class MinijaxRequestContext
     public MultivaluedMap<String, String> getHeaders() {
         return getHttpHeaders().getRequestHeaders();
     }
-
 
     /**
      * Get any cookies that accompanied the request.

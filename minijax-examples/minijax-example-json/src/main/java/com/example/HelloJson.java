@@ -40,15 +40,12 @@ public class HelloJson {
         }
     }
 
-
     static final Map<String, Widget> WIDGETS = new HashMap<>();
-
 
     @GET
     public static Collection<Widget> read() {
         return WIDGETS.values();
     }
-
 
     @GET
     @Path("/{id}")
@@ -56,14 +53,12 @@ public class HelloJson {
         return WIDGETS.get(id);
     }
 
-
     @POST
     @Consumes(APPLICATION_JSON)
     public static Response create(final Widget widget) {
         WIDGETS.put(widget.id, widget);
         return Response.created(URI.create("/widgets/" + widget.id)).build();
     }
-
 
     public static void main(final String[] args) {
         new Minijax()

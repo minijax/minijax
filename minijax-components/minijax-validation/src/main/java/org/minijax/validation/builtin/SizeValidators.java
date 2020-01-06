@@ -14,7 +14,6 @@ public class SizeValidators {
         throw new UnsupportedOperationException();
     }
 
-
     public static class SizeValidatorForArray implements ConstraintValidator<Size, Object> {
         private final Size size;
 
@@ -32,7 +31,6 @@ public class SizeValidators {
         }
     }
 
-
     public static class SizeValidatorForCharSequence implements ConstraintValidator<Size, CharSequence> {
         private final Size size;
 
@@ -46,7 +44,6 @@ public class SizeValidators {
         }
     }
 
-
     public static class SizeValidatorForCollection implements ConstraintValidator<Size, Collection<?>> {
         private final Size size;
 
@@ -59,7 +56,6 @@ public class SizeValidators {
             return value == null || (value.size() >= size.min() && value.size() <= size.max());
         }
     }
-
 
     public static class SizeValidatorForMap implements ConstraintValidator<Size, Map<?, ?>> {
         private final Size size;

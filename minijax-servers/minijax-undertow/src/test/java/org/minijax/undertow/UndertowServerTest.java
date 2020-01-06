@@ -28,7 +28,6 @@ public class UndertowServerTest {
         server.handleRequest(exchange);
     }
 
-
     @Test
     public void testStartStop() throws Exception {
         final Minijax minijax = new Minijax();

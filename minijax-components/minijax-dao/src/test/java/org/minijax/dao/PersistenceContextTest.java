@@ -32,7 +32,6 @@ public class PersistenceContextTest {
         }
     }
 
-
     @Test
     public void testPersistenceContextInject() throws IOException {
         final Minijax container = new Minijax()

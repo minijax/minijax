@@ -13,23 +13,19 @@ public class IOUtils {
         throw new UnsupportedOperationException();
     }
 
-
     public static byte[] toByteArray(final InputStream input) throws IOException {
         final ByteArrayOutputStream output = new ByteArrayOutputStream();
         copy(input, output);
         return output.toByteArray();
     }
 
-
     public static InputStream toInputStream(final String str, final Charset charset) {
         return new ByteArrayInputStream(str.getBytes(charset));
     }
 
-
     public static String toString(final InputStream input, final Charset charset) throws IOException {
         return new String(toByteArray(input), charset);
     }
-
 
     public static void copy(final InputStream input, final OutputStream output)
             throws IOException {

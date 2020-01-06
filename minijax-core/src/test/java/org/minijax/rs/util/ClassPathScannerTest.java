@@ -21,7 +21,6 @@ public class ClassPathScannerTest {
         assertFalse(result.isEmpty());
     }
 
-
     @Test
     public void testJarScanner() throws IOException {
         final URLClassLoader loader = new URLClassLoader(new URL[] { new URL("jar:file:src/test/resources/dummy.jar!/") });
@@ -29,7 +28,6 @@ public class ClassPathScannerTest {
         assertNotNull(result);
         assertEquals(2, result.size());
     }
-
 
     @Test(expected = IllegalArgumentException.class)
     public void testUnknownProtocol() throws IOException {

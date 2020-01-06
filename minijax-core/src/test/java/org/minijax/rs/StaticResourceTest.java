@@ -20,7 +20,6 @@ public class StaticResourceTest extends MinijaxTest {
                 .staticDirectories("static");
     }
 
-
     @Test
     public void testStaticFile() {
         final Response response = target("/config.properties").request().get();
@@ -32,7 +31,6 @@ public class StaticResourceTest extends MinijaxTest {
         assertEquals("a=b\n", str);
     }
 
-
     @Test
     public void testStaticDirectory() {
         final Response response = target("/static").request().get();
@@ -40,14 +38,12 @@ public class StaticResourceTest extends MinijaxTest {
         assertEquals(404, response.getStatus());
     }
 
-
     @Test
     public void testStaticDirectoryTrailingSlash() {
         final Response response = target("/static/").request().get();
         assertNotNull(response);
         assertEquals(404, response.getStatus());
     }
-
 
     @Test
     public void testStaticDirectoryFile() {
@@ -60,7 +56,6 @@ public class StaticResourceTest extends MinijaxTest {
         assertNotNull(str);
         assertEquals("Hello world!\n", str);
     }
-
 
     @Test
     public void testStaticDirectoryFileNotFound() {

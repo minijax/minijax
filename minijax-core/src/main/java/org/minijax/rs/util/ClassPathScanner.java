@@ -23,11 +23,9 @@ public class ClassPathScanner {
     private static final Logger LOG = LoggerFactory.getLogger(ClassPathScanner.class);
     private final Set<Class<?>> result = new HashSet<>();
 
-
     public static Set<Class<?>> scan(final String packageName) throws IOException {
         return scan(packageName, Thread.currentThread().getContextClassLoader());
     }
-
 
     public static Set<Class<?>> scan(final String packageName, final ClassLoader cld)
             throws IOException {
@@ -35,7 +33,6 @@ public class ClassPathScanner {
         scanner.scanImpl(packageName, cld);
         return scanner.result;
     }
-
 
     private void scanImpl(final String packageName, final ClassLoader classLoader) throws IOException {
         final Enumeration<URL> resources = classLoader.getResources(packageName.replace('.', '/'));
@@ -54,7 +51,6 @@ public class ClassPathScanner {
         }
     }
 
-
     private void checkDirectory(final ClassLoader classLoader, final File file, final String name) {
         if (!file.exists()) {
             return;
@@ -69,7 +65,6 @@ public class ClassPathScanner {
             addClass(classLoader, name.substring(0, name.length() - 6));
         }
     }
-
 
     private void checkJarFile(final ClassLoader classLoader, final URL url, final String pckgname) throws IOException {
         final JarURLConnection conn = (JarURLConnection) url.openConnection();
@@ -90,7 +85,6 @@ public class ClassPathScanner {
             }
         }
     }
-
 
     private void addClass(final ClassLoader classLoader, final String className) {
         try {

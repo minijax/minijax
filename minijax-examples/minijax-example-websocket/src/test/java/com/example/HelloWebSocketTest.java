@@ -27,7 +27,6 @@ public class HelloWebSocketTest {
     }
 
 
-
     @Test
     public void testWebSocketError() throws IOException {
         final EchoEndpoint endpoint = new EchoEndpoint();
@@ -36,7 +35,6 @@ public class HelloWebSocketTest {
         endpoint.onError(session, new Exception());
         endpoint.onClose(session);
     }
-
 
     private Session getSession() {
         final Basic basicRemote = mock(Basic.class);

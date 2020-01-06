@@ -26,14 +26,12 @@ public class CsrfFilterTest extends MinijaxTest {
     private static User user;
     private static NewCookie cookie;
 
-
     @POST
     @Path("/public_form")
     @Consumes(APPLICATION_FORM_URLENCODED)
     public static Response handlePublicForm(final MultivaluedMap<String, String> form) {
         return Response.ok().build();
     }
-
 
     @POST
     @Path("/private_form")
@@ -42,7 +40,6 @@ public class CsrfFilterTest extends MinijaxTest {
     public static Response handlePrivateForm(final MultivaluedMap<String, String> form) {
         return Response.ok().build();
     }
-
 
     @BeforeClass
     @SuppressWarnings("unchecked")
@@ -65,7 +62,6 @@ public class CsrfFilterTest extends MinijaxTest {
         }
     }
 
-
     @Test
     public void testPublic() {
         final Form form = new Form();
@@ -74,7 +70,6 @@ public class CsrfFilterTest extends MinijaxTest {
         assertNotNull(r);
         assertEquals(200, r.getStatus());
     }
-
 
     @Test
     public void testPrivateFormWithoutUser() {
@@ -85,7 +80,6 @@ public class CsrfFilterTest extends MinijaxTest {
         assertEquals(401, r.getStatus());
     }
 
-
     @Test
     public void testPrivateFormWithoutCsrf() {
         final Form form = new Form();
@@ -94,7 +88,6 @@ public class CsrfFilterTest extends MinijaxTest {
         assertNotNull(r);
         assertEquals(400, r.getStatus());
     }
-
 
     @Test
     public void testPrivateFormWithCsrf() {

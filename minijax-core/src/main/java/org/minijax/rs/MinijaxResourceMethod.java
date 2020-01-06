@@ -108,14 +108,12 @@ class MinijaxResourceMethod implements javax.ws.rs.container.ResourceInfo {
         return UrlUtils.concatUrlPaths(classPath, methodPath);
     }
 
-
     private static List<MediaType> findProduces(final Method m) {
         final List<MediaType> result = new ArrayList<>();
         result.addAll(MediaTypeUtils.parseMediaTypes(m.getDeclaringClass().getAnnotation(Produces.class)));
         result.addAll(MediaTypeUtils.parseMediaTypes(m.getAnnotation(Produces.class)));
         return result;
     }
-
 
     private static Annotation findSecurityAnnotation(final Method m) {
         final Annotation methodAnnotation = findSecurityAnnotation(m.getAnnotations());
@@ -124,7 +122,6 @@ class MinijaxResourceMethod implements javax.ws.rs.container.ResourceInfo {
         }
         return findSecurityAnnotation(m.getDeclaringClass().getAnnotations());
     }
-
 
     private static Annotation findSecurityAnnotation(final Annotation[] annotations) {
         for (final Annotation a : annotations) {
@@ -135,7 +132,6 @@ class MinijaxResourceMethod implements javax.ws.rs.container.ResourceInfo {
         }
         return null;
     }
-
 
     /**
      * Calculates the "literal length" of the resource method path.
@@ -152,7 +148,6 @@ class MinijaxResourceMethod implements javax.ws.rs.container.ResourceInfo {
         return curlyIndex != -1 ? curlyIndex : path.length();
     }
 
-
     public boolean tryMatch(final String httpMethod, final MinijaxUriInfo uriInfo) {
         if (!this.httpMethod.equals(httpMethod)) {
             return false;
@@ -166,7 +161,6 @@ class MinijaxResourceMethod implements javax.ws.rs.container.ResourceInfo {
         uriInfo.setPathParameters(pathParameters);
         return true;
     }
-
 
     /**
      * Sorts a list of resource methods.

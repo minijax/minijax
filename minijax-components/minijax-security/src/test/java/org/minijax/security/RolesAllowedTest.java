@@ -24,19 +24,16 @@ public class RolesAllowedTest extends MinijaxTest {
     private static User bob;
     private static NewCookie bobCookie;
 
-
     @RequestScoped
     private static class Dao extends DefaultBaseDao implements SecurityDao {
 
     }
-
 
     @GET
     @Path("/public")
     public static Response getPublic() {
         return Response.ok().build();
     }
-
 
     @GET
     @Path("/private")
@@ -45,14 +42,12 @@ public class RolesAllowedTest extends MinijaxTest {
         return Response.ok().build();
     }
 
-
     @GET
     @Path("/admin")
     @RolesAllowed("admin")
     public static Response getAdmin() {
         return Response.ok().build();
     }
-
 
     @BeforeClass
     public static void setUpSecurityTest() throws IOException {
@@ -86,36 +81,30 @@ public class RolesAllowedTest extends MinijaxTest {
         }
     }
 
-
     @Test
     public void testAnonymous() throws IOException {
         assertEquals(200, target("/public").request().get().getStatus());
     }
-
 
     @Test
     public void testUnauthorized() throws Exception {
         assertEquals(401, target("/private").request().get().getStatus());
     }
 
-
     @Test
     public void testCookieLogin() throws Exception {
         assertEquals(200, target("/private").request().cookie(bobCookie).get().getStatus());
     }
-
 
     @Test
     public void testForbidden() throws Exception {
         assertEquals(403, target("/admin").request().cookie(bobCookie).get().getStatus());
     }
 
-
     @Test
     public void testAdminAccess() throws Exception {
         assertEquals(200, target("/admin").request().cookie(aliceCookie).get().getStatus());
     }
-
 
     @Test
     public void testLogin() throws Exception {
@@ -127,7 +116,6 @@ public class RolesAllowedTest extends MinijaxTest {
         }
     }
 
-
     @Test
     public void testLoginUserNotFound() throws Exception {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
@@ -135,7 +123,6 @@ public class RolesAllowedTest extends MinijaxTest {
             assertEquals(LoginResult.Status.NOT_FOUND, result.getStatus());
         }
     }
-
 
     @Test
     public void testLoginIncorrectPassword() throws Exception {

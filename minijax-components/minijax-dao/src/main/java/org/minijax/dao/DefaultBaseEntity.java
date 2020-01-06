@@ -57,11 +57,9 @@ public abstract class DefaultBaseEntity implements BaseEntity {
     @SuppressWarnings("squid:S3437")
     private Instant deletedDateTime;
 
-
     protected DefaultBaseEntity() {
         id = IdUtils.create();
     }
-
 
     /**
      * Returns the ID of the object.
@@ -73,7 +71,6 @@ public abstract class DefaultBaseEntity implements BaseEntity {
         return id;
     }
 
-
     /**
      * Sets the ID of the object.
      *
@@ -83,7 +80,6 @@ public abstract class DefaultBaseEntity implements BaseEntity {
     public void setId(final UUID id) {
         this.id = id;
     }
-
 
     /**
      * Returns the date/time when the object was created in the database.
@@ -95,7 +91,6 @@ public abstract class DefaultBaseEntity implements BaseEntity {
         return createdDateTime;
     }
 
-
     /**
      * Sets the date/time when the object was created in the database.
      *
@@ -104,7 +99,6 @@ public abstract class DefaultBaseEntity implements BaseEntity {
     public void setCreatedDateTime(final Instant createdDateTime) {
         this.createdDateTime = createdDateTime;
     }
-
 
     /**
      * Returns the date/time when the object was last updated in the database.
@@ -116,7 +110,6 @@ public abstract class DefaultBaseEntity implements BaseEntity {
         return updatedDateTime;
     }
 
-
     /**
      * Sets the date/time when the object was last updated in the database.
      *
@@ -125,7 +118,6 @@ public abstract class DefaultBaseEntity implements BaseEntity {
     public void setUpdatedDateTime(final Instant updatedDateTime) {
         this.updatedDateTime = updatedDateTime;
     }
-
 
     /**
      * Returns whether the object is deleted.
@@ -140,7 +132,6 @@ public abstract class DefaultBaseEntity implements BaseEntity {
         return deletedDateTime != null;
     }
 
-
     /**
      * Marks the entity as deleted.
      *
@@ -152,7 +143,6 @@ public abstract class DefaultBaseEntity implements BaseEntity {
     public void setDeleted(final boolean deleted) {
         deletedDateTime = deleted ? Instant.now() : null;
     }
-
 
     /**
      * Returns the date/time when the object was last deleted in the database.
@@ -178,7 +168,6 @@ public abstract class DefaultBaseEntity implements BaseEntity {
         updatedDateTime = Instant.now();
     }
 
-
     /**
      * Returns a hash code for this details object.
      * The hash code is completely based on the ID.
@@ -189,7 +178,6 @@ public abstract class DefaultBaseEntity implements BaseEntity {
     public int hashCode() {
         return id == null ? 0 : id.hashCode();
     }
-
 
     /**
      * Determines if this object equals another.
@@ -213,11 +201,9 @@ public abstract class DefaultBaseEntity implements BaseEntity {
         return Objects.equals(id, other.id);
     }
 
-
     public String toJson() throws IOException {
         return Json.getObjectMapper().writeValueAsString(this);
     }
-
 
     /**
      * Copies all non-null properties from the other object to this object.
@@ -238,7 +224,6 @@ public abstract class DefaultBaseEntity implements BaseEntity {
         }
     }
 
-
     private <T extends DefaultBaseEntity> void copyNonNullField(final T other, final Field field) {
         if (Modifier.isStatic(field.getModifiers())) {
             return;
@@ -256,7 +241,6 @@ public abstract class DefaultBaseEntity implements BaseEntity {
             LOG.error(ex.getMessage(), ex);
         }
     }
-
 
     public static <T extends DefaultBaseEntity> T fromJson(final Class<T> c, final String str) throws IOException {
         return Json.getObjectMapper().readValue(str, c);

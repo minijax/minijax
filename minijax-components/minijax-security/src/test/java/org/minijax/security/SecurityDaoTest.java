@@ -22,7 +22,6 @@ public class SecurityDaoTest extends MinijaxTest {
         register(new SecurityFeature(User.class, Dao.class));
     }
 
-
     @Test
     public void testApiKeys() throws IOException {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
@@ -55,7 +54,6 @@ public class SecurityDaoTest extends MinijaxTest {
             assertEquals(k1, k3);
         }
     }
-
 
     @Test
     @SuppressWarnings("unchecked")

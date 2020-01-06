@@ -31,7 +31,6 @@ public class ResetPasswordTest extends MinijaxTest {
     @Inject
     private Security<User> security;
 
-
     @POST
     @Path("/resetpassword/{id}")
     @Consumes(APPLICATION_FORM_URLENCODED)
@@ -52,14 +51,12 @@ public class ResetPasswordTest extends MinijaxTest {
         return Response.ok().cookie(cookie).build();
     }
 
-
     @BeforeClass
     public static void setUpResetPasswordTest() throws IOException {
         register(PersistenceFeature.class);
         register(new SecurityFeature(User.class, Dao.class));
         register(ResetPasswordTest.class);
     }
-
 
     @Test
     public void testResetPasswordNotFound() throws IOException {
@@ -74,7 +71,6 @@ public class ResetPasswordTest extends MinijaxTest {
         assertEquals(404, r.getStatus());
         assertTrue(r.getCookies().isEmpty());
     }
-
 
     @Test
     public void testResetPasswordSuccess() throws IOException {
@@ -106,7 +102,6 @@ public class ResetPasswordTest extends MinijaxTest {
         }
     }
 
-
     @Test
     public void testResetPasswordMismatch() throws IOException {
         final User user = new User();
@@ -130,7 +125,6 @@ public class ResetPasswordTest extends MinijaxTest {
         assertEquals(400, r.getStatus());
         assertTrue(r.getCookies().isEmpty());
     }
-
 
     @Test
     public void testResetPasswordTooShort() throws IOException {

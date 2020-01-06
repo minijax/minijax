@@ -21,7 +21,6 @@ public class LocalDateConverter implements AttributeConverter<LocalDate, Date> {
         return Date.valueOf(date);
     }
 
-
     @Override
     public LocalDate convertToEntityAttribute(final Date date) {
         if (date == null) {

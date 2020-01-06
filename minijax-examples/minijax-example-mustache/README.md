@@ -143,7 +143,6 @@ Now you can view the results:
 
 > <http://localhost:8080>
 
-
 HelloMustacheTest.java
 ----------------------
 

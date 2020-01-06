@@ -13,7 +13,6 @@ import org.minijax.rs.multipart.Part;
  */
 public interface MinijaxForm extends Closeable {
 
-
     /**
      * Returns a string value or null if not found.
      *
@@ -22,12 +21,9 @@ public interface MinijaxForm extends Closeable {
      */
     String getString(final String name);
 
-
     InputStream getInputStream(String name);
 
-
     Part getPart(String name);
-
 
     Form asForm();
 

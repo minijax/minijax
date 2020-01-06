@@ -124,7 +124,6 @@ public class Multipart implements MinijaxForm {
         // Nothing to do
     }
 
-
     @SuppressWarnings("squid:S2095")
     public static Multipart read(final MediaType contentType, final int contentLength, final InputStream inputStream) throws IOException {
         final FileUpload fileUpload = new FileUpload();
@@ -151,11 +150,9 @@ public class Multipart implements MinijaxForm {
         return result;
     }
 
-
     private static String createBoundary() {
         return "Boundary" + UUID.randomUUID().toString().replace("-", "");
     }
-
 
     private static class UploadRequest implements org.apache.commons.fileupload.RequestContext {
         private final MediaType contentType;

@@ -25,16 +25,13 @@ import org.minijax.rs.test.MinijaxTest;
 
 public class EntityProviderTest extends MinijaxTest {
 
-
     public static class UnknownType {
         public String foo;
     }
 
-
     public static class MyCustomType {
         public String foo;
     }
-
 
     public static class MyCustomReader implements MessageBodyReader<MyCustomType> {
 
@@ -51,11 +48,9 @@ public class EntityProviderTest extends MinijaxTest {
         }
     }
 
-
     public static class MyExplodingType {
         public String foo;
     }
-
 
     public static class MyExplodingReader implements MessageBodyReader<MyExplodingType> {
 
@@ -71,7 +66,6 @@ public class EntityProviderTest extends MinijaxTest {
             throw new IOException("boom");
         }
     }
-
 
     @Path("/entityprovider")
     public static class EntityProviderResource {
@@ -96,7 +90,6 @@ public class EntityProviderTest extends MinijaxTest {
         }
     }
 
-
     @BeforeClass
     public static void setUpEntityProviderTest() {
         resetServer();
@@ -105,7 +98,6 @@ public class EntityProviderTest extends MinijaxTest {
         register(EntityProviderResource.class);
     }
 
-
     @Test
     public void testUnknownType() {
         final Response response = target("/entityprovider/unknowntype").request().post(Entity.entity("blah blah blah", TEXT_PLAIN));
@@ -113,14 +105,12 @@ public class EntityProviderTest extends MinijaxTest {
         assertEquals(500, response.getStatus());
     }
 
-
     @Test
     public void testCustomType() {
         final Response response = target("/entityprovider/customtype").request().post(Entity.entity("blah blah blah", TEXT_PLAIN));
         assertNotNull(response);
         assertEquals(200, response.getStatus());
     }
-
 
     @Test
     public void testExplodingType() {

@@ -60,11 +60,9 @@ public class MinijaxClient implements AutoCloseable, Client {
         }
     }
 
-
     /*
      * Unsupported
      */
-
 
     @Override
     public Configuration getConfiguration() {

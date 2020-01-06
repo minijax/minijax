@@ -14,7 +14,6 @@ public class NotEmptyValidators {
         throw new UnsupportedOperationException();
     }
 
-
     public static class NotEmptyValidatorForArray implements ConstraintValidator<NotEmpty, Object> {
         public static final NotEmptyValidatorForArray INSTANCE = new NotEmptyValidatorForArray();
 
@@ -30,7 +29,6 @@ public class NotEmptyValidators {
         }
     }
 
-
     public static class NotEmptyValidatorForCharSequence implements ConstraintValidator<NotEmpty, CharSequence> {
         public static final NotEmptyValidatorForCharSequence INSTANCE = new NotEmptyValidatorForCharSequence();
 
@@ -43,7 +41,6 @@ public class NotEmptyValidators {
         }
     }
 
-
     public static class NotEmptyValidatorForCollection implements ConstraintValidator<NotEmpty, Collection<?>> {
         public static final NotEmptyValidatorForCollection INSTANCE = new NotEmptyValidatorForCollection();
 
@@ -55,7 +52,6 @@ public class NotEmptyValidators {
             return value == null || !value.isEmpty();
         }
     }
-
 
     public static class NotEmptyValidatorForMap implements ConstraintValidator<NotEmpty, Map<?, ?>> {
         public static final NotEmptyValidatorForMap INSTANCE = new NotEmptyValidatorForMap();

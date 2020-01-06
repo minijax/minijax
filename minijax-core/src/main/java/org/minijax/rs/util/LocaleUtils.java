@@ -7,11 +7,9 @@ import java.util.Locale;
 
 public class LocaleUtils {
 
-
     LocaleUtils() {
         throw new UnsupportedOperationException();
     }
-
 
     /**
      * Parses an "Accept-Languages" HTTP header as a list of <code>Locale</code> objects.

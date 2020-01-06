@@ -32,7 +32,6 @@ public class QualifierTest {
         injector.close();
     }
 
-
     @Singleton
     static class QualifiedSingleton {
 

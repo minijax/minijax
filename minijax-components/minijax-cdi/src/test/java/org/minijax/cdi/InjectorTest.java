@@ -215,7 +215,6 @@ public class InjectorTest {
         injector.getResource(ExplodingSetter.class);
     }
 
-
     @Test(expected = InjectionException.class)
     public void testInitExplodingSetter() {
         final ExplodingSetter instance = new ExplodingSetter();

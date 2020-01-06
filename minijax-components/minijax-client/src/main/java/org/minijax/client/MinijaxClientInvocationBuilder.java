@@ -268,11 +268,9 @@ public class MinijaxClientInvocationBuilder implements javax.ws.rs.client.Invoca
         return header(HttpHeaders.CACHE_CONTROL, cacheControl);
     }
 
-
     /*
      * Unsupported
      */
-
 
     @Override
     public MinijaxClientInvocationBuilder property(final String name, final Object value) {

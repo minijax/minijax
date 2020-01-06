@@ -27,12 +27,10 @@ public class DefaultBaseDao implements BaseDao {
     @PersistenceContext
     protected EntityManager em;
 
-
     @Override
     public EntityManager getEntityManager() {
         return em;
     }
-
 
     /**
      * Inserts a new instance in the database.
@@ -52,7 +50,6 @@ public class DefaultBaseDao implements BaseDao {
         }
     }
 
-
     /**
      * Retrieves an object by ID.
      *
@@ -63,7 +60,6 @@ public class DefaultBaseDao implements BaseDao {
     public <T extends BaseEntity> T read(final Class<T> entityClass, final UUID id) {
         return em.find(entityClass, id);
     }
-
 
     /**
      * Finds a user by handle.
@@ -79,7 +75,6 @@ public class DefaultBaseDao implements BaseDao {
                 .setParameter("handle", handle)
                 .getResultList());
     }
-
 
     /**
      * Returns a page of objects.
@@ -106,7 +101,6 @@ public class DefaultBaseDao implements BaseDao {
                 .getResultList();
     }
 
-
     /**
      * Updates an object.
      *
@@ -124,7 +118,6 @@ public class DefaultBaseDao implements BaseDao {
         }
     }
 
-
     /**
      * Soft deletes an object.
      *
@@ -137,7 +130,6 @@ public class DefaultBaseDao implements BaseDao {
         obj.setDeleted(true);
         update(obj);
     }
-
 
     /**
      * Hard deletes an object.
@@ -157,7 +149,6 @@ public class DefaultBaseDao implements BaseDao {
         }
     }
 
-
     /**
      * Counts all rows of a type.
      *
@@ -171,11 +162,9 @@ public class DefaultBaseDao implements BaseDao {
         return em.createQuery(cq.select(cb.count(cq.from(entityClass)))).getSingleResult();
     }
 
-
     /*
      * Private helper methods.
      */
-
 
     /**
      * Converts a JPA rollback exception into a conflict exception.

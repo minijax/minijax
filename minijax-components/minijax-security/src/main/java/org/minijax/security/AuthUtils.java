@@ -11,16 +11,13 @@ public class AuthUtils {
     private static final String BASIC_PREFIX = "Basic ";
     private static final String[] INVALID = new String[0];
 
-
     AuthUtils() {
         throw new UnsupportedOperationException();
     }
 
-
     public static String create(final String username, final String password) {
         return BASIC_PREFIX + Base64.getEncoder().encodeToString((username + ":" + password).getBytes(StandardCharsets.UTF_8));
     }
-
 
     /**
      * Returns the username portion of a Basic Authentication header.
@@ -34,7 +31,6 @@ public class AuthUtils {
         return components == INVALID ? null : components[0];
     }
 
-
     /**
      * Returns the password portion of a Basic Authentication header.
      * Returns null if malformed.
@@ -46,7 +42,6 @@ public class AuthUtils {
         final String[] components = getUsernamePassword(auth);
         return components == INVALID ? null : components[1];
     }
-
 
     /**
      * Returns the username and password from a Basic Authentication header.

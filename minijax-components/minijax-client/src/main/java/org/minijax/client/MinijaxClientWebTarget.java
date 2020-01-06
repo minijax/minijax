@@ -104,11 +104,9 @@ public class MinijaxClientWebTarget implements javax.ws.rs.client.WebTarget {
         return builder;
     }
 
-
     /*
      * Unsupported
      */
-
 
     @Override
     public Configuration getConfiguration() {

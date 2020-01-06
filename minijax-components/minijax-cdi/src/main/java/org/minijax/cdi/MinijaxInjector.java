@@ -151,7 +151,6 @@ public class MinijaxInjector implements Closeable {
         return result;
     }
 
-
     @SuppressWarnings("unchecked")
     private <T> MinijaxProvider<T> buildProvider(
             final Key<T> key,

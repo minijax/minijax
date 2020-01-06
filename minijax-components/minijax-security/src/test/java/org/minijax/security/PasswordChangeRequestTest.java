@@ -25,7 +25,6 @@ public class PasswordChangeRequestTest {
         assertEquals(u.getId(), pcr.getUserId());
     }
 
-
     @Test
     public void testValidateSuccess() {
         final PasswordChangeRequest pcr = new PasswordChangeRequest();
@@ -34,7 +33,6 @@ public class PasswordChangeRequestTest {
         assertTrue(validator.validate(pcr).isEmpty());
     }
 
-
     @Test
     public void testValidateNullCode() {
         final PasswordChangeRequest pcr = new PasswordChangeRequest();
@@ -42,14 +40,12 @@ public class PasswordChangeRequestTest {
         assertEquals(1, validator.validate(pcr).size());
     }
 
-
     @Test
     public void testValidateEmptyCode() {
         final PasswordChangeRequest pcr = new PasswordChangeRequest();
         pcr.setCode("");
         assertEquals(2, validator.validate(pcr).size());
     }
-
 
     @Test
     public void testValidateTooShortCode() {

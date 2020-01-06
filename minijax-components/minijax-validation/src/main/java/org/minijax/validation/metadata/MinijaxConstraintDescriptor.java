@@ -157,7 +157,6 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
         }
     }
 
-
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private static <T extends Annotation> MinijaxConstraintDescriptor<T> buildDeclaredValidator(final T annotation, final Class validatedBy) {
         final Class<? extends ConstraintValidator<T, ?>> c = validatedBy;
@@ -168,7 +167,6 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
         }
     }
 
-
     private static MinijaxConstraintDescriptor<AssertFalse> buildAssertFalseValidator(final AssertFalse assertFalse, final Class<?> valueClass) {
         if (valueClass == boolean.class || valueClass == Boolean.class) {
             return new MinijaxConstraintDescriptor<>(assertFalse, AssertFalseValidator.INSTANCE);
@@ -176,7 +174,6 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
 
         throw new ValidationException("Unsupported type for @AssertFalse annotation: " + valueClass);
     }
-
 
     private static MinijaxConstraintDescriptor<AssertTrue> buildAssertTrueValidator(final AssertTrue assertTrue, final Class<?> valueClass) {
         if (valueClass == boolean.class || valueClass == Boolean.class) {
@@ -186,7 +183,6 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
         throw new ValidationException("Unsupported type for @AssertTrue annotation: " + valueClass);
     }
 
-
     private static MinijaxConstraintDescriptor<Max> buildMaxValidator(final Max max, final Class<?> valueClass) {
         if ((valueClass.isPrimitive() && valueClass != boolean.class) || Number.class.isAssignableFrom(valueClass)) {
             return new MinijaxConstraintDescriptor<>(max, new MaxValidator(max));
@@ -194,7 +190,6 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
 
         throw new ValidationException("Unsupported type for @Min annotation: " + valueClass);
     }
-
 
     private static MinijaxConstraintDescriptor<Min> buildMinValidator(final Min min, final Class<?> valueClass) {
         if ((valueClass.isPrimitive() && valueClass != boolean.class) || Number.class.isAssignableFrom(valueClass)) {
@@ -204,7 +199,6 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
         throw new ValidationException("Unsupported type for @Min annotation: " + valueClass);
     }
 
-
     private static MinijaxConstraintDescriptor<NotBlank> buildNotBlankValidator(final NotBlank notBlank, final Class<?> valueClass) {
         if (CharSequence.class.isAssignableFrom(valueClass)) {
             return new MinijaxConstraintDescriptor<>(notBlank, NotBlankValidator.INSTANCE);
@@ -212,7 +206,6 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
 
         throw new ValidationException("Unsupported type for @NotBlank annotation: " + valueClass);
     }
-
 
     private static MinijaxConstraintDescriptor<NotEmpty> buildNotEmptyValidator(final NotEmpty notEmpty, final Class<?> valueClass) {
         if (valueClass.isArray()) {
@@ -234,11 +227,9 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
         throw new ValidationException("Unsupported type for @NotEmpty annotation: " + valueClass);
     }
 
-
     private static MinijaxConstraintDescriptor<NotNull> buildNotNullValidator(final NotNull notNull) {
         return new MinijaxConstraintDescriptor<>(notNull, NotNullValidator.INSTANCE);
     }
-
 
     private static MinijaxConstraintDescriptor<Pattern> buildPatternValidator(final Pattern pattern, final Class<?> valueClass) {
         if (CharSequence.class.isAssignableFrom(valueClass)) {
@@ -247,7 +238,6 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
 
         throw new ValidationException("Unsupported type for @Pattern annotation: " + valueClass);
     }
-
 
     private static MinijaxConstraintDescriptor<Size> buildSizeValidator(final Size size, final Class<?> valueClass) {
         if (valueClass.isArray()) {
@@ -268,7 +258,6 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
 
         throw new ValidationException("Unsupported type for @Size annotation: " + valueClass);
     }
-
 
     private static String getMessageTemplate(final Annotation annotation) {
         try {

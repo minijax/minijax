@@ -32,7 +32,6 @@ public class NetworkUtils {
         return null;
     }
 
-
     /**
      * Returns the preferred IP address for a network interface.
      *

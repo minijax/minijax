@@ -320,7 +320,6 @@ public class MinijaxUriBuilder extends UriBuilder {
         return result.toString();
     }
 
-
     /**
      * The Parser class is a "template aware" URI parser.
      */

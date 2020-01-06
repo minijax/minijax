@@ -34,14 +34,12 @@ public class UserSessionTest {
         assertEquals(u.getId(), s.getUserId());
     }
 
-
     @Test
     public void testValidate() {
         final UserSession s = new UserSession();
         s.setUser(new User());
         assertTrue(validator.validate(s).isEmpty());
     }
-
 
     @Test
     public void testValidateRequireUser() {

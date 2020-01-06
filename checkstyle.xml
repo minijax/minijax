@@ -169,7 +169,6 @@ page at http://checkstyle.sourceforge.net/config.html -->
       <property name="severity" value="warning"/>
     </module>
 
-
     <!--
 
     LENGTH and CODING CHECKS
@@ -224,7 +223,6 @@ page at http://checkstyle.sourceforge.net/config.html -->
       <property name="severity" value="error"/>
     </module>
 
-
     <!--
 
     MODIFIERS CHECKS
@@ -238,7 +236,6 @@ page at http://checkstyle.sourceforge.net/config.html -->
            synchronized, native, strictfp
         -->
     </module>
-
 
     <!--
 

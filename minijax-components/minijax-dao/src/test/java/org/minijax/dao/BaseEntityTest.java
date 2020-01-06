@@ -24,7 +24,6 @@ public class BaseEntityTest {
         assertEquals(w2.getId().hashCode(), w2.hashCode());
     }
 
-
     @Test
     public void testEquals() {
         final Widget w1 = new Widget();
@@ -40,7 +39,6 @@ public class BaseEntityTest {
         assertEquals(w2, w3);
     }
 
-
     @Test
     public void testToJson() throws IOException {
         final Widget w = new Widget();
@@ -49,7 +47,6 @@ public class BaseEntityTest {
         w.setName("foo");
         assertEquals("{\"id\":\"00000000-0000-0000-0000-000000000000\",\"createdDateTime\":\"2017-10-30T11:38:00Z\",\"name\":\"foo\"}", w.toJson());
     }
-
 
     @Test
     public void testCopyProperties() {
@@ -63,25 +60,21 @@ public class BaseEntityTest {
         assertEquals("bar", w2.getName());
     }
 
-
     @Test(expected = NullPointerException.class)
     public void testCopyPropertiesNull() {
         final Widget w = new Widget();
         w.copyNonNullProperties(null);
     }
 
-
     static class DifferentEntity extends DefaultBaseEntity {
         private static final long serialVersionUID = 1L;
     }
-
 
     @Test(expected = IllegalArgumentException.class)
     public void testCopyPropertiesDifferentClass() {
         final Widget w = new Widget();
         w.copyNonNullProperties(new DifferentEntity());
     }
-
 
     @Test
     public void testSortByCreatedDate() {

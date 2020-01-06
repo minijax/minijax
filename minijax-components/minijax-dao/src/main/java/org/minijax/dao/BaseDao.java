@@ -10,9 +10,7 @@ import javax.persistence.EntityManager;
  */
 public interface BaseDao {
 
-
     EntityManager getEntityManager();
-
 
     /**
      * Inserts a new instance in the database.
@@ -22,7 +20,6 @@ public interface BaseDao {
      */
     <T extends BaseEntity> T create(final T obj);
 
-
     /**
      * Retrieves an object by ID.
      *
@@ -30,7 +27,6 @@ public interface BaseDao {
      * @return The object if found; null otherwise.
      */
     <T extends BaseEntity> T read(final Class<T> entityClass, final UUID id);
-
 
     /**
      * Finds a user by handle.
@@ -40,7 +36,6 @@ public interface BaseDao {
      * @return The user on success; null on failure.
      */
     <T extends NamedEntity> T readByHandle(final Class<T> entityClass, final String handle);
-
 
     /**
      * Returns a page of objects.
@@ -55,14 +50,12 @@ public interface BaseDao {
             final int page,
             final int pageSize);
 
-
     /**
      * Updates an object.
      *
      * @param obj The object to update.
      */
     <T extends BaseEntity> T update(final T obj);
-
 
     /**
      * Soft deletes an object.
@@ -73,7 +66,6 @@ public interface BaseDao {
      */
     <T extends BaseEntity> void delete(final T obj);
 
-
     /**
      * Hard deletes an object.
      *
@@ -83,7 +75,6 @@ public interface BaseDao {
      */
     <T extends BaseEntity> void purge(final T obj);
 
-
     /**
      * Counts all rows of a type.
      *
@@ -91,7 +82,6 @@ public interface BaseDao {
      * @return The count of rows.
      */
     <T extends BaseEntity> long countAll(final Class<T> entityClass);
-
 
     /**
      * Returns null if the list is empty.

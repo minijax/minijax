@@ -24,7 +24,6 @@ public interface SecurityDao extends BaseDao {
                 .getResultList();
     }
 
-
     /**
      * Finds a API key by value.
      *
@@ -37,7 +36,6 @@ public interface SecurityDao extends BaseDao {
                 .setParameter("value", value)
                 .getResultList());
     }
-
 
     /**
      * Finds a user by email address.
@@ -54,7 +52,6 @@ public interface SecurityDao extends BaseDao {
                 .getResultList());
     }
 
-
     /**
      * Finds a password change request by code.
      *
@@ -68,11 +65,9 @@ public interface SecurityDao extends BaseDao {
                 .getResultList());
     }
 
-
     /*
      * UserSession queries.
      */
-
 
     /**
      * Returns a list of all sessions for a user by user ID.
@@ -87,7 +82,6 @@ public interface SecurityDao extends BaseDao {
                 .setParameter("userId", userId)
                 .getResultList();
     }
-
 
     /**
      * Deletes all sessions for a user by user ID.

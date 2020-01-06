@@ -21,11 +21,9 @@ public class UrlUtils {
     private static final Logger LOG = LoggerFactory.getLogger(UrlUtils.class);
     private static final String UTF8 = "UTF-8";
 
-
     UrlUtils() {
         throw new UnsupportedOperationException();
     }
-
 
     public static String concatUrlPaths(final String base, final String path) {
         if (base == null && path == null) {
@@ -55,7 +53,6 @@ public class UrlUtils {
         return result;
     }
 
-
     /**
      * Decodes a URL-encoded string into key-value pairs.
      *
@@ -80,7 +77,6 @@ public class UrlUtils {
 
         return fields;
     }
-
 
     /**
      * Decodes a URL-encoded string into key-value pairs.
@@ -107,7 +103,6 @@ public class UrlUtils {
         return fields;
     }
 
-
     /**
      * Encodes a collection of key-value pairs as a URL encoded string.
      *
@@ -133,7 +128,6 @@ public class UrlUtils {
 
         return b.toString();
     }
-
 
     /**
      * Encodes a collection of key-value pairs as a URL encoded string.
@@ -163,7 +157,6 @@ public class UrlUtils {
         return b.toString();
     }
 
-
     /**
      * Encodes a string to be used as a URL parameter.
      *
@@ -176,7 +169,6 @@ public class UrlUtils {
         }
         return new UrlEncoder(str, false, false).encode();
     }
-
 
     /**
      * Decodes a URL encoded string.
@@ -195,7 +187,6 @@ public class UrlUtils {
             return str;
         }
     }
-
 
     /**
      * Encodes a URL but preserves curly brace template syntax.

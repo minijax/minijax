@@ -26,7 +26,6 @@ public class HelloJsonTest extends MinijaxTest {
         register(HelloJson.class);
     }
 
-
     @Test
     public void testEmptyCollection() {
         HelloJson.WIDGETS.clear();
@@ -35,7 +34,6 @@ public class HelloJsonTest extends MinijaxTest {
         assertNotNull(widgets);
         assertTrue(widgets.isEmpty());
     }
-
 
     @Test
     public void testSingleWidget() {
@@ -51,7 +49,6 @@ public class HelloJsonTest extends MinijaxTest {
         assertEquals("1", widget.id);
         assertEquals("Hello", widget.value);
     }
-
 
     @Test
     public void testCreateWidget() {

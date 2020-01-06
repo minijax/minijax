@@ -23,11 +23,9 @@ import org.w3c.dom.NodeList;
 public class PersistenceUtils {
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceUtils.class);
 
-
     PersistenceUtils() {
         throw new UnsupportedOperationException();
     }
-
 
     /**
      * Returns a list of persistence unit names.
@@ -46,7 +44,6 @@ public class PersistenceUtils {
             return Collections.emptyList();
         }
     }
-
 
     private static List<String> scanPersistenceXml(final InputStream in)
             throws Exception { // NOSONAR

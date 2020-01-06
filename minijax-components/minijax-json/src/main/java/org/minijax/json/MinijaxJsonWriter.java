@@ -27,7 +27,6 @@ public class MinijaxJsonWriter implements MessageBodyWriter<Object> {
         return mediaType != null && mediaType.isCompatible(APPLICATION_JSON_TYPE);
     }
 
-
     @Override
     public void writeTo(
             final Object t,

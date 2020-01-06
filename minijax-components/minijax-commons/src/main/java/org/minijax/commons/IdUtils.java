@@ -12,11 +12,9 @@ public class IdUtils {
     private static final SecureRandom RANDOM = new SecureRandom();
     private static final Pattern PATTERN = Pattern.compile("[0-9a-fA-F\\-]+");
 
-
     IdUtils() {
         throw new UnsupportedOperationException();
     }
-
 
     /**
      * Creates a new UUID.
@@ -47,7 +45,6 @@ public class IdUtils {
         return fromBytes(bytes);
     }
 
-
     /**
      * Tries to parse a UUID.
      *
@@ -77,7 +74,6 @@ public class IdUtils {
         return new UUID(msb, lsb);
     }
 
-
     /**
      * Converts a UUID to a 16-element byte array.
      *
@@ -95,7 +91,6 @@ public class IdUtils {
         bb.putLong(id.getLeastSignificantBits());
         return buffer;
     }
-
 
     /**
      * Converts a byte array to a UUID.

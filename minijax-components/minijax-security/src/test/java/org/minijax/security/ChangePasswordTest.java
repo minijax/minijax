@@ -30,7 +30,6 @@ public class ChangePasswordTest extends MinijaxTest {
     @Inject
     private Security<User> security;
 
-
     @POST
     @Path("/changepassword")
     @Consumes(APPLICATION_FORM_URLENCODED)
@@ -46,14 +45,12 @@ public class ChangePasswordTest extends MinijaxTest {
         return Response.ok().build();
     }
 
-
     @BeforeClass
     public static void setUpChangePasswordTest() throws IOException {
         register(PersistenceFeature.class);
         register(new SecurityFeature(User.class, Dao.class));
         register(ChangePasswordTest.class);
     }
-
 
     @Test
     public void testChangePasswordSuccess() throws IOException {
@@ -87,7 +84,6 @@ public class ChangePasswordTest extends MinijaxTest {
         }
     }
 
-
     @Test
     public void testUserWithoutPassword() throws IOException {
         final User user = new User();
@@ -112,7 +108,6 @@ public class ChangePasswordTest extends MinijaxTest {
         assertNotNull(r);
         assertEquals(400, r.getStatus());
     }
-
 
     @Test
     public void testIncorrectOldPassword() throws IOException {
@@ -140,7 +135,6 @@ public class ChangePasswordTest extends MinijaxTest {
         assertEquals(400, r.getStatus());
     }
 
-
     @Test
     public void testMismatchedPasswords() throws IOException {
         final User user = new User();
@@ -166,7 +160,6 @@ public class ChangePasswordTest extends MinijaxTest {
         assertNotNull(r);
         assertEquals(400, r.getStatus());
     }
-
 
     @Test
     public void testPasswordTooShort() throws IOException {

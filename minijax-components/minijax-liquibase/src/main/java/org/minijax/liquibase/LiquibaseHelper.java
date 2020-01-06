@@ -88,7 +88,6 @@ public class LiquibaseHelper {
     private final File migrationsDir;
     private final File masterChangeLogFile;
 
-
     /**
      * Creates a new helper.
      *
@@ -101,7 +100,6 @@ public class LiquibaseHelper {
                 DEFAULT_RESOURCES_DIR,
                 MASTER_CHANGELOG_RESOURCE_NAME);
     }
-
 
     LiquibaseHelper(
             final Map<String, String> props,
@@ -122,16 +120,13 @@ public class LiquibaseHelper {
         masterChangeLogFile = new File(migrationsDir, masterChangeLogName);
     }
 
-
     public File getResourcesDir() {
         return resourcesDir;
     }
 
-
     public File getMasterChangeLogFile() {
         return masterChangeLogFile;
     }
-
 
     /**
      * Helper utility to perform a Liquibase database migration.
@@ -150,7 +145,6 @@ public class LiquibaseHelper {
         }
     }
 
-
     public File generateMigrations() throws IOException, LiquibaseException, SQLException {
         Database referenceDatabase = null;
         Database targetDatabase = null;
@@ -166,21 +160,17 @@ public class LiquibaseHelper {
         }
     }
 
-
     /*
      * Private helpers
      */
-
 
     private Liquibase getLiquibase(final Database targetDatabase) {
         return new Liquibase(getRelativePath(masterChangeLogFile), resourceAccessor, targetDatabase);
     }
 
-
     private String getRelativePath(final File resourceFile) {
         return resourcesDir.toPath().relativize(resourceFile.toPath()).toString();
     }
-
 
     /**
      * Returns a database connection.
@@ -196,7 +186,6 @@ public class LiquibaseHelper {
         return DriverManager.getConnection(url, username, password);
     }
 
-
     private Database getLiquibaseDatabase(final Connection conn) throws DatabaseException {
         return DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(conn));
     }
@@ -209,7 +198,6 @@ public class LiquibaseHelper {
         }
         return getLiquibaseDatabase(getConnection(url, username, password));
     }
-
 
     /**
      * Returns the "reference" database.
@@ -224,7 +212,6 @@ public class LiquibaseHelper {
         buildReferenceDatabase();
         return getLiquibaseDatabase(getConnection(referenceUrl, username, password));
     }
-
 
     private void buildReferenceDatabase() {
         final Map<String, String> props = new HashMap<>();
@@ -241,7 +228,6 @@ public class LiquibaseHelper {
             closeQuietly(emf);
         }
     }
-
 
     private File generateMigrations(final Database referenceDatabase, final Database targetDatabase)
             throws LiquibaseException, IOException {
@@ -305,7 +291,6 @@ public class LiquibaseHelper {
         return generatedChangeLogFile;
     }
 
-
     /**
      * Validates that the database is in a good state.
      *
@@ -323,7 +308,6 @@ public class LiquibaseHelper {
         }
     }
 
-
     /**
      * Filters out all ignored change sets.
      *
@@ -339,7 +323,6 @@ public class LiquibaseHelper {
         }
         return result;
     }
-
 
     /**
      * Returns true if the change set should be ignored.
@@ -369,7 +352,6 @@ public class LiquibaseHelper {
         return ((DropTableChange) change).getTableName().equals("JGROUPSPING");
     }
 
-
     static void closeQuietly(final EntityManagerFactory emf) {
         if (emf != null) {
             try {
@@ -379,7 +361,6 @@ public class LiquibaseHelper {
             }
         }
     }
-
 
     static void closeQuietly(final Database database) {
         if (database != null) {
@@ -391,7 +372,6 @@ public class LiquibaseHelper {
         }
     }
 
-
     private void writeChangeSets(final File file, final List<ChangeSet> changeSets) throws IOException {
         try (final FileOutputStream outputStream = new FileOutputStream(file)) {
             final XMLChangeLogSerializer changeLogSerializer = new XMLChangeLogSerializer();
@@ -400,7 +380,6 @@ public class LiquibaseHelper {
         }
     }
 
-
     private void addIncludeFile(final File includeFile) throws IOException {
         final Document doc = readXml(masterChangeLogFile);
         final Element include = doc.createElement("include");
@@ -408,7 +387,6 @@ public class LiquibaseHelper {
         doc.getDocumentElement().appendChild(include);
         writeXml(doc, masterChangeLogFile);
     }
-
 
     /**
      * Cleans the XML file.
@@ -429,7 +407,6 @@ public class LiquibaseHelper {
         }
     }
 
-
     private static Document readXml(final File file) throws IOException {
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
@@ -441,7 +418,6 @@ public class LiquibaseHelper {
             throw new IOException(ex.getMessage(), ex);
         }
     }
-
 
     private static void writeXml(final Document doc, final File file) throws IOException {
         doc.normalize();
@@ -461,7 +437,6 @@ public class LiquibaseHelper {
             throw new IOException(ex.getMessage(), ex);
         }
     }
-
 
     /**
      * Removes all nodes that match the XPath expression.
@@ -484,7 +459,6 @@ public class LiquibaseHelper {
             }
         }
     }
-
 
     private static String generateFileName(final File masterChangeLogFile) throws IOException {
         final int id = readXml(masterChangeLogFile).getDocumentElement().getElementsByTagName("include").getLength() + 1;

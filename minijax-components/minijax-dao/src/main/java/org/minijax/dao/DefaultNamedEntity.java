@@ -83,7 +83,6 @@ public abstract class DefaultNamedEntity extends DefaultBaseEntity implements Na
         this.avatar = avatar;
     }
 
-
     public void generateHandle() {
         final String uuid = UUID.randomUUID().toString();
         if (name == null) {

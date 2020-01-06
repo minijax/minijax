@@ -12,19 +12,16 @@ import org.minijax.dao.converters.UuidConverter;
 public class UuidConverterTest {
     private UuidConverter converter;
 
-
     @Before
     public void setUp() {
         converter = new UuidConverter();
     }
-
 
     @Test
     public void testNull() {
         assertNull(converter.convertToDatabaseColumn(null));
         assertNull(converter.convertToEntityAttribute(null));
     }
-
 
     @Test
     public void testConvert() {

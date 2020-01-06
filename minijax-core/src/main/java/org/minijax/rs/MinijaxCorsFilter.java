@@ -40,7 +40,6 @@ class MinijaxCorsFilter implements ContainerResponseFilter {
         return false;
     }
 
-
     /**
      * Adds the HTTP head "Access-Control-Allow-Origin: *" to enable
      * all cross domain requests.

@@ -17,23 +17,19 @@ public class InheritanceTest extends MinijaxTest {
     public static class MyResource {
     }
 
-
     public static abstract class MyBaseClass {
         @Inject MyResource baseInjected;
     }
-
 
     @Singleton
     public static class MySubClass extends MyBaseClass {
         @Inject MyResource subInjected;
     }
 
-
     public static abstract class BasePathParamClass {
         @PathParam("id")
         public String id;
     }
-
 
     public static class SubPathParamClass extends BasePathParamClass {
         @GET
@@ -43,14 +39,12 @@ public class InheritanceTest extends MinijaxTest {
         }
     }
 
-
     @BeforeClass
     public static void setUpInheritanceTest() {
         resetServer();
         register(MySubClass.class);
         register(SubPathParamClass.class);
     }
-
 
     @Test
     public void testInheritanceInject() {
@@ -59,7 +53,6 @@ public class InheritanceTest extends MinijaxTest {
         assertNotNull(r.subInjected);
         assertNotNull(r.baseInjected);
     }
-
 
     @Test
     public void testInheritancePathParam() {
