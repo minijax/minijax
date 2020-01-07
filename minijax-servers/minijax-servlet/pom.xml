@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.minijax</groupId>
         <artifactId>minijax-servers</artifactId>
-        <version>0.4.15-SNAPSHOT</version>
+        <version>0.4.15</version>
     </parent>
     <artifactId>minijax-servlet</artifactId>
     <packaging>jar</packaging>
