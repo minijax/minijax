@@ -33,7 +33,7 @@ public abstract class DefaultNamedEntity extends DefaultBaseEntity implements Na
 
     @NotNull
     @Size(min = 1, max = 128)
-    private String name;
+    private String name = "";
 
     @Embedded
     private Avatar avatar;
@@ -69,7 +69,7 @@ public abstract class DefaultNamedEntity extends DefaultBaseEntity implements Na
         if (name != null) {
             this.name = name.trim();
         } else {
-            this.name = null;
+            this.name = "";
         }
     }
 

@@ -124,7 +124,7 @@ public class Multipart implements MinijaxForm {
         // Nothing to do
     }
 
-    @SuppressWarnings("squid:S2095")
+    @SuppressWarnings("java:S2095")
     public static Multipart read(final MediaType contentType, final int contentLength, final InputStream inputStream) throws IOException {
         final FileUpload fileUpload = new FileUpload();
         fileUpload.setFileItemFactory(new DiskFileItemFactory());
