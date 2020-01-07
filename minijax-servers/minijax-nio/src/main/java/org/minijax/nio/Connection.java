@@ -10,6 +10,7 @@ import java.nio.channels.ByteChannel;
 import java.util.List;
 import java.util.Map.Entry;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
@@ -26,6 +27,8 @@ class Connection {
     private static final Logger LOG = LoggerFactory.getLogger(Connection.class);
     private static final byte[] HTTP_PREFIX = "HTTP/".getBytes();
     private static final byte[] DATE_HEADER = "Date: ".getBytes();
+    private static final byte[] CONTENT_TYPE_HEADER = "Content-Type: ".getBytes();
+    private static final byte[] CONTENT_LENGTH_HEADER = "Content-Length: ".getBytes();
     private static final byte[] CRLF = "\r\n".getBytes();
     private final Minijax minijax;
     private final ByteChannel channel;
@@ -134,7 +137,6 @@ class Connection {
             } else {
                 bufferedOutputStream = new ByteArrayOutputStream();
                 EntityUtils.writeEntity(response.getEntity(), response.getMediaType(), application, bufferedOutputStream);
-                response.getHeaders().putSingle("Content-Length", Integer.toString(bufferedOutputStream.size()));
             }
         }
     }
@@ -142,16 +144,35 @@ class Connection {
     private boolean write() throws IOException {
         // Switch to writing
         buffer.clear();
+
+        // Write the response status line
         buffer.put(HTTP_PREFIX);
         buffer.put(version.getBytes());
         buffer.put((byte) ' ');
         buffer.put(Integer.toString(response.getStatus()).getBytes());
         buffer.put(CRLF);
 
+        // Write the "Date" header
         buffer.put(DATE_HEADER);
         buffer.put(DateHeader.get());
         buffer.put(CRLF);
 
+        // Write the "Content-Type" header
+        final MediaType mediaType = response.getMediaType();
+        if (mediaType != null) {
+            buffer.put(CONTENT_TYPE_HEADER);
+            buffer.put(mediaType.toString().getBytes());
+            buffer.put(CRLF);
+        }
+
+        // Write the "Content-Length" header
+        if (bufferedOutputStream != null) {
+            buffer.put(CONTENT_LENGTH_HEADER);
+            buffer.put(Integer.toString(bufferedOutputStream.size()).getBytes());
+            buffer.put(CRLF);
+        }
+
+        // Write additional headers
         for (final Entry<String, List<Object>> entry : response.getHeaders().entrySet()) {
             final byte[] keyBytes = entry.getKey().getBytes();
             for (final Object value : entry.getValue()) {
@@ -164,18 +185,21 @@ class Connection {
             }
         }
 
+        // Write the "Connection" header
         if (keepAlive && "1.0".equals(version)) {
             buffer.put("Connection: keep-alive\r\n".getBytes());
         } else if (!keepAlive && "1.1".equals(version)) {
             buffer.put("Connection: close\r\n".getBytes());
         }
 
+        // Write a blank line to separate content
         buffer.put(CRLF);
 
         if (!onlyHeader) {
             buffer.put(bufferedOutputStream.toByteArray());
         }
 
+        // Push the content to the channel
         buffer.flip();
         channel.write(buffer);
         return keepAlive;

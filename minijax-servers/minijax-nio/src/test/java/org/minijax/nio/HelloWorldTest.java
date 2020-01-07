@@ -42,6 +42,7 @@ public class HelloWorldTest {
 
         final String expected = "HTTP/1.1 200\r\n" +
                 "Date: " + new String(DateHeader.get()) + "\r\n" +
+                "Content-Type: text/plain\r\n" +
                 "Content-Length: 12\r\n" +
                 "X-foo: bar\r\n" +
                 "\r\n" +
@@ -59,6 +60,7 @@ public class HelloWorldTest {
 
         final String expected = "HTTP/1.1 200\r\n" +
                 "Date: " + new String(DateHeader.get()) + "\r\n" +
+                "Content-Type: text/plain\r\n" +
                 "X-foo: bar\r\n" +
                 "\r\n";
         assertEquals(expected, channel.getOutputAsString());
@@ -75,6 +77,7 @@ public class HelloWorldTest {
 
         final String expected = "HTTP/1.0 200\r\n" +
                 "Date: " + new String(DateHeader.get()) + "\r\n" +
+                "Content-Type: text/plain\r\n" +
                 "X-foo: bar\r\n" +
                 "Connection: keep-alive\r\n" +
                 "\r\n";
@@ -92,6 +95,7 @@ public class HelloWorldTest {
 
         final String expected = "HTTP/1.1 200\r\n" +
                 "Date: " + new String(DateHeader.get()) + "\r\n" +
+                "Content-Type: text/plain\r\n" +
                 "X-foo: bar\r\n" +
                 "Connection: close\r\n" +
                 "\r\n";
@@ -103,6 +107,7 @@ public class HelloWorldTest {
         final Minijax minijax = new Minijax().register(HelloResource.class);
         final String request = "POST / HTTP/1.1\r\n" +
                 "Content-Length: 3\r\n" +
+                "Content-Type: text/plain\r\n" +
                 "\r\n" +
                 "xyz";
         final MockSocketChannel channel = new MockSocketChannel(null, request);
@@ -111,6 +116,7 @@ public class HelloWorldTest {
 
         final String expected = "HTTP/1.1 200\r\n" +
                 "Date: " + new String(DateHeader.get()) + "\r\n" +
+                "Content-Type: text/plain\r\n" +
                 "Content-Length: 13\r\n" +
                 "\r\n" +
                 "You said: xyz";
