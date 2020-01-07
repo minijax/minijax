@@ -41,7 +41,7 @@ public class HelloWorldTest {
         conn.handle();
 
         final String expected = "HTTP/1.1 200\r\n" +
-                "Date: \r\n" +
+                "Date: " + new String(DateHeader.get()) + "\r\n" +
                 "Content-Length: 12\r\n" +
                 "X-foo: bar\r\n" +
                 "\r\n" +
@@ -58,7 +58,7 @@ public class HelloWorldTest {
         conn.handle();
 
         final String expected = "HTTP/1.1 200\r\n" +
-                "Date: \r\n" +
+                "Date: " + new String(DateHeader.get()) + "\r\n" +
                 "X-foo: bar\r\n" +
                 "\r\n";
         assertEquals(expected, channel.getOutputAsString());
@@ -74,7 +74,7 @@ public class HelloWorldTest {
         conn.handle();
 
         final String expected = "HTTP/1.0 200\r\n" +
-                "Date: \r\n" +
+                "Date: " + new String(DateHeader.get()) + "\r\n" +
                 "X-foo: bar\r\n" +
                 "Connection: keep-alive\r\n" +
                 "\r\n";
@@ -91,7 +91,7 @@ public class HelloWorldTest {
         conn.handle();
 
         final String expected = "HTTP/1.1 200\r\n" +
-                "Date: \r\n" +
+                "Date: " + new String(DateHeader.get()) + "\r\n" +
                 "X-foo: bar\r\n" +
                 "Connection: close\r\n" +
                 "\r\n";
@@ -110,7 +110,7 @@ public class HelloWorldTest {
         conn.handle();
 
         final String expected = "HTTP/1.1 200\r\n" +
-                "Date: \r\n" +
+                "Date: " + new String(DateHeader.get()) + "\r\n" +
                 "Content-Length: 13\r\n" +
                 "\r\n" +
                 "You said: xyz";
