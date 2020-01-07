@@ -1,4 +1,4 @@
-package org.minijax.dao;
+package org.minijax.persistence;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import org.w3c.dom.NodeList;
 /**
  * The PersistenceUtils class provides helper methods for parsing a persistence.xml file.
  */
-public class PersistenceUtils {
+class PersistenceUtils {
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceUtils.class);
 
     PersistenceUtils() {

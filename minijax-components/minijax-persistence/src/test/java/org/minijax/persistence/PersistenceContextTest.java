@@ -1,4 +1,4 @@
-package org.minijax.dao;
+package org.minijax.persistence;
 
 import static javax.ws.rs.HttpMethod.*;
 import static org.junit.Assert.*;
@@ -10,8 +10,6 @@ import javax.persistence.PersistenceContext;
 
 import org.junit.Test;
 import org.minijax.Minijax;
-import org.minijax.dao.PersistenceFeature;
-import org.minijax.dao.test.Widget;
 import org.minijax.rs.MinijaxApplicationContext;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.test.MinijaxTestRequestContext;
@@ -44,6 +42,7 @@ public class PersistenceContextTest {
             final PersistenceContextDao dao = context.getResource(PersistenceContextDao.class);
 
             final Widget widget = new Widget();
+            widget.setId(123);
             widget.setName("test");
 
             final Widget result = dao.create(widget);

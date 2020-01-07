@@ -6,10 +6,10 @@
         <artifactId>minijax-components</artifactId>
         <version>0.4.16-SNAPSHOT</version>
     </parent>
-    <artifactId>minijax-dao</artifactId>
+    <artifactId>minijax-persistence</artifactId>
     <packaging>jar</packaging>
-    <name>minijax-dao</name>
-    <description>Minijax database and entity model</description>
+    <name>minijax-persistence</name>
+    <description>Minijax persistence features</description>
     <dependencies>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -42,10 +42,6 @@
         <dependency>
             <groupId>org.minijax</groupId>
             <artifactId>minijax-json</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.minijax</groupId>
-            <artifactId>minijax-persistence</artifactId>
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>

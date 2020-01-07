@@ -1,4 +1,4 @@
-package org.minijax.dao;
+package org.minijax.persistence;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -42,6 +42,29 @@ public class PersistenceContextAnnotationProcessorTest {
         final Map<String, EntityManagerFactory> factories = createFactories("foo", "bar");
         final PersistenceContextAnnotationProcessor p = new PersistenceContextAnnotationProcessor(factories);
         p.getPersistenceContextAnnotation(new Annotation[0]);
+    }
+
+    @Test
+    public void testOtherAnnotations() {
+        final Map<String, EntityManagerFactory> factories = createFactories("");
+        final PersistenceContextAnnotationProcessor p = new PersistenceContextAnnotationProcessor(factories);
+        final Provider<EntityManager> provider = p.buildProvider(null, EntityManager.class, new Annotation[] {
+                new Deprecated() {
+                    @Override
+                    public Class<? extends Annotation> annotationType() {
+                        return Deprecated.class;
+                    }
+                    @Override
+                    public String since() {
+                        throw new UnsupportedOperationException();
+                    }
+                    @Override
+                    public boolean forRemoval() {
+                        throw new UnsupportedOperationException();
+                    }},
+                createAnnotation(""),
+            });
+        assertNotNull(provider);
     }
 
     private Map<String, EntityManagerFactory> createFactories(final String... names) {

@@ -12,9 +12,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.junit.Test;
-import org.minijax.dao.BaseEntity;
-import org.minijax.dao.DefaultBaseEntity;
-import org.minijax.dao.test.Widget;
 
 public class BaseEntityTest {
 
@@ -93,5 +90,13 @@ public class BaseEntityTest {
         assertEquals(w1, w.get(0));
         assertEquals(w2, w.get(1));
         assertEquals(w3, w.get(2));
+    }
+
+    @Test
+    public void testFromJson() throws IOException {
+        final String json = "{\"name\":\"foo\"}";
+        final Widget w = Widget.fromJson(Widget.class, json);
+        assertNotNull(w);
+        assertEquals("foo", w.getName());
     }
 }

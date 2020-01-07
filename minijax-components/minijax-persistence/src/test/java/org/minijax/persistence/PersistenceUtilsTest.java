@@ -1,4 +1,4 @@
-package org.minijax.dao;
+package org.minijax.persistence;
 
 import static org.junit.Assert.*;
 
@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import org.junit.Test;
-import org.minijax.dao.PersistenceUtils;
 
 public class PersistenceUtilsTest {
 
@@ -22,7 +21,7 @@ public class PersistenceUtilsTest {
 
     @Test
     public void testNotXml() {
-        assertEquals(Collections.emptyList(), PersistenceUtils.getNames("config.properties"));
+        assertEquals(Collections.emptyList(), PersistenceUtils.getNames("not-xml.txt"));
     }
 
     @Test

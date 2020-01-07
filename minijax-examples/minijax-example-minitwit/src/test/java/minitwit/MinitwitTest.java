@@ -8,8 +8,8 @@ import javax.ws.rs.client.*;
 import javax.ws.rs.core.*;
 
 import org.junit.*;
-import org.minijax.dao.*;
 import org.minijax.mustache.*;
+import org.minijax.persistence.*;
 import org.minijax.rs.*;
 import org.minijax.rs.test.*;
 import org.minijax.security.*;

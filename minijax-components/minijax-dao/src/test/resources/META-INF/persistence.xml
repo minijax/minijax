@@ -3,7 +3,7 @@
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>org.minijax.dao.converters.InstantConverter</class>
         <class>org.minijax.dao.converters.UuidConverter</class>
-        <class>org.minijax.dao.test.Widget</class>
+        <class>org.minijax.dao.Widget</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.h2.jdbcx.JdbcDataSource" />
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:" />

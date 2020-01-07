@@ -1,7 +1,7 @@
 package com.example;
 
-import org.minijax.dao.PersistenceFeature;
 import org.minijax.mustache.MustacheFeature;
+import org.minijax.persistence.PersistenceFeature;
 import org.minijax.rs.MinijaxProperties;
 import org.minijax.rs.test.MinijaxTest;
 

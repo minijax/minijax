@@ -347,6 +347,11 @@
             </dependency>
             <dependency>
                 <groupId>org.minijax</groupId>
+                <artifactId>minijax-persistence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.minijax</groupId>
                 <artifactId>minijax-security</artifactId>
                 <version>${project.version}</version>
             </dependency>

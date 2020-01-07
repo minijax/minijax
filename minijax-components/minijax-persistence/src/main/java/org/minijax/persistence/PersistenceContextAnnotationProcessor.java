@@ -1,4 +1,4 @@
-package org.minijax.dao;
+package org.minijax.persistence;
 
 import java.lang.annotation.Annotation;
 import java.util.Map;

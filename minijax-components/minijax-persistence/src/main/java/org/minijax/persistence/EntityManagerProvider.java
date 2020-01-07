@@ -1,4 +1,4 @@
-package org.minijax.dao;
+package org.minijax.persistence;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

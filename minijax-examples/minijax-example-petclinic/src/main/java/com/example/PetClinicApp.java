@@ -1,8 +1,8 @@
 package com.example;
 
 import org.minijax.Minijax;
-import org.minijax.dao.PersistenceFeature;
 import org.minijax.mustache.MustacheFeature;
+import org.minijax.persistence.PersistenceFeature;
 
 class PetClinicApp {
 

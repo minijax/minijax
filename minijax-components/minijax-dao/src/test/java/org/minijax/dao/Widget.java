@@ -1,4 +1,4 @@
-package org.minijax.dao.test;
+package org.minijax.dao;
 
 import java.net.URI;
 

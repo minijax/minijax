@@ -9,10 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.minijax.dao.ConflictException;
-import org.minijax.dao.DefaultBaseDao;
-import org.minijax.dao.PersistenceFeature;
-import org.minijax.dao.test.Widget;
+import org.minijax.persistence.PersistenceFeature;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.test.MinijaxTest;
 
