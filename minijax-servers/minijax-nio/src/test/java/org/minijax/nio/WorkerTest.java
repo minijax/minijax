@@ -44,6 +44,13 @@ public class WorkerTest {
         worker.run();
     }
 
+    @Test(expected = IllegalStateException.class)
+    public void testSetNextWorker() throws IOException {
+        final Worker worker = new Worker(null, new MockSelectorProvider());
+        worker.setNextWorker(worker);
+        worker.setNextWorker(worker);
+    }
+
     private static void schedule(final Runnable task, final int delay) {
         new Timer().schedule(new TimerTask() {
             @Override

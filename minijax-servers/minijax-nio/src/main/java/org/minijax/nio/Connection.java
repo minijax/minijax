@@ -24,6 +24,9 @@ import org.slf4j.LoggerFactory;
 
 class Connection {
     private static final Logger LOG = LoggerFactory.getLogger(Connection.class);
+    private static final byte[] HTTP_PREFIX = "HTTP/".getBytes();
+    private static final byte[] DATE_HEADER = "Date: ".getBytes();
+    private static final byte[] CRLF = "\r\n".getBytes();
     private final Minijax minijax;
     private final ByteChannel channel;
     private final ByteBuffer buffer;
@@ -139,11 +142,15 @@ class Connection {
     private boolean write() throws IOException {
         // Switch to writing
         buffer.clear();
-        buffer.put("HTTP/".getBytes());
+        buffer.put(HTTP_PREFIX);
         buffer.put(version.getBytes());
         buffer.put((byte) ' ');
         buffer.put(Integer.toString(response.getStatus()).getBytes());
-        buffer.put("\r\n".getBytes());
+        buffer.put(CRLF);
+
+        buffer.put(DATE_HEADER);
+        buffer.put(DateHeader.get());
+        buffer.put(CRLF);
 
         for (final Entry<String, List<Object>> entry : response.getHeaders().entrySet()) {
             final byte[] keyBytes = entry.getKey().getBytes();
@@ -152,7 +159,7 @@ class Connection {
                     buffer.put(keyBytes);
                     buffer.put(": ".getBytes());
                     buffer.put(value.toString().getBytes());
-                    buffer.put("\r\n".getBytes());
+                    buffer.put(CRLF);
                 }
             }
         }
@@ -163,7 +170,7 @@ class Connection {
             buffer.put("Connection: close\r\n".getBytes());
         }
 
-        buffer.put("\r\n".getBytes());
+        buffer.put(CRLF);
 
         if (!onlyHeader) {
             buffer.put(bufferedOutputStream.toByteArray());

@@ -33,10 +33,13 @@ public class MinijaxNioServer implements MinijaxServer {
      */
     MinijaxNioServer(final Minijax minijax, final SelectorProvider selectorProvider) throws IOException {
         final int threadCount = Runtime.getRuntime().availableProcessors() * 2;
-        final int workerCount = threadCount - 1;
+        final int workerCount = threadCount - 2;
 
         LOG.info("Thread count: {}", threadCount);
         executorService = Executors.newFixedThreadPool(threadCount);
+
+        // Start the Date header service
+        DateHeader.start();
 
         // Create the listener.
         // The listeners job is only to listen on the server socket for incoming connections.
@@ -92,5 +95,8 @@ public class MinijaxNioServer implements MinijaxServer {
             LOG.warn("Termination interrupted: {}", ex.getMessage(), ex);
             Thread.currentThread().interrupt();
         }
+
+        // Stop the date service
+        DateHeader.stop();
     }
 }
