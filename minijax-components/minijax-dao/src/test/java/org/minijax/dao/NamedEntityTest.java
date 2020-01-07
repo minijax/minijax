@@ -13,8 +13,6 @@ import javax.validation.Validator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.commons.IdUtils;
-import org.minijax.dao.Avatar;
-import org.minijax.dao.NamedEntity;
 import org.minijax.dao.test.Widget;
 
 public class NamedEntityTest {
@@ -29,7 +27,7 @@ public class NamedEntityTest {
     public void testCtor1() {
         final Widget w = new Widget();
         assertNotNull(w.getId());
-        assertNull(w.getName());
+        assertEquals("", w.getName());
     }
 
     @Test
