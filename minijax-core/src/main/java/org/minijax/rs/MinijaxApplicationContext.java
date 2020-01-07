@@ -56,6 +56,7 @@ import javax.ws.rs.ext.ParamConverter;
 import org.minijax.cdi.MinijaxInjector;
 import org.minijax.cdi.MinijaxProvider;
 import org.minijax.cdi.annotation.DefaultFieldAnnotationProcessor;
+import org.minijax.commons.MinijaxException;
 import org.minijax.commons.OptionalClasses;
 import org.minijax.rs.cdi.ContextAnnotationProcessor;
 import org.minijax.rs.cdi.CookieParamAnnotationProcessor;

@@ -15,8 +15,8 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 
 import org.minijax.commons.IOUtils;
+import org.minijax.commons.MinijaxException;
 import org.minijax.rs.MinijaxApplicationContext;
-import org.minijax.rs.MinijaxException;
 import org.minijax.rs.MinijaxProviders;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.multipart.Multipart;

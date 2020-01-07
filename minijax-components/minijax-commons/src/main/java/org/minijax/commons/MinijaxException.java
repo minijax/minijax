@@ -1,4 +1,4 @@
-package org.minijax.rs;
+package org.minijax.commons;
 
 public class MinijaxException extends RuntimeException {
     private static final long serialVersionUID = 1L;

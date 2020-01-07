@@ -29,10 +29,5 @@
             <groupId>org.minijax</groupId>
             <artifactId>minijax-commons</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.minijax</groupId>
-            <artifactId>minijax-core</artifactId>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 </project>

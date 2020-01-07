@@ -18,10 +18,10 @@ import javax.ws.rs.core.CacheControl;
 
 import org.apache.commons.io.IOUtils;
 import org.minijax.cdi.MinijaxInjector;
+import org.minijax.commons.MinijaxException;
 import org.minijax.commons.OptionalClasses;
 import org.minijax.rs.MinijaxApplicationContext;
 import org.minijax.rs.MinijaxCacheControlFilter;
-import org.minijax.rs.MinijaxException;
 import org.minijax.rs.MinijaxProperties;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.MinijaxServer;

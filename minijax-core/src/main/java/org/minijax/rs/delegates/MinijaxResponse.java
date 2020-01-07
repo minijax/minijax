@@ -22,8 +22,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.NewCookie;
 
+import org.minijax.commons.MinijaxException;
 import org.minijax.rs.MinijaxApplicationContext;
-import org.minijax.rs.MinijaxException;
 import org.minijax.rs.util.EntityUtils;
 
 class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResponseContext {

@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
-import org.minijax.rs.MinijaxException;
+import org.minijax.commons.MinijaxException;
 import org.minijax.rs.multipart.Multipart;
 
 public class MultipartTest {

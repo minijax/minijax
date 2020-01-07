@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 import org.minijax.commons.IOUtils;
-import org.minijax.rs.MinijaxException;
+import org.minijax.commons.MinijaxException;
 
 public class FilePart implements Part {
     private final String name;

@@ -10,7 +10,7 @@ import javax.ws.rs.client.Entity;
 
 import org.junit.Test;
 import org.minijax.Minijax;
-import org.minijax.rs.MinijaxException;
+import org.minijax.commons.MinijaxException;
 import org.minijax.rs.util.EntityUtils;
 
 public class EntityUtilsTest {

@@ -6,8 +6,8 @@ import java.util.Map;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
+import org.minijax.commons.MinijaxException;
 import org.minijax.json.Json;
-import org.minijax.rs.MinijaxException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 

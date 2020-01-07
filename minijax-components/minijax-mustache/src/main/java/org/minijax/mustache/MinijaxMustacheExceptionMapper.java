@@ -8,6 +8,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import org.minijax.rs.delegates.MinijaxResponseBuilder;
 import org.minijax.rs.util.ExceptionUtils;
 import org.minijax.view.View;
 
@@ -27,6 +28,6 @@ public class MinijaxMustacheExceptionMapper implements ExceptionMapper<Exception
         final int status = webAppException.getResponse().getStatus();
         final View view = new View("error");
         view.getModel().put("message", message);
-        return Response.status(status).type(TEXT_HTML_TYPE).entity(view).build();
+        return new MinijaxResponseBuilder().status(status).type(TEXT_HTML_TYPE).entity(view).build();
     }
 }

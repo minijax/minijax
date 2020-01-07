@@ -6,7 +6,7 @@ import java.net.URL;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import org.minijax.rs.MinijaxException;
+import org.minijax.commons.MinijaxException;
 
 @Converter
 public class UrlConverter implements AttributeConverter<URL, String> {

@@ -21,7 +21,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.minijax.rs.MinijaxException;
+import org.minijax.commons.MinijaxException;
 import org.minijax.rs.MinijaxForm;
 
 /**

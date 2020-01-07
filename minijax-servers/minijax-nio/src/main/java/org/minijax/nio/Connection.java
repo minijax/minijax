@@ -15,8 +15,8 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.minijax.Minijax;
+import org.minijax.commons.MinijaxException;
 import org.minijax.rs.MinijaxApplicationContext;
-import org.minijax.rs.MinijaxException;
 import org.minijax.rs.MinijaxUriInfo;
 import org.minijax.rs.util.EntityUtils;
 import org.slf4j.Logger;

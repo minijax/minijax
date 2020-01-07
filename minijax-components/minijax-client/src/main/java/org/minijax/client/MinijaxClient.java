@@ -13,7 +13,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.minijax.rs.MinijaxException;
+import org.minijax.commons.MinijaxException;
 import org.minijax.rs.uri.MinijaxUriBuilder;
 
 public class MinijaxClient implements AutoCloseable, Client {
