@@ -423,14 +423,6 @@
                 <version>3.8.2</version>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
-                <configuration>
-                    <releaseProfiles>release</releaseProfiles>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>com.github.ekryd.sortpom</groupId>
                 <artifactId>sortpom-maven-plugin</artifactId>
                 <version>2.10.0</version>
