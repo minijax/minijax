@@ -21,7 +21,7 @@ import javax.persistence.EntityManagerFactory;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.minijax.rs.MinijaxProperties;
+import org.minijax.commons.MinijaxProperties;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import liquibase.change.core.AddColumnChange;

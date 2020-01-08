@@ -1,8 +1,8 @@
 package com.example;
 
+import org.minijax.commons.MinijaxProperties;
 import org.minijax.mustache.MustacheFeature;
 import org.minijax.persistence.PersistenceFeature;
-import org.minijax.rs.MinijaxProperties;
 import org.minijax.rs.test.MinijaxTest;
 
 public abstract class PetClinicTest extends MinijaxTest {

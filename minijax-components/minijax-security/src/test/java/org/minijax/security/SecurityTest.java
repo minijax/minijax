@@ -16,7 +16,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.minijax.commons.IdUtils;
-import org.minijax.rs.MinijaxProperties;
+import org.minijax.commons.MinijaxProperties;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.test.MinijaxTest;
 

@@ -4,7 +4,7 @@ import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.FeatureContext;
 
 import org.minijax.cdi.MinijaxProvider;
-import org.minijax.rs.MinijaxProperties;
+import org.minijax.commons.MinijaxProperties;
 import org.minijax.rs.MinijaxRequestContext;
 
 public class SecurityFeature implements Feature {

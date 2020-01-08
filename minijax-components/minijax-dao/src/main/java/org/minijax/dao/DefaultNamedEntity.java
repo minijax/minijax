@@ -11,8 +11,6 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
-import org.eclipse.persistence.annotations.CacheIndex;
-
 /**
  * The NamedEntity class is a base class for web entities with names.
  */
@@ -26,7 +24,6 @@ public abstract class DefaultNamedEntity extends DefaultBaseEntity implements Na
     public static final String HANDLE_REGEX = "[^\\." + HANDLE_SPECIAL_CHARS_REGEX + "][^" + HANDLE_SPECIAL_CHARS_REGEX + "]*";
 
     @Column(length = 32, unique = true)
-    @CacheIndex
     @Size(min = 1, max = 32)
     @Pattern(regexp = "[^\\.\\Q!#$%&'()*+,/:;=?@[\\]^`{|}~\\E][^\\Q!#$%&'()*+,/:;=?@[\\]^`{|}~\\E]*")
     private String handle;

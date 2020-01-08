@@ -24,7 +24,6 @@
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -34,6 +33,7 @@
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>org.eclipse.persistence.jpa</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
@@ -42,6 +42,10 @@
         <dependency>
             <groupId>org.minijax</groupId>
             <artifactId>minijax-json</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.minijax</groupId>
+            <artifactId>minijax-orm</artifactId>
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>

@@ -1,7 +1,7 @@
-package org.minijax.rs;
+package org.minijax.commons;
 
 import org.junit.Test;
-import org.minijax.rs.MinijaxProperties;
+import org.minijax.commons.MinijaxProperties;
 
 public class MinijaxPropertiesTest {
 

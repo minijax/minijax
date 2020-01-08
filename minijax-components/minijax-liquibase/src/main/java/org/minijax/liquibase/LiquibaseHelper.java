@@ -30,7 +30,7 @@ import javax.xml.xpath.XPathException;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.minijax.rs.MinijaxProperties;
+import org.minijax.commons.MinijaxProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Attr;

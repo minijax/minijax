@@ -17,7 +17,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.eclipse.persistence.annotations.CacheIndex;
 import org.minijax.dao.DefaultBaseEntity;
 import org.minijax.dao.converters.UuidConverter;
 
@@ -51,7 +50,6 @@ public class ApiKey extends DefaultBaseEntity {
     private String name;
 
     @Column(length = 64, unique = true)
-    @CacheIndex
     @Size(min = 8, max = 64)
     private String value;
 

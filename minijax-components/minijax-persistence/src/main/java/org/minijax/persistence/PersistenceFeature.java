@@ -10,7 +10,6 @@ import javax.persistence.PersistenceContext;
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.FeatureContext;
 
-import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.minijax.rs.MinijaxApplicationContext;
 
 public class PersistenceFeature implements Feature {
@@ -29,7 +28,7 @@ public class PersistenceFeature implements Feature {
     public void registerPersistence(final MinijaxApplicationContext app) {
         final List<String> names = PersistenceUtils.getNames("META-INF/persistence.xml");
         final Map<String, Object> props = new HashMap<>();
-        props.put(PersistenceUnitProperties.CLASSLOADER, this.getClass().getClassLoader());
+        props.put("eclipselink.classloader", this.getClass().getClassLoader());
         props.putAll(app.getProperties());
 
         final Map<String, EntityManagerFactory> factories = new HashMap<>();

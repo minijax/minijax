@@ -24,7 +24,7 @@ import javax.ws.rs.ext.Provider;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.minijax.commons.IdUtils;
-import org.minijax.rs.MinijaxProperties;
+import org.minijax.commons.MinijaxProperties;
 
 /**
  * The Security class manages logging in and out of the application.

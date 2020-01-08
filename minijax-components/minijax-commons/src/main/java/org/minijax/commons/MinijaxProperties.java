@@ -1,4 +1,4 @@
-package org.minijax.rs;
+package org.minijax.commons;
 
 public class MinijaxProperties {
     public static final String PERSISTENCE_UNIT_NAME = "org.minijax.db.persistenceUnitName";
