@@ -2,6 +2,7 @@ package org.minijax.persistence;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -10,6 +11,8 @@ public class Widget implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     private int id;
+
+    @Column
     private String name;
 
     public int getId() {

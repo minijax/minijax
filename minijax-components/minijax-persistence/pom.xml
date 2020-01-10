@@ -9,7 +9,7 @@
     <artifactId>minijax-persistence</artifactId>
     <packaging>jar</packaging>
     <name>minijax-persistence</name>
-    <description>Minijax persistence features</description>
+    <description>Minijax ORM</description>
     <dependencies>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -27,31 +27,18 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.jpa</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.minijax</groupId>
             <artifactId>minijax-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.minijax</groupId>
-            <artifactId>minijax-json</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.minijax</groupId>
-            <artifactId>minijax-validation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

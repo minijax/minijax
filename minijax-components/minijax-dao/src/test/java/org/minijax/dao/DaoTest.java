@@ -9,8 +9,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.minijax.persistence.PersistenceFeature;
 import org.minijax.rs.MinijaxRequestContext;
+import org.minijax.rs.persistence.PersistenceFeature;
 import org.minijax.rs.test.MinijaxTest;
 
 public class DaoTest extends MinijaxTest {

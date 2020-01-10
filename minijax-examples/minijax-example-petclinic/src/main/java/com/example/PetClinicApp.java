@@ -2,7 +2,7 @@ package com.example;
 
 import org.minijax.Minijax;
 import org.minijax.mustache.MustacheFeature;
-import org.minijax.persistence.PersistenceFeature;
+import org.minijax.rs.persistence.PersistenceFeature;
 
 class PetClinicApp {
 

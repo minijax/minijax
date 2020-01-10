@@ -9,8 +9,8 @@ import javax.ws.rs.core.*;
 
 import org.junit.*;
 import org.minijax.mustache.*;
-import org.minijax.persistence.*;
 import org.minijax.rs.*;
+import org.minijax.rs.persistence.*;
 import org.minijax.rs.test.*;
 import org.minijax.security.*;
 import org.minijax.view.*;
@@ -27,7 +27,7 @@ public class MinitwitTest extends MinijaxTest {
     @BeforeClass
     public static void setUpMinitwit() throws IOException {
         getServer()
-                .property("javax.persistence.jdbc.url", "jdbc:h2:mem:test")
+                .property("javax.persistence.jdbc.url", "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1")
                 .register(PersistenceFeature.class)
                 .register(MustacheFeature.class)
                 .register(new SecurityFeature(User.class, Dao.class))

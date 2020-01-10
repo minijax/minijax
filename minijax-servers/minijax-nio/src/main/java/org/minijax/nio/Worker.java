@@ -61,7 +61,7 @@ class Worker implements Runnable {
 
     @Override
     public void run() {
-        LOG.info("Starting worker...");
+        LOG.debug("Starting worker...");
         running = true;
 
         try {
@@ -107,6 +107,6 @@ class Worker implements Runnable {
             LOG.warn("Exception in listener thread: {}", ex.getMessage(), ex);
         }
 
-        LOG.info("Worker done.");
+        LOG.debug("Worker done.");
     }
 }

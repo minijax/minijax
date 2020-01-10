@@ -3,36 +3,30 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{{$title}}Pet Clinic{{/title}}</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>{{$title}}Minitwit{{/title}}</title>
     <link rel="stylesheet" href="/static/styles.css">
   </head>
   <body>
-    <div class="container">
-      <header class="header clearfix">
-        <nav>
-          <ul class="nav">
-            <li class="nav-brand"><strong><a class="nav-link" href="/">Minitwit</a></strong></li>
+    <nav>
+      <strong><a class="nav-link" href="/">Minitwit</a></strong>
 {{#user}}
-            <li class="nav-item"><a class="nav-link" href="/public">Public</a></li>
-            <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+      <a class="nav-link" href="/public">Public</a>
+      <a class="nav-link" href="/logout">Logout</a>
 {{/user}}
 {{^user}}
-            <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
-            <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+      <a class="nav-link" href="/login">Login</a>
+      <a class="nav-link" href="/register">Register</a>
 {{/user}}
-          </ul>
-        </nav>
-      </header>
-      <main role="main">
+    </nav>
 {{#error}}
-        <div class="alert alert-danger" role="alert">
-          {{error}}
-        </div>
-{{/error}}
-{{$content}}
-          <p>Default content.</p>
-{{/content}}
+    <div class="alert alert-danger" role="alert">
+      {{error}}
     </div>
+{{/error}}
+    <main>
+{{$content}}
+    <p>Default content.</p>
+{{/content}}
+    </main>
   </body>
 </html>

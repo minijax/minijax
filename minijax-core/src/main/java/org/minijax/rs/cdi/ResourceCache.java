@@ -8,6 +8,9 @@ import org.minijax.commons.CloseUtils;
 
 /**
  * The ResourceCache maps a CDI <code>Key</code> to instances of the class.
+ *
+ * This class is not thread safe.  One instance should be used per request,
+ * which should only be handled by one thread at a time.
  */
 public class ResourceCache implements Closeable {
     private final Map<Object, Object> innerMap;

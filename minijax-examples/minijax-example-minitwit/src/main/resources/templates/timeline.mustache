@@ -2,20 +2,18 @@
 {{$title}}Home{{/title}}
 {{$content}}
 {{#user}}
-<form action="/addmessage" method="POST">
-  <input type="hidden" name="csrf" value="{{csrf}}">
-  <div class="input-group">
-    <input type="text" name="text" class="form-control" placeholder="Say something..." required autofocus>
-    <div class="input-group-append">
-      <button class="btn btn-primary" type="button">Share</button>
-    </div>
-  </div>
-</form>
-<hr>
+<div class="message">
+  <a href="/{{user.handle}}"><img src="{{user.gravatarUrl}}" class="avatar"></a>
+  <form action="/addmessage" method="POST">
+    <input type="hidden" name="csrf" value="{{csrf}}">
+    <input type="text" name="text" placeholder="Say something..." required autofocus>
+    <input type="submit" value="Share">
+  </form>
+</div>
 {{/user}}
 {{#messages}}
 <div class="message">
-  <img src="{{user.gravatarUrl}}" class="avatar rounded-circle float-left">
+  <a href="/{{user.handle}}"><img src="{{user.gravatarUrl}}" class="avatar"></a>
   <strong><a href="/{{user.handle}}">{{user.handle}}</a></strong>
   {{text}}
   <div class="clearfix"></div>

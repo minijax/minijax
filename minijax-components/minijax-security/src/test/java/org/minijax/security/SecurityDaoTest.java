@@ -10,8 +10,8 @@ import javax.ws.rs.core.Cookie;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.commons.IdUtils;
-import org.minijax.persistence.PersistenceFeature;
 import org.minijax.rs.MinijaxRequestContext;
+import org.minijax.rs.persistence.PersistenceFeature;
 import org.minijax.rs.test.MinijaxTest;
 
 public class SecurityDaoTest extends MinijaxTest {

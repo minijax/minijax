@@ -15,7 +15,7 @@ import javax.ws.rs.core.*;
 import org.minijax.*;
 import org.minijax.dao.*;
 import org.minijax.mustache.*;
-import org.minijax.persistence.*;
+import org.minijax.rs.persistence.*;
 import org.minijax.security.*;
 import org.minijax.view.*;
 

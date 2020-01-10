@@ -3,19 +3,12 @@
 {{$content}}
 <h2>Register</h2>
 <form method="POST">
-  <div class="form-group">
-    <label for="handle">Handle</label>
-    <input id="handle" name="handle" class="form-control" type="handle" placeholder="Handle" required autofocus>
-  </div>
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input id="email" name="email" class="form-control" type="email" placeholder="name@example.com" required>
-  </div>
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input id="password" name="password" class="form-control" type="password" placeholder="Your password" required>
-  </div>
-  <button type="submit" class="btn btn-primary">Register</button>
+  <label for="handle">Handle</label>
+  <input id="handle" name="handle" type="text" placeholder="Handle" required autofocus>
+  <label for="email">Email</label>
+  <input id="email" name="email" type="email" placeholder="name@example.com" required>
+  <label for="password">Password</label><input id="password" name="password" type="password" placeholder="Your password" required>
+  <input type="submit" value="Register">
 </form>
 {{/content}}
 {{/layout}}
