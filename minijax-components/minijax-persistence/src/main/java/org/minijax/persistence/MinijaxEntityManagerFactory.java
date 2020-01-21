@@ -76,6 +76,7 @@ public class MinijaxEntityManagerFactory implements javax.persistence.EntityMana
 
     @Override
     public void close() {
+        // TODO: Close database connection pools once implemented
     }
 
     /*
@@ -108,7 +109,6 @@ public class MinijaxEntityManagerFactory implements javax.persistence.EntityMana
         try {
             cls = Class.forName(className);
         } catch (final ClassNotFoundException ex) {
-            LOG.error("Error creating tables: {}", ex.getMessage(), ex);
             throw new MinijaxException(ex.getMessage(), ex);
         }
 
@@ -126,7 +126,6 @@ public class MinijaxEntityManagerFactory implements javax.persistence.EntityMana
             result.setAutoCommit(false);
             return result;
         } catch (final SQLException ex) {
-            LOG.error("Could not get JDBC connection: {}", ex.getMessage(), ex);
             throw new MinijaxException(ex.getMessage(), ex);
         }
     }

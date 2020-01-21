@@ -11,12 +11,14 @@ public class MinijaxTransaction implements javax.persistence.EntityTransaction {
     private static final Logger LOG = LoggerFactory.getLogger(MinijaxTransaction.class);
     private final Connection connection;
 
-    public MinijaxTransaction(Connection connection) {
+    public MinijaxTransaction(final Connection connection) {
         this.connection = connection;
     }
 
     @Override
     public void begin() {
+        // TODO: Save points
+        // For now, there is only one global "transaction" per connection
     }
 
     @Override

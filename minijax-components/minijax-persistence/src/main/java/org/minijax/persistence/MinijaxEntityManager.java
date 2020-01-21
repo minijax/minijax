@@ -105,6 +105,7 @@ public class MinijaxEntityManager implements javax.persistence.EntityManager, Au
 
     @Override
     public void flush() {
+        // Nothing to do
     }
 
     @Override

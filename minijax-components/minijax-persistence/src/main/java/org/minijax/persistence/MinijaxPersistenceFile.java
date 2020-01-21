@@ -8,15 +8,12 @@ import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.minijax.commons.MinijaxException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class MinijaxPersistenceFile {
-    private static final Logger LOG = LoggerFactory.getLogger(MinijaxPersistenceFile.class);
     private final Map<String, MinijaxPersistenceUnitInfo> persistenceUnits;
 
     private MinijaxPersistenceFile(final Map<String, MinijaxPersistenceUnitInfo> persistenceUnits) {
@@ -49,7 +46,6 @@ public class MinijaxPersistenceFile {
             return parse(doc);
 
         } catch (final Exception ex) {
-            LOG.error("Error reading persistence unit info: {}", ex.getMessage(), ex);
             throw new MinijaxException(ex.getMessage(), ex);
         }
     }

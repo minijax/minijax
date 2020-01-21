@@ -17,10 +17,12 @@ public class MinijaxInjectorState {
         return injector;
     }
 
+    @SuppressWarnings("java:S1452") // Generic wildcard return type is ok for private API
     Key<?> getKey() {
         return key;
     }
 
+    @SuppressWarnings("java:S1452") // Generic wildcard return type is ok for private API
     Set<Key<?>> getChain() {
         return chain;
     }
