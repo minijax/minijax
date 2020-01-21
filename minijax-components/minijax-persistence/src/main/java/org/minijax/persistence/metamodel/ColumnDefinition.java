@@ -7,7 +7,6 @@ public class ColumnDefinition {
     private final Datatype datatype;
     private final boolean primaryKey;
     private final ForeignReference foreignReference;
-//    private final AssociationTable associationTable;
 
     public ColumnDefinition(
             final String name,
@@ -19,19 +18,10 @@ public class ColumnDefinition {
         this.datatype = Objects.requireNonNull(datatype);
         this.primaryKey = primaryKey;
         this.foreignReference = foreignReference;
-//        this.associationTable = associationTable;
 
         if (primaryKey && foreignReference != null) {
             throw new IllegalStateException("Column cannot be both primary key and foreign key");
         }
-
-//        if (primaryKey && associationTable != null) {
-//            throw new IllegalStateException("Column cannot be both primary key and association key");
-//        }
-//
-//        if (foreignReference != null && associationTable != null) {
-//            throw new IllegalStateException("Column cannot be both foreign key and association key");
-//        }
     }
 
     public String getName() {
@@ -49,8 +39,4 @@ public class ColumnDefinition {
     public ForeignReference getForeignReference() {
         return foreignReference;
     }
-
-//    public AssociationTable getAssociationTable() {
-//        return associationTable;
-//    }
 }
