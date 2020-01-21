@@ -58,13 +58,13 @@ public class MinijaxCriteriaBuilder implements javax.persistence.criteria.Criter
     }
 
     @Override
-    @SuppressWarnings("java:S1221") // Ignore Sonar warning about confusing "equal" method
+    @SuppressWarnings({ "rawtypes", "unchecked", "java:S1221" }) // Ignore Sonar warning about confusing "equal" method
     public MinijaxComparison equal(final Expression<?> x, final Object y) {
         return new MinijaxComparison(ComparisonType.EQUALS, (MinijaxExpression<?>) x, MinijaxExpression.ofLiteral(y));
     }
 
     @Override
-    @SuppressWarnings("java:S1221") // Ignore Sonar warning about confusing "equal" method
+    @SuppressWarnings({ "rawtypes", "unchecked", "java:S1221" }) // Ignore Sonar warning about confusing "equal" method
     public MinijaxComparison equal(final Expression<?> x, final Expression<?> y) {
         return new MinijaxComparison(ComparisonType.EQUALS, (MinijaxExpression<?>) x, (MinijaxExpression<?>) y);
     }

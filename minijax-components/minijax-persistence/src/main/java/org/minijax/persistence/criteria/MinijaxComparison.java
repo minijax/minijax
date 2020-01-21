@@ -1,7 +1,7 @@
 package org.minijax.persistence.criteria;
 
-public class MinijaxComparison extends MinijaxPredicate {
-    public static enum ComparisonType {
+public class MinijaxComparison<T> extends MinijaxPredicate {
+    public enum ComparisonType {
         EQUALS("="),
         GREATER_THAN(">"),
         GREATER_THAN_OR_EQUAL_TO(">="),
@@ -21,13 +21,13 @@ public class MinijaxComparison extends MinijaxPredicate {
     }
 
     private final ComparisonType comparisonType;
-    private final MinijaxExpression<?> x;
-    private final MinijaxExpression<?> y;
+    private final MinijaxExpression<T> x;
+    private final MinijaxExpression<T> y;
 
     public MinijaxComparison(
             final ComparisonType comparisonType,
-            final MinijaxExpression<?> x,
-            final MinijaxExpression<?> y) {
+            final MinijaxExpression<T> x,
+            final MinijaxExpression<T> y) {
         this.comparisonType = comparisonType;
         this.x = x;
         this.y = y;
@@ -37,11 +37,11 @@ public class MinijaxComparison extends MinijaxPredicate {
         return comparisonType;
     }
 
-    public MinijaxExpression<?> getX() {
+    public MinijaxExpression<T> getX() {
         return x;
     }
 
-    public MinijaxExpression<?> getY() {
+    public MinijaxExpression<T> getY() {
         return y;
     }
 }

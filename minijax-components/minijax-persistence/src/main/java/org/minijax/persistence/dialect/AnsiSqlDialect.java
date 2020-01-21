@@ -446,7 +446,7 @@ public class AnsiSqlDialect implements SqlDialect {
                 buildConjunctionSql((MinijaxConjunction) expression);
 
             } else if (expression instanceof MinijaxComparison) {
-                buildInfixOperatorSql((MinijaxComparison) expression);
+                buildInfixOperatorSql((MinijaxComparison<T2>) expression);
 
             } else if (expression instanceof MinijaxIn) {
                 buildInSql((MinijaxIn<T>) expression);
@@ -487,7 +487,7 @@ public class AnsiSqlDialect implements SqlDialect {
             }
         }
 
-        private void buildInfixOperatorSql(final MinijaxComparison infixOperator) {
+        private <T2> void buildInfixOperatorSql(final MinijaxComparison<T2> infixOperator) {
             buildSql(infixOperator.getX());
             sql.append(infixOperator.getComparisonType().sql());
             buildSql(infixOperator.getY());
