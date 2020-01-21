@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Order;
+import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Predicate.BooleanOperator;
 import javax.persistence.criteria.Root;
@@ -19,21 +20,14 @@ import org.minijax.persistence.MinijaxEntityManager;
 import org.minijax.persistence.metamodel.MinijaxEntityType;
 import org.minijax.persistence.metamodel.MinijaxMetamodel;
 
-public class MinijaxCriteriaQuery<T>
-//        extends MinijaxBaseTypedQuery<T>
-        implements javax.persistence.criteria.CriteriaQuery<T> {
-
-    private final MinijaxEntityManager em;
+public class MinijaxCriteriaQuery<T> implements javax.persistence.criteria.CriteriaQuery<T> {
     private final MinijaxMetamodel metamodel;
     private final Class<T> resultType;
     private final LinkedHashSet<MinijaxRoot<?>> roots;
-//    private final Map<String, Object> namedParams;
-//    private final Map<Integer, Object> positionalParams;
     private MinijaxPredicate where;
     private List<Order> orderBy;
 
     public MinijaxCriteriaQuery(final MinijaxEntityManager em, final Class<T> resultType) {
-        this.em = em;
         this.metamodel = em.getMetamodel();
         this.resultType = resultType;
         this.roots = new LinkedHashSet<>();
@@ -103,11 +97,6 @@ public class MinijaxCriteriaQuery<T>
         return orderBy;
     }
 
-//    @Override
-//    public List<T> getResultList() {
-//        return em.getDialect().getResultList(em, this);
-//    }
-
     /*
      * Unsupported
      */
@@ -173,8 +162,7 @@ public class MinijaxCriteriaQuery<T>
     }
 
     @Override
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public Set getParameters() {
+    public Set<ParameterExpression<?>> getParameters() {
         throw new UnsupportedOperationException();
     }
 }

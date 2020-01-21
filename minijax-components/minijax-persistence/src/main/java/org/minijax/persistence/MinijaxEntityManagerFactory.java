@@ -119,6 +119,9 @@ public class MinijaxEntityManagerFactory implements javax.persistence.EntityMana
 
     Connection createConnection() {
         try {
+            // Sonar warns that the connection should be closed.
+            // Obviously we do not want to close the connection, because we are returning it to a consumer.
+            @SuppressWarnings("java:S2095")
             final Connection result = DriverManager.getConnection(url, user, password);
             result.setAutoCommit(false);
             return result;

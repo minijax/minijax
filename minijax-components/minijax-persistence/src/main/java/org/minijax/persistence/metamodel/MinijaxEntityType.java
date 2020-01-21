@@ -55,7 +55,7 @@ public class MinijaxEntityType<T>
         }
 
         final String annotationName = entityAnnotation.name();
-        this.name = annotationName != null ? javaType.getSimpleName() : annotationName;
+        this.name = annotationName != null ? annotationName : javaType.getSimpleName();
         this.tableName = name.toUpperCase();
 
         final List<Field> fields = new ArrayList<>();

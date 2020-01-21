@@ -195,7 +195,7 @@ class Connection {
         // Write a blank line to separate content
         buffer.put(CRLF);
 
-        if (!onlyHeader) {
+        if (!onlyHeader && bufferedOutputStream != null) {
             buffer.put(bufferedOutputStream.toByteArray());
         }
 
