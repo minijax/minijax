@@ -34,3 +34,6 @@ hs_err_pid*
 dependency-reduced-pom.xml
 target/
 
+# Mac
+.DS_Store
+

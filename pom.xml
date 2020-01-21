@@ -92,6 +92,8 @@
         <site.basedir>${session.executionRootDirectory}/src/site/</site.basedir>
         <slf4j.version>1.7.25</slf4j.version>
         <sonar.exclusions>minijax-examples/**/*,src/main/java/com/example/**/*</sonar.exclusions>
+        <sonar.jacoco.reportPath>${session.executionRootDirectory}/target/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.java.source>1.8</sonar.java.source>
         <sonar.language>java</sonar.language>
         <undertow.version>2.0.28.Final</undertow.version>
     </properties>
@@ -409,6 +411,21 @@
                                 <dependencyConvergence></dependencyConvergence>
                             </rules>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.5</version>
+                <configuration>
+                    <destFile>${session.executionRootDirectory}/target/jacoco.exec</destFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
