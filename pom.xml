@@ -91,8 +91,8 @@
         <shade.version>3.1.0</shade.version>
         <site.basedir>${session.executionRootDirectory}/src/site/</site.basedir>
         <slf4j.version>1.7.25</slf4j.version>
+        <sonar.coverage.jacoco.xmlReportPaths>${session.executionRootDirectory}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         <sonar.exclusions>minijax-examples/**/*,src/main/java/com/example/**/*</sonar.exclusions>
-        <sonar.jacoco.reportPath>${session.executionRootDirectory}/target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.java.source>1.8</sonar.java.source>
         <sonar.language>java</sonar.language>
         <undertow.version>2.0.28.Final</undertow.version>
