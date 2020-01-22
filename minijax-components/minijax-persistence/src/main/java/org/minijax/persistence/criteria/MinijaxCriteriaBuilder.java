@@ -19,7 +19,6 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.ListJoin;
 import javax.persistence.criteria.MapJoin;
-import javax.persistence.criteria.Order;
 import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
@@ -97,6 +96,16 @@ public class MinijaxCriteriaBuilder implements javax.persistence.criteria.Criter
         return new MinijaxConjunction(BooleanOperator.OR, (MinijaxPredicate[]) restrictions);
     }
 
+    @Override
+    public MinijaxOrder asc(final Expression<?> x) {
+        return new MinijaxOrder((MinijaxExpression<?>) x, true);
+    }
+
+    @Override
+    public MinijaxOrder desc(final Expression<?> x) {
+        return new MinijaxOrder((MinijaxExpression<?>) x, false);
+    }
+
     /*
      * Unsupported
      */
@@ -123,16 +132,6 @@ public class MinijaxCriteriaBuilder implements javax.persistence.criteria.Criter
 
     @Override
     public CompoundSelection<Object[]> array(final Selection<?>... selections) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Order asc(final Expression<?> x) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Order desc(final Expression<?> x) {
         throw new UnsupportedOperationException();
     }
 

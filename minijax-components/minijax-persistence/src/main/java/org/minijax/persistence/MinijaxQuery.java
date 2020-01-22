@@ -12,6 +12,8 @@ public class MinijaxQuery<T> extends MinijaxBaseTypedQuery<T> {
     private final MinijaxCriteriaQuery<T> criteriaQuery;
     private final Map<String, Object> namedParams;
     private final Map<Integer, Object> positionalParams;
+    private int firstResult;
+    private int maxResults;
 
     public MinijaxQuery(final MinijaxEntityManager em, final MinijaxCriteriaQuery<T> criteriaQuery) {
         this.em = Objects.requireNonNull(em);
@@ -45,6 +47,28 @@ public class MinijaxQuery<T> extends MinijaxBaseTypedQuery<T> {
     @Override
     public Object getParameterValue(final String name) {
         return this.namedParams.get(name);
+    }
+
+    @Override
+    public int getFirstResult() {
+        return firstResult;
+    }
+
+    @Override
+    public MinijaxQuery<T> setFirstResult(final int firstResult) {
+        this.firstResult = firstResult;
+        return this;
+    }
+
+    @Override
+    public int getMaxResults() {
+        return maxResults;
+    }
+
+    @Override
+    public MinijaxQuery<T> setMaxResults(final int maxResults) {
+        this.maxResults = maxResults;
+        return this;
     }
 
     @Override
