@@ -1,19 +1,27 @@
-package org.minijax.persistence;
+package org.minijax.persistence.testmodel;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
-public class Widget implements Serializable {
+public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     private int id;
 
-    @Column
     private String name;
+
+    @OneToMany
+    private final Set<User> following;
+
+    public User() {
+        following = new HashSet<>();
+    }
 
     public int getId() {
         return id;
@@ -29,5 +37,9 @@ public class Widget implements Serializable {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public Set<User> getFollowing() {
+        return following;
     }
 }

@@ -8,8 +8,8 @@ import org.junit.Test;
 import org.minijax.persistence.MinijaxEntityManager;
 import org.minijax.persistence.MinijaxEntityManagerFactory;
 import org.minijax.persistence.MinijaxPersistenceProvider;
-import org.minijax.persistence.Widget;
 import org.minijax.persistence.metamodel.MinijaxEntityType;
+import org.minijax.persistence.testmodel.Widget;
 
 public class MinijaxEntityTypeTest {
 

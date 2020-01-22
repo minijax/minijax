@@ -8,10 +8,10 @@ import org.junit.Test;
 import org.minijax.persistence.MinijaxEntityManager;
 import org.minijax.persistence.MinijaxEntityManagerFactory;
 import org.minijax.persistence.MinijaxPersistenceProvider;
-import org.minijax.persistence.Widget;
 import org.minijax.persistence.criteria.MinijaxCriteriaQuery;
 import org.minijax.persistence.jpql.Parser;
 import org.minijax.persistence.jpql.Tokenizer;
+import org.minijax.persistence.testmodel.Widget;
 
 public class ParserTest {
     private MinijaxEntityManagerFactory emf;

@@ -134,7 +134,7 @@ public class MinijaxEntityType<T>
                   final Class<?> attributeType = attr.getJavaType();
                   final MinijaxEntityType<?> attributeEntityType = metamodel.entity(attributeType);
                     value = attributeEntityType.createInstanceFromRow(em, rs, columnIndex);
-                } else if (attrType == Integer.class) {
+                } else if (attrType == int.class || attrType == Integer.class) {
                     value = rs.getInt(columnIndex.getValue());
                     columnIndex.setValue(columnIndex.getValue() + 1);
                 } else if (attrType == UUID.class) {
@@ -148,6 +148,7 @@ public class MinijaxEntityType<T>
                     value = new ArrayList<>(); // TODO
                     columnIndex.setValue(columnIndex.getValue() + 1);
                 } else if (attrType == Set.class) {
+                    // TODO: This query has to be generated from entity metamodel
                     final Object id = idAttribute.getValue(instance);
                     value = new LazySet<>(new MinijaxNativeQuery<>(
                             em,
@@ -160,6 +161,7 @@ public class MinijaxEntityType<T>
                             " WHERE uf.USER_ID=?",
                             id));
                 } else {
+                    LOG.warn("Unimplemented attribute type: {}", attrType);
                     value = null;
                     columnIndex.setValue(columnIndex.getValue() + 1);
                 }
@@ -167,8 +169,8 @@ public class MinijaxEntityType<T>
             }
 
             return instance;
+
         } catch (final ReflectiveOperationException | SQLException ex) {
-            LOG.error("Error creating instance from row: {}", ex.getMessage(), ex);
             throw new MinijaxException(ex.getMessage(), ex);
         }
     }

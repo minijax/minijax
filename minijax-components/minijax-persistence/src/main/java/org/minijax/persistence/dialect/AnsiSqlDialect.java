@@ -316,14 +316,16 @@ public class AnsiSqlDialect implements SqlDialect {
             final MinijaxSetAttribute<?, ?> setAttr = (MinijaxSetAttribute<?, ?>) attr;
             final MinijaxEntityType<Object> elementType = (MinijaxEntityType<Object>) setAttr.getElementType();
             final Set<?> elements = (Set<?>) attr.getValue(entity);
-            for (final Object element : elements) {
-                executeUpdate(
-                        em,
-                        "INSERT INTO " + attr.getColumn().getForeignReference().getTableName() +
-                        " (" + attr.getColumn().getName() + "," + attr.getColumn().getForeignReference().getColumnName() + ")" +
-                        " VALUES " +
-                        " (?,?)",
-                        Arrays.asList(entityId, elementType.getIdAttribute().getValue(element)));
+            if (elements != null) {
+                for (final Object element : elements) {
+                    executeUpdate(
+                            em,
+                            "INSERT INTO " + attr.getColumn().getForeignReference().getTableName() +
+                            " (" + attr.getColumn().getName() + "," + attr.getColumn().getForeignReference().getColumnName() + ")" +
+                            " VALUES " +
+                            " (?,?)",
+                            Arrays.asList(entityId, elementType.getIdAttribute().getValue(element)));
+                }
             }
         }
     }

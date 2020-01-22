@@ -132,7 +132,7 @@ public class MinijaxAttributeFactory {
         } else {
             columnName = name;
 
-            if (attributeType == Integer.class) {
+            if (attributeType == int.class || attributeType == Integer.class) {
                 datatype = Datatype.INTEGER;
             } else {
                 datatype = Datatype.VARCHAR;
