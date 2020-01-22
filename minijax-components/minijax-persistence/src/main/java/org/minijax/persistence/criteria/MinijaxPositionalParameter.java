@@ -1,12 +1,13 @@
 package org.minijax.persistence.criteria;
 
-public class MinijaxPositionalParameter
-        extends MinijaxExpression<String>
-        implements javax.persistence.criteria.ParameterExpression<String>{
+public class MinijaxPositionalParameter<T>
+        extends MinijaxExpression<T>
+        implements javax.persistence.criteria.ParameterExpression<T> {
 
     private final int position;
 
-    public MinijaxPositionalParameter(final int position) {
+    public MinijaxPositionalParameter(final Class<T> javaType, final int position) {
+        super(javaType);
         this.position = position;
     }
 
@@ -21,7 +22,7 @@ public class MinijaxPositionalParameter
     }
 
     @Override
-    public Class<String> getParameterType() {
+    public Class<T> getParameterType() {
         throw new UnsupportedOperationException();
     }
 }

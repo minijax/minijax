@@ -2,13 +2,14 @@ package org.minijax.persistence.criteria;
 
 import java.util.Objects;
 
-public class MinijaxNamedParameter
-        extends MinijaxExpression<String>
-        implements javax.persistence.criteria.ParameterExpression<String>{
+public class MinijaxNamedParameter<T>
+        extends MinijaxExpression<T>
+        implements javax.persistence.criteria.ParameterExpression<T> {
 
     private final String name;
 
-    public MinijaxNamedParameter(final String name) {
+    public MinijaxNamedParameter(final Class<T> javaType, final String name) {
+        super(javaType);
         this.name = Objects.requireNonNull(name);
     }
 
@@ -23,7 +24,7 @@ public class MinijaxNamedParameter
     }
 
     @Override
-    public Class<String> getParameterType() {
-        throw new UnsupportedOperationException();
+    public Class<T> getParameterType() {
+        return getJavaType();
     }
 }

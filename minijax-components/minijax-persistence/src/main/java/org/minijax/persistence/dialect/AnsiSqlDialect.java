@@ -19,6 +19,7 @@ import org.minijax.commons.MinijaxException;
 import org.minijax.persistence.MinijaxEntityManager;
 import org.minijax.persistence.MinijaxNativeQuery;
 import org.minijax.persistence.MinijaxQuery;
+import org.minijax.persistence.criteria.MinijaxAttributePath;
 import org.minijax.persistence.criteria.MinijaxComparison;
 import org.minijax.persistence.criteria.MinijaxConjunction;
 import org.minijax.persistence.criteria.MinijaxCriteriaQuery;
@@ -28,7 +29,6 @@ import org.minijax.persistence.criteria.MinijaxNamedParameter;
 import org.minijax.persistence.criteria.MinijaxNull;
 import org.minijax.persistence.criteria.MinijaxNumberExpression;
 import org.minijax.persistence.criteria.MinijaxOrder;
-import org.minijax.persistence.criteria.MinijaxPath;
 import org.minijax.persistence.criteria.MinijaxPositionalParameter;
 import org.minijax.persistence.criteria.MinijaxPredicate;
 import org.minijax.persistence.criteria.MinijaxStringExpression;
@@ -451,14 +451,14 @@ public class AnsiSqlDialect implements SqlDialect {
             } else if (expression instanceof MinijaxIn) {
                 buildInSql((MinijaxIn<T>) expression);
 
-            } else if (expression instanceof MinijaxPath) {
-                buildPathSql((MinijaxPath<T>) expression);
+            } else if (expression instanceof MinijaxAttributePath) {
+                buildAttributePathSql((MinijaxAttributePath<T>) expression);
 
             } else if (expression instanceof MinijaxNamedParameter) {
-                buildNamedParameterSql((MinijaxNamedParameter) expression);
+                buildNamedParameterSql((MinijaxNamedParameter<T2>) expression);
 
             } else if (expression instanceof MinijaxPositionalParameter) {
-                buildPositionalParameterSql((MinijaxPositionalParameter) expression);
+                buildPositionalParameterSql((MinijaxPositionalParameter<T2>) expression);
 
             } else if (expression instanceof MinijaxNull) {
                 sql.append("NULL");
@@ -509,19 +509,17 @@ public class AnsiSqlDialect implements SqlDialect {
             sql.append(")");
         }
 
-        private void buildPathSql(final MinijaxPath<T> path) {
+        private void buildAttributePathSql(final MinijaxAttributePath<T> path) {
             // TODO: Parse the value, and map to sql table alias
-            sql.append(path.getValue()
-                    .replace("e.", "t0.")
-                    .replace("m.user", "t0.USER_ID")
-                    .replace("m.", "t0."));
+            sql.append("t0.");
+            sql.append(path.getAttribute().getColumn().getName());
         }
 
-        private void buildNamedParameterSql(final MinijaxNamedParameter variable) {
+        private void buildNamedParameterSql(final MinijaxNamedParameter<?> variable) {
             buildVariableSql(namedParams.get(variable.getName()));
         }
 
-        private void buildPositionalParameterSql(final MinijaxPositionalParameter variable) {
+        private void buildPositionalParameterSql(final MinijaxPositionalParameter<?> variable) {
             buildVariableSql(positionalParams.get(variable.getPosition()));
         }
 

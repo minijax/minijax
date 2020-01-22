@@ -6,6 +6,7 @@ public class MinijaxStringExpression extends MinijaxExpression<String> {
     private final String value;
 
     public MinijaxStringExpression(final String value) {
+        super(String.class);
         this.value = Objects.requireNonNull(value);
     }
 

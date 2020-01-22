@@ -3,7 +3,6 @@ package org.minijax.persistence.jpql;
 import java.util.List;
 
 import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Path;
 
 import org.minijax.commons.MinijaxException;
 import org.minijax.persistence.criteria.MinijaxCriteriaBuilder;
@@ -153,20 +152,30 @@ public class Parser<T> {
         query.where(predicate);
     }
 
+    private MinijaxPath<?> parsePath() {
+        final Token field = consume(TokenType.SYMBOL);
+        final String[] fieldParts = field.getValue().split("\\.");
+
+        MinijaxPath<?> path = root;
+        for (int i = 1; i < fieldParts.length; i++) {
+            path = path.get(fieldParts[i]);
+        }
+        return path;
+    }
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private MinijaxPredicate parsePredicate() {
-        final Token field = consume(TokenType.SYMBOL);
-        final Path<?> fieldPath = root.get(field.getValue());
+        final MinijaxPath<?> path = parsePath();
 
         final Token operator = consume(null);
         final MinijaxExpression<?> value = parseExpression();
 
         switch (operator.getTokenType()) {
         case EQUALS:
-            return cb.equal(fieldPath, value);
+            return cb.equal(path, value);
 
         case KEYWORD_IN:
-            return cb.in(fieldPath).value((Expression) value);
+            return cb.in(path).value((Expression) value);
 
         default:
             throw new MinijaxException("Unexpected operator: " + operator);
@@ -177,7 +186,7 @@ public class Parser<T> {
         consume(TokenType.KEYWORD_ORDER);
         consume(TokenType.KEYWORD_BY);
 
-        final MinijaxPath<?> path = root.get(consume(TokenType.SYMBOL).getValue());
+        final MinijaxPath<?> path = parsePath();
 
         final Token curr = getCurr();
         boolean ascending = true;
@@ -208,10 +217,10 @@ public class Parser<T> {
             return new MinijaxNumberExpression(number);
 
         case NAMED_PARAMETER:
-            return new MinijaxNamedParameter(str);
+            return new MinijaxNamedParameter<>(Object.class, str);
 
         case POSITIONAL_PARAMETER:
-            return new MinijaxPositionalParameter(Integer.parseInt(str));
+            return new MinijaxPositionalParameter<>(Object.class, Integer.parseInt(str));
 
         default:
             throw new MinijaxException("Unexpected expression: " + curr);

@@ -17,6 +17,7 @@ import javax.persistence.criteria.Subquery;
 import javax.persistence.metamodel.EntityType;
 
 import org.minijax.persistence.MinijaxEntityManager;
+import org.minijax.persistence.MinijaxSelection;
 import org.minijax.persistence.metamodel.MinijaxEntityType;
 import org.minijax.persistence.metamodel.MinijaxMetamodel;
 
@@ -24,6 +25,7 @@ public class MinijaxCriteriaQuery<T> implements javax.persistence.criteria.Crite
     private final MinijaxMetamodel metamodel;
     private final Class<T> resultType;
     private final LinkedHashSet<MinijaxRoot<?>> roots;
+    private MinijaxSelection<T> selection;
     private MinijaxPredicate where;
     private List<Order> orderBy;
 
@@ -45,7 +47,9 @@ public class MinijaxCriteriaQuery<T> implements javax.persistence.criteria.Crite
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public MinijaxCriteriaQuery<T> select(final Selection<? extends T> selection) {
+        this.selection = (MinijaxSelection<T>) selection;
         return this;
     }
 
@@ -88,6 +92,11 @@ public class MinijaxCriteriaQuery<T> implements javax.persistence.criteria.Crite
     }
 
     @Override
+    public MinijaxSelection<T> getSelection() {
+        return selection;
+    }
+
+    @Override
     public MinijaxPredicate getRestriction() {
         return where;
     }
@@ -100,11 +109,6 @@ public class MinijaxCriteriaQuery<T> implements javax.persistence.criteria.Crite
     /*
      * Unsupported
      */
-
-    @Override
-    public Selection<T> getSelection() {
-        throw new UnsupportedOperationException();
-    }
 
     @Override
     public List<Expression<?>> getGroupList() {

@@ -2,7 +2,6 @@ package org.minijax.persistence.criteria;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Objects;
 
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Path;
@@ -11,21 +10,12 @@ import javax.persistence.metamodel.MapAttribute;
 import javax.persistence.metamodel.PluralAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 
-public class MinijaxPath<T> extends MinijaxExpression<T> implements javax.persistence.criteria.Path<T> {
-    private final MinijaxRoot<?> root;
-    private final String value;
+public abstract class MinijaxPath<T>
+        extends MinijaxExpression<T>
+        implements javax.persistence.criteria.Path<T> {
 
-    public MinijaxPath(final MinijaxRoot<?> root, final String value) {
-        this.root = Objects.requireNonNull(root);
-        this.value = Objects.requireNonNull(value);
-    }
-
-    public MinijaxRoot<?> getRoot() {
-        return root;
-    }
-
-    public String getValue() {
-        return value;
+    public MinijaxPath(final Class<T> javaType) {
+        super(javaType);
     }
 
     /*
@@ -63,7 +53,7 @@ public class MinijaxPath<T> extends MinijaxExpression<T> implements javax.persis
     }
 
     @Override
-    public <Y> Path<Y> get(final String attributeName) {
+    public <Y> MinijaxPath<Y> get(final String attributeName) {
         throw new UnsupportedOperationException();
     }
 }

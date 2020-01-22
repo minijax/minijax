@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -44,6 +46,7 @@ public class MinijaxEntityType<T>
     private final String tableName;
     private final MinijaxSingularAttribute<? super T, ?> idAttribute;
     private final LinkedHashSet<MinijaxAttribute<? super T, ?>> attributes;
+    private final Map<String, MinijaxAttribute<T, ?>> attributeLookup;
 
     public MinijaxEntityType(final MinijaxMetamodel metamodel, final Class<T> javaType) {
         this.metamodel = metamodel;
@@ -65,12 +68,14 @@ public class MinijaxEntityType<T>
 
         MinijaxSingularAttribute<T, ?> idAttr = null;
         attributes = new LinkedHashSet<>();
+        attributeLookup = new HashMap<>();
         for (final Field field : fields) {
             final MinijaxAttribute<T, Object> attribute = MinijaxAttributeFactory.build(metamodel, this, field);
             if (attribute instanceof MinijaxSingularAttribute && ((MinijaxSingularAttribute<T, ?>) attribute).isId()) {
                 idAttr = (MinijaxSingularAttribute<T, ?>) attribute;
             }
             attributes.add(attribute);
+            attributeLookup.put(attribute.getName().toUpperCase(), attribute);
         }
 
         this.idAttribute = idAttr;
@@ -110,6 +115,11 @@ public class MinijaxEntityType<T>
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public Set<Attribute<? super T, ?>> getAttributes() {
         return (Set) attributes;
+    }
+
+    @Override
+    public MinijaxAttribute<? super T, ?> getAttribute(final String name) {
+        return attributeLookup.get(name.toUpperCase());
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -324,11 +334,6 @@ public class MinijaxEntityType<T>
 
     @Override
     public Set<PluralAttribute<T, ?, ?>> getDeclaredPluralAttributes() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Attribute<? super T, ?> getAttribute(final String name) {
         throw new UnsupportedOperationException();
     }
 

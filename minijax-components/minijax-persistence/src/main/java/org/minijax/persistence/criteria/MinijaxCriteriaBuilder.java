@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -28,6 +29,7 @@ import javax.persistence.criteria.Selection;
 import javax.persistence.criteria.SetJoin;
 import javax.persistence.criteria.Subquery;
 
+import org.minijax.persistence.MinijaxCompoundSelection;
 import org.minijax.persistence.MinijaxEntityManager;
 import org.minijax.persistence.criteria.MinijaxComparison.ComparisonType;
 
@@ -116,7 +118,7 @@ public class MinijaxCriteriaBuilder implements javax.persistence.criteria.Criter
 
     @Override
     public CompoundSelection<Tuple> tuple(final Selection<?>... selections) {
-        throw new UnsupportedOperationException();
+        return new MinijaxCompoundSelection<>(Tuple.class, Arrays.asList(selections));
     }
 
     @Override

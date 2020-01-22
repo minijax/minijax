@@ -26,33 +26,28 @@ import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 
 import org.minijax.commons.MinijaxException;
+import org.minijax.persistence.metamodel.MinijaxAttribute;
 import org.minijax.persistence.metamodel.MinijaxEntityType;
 
-public class MinijaxRoot<T> implements javax.persistence.criteria.Root<T> {
+public class MinijaxRoot<T>
+        extends MinijaxPath<T>
+        implements javax.persistence.criteria.Root<T> {
+
     private final MinijaxEntityType<T> entityType;
-    private String aliasName;
 
     public MinijaxRoot(final MinijaxEntityType<T> entityType) {
+        super(entityType.getJavaType());
         this.entityType = entityType;
     }
 
     @Override
-    public Class<? extends T> getJavaType() {
-        return entityType.getJavaType();
-    }
-
-    @Override
-    public MinijaxRoot<T> alias(final String name) {
-        if (aliasName != null) {
-            throw new MinijaxException("Root alias already set");
-        }
-        this.aliasName = name;
-        return this;
-    }
-
-    @Override
+    @SuppressWarnings("unchecked")
     public <Y> MinijaxPath<Y> get(final String attributeName) {
-        return new MinijaxPath<>(this, attributeName);
+        final MinijaxAttribute<T, Y> attribute = (MinijaxAttribute<T, Y>) entityType.getAttribute(attributeName);
+        if (attribute == null) {
+            throw new MinijaxException("Attribute \"" + attributeName + "\" not found for root \"" + entityType.getName() + "\"");
+        }
+        return new MinijaxAttributePath<>(this, attribute);
     }
 
     /*
@@ -241,11 +236,6 @@ public class MinijaxRoot<T> implements javax.persistence.criteria.Root<T> {
 
     @Override
     public List<Selection<?>> getCompoundSelectionItems() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public String getAlias() {
         throw new UnsupportedOperationException();
     }
 

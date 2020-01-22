@@ -1,13 +1,15 @@
 package org.minijax.persistence.criteria;
 
 import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Selection;
 
-public abstract class MinijaxExpression<T> implements javax.persistence.criteria.Expression<T> {
+import org.minijax.persistence.MinijaxSelection;
+
+public abstract class MinijaxExpression<T>
+        extends MinijaxSelection<T>
+        implements javax.persistence.criteria.Expression<T> {
 
     @SuppressWarnings("unchecked")
     public static <T> MinijaxExpression<T> ofLiteral(final T value) {
@@ -20,36 +22,13 @@ public abstract class MinijaxExpression<T> implements javax.persistence.criteria
         }
     }
 
-//    public abstract void buildSql(StringBuilder builder, List<Object> params);
+    public MinijaxExpression(final Class<T> javaType) {
+        super(javaType);
+    }
 
     /*
      * Unsupported
      */
-
-    @Override
-    public Selection<T> alias(final String name) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean isCompoundSelection() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public List<Selection<?>> getCompoundSelectionItems() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Class<? extends T> getJavaType() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public String getAlias() {
-        throw new UnsupportedOperationException();
-    }
 
     @Override
     public Predicate isNull() {
