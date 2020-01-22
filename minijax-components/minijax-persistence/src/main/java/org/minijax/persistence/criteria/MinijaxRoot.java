@@ -1,21 +1,14 @@
 package org.minijax.persistence.criteria;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.criteria.CollectionJoin;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Fetch;
 import javax.persistence.criteria.From;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.ListJoin;
 import javax.persistence.criteria.MapJoin;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Selection;
 import javax.persistence.criteria.SetJoin;
 import javax.persistence.metamodel.CollectionAttribute;
 import javax.persistence.metamodel.EntityType;
@@ -166,76 +159,6 @@ public class MinijaxRoot<T>
 
     @Override
     public <X, K, V> MapJoin<X, K, V> joinMap(final String attributeName, final JoinType jt) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Path<?> getParentPath() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public <Y> Path<Y> get(final SingularAttribute<? super T, Y> attribute) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public <E, C extends Collection<E>> Expression<C> get(final PluralAttribute<T, C, E> collection) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public <K, V, M extends Map<K, V>> Expression<M> get(final MapAttribute<T, K, V> map) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Expression<Class<? extends T>> type() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Predicate isNull() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Predicate isNotNull() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Predicate in(final Object... values) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Predicate in(final Expression<?>... values) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Predicate in(final Collection<?> values) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Predicate in(final Expression<Collection<?>> values) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public <X> Expression<X> as(final Class<X> type) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean isCompoundSelection() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public List<Selection<?>> getCompoundSelectionItems() {
         throw new UnsupportedOperationException();
     }
 
