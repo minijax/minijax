@@ -148,18 +148,7 @@ public class MinijaxEntityType<T>
                     value = new ArrayList<>(); // TODO
                     columnIndex.setValue(columnIndex.getValue() + 1);
                 } else if (attrType == Set.class) {
-                    // TODO: This query has to be generated from entity metamodel
-                    final Object id = idAttribute.getValue(instance);
-                    value = new LazySet<>(new MinijaxNativeQuery<>(
-                            em,
-                            ((MinijaxSetAttribute<?, ?>) attr).getElementType().getJavaType(),
-                            "SELECT t0.`ID`, t0.`CREATEDDATETIME`, t0.`UPDATEDDATETIME`, t0.`DELETEDDATETIME`," +
-                            "t0.`HANDLE`, t0.`NAME`, t0.`AVATAR`, t0.`EMAIL`, t0.`ROLES`, t0.`PASSWORDHASH`" +
-                            " FROM `USER_FOLLOWING` uf" +
-                            " LEFT JOIN `USER` t0" +
-                            " ON uf.FOLLOWING_ID=t0.ID" +
-                            " WHERE uf.USER_ID=?",
-                            id));
+                    value = buildLazySet(em, instance, (MinijaxSetAttribute<T, ?>) attr);
                 } else {
                     LOG.warn("Unimplemented attribute type: {}", attrType);
                     value = null;
@@ -203,6 +192,42 @@ public class MinijaxEntityType<T>
             field.setAccessible(true);
             fields.add(field);
         }
+    }
+
+    private <T2> LazySet<T2> buildLazySet(final MinijaxEntityManager em, final T instance, final MinijaxSetAttribute<T, T2> attr) {
+        final MinijaxEntityType<T2> elementType = attr.getElementType();
+        final StringBuilder sql = new StringBuilder();
+        sql.append("SELECT ");
+        boolean first = true;
+        for (final MinijaxAttribute<?, ?> attr2 : elementType.getAttributesImpl()) {
+            if (attr2.isAssociation()) {
+                continue;
+            }
+            if (!first) {
+                sql.append(", ");
+            }
+            sql.append("t0.");
+            sql.append(attr2.getColumn().getName());
+            first = false;
+        }
+        sql.append(" FROM ");
+        sql.append(attr.getColumn().getForeignReference().getTableName());
+        sql.append(" jt");
+        sql.append(" LEFT JOIN ");
+        sql.append(elementType.getTableName());
+        sql.append(" t0 ON jt.");
+        sql.append(attr.getColumn().getForeignReference().getColumnName());
+        sql.append("=t0.");
+        sql.append(elementType.getIdAttribute().getColumn().getName());
+        sql.append(" WHERE jt.");
+        sql.append(attr.getColumn().getName());
+        sql.append("=?");
+
+        return new LazySet<>(new MinijaxNativeQuery<>(
+                em,
+                elementType.getJavaType(),
+                sql.toString(),
+                idAttribute.getValue(instance)));
     }
 
     /*

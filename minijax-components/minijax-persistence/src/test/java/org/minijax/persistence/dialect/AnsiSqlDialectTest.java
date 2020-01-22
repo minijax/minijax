@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.minijax.persistence.MinijaxEntityManager;
 import org.minijax.persistence.MinijaxEntityManagerFactory;
@@ -46,7 +45,6 @@ public class AnsiSqlDialectTest {
     }
 
     @Test
-    @Ignore("needs updated LazySet query in MinijaxEntityType")
     public void testPersistAssociation() {
         final User u1 = new User();
         u1.setId(123);

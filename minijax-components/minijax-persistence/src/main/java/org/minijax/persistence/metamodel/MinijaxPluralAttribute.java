@@ -2,8 +2,6 @@ package org.minijax.persistence.metamodel;
 
 import java.util.Objects;
 
-import javax.persistence.metamodel.Type;
-
 /**
  * Represents an attribute of a Java type.
  *
@@ -35,7 +33,7 @@ public abstract class MinijaxPluralAttribute<X, Y, E>
     }
 
     @Override
-    public Type<E> getElementType() {
+    public MinijaxEntityType<E> getElementType() {
         return getMetamodel().entity(elementType);
     }
 
