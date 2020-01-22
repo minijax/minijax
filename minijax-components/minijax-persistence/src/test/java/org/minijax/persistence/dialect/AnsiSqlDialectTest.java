@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.minijax.persistence.MinijaxEntityManager;
 import org.minijax.persistence.MinijaxEntityManagerFactory;
 import org.minijax.persistence.MinijaxPersistenceProvider;
+import org.minijax.persistence.testmodel.Message;
 import org.minijax.persistence.testmodel.User;
 import org.minijax.persistence.testmodel.Widget;
 
@@ -68,5 +69,26 @@ public class AnsiSqlDialectTest {
         final User check = em.find(User.class, 123);
         assertNotNull(check);
         assertEquals(1, check.getFollowing().size());
+    }
+
+    @Test
+    public void testPersistReference() {
+        final User u = new User();
+        u.setId(111);
+        u.setName("Alice");
+
+        final Message m = new Message();
+        m.setId(222);
+        m.setAuthor(u);
+        m.setText("Hello");
+
+        em.getTransaction().begin();
+        em.persist(u);
+        em.persist(m);
+        em.getTransaction().commit();
+
+        final Message check = em.find(Message.class, 222);
+        assertNotNull(check);
+        assertEquals("Alice", check.getAuthor().getName());
     }
 }
