@@ -196,12 +196,23 @@ class Connection {
         buffer.put(CRLF);
 
         if (!onlyHeader && bufferedOutputStream != null) {
-            buffer.put(bufferedOutputStream.toByteArray());
+            // Push the content to the channel
+            final byte[] content = bufferedOutputStream.toByteArray();
+            int index = 0;
+            while (index < content.length) {
+                final int length = Math.min(content.length - index, buffer.remaining());
+                buffer.put(content, index, length);
+                index += length;
+                buffer.flip();
+                channel.write(buffer);
+                buffer.clear();
+            }
+        } else {
+          // Push only the headers to the channel
+          buffer.flip();
+          channel.write(buffer);
         }
 
-        // Push the content to the channel
-        buffer.flip();
-        channel.write(buffer);
         return keepAlive;
     }
 
