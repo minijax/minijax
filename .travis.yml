@@ -18,7 +18,8 @@ addons:
       secure: "jqbUAG7nthWNJXLtxVnAL7rjP+M35DNFNJflg9GacfdEcab8wRu/9N3/1uq/CntJj2Ic20w4GpcVJYOqgWa7/NlJIDQ/f/1Rtai3fo/2ffRrvMnax5O3cJIyQQnTIf7SCR6mYCrGYSw0uVjm9wcostkPQrpR995aiKaogNu12Mbu6PiPIoVt9SdKomcNuBZNJqMEj6cUfP/TAx04SJUDV7wjyP7t++N6U6ym8MxDBj2qhkYo+5Gzv+FLaGmGvkbxs1Ptg4AqCIuEvmBjy8iTzpOc7eK5z73w5X6Ew71B4NuyVICbpr8lGcBaZlrw/dE7h9Y/aX3Y7+sKLFQCXkBrM66iKvlo1ZB4IqUNK655NY9DgJ0evsxW+6ogDw0GA0GSjzkgADPLAUiRlQl/IgiMOlIxxrs7rXpnyYOQIMCgcskutNjxX8/pNbzbXEi9+4+2kme6hoit5RNQ/J/ykOWU6lBzKELdmZ7D92qPBG8Yhg78thx4lDVwF2mz29TEhFq+GjiL6H6WuUzmE4KIWVVq0cWM+2eg4vRd33HdXqlut8Vvyra4/Nlx7TZfi0fvJCcVWC36+cVNYwd6//KwtQ42+m+bXq9AsjsvTF2ofk589PdDpGkFGiQaj7TqqIusFyDu2r98v6L96tvkmr47/Ya8HfaO3XXWiSu8DfjGoS5Glms="
 
 script:
-  - mvn clean install sonar:sonar
+  - mvn clean install
+  - mvn -X sonar:sonar
 
 cache:
   directories:
