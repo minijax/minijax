@@ -19,7 +19,7 @@ addons:
 
 script:
   - mvn clean install
-  - mvn -X sonar:sonar
+  - mvn sonar:sonar
 
 cache:
   directories:
