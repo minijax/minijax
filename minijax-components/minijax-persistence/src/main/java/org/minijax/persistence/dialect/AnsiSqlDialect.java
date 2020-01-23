@@ -1,44 +1,30 @@
 package org.minijax.persistence.dialect;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.UUID;
 
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Predicate.BooleanOperator;
-import javax.persistence.metamodel.Attribute.PersistentAttributeType;
+import javax.persistence.PersistenceException;
 
-import org.minijax.commons.MinijaxException;
+import org.minijax.commons.IdUtils;
 import org.minijax.persistence.MinijaxEntityManager;
 import org.minijax.persistence.MinijaxNativeQuery;
 import org.minijax.persistence.MinijaxQuery;
-import org.minijax.persistence.criteria.MinijaxAttributePath;
-import org.minijax.persistence.criteria.MinijaxComparison;
-import org.minijax.persistence.criteria.MinijaxConjunction;
-import org.minijax.persistence.criteria.MinijaxCriteriaQuery;
-import org.minijax.persistence.criteria.MinijaxExpression;
-import org.minijax.persistence.criteria.MinijaxIn;
-import org.minijax.persistence.criteria.MinijaxNamedParameter;
-import org.minijax.persistence.criteria.MinijaxNull;
-import org.minijax.persistence.criteria.MinijaxNumberExpression;
-import org.minijax.persistence.criteria.MinijaxOrder;
-import org.minijax.persistence.criteria.MinijaxPositionalParameter;
-import org.minijax.persistence.criteria.MinijaxPredicate;
-import org.minijax.persistence.criteria.MinijaxStringExpression;
-import org.minijax.persistence.metamodel.ForeignReference;
 import org.minijax.persistence.metamodel.MinijaxAttribute;
 import org.minijax.persistence.metamodel.MinijaxEntityType;
-import org.minijax.persistence.metamodel.MinijaxEntityType.MutableInt;
 import org.minijax.persistence.metamodel.MinijaxMetamodel;
-import org.minijax.persistence.metamodel.MinijaxSetAttribute;
+import org.minijax.persistence.metamodel.MinijaxPluralAttribute;
 import org.minijax.persistence.metamodel.MinijaxSingularAttribute;
+import org.minijax.persistence.metamodel.MutableInt;
+import org.minijax.persistence.schema.Column;
+import org.minijax.persistence.schema.Table;
+import org.minijax.persistence.wrapper.MemberWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,30 +36,31 @@ public class AnsiSqlDialect implements SqlDialect {
      */
 
     @Override
-    public <T> void createTables(final MinijaxEntityManager em, final Class<T> entityClass) {
-        final MinijaxMetamodel metamodel = em.getMetamodel();
-        final MinijaxEntityType<T> entityType = metamodel.entity(entityClass);
+    public <T> void createTables(final Connection conn, final MinijaxEntityType<T> entityType) {
+        createTable(conn, entityType.getTable());
 
+        for (final Table joinTable : entityType.getJoinTables()) {
+            createTable(conn, joinTable);
+        }
+    }
+
+    private void createTable(final Connection conn, final Table table) {
         final StringBuilder b = new StringBuilder();
         b.append("CREATE TABLE IF NOT EXISTS ");
-        b.append(entityType.getTableName());
+        b.append(table.getName());
         b.append(" (");
 
         boolean first = true;
-        for (final MinijaxAttribute<? super T, ?> attr : entityType.getAttributesImpl()) {
-            if (attr.isAssociation()) {
-                continue;
-            }
-
+        for (final Column column : table.getColumns()) {
             if (!first) {
                 b.append(", ");
             }
 
-            b.append(attr.getColumn().getName());
+            b.append(column.getName());
             b.append(" ");
-            b.append(attr.getColumn().getDatatype());
+            b.append(column.getDatatype());
 
-            if (attr.getColumn().isPrimaryKey()) {
+            if (column.isPrimaryKey()) {
                 b.append(" PRIMARY KEY");
             }
 
@@ -81,20 +68,7 @@ public class AnsiSqlDialect implements SqlDialect {
         }
 
         b.append(")");
-        executeUpdate(em, b.toString(), Collections.emptyList());
-
-        for (final MinijaxAttribute<?, ?> attr : entityType.getAttributesImpl()) {
-            final ForeignReference foreignReference = attr.getColumn().getForeignReference();
-            if (foreignReference != null && foreignReference.isAssociation()) {
-                final String sql =
-                        "CREATE TABLE IF NOT EXISTS " +
-                        foreignReference.getTableName() +
-                        " (" +
-                        attr.getColumn().getName() + " " + attr.getColumn().getDatatype() + ", " +
-                        foreignReference.getColumnName() + " " + attr.getColumn().getDatatype() + ")";
-                executeUpdate(em, sql, Collections.emptyList());
-            }
-        }
+        executeUpdate(conn, b.toString(), Collections.emptyList());
     }
 
     /*
@@ -106,17 +80,17 @@ public class AnsiSqlDialect implements SqlDialect {
     public <T> void persist(final MinijaxEntityManager em, final T entity) {
         final MinijaxMetamodel metamodel = em.getMetamodel();
         final MinijaxEntityType<T> entityType = metamodel.entity((Class<T>) entity.getClass());
-        final LinkedHashSet<MinijaxAttribute<? super T, ?>> attrs = entityType.getAttributesImpl();
+        final List<MinijaxAttribute<? super T, ?>> attrs = entityType.getAttributesList();
         final List<Object> params = new ArrayList<>();
 
         final StringBuilder sql = new StringBuilder();
         sql.append("INSERT INTO ");
-        sql.append(entityType.getTableName());
+        sql.append(entityType.getTable().getName());
         sql.append(" (");
 
         boolean first = true;
         for (final MinijaxAttribute<? super T, ?> attr : attrs) {
-            if (attr.isAssociation()) {
+            if (attr instanceof MinijaxPluralAttribute) {
                 continue;
             }
             if (!first) {
@@ -130,39 +104,20 @@ public class AnsiSqlDialect implements SqlDialect {
 
         first = true;
         for (final MinijaxAttribute<? super T, ?> attr : attrs) {
-            if (attr.isAssociation()) {
+            if (attr instanceof MinijaxPluralAttribute) {
                 continue;
             }
-            final Object value;
-            switch (attr.getPersistentAttributeType()) {
-            case BASIC:
-                value = attr.getValue(entity);
-                break;
-            case ONE_TO_ONE:
-            case MANY_TO_ONE:
-                final Object referenceValue = attr.getValue(entity);
-                if (referenceValue == null) {
-                    value = null;
-                } else {
-                    value = ((MinijaxAttribute) attr.getReferenceId()).getValue(referenceValue);
-                }
-                break;
-            default:
-                LOG.warn("Unimplemented persistent attribute type: {}", attr.getPersistentAttributeType());
-                value = null;
-            }
-
             if (!first) {
                 sql.append(',');
             }
             sql.append('?');
-            params.add(value);
+            params.add(attr.write(em, entity));
             first = false;
         }
 
         sql.append(")");
-        executeUpdate(em, sql.toString(), params);
-        updateAssociations(em, entity, entityType.getIdAttribute().getValue(entity), attrs);
+        executeUpdate(em.getConnection(), sql.toString(), params);
+        updateAssociations(em, entity, entityType.getId().getValue(entity), attrs);
     }
 
     @Override
@@ -170,56 +125,33 @@ public class AnsiSqlDialect implements SqlDialect {
     public <T> T merge(final MinijaxEntityManager em, final T entity) {
         final MinijaxMetamodel metamodel = em.getMetamodel();
         final MinijaxEntityType<T> entityType = metamodel.entity((Class<T>) entity.getClass());
-        final LinkedHashSet<MinijaxAttribute<? super T, ?>> attrs = entityType.getAttributesImpl();
-        final Object entityId = entityType.getIdAttribute().getValue(entity);
+        final List<MinijaxAttribute<? super T, ?>> attrs = entityType.getAttributesList();
+        final Object entityId = entityType.getId().getValue(entity);
         final List<Object> params = new ArrayList<>();
         final StringBuilder sql = new StringBuilder();
         sql.append("UPDATE ");
-        sql.append(entityType.getTableName());
+        sql.append(entityType.getTable().getName());
         sql.append(" SET ");
 
         boolean first = true;
         for (final MinijaxAttribute<? super T, ?> attr : attrs) {
-            if (attr.isAssociation()) {
+            if (attr instanceof MinijaxPluralAttribute) {
                 continue;
             }
-
-            final Object value;
-            switch (attr.getPersistentAttributeType()) {
-            case BASIC:
-                value = attr.getValue(entity);
-                break;
-            case ONE_TO_ONE:
-            case MANY_TO_ONE:
-                final Object referenceValue = attr.getValue(entity);
-                if (referenceValue == null) {
-                    value = null;
-                } else {
-                    value = ((MinijaxAttribute) attr.getReferenceId()).getValue(referenceValue);
-                }
-                break;
-            default:
-                // TODO: For OneToMany and ManyToMany attributes, we need multiple queries.
-                // Delete all, and then insert values?
-                // This is not a hot path, so slightly suboptimal implementation is ok.
-                LOG.warn("Unimplemented persistent attribute type: {}", attr.getPersistentAttributeType());
-                value = null;
-            }
-
             if (!first) {
                 sql.append(", ");
             }
             sql.append(attr.getColumn().getName());
             sql.append("=?");
-            params.add(value);
+            params.add(attr.write(em, entity));
             first = false;
         }
 
         sql.append(" WHERE ");
-        sql.append(entityType.getIdAttribute().getColumn().getName());
+        sql.append(entityType.getId().getColumn().getName());
         sql.append("=?");
         params.add(entityId);
-        executeUpdate(em, sql.toString(), params);
+        executeUpdate(em.getConnection(), sql.toString(), params);
         updateAssociations(em, entity, entityId, attrs);
         return entity;
     }
@@ -229,14 +161,17 @@ public class AnsiSqlDialect implements SqlDialect {
     public <T> void remove(final MinijaxEntityManager em, final T entity) {
         final MinijaxMetamodel metamodel = em.getMetamodel();
         final MinijaxEntityType<T> entityType = metamodel.entity((Class<T>) entity.getClass());
-        final MinijaxSingularAttribute<T, ?> idAttribute = (MinijaxSingularAttribute<T, ?>) entityType.getIdAttribute();
+        final MinijaxSingularAttribute<T, ?> idAttribute = (MinijaxSingularAttribute<T, ?>) entityType.getId();
         final StringBuilder sql = new StringBuilder();
         sql.append("DELETE FROM ");
-        sql.append(entityType.getTableName());
+        sql.append(entityType.getTable().getName());
         sql.append(" WHERE ");
         sql.append(idAttribute.getColumn().getName());
         sql.append("=?");
-        executeUpdate(em, sql.toString(), Collections.singletonList(idAttribute.getValue(entity)));
+        executeUpdate(
+                em.getConnection(),
+                sql.toString(),
+                Collections.singletonList(idAttribute.getValue(entity)));
     }
 
     @Override
@@ -271,12 +206,9 @@ public class AnsiSqlDialect implements SqlDialect {
     @Override
     public <T> List<T> getResultList(final MinijaxEntityManager em, final MinijaxQuery<T> query) {
       final MinijaxEntityType<T> entityType = em.getMetamodel().entity(query.getCriteriaQuery().getResultType());
-      final Builder<T> builder = new Builder<>(em, query);
+      final AnsiSqlBuilder<T> builder = new AnsiSqlBuilder<>(em, query);
       builder.buildSelect();
-
-      final String sql = builder.sql.toString();
-      final List<Object> params = builder.outputParams;
-      return getResultList(em, entityType, sql, params);
+      return getResultList(em, entityType, builder.getSql(), builder.getOutputParams());
     }
 
     @Override
@@ -293,38 +225,39 @@ public class AnsiSqlDialect implements SqlDialect {
      * Private helpers
      */
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private <T> void updateAssociations(
             final MinijaxEntityManager em,
             final T entity,
             final Object entityId,
-            final LinkedHashSet<MinijaxAttribute<? super T, ?>> attrs) {
+            final List<MinijaxAttribute<? super T, ?>> attrs) {
 
         for (final MinijaxAttribute<? super T, ?> attr : attrs) {
-            if (!attr.isAssociation()) {
+            if (!(attr instanceof MinijaxPluralAttribute)) {
                 continue;
             }
 
+            final MinijaxPluralAttribute<? super T, ?, ?> joinTableMapper = (MinijaxPluralAttribute<? super T, ?, ?>) attr;
+            final Table joinTable = joinTableMapper.getColumn().getJoinTable();
+            final MemberWrapper valueIdWrapper = joinTableMapper.getElementIdWrapper();
+
             // Delete existing values
             executeUpdate(
-                    em,
-                    "DELETE FROM " + attr.getColumn().getForeignReference().getTableName() +
+                    em.getConnection(),
+                    "DELETE FROM " + joinTable.getName() +
                     " WHERE " + attr.getColumn().getName() + "=?",
                     Collections.singletonList(entityId));
 
-            // Add new values
-            final MinijaxSetAttribute<?, ?> setAttr = (MinijaxSetAttribute<?, ?>) attr;
-            final MinijaxEntityType<Object> elementType = (MinijaxEntityType<Object>) setAttr.getElementType();
-            final Set<?> elements = (Set<?>) attr.getValue(entity);
+            final Iterable<?> elements = (Iterable<?>) attr.getValue(entity);
             if (elements != null) {
                 for (final Object element : elements) {
                     executeUpdate(
-                            em,
-                            "INSERT INTO " + attr.getColumn().getForeignReference().getTableName() +
+                            em.getConnection(),
+                            "INSERT INTO " + joinTable.getName() +
                             " (" + attr.getColumn().getName() + "," + attr.getColumn().getForeignReference().getColumnName() + ")" +
                             " VALUES " +
                             " (?,?)",
-                            Arrays.asList(entityId, elementType.getIdAttribute().getValue(element)));
+                            Arrays.asList(entityId, valueIdWrapper.getValue(element)));
                 }
             }
         }
@@ -336,229 +269,50 @@ public class AnsiSqlDialect implements SqlDialect {
         LOG.debug("{}", params);
         try (final PreparedStatement stmt = em.getConnection().prepareStatement(sql)) {
             for (int i = 0; i < params.size(); i++) {
-                stmt.setObject(i + 1, params.get(i));
+                final Object param = params.get(i);
+                Object value;
+                if (param == null) {
+                    value = null;
+                } else if (param instanceof UUID) {
+                    value = IdUtils.toBytes((UUID) param);
+                } else {
+                    value = param;
+                }
+                stmt.setObject(i + 1, value);
             }
             try (final ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    results.add(resultType.createInstanceFromRow(em, rs, new MutableInt(1)));
+                    results.add(resultType.read(em, rs, new MutableInt(1)));
                 }
             }
-        } catch (final SQLException ex) {
-            LOG.error("SQLException: {}", ex.getMessage(), ex);
-            throw new MinijaxException(ex.getMessage(), ex);
+        } catch (final ReflectiveOperationException | SQLException ex) {
+            throw new PersistenceException(ex.getMessage(), ex);
         }
 
+        LOG.debug("{} results", results.size());
         return results;
     }
 
-    private int executeUpdate(final MinijaxEntityManager em, final String sql, final List<Object> params) {
+    private int executeUpdate(final Connection conn, final String sql, final List<Object> params) {
         LOG.debug("{}", sql);
         LOG.debug("{}", params);
-        try (final PreparedStatement stmt = em.getConnection().prepareStatement(sql)) {
+        try (final PreparedStatement stmt = conn.prepareStatement(sql)) {
             for (int i = 0; i < params.size(); i++) {
-                stmt.setObject(i + 1, params.get(i));
+                final Object param = params.get(i);
+                Object value;
+                if (param == null) {
+                    value = null;
+                } else if (param instanceof UUID) {
+                    value = IdUtils.toBytes((UUID) param);
+                } else {
+                    value = param;
+                }
+                stmt.setObject(i + 1, value);
             }
             return stmt.executeUpdate();
         } catch (final SQLException ex) {
             LOG.error("SQLException: {}", ex.getMessage(), ex);
-            throw new MinijaxException(ex.getMessage(), ex);
-        }
-    }
-
-    public static class Builder<T> {
-        private final MinijaxMetamodel metamodel;
-        private final MinijaxCriteriaQuery<T> criteriaQuery;
-        private final Map<String, Object> namedParams;
-        private final Map<Integer, Object> positionalParams;
-        private final List<String> tables;
-        private final List<String> columns;
-        private final StringBuilder sql;
-        private final List<Object> outputParams;
-
-        public Builder(final MinijaxEntityManager em, final MinijaxQuery<T> query) {
-            this.metamodel = em.getMetamodel();
-            this.criteriaQuery = query.getCriteriaQuery();
-            this.namedParams = query.getNamedParamters();
-            this.positionalParams = query.getPositionalParams();
-            this.tables = new ArrayList<>();
-            this.columns = new ArrayList<>();
-            this.sql = new StringBuilder();
-            this.outputParams = new ArrayList<>();
-        }
-
-        public void buildSelect() {
-            final MinijaxEntityType<T> entityType = metamodel.entity(criteriaQuery.getResultType());
-            tables.add(entityType.getTableName() + " t0");
-            buildSelectColumns(entityType, 0);
-
-            sql.append("SELECT ");
-            boolean first = true;
-            for (final String column : columns) {
-                if (!first) {
-                    sql.append(',');
-                }
-                sql.append(column);
-                first = false;
-            }
-
-            sql.append(" FROM");
-            for (final String table : tables) {
-                sql.append(' ');
-                sql.append(table);
-            }
-
-            final MinijaxPredicate where = criteriaQuery.getRestriction();
-            if (where != null) {
-                sql.append(" WHERE ");
-                buildSql(where);
-            }
-
-            final List<Order> orderBy = criteriaQuery.getOrderList();
-            if (orderBy != null && !orderBy.isEmpty()) {
-                sql.append(" ORDER BY ");
-                buildOrderSql((MinijaxOrder) orderBy.get(0));
-            }
-        }
-
-        private <T2> void buildSelectColumns(
-                final MinijaxEntityType<T2> entityType,
-                final int tableNumber) {
-
-            for (final MinijaxAttribute<? super T2, ?> attr : entityType.getAttributesImpl()) {
-                if (attr.isAssociation()) {
-                    continue;
-                }
-                if (attr.getPersistentAttributeType() == PersistentAttributeType.ONE_TO_ONE ||
-                        attr.getPersistentAttributeType() == PersistentAttributeType.MANY_TO_ONE) {
-                    final Class<?> attributeType = attr.getJavaType();
-                    final MinijaxEntityType<?> attributeEntityType = metamodel.entity(attributeType);
-                    tables.add(
-                            "LEFT JOIN " + attributeEntityType.getTableName() + " t" + (tableNumber + 1) +
-                            " ON t" + tableNumber + "." + attr.getColumn().getName() + "=t" + (tableNumber + 1) + ".ID");
-                    buildSelectColumns(attributeEntityType, tableNumber + 1);
-                } else {
-                    columns.add("t" + tableNumber + "." + attr.getColumn().getName());
-                }
-            }
-        }
-
-        @SuppressWarnings("unchecked")
-        private <T2> void buildSql(final MinijaxExpression<T2> expression) {
-            if (expression instanceof MinijaxConjunction) {
-                buildConjunctionSql((MinijaxConjunction) expression);
-
-            } else if (expression instanceof MinijaxComparison) {
-                buildInfixOperatorSql((MinijaxComparison<T2>) expression);
-
-            } else if (expression instanceof MinijaxIn) {
-                buildInSql((MinijaxIn<T>) expression);
-
-            } else if (expression instanceof MinijaxAttributePath) {
-                buildAttributePathSql((MinijaxAttributePath<T>) expression);
-
-            } else if (expression instanceof MinijaxNamedParameter) {
-                buildNamedParameterSql((MinijaxNamedParameter<T2>) expression);
-
-            } else if (expression instanceof MinijaxPositionalParameter) {
-                buildPositionalParameterSql((MinijaxPositionalParameter<T2>) expression);
-
-            } else if (expression instanceof MinijaxNull) {
-                sql.append("NULL");
-
-            } else if (expression instanceof MinijaxNumberExpression) {
-                sql.append(((MinijaxNumberExpression) expression).getValue());
-
-            } else if (expression instanceof MinijaxStringExpression) {
-                sql.append('\'').append(((MinijaxStringExpression) expression).getValue()).append('\'');
-            }
-        }
-
-        @SuppressWarnings({ "unchecked", "rawtypes" })
-        private void buildConjunctionSql(final MinijaxConjunction conjunction) {
-            final BooleanOperator operator = conjunction.getOperator();
-            final List<MinijaxExpression<?>> predicates = (List) conjunction.getExpressions();
-
-            for (int i = 0; i < predicates.size(); i++) {
-                if (i > 0) {
-                    sql.append(" ");
-                    sql.append(operator);
-                    sql.append(" ");
-                }
-
-                buildSql(predicates.get(i));
-            }
-        }
-
-        private <T2> void buildInfixOperatorSql(final MinijaxComparison<T2> infixOperator) {
-            buildSql(infixOperator.getX());
-            sql.append(infixOperator.getComparisonType().sql());
-            buildSql(infixOperator.getY());
-        }
-
-        private void buildInSql(final MinijaxIn<T> inPredicate) {
-            buildSql(inPredicate.getExpression());
-            sql.append(" IN(");
-
-            final List<MinijaxExpression<? extends T>> values = inPredicate.getValues();
-            for (int i = 0; i < values.size(); i++) {
-                if (i > 0) {
-                    sql.append(", ");
-                }
-
-                buildSql((MinijaxExpression<? extends T>) values.get(i));
-            }
-
-            sql.append(")");
-        }
-
-        private void buildAttributePathSql(final MinijaxAttributePath<T> path) {
-            // TODO: Parse the value, and map to sql table alias
-            sql.append("t0.");
-            sql.append(path.getAttribute().getColumn().getName());
-        }
-
-        private void buildNamedParameterSql(final MinijaxNamedParameter<?> variable) {
-            buildVariableSql(namedParams.get(variable.getName()));
-        }
-
-        private void buildPositionalParameterSql(final MinijaxPositionalParameter<?> variable) {
-            buildVariableSql(positionalParams.get(variable.getPosition()));
-        }
-
-        @SuppressWarnings({ "unchecked", "rawtypes" })
-        private void buildVariableSql(final Object value) {
-            if (value == null) {
-                sql.append("NULL");
-                return;
-            }
-
-            if (value instanceof Set) {
-                boolean first = true;
-                for (final Object element : (Set<?>) value) {
-                    if (!first) {
-                        sql.append(",");
-                    }
-                    buildVariableSql(element);
-                    first = false;
-                }
-                return;
-            }
-
-            sql.append('?');
-            try {
-                final MinijaxEntityType entityType = metamodel.entity(value.getClass());
-                outputParams.add(entityType.getIdAttribute().getValue(value));
-            } catch (final MinijaxException ex) {
-                outputParams.add(value);
-            }
-        }
-
-        private void buildOrderSql(final MinijaxOrder order) {
-            buildSql(order.getExpression());
-
-            if (!order.isAscending()) {
-                sql.append(" DESC");
-            }
+            throw new PersistenceException(ex.getMessage(), ex);
         }
     }
 }

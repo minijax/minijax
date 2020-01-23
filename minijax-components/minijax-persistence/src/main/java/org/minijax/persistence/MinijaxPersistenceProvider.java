@@ -2,10 +2,9 @@ package org.minijax.persistence;
 
 import java.util.Map;
 
+import javax.persistence.PersistenceException;
 import javax.persistence.spi.PersistenceUnitInfo;
 import javax.persistence.spi.ProviderUtil;
-
-import org.minijax.commons.MinijaxException;
 
 public class MinijaxPersistenceProvider implements javax.persistence.spi.PersistenceProvider {
     private final MinijaxPersistenceFile persistenceFile;
@@ -15,13 +14,13 @@ public class MinijaxPersistenceProvider implements javax.persistence.spi.Persist
     }
 
     @Override
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public MinijaxEntityManagerFactory createEntityManagerFactory(final String emName, final Map map) {
         final MinijaxPersistenceUnitInfo unit = persistenceFile.getPersistenceUnit(emName);
         if (unit == null) {
-            throw new MinijaxException("Persistence unit not found (\"" + emName + "\")");
+            throw new PersistenceException("Persistence unit not found (\"" + emName + "\")");
         }
-        return createContainerEntityManagerFactory(unit, map);
+        return new MinijaxEntityManagerFactory(unit, map);
     }
 
     @Override

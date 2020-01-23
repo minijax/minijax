@@ -195,7 +195,7 @@ class Connection {
         // Write a blank line to separate content
         buffer.put(CRLF);
 
-        if (!onlyHeader && bufferedOutputStream != null) {
+        if (!onlyHeader && bufferedOutputStream != null && bufferedOutputStream.size() > 0) {
             // Push the content to the channel
             final byte[] content = bufferedOutputStream.toByteArray();
             int index = 0;

@@ -4,10 +4,10 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.PersistenceException;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.minijax.commons.MinijaxException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -33,7 +33,7 @@ public class MinijaxPersistenceFile {
     public static MinijaxPersistenceFile read(final String fileName) {
         try (final InputStream in = MinijaxPersistenceFile.class.getClassLoader().getResourceAsStream(fileName)) {
             if (in == null) {
-                throw new MinijaxException("Persistence unit info not found (\"" + fileName + "\")");
+                throw new PersistenceException("Persistence unit info not found (\"" + fileName + "\")");
             }
 
             final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -46,7 +46,7 @@ public class MinijaxPersistenceFile {
             return parse(doc);
 
         } catch (final Exception ex) {
-            throw new MinijaxException(ex.getMessage(), ex);
+            throw new PersistenceException(ex.getMessage(), ex);
         }
     }
 

@@ -2,6 +2,7 @@ package org.minijax.persistence.criteria;
 
 import java.util.Set;
 
+import javax.persistence.PersistenceException;
 import javax.persistence.criteria.CollectionJoin;
 import javax.persistence.criteria.Fetch;
 import javax.persistence.criteria.From;
@@ -18,7 +19,6 @@ import javax.persistence.metamodel.PluralAttribute;
 import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 
-import org.minijax.commons.MinijaxException;
 import org.minijax.persistence.metamodel.MinijaxAttribute;
 import org.minijax.persistence.metamodel.MinijaxEntityType;
 
@@ -38,7 +38,7 @@ public class MinijaxRoot<T>
     public <Y> MinijaxPath<Y> get(final String attributeName) {
         final MinijaxAttribute<T, Y> attribute = (MinijaxAttribute<T, Y>) entityType.getAttribute(attributeName);
         if (attribute == null) {
-            throw new MinijaxException("Attribute \"" + attributeName + "\" not found for root \"" + entityType.getName() + "\"");
+            throw new PersistenceException("Attribute \"" + attributeName + "\" not found for root \"" + entityType.getName() + "\"");
         }
         return new MinijaxAttributePath<>(this, attribute);
     }

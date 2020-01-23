@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
+@NamedQuery(name="User.findByName", query="SELECT u FROM User u WHERE u.name = :name")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -18,6 +21,9 @@ public class User implements Serializable {
 
     @OneToMany
     private final Set<User> following;
+
+    @Embedded
+    private Address address;
 
     public User() {
         following = new HashSet<>();
@@ -41,5 +47,13 @@ public class User implements Serializable {
 
     public Set<User> getFollowing() {
         return following;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(final Address address) {
+        this.address = address;
     }
 }

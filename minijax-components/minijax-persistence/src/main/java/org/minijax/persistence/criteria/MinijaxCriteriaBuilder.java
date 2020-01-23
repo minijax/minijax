@@ -29,33 +29,38 @@ import javax.persistence.criteria.SetJoin;
 import javax.persistence.criteria.Subquery;
 
 import org.minijax.persistence.MinijaxCompoundSelection;
-import org.minijax.persistence.MinijaxEntityManager;
 import org.minijax.persistence.criteria.MinijaxComparison.ComparisonType;
+import org.minijax.persistence.metamodel.MinijaxMetamodel;
 
 public class MinijaxCriteriaBuilder implements javax.persistence.criteria.CriteriaBuilder {
-    private final MinijaxEntityManager em;
+    private final MinijaxMetamodel metamodel;
 
-    public MinijaxCriteriaBuilder(final MinijaxEntityManager em) {
-        this.em = em;
+    public MinijaxCriteriaBuilder(final MinijaxMetamodel metamodel) {
+        this.metamodel = metamodel;
     }
 
-    public MinijaxEntityManager getEntityManager() {
-        return em;
+    public MinijaxMetamodel getMetamodel() {
+        return metamodel;
     }
 
     @Override
     public <T> MinijaxCriteriaQuery<T> createQuery(final Class<T> resultClass) {
-        return new MinijaxCriteriaQuery<>(em, resultClass);
+        return new MinijaxCriteriaQuery<>(metamodel, resultClass);
     }
 
     @Override
     public MinijaxCriteriaQuery<Object> createQuery() {
-        return new MinijaxCriteriaQuery<>(em, Object.class);
+        return new MinijaxCriteriaQuery<>(metamodel, Object.class);
     }
 
     @Override
     public MinijaxCriteriaQuery<Tuple> createTupleQuery() {
-        return new MinijaxCriteriaQuery<>(em, Tuple.class);
+        return new MinijaxCriteriaQuery<>(metamodel, Tuple.class);
+    }
+
+    @Override
+    public MinijaxCompoundSelection<Tuple> tuple(final Selection<?>... selections) {
+        return new MinijaxCompoundSelection<>(Tuple.class, Arrays.asList(selections));
     }
 
     @Override
@@ -77,13 +82,48 @@ public class MinijaxCriteriaBuilder implements javax.persistence.criteria.Criter
     }
 
     @Override
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public MinijaxComparison isNull(final Expression<?> x) {
+        return new MinijaxComparison(ComparisonType.IS, (MinijaxExpression) x, MinijaxNull.INSTANCE);
+    }
+
+    @Override
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public MinijaxComparison isNotNull(final Expression<?> x) {
+        return new MinijaxComparison(ComparisonType.IS_NOT, (MinijaxExpression) x, MinijaxNull.INSTANCE);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public MinijaxPredicate like(final Expression<String> x, final Expression<String> pattern) {
+        return new MinijaxComparison<String>(ComparisonType.LIKE, (MinijaxExpression<String>) x, (MinijaxExpression<String>) pattern);
+    }
+
+    @Override
+    public MinijaxPredicate like(final Expression<String> x, final String pattern) {
+        return new MinijaxComparison<String>(ComparisonType.LIKE, (MinijaxExpression<String>) x, new MinijaxStringExpression(pattern));
+    }
+
+    @Override
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public MinijaxFunctionExpression<String> lower(final Expression<String> x) {
+        return new MinijaxFunctionExpression(String.class, "LOWER", (MinijaxExpression<String>) x);
+    }
+
+    @Override
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public Expression<String> upper(final Expression<String> x) {
+        return new MinijaxFunctionExpression(String.class, "UPPER", (MinijaxExpression<String>) x);
+    }
+
+    @Override
     public MinijaxConjunction and(final Expression<Boolean> x, final Expression<Boolean> y) {
         return new MinijaxConjunction(BooleanOperator.AND, (MinijaxPredicate) x, (MinijaxPredicate) y);
     }
 
     @Override
     public MinijaxConjunction and(final Predicate... restrictions) {
-        return new MinijaxConjunction(BooleanOperator.AND, (MinijaxPredicate[]) restrictions);
+        return new MinijaxConjunction(BooleanOperator.AND, restrictions);
     }
 
     @Override
@@ -93,7 +133,7 @@ public class MinijaxCriteriaBuilder implements javax.persistence.criteria.Criter
 
     @Override
     public MinijaxConjunction or(final Predicate... restrictions) {
-        return new MinijaxConjunction(BooleanOperator.OR, (MinijaxPredicate[]) restrictions);
+        return new MinijaxConjunction(BooleanOperator.OR, restrictions);
     }
 
     @Override
@@ -126,32 +166,12 @@ public class MinijaxCriteriaBuilder implements javax.persistence.criteria.Criter
     }
 
     @Override
-    public CompoundSelection<Tuple> tuple(final Selection<?>... selections) {
-        return new MinijaxCompoundSelection<>(Tuple.class, Arrays.asList(selections));
-    }
-
-    @Override
     public CompoundSelection<Object[]> array(final Selection<?>... selections) {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public <N extends Number> Expression<Double> avg(final Expression<N> x) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public <N extends Number> Expression<N> sum(final Expression<N> x) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Expression<Long> sumAsLong(final Expression<Integer> x) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Expression<Double> sumAsDouble(final Expression<Float> x) {
         throw new UnsupportedOperationException();
     }
 
@@ -227,16 +247,6 @@ public class MinijaxCriteriaBuilder implements javax.persistence.criteria.Criter
 
     @Override
     public Predicate isFalse(final Expression<Boolean> x) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Predicate isNull(final Expression<?> x) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Predicate isNotNull(final Expression<?> x) {
         throw new UnsupportedOperationException();
     }
 
@@ -366,6 +376,21 @@ public class MinijaxCriteriaBuilder implements javax.persistence.criteria.Criter
 
     @Override
     public <N extends Number> Expression<N> sum(final N x, final Expression<? extends N> y) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <N extends Number> Expression<N> sum(final Expression<N> x) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Expression<Long> sumAsLong(final Expression<Integer> x) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Expression<Double> sumAsDouble(final Expression<Float> x) {
         throw new UnsupportedOperationException();
     }
 
@@ -540,16 +565,6 @@ public class MinijaxCriteriaBuilder implements javax.persistence.criteria.Criter
     }
 
     @Override
-    public Predicate like(final Expression<String> x, final Expression<String> pattern) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Predicate like(final Expression<String> x, final String pattern) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public Predicate like(final Expression<String> x, final Expression<String> pattern, final Expression<Character> escapeChar) {
         throw new UnsupportedOperationException();
     }
@@ -665,16 +680,6 @@ public class MinijaxCriteriaBuilder implements javax.persistence.criteria.Criter
     }
 
     @Override
-    public Expression<String> lower(final Expression<String> x) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Expression<String> upper(final Expression<String> x) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public Expression<Integer> length(final Expression<String> x) {
         throw new UnsupportedOperationException();
     }
@@ -715,6 +720,11 @@ public class MinijaxCriteriaBuilder implements javax.persistence.criteria.Criter
     }
 
     @Override
+    public <T> Coalesce<T> coalesce() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public <Y> Expression<Y> coalesce(final Expression<? extends Y> x, final Expression<? extends Y> y) {
         throw new UnsupportedOperationException();
     }
@@ -731,11 +741,6 @@ public class MinijaxCriteriaBuilder implements javax.persistence.criteria.Criter
 
     @Override
     public <Y> Expression<Y> nullif(final Expression<Y> x, final Y y) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public <T> Coalesce<T> coalesce() {
         throw new UnsupportedOperationException();
     }
 

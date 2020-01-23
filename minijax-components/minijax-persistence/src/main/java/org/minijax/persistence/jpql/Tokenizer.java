@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.minijax.commons.MinijaxException;
+import javax.persistence.PersistenceException;
 
 public class Tokenizer {
     private static final Map<String, TokenType> KEYWORDS;
@@ -26,6 +26,12 @@ public class Tokenizer {
         keywords.put("ON", TokenType.KEYWORD_ON);
         keywords.put("WHERE", TokenType.KEYWORD_WHERE);
         keywords.put("IN", TokenType.KEYWORD_IN);
+        keywords.put("IS", TokenType.KEYWORD_IS);
+        keywords.put("NOT", TokenType.KEYWORD_NOT);
+        keywords.put("NULL", TokenType.KEYWORD_NULL);
+        keywords.put("LIKE", TokenType.KEYWORD_LIKE);
+        keywords.put("LOWER", TokenType.KEYWORD_LOWER);
+        keywords.put("UPPER", TokenType.KEYWORD_UPPER);
         keywords.put("AND", TokenType.KEYWORD_AND);
         keywords.put("OR", TokenType.KEYWORD_OR);
         keywords.put("ORDER", TokenType.KEYWORD_ORDER);
@@ -77,8 +83,12 @@ public class Tokenizer {
                 readSingle(TokenType.COMMA, ",");
             } else if (c == '=') {
                 readSingle(TokenType.EQUALS, "=");
+            } else if (c == '(') {
+                readSingle(TokenType.OPEN_PARENS, "(");
+            } else if (c == ')') {
+                readSingle(TokenType.CLOSE_PARENS, ")");
             } else {
-                throw new MinijaxException("Unknown token: c=" + c + ", line=" + line + ", column=" + column);
+                throw new PersistenceException("Unknown token: c=" + c + ", line=" + line + ", column=" + column);
             }
         }
         return result;
@@ -110,7 +120,7 @@ public class Tokenizer {
         final int startLine = line;
         final int startColumn = column;
 
-        while (Character.isDigit(c)) {
+        while (Character.isDigit(c) || c == '.') {
             builder.append(c);
             next();
         }

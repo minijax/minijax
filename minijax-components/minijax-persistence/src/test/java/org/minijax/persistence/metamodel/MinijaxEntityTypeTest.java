@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.minijax.persistence.MinijaxEntityManager;
 import org.minijax.persistence.MinijaxEntityManagerFactory;
 import org.minijax.persistence.MinijaxPersistenceProvider;
-import org.minijax.persistence.metamodel.MinijaxEntityType;
 import org.minijax.persistence.testmodel.Widget;
 
 public class MinijaxEntityTypeTest {
@@ -19,6 +18,8 @@ public class MinijaxEntityTypeTest {
         final MinijaxEntityManagerFactory emf = spi.createEntityManagerFactory("testdb", null);
         try (final MinijaxEntityManager em = emf.createEntityManager()) {
             final MinijaxEntityType<Widget> entityType = em.getMetamodel().entity(Widget.class);
+            assertNotNull(entityType);
+
             final Set<?> attributes = entityType.getAttributes();
             assertEquals(2, attributes.size());
         }

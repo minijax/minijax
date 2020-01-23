@@ -12,7 +12,6 @@ import javax.persistence.FlushModeType;
 import javax.persistence.LockModeType;
 import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
@@ -104,6 +103,16 @@ public class MinijaxEntityManager implements javax.persistence.EntityManager, Au
     }
 
     @Override
+    public <T> MinijaxQuery<T> createNamedQuery(final String name, final Class<T> resultClass) {
+        return new MinijaxQuery<>(this, metamodel.getNamedQuery(name));
+    }
+
+    @Override
+    public MinijaxQuery<?> createNamedQuery(final String name) {
+        return new MinijaxQuery<>(this, metamodel.getNamedQuery(name));
+    }
+
+    @Override
     public void flush() {
         // Nothing to do
     }
@@ -115,7 +124,7 @@ public class MinijaxEntityManager implements javax.persistence.EntityManager, Au
 
     @Override
     public MinijaxCriteriaBuilder getCriteriaBuilder() {
-        return new MinijaxCriteriaBuilder(this);
+        return new MinijaxCriteriaBuilder(metamodel);
     }
 
     /*
@@ -226,16 +235,6 @@ public class MinijaxEntityManager implements javax.persistence.EntityManager, Au
     @Override
     @SuppressWarnings("rawtypes")
     public Query createQuery(final CriteriaDelete deleteQuery) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Query createNamedQuery(final String name) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public <T> TypedQuery<T> createNamedQuery(final String name, final Class<T> resultClass) {
         throw new UnsupportedOperationException();
     }
 

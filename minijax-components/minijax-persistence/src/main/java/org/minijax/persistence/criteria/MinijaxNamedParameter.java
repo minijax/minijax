@@ -24,7 +24,8 @@ public class MinijaxNamedParameter<T>
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Class<T> getParameterType() {
-        return getJavaType();
+        return (Class<T>) getJavaType();
     }
 }

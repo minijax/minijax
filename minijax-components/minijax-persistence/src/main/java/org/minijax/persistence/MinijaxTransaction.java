@@ -3,7 +3,8 @@ package org.minijax.persistence;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import org.minijax.commons.MinijaxException;
+import javax.persistence.PersistenceException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +28,7 @@ public class MinijaxTransaction implements javax.persistence.EntityTransaction {
             connection.commit();
         } catch (final SQLException ex) {
             LOG.error("Error commiting transaction: {}", ex.getMessage(), ex);
-            throw new MinijaxException(ex.getMessage(), ex);
+            throw new PersistenceException(ex.getMessage(), ex);
         }
     }
 
@@ -37,7 +38,7 @@ public class MinijaxTransaction implements javax.persistence.EntityTransaction {
             connection.rollback();
         } catch (final SQLException ex) {
             LOG.error("Error rolling back transaction: {}", ex.getMessage(), ex);
-            throw new MinijaxException(ex.getMessage(), ex);
+            throw new PersistenceException(ex.getMessage(), ex);
         }
     }
 

@@ -16,7 +16,6 @@ import javax.persistence.criteria.Selection;
 import javax.persistence.criteria.Subquery;
 import javax.persistence.metamodel.EntityType;
 
-import org.minijax.persistence.MinijaxEntityManager;
 import org.minijax.persistence.MinijaxSelection;
 import org.minijax.persistence.metamodel.MinijaxEntityType;
 import org.minijax.persistence.metamodel.MinijaxMetamodel;
@@ -29,8 +28,8 @@ public class MinijaxCriteriaQuery<T> implements javax.persistence.criteria.Crite
     private MinijaxPredicate where;
     private List<Order> orderBy;
 
-    public MinijaxCriteriaQuery(final MinijaxEntityManager em, final Class<T> resultType) {
-        this.metamodel = em.getMetamodel();
+    public MinijaxCriteriaQuery(final MinijaxMetamodel metamodel, final Class<T> resultType) {
+        this.metamodel = metamodel;
         this.resultType = resultType;
         this.roots = new LinkedHashSet<>();
     }
