@@ -27,14 +27,13 @@ public class MinijaxIn<T> extends MinijaxPredicate implements javax.persistence.
     @Override
     @SuppressWarnings("unchecked")
     public MinijaxIn<T> value(final T value) {
-//        if (value instanceof Set) {
-//            final Set<? extends T> valueSet = (Set<? extends T>) value;
-//            for (final Object element : valueSet) {
-//                values.add((MinijaxExpression<? extends T>) MinijaxExpression.ofLiteral(element));
-//            }
-//        } else {
-//        }
-        values.add(MinijaxExpression.ofLiteral(value));
+        if (value instanceof Iterable) {
+            for (final Object element : (Iterable<?>) value) {
+                values.add((MinijaxExpression<? extends T>) MinijaxExpression.ofLiteral(element));
+            }
+        } else {
+            values.add(MinijaxExpression.ofLiteral(value));
+        }
         return this;
     }
 

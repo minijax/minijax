@@ -1,5 +1,7 @@
 package org.minijax.persistence.metamodel;
 
+import static java.util.stream.Collectors.*;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.sql.ResultSet;
@@ -7,78 +9,70 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.PersistenceException;
 import javax.persistence.Transient;
 import javax.persistence.metamodel.Attribute;
-import javax.persistence.metamodel.Attribute.PersistentAttributeType;
 import javax.persistence.metamodel.CollectionAttribute;
 import javax.persistence.metamodel.IdentifiableType;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.MapAttribute;
 import javax.persistence.metamodel.PluralAttribute;
+import javax.persistence.metamodel.PluralAttribute.CollectionType;
 import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.Type;
 
-import org.minijax.commons.MinijaxException;
 import org.minijax.persistence.MinijaxEntityManager;
 import org.minijax.persistence.MinijaxNativeQuery;
+import org.minijax.persistence.criteria.MinijaxCriteriaBuilder;
+import org.minijax.persistence.criteria.MinijaxCriteriaQuery;
+import org.minijax.persistence.jpql.Parser;
+import org.minijax.persistence.jpql.Tokenizer;
+import org.minijax.persistence.lazy.LazyList;
 import org.minijax.persistence.lazy.LazySet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.minijax.persistence.schema.Column;
+import org.minijax.persistence.schema.Table;
+import org.minijax.persistence.wrapper.FieldWrapper;
+import org.minijax.persistence.wrapper.MemberWrapper;
 
 public class MinijaxEntityType<T>
         implements javax.persistence.metamodel.EntityType<T>,
                 javax.persistence.metamodel.ManagedType<T>,
                 javax.persistence.metamodel.EmbeddableType<T> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MinijaxEntityType.class);
-    private final MinijaxMetamodel metamodel;
     private final Class<T> javaType;
-    private final Entity entityAnnotation;
     private final String name;
-    private final String tableName;
+    private final Table table;
+    private final List<Table> joinTables;
     private final MinijaxSingularAttribute<? super T, ?> idAttribute;
-    private final LinkedHashSet<MinijaxAttribute<? super T, ?>> attributes;
+    private final List<MinijaxAttribute<? super T, ?>> attributes;
+    private final Set<MinijaxAttribute<? super T, ?>> attributeSet;
     private final Map<String, MinijaxAttribute<T, ?>> attributeLookup;
 
-    public MinijaxEntityType(final MinijaxMetamodel metamodel, final Class<T> javaType) {
-        this.metamodel = metamodel;
-        this.javaType = javaType;
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private MinijaxEntityType(final MinijaxMetamodel metamodel, final Builder<T> builder) {
+        Objects.requireNonNull(builder);
+        this.javaType = Objects.requireNonNull(builder.javaType);
+        this.name = Objects.requireNonNull(builder.name);
+        this.table = Objects.requireNonNull(builder.table);
+        this.joinTables = Collections.unmodifiableList(builder.joinTables);
+        this.attributes = builder.attributes.stream().map(a -> a.build(metamodel, this)).collect(toUnmodifiableList());
+        this.attributeSet = attributes.stream().collect(toUnmodifiableSet());
+        this.attributeLookup = (Map) attributes.stream().collect(toUnmodifiableMap(a -> a.getName().toUpperCase(), a -> a));
 
-        this.entityAnnotation = javaType.getAnnotation(Entity.class);
-        if (entityAnnotation == null) {
-            throw new MinijaxException("Class \"" + javaType + "\" is not an Entity");
+        if (builder.idAttribute != null) {
+            this.idAttribute = (MinijaxSingularAttribute<? super T, ?>) builder.idAttribute.build(metamodel, this);
+        } else {
+            this.idAttribute = null;
         }
-
-        final String annotationName = entityAnnotation.name();
-        this.name = annotationName != null && !annotationName.isBlank() ? annotationName : javaType.getSimpleName();
-        this.tableName = name.toUpperCase();
-
-        final List<Field> fields = new ArrayList<>();
-        for (final Class<?> cls : getTypeList(javaType)) {
-            buildFields(fields, cls);
-        }
-
-        MinijaxSingularAttribute<T, ?> idAttr = null;
-        attributes = new LinkedHashSet<>();
-        attributeLookup = new HashMap<>();
-        for (final Field field : fields) {
-            final MinijaxAttribute<T, Object> attribute = MinijaxAttributeFactory.build(metamodel, this, field);
-            if (attribute instanceof MinijaxSingularAttribute && ((MinijaxSingularAttribute<T, ?>) attribute).isId()) {
-                idAttr = (MinijaxSingularAttribute<T, ?>) attribute;
-            }
-            attributes.add(attribute);
-            attributeLookup.put(attribute.getName().toUpperCase(), attribute);
-        }
-
-        this.idAttribute = idAttr;
     }
 
     @Override
@@ -91,30 +85,43 @@ public class MinijaxEntityType<T>
         return name;
     }
 
-    public String getTableName() {
-        return tableName;
+    public Table getTable() {
+        return table;
     }
 
-    public MinijaxSingularAttribute<? super T, ?> getIdAttribute() {
+    public List<Table> getJoinTables() {
+        return joinTables;
+    }
+
+    public MinijaxSingularAttribute<? super T, ?> getId() {
         return idAttribute;
     }
 
     @Override
-    public Type<?> getIdType() {
-        if (idAttribute == null) {
-            return null;
-        }
-        return metamodel.entity(idAttribute.getJavaType());
+    @SuppressWarnings("unchecked")
+    public <Y> MinijaxSingularAttribute<? super T, Y> getId(final Class<Y> type) {
+        return (MinijaxSingularAttribute<? super T, Y>) idAttribute;
     }
 
-    public LinkedHashSet<MinijaxAttribute<? super T, ?>> getAttributesImpl() {
+    @Override
+    @SuppressWarnings("unchecked")
+    public <Y> MinijaxSingularAttribute<T, Y> getDeclaredId(final Class<Y> type) {
+        return (MinijaxSingularAttribute<T, Y>) idAttribute;
+    }
+
+    @Override
+    public Type<?> getIdType() {
+        return null;
+    }
+
+    public List<MinijaxAttribute<? super T, ?>> getAttributesList() {
         return attributes;
     }
 
     @Override
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public Set<Attribute<? super T, ?>> getAttributes() {
-        return (Set) attributes;
+        return (Set) attributeSet;
     }
 
     @Override
@@ -123,84 +130,62 @@ public class MinijaxEntityType<T>
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public T createInstanceFromRow(final MinijaxEntityManager em, final ResultSet rs, final MutableInt columnIndex) {
-        try {
-            final T instance = javaType.getConstructor().newInstance();
-            for (final MinijaxAttribute attr : attributes) {
-                final Class<?> attrType = attr.getJavaType();
-                final Object value;
-                if (attr.getPersistentAttributeType() == PersistentAttributeType.MANY_TO_ONE ||
-                        attr.getPersistentAttributeType() == PersistentAttributeType.ONE_TO_ONE) {
-                  final Class<?> attributeType = attr.getJavaType();
-                  final MinijaxEntityType<?> attributeEntityType = metamodel.entity(attributeType);
-                    value = attributeEntityType.createInstanceFromRow(em, rs, columnIndex);
-                } else if (attrType == int.class || attrType == Integer.class) {
-                    value = rs.getInt(columnIndex.getValue());
-                    columnIndex.setValue(columnIndex.getValue() + 1);
-                } else if (attrType == UUID.class) {
-                    final String strValue = rs.getString(columnIndex.getValue());
-                    value = strValue == null ? null : UUID.fromString(strValue);
-                    columnIndex.setValue(columnIndex.getValue() + 1);
-                } else if (attrType == String.class) {
-                    value = rs.getString(columnIndex.getValue());
-                    columnIndex.setValue(columnIndex.getValue() + 1);
-                } else if (attrType == List.class) {
-                    value = new ArrayList<>(); // TODO
-                    columnIndex.setValue(columnIndex.getValue() + 1);
-                } else if (attrType == Set.class) {
-                    value = buildLazySet(em, instance, (MinijaxSetAttribute<T, ?>) attr);
-                } else {
-                    LOG.warn("Unimplemented attribute type: {}", attrType);
-                    value = null;
-                    columnIndex.setValue(columnIndex.getValue() + 1);
-                }
-                attr.setValue(instance, value);
+    public T read(final MinijaxEntityManager em, final ResultSet rs, final MutableInt columnIndex)
+            throws ReflectiveOperationException, SQLException {
+
+        final T instance = javaType.getConstructor().newInstance();
+        for (final MinijaxAttribute<? super T, ?> attr : attributes) {
+            if (attr instanceof MinijaxPluralAttribute) {
+                continue;
             }
-
-            return instance;
-
-        } catch (final ReflectiveOperationException | SQLException ex) {
-            throw new MinijaxException(ex.getMessage(), ex);
+            attr.read(em, instance, rs, columnIndex);
         }
+        for (final MinijaxAttribute<? super T, ?> attr : attributes) {
+            if (attr instanceof MinijaxPluralAttribute) {
+                final MinijaxPluralAttribute<? super T, ?, ?> joinTableMapper = (MinijaxPluralAttribute<? super T, ?, ?>) attr;
+                final CollectionType collectionType = joinTableMapper.getCollectionType();
+                final Object value;
+                if (collectionType == CollectionType.SET) {
+                    value = buildLazySet(em, instance, joinTableMapper);
+                } else if (collectionType == CollectionType.LIST) {
+                    value = buildLazyList(em, instance, joinTableMapper);
+                } else {
+                    throw new PersistenceException("Unsupported lazy collection type: " + collectionType);
+                }
+                ((MinijaxAttribute) attr).setValue(instance, value);
+            }
+        }
+        return instance;
     }
 
     /*
      * Private helpers
      */
 
-    private static List<Class<?>> getTypeList(final Class<?> type) {
-        final List<Class<?>> types = new ArrayList<>();
-
-        Class<?> current = type;
-        while (current != Object.class) {
-            types.add(current);
-            current = current.getSuperclass();
-        }
-
-        Collections.reverse(types);
-        return types;
+    private <T2> LazySet<T2> buildLazySet(final MinijaxEntityManager em, final T instance, final MinijaxPluralAttribute<? super T, T2, ?> attr) {
+        return new LazySet<>(buildLazyQuery(em, instance, attr));
     }
 
-    private void buildFields(final List<Field> fields, final Class<?> type) {
-        for (final Field field : type.getDeclaredFields()) {
-            if (Modifier.isStatic(field.getModifiers())) {
-                continue;
-            }
-            if (field.getAnnotation(Transient.class) != null) {
-                continue;
-            }
-            field.setAccessible(true);
-            fields.add(field);
-        }
+    private <T2> LazyList<T2> buildLazyList(final MinijaxEntityManager em, final T instance, final MinijaxPluralAttribute<? super T, T2, ?> attr) {
+        return new LazyList<>(buildLazyQuery(em, instance, attr));
     }
 
-    private <T2> LazySet<T2> buildLazySet(final MinijaxEntityManager em, final T instance, final MinijaxSetAttribute<T, T2> attr) {
-        final MinijaxEntityType<T2> elementType = attr.getElementType();
+    /**
+     * TODO: Move this method into AnsiSqlDialect or AnsiSqlBuilder.
+     */
+    @SuppressWarnings("unchecked")
+    private <T2> MinijaxNativeQuery<T2> buildLazyQuery(
+            final MinijaxEntityManager em,
+            final T instance,
+            final MinijaxPluralAttribute<? super T, T2, ?> attr) {
+
+        final MinijaxEntityType<T2> elementType = (MinijaxEntityType<T2>) attr.getElementType();
         final StringBuilder sql = new StringBuilder();
         sql.append("SELECT ");
         boolean first = true;
-        for (final MinijaxAttribute<?, ?> attr2 : elementType.getAttributesImpl()) {
-            if (attr2.isAssociation()) {
+
+        for (final MinijaxAttribute<? super T2, ?> attr2 : elementType.getAttributesList()) {
+            if (attr2 instanceof MinijaxPluralAttribute) {
                 continue;
             }
             if (!first) {
@@ -211,38 +196,28 @@ public class MinijaxEntityType<T>
             first = false;
         }
         sql.append(" FROM ");
-        sql.append(attr.getColumn().getForeignReference().getTableName());
+        sql.append(attr.getColumn().getJoinTable().getName());
         sql.append(" jt");
         sql.append(" LEFT JOIN ");
-        sql.append(elementType.getTableName());
+        sql.append(elementType.getTable().getName());
         sql.append(" t0 ON jt.");
         sql.append(attr.getColumn().getForeignReference().getColumnName());
         sql.append("=t0.");
-        sql.append(elementType.getIdAttribute().getColumn().getName());
+        sql.append(elementType.getId().getColumn().getName());
         sql.append(" WHERE jt.");
         sql.append(attr.getColumn().getName());
         sql.append("=?");
 
-        return new LazySet<>(new MinijaxNativeQuery<>(
+        return new MinijaxNativeQuery<>(
                 em,
                 elementType.getJavaType(),
                 sql.toString(),
-                idAttribute.getValue(instance)));
+                idAttribute.getValue(instance));
     }
 
     /*
      * Unsupported
      */
-
-    @Override
-    public <Y> SingularAttribute<? super T, Y> getId(final Class<Y> type) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public <Y> SingularAttribute<T, Y> getDeclaredId(final Class<Y> type) {
-        throw new UnsupportedOperationException();
-    }
 
     @Override
     public <Y> SingularAttribute<? super T, Y> getVersion(final Class<Y> type) {
@@ -419,19 +394,130 @@ public class MinijaxEntityType<T>
         throw new UnsupportedOperationException();
     }
 
-    public static class MutableInt {
-        private int value;
+    public static class Builder<T> {
+        private final Class<T> javaType;
+        private final List<Class<?>> typeList;
+        private final List<Field> fields;
+        private final String name;
+        private final Table table;
+        private final List<Table> joinTables;
+        private MinijaxAttribute.Builder<T, ?, ?> idAttribute;
+        private final List<MinijaxAttribute.Builder<T, ?, ?>> attributes;
+        private MinijaxEntityType<T> result;
 
-        public MutableInt(final int value) {
-            this.value = value;
+        public Builder(final MinijaxMetamodel.Builder metamodelBuilder, final Class<T> javaType) {
+            this.javaType = javaType;
+            this.typeList = getTypeList();
+            this.fields = getFields();
+            this.attributes = new ArrayList<>();
+
+            final Entity entityAnnotation = javaType.getAnnotation(Entity.class);
+            final String annotationName = entityAnnotation != null ? entityAnnotation.name() : null;
+            this.name = annotationName != null && !annotationName.isBlank() ? annotationName : javaType.getSimpleName();
+
+            final javax.persistence.Table tableAnnotation = javaType.getAnnotation(javax.persistence.Table.class);
+            final String annotationTableName = tableAnnotation != null ? tableAnnotation.name() : null;
+            final String tableName = annotationTableName != null && !annotationTableName.isBlank() ? annotationTableName : this.name.toUpperCase();
+            this.table = new Table(metamodelBuilder.getSchema(), tableName);
+            this.joinTables = new ArrayList<>();
         }
 
-        public int getValue() {
-            return value;
+        public Table getTable() {
+            return table;
         }
 
-        public void setValue(final int value) {
-            this.value = value;
+        public List<Class<?>> getTypeList() {
+            final List<Class<?>> types = new ArrayList<>();
+
+            Class<?> current = javaType;
+            while (current != Object.class) {
+                types.add(current);
+                current = current.getSuperclass();
+            }
+
+            Collections.reverse(types);
+            return types;
+        }
+
+        public List<Field> getFields() {
+            final List<Field> fields = new ArrayList<>();
+            for (final Class<?> type : typeList) {
+                buildFields(fields, type);
+            }
+            return fields;
+        }
+
+        public void buildFields(final List<Field> fields, final Class<?> type) {
+            for (final Field field : type.getDeclaredFields()) {
+                if (Modifier.isStatic(field.getModifiers())) {
+                    continue;
+                }
+                if (field.getAnnotation(Transient.class) != null) {
+                    continue;
+                }
+                field.setAccessible(true);
+                fields.add(field);
+            }
+        }
+
+        @SuppressWarnings({ "rawtypes", "unchecked" })
+        public void buildAttributes() {
+            for (final Field field : fields) {
+                final FieldWrapper<?, ?> fieldWrapper = new FieldWrapper<>(javaType, field);
+                final MinijaxAttribute.Builder attribute = new MinijaxAttribute.Builder(this, fieldWrapper);
+                attributes.add(attribute);
+                if (field.getAnnotation(Id.class) != null) {
+                    idAttribute = attribute;
+                }
+            }
+        }
+
+        public void buildId(final MinijaxMetamodel.Builder metamodelBuilder) {
+            idAttribute.buildColumn(metamodelBuilder);
+        }
+
+        public void buildColumns(final MinijaxMetamodel.Builder metamodelBuilder) {
+            for (final MinijaxAttribute.Builder<T, ?, ?> attrBuilder : attributes) {
+                if (attrBuilder == idAttribute) {
+                    // Should already be built
+                    continue;
+                }
+                attrBuilder.buildColumn(metamodelBuilder);
+            }
+        }
+
+        public void buildTable() {
+            for (final MinijaxAttribute.Builder<T, ?, ?> attr : attributes) {
+                final Column column = attr.getColumn();
+                if (column.getJoinTable() != null) {
+                    joinTables.add(column.getJoinTable());
+                } else {
+                    table.getColumns().add(column);
+                }
+            }
+        }
+
+        public MemberWrapper<T, ?> getIdWrapper() {
+            return idAttribute.getMemberWrapper();
+        }
+
+        public Map<String, MinijaxCriteriaQuery<T>> getNamedQueries(final MinijaxMetamodel metamodel) {
+            final MinijaxCriteriaBuilder cb = new MinijaxCriteriaBuilder(metamodel);
+            final Map<String, MinijaxCriteriaQuery<T>> result = new HashMap<>();
+            final NamedQuery[] annotations = javaType.getAnnotationsByType(NamedQuery.class);
+            for (int i = 0; i < annotations.length; i++) {
+                final NamedQuery annotation = annotations[i];
+                final MinijaxCriteriaQuery<T> query = Parser.parse(cb, javaType, Tokenizer.tokenize(annotation.query()));
+                result.put(annotation.name(), query);
+            }
+            return result;
+        }
+
+        public MinijaxEntityType<T> build(final MinijaxMetamodel metamodel) {
+            if (result == null) {
+                result = new MinijaxEntityType<>(metamodel, this);
+            }
+            return result;
         }
     }
 }

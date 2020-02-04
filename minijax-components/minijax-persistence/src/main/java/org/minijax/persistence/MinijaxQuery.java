@@ -50,6 +50,12 @@ public class MinijaxQuery<T> extends MinijaxBaseTypedQuery<T> {
     }
 
     @Override
+    public MinijaxQuery<T> setParameter(final int position, final Object value) {
+        this.positionalParams.put(position, value);
+        return this;
+    }
+
+    @Override
     public int getFirstResult() {
         return firstResult;
     }

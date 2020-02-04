@@ -2,20 +2,19 @@ package org.minijax.persistence;
 
 import java.util.List;
 
+import javax.persistence.PersistenceException;
 import javax.persistence.criteria.Selection;
 
-import org.minijax.commons.MinijaxException;
-
 public class MinijaxSelection<X> implements javax.persistence.criteria.Selection<X> {
-    private final Class<X> javaType;
+    private final Class<? extends X> javaType;
     private String alias;
 
-    public MinijaxSelection(final Class<X> javaType) {
+    public MinijaxSelection(final Class<? extends X> javaType) {
         this.javaType = javaType;
     }
 
     @Override
-    public Class<X> getJavaType() {
+    public Class<? extends X> getJavaType() {
         return javaType;
     }
 
@@ -27,7 +26,7 @@ public class MinijaxSelection<X> implements javax.persistence.criteria.Selection
     @Override
     public Selection<X> alias(final String name) {
         if (this.alias != null) {
-            throw new MinijaxException("Alias already set");
+            throw new PersistenceException("Alias already set");
         }
         this.alias = name;
         return this;

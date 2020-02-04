@@ -4,6 +4,7 @@
         <!-- provider>org.eclipse.persistence.jpa.PersistenceProvider</provider -->
         <class>minitwit.Minitwit$User</class>
         <class>minitwit.Minitwit$Message</class>
+        <class>org.minijax.dao.Avatar</class>
         <class>org.minijax.dao.converters.InstantConverter</class>
         <class>org.minijax.dao.converters.UuidConverter</class>
         <class>org.minijax.security.UserSession</class>

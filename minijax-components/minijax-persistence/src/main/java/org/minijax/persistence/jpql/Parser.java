@@ -1,13 +1,15 @@
 package org.minijax.persistence.jpql;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.PersistenceException;
 import javax.persistence.criteria.Expression;
 
-import org.minijax.commons.MinijaxException;
 import org.minijax.persistence.criteria.MinijaxCriteriaBuilder;
 import org.minijax.persistence.criteria.MinijaxCriteriaQuery;
 import org.minijax.persistence.criteria.MinijaxExpression;
+import org.minijax.persistence.criteria.MinijaxListExpression;
 import org.minijax.persistence.criteria.MinijaxNamedParameter;
 import org.minijax.persistence.criteria.MinijaxNumberExpression;
 import org.minijax.persistence.criteria.MinijaxOrder;
@@ -47,7 +49,7 @@ public class Parser<T> {
     private Token consume(final TokenType expected) {
         final Token curr = getCurr();
         if (expected != null && curr.getTokenType() != expected) {
-            throw new MinijaxException("Unexpected token: " + curr.getTokenType() + " (expected " + expected + ")");
+            throw new PersistenceException("Unexpected token: " + curr.getTokenType() + " (expected " + expected + ")");
         }
         index++;
         return curr;
@@ -66,7 +68,7 @@ public class Parser<T> {
             return parseDelete();
 
         default:
-            throw new MinijaxException("Unexpected token: " + curr);
+            throw new PersistenceException("Unexpected token: " + curr);
         }
     }
 
@@ -85,10 +87,10 @@ public class Parser<T> {
 
         // TODO: How to get entityType from string name?
         // May need to add extra methods to MinijaxMetamodel
-        final MinijaxEntityType<T> resultEntityType = cb.getEntityManager().getMetamodel().entity(resultType);
+        final MinijaxEntityType<T> resultEntityType = cb.getMetamodel().entity(resultType);
         final String entityTypeName = consume(TokenType.SYMBOL).getValue();
         if (!resultEntityType.getName().equals(entityTypeName)) {
-            throw new MinijaxException(
+            throw new PersistenceException(
                     "Result type does not match entity type name (resultEntityType=" +
                     resultEntityType.getName() +
                     ", entityTypeName=" +
@@ -111,7 +113,7 @@ public class Parser<T> {
                 break;
 
             default:
-                throw new MinijaxException("Unexpected token: " + curr);
+                throw new PersistenceException("Unexpected token: " + curr);
             }
         }
 
@@ -165,20 +167,30 @@ public class Parser<T> {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private MinijaxPredicate parsePredicate() {
-        final MinijaxPath<?> path = parsePath();
-
+        final MinijaxExpression<?> lhs = parseExpression();
         final Token operator = consume(null);
-        final MinijaxExpression<?> value = parseExpression();
 
         switch (operator.getTokenType()) {
         case EQUALS:
-            return cb.equal(path, value);
+            return cb.equal(lhs, parseExpression());
 
         case KEYWORD_IN:
-            return cb.in(path).value((Expression) value);
+            return cb.in(lhs).value((Expression) parseCollectionExpression());
+
+        case KEYWORD_IS:
+            if (getCurr().getTokenType() == TokenType.KEYWORD_NOT) {
+                consume(TokenType.KEYWORD_NOT);
+                consume(TokenType.KEYWORD_NULL);
+                return lhs.isNotNull();
+            }
+            consume(TokenType.KEYWORD_NULL);
+            return lhs.isNull();
+
+        case KEYWORD_LIKE:
+            return cb.like((MinijaxExpression<String>) lhs, (MinijaxExpression<String>) parseExpression());
 
         default:
-            throw new MinijaxException("Unexpected operator: " + operator);
+            throw new PersistenceException("Unexpected operator: " + operator);
         }
     }
 
@@ -188,42 +200,98 @@ public class Parser<T> {
 
         final MinijaxPath<?> path = parsePath();
 
-        final Token curr = getCurr();
         boolean ascending = true;
 
-        if (curr.getTokenType() == TokenType.KEYWORD_ASC) {
-            consume(TokenType.KEYWORD_ASC);
-        } else if (curr.getTokenType() == TokenType.KEYWORD_DESC) {
-            consume(TokenType.KEYWORD_DESC);
-            ascending = false;
+        if (index < tokens.size()) {
+            final Token curr = getCurr();
+            if (curr.getTokenType() == TokenType.KEYWORD_ASC) {
+                consume(TokenType.KEYWORD_ASC);
+            } else if (curr.getTokenType() == TokenType.KEYWORD_DESC) {
+                consume(TokenType.KEYWORD_DESC);
+                ascending = false;
+            }
         }
 
         query.orderBy(new MinijaxOrder(path, ascending));
     }
 
     private MinijaxExpression<?> parseExpression() {
-        final Token curr = consume(null);
+        final Token curr = tokens.get(index);
         final String str = curr.getValue();
 
         switch (curr.getTokenType()) {
         case SYMBOL:
-            return root.get(str);
+            return parsePath();
 
         case STRING:
+            consume(TokenType.STRING);
             return new MinijaxStringExpression(str);
 
         case NUMBER:
+            consume(TokenType.NUMBER);
             final Number number = str.indexOf('.') > 0 ? Double.parseDouble(str) : Integer.parseInt(str);
             return new MinijaxNumberExpression(number);
 
         case NAMED_PARAMETER:
+            consume(TokenType.NAMED_PARAMETER);
             return new MinijaxNamedParameter<>(Object.class, str);
 
         case POSITIONAL_PARAMETER:
+            consume(TokenType.POSITIONAL_PARAMETER);
             return new MinijaxPositionalParameter<>(Object.class, Integer.parseInt(str));
 
+        case KEYWORD_LOWER:
+            return parseLowerExpression();
+
         default:
-            throw new MinijaxException("Unexpected expression: " + curr);
+            throw new PersistenceException("Unexpected expression: " + curr);
         }
+    }
+
+    private MinijaxExpression<?> parseCollectionExpression() {
+        final Token curr = tokens.get(index);
+        final String str = curr.getValue();
+
+        switch (curr.getTokenType()) {
+        case NAMED_PARAMETER:
+            consume(TokenType.NAMED_PARAMETER);
+            return new MinijaxNamedParameter<>(Object.class, str);
+
+        case POSITIONAL_PARAMETER:
+            consume(TokenType.POSITIONAL_PARAMETER);
+            return new MinijaxPositionalParameter<>(Object.class, Integer.parseInt(str));
+
+        case OPEN_PARENS:
+            return parseParensCollectionExpression();
+
+        default:
+            throw new PersistenceException("Unexpected collection expression: " + curr);
+        }
+    }
+
+    private MinijaxExpression<?> parseParensCollectionExpression() {
+        consume(TokenType.OPEN_PARENS);
+
+        final List<MinijaxExpression<?>> values = new ArrayList<>();
+
+        while (getCurr().getTokenType() != TokenType.CLOSE_PARENS) {
+            values.add(parseExpression());
+
+            if (getCurr().getTokenType() == TokenType.COMMA) {
+                consume(TokenType.COMMA);
+            }
+        }
+
+        consume(TokenType.CLOSE_PARENS);
+        return new MinijaxListExpression<>(values);
+    }
+
+    @SuppressWarnings("unchecked")
+    private MinijaxExpression<String> parseLowerExpression() {
+        consume(TokenType.KEYWORD_LOWER);
+        consume(TokenType.OPEN_PARENS);
+        final MinijaxExpression<String> arg = (MinijaxExpression<String>) parseExpression();
+        consume(TokenType.CLOSE_PARENS);
+        return cb.lower(arg);
     }
 }

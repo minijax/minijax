@@ -2,6 +2,8 @@ package org.minijax.persistence.metamodel;
 
 import java.util.Objects;
 
+import org.minijax.persistence.wrapper.MemberWrapper;
+
 /**
  * Represents an attribute of a Java type.
  *
@@ -13,18 +15,12 @@ public abstract class MinijaxPluralAttribute<X, Y, E>
         implements javax.persistence.metamodel.PluralAttribute<X, Y, E> {
 
     private final Class<E> elementType;
+    private final MemberWrapper<E, ?> elementIdWrapper;
 
-    public MinijaxPluralAttribute(
-            final MinijaxMetamodel metamodel,
-            final String name,
-            final PersistentAttributeType persistentAttributeType,
-            final MinijaxEntityType<X> declaringType,
-            final MemberWrapper<X, Y> memberWrapper,
-            final ColumnDefinition column,
-            final Class<E> elementType) {
-
-        super(metamodel, name, persistentAttributeType, declaringType, memberWrapper, column);
-        this.elementType = Objects.requireNonNull(elementType);
+    MinijaxPluralAttribute(final MinijaxAttribute.Builder<X, Y, E> builder) {
+        super(builder);
+        this.elementType = Objects.requireNonNull(builder.elementType);
+        this.elementIdWrapper = Objects.requireNonNull(builder.elementIdWrapper);
     }
 
     @Override
@@ -39,11 +35,15 @@ public abstract class MinijaxPluralAttribute<X, Y, E>
 
     @Override
     public BindableType getBindableType() {
-        throw new UnsupportedOperationException();
+        return BindableType.PLURAL_ATTRIBUTE;
     }
 
     @Override
     public Class<E> getBindableJavaType() {
-        throw new UnsupportedOperationException();
+        return elementType;
+    }
+
+    public MemberWrapper<?, ?> getElementIdWrapper() {
+        return elementIdWrapper;
     }
 }

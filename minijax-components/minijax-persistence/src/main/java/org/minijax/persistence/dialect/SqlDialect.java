@@ -1,10 +1,12 @@
 package org.minijax.persistence.dialect;
 
+import java.sql.Connection;
 import java.util.List;
 
 import org.minijax.persistence.MinijaxEntityManager;
 import org.minijax.persistence.MinijaxNativeQuery;
 import org.minijax.persistence.MinijaxQuery;
+import org.minijax.persistence.metamodel.MinijaxEntityType;
 
 public interface SqlDialect {
 
@@ -12,7 +14,7 @@ public interface SqlDialect {
      * EntityManagerFactory
      */
 
-    <T> void createTables(MinijaxEntityManager em, Class<T> entityClass);
+    <T> void createTables(Connection conn, MinijaxEntityType<T> entityType);
 
     /*
      * EntityManager

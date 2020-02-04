@@ -1,6 +1,12 @@
 package org.minijax.persistence;
 
+import static org.junit.Assert.*;
+
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.persistence.FlushModeType;
 import javax.persistence.LockModeType;
@@ -10,9 +16,9 @@ import javax.persistence.criteria.CriteriaUpdate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.minijax.persistence.MinijaxEntityManager;
-import org.minijax.persistence.MinijaxEntityManagerFactory;
-import org.minijax.persistence.MinijaxPersistenceProvider;
+import org.minijax.persistence.dialect.AnsiSqlBuilder;
+import org.minijax.persistence.testmodel.KitchenSink;
+import org.minijax.persistence.testmodel.User;
 import org.minijax.persistence.testmodel.Widget;
 
 public class MinijaxEntityManagerTest {
@@ -34,6 +40,44 @@ public class MinijaxEntityManagerTest {
     public void tearDown() {
         em.close();
         emf.close();
+    }
+
+    @Test
+    public void testCreateNamedQuery1() {
+        em.createNamedQuery("");
+    }
+
+    @Test
+    public void testCreateNamedQuery2() {
+        final MinijaxQuery<User> query = em.createNamedQuery("User.findByName", User.class);
+        query.setParameter("name", "Cody");
+
+        final AnsiSqlBuilder<User> sqlBuilder = new AnsiSqlBuilder<>(em, query);
+        sqlBuilder.buildSelect();
+
+        assertEquals(
+                "SELECT t0.ID, t0.NAME, t0.ADDRESS FROM USER t0 WHERE t0.NAME=?",
+                sqlBuilder.getSql());
+    }
+
+    @Test
+    public void testPersistAndFind() {
+        final KitchenSink ks = new KitchenSink();
+        ks.setId(UUID.randomUUID());
+        ks.setCreatedDateTime(Instant.now().truncatedTo(ChronoUnit.SECONDS));
+        ks.setMyInt(123);
+        ks.setMyString("foo bar");
+        ks.setMyBytes(new byte[] { 1, 2, 3 });
+        ks.setMyTimestamp(Timestamp.valueOf("2000-01-01 12:00:00"));
+
+        em.getTransaction().begin();
+        em.persist(ks);
+        em.getTransaction().commit();
+
+        final KitchenSink check = em.find(KitchenSink.class, ks.getId());
+        assertNotNull(check);
+        assertEquals(ks.getId(), check.getId());
+        assertEquals(ks.getCreatedDateTime(), check.getCreatedDateTime());
     }
 
     /*
@@ -145,16 +189,6 @@ public class MinijaxEntityManagerTest {
     @SuppressWarnings("rawtypes")
     public void testCreateQuery3() {
         em.createQuery((CriteriaDelete) null);
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void testCreateNamedQuery1() {
-        em.createNamedQuery("");
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void testCreateNamedQuery2() {
-        em.createNamedQuery("", Widget.class);
     }
 
     @Test(expected = UnsupportedOperationException.class)

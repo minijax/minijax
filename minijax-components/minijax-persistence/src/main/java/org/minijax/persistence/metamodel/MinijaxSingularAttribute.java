@@ -8,19 +8,12 @@ import javax.persistence.metamodel.Type;
  * @param <X> The represented type that contains the attribute
  * @param <Y> The type of the represented attribute
  */
-public class MinijaxSingularAttribute<X, Y>
+public abstract class MinijaxSingularAttribute<X, Y>
         extends MinijaxAttribute<X, Y>
         implements javax.persistence.metamodel.SingularAttribute<X, Y> {
 
-    public MinijaxSingularAttribute(
-            final MinijaxMetamodel metamodel,
-            final String name,
-            final PersistentAttributeType persistentAttributeType,
-            final MinijaxEntityType<X> declaringType,
-            final MemberWrapper<X, Y> field,
-            final ColumnDefinition column) {
-
-        super(metamodel, name, persistentAttributeType, declaringType, field, column);
+    MinijaxSingularAttribute(final MinijaxAttribute.Builder<X, Y, ?> builder) {
+        super(builder);
     }
 
     @Override
@@ -30,12 +23,12 @@ public class MinijaxSingularAttribute<X, Y>
 
     @Override
     public BindableType getBindableType() {
-        throw new UnsupportedOperationException();
+        return BindableType.SINGULAR_ATTRIBUTE;
     }
 
     @Override
     public Class<Y> getBindableJavaType() {
-        throw new UnsupportedOperationException();
+        return getJavaType();
     }
 
     @Override

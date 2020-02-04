@@ -1,14 +1,21 @@
-package org.minijax.persistence.metamodel;
+package org.minijax.persistence.wrapper;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Type;
 
-import org.minijax.commons.MinijaxException;
+import javax.persistence.PersistenceException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Represents an attribute of a Java type.
+ *
+ * @param <X> The represented type that contains the attribute
+ * @param <Y> The type of the represented attribute
+ */
 public class FieldWrapper<X, Y> implements MemberWrapper<X, Y> {
     private static final Logger LOG = LoggerFactory.getLogger(FieldWrapper.class);
     private final Class<X> declaringType;
@@ -58,7 +65,7 @@ public class FieldWrapper<X, Y> implements MemberWrapper<X, Y> {
             return (Y) field.get(entity);
         } catch (final IllegalAccessException ex) {
             LOG.error("Illegal access: {}", ex.getMessage(), ex);
-            throw new MinijaxException(ex.getMessage(), ex);
+            throw new PersistenceException(ex.getMessage(), ex);
         }
     }
 
@@ -68,7 +75,7 @@ public class FieldWrapper<X, Y> implements MemberWrapper<X, Y> {
             field.set(entity, value);
         } catch (final IllegalAccessException ex) {
             LOG.error("Illegal access: {}", ex.getMessage(), ex);
-            throw new MinijaxException(ex.getMessage(), ex);
+            throw new PersistenceException(ex.getMessage(), ex);
         }
     }
 }

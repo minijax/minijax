@@ -7,15 +7,15 @@ import java.util.Set;
 
 import org.minijax.persistence.MinijaxBaseTypedQuery;
 
-public class LazySet<T> implements Set<T> {
-    private final MinijaxBaseTypedQuery<T> query;
-    private Set<T> data;
+public class LazySet<E> implements Set<E> {
+    private final MinijaxBaseTypedQuery<E> query;
+    private Set<E> data;
 
-    public LazySet(final MinijaxBaseTypedQuery<T> query) {
+    public LazySet(final MinijaxBaseTypedQuery<E> query) {
         this.query = query;
     }
 
-    private Set<T> getData() {
+    private Set<E> getData() {
         if (data == null) {
             data = new HashSet<>(query.getResultList());
         }
@@ -38,7 +38,7 @@ public class LazySet<T> implements Set<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public Iterator<E> iterator() {
         return getData().iterator();
     }
 
@@ -53,7 +53,7 @@ public class LazySet<T> implements Set<T> {
     }
 
     @Override
-    public boolean add(final T e) {
+    public boolean add(final E e) {
         return getData().add(e);
     }
 
@@ -68,7 +68,7 @@ public class LazySet<T> implements Set<T> {
     }
 
     @Override
-    public boolean addAll(final Collection<? extends T> c) {
+    public boolean addAll(final Collection<? extends E> c) {
         return getData().addAll(c);
     }
 

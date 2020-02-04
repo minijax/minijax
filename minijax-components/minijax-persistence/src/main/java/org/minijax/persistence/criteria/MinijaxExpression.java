@@ -1,11 +1,13 @@
 package org.minijax.persistence.criteria;
 
 import java.util.Collection;
+import java.util.UUID;
 
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 
 import org.minijax.persistence.MinijaxSelection;
+import org.minijax.persistence.criteria.MinijaxComparison.ComparisonType;
 
 public abstract class MinijaxExpression<T>
         extends MinijaxSelection<T>
@@ -17,6 +19,10 @@ public abstract class MinijaxExpression<T>
             return (MinijaxExpression<T>) MinijaxNull.INSTANCE;
         } else if (value instanceof Number) {
             return (MinijaxExpression<T>) new MinijaxNumberExpression((Number) value);
+        } else if (value instanceof byte[]) {
+            return (MinijaxExpression<T>) new MinijaxByteArrayExpression((byte[]) value);
+        } else if (value instanceof UUID) {
+            return (MinijaxExpression<T>) new MinijaxUuidExpression((UUID) value);
         } else {
             return (MinijaxExpression<T>) new MinijaxStringExpression(value.toString());
         }
@@ -26,19 +32,21 @@ public abstract class MinijaxExpression<T>
         super(javaType);
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public MinijaxComparison<T> isNull() {
+        return new MinijaxComparison<T>(ComparisonType.IS, this, (MinijaxExpression<T>) MinijaxNull.INSTANCE);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public MinijaxComparison<T> isNotNull() {
+        return new MinijaxComparison<T>(ComparisonType.IS_NOT, this, (MinijaxExpression<T>) MinijaxNull.INSTANCE);
+    }
+
     /*
      * Unsupported
      */
-
-    @Override
-    public Predicate isNull() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Predicate isNotNull() {
-        throw new UnsupportedOperationException();
-    }
 
     @Override
     public Predicate in(final Object... values) {

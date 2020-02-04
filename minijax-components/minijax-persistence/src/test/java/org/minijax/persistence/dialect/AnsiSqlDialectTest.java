@@ -33,7 +33,7 @@ public class AnsiSqlDialectTest {
     public void testPersist() {
         final Widget widget = new Widget();
         widget.setId(123);
-        widget.setName("foo");
+        widget.setName("persistTest");
 
         em.getTransaction().begin();
         em.persist(widget);
@@ -42,7 +42,7 @@ public class AnsiSqlDialectTest {
         final Widget check = em.find(Widget.class, 123);
         assertNotNull(check);
         assertEquals(123, check.getId());
-        assertEquals("foo", check.getName());
+        assertEquals("persistTest", check.getName());
     }
 
     @Test

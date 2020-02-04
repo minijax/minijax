@@ -1,21 +1,30 @@
 package org.minijax.persistence;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Cache;
 import javax.persistence.Entity;
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.PersistenceUnitUtil;
 import javax.persistence.Query;
 import javax.persistence.SynchronizationType;
 import javax.persistence.criteria.CriteriaBuilder;
 
-import org.minijax.commons.MinijaxException;
 import org.minijax.persistence.dialect.AnsiSqlDialect;
 import org.minijax.persistence.dialect.SqlDialect;
 import org.minijax.persistence.metamodel.MinijaxMetamodel;
@@ -35,7 +44,7 @@ public class MinijaxEntityManagerFactory implements javax.persistence.EntityMana
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public MinijaxEntityManagerFactory(final MinijaxPersistenceUnitInfo unitInfo, final Map<String, Object> properties) {
         this.unitInfo = unitInfo;
-        this.metamodel = new MinijaxMetamodel();
+        this.metamodel = new MinijaxMetamodel.Builder(unitInfo).build();
         this.properties = new HashMap<>();
 
         if (unitInfo.getProperties() != null) {
@@ -53,6 +62,7 @@ public class MinijaxEntityManagerFactory implements javax.persistence.EntityMana
         this.password = (String) this.properties.getOrDefault("javax.persistence.jdbc.password", "");
         loadDriver();
         createTables();
+        runInitScript();
     }
 
     public MinijaxPersistenceUnitInfo getPersistenceUnitInfo() {
@@ -97,36 +107,63 @@ public class MinijaxEntityManagerFactory implements javax.persistence.EntityMana
     }
 
     void createTables() {
-        try (final MinijaxEntityManager em = createEntityManager()) {
+        try (final Connection conn = createConnection()) {
             for (final String className : unitInfo.getManagedClassNames()) {
-                createTableForClass(em, className);
+                createTableForClass(conn, className);
             }
+        } catch (final SQLException ex) {
+            throw new PersistenceException(ex.getMessage(), ex);
         }
     }
 
-    void createTableForClass(final MinijaxEntityManager em, final String className) {
+    void createTableForClass(final Connection conn, final String className) {
         final Class<?> cls;
         try {
             cls = Class.forName(className);
         } catch (final ClassNotFoundException ex) {
-            throw new MinijaxException(ex.getMessage(), ex);
+            throw new PersistenceException(ex.getMessage(), ex);
         }
 
         if (cls.getAnnotation(Entity.class) != null) {
-            dialect.createTables(em, cls);
+            dialect.createTables(conn, metamodel.entity(cls));
+        }
+    }
+
+    void runInitScript() {
+        final String initScript = (String) properties.get("javax.persistence.sql-load-script-source");
+        if (initScript == null || initScript.isBlank()) {
+            return;
+        }
+
+        try (final Connection conn = createConnection();
+                final Statement stmt = conn.createStatement()) {
+
+            final URL url = MinijaxEntityManagerFactory.class.getClassLoader().getResource(initScript);
+            final Path path = Paths.get(url.toURI());
+            final List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+            for (final String line : lines) {
+                LOG.debug(line);
+                stmt.executeUpdate(line);
+            }
+
+            conn.commit();
+
+        } catch (final SQLException | IOException | URISyntaxException ex) {
+            throw new PersistenceException(ex.getMessage(), ex);
         }
     }
 
     Connection createConnection() {
         try {
             // Sonar warns that the connection should be closed.
-            // Obviously we do not want to close the connection, because we are returning it to a consumer.
+            // Obviously we do not want to close the connection,
+            // because we are returning it to a consumer.
             @SuppressWarnings("java:S2095")
             final Connection result = DriverManager.getConnection(url, user, password);
             result.setAutoCommit(false);
             return result;
         } catch (final SQLException ex) {
-            throw new MinijaxException(ex.getMessage(), ex);
+            throw new PersistenceException(ex.getMessage(), ex);
         }
     }
 

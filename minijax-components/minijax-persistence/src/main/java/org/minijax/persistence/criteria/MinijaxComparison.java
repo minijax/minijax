@@ -7,7 +7,10 @@ public class MinijaxComparison<T> extends MinijaxPredicate {
         GREATER_THAN_OR_EQUAL_TO(">="),
         LESS_THAN("<"),
         LESS_THAN_OR_EQUAL_TO("<="),
-        NOT_EQUALS("<>");
+        NOT_EQUALS("<>"),
+        IS(" IS "),
+        IS_NOT(" IS NOT "),
+        LIKE(" LIKE ");
 
         private final String sql;
 
