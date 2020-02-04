@@ -5,6 +5,10 @@ import java.lang.reflect.Type;
 
 public class GenericUtils {
 
+    GenericUtils() {
+        throw new UnsupportedOperationException();
+    }
+
     @SuppressWarnings("unchecked")
     public static <T> Class<T> getGenericParameterType(final Type genericType, final int index) {
         if (!(genericType instanceof ParameterizedType)) {

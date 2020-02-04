@@ -24,7 +24,7 @@ public class MinijaxContext implements javax.naming.Context {
     private final Map<Name, Object> namesToObjects;
     private final Map<Name, MinijaxContext> subContexts;
 
-    public MinijaxContext(final Hashtable<Object, Object> env, final boolean root) throws NamingException {
+    public MinijaxContext(final Map<Object, Object> env, final boolean root) throws NamingException {
         this.env = new Properties();
         this.env.putAll(env);
         nameParser = new MinijaxNameParser(this);
@@ -186,7 +186,7 @@ public class MinijaxContext implements javax.naming.Context {
         }
 
         final Object targetContext = lookup(name.getPrefix(name.size() - 1));
-        if (targetContext == null || !(targetContext instanceof Context)) {
+        if (!(targetContext instanceof Context)) {
             throw new NamingException("Cannot unbind object.");
         }
 
@@ -205,7 +205,7 @@ public class MinijaxContext implements javax.naming.Context {
         }
 
         final Object targetContext = lookup(name.getPrefix(name.size() - 1));
-        if (targetContext == null || !(targetContext instanceof Context)) {
+        if (!(targetContext instanceof Context)) {
             throw new NamingException("Cannot bind object.  Target context does not exist.");
         }
 
