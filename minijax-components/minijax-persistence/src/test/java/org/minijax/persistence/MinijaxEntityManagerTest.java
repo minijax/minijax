@@ -65,6 +65,8 @@ public class MinijaxEntityManagerTest {
         final KitchenSink ks = new KitchenSink();
         ks.setId(UUID.randomUUID());
         ks.setCreatedDateTime(Instant.now().truncatedTo(ChronoUnit.SECONDS));
+        ks.setMyIntTimestamp(Instant.now().truncatedTo(ChronoUnit.SECONDS));
+        ks.setMyStringUuid(UUID.randomUUID());
         ks.setMyInt(123);
         ks.setMyString("foo bar");
         ks.setMyBytes(new byte[] { 1, 2, 3 });
@@ -78,6 +80,8 @@ public class MinijaxEntityManagerTest {
         assertNotNull(check);
         assertEquals(ks.getId(), check.getId());
         assertEquals(ks.getCreatedDateTime(), check.getCreatedDateTime());
+        assertEquals(ks.getMyIntTimestamp(), check.getMyIntTimestamp());
+        assertEquals(ks.getMyStringUuid(), check.getMyStringUuid());
     }
 
     /*
