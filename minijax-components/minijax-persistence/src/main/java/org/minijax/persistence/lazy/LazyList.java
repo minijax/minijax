@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import java.util.function.IntFunction;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
@@ -187,10 +186,5 @@ public class LazyList<E> implements List<E> {
     @Override
     public List<E> subList(final int fromIndex, final int toIndex) {
         return getData().subList(fromIndex, toIndex);
-    }
-
-    @Override
-    public <T> T[] toArray(final IntFunction<T[]> arg0) {
-        return getData().toArray(arg0);
     }
 }

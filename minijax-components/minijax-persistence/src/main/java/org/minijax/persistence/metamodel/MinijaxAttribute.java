@@ -138,7 +138,7 @@ public abstract class MinijaxAttribute<X, Y> implements javax.persistence.metamo
         private static <X, Y> String buildName(final MemberWrapper<X, Y> field) {
             final javax.persistence.Column columnAnnotation = field.getAnnotation(javax.persistence.Column.class);
             final String name = columnAnnotation == null ? null : columnAnnotation.name();
-            return name == null || name.isBlank() ? field.getName() : name;
+            return name == null || name.isEmpty() ? field.getName() : name;
         }
 
         private static <X, Y> PersistentAttributeType getPersistentAttributeType(final MemberWrapper<X, Y> member) {

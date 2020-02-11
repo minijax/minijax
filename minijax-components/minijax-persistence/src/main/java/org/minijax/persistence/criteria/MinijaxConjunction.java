@@ -15,7 +15,7 @@ public class MinijaxConjunction extends MinijaxPredicate {
 
     public MinijaxConjunction(final BooleanOperator operator, final Predicate... predicates) {
         this.operator = Objects.requireNonNull(operator);
-        this.expressions = Arrays.stream(predicates).map(p -> (MinijaxPredicate) p).collect(toUnmodifiableList());
+        this.expressions = Arrays.stream(predicates).map(p -> (MinijaxPredicate) p).collect(toList());
     }
 
     @Override

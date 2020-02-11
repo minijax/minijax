@@ -64,9 +64,9 @@ public class MinijaxEntityType<T>
         this.name = Objects.requireNonNull(builder.name);
         this.table = Objects.requireNonNull(builder.table);
         this.joinTables = Collections.unmodifiableList(builder.joinTables);
-        this.attributes = builder.attributes.stream().map(a -> a.build(metamodel, this)).collect(toUnmodifiableList());
-        this.attributeSet = attributes.stream().collect(toUnmodifiableSet());
-        this.attributeLookup = (Map) attributes.stream().collect(toUnmodifiableMap(a -> a.getName().toUpperCase(), a -> a));
+        this.attributes = builder.attributes.stream().map(a -> a.build(metamodel, this)).collect(toList());
+        this.attributeSet = attributes.stream().collect(toSet());
+        this.attributeLookup = (Map) attributes.stream().collect(toMap(a -> a.getName().toUpperCase(), a -> a));
 
         if (builder.idAttribute != null) {
             this.idAttribute = (MinijaxSingularAttribute<? super T, ?>) builder.idAttribute.build(metamodel, this);
@@ -413,11 +413,11 @@ public class MinijaxEntityType<T>
 
             final Entity entityAnnotation = javaType.getAnnotation(Entity.class);
             final String annotationName = entityAnnotation != null ? entityAnnotation.name() : null;
-            this.name = annotationName != null && !annotationName.isBlank() ? annotationName : javaType.getSimpleName();
+            this.name = annotationName != null && !annotationName.isEmpty() ? annotationName : javaType.getSimpleName();
 
             final javax.persistence.Table tableAnnotation = javaType.getAnnotation(javax.persistence.Table.class);
             final String annotationTableName = tableAnnotation != null ? tableAnnotation.name() : null;
-            final String tableName = annotationTableName != null && !annotationTableName.isBlank() ? annotationTableName : this.name.toUpperCase();
+            final String tableName = annotationTableName != null && !annotationTableName.isEmpty() ? annotationTableName : this.name.toUpperCase();
             this.table = new Table(metamodelBuilder.getSchema(), tableName);
             this.joinTables = new ArrayList<>();
         }

@@ -131,7 +131,7 @@ public class MinijaxEntityManagerFactory implements javax.persistence.EntityMana
 
     void runInitScript() {
         final String initScript = (String) properties.get("javax.persistence.sql-load-script-source");
-        if (initScript == null || initScript.isBlank()) {
+        if (initScript == null || initScript.isEmpty()) {
             return;
         }
 

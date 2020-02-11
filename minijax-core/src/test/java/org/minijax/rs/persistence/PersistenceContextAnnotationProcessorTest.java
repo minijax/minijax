@@ -17,7 +17,6 @@ import javax.persistence.PersistenceProperty;
 import javax.persistence.SynchronizationType;
 
 import org.junit.Test;
-import org.minijax.rs.persistence.PersistenceContextAnnotationProcessor;
 
 public class PersistenceContextAnnotationProcessorTest {
 
@@ -54,14 +53,6 @@ public class PersistenceContextAnnotationProcessorTest {
                     @Override
                     public Class<? extends Annotation> annotationType() {
                         return Deprecated.class;
-                    }
-                    @Override
-                    public String since() {
-                        throw new UnsupportedOperationException();
-                    }
-                    @Override
-                    public boolean forRemoval() {
-                        throw new UnsupportedOperationException();
                     }},
                 createAnnotation(""),
             });
