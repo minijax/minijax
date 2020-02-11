@@ -7,10 +7,10 @@
     <packaging>pom</packaging>
     <name>minijax</name>
     <description>Minijax - Lightweight JAX-RS and JSR-330</description>
-    <url>https://minijax.org</url>
+    <url>https://minijax.org/maven/${project.version}</url>
     <organization>
-        <name>Ajibot</name>
-        <url>https://www.ajibot.com</url>
+        <name>Minijax</name>
+        <url>https://minijax.org</url>
     </organization>
     <licenses>
         <license>
@@ -24,8 +24,17 @@
             <name>Cody Ebberson</name>
             <email>cody@ebberson.com</email>
             <url>https://cody.ebberson.com</url>
-            <organization>Ajibot</organization>
-            <organizationUrl>https://www.ajibot.com</organizationUrl>
+            <organization>Medplum</organization>
+            <organizationUrl>https://www.medplum.com</organizationUrl>
+            <timezone>America/Los_Angeles</timezone>
+        </developer>
+        <developer>
+            <id>reshmakhilnani</id>
+            <name>Reshma Khilnani</name>
+            <email>reshma.khilnani@gmail.com</email>
+            <url>https://reshmakhilnani.com</url>
+            <organization>Medplum</organization>
+            <organizationUrl>https://www.medplum.com</organizationUrl>
             <timezone>America/Los_Angeles</timezone>
         </developer>
     </developers>
