@@ -28,6 +28,7 @@ public class MinijaxNameClassPairEnumeration implements NamingEnumeration<NameCl
 
     @Override
     public void close() {
+        // Nothing to do
     }
 
     @Override

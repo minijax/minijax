@@ -148,7 +148,6 @@ public class MinijaxMetamodel implements javax.persistence.metamodel.Metamodel {
             }
         }
 
-
         public MinijaxMetamodel build() {
             buildClassList();
             embeddedClasses.forEach((k, e) -> e.buildAttributes());

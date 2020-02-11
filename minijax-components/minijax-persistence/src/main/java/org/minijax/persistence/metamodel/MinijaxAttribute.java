@@ -4,7 +4,6 @@ import java.lang.reflect.Member;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -222,7 +221,7 @@ public abstract class MinijaxAttribute<X, Y> implements javax.persistence.metamo
 
             } else {
                 columnName = attributeName;
-                datatype = getDatatype(attributeType);
+                datatype = getDatatype(columnType);
                 foreignReference = null;
                 joinTable = null;
             }
@@ -238,7 +237,7 @@ public abstract class MinijaxAttribute<X, Y> implements javax.persistence.metamo
                 return Datatype.INTEGER;
             } else if (attributeType == UUID.class) {
                 return Datatype.BINARY;
-            } else if (attributeType == Timestamp.class || attributeType == Instant.class) {
+            } else if (attributeType == Timestamp.class) {
                 return Datatype.TIMESTAMP;
             } else {
                 return Datatype.VARCHAR;

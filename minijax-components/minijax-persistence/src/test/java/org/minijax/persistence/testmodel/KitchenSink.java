@@ -18,8 +18,13 @@ public class KitchenSink {
     private UUID id;
 
     @Convert(converter = InstantConverter.class)
-    @SuppressWarnings("squid:S3437")
     private Instant createdDateTime;
+
+    @Convert(converter = InstantIntegerConverter.class)
+    private Instant myIntTimestamp;
+
+    @Convert(converter = UuidStringConverter.class)
+    private UUID myStringUuid;
 
     private int myInt;
     private String myString;
@@ -40,6 +45,22 @@ public class KitchenSink {
 
     public void setCreatedDateTime(final Instant createdDateTime) {
         this.createdDateTime = createdDateTime;
+    }
+
+    public Instant getMyIntTimestamp() {
+        return myIntTimestamp;
+    }
+
+    public void setMyIntTimestamp(final Instant myIntTimestamp) {
+        this.myIntTimestamp = myIntTimestamp;
+    }
+
+    public UUID getMyStringUuid() {
+        return myStringUuid;
+    }
+
+    public void setMyStringUuid(final UUID myStringUuid) {
+        this.myStringUuid = myStringUuid;
     }
 
     public int getMyInt() {

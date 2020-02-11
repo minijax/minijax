@@ -28,6 +28,7 @@ public class MinijaxBindingsEnumeration implements NamingEnumeration<Binding> {
 
     @Override
     public void close() {
+        // Nothing to do
     }
 
     @Override

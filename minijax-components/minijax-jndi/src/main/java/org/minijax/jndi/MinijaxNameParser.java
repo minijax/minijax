@@ -17,6 +17,5 @@ public class MinijaxNameParser implements NameParser {
     @Override
     public Name parse(final String name) throws NamingException {
         return new CompoundName(name != null ? name : "", (Properties) context.getEnvironment());
-//        return new CompoundName(name != null ? name : "", null);
     }
 }
