@@ -1,6 +1,6 @@
 package org.minijax.persistence.metamodel;
 
-import javax.persistence.metamodel.Type;
+import jakarta.persistence.metamodel.Type;
 
 /**
  * Represents an attribute of a Java type.
@@ -10,7 +10,7 @@ import javax.persistence.metamodel.Type;
  */
 public abstract class MinijaxSingularAttribute<X, Y>
         extends MinijaxAttribute<X, Y>
-        implements javax.persistence.metamodel.SingularAttribute<X, Y> {
+        implements jakarta.persistence.metamodel.SingularAttribute<X, Y> {
 
     MinijaxSingularAttribute(final MinijaxAttribute.Builder<X, Y, ?> builder) {
         super(builder);

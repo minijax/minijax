@@ -2,7 +2,7 @@ package org.minijax.undertow.websocket;
 
 import static org.mockito.Mockito.*;
 
-import javax.websocket.OnMessage;
+import jakarta.websocket.OnMessage;
 
 import org.junit.Test;
 import org.minijax.Minijax;

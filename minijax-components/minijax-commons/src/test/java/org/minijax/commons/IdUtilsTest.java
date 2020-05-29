@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.util.UUID;
 
 import org.junit.Test;
-import org.minijax.commons.IdUtils;
 
 public class IdUtilsTest {
 

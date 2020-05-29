@@ -6,7 +6,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 import org.junit.Test;
-import org.minijax.dao.converters.LocalDateConverter;
 
 public class LocalDateConverterTest {
 

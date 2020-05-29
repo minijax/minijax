@@ -3,8 +3,8 @@ package org.minijax.dao.converters;
 import java.sql.Timestamp;
 import java.time.Instant;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 /**
  * The InstantConverter class implements the JPA converter from

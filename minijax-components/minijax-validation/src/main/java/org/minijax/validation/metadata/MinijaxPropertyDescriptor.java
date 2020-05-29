@@ -8,10 +8,10 @@ import java.lang.reflect.AnnotatedType;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.validation.metadata.ConstraintDescriptor;
-import javax.validation.metadata.ContainerElementTypeDescriptor;
-import javax.validation.metadata.GroupConversionDescriptor;
-import javax.validation.metadata.PropertyDescriptor;
+import jakarta.validation.metadata.ConstraintDescriptor;
+import jakarta.validation.metadata.ContainerElementTypeDescriptor;
+import jakarta.validation.metadata.GroupConversionDescriptor;
+import jakarta.validation.metadata.PropertyDescriptor;
 
 public abstract class MinijaxPropertyDescriptor extends MinijaxElementDescriptor implements PropertyDescriptor {
     private final Set<ContainerElementTypeDescriptor> constrainedContainerElementTypes;

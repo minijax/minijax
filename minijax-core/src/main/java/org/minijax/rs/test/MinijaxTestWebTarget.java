@@ -3,14 +3,14 @@ package org.minijax.rs.test;
 import java.net.URI;
 import java.util.Map;
 
-import javax.ws.rs.core.Configuration;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.Configuration;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.UriBuilder;
 
 import org.minijax.Minijax;
 import org.minijax.rs.uri.MinijaxUriBuilder;
 
-public class MinijaxTestWebTarget implements javax.ws.rs.client.WebTarget {
+public class MinijaxTestWebTarget implements jakarta.ws.rs.client.WebTarget {
     private final Minijax server;
     private URI requestUri;
 

@@ -2,7 +2,7 @@ package org.minijax.persistence.criteria;
 
 public class MinijaxPositionalParameter<T>
         extends MinijaxExpression<T>
-        implements javax.persistence.criteria.ParameterExpression<T> {
+        implements jakarta.persistence.criteria.ParameterExpression<T> {
 
     private final int position;
 

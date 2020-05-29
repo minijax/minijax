@@ -2,8 +2,8 @@ package org.minijax.dao.converters;
 
 import java.net.URI;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 @Converter
 public class UriConverter implements AttributeConverter<URI, String> {

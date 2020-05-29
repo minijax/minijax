@@ -13,8 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -29,6 +27,9 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathException;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 import org.minijax.commons.MinijaxProperties;
 import org.slf4j.Logger;
@@ -219,7 +220,7 @@ public class LiquibaseHelper {
         props.put(MinijaxProperties.DB_URL, referenceUrl);
         props.put(MinijaxProperties.DB_USERNAME, username);
         props.put(MinijaxProperties.DB_PASSWORD, password);
-        props.put("javax.persistence.schema-generation.database.action", "drop-and-create");
+        props.put("jakarta.persistence.schema-generation.database.action", "drop-and-create");
 
         EntityManagerFactory emf = null;
         try {

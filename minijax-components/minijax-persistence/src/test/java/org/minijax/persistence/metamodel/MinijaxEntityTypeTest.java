@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.Set;
 
-import javax.persistence.metamodel.Attribute;
+import jakarta.persistence.metamodel.Attribute;
 
 import org.junit.After;
 import org.junit.Before;

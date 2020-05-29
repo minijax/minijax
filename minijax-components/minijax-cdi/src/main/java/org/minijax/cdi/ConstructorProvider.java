@@ -4,7 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import javax.enterprise.inject.InjectionException;
+import jakarta.enterprise.inject.InjectionException;
 
 public class ConstructorProvider<T> implements MinijaxProvider<T> {
     private final Constructor<T> ctor;

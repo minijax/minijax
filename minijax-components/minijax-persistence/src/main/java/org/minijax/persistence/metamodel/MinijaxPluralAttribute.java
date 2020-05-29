@@ -12,7 +12,7 @@ import org.minijax.persistence.wrapper.MemberWrapper;
  */
 public abstract class MinijaxPluralAttribute<X, Y, E>
         extends MinijaxAttribute<X, Y>
-        implements javax.persistence.metamodel.PluralAttribute<X, Y, E> {
+        implements jakarta.persistence.metamodel.PluralAttribute<X, Y, E> {
 
     private final Class<E> elementType;
     private final MemberWrapper<E, ?> elementIdWrapper;

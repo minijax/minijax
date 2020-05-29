@@ -3,8 +3,8 @@ package org.minijax.persistence.jpql;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.PersistenceException;
-import javax.persistence.criteria.Expression;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.criteria.Expression;
 
 import org.minijax.persistence.criteria.MinijaxCriteriaBuilder;
 import org.minijax.persistence.criteria.MinijaxCriteriaQuery;

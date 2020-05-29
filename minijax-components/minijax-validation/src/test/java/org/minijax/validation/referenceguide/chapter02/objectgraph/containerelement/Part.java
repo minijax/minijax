@@ -3,7 +3,7 @@ package org.minijax.validation.referenceguide.chapter02.objectgraph.containerele
 
 //end::include[]
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 //tag::include[]
 public class Part {

@@ -2,8 +2,8 @@ package org.minijax.client;
 
 import java.io.IOException;
 
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
 
 import org.apache.http.HttpEntity;
 import org.minijax.commons.MinijaxException;

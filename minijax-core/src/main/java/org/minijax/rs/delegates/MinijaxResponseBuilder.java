@@ -7,19 +7,19 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import javax.ws.rs.core.CacheControl;
-import javax.ws.rs.core.EntityTag;
-import javax.ws.rs.core.Link;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.NewCookie;
-import javax.ws.rs.core.Response.StatusType;
-import javax.ws.rs.core.Variant;
+import jakarta.ws.rs.core.CacheControl;
+import jakarta.ws.rs.core.EntityTag;
+import jakarta.ws.rs.core.Link;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedHashMap;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.NewCookie;
+import jakarta.ws.rs.core.Response.StatusType;
+import jakarta.ws.rs.core.Variant;
 
 import org.minijax.rs.MinijaxApplicationContext;
 
-public class MinijaxResponseBuilder extends javax.ws.rs.core.Response.ResponseBuilder {
+public class MinijaxResponseBuilder extends jakarta.ws.rs.core.Response.ResponseBuilder {
     private final MinijaxApplicationContext applicationContext;
     private final MultivaluedMap<String, Object> headers;
     private final MinijaxStatusInfo statusInfo;

@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.minijax.dao.converters.UrlEncodedMapConverter;
 
 public class UrlEncodedMapConverterTest {
 

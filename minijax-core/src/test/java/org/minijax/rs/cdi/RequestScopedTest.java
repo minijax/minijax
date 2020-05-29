@@ -1,17 +1,17 @@
 package org.minijax.rs.cdi;
 
-import static javax.ws.rs.HttpMethod.*;
+import static jakarta.ws.rs.HttpMethod.*;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-
-import javax.enterprise.context.RequestScoped;
 
 import org.junit.Test;
 import org.minijax.Minijax;
 import org.minijax.rs.MinijaxApplicationContext;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.test.MinijaxTestRequestContext;
+
+import jakarta.enterprise.context.RequestScoped;
 
 public class RequestScopedTest {
 

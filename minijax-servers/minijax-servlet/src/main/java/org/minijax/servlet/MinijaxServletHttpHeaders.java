@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.core.Cookie;
+import jakarta.ws.rs.core.MultivaluedHashMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.minijax.rs.MinijaxHttpHeaders;
 
@@ -51,7 +51,7 @@ class MinijaxServletHttpHeaders extends MinijaxHttpHeaders {
     public Map<String, Cookie> getCookies() {
         if (cookies == null) {
             cookies = new HashMap<>();
-            final javax.servlet.http.Cookie[] servletCookies = request.getCookies();
+            final jakarta.servlet.http.Cookie[] servletCookies = request.getCookies();
             for (int i = 0; i < servletCookies.length; i++) {
                 final String name = servletCookies[i].getName();
                 final String value = servletCookies[i].getValue();

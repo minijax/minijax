@@ -4,12 +4,11 @@ import static org.junit.Assert.*;
 
 import java.util.Arrays;
 
-import javax.validation.ElementKind;
-import javax.validation.Path.Node;
-import javax.validation.Path.PropertyNode;
+import jakarta.validation.ElementKind;
+import jakarta.validation.Path.Node;
+import jakarta.validation.Path.PropertyNode;
 
 import org.junit.Test;
-import org.minijax.validation.MinijaxPath;
 import org.minijax.validation.MinijaxPath.MinijaxPropertyNode;
 
 public class PathTest {

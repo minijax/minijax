@@ -1,6 +1,6 @@
 package org.minijax.mustache;
 
-import static javax.ws.rs.core.MediaType.*;
+import static jakarta.ws.rs.core.MediaType.*;
 
 import static org.junit.Assert.*;
 

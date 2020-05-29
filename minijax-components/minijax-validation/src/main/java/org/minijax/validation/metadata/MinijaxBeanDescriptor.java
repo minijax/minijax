@@ -7,11 +7,11 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.validation.metadata.BeanDescriptor;
-import javax.validation.metadata.ConstructorDescriptor;
-import javax.validation.metadata.MethodDescriptor;
-import javax.validation.metadata.MethodType;
-import javax.validation.metadata.PropertyDescriptor;
+import jakarta.validation.metadata.BeanDescriptor;
+import jakarta.validation.metadata.ConstructorDescriptor;
+import jakarta.validation.metadata.MethodDescriptor;
+import jakarta.validation.metadata.MethodType;
+import jakarta.validation.metadata.PropertyDescriptor;
 
 public class MinijaxBeanDescriptor extends MinijaxElementDescriptor implements BeanDescriptor {
     private final Set<PropertyDescriptor> constrainedProperties;

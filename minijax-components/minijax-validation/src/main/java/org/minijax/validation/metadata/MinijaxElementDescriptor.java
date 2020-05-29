@@ -2,8 +2,8 @@ package org.minijax.validation.metadata;
 
 import java.util.Set;
 
-import javax.validation.metadata.ConstraintDescriptor;
-import javax.validation.metadata.ElementDescriptor;
+import jakarta.validation.metadata.ConstraintDescriptor;
+import jakarta.validation.metadata.ElementDescriptor;
 
 public abstract class MinijaxElementDescriptor implements ElementDescriptor {
     private final Class<?> elementClass;

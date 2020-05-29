@@ -9,14 +9,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.validation.Validation;
-import javax.validation.ValidationException;
-import javax.validation.Validator;
-import javax.validation.constraints.Size;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidationException;
+import jakarta.validation.Validator;
+import jakarta.validation.constraints.Size;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.minijax.validation.builtin.SizeValidators;
 
 public class SizeTest {
     private static Validator validator;

@@ -1,6 +1,6 @@
 package org.minijax.rs.test;
 
-import static javax.ws.rs.HttpMethod.*;
+import static jakarta.ws.rs.HttpMethod.*;
 
 import java.net.URI;
 

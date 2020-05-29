@@ -5,8 +5,8 @@ import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 
-import javax.websocket.RemoteEndpoint.Basic;
-import javax.websocket.Session;
+import jakarta.websocket.RemoteEndpoint.Basic;
+import jakarta.websocket.Session;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map.Entry;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import org.minijax.Minijax;
 import org.minijax.rs.MinijaxApplicationContext;
@@ -26,15 +26,15 @@ public class MinijaxServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        throw new ServletException("Missing init parameter \"javax.ws.rs.Application\"");
+        throw new ServletException("Missing init parameter \"jakarta.ws.rs.Application\"");
     }
 
     @Override
     @SuppressWarnings("rawtypes")
     public void init(final ServletConfig config) throws ServletException {
-        final String appClassName = config.getInitParameter("javax.ws.rs.Application");
+        final String appClassName = config.getInitParameter("jakarta.ws.rs.Application");
         if (appClassName == null || appClassName.isEmpty()) {
-            throw new ServletException("Missing init parameter \"javax.ws.rs.Application\"");
+            throw new ServletException("Missing init parameter \"jakarta.ws.rs.Application\"");
         }
 
         try {

@@ -3,13 +3,13 @@ package org.minijax.rs.delegates;
 import java.net.HttpCookie;
 import java.util.List;
 
-import javax.ws.rs.core.NewCookie;
-import javax.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
+import jakarta.ws.rs.core.NewCookie;
+import jakarta.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
 
 class MinijaxNewCookieDelegate implements HeaderDelegate<NewCookie> {
 
     @Override
-    @SuppressWarnings("squid:S3330") // Not a javax.servlet.http.Cookie
+    @SuppressWarnings("squid:S3330") // Not a jakarta.servlet.http.Cookie
     public NewCookie fromString(final String value) {
         if (value == null || value.isEmpty()) {
             return null;

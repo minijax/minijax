@@ -34,7 +34,7 @@ public class MinijaxUndertowWebSocketListener extends AbstractReceiveListener {
             final MinijaxUndertowWebSocketBasicRemote basicRemote = new MinijaxUndertowWebSocketBasicRemote(channel);
 
             final Map<Class<?>, Object> params = new HashMap<>();
-            params.put(javax.websocket.Session.class, new MinijaxUndertowWebSocketSession(basicRemote));
+            params.put(jakarta.websocket.Session.class, new MinijaxUndertowWebSocketSession(basicRemote));
             params.put(String.class, message.getData());
 
             endpoint.onMessage(params);

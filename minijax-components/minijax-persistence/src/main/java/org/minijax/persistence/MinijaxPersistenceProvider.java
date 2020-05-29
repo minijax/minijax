@@ -2,11 +2,11 @@ package org.minijax.persistence;
 
 import java.util.Map;
 
-import javax.persistence.PersistenceException;
-import javax.persistence.spi.PersistenceUnitInfo;
-import javax.persistence.spi.ProviderUtil;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.spi.PersistenceUnitInfo;
+import jakarta.persistence.spi.ProviderUtil;
 
-public class MinijaxPersistenceProvider implements javax.persistence.spi.PersistenceProvider {
+public class MinijaxPersistenceProvider implements jakarta.persistence.spi.PersistenceProvider {
     private final MinijaxPersistenceFile persistenceFile;
 
     public MinijaxPersistenceProvider() {

@@ -1,12 +1,12 @@
 package org.minijax.rs.persistence;
 
-import static javax.ws.rs.HttpMethod.*;
+import static jakarta.ws.rs.HttpMethod.*;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 import org.junit.Test;
 import org.minijax.Minijax;

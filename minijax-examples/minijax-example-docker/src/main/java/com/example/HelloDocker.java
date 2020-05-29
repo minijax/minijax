@@ -1,6 +1,6 @@
 package com.example;
 
-import javax.ws.rs.*;
+import jakarta.ws.rs.*;
 
 @Path("/")
 public class HelloDocker {

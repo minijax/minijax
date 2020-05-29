@@ -1,8 +1,8 @@
 package org.minijax.validation.builtin;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.constraints.NotBlank;
 
 public class NotBlankValidator implements ConstraintValidator<NotBlank, CharSequence> {
     public static final NotBlankValidator INSTANCE = new NotBlankValidator();

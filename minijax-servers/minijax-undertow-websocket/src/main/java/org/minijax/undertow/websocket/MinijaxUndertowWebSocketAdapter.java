@@ -3,10 +3,10 @@ package org.minijax.undertow.websocket;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import javax.websocket.OnClose;
-import javax.websocket.OnError;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
+import jakarta.websocket.OnClose;
+import jakarta.websocket.OnError;
+import jakarta.websocket.OnMessage;
+import jakarta.websocket.OnOpen;
 
 import org.minijax.rs.MinijaxRequestContext;
 

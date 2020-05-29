@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.minijax.commons.MinijaxException;
-import org.minijax.dao.converters.JsonMapConverter;
 
 public class JsonMapConverterTest {
 

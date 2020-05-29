@@ -4,18 +4,14 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 
-import javax.persistence.FlushModeType;
-import javax.persistence.LockModeType;
-import javax.persistence.Parameter;
-import javax.persistence.TemporalType;
+import jakarta.persistence.FlushModeType;
+import jakarta.persistence.LockModeType;
+import jakarta.persistence.Parameter;
+import jakarta.persistence.TemporalType;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.minijax.persistence.MinijaxEntityManager;
-import org.minijax.persistence.MinijaxEntityManagerFactory;
-import org.minijax.persistence.MinijaxNativeQuery;
-import org.minijax.persistence.MinijaxPersistenceProvider;
 import org.minijax.persistence.testmodel.Widget;
 
 public class MinijaxNativeQueryTest {

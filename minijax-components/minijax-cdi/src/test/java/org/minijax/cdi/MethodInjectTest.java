@@ -2,10 +2,10 @@ package org.minijax.cdi;
 
 import static org.junit.Assert.*;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.junit.Test;
+
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 public class MethodInjectTest {
 

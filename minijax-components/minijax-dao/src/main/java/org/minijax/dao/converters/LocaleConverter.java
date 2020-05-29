@@ -2,8 +2,8 @@ package org.minijax.dao.converters;
 
 import java.util.Locale;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 @Converter
 public class LocaleConverter implements AttributeConverter<Locale, String> {

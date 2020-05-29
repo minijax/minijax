@@ -72,29 +72,30 @@
     </distributionManagement>
     <properties>
         <bcrypt.version>0.4</bcrypt.version>
+        <commons-codec.version>1.14</commons-codec.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
-        <commons-lang3.version>3.9</commons-lang3.version>
+        <commons-lang3.version>3.10</commons-lang3.version>
         <dockerfile.version>1.4.0</dockerfile.version>
-        <eclipselink.version>2.7.5</eclipselink.version>
+        <eclipselink.version>3.0.0-M1</eclipselink.version>
         <h2.version>1.4.200</h2.version>
-        <httpclient.version>4.5.10</httpclient.version>
-        <jackson.version>2.10.1</jackson.version>
-        <jakarta-annotation.version>1.3.5</jakarta-annotation.version>
-        <jakarta-bind.version>2.3.2</jakarta-bind.version>
-        <jakarta-cdi.version>2.0.1</jakarta-cdi.version>
-        <jakarta-inject.version>2.6.1</jakarta-inject.version>
-        <jakarta-persistence.version>2.2.3</jakarta-persistence.version>
-        <jakarta-rs.version>2.1.6</jakarta-rs.version>
-        <jakarta-servlet.version>4.0.3</jakarta-servlet.version>
-        <jakarta-validation.version>2.0.1</jakarta-validation.version>
-        <jakarta-websocket.version>1.1.2</jakarta-websocket.version>
-        <junit.version>4.12</junit.version>
-        <kotlin.version>1.3.61</kotlin.version>
+        <httpclient.version>4.5.12</httpclient.version>
+        <jackson.version>2.11.0</jackson.version>
+        <jakarta-annotation.version>2.0.0-RC1</jakarta-annotation.version>
+        <jakarta-bind.version>3.0.0-RC3</jakarta-bind.version>
+        <jakarta-cdi.version>3.0.0-M4</jakarta-cdi.version>
+        <jakarta-inject.version>2.0.0-RC4</jakarta-inject.version>
+        <jakarta-persistence.version>3.0.0-RC2</jakarta-persistence.version>
+        <jakarta-rs.version>3.0.0-M1</jakarta-rs.version>
+        <jakarta-servlet.version>5.0.0-M1</jakarta-servlet.version>
+        <jakarta-validation.version>3.0.0-M1</jakarta-validation.version>
+        <jakarta-websocket.version>2.0.0-RC1</jakarta-websocket.version>
+        <junit.version>4.13</junit.version>
+        <kotlin.version>1.3.72</kotlin.version>
         <liquibase.version>3.8.3</liquibase.version>
         <logback.version>1.2.3</logback.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <mockito.version>3.2.4</mockito.version>
+        <mockito.version>3.3.3</mockito.version>
         <mustache.version>0.9.6</mustache.version>
         <netty.version>4.1.36.Final</netty.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -138,6 +139,12 @@
                 <groupId>com.fasterxml.jackson.module</groupId>
                 <artifactId>jackson-module-jaxb-annotations</artifactId>
                 <version>${jackson.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>jakarta.activation</groupId>
+                        <artifactId>jakarta.activation-api</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.github.spullara.mustache.java</groupId>
@@ -152,7 +159,7 @@
             <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
-                <version>1.13</version>
+                <version>${commons-codec.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-fileupload</groupId>
@@ -190,16 +197,16 @@
                 <groupId>jakarta.enterprise</groupId>
                 <artifactId>jakarta.enterprise.cdi-api</artifactId>
                 <version>${jakarta-cdi.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.inject</groupId>
-                        <artifactId>javax.inject</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>jakarta.annotation</groupId>
-                        <artifactId>jakarta.annotation-api</artifactId>
-                    </exclusion>
-                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.inject</groupId>
+                <artifactId>jakarta.inject-api</artifactId>
+                <version>${jakarta-inject.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.inject</groupId>
+                <artifactId>jakarta.inject-tck</artifactId>
+                <version>${jakarta-inject.version}</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.persistence</groupId>
@@ -214,7 +221,7 @@
             <dependency>
                 <groupId>jakarta.validation</groupId>
                 <artifactId>jakarta.validation-api</artifactId>
-                <version>2.0.1</version>
+                <version>${jakarta-validation.version}</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.websocket</groupId>
@@ -230,21 +237,6 @@
                 <groupId>jakarta.xml.bind</groupId>
                 <artifactId>jakarta.xml.bind-api</artifactId>
                 <version>${jakarta-bind.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.inject</groupId>
-                <artifactId>javax.inject-tck</artifactId>
-                <version>1</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.inject</groupId>
-                        <artifactId>javax.inject</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>junit</groupId>
-                        <artifactId>junit</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
@@ -270,21 +262,6 @@
                 <groupId>org.eclipse.persistence</groupId>
                 <artifactId>org.eclipse.persistence.jpa</artifactId>
                 <version>${eclipselink.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.validation</groupId>
-                        <artifactId>validation-api</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.eclipse.persistence</groupId>
-                        <artifactId>javax.persistence</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.hk2.external</groupId>
-                <artifactId>jakarta.inject</artifactId>
-                <version>${jakarta-inject.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
@@ -486,14 +463,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.0</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.puppycrawl.tools</groupId>
-                        <artifactId>checkstyle</artifactId>
-                        <version>8.29</version>
-                    </dependency>
-                </dependencies>
+                <version>3.1.1</version>
                 <executions>
                     <execution>
                         <goals>

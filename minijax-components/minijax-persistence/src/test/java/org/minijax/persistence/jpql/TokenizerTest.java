@@ -6,9 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
-import org.minijax.persistence.jpql.Token;
-import org.minijax.persistence.jpql.TokenType;
-import org.minijax.persistence.jpql.Tokenizer;
 
 public class TokenizerTest {
 

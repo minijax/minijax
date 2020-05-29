@@ -2,7 +2,7 @@ package org.minijax.liquibase;
 
 import java.net.URI;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
 import org.minijax.dao.DefaultNamedEntity;
 

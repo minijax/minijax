@@ -2,7 +2,7 @@ package org.minijax.rs.persistence;
 
 import static org.mockito.Mockito.*;
 
-import javax.ws.rs.core.FeatureContext;
+import jakarta.ws.rs.core.FeatureContext;
 
 import org.junit.Test;
 import org.minijax.rs.persistence.PersistenceFeature;

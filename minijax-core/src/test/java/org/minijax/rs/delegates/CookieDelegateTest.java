@@ -2,7 +2,7 @@ package org.minijax.rs.delegates;
 
 import static org.junit.Assert.*;
 
-import javax.ws.rs.core.Cookie;
+import jakarta.ws.rs.core.Cookie;
 
 import org.junit.Before;
 import org.junit.Test;

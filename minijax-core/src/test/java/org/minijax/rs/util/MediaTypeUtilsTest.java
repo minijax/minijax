@@ -1,14 +1,13 @@
 package org.minijax.rs.util;
 
-import static javax.ws.rs.core.MediaType.*;
+import static jakarta.ws.rs.core.MediaType.*;
 
 import static org.junit.Assert.*;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.Produces;
 
 import org.junit.Test;
-import org.minijax.rs.util.MediaTypeUtils;
 
 @Consumes(APPLICATION_FORM_URLENCODED)
 @Produces(TEXT_HTML)

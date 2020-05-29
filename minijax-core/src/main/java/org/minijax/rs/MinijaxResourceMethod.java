@@ -9,20 +9,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import javax.annotation.security.DenyAll;
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.annotation.security.DenyAll;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.minijax.cdi.MinijaxProvider;
 import org.minijax.rs.util.MediaTypeUtils;
 import org.minijax.rs.util.UrlUtils;
 
-class MinijaxResourceMethod implements javax.ws.rs.container.ResourceInfo {
+class MinijaxResourceMethod implements jakarta.ws.rs.container.ResourceInfo {
     private final String httpMethod;
     private final Method method;
     private final MinijaxProvider<?>[] paramProviders;

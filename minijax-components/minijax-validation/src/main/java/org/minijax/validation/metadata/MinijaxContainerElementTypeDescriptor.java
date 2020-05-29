@@ -6,9 +6,9 @@ import java.lang.reflect.AnnotatedType;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.validation.metadata.ConstraintDescriptor;
-import javax.validation.metadata.ContainerElementTypeDescriptor;
-import javax.validation.metadata.GroupConversionDescriptor;
+import jakarta.validation.metadata.ConstraintDescriptor;
+import jakarta.validation.metadata.ContainerElementTypeDescriptor;
+import jakarta.validation.metadata.GroupConversionDescriptor;
 
 public class MinijaxContainerElementTypeDescriptor extends MinijaxElementDescriptor implements ContainerElementTypeDescriptor {
     private final Class<?> containerClass;

@@ -2,10 +2,10 @@ package org.minijax.validation.builtin;
 
 import static org.junit.Assert.*;
 
-import javax.validation.Validation;
-import javax.validation.ValidationException;
-import javax.validation.Validator;
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidationException;
+import jakarta.validation.Validator;
+import jakarta.validation.constraints.NotBlank;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

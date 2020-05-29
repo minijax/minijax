@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-import javax.ws.rs.PathParam;
+import jakarta.ws.rs.PathParam;
 
 import org.junit.Test;
 import org.minijax.commons.IdUtils;

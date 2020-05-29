@@ -10,9 +10,9 @@
         <class>org.minijax.security.UserSession</class>
         <class>org.minijax.security.SecurityUser</class>
         <properties>
-            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:h2:~/.minijax/minitwit"/>
-            <property name="javax.persistence.schema-generation.database.action" value="create" />
+            <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:~/.minijax/minitwit"/>
+            <property name="jakarta.persistence.schema-generation.database.action" value="create" />
             <property name="eclipselink.logging.level" value="FINE"/>
         </properties>
     </persistence-unit>

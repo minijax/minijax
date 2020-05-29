@@ -6,10 +6,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.enterprise.inject.InjectionException;
-import javax.inject.Inject;
-import javax.inject.Provider;
-import javax.inject.Singleton;
+import jakarta.enterprise.inject.InjectionException;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
+import jakarta.inject.Singleton;
 
 import org.minijax.cdi.annotation.DefaultFieldAnnotationProcessor;
 import org.minijax.cdi.annotation.FieldAnnotationProcessor;

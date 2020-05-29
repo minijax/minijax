@@ -2,7 +2,7 @@ package org.minijax.client;
 
 import static org.junit.Assert.*;
 
-import javax.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.GenericType;
 
 import org.junit.Test;
 

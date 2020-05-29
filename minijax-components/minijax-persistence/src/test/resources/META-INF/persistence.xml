@@ -7,10 +7,10 @@
         <class>org.minijax.persistence.testmodel.User</class>
         <class>org.minijax.persistence.testmodel.Widget</class>
         <properties>
-            <property name="javax.persistence.jdbc.driver" value="org.h2.jdbcx.JdbcDataSource" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test;DB_CLOSE_DELAY=-1" />
-            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
-            <property name="javax.persistence.sql-load-script-source" value="init.sql" />
+            <property name="jakarta.persistence.jdbc.driver" value="org.h2.jdbcx.JdbcDataSource" />
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:test;DB_CLOSE_DELAY=-1" />
+            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create" />
+            <property name="jakarta.persistence.sql-load-script-source" value="init.sql" />
         </properties>
     </persistence-unit>
 </persistence>

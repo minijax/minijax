@@ -1,15 +1,15 @@
 package org.minijax.security;
 
-import static javax.ws.rs.HttpMethod.*;
-import static javax.ws.rs.core.MediaType.*;
+import static jakarta.ws.rs.HttpMethod.*;
+import static jakarta.ws.rs.core.MediaType.*;
 
 import java.io.IOException;
 
-import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.SecurityContext;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.container.ContainerRequestFilter;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.SecurityContext;
 
 import org.minijax.rs.MinijaxRequestContext;
 

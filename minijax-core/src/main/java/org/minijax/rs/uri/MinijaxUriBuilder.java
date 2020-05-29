@@ -5,7 +5,7 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.Map;
 
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 
 import org.minijax.rs.util.UrlUtils;
 

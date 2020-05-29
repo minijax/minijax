@@ -1,6 +1,6 @@
 package org.minijax.cdi;
 
-import javax.inject.Provider;
+import jakarta.inject.Provider;
 
 public class WrapperProvider<T> implements MinijaxProvider<T> {
     private final Provider<T> sourceProvider;

@@ -1,6 +1,6 @@
 package org.minijax.security;
 
-import javax.ws.rs.core.NewCookie;
+import jakarta.ws.rs.core.NewCookie;
 
 public class LoginResult {
     public static final LoginResult NOT_FOUND = new LoginResult(Status.NOT_FOUND, null);

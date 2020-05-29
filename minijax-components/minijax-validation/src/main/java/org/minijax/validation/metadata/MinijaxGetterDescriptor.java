@@ -2,7 +2,7 @@ package org.minijax.validation.metadata;
 
 import java.lang.reflect.Method;
 
-import javax.validation.ValidationException;
+import jakarta.validation.ValidationException;
 
 public class MinijaxGetterDescriptor extends MinijaxPropertyDescriptor {
     private final Method getter;

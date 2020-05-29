@@ -2,7 +2,7 @@ package org.minijax.persistence.criteria;
 
 import java.util.Objects;
 
-import javax.persistence.criteria.Path;
+import jakarta.persistence.criteria.Path;
 
 import org.minijax.persistence.metamodel.MinijaxAttribute;
 

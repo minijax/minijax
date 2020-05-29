@@ -13,20 +13,20 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import javax.ws.rs.container.ContainerResponseContext;
-import javax.ws.rs.core.EntityTag;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Link;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.NewCookie;
+import jakarta.ws.rs.container.ContainerResponseContext;
+import jakarta.ws.rs.core.EntityTag;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.Link;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.NewCookie;
 
 import org.minijax.commons.MinijaxException;
 import org.minijax.rs.MinijaxApplicationContext;
 import org.minijax.rs.util.EntityUtils;
 
-class MinijaxResponse extends javax.ws.rs.core.Response implements ContainerResponseContext {
+class MinijaxResponse extends jakarta.ws.rs.core.Response implements ContainerResponseContext {
     private final MinijaxApplicationContext application;
     private final MultivaluedMap<String, Object> headers;
     private final MinijaxStatusInfo statusInfo;

@@ -3,12 +3,12 @@ package org.minijax.persistence;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import javax.persistence.PersistenceException;
+import jakarta.persistence.PersistenceException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MinijaxTransaction implements javax.persistence.EntityTransaction {
+public class MinijaxTransaction implements jakarta.persistence.EntityTransaction {
     private static final Logger LOG = LoggerFactory.getLogger(MinijaxTransaction.class);
     private final Connection connection;
 

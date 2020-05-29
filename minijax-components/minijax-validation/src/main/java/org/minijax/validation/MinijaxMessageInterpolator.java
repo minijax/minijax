@@ -4,8 +4,8 @@ import java.lang.annotation.Annotation;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.validation.MessageInterpolator;
-import javax.validation.ValidationException;
+import jakarta.validation.MessageInterpolator;
+import jakarta.validation.ValidationException;
 
 public class MinijaxMessageInterpolator implements MessageInterpolator {
 

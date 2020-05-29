@@ -14,7 +14,6 @@ import org.junit.Test;
 import org.minijax.commons.IOUtils;
 import org.minijax.rs.multipart.Multipart;
 import org.minijax.rs.multipart.Part;
-import org.minijax.rs.util.MultipartUtils;
 
 public class MultipartUtilsTest {
 

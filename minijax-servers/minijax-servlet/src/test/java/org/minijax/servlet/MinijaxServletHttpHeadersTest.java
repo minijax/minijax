@@ -9,10 +9,10 @@ import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.core.Cookie;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.junit.Test;
 
@@ -123,8 +123,8 @@ public class MinijaxServletHttpHeadersTest {
 
     @Test
     public void testCookies() throws Exception {
-        final javax.servlet.http.Cookie[] servletCookies = new javax.servlet.http.Cookie[] {
-                new javax.servlet.http.Cookie("k", "v") };
+        final jakarta.servlet.http.Cookie[] servletCookies = new jakarta.servlet.http.Cookie[] {
+                new jakarta.servlet.http.Cookie("k", "v") };
 
         final HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getCookies()).thenReturn(servletCookies);

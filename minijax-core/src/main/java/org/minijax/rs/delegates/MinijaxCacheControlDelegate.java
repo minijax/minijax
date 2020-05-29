@@ -1,7 +1,7 @@
 package org.minijax.rs.delegates;
 
-import javax.ws.rs.core.CacheControl;
-import javax.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
+import jakarta.ws.rs.core.CacheControl;
+import jakarta.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
 
 class MinijaxCacheControlDelegate implements HeaderDelegate<CacheControl> {
 

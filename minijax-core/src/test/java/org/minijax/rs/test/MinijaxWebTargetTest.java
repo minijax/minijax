@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.Map;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 
 import org.junit.Test;
 import org.minijax.rs.test.MinijaxTestWebTarget;

@@ -2,7 +2,7 @@ package org.minijax.rs.delegates;
 
 import static org.junit.Assert.*;
 
-import javax.ws.rs.core.CacheControl;
+import jakarta.ws.rs.core.CacheControl;
 
 import org.junit.Before;
 import org.junit.Test;

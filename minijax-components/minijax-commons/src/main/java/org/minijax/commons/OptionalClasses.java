@@ -8,11 +8,11 @@ import org.slf4j.LoggerFactory;
 public class OptionalClasses {
     private static final Logger LOG = LoggerFactory.getLogger(OptionalClasses.class);
 
-    public static final Class<Annotation> SERVER_ENDPOINT = safeGetClass("javax.websocket.server.ServerEndpoint");
+    public static final Class<Annotation> SERVER_ENDPOINT = safeGetClass("jakarta.websocket.server.ServerEndpoint");
 
-    public static final Class<?> ENTITY_MANAGER_FACTORY = safeGetClass("javax.persistence.EntityManagerFactory");
+    public static final Class<?> ENTITY_MANAGER_FACTORY = safeGetClass("jakarta.persistence.EntityManagerFactory");
 
-    public static final Class<?> ENTITY_MANAGER = safeGetClass("javax.persistence.EntityManager");
+    public static final Class<?> ENTITY_MANAGER = safeGetClass("jakarta.persistence.EntityManager");
 
     OptionalClasses() {
         throw new UnsupportedOperationException();

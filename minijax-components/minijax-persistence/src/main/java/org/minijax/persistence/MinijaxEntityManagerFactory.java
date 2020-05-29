@@ -15,15 +15,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.Cache;
-import javax.persistence.Entity;
-import javax.persistence.EntityGraph;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
-import javax.persistence.PersistenceUnitUtil;
-import javax.persistence.Query;
-import javax.persistence.SynchronizationType;
-import javax.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.Cache;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityGraph;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.PersistenceUnitUtil;
+import jakarta.persistence.Query;
+import jakarta.persistence.SynchronizationType;
+import jakarta.persistence.criteria.CriteriaBuilder;
 
 import org.minijax.persistence.dialect.AnsiSqlDialect;
 import org.minijax.persistence.dialect.SqlDialect;
@@ -31,7 +31,7 @@ import org.minijax.persistence.metamodel.MinijaxMetamodel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MinijaxEntityManagerFactory implements javax.persistence.EntityManagerFactory, AutoCloseable {
+public class MinijaxEntityManagerFactory implements jakarta.persistence.EntityManagerFactory, AutoCloseable {
     private static final Logger LOG = LoggerFactory.getLogger(MinijaxEntityManagerFactory.class);
     private final MinijaxPersistenceUnitInfo unitInfo;
     private final MinijaxMetamodel metamodel;
@@ -57,9 +57,9 @@ public class MinijaxEntityManagerFactory implements javax.persistence.EntityMana
 
         this.dialect = new AnsiSqlDialect();
 
-        this.url = (String) this.properties.getOrDefault("javax.persistence.jdbc.url", "");
-        this.user = (String) this.properties.getOrDefault("javax.persistence.jdbc.user", "");
-        this.password = (String) this.properties.getOrDefault("javax.persistence.jdbc.password", "");
+        this.url = (String) this.properties.getOrDefault("jakarta.persistence.jdbc.url", "");
+        this.user = (String) this.properties.getOrDefault("jakarta.persistence.jdbc.user", "");
+        this.password = (String) this.properties.getOrDefault("jakarta.persistence.jdbc.password", "");
         loadDriver();
         createTables();
         runInitScript();
@@ -94,7 +94,7 @@ public class MinijaxEntityManagerFactory implements javax.persistence.EntityMana
      */
 
     void loadDriver() {
-        final String driverClassName = (String) properties.get("javax.persistence.jdbc.driver");
+        final String driverClassName = (String) properties.get("jakarta.persistence.jdbc.driver");
         if (driverClassName == null) {
             return;
         }
@@ -130,7 +130,7 @@ public class MinijaxEntityManagerFactory implements javax.persistence.EntityMana
     }
 
     void runInitScript() {
-        final String initScript = (String) properties.get("javax.persistence.sql-load-script-source");
+        final String initScript = (String) properties.get("jakarta.persistence.sql-load-script-source");
         if (initScript == null || initScript.isEmpty()) {
             return;
         }

@@ -2,8 +2,8 @@ package org.minijax.security;
 
 import static org.junit.Assert.*;
 
-import javax.validation.Validation;
-import javax.validation.Validator;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

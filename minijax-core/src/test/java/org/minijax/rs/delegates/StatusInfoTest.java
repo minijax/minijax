@@ -2,7 +2,7 @@ package org.minijax.rs.delegates;
 
 import static org.junit.Assert.*;
 
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.Response.Status;
 
 import org.junit.Test;
 import org.minijax.rs.delegates.MinijaxStatusInfo;

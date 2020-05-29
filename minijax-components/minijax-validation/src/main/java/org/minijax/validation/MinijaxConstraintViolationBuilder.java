@@ -1,6 +1,6 @@
 package org.minijax.validation;
 
-import javax.validation.ConstraintValidatorContext.ConstraintViolationBuilder;
+import jakarta.validation.ConstraintValidatorContext.ConstraintViolationBuilder;
 
 public class MinijaxConstraintViolationBuilder<T> implements ConstraintViolationBuilder {
     private final MinijaxConstraintValidatorContext<T> context;

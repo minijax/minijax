@@ -6,14 +6,15 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
 
 import org.junit.Test;
 import org.minijax.Minijax;
 import org.minijax.rs.test.MinijaxTestWebTarget;
+
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 public class SingletonTest {
 

@@ -1,13 +1,13 @@
 package com.example;
 
-import static javax.ws.rs.core.MediaType.*;
+import static jakarta.ws.rs.core.MediaType.*;
 
 import java.util.*;
 
-import javax.inject.Singleton;
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
-import javax.xml.bind.annotation.*;
+import jakarta.inject.Singleton;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
+import jakarta.xml.bind.annotation.*;
 
 import org.minijax.Minijax;
 import org.minijax.json.JsonFeature;

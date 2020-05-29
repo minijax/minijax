@@ -1,6 +1,6 @@
 package org.minijax.json;
 
-import static javax.ws.rs.core.MediaType.*;
+import static jakarta.ws.rs.core.MediaType.*;
 
 import static org.junit.Assert.*;
 
@@ -10,9 +10,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.BadRequestException;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.ext.MessageBodyReader;
+import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.ext.MessageBodyReader;
 
 import org.junit.After;
 import org.junit.Before;

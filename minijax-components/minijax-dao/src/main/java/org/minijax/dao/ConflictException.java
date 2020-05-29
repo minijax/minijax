@@ -1,7 +1,7 @@
 package org.minijax.dao;
 
-import javax.ws.rs.ClientErrorException;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.ClientErrorException;
+import jakarta.ws.rs.core.Response;
 
 /**
  * The ConflictException represents a HTTP 409 error.

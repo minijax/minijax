@@ -1,14 +1,14 @@
 package org.minijax.rs;
 
-import javax.ws.rs.container.ResourceContext;
-import javax.ws.rs.core.Application;
-import javax.ws.rs.core.Configuration;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Request;
-import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.ext.ContextResolver;
-import javax.ws.rs.ext.Providers;
+import jakarta.ws.rs.container.ResourceContext;
+import jakarta.ws.rs.core.Application;
+import jakarta.ws.rs.core.Configuration;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.Request;
+import jakarta.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.core.UriInfo;
+import jakarta.ws.rs.ext.ContextResolver;
+import jakarta.ws.rs.ext.Providers;
 
 public class MinijaxContextResolver<T> implements ContextResolver<T> {
     private final MinijaxRequestContext context;
@@ -66,7 +66,7 @@ public class MinijaxContextResolver<T> implements ContextResolver<T> {
         }
 
         // 10.1
-        if (c.getName().startsWith("javax.servlet.")) {
+        if (c.getName().startsWith("jakarta.servlet.")) {
             return null;
         }
 

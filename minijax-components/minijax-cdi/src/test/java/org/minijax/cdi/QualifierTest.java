@@ -2,22 +2,20 @@ package org.minijax.cdi;
 
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.*;
-
 import static org.junit.Assert.*;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.enterprise.inject.InjectionException;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Qualifier;
-import javax.inject.Singleton;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.minijax.cdi.MinijaxInjector;
+
+import jakarta.enterprise.inject.InjectionException;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Qualifier;
+import jakarta.inject.Singleton;
 
 public class QualifierTest {
     private MinijaxInjector injector;

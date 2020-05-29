@@ -2,8 +2,8 @@ package org.minijax.rs;
 
 import static org.junit.Assert.*;
 
-import javax.ws.rs.core.Feature;
-import javax.ws.rs.core.FeatureContext;
+import jakarta.ws.rs.core.Feature;
+import jakarta.ws.rs.core.FeatureContext;
 
 import org.junit.Test;
 import org.minijax.Minijax;

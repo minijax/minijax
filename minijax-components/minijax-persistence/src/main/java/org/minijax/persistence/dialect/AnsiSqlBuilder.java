@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.PersistenceException;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Predicate.BooleanOperator;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.criteria.Order;
+import jakarta.persistence.criteria.Predicate.BooleanOperator;
 
 import org.minijax.persistence.MinijaxEntityManager;
 import org.minijax.persistence.MinijaxQuery;

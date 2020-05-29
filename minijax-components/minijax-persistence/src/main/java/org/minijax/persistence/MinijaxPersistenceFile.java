@@ -4,9 +4,10 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.PersistenceException;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
+
+import jakarta.persistence.PersistenceException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

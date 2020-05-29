@@ -3,12 +3,12 @@ package org.minijax.client;
 import java.net.URI;
 import java.util.Map;
 
-import javax.ws.rs.core.Configuration;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Configuration;
+import jakarta.ws.rs.core.MediaType;
 
 import org.minijax.rs.uri.MinijaxUriBuilder;
 
-public class MinijaxClientWebTarget implements javax.ws.rs.client.WebTarget {
+public class MinijaxClientWebTarget implements jakarta.ws.rs.client.WebTarget {
     private final MinijaxClient client;
     private final MinijaxUriBuilder uriBuilder;
 

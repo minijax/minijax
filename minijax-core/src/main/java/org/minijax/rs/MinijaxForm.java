@@ -4,7 +4,7 @@ package org.minijax.rs;
 import java.io.Closeable;
 import java.io.InputStream;
 
-import javax.ws.rs.core.Form;
+import jakarta.ws.rs.core.Form;
 
 import org.minijax.rs.multipart.Part;
 

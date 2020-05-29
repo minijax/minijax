@@ -5,16 +5,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.persistence.EntityGraph;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.FlushModeType;
-import javax.persistence.LockModeType;
-import javax.persistence.Query;
-import javax.persistence.StoredProcedureQuery;
-import javax.persistence.criteria.CriteriaDelete;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.CriteriaUpdate;
+import jakarta.persistence.EntityGraph;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.FlushModeType;
+import jakarta.persistence.LockModeType;
+import jakarta.persistence.Query;
+import jakarta.persistence.StoredProcedureQuery;
+import jakarta.persistence.criteria.CriteriaDelete;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.CriteriaUpdate;
 
 import org.minijax.commons.CloseUtils;
 import org.minijax.persistence.criteria.MinijaxCriteriaBuilder;
@@ -25,7 +25,7 @@ import org.minijax.persistence.jpql.Parser;
 import org.minijax.persistence.jpql.Tokenizer;
 import org.minijax.persistence.metamodel.MinijaxMetamodel;
 
-public class MinijaxEntityManager implements javax.persistence.EntityManager, AutoCloseable {
+public class MinijaxEntityManager implements jakarta.persistence.EntityManager, AutoCloseable {
     private final MinijaxEntityManagerFactory emf;
     private final MinijaxMetamodel metamodel;
     private final SqlDialect dialect;

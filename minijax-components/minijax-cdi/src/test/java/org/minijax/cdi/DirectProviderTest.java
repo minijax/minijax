@@ -2,9 +2,9 @@ package org.minijax.cdi;
 
 import static org.junit.Assert.*;
 
-import javax.inject.Provider;
-
 import org.junit.Test;
+
+import jakarta.inject.Provider;
 
 public class DirectProviderTest {
 

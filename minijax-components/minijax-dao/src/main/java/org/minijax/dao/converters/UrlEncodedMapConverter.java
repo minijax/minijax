@@ -2,8 +2,8 @@ package org.minijax.dao.converters;
 
 import java.util.Map;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 import org.minijax.rs.util.UrlUtils;
 

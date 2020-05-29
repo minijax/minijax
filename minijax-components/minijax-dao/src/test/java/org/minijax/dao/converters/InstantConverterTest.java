@@ -6,7 +6,6 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 import org.junit.Test;
-import org.minijax.dao.converters.InstantConverter;
 
 public class InstantConverterTest {
 

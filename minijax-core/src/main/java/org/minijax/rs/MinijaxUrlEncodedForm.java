@@ -3,8 +3,8 @@ package org.minijax.rs;
 
 import java.io.InputStream;
 
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Form;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.minijax.rs.multipart.Part;
 import org.minijax.rs.util.UrlUtils;
