@@ -2,8 +2,7 @@ package org.minijax.dao;
 
 import java.io.Serializable;
 
-import javax.json.bind.annotation.JsonbTransient;
-
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Embeddable;
 
 /**

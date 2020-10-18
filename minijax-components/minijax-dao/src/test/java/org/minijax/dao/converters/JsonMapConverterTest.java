@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.json.bind.JsonbException;
+import jakarta.json.bind.JsonbException;
 
 import org.junit.Test;
 

@@ -106,7 +106,7 @@
         <sonar.java.source>1.8</sonar.java.source>
         <sonar.language>java</sonar.language>
         <undertow.version>2.2.2.Final</undertow.version>
-        <yasson.version>1.0.8</yasson.version>
+        <yasson.version>2.0.0-M2</yasson.version>
     </properties>
     <dependencyManagement>
         <dependencies>

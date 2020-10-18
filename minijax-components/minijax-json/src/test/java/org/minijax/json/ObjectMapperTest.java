@@ -2,7 +2,7 @@ package org.minijax.json;
 
 import static org.junit.Assert.*;
 
-import javax.json.bind.Jsonb;
+import jakarta.json.bind.Jsonb;
 
 import org.junit.Test;
 
