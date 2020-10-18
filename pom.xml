@@ -80,7 +80,6 @@
         <h2.version>1.4.200</h2.version>
         <httpclient.version>4.5.13</httpclient.version>
         <jakarta-annotation.version>2.0.0-RC1</jakarta-annotation.version>
-        <jakarta-bind.version>3.0.0-RC3</jakarta-bind.version>
         <jakarta-cdi.version>3.0.0-M4</jakarta-cdi.version>
         <jakarta-inject-tck.version>2.0.1</jakarta-inject-tck.version>
         <jakarta-inject.version>2.0.0</jakarta-inject.version>
@@ -202,11 +201,6 @@
                 <groupId>jakarta.ws.rs</groupId>
                 <artifactId>jakarta.ws.rs-api</artifactId>
                 <version>${jakarta-rs.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.xml.bind</groupId>
-                <artifactId>jakarta.xml.bind-api</artifactId>
-                <version>${jakarta-bind.version}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>

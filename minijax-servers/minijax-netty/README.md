@@ -33,8 +33,6 @@ new Minijax()
 That's it!  Now you can use JSON serialization features in your resources:
 
 ```java
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public static class Widget {
     String id;
     String value;

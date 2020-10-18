@@ -2,11 +2,9 @@ package org.minijax.dao;
 
 import java.io.Serializable;
 
+import javax.json.bind.annotation.JsonbTransient;
+
 import jakarta.persistence.Embeddable;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlTransient;
 
 /**
  * The Avatar class represents an avatar or profile picture for an entity.
@@ -17,8 +15,6 @@ import jakarta.xml.bind.annotation.XmlTransient;
  * such that each of these columns are added to the entity's database table.
  */
 @Embeddable
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Avatar implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -37,7 +33,7 @@ public class Avatar implements Serializable {
     private String imageUrl;
     private String thumbUrl;
 
-    @XmlTransient
+    @JsonbTransient
     private int imageType;
 
     public Avatar() {

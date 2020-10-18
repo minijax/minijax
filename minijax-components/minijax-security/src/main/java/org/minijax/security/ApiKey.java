@@ -13,9 +13,6 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlRootElement;
 
 import org.minijax.dao.DefaultBaseEntity;
 import org.minijax.dao.converters.UuidConverter;
@@ -26,8 +23,6 @@ import org.minijax.dao.converters.UuidConverter;
 @Entity
 @Cacheable
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 @Table(indexes = { @Index(columnList = "USERID", unique = false) })
 @NamedQuery(
         name = "ApiKey.findByUser",

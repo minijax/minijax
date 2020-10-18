@@ -14,9 +14,6 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.Response;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlRootElement;
 
 import org.minijax.Minijax;
 import org.minijax.json.JsonFeature;
@@ -25,8 +22,6 @@ import org.minijax.json.JsonFeature;
 @Produces(APPLICATION_JSON)
 public class HelloJson {
 
-    @XmlRootElement
-    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Widget {
         String id;
         String value;

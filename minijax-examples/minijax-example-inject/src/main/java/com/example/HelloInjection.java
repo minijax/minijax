@@ -39,7 +39,8 @@ public class HelloInjection {
 
     public static void main(final String[] args) {
         new Minijax()
-                .packages("com.example")
+                .register(MyServiceImpl.class, MyService.class)
+                .register(MyResource.class)
                 .start();
     }
 }

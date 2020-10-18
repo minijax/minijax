@@ -4,16 +4,11 @@ import java.io.Serializable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * The Address class represents a standard mailing address.
  */
 @Embeddable
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Address implements Serializable {
     private static final long serialVersionUID = 1L;
 

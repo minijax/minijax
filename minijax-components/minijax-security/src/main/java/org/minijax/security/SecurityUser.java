@@ -2,13 +2,12 @@ package org.minijax.security;
 
 import java.util.Arrays;
 
+import javax.json.bind.annotation.JsonbTransient;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlTransient;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.minijax.dao.DefaultNamedEntity;
@@ -18,7 +17,6 @@ import org.minijax.dao.DefaultNamedEntity;
  * that can login, logout, change passwords, etc.
  */
 @MappedSuperclass
-@XmlAccessorType(XmlAccessType.FIELD)
 @SuppressWarnings("squid:S2160")
 public abstract class SecurityUser extends DefaultNamedEntity {
     private static final long serialVersionUID = 1L;
@@ -26,12 +24,12 @@ public abstract class SecurityUser extends DefaultNamedEntity {
     @Column(length = 128, unique = true)
     private String email;
 
-    @XmlTransient
+    @JsonbTransient
     @NotNull
     @Size(min = 1, max = 128)
     private String roles;
 
-    @XmlTransient
+    @JsonbTransient
     private String passwordHash;
 
     public String getEmail() {
