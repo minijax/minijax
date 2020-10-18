@@ -1,15 +1,11 @@
 package org.minijax.dao.converters;
 
-import java.io.IOException;
 import java.util.Map;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
-import org.minijax.commons.MinijaxException;
 import org.minijax.json.Json;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 /**
  * The JsonMapConverter class implements the JPA converter from Map to JSON string.
@@ -22,11 +18,7 @@ public class JsonMapConverter implements AttributeConverter<Map<String, Object>,
         if (map == null) {
             return null;
         }
-        try {
-            return Json.getObjectMapper().writeValueAsString(map);
-        } catch (final JsonProcessingException ex) {
-            throw new MinijaxException(ex.getMessage(), ex);
-        }
+        return Json.getObjectMapper().toJson(map);
     }
 
     @Override
@@ -35,10 +27,6 @@ public class JsonMapConverter implements AttributeConverter<Map<String, Object>,
         if (str == null || str.isEmpty()) {
             return null;
         }
-        try {
-            return Json.getObjectMapper().readValue(str, Map.class);
-        } catch (final IOException ex) {
-            throw new MinijaxException(ex.getMessage(), ex);
-        }
+        return Json.getObjectMapper().fromJson(str, Map.class);
     }
 }

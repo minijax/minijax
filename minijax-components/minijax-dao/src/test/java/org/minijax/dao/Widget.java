@@ -4,8 +4,6 @@ import java.net.URI;
 
 import jakarta.persistence.Entity;
 
-import org.minijax.dao.DefaultNamedEntity;
-
 @Entity
 public class Widget extends DefaultNamedEntity {
     private static final long serialVersionUID = 1L;

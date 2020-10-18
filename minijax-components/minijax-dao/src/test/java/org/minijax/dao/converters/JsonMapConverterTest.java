@@ -5,8 +5,9 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.json.bind.JsonbException;
+
 import org.junit.Test;
-import org.minijax.commons.MinijaxException;
 
 public class JsonMapConverterTest {
 
@@ -55,13 +56,13 @@ public class JsonMapConverterTest {
         assertEquals(m1, m2);
     }
 
-    @Test(expected = MinijaxException.class)
+    @Test(expected = JsonbException.class)
     public void testInvalidJsonParse() {
         final JsonMapConverter c = new JsonMapConverter();
         c.convertToEntityAttribute("{");
     }
 
-    @Test(expected = MinijaxException.class)
+    @Test(expected = JsonbException.class)
     public void testInvalidJsonWrite() {
         final JsonMapConverter c = new JsonMapConverter();
 

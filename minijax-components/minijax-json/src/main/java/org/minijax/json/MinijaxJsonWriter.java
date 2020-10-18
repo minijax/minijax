@@ -38,6 +38,7 @@ public class MinijaxJsonWriter implements MessageBodyWriter<Object> {
             final OutputStream entityStream)
                     throws IOException {
 
-        Json.getObjectMapper().writeValue(entityStream, t);
+//        Json.getObjectMapper().writeValue(entityStream, t);
+        Json.getObjectMapper().toJson(t, entityStream);
     }
 }

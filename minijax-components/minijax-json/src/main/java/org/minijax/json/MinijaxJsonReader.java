@@ -7,15 +7,15 @@ import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbException;
+
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.ext.MessageBodyReader;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Singleton
 @Consumes(APPLICATION_JSON)
@@ -41,15 +41,15 @@ public class MinijaxJsonReader implements MessageBodyReader<Object> {
             final InputStream entityStream)
                     throws IOException {
 
-        final ObjectMapper objectMapper = Json.getObjectMapper();
+        final Jsonb objectMapper = Json.getObjectMapper();
 
         try {
             if (genericType != null) {
-                return objectMapper.readValue(entityStream, objectMapper.getTypeFactory().constructType(genericType));
+                return objectMapper.fromJson(entityStream, genericType);
             } else {
-                return objectMapper.readValue(entityStream, type);
+                return objectMapper.fromJson(entityStream, type);
             }
-        } catch (final JsonProcessingException ex) {
+        } catch (final JsonbException ex) {
             throw new BadRequestException(ex.getMessage(), ex);
         }
     }

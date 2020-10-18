@@ -79,7 +79,6 @@
         <eclipselink.version>3.0.0-M1</eclipselink.version>
         <h2.version>1.4.200</h2.version>
         <httpclient.version>4.5.13</httpclient.version>
-        <jackson.version>2.11.0</jackson.version>
         <jakarta-annotation.version>2.0.0-RC1</jakarta-annotation.version>
         <jakarta-bind.version>3.0.0-RC3</jakarta-bind.version>
         <jakarta-cdi.version>3.0.0-M4</jakarta-cdi.version>
@@ -108,6 +107,7 @@
         <sonar.java.source>1.8</sonar.java.source>
         <sonar.language>java</sonar.language>
         <undertow.version>2.2.2.Final</undertow.version>
+        <yasson.version>1.0.8</yasson.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -115,37 +115,6 @@
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
                 <version>${logback.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-jsr310</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.module</groupId>
-                <artifactId>jackson-module-afterburner</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.module</groupId>
-                <artifactId>jackson-module-jaxb-annotations</artifactId>
-                <version>${jackson.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>jakarta.activation</groupId>
-                        <artifactId>jakarta.activation-api</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.github.spullara.mustache.java</groupId>
@@ -258,6 +227,11 @@
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpmime</artifactId>
                 <version>${httpclient.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse</groupId>
+                <artifactId>yasson</artifactId>
+                <version>${yasson.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.persistence</groupId>
@@ -389,6 +363,8 @@
     </dependencyManagement>
     <build>
         <plugins>
+            <!--
+            Undertow currently has non conforming dependencies.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -407,6 +383,7 @@
                     </execution>
                 </executions>
             </plugin>
+             -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
