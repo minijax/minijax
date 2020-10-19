@@ -7,7 +7,7 @@ import jakarta.persistence.criteria.Predicate;
 
 public abstract class MinijaxPredicate extends MinijaxExpression<Boolean> implements jakarta.persistence.criteria.Predicate {
 
-    public MinijaxPredicate() {
+    protected MinijaxPredicate() {
         super(Boolean.class);
     }
 

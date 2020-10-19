@@ -17,7 +17,7 @@ public class ObjectMapperTest {
     public void testSingleton() {
         final Jsonb m1 = Json.getObjectMapper();
         final Jsonb m2 = Json.getObjectMapper();
+        assertSame(m1, m2);
         assertEquals(m1, m2);
-        assertTrue(m1 == m2);
     }
 }

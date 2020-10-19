@@ -34,7 +34,7 @@ public class MinijaxPath implements Path {
         private final int index;
         private final String name;
 
-        public MinijaxNode(final int index, final String name) {
+        protected MinijaxNode(final int index, final String name) {
             this.index = index;
             this.name = name;
         }

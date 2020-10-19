@@ -278,6 +278,7 @@ public class MinijaxContext implements javax.naming.Context {
 
     @Override
     public void close() throws NamingException {
+        // Nothing to do
     }
 
     /*

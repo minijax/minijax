@@ -74,7 +74,7 @@ public class MinijaxCriteriaQuery<T> implements jakarta.persistence.criteria.Cri
 
     @Override
     public MinijaxCriteriaQuery<T> where(final Predicate... restrictions) {
-        this.where = new MinijaxConjunction(BooleanOperator.AND, (MinijaxPredicate[]) restrictions);
+        this.where = new MinijaxConjunction(BooleanOperator.AND, restrictions);
         return this;
     }
 

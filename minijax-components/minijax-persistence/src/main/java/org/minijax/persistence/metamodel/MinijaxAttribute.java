@@ -269,44 +269,44 @@ public abstract class MinijaxAttribute<X, Y> implements jakarta.persistence.meta
 
             final Embedded embeddedAnnotation = memberWrapper.getAnnotation(Embedded.class);
             if (embeddedAnnotation != null) {
-                result = new MinijaxEmbeddedAttribute<X, Y>(this);
+                result = new MinijaxEmbeddedAttribute<>(this);
 
             } else if (columnType == Set.class) {
-                result = (MinijaxAttribute<X, Y>) new MinijaxSetAttribute<X, E>((Builder<X, Set<E>, E>) this);
+                result = (MinijaxAttribute<X, Y>) new MinijaxSetAttribute<>((Builder<X, Set<E>, E>) this);
 
             } else if (columnType == List.class) {
-                result = (MinijaxAttribute<X, Y>) new MinijaxListAttribute<X, E>((Builder<X, List<E>, E>) this);
+                result = (MinijaxAttribute<X, Y>) new MinijaxListAttribute<>((Builder<X, List<E>, E>) this);
 
             } else if (persistentAttributeType == PersistentAttributeType.MANY_TO_ONE ||
                     persistentAttributeType == PersistentAttributeType.ONE_TO_ONE) {
-                result = new MinijaxEntityAttribute<X, Y>(this);
+                result = new MinijaxEntityAttribute<>(this);
 
             } else if (columnType == int.class || columnType == Integer.class) {
                 if (converter != null) {
-                    result = new MinijaxIntegerConverterAttribute<X, Y>(this);
+                    result = new MinijaxIntegerConverterAttribute<>(this);
                 } else {
-                    result = (MinijaxAttribute<X, Y>) new MinijaxIntegerAttribute<X>((Builder<X, Integer, ?>) this);
+                    result = (MinijaxAttribute<X, Y>) new MinijaxIntegerAttribute<>((Builder<X, Integer, ?>) this);
                 }
 
             } else if (columnType == String.class) {
                 if (converter != null) {
-                    result = new MinijaxStringConverterAttribute<X, Y>(this);
+                    result = new MinijaxStringConverterAttribute<>(this);
                 } else {
                     result = (MinijaxAttribute<X, Y>) new MinijaxStringAttribute<X>((Builder<X, String, ?>) this);
                 }
 
             } else if (columnType == byte[].class) {
                 if (converter != null) {
-                    result = new MinijaxBinaryConverterAttribute<X, Y>(this);
+                    result = new MinijaxBinaryConverterAttribute<>(this);
                 } else {
                     result = (MinijaxAttribute<X, Y>) new MinijaxBinaryAttribute<X>((Builder<X, byte[], ?>) this);
                 }
 
             } else if (columnType == Timestamp.class) {
                 if (converter != null) {
-                    result = new MinijaxTimestampConverterAttribute<X, Y>(this);
+                    result = new MinijaxTimestampConverterAttribute<>(this);
                 } else {
-                    result = (MinijaxAttribute<X, Y>) new MinijaxTimestampAttribute<X>((Builder<X, Timestamp, ?>) this);
+                    result = (MinijaxAttribute<X, Y>) new MinijaxTimestampAttribute<>((Builder<X, Timestamp, ?>) this);
                 }
 
             } else {

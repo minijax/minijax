@@ -14,7 +14,7 @@ public abstract class MinijaxPath<T>
         extends MinijaxExpression<T>
         implements jakarta.persistence.criteria.Path<T> {
 
-    public MinijaxPath(final Class<T> javaType) {
+    protected MinijaxPath(final Class<T> javaType) {
         super(javaType);
     }
 

@@ -1,6 +1,5 @@
 package org.minijax.dao;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.time.Instant;
@@ -198,11 +197,11 @@ public abstract class DefaultBaseEntity implements BaseEntity {
         return Objects.equals(id, other.id);
     }
 
-    public String toJson() throws IOException {
+    public String toJson() {
         return Json.getObjectMapper().toJson(this);
     }
 
-    public static <T extends DefaultBaseEntity> T fromJson(final Class<T> c, final String str) throws IOException {
+    public static <T extends DefaultBaseEntity> T fromJson(final Class<T> c, final String str) {
         return Json.getObjectMapper().fromJson(str, c);
     }
 

@@ -7,15 +7,15 @@ import static org.junit.Assert.*;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import jakarta.enterprise.inject.InjectionException;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.inject.Qualifier;
 import jakarta.inject.Singleton;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class QualifierTest {
     private MinijaxInjector injector;
@@ -52,7 +52,7 @@ public class QualifierTest {
         assertNotNull(r.a);
         assertNotNull(r.b);
         assertNotEquals(r.a, r.b);
-        assertTrue(r.a != r.b);
+        assertNotSame(r.a, r.b);
     }
 
     @Qualifier

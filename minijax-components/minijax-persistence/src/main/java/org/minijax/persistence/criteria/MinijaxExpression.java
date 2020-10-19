@@ -28,20 +28,20 @@ public abstract class MinijaxExpression<T>
         }
     }
 
-    public MinijaxExpression(final Class<T> javaType) {
+    protected MinijaxExpression(final Class<T> javaType) {
         super(javaType);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public MinijaxComparison<T> isNull() {
-        return new MinijaxComparison<T>(ComparisonType.IS, this, (MinijaxExpression<T>) MinijaxNull.INSTANCE);
+        return new MinijaxComparison<>(ComparisonType.IS, this, (MinijaxExpression<T>) MinijaxNull.INSTANCE);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public MinijaxComparison<T> isNotNull() {
-        return new MinijaxComparison<T>(ComparisonType.IS_NOT, this, (MinijaxExpression<T>) MinijaxNull.INSTANCE);
+        return new MinijaxComparison<>(ComparisonType.IS_NOT, this, (MinijaxExpression<T>) MinijaxNull.INSTANCE);
     }
 
     /*

@@ -9,7 +9,7 @@ public abstract class MinijaxElementDescriptor implements ElementDescriptor {
     private final Class<?> elementClass;
     private final Set<ConstraintDescriptor<?>> constraintDescriptors;
 
-    public MinijaxElementDescriptor(
+    protected MinijaxElementDescriptor(
             final Class<?> elementClass,
             final Set<ConstraintDescriptor<?>> constraintDescriptors) {
         this.elementClass = elementClass;

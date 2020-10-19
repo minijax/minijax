@@ -72,15 +72,15 @@ public class DaoTest extends MinijaxTest {
 
     @Test
     public void testCreateConflict() {
-        try {
-            final Widget w1 = new Widget();
-            w1.setName("First Widget");
-            w1.setHandle("firsthandle");
-            dao.create(w1);
+        final Widget w1 = new Widget();
+        w1.setName("First Widget");
+        w1.setHandle("createhandle");
+        dao.create(w1);
 
+        try {
             final Widget w2 = new Widget();
             w2.setName("Second Widget");
-            w2.setHandle("firsthandle");
+            w2.setHandle("createhandle");
             dao.create(w2);
 
             fail("Expected ConflictException");
@@ -92,18 +92,18 @@ public class DaoTest extends MinijaxTest {
 
     @Test
     public void testUpdateConflict() {
+        final Widget w1 = new Widget();
+        w1.setName("First Widget");
+        w1.setHandle("updatehandle");
+        dao.create(w1);
+
+        final Widget w2 = new Widget();
+        w2.setName("Second Widget");
+        w2.setHandle("updatehandle2");
+        dao.create(w2);
+
         try {
-            final Widget w1 = new Widget();
-            w1.setName("First Widget");
-            w1.setHandle("firsthandle");
-            dao.create(w1);
-
-            final Widget w2 = new Widget();
-            w2.setName("Second Widget");
-            w2.setHandle("secondhandle");
-            dao.create(w2);
-
-            w2.setHandle("firsthandle");
+            w2.setHandle("updatehandle");
             dao.update(w2);
 
             fail("Expected ConflictException");

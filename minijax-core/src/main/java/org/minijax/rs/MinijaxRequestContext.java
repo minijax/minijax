@@ -40,7 +40,7 @@ public abstract class MinijaxRequestContext
     private MinijaxResourceMethod resourceMethod;
     private boolean upgraded;
 
-    public MinijaxRequestContext(final MinijaxApplicationContext container) {
+    protected MinijaxRequestContext(final MinijaxApplicationContext container) {
         applicationContext = container;
         resourceCache = new ResourceCache();
         properties = new HashMap<>();

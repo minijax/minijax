@@ -44,11 +44,11 @@ public class ApiKeyTest {
 
         m2.setId(m1.getId());
 
-        assertTrue(m1.equals(m1));
-        assertTrue(m1.equals(m2));
-        assertFalse(m1.equals(m3));
-        assertFalse(m1.equals(new Object()));
-        assertFalse(m1.equals(null));
+        assertEquals(m1, m1);
+        assertEquals(m1, m2);
+        assertNotEquals(m1, m3);
+        assertNotEquals(m1, null);
+        assertNotEquals(m1, new Object());
     }
 
     @Test

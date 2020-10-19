@@ -7,9 +7,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.junit.Test;
-
 import jakarta.inject.Qualifier;
+
+import org.junit.Test;
 
 public class KeyTest {
 
@@ -35,14 +35,13 @@ public class KeyTest {
             final Key<Object> k2 = injector.buildKey(Object.class);
             final Key<Exception> k3 = injector.buildKey(Exception.class);
 
-            assertTrue(k1.equals(k1));
-            assertTrue(k1.equals(k2));
-            assertFalse(k1.equals(k3));
+            assertEquals(k1, k1);
+            assertEquals(k1, k2);
+            assertNotEquals(k1, k3);
             assertEquals(k1.hashCode(), k2.hashCode());
             assertNotEquals(k1.hashCode(), k3.hashCode());
-
-            assertFalse(k1.equals(null));
-            assertFalse(k1.equals(new Object()));
+            assertNotEquals(k1, null);
+            assertNotEquals(k1, new Object());
         }
     }
 
@@ -54,9 +53,9 @@ public class KeyTest {
             final Key<Object> k3 = injector.buildKey(Object.class, "OtherName");
             final Key<Object> k4 = injector.buildKey(Object.class);
 
-            assertTrue(k1.equals(k2));
-            assertFalse(k1.equals(k3));
-            assertFalse(k1.equals(k4));
+            assertEquals(k1, k2);
+            assertNotEquals(k1, k3);
+            assertNotEquals(k1, k4);
             assertEquals(k1.hashCode(), k2.hashCode());
             assertNotEquals(k1.hashCode(), k3.hashCode());
             assertNotEquals(k1.hashCode(), k4.hashCode());
@@ -70,8 +69,8 @@ public class KeyTest {
             final Key<Object> k2 = injector.buildKey(Object.class, KeyTest.class.getField("TEST_OBJECT").getAnnotations());
             final Key<Object> k3 = injector.buildKey(Object.class);
 
-            assertTrue(k1.equals(k2));
-            assertFalse(k1.equals(k3));
+            assertEquals(k1, k2);
+            assertNotEquals(k1, k3);
             assertEquals(k1.hashCode(), k2.hashCode());
             assertNotEquals(k1.hashCode(), k3.hashCode());
         }

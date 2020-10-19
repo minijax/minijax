@@ -16,7 +16,7 @@ import jakarta.validation.metadata.PropertyDescriptor;
 public abstract class MinijaxPropertyDescriptor extends MinijaxElementDescriptor implements PropertyDescriptor {
     private final Set<ContainerElementTypeDescriptor> constrainedContainerElementTypes;
 
-    public MinijaxPropertyDescriptor(final Class<?> elementClass, final AnnotatedType annotatedType, final Annotation[] annotations) {
+    protected MinijaxPropertyDescriptor(final Class<?> elementClass, final AnnotatedType annotatedType, final Annotation[] annotations) {
         super(elementClass, buildConstraintDescriptors(annotatedType, annotations));
 
         if (annotatedType instanceof AnnotatedParameterizedType) {

@@ -2,14 +2,14 @@ package org.minijax.cdi;
 
 import static org.junit.Assert.*;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import jakarta.enterprise.inject.InjectionException;
 import jakarta.inject.Inject;
 import jakarta.inject.Provider;
 import jakarta.inject.Singleton;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class InjectorTest {
     private MinijaxInjector injector;
@@ -137,7 +137,7 @@ public class InjectorTest {
         final MySingleton instance2 = provider2.get();
         assertNotNull(instance2);
         assertEquals(instance, instance2);
-        assertTrue(instance == instance2);
+        assertSame(instance, instance2);
     }
 
     @Test

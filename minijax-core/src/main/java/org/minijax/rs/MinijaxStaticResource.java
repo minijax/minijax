@@ -12,9 +12,10 @@ import jakarta.ws.rs.core.CacheControl;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
+import jakarta.ws.rs.ext.RuntimeDelegate;
 
 public class MinijaxStaticResource extends MinijaxResourceMethod {
-    private static final CacheControl PUBLIC = CacheControl.valueOf("public, max-age=31536000");
+    private static final CacheControl PUBLIC = RuntimeDelegate.getInstance().createHeaderDelegate(CacheControl.class).fromString("public, max-age=31536000");
     private final String baseResourceName;
     private final boolean directory;
 
