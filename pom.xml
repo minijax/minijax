@@ -72,30 +72,30 @@
     </distributionManagement>
     <properties>
         <bcrypt.version>0.4</bcrypt.version>
+        <commons-codec.version>1.15</commons-codec.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
-        <commons-lang3.version>3.9</commons-lang3.version>
+        <commons-lang3.version>3.11</commons-lang3.version>
         <dockerfile.version>1.4.0</dockerfile.version>
-        <eclipselink.version>2.7.5</eclipselink.version>
+        <eclipselink.version>3.0.0-M1</eclipselink.version>
         <h2.version>1.4.200</h2.version>
-        <httpclient.version>4.5.10</httpclient.version>
-        <jackson.version>2.10.1</jackson.version>
-        <jakarta-annotation.version>1.3.5</jakarta-annotation.version>
-        <jakarta-bind.version>2.3.2</jakarta-bind.version>
-        <jakarta-cdi.version>2.0.1</jakarta-cdi.version>
-        <jakarta-inject.version>2.6.1</jakarta-inject.version>
-        <jakarta-persistence.version>2.2.3</jakarta-persistence.version>
-        <jakarta-rs.version>2.1.6</jakarta-rs.version>
-        <jakarta-servlet.version>4.0.3</jakarta-servlet.version>
-        <jakarta-validation.version>2.0.1</jakarta-validation.version>
-        <jakarta-websocket.version>1.1.2</jakarta-websocket.version>
+        <httpclient.version>4.5.13</httpclient.version>
+        <jakarta-annotation.version>2.0.0-RC1</jakarta-annotation.version>
+        <jakarta-cdi.version>3.0.0-M4</jakarta-cdi.version>
+        <jakarta-inject-tck.version>2.0.1</jakarta-inject-tck.version>
+        <jakarta-inject.version>2.0.0</jakarta-inject.version>
+        <jakarta-persistence.version>3.0.0-RC2</jakarta-persistence.version>
+        <jakarta-rs.version>3.0.0-M1</jakarta-rs.version>
+        <jakarta-servlet.version>5.0.0</jakarta-servlet.version>
+        <jakarta-validation.version>3.0.0-M1</jakarta-validation.version>
+        <jakarta-websocket.version>2.0.0-RC1</jakarta-websocket.version>
         <junit.version>4.13.1</junit.version>
-        <kotlin.version>1.3.61</kotlin.version>
+        <kotlin.version>1.4.10</kotlin.version>
         <liquibase.version>3.8.3</liquibase.version>
         <logback.version>1.2.3</logback.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <mockito.version>3.2.4</mockito.version>
-        <mustache.version>0.9.6</mustache.version>
+        <mockito.version>3.5.13</mockito.version>
+        <mustache.version>0.9.7</mustache.version>
         <netty.version>4.1.36.Final</netty.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <shade.version>3.1.0</shade.version>
@@ -105,7 +105,8 @@
         <sonar.exclusions>minijax-examples/**/*,src/main/java/com/example/**/*</sonar.exclusions>
         <sonar.java.source>1.8</sonar.java.source>
         <sonar.language>java</sonar.language>
-        <undertow.version>2.0.28.Final</undertow.version>
+        <undertow.version>2.2.2.Final</undertow.version>
+        <yasson.version>2.0.0-M2</yasson.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -113,31 +114,6 @@
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
                 <version>${logback.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-jsr310</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.module</groupId>
-                <artifactId>jackson-module-afterburner</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.module</groupId>
-                <artifactId>jackson-module-jaxb-annotations</artifactId>
-                <version>${jackson.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.spullara.mustache.java</groupId>
@@ -152,7 +128,7 @@
             <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
-                <version>1.13</version>
+                <version>${commons-codec.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-fileupload</groupId>
@@ -190,16 +166,16 @@
                 <groupId>jakarta.enterprise</groupId>
                 <artifactId>jakarta.enterprise.cdi-api</artifactId>
                 <version>${jakarta-cdi.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.inject</groupId>
-                        <artifactId>javax.inject</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>jakarta.annotation</groupId>
-                        <artifactId>jakarta.annotation-api</artifactId>
-                    </exclusion>
-                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.inject</groupId>
+                <artifactId>jakarta.inject-api</artifactId>
+                <version>${jakarta-inject.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.inject</groupId>
+                <artifactId>jakarta.inject-tck</artifactId>
+                <version>${jakarta-inject-tck.version}</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.persistence</groupId>
@@ -214,7 +190,7 @@
             <dependency>
                 <groupId>jakarta.validation</groupId>
                 <artifactId>jakarta.validation-api</artifactId>
-                <version>2.0.1</version>
+                <version>${jakarta-validation.version}</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.websocket</groupId>
@@ -225,26 +201,6 @@
                 <groupId>jakarta.ws.rs</groupId>
                 <artifactId>jakarta.ws.rs-api</artifactId>
                 <version>${jakarta-rs.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.xml.bind</groupId>
-                <artifactId>jakarta.xml.bind-api</artifactId>
-                <version>${jakarta-bind.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.inject</groupId>
-                <artifactId>javax.inject-tck</artifactId>
-                <version>1</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.inject</groupId>
-                        <artifactId>javax.inject</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>junit</groupId>
-                        <artifactId>junit</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
@@ -267,24 +223,14 @@
                 <version>${httpclient.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.eclipse</groupId>
+                <artifactId>yasson</artifactId>
+                <version>${yasson.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.eclipse.persistence</groupId>
                 <artifactId>org.eclipse.persistence.jpa</artifactId>
                 <version>${eclipselink.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.validation</groupId>
-                        <artifactId>validation-api</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.eclipse.persistence</groupId>
-                        <artifactId>javax.persistence</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.hk2.external</groupId>
-                <artifactId>jakarta.inject</artifactId>
-                <version>${jakarta-inject.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
@@ -411,6 +357,8 @@
     </dependencyManagement>
     <build>
         <plugins>
+            <!--
+            Undertow currently has non conforming dependencies.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -429,6 +377,7 @@
                     </execution>
                 </executions>
             </plugin>
+             -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -486,14 +435,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.0</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.puppycrawl.tools</groupId>
-                        <artifactId>checkstyle</artifactId>
-                        <version>8.29</version>
-                    </dependency>
-                </dependencies>
+                <version>3.1.1</version>
                 <executions>
                     <execution>
                         <goals>

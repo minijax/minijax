@@ -8,7 +8,7 @@ import org.minijax.persistence.MinijaxEntityManager;
 
 public class MinijaxListAttribute<X, E>
         extends MinijaxPluralAttribute<X, List<E>, E>
-        implements javax.persistence.metamodel.ListAttribute<X, E> {
+        implements jakarta.persistence.metamodel.ListAttribute<X, E> {
 
     MinijaxListAttribute(final MinijaxAttribute.Builder<X, List<E>, E> builder) {
         super(builder);

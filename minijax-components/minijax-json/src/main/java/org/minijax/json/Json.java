@@ -1,29 +1,40 @@
 package org.minijax.json;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
+import jakarta.json.bind.JsonbConfig;
+import jakarta.json.bind.config.PropertyOrderStrategy;
+import jakarta.json.bind.config.PropertyVisibilityStrategy;
 
 public class Json {
-    private static ObjectMapper instance;
+    private static Jsonb instance;
 
     Json() {
         throw new UnsupportedOperationException();
     }
 
-    public static ObjectMapper getObjectMapper() {
+    public static Jsonb getObjectMapper() {
         if (instance == null) {
-            instance = new ObjectMapper();
-            instance.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-            instance.setSerializationInclusion(Include.NON_NULL);
-            instance.registerModule(new JaxbAnnotationModule());
-            instance.registerModule(new JavaTimeModule());
-            instance.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-            instance.registerModule(new AfterburnerModule());
+            final PropertyVisibilityStrategy visibility = new PropertyVisibilityStrategy() {
+                @Override
+                public boolean isVisible(final Field field) {
+                    return true;
+                }
+
+                @Override
+                public boolean isVisible(final Method method) {
+                    return false;
+                }
+            };
+
+            final JsonbConfig config = new JsonbConfig()
+                    .withPropertyVisibilityStrategy(visibility)
+                    .withPropertyOrderStrategy(PropertyOrderStrategy.LEXICOGRAPHICAL);
+
+            instance = JsonbBuilder.create(config);
         }
         return instance;
     }

@@ -2,14 +2,14 @@ package org.minijax.cdi;
 
 import static org.junit.Assert.*;
 
-import javax.enterprise.inject.InjectionException;
-import javax.inject.Inject;
-import javax.inject.Provider;
-import javax.inject.Singleton;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import jakarta.enterprise.inject.InjectionException;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
+import jakarta.inject.Singleton;
 
 public class InjectorTest {
     private MinijaxInjector injector;

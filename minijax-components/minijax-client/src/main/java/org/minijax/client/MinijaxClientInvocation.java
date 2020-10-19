@@ -3,13 +3,13 @@ package org.minijax.client;
 import java.io.IOException;
 import java.util.concurrent.Future;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.InvocationCallback;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.client.Invocation;
+import jakarta.ws.rs.client.InvocationCallback;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Response;
 
-public class MinijaxClientInvocation implements javax.ws.rs.client.Invocation {
+public class MinijaxClientInvocation implements jakarta.ws.rs.client.Invocation {
     private final MinijaxClient client;
     private final MinijaxClientHttpRequest httpRequest;
 

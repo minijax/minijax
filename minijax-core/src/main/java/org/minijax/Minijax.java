@@ -1,6 +1,6 @@
 package org.minijax;
 
-import static javax.ws.rs.HttpMethod.*;
+import static jakarta.ws.rs.HttpMethod.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.ws.rs.core.Application;
-import javax.ws.rs.core.CacheControl;
+import jakarta.ws.rs.core.Application;
+import jakarta.ws.rs.core.CacheControl;
 
 import org.apache.commons.io.IOUtils;
 import org.minijax.cdi.MinijaxInjector;
@@ -135,7 +135,7 @@ public class Minijax {
 
     @SuppressWarnings("unchecked")
     public Minijax register(final Class<?> componentClass) {
-        if (javax.ws.rs.core.Application.class.isAssignableFrom(componentClass)) {
+        if (jakarta.ws.rs.core.Application.class.isAssignableFrom(componentClass)) {
             applications.add(new MinijaxApplicationContext((Class<Application>) componentClass));
         } else {
             getDefaultApplication().register(componentClass);
@@ -200,9 +200,9 @@ public class Minijax {
     private boolean isAutoScanClass(final Class<?> c) {
         for (final Annotation a : c.getAnnotations()) {
             final Class<?> t = a.annotationType();
-            if (t == javax.ws.rs.ext.Provider.class
-                    || t == javax.ws.rs.ApplicationPath.class
-                    || t == javax.ws.rs.Path.class
+            if (t == jakarta.ws.rs.ext.Provider.class
+                    || t == jakarta.ws.rs.ApplicationPath.class
+                    || t == jakarta.ws.rs.Path.class
                     || t == OptionalClasses.SERVER_ENDPOINT) {
                 return true;
             }

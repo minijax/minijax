@@ -14,21 +14,21 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.PersistenceException;
-import javax.persistence.Transient;
-import javax.persistence.metamodel.Attribute;
-import javax.persistence.metamodel.CollectionAttribute;
-import javax.persistence.metamodel.IdentifiableType;
-import javax.persistence.metamodel.ListAttribute;
-import javax.persistence.metamodel.MapAttribute;
-import javax.persistence.metamodel.PluralAttribute;
-import javax.persistence.metamodel.PluralAttribute.CollectionType;
-import javax.persistence.metamodel.SetAttribute;
-import javax.persistence.metamodel.SingularAttribute;
-import javax.persistence.metamodel.Type;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.Transient;
+import jakarta.persistence.metamodel.Attribute;
+import jakarta.persistence.metamodel.CollectionAttribute;
+import jakarta.persistence.metamodel.IdentifiableType;
+import jakarta.persistence.metamodel.ListAttribute;
+import jakarta.persistence.metamodel.MapAttribute;
+import jakarta.persistence.metamodel.PluralAttribute;
+import jakarta.persistence.metamodel.PluralAttribute.CollectionType;
+import jakarta.persistence.metamodel.SetAttribute;
+import jakarta.persistence.metamodel.SingularAttribute;
+import jakarta.persistence.metamodel.Type;
 
 import org.minijax.persistence.MinijaxEntityManager;
 import org.minijax.persistence.MinijaxNativeQuery;
@@ -44,9 +44,9 @@ import org.minijax.persistence.wrapper.FieldWrapper;
 import org.minijax.persistence.wrapper.MemberWrapper;
 
 public class MinijaxEntityType<T>
-        implements javax.persistence.metamodel.EntityType<T>,
-                javax.persistence.metamodel.ManagedType<T>,
-                javax.persistence.metamodel.EmbeddableType<T> {
+        implements jakarta.persistence.metamodel.EntityType<T>,
+                jakarta.persistence.metamodel.ManagedType<T>,
+                jakarta.persistence.metamodel.EmbeddableType<T> {
 
     private final Class<T> javaType;
     private final String name;
@@ -415,7 +415,7 @@ public class MinijaxEntityType<T>
             final String annotationName = entityAnnotation != null ? entityAnnotation.name() : null;
             this.name = annotationName != null && !annotationName.isEmpty() ? annotationName : javaType.getSimpleName();
 
-            final javax.persistence.Table tableAnnotation = javaType.getAnnotation(javax.persistence.Table.class);
+            final jakarta.persistence.Table tableAnnotation = javaType.getAnnotation(jakarta.persistence.Table.class);
             final String annotationTableName = tableAnnotation != null ? tableAnnotation.name() : null;
             final String tableName = annotationTableName != null && !annotationTableName.isEmpty() ? annotationTableName : this.name.toUpperCase();
             this.table = new Table(metamodelBuilder.getSchema(), tableName);

@@ -2,15 +2,12 @@ package com.example.model;
 
 import java.time.Instant;
 
-import javax.persistence.Cacheable;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.persistence.Cacheable;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.ManyToOne;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -20,8 +17,6 @@ import org.minijax.dao.converters.InstantConverter;
 @Entity
 @Cacheable
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Visit extends DefaultBaseEntity {
     private static final long serialVersionUID = 1L;
     private String description;

@@ -3,7 +3,7 @@ package org.minijax.benchmark;
 import java.io.IOException;
 import java.net.URI;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.minijax.Minijax;
 import org.minijax.test.MinijaxTestWebTarget;

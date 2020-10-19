@@ -1,7 +1,7 @@
 package org.minijax.security;
 
-import javax.ws.rs.core.Feature;
-import javax.ws.rs.core.FeatureContext;
+import jakarta.ws.rs.core.Feature;
+import jakarta.ws.rs.core.FeatureContext;
 
 import org.minijax.cdi.MinijaxProvider;
 import org.minijax.commons.MinijaxProperties;

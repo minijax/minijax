@@ -2,7 +2,7 @@ package org.minijax.rs.cdi;
 
 import java.lang.annotation.Annotation;
 
-import javax.ws.rs.DefaultValue;
+import jakarta.ws.rs.DefaultValue;
 
 import org.minijax.rs.MinijaxRequestContext;
 

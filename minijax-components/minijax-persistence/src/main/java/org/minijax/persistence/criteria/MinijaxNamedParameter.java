@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class MinijaxNamedParameter<T>
         extends MinijaxExpression<T>
-        implements javax.persistence.criteria.ParameterExpression<T> {
+        implements jakarta.persistence.criteria.ParameterExpression<T> {
 
     private final String name;
 

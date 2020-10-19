@@ -1,6 +1,6 @@
 package org.minijax.client;
 
-import static javax.ws.rs.core.MediaType.*;
+import static jakarta.ws.rs.core.MediaType.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -9,8 +9,8 @@ import static org.mockito.Mockito.*;
 import java.lang.annotation.Annotation;
 import java.util.Locale;
 
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Response.Status;
 
 import org.apache.http.HttpVersion;
 import org.apache.http.client.methods.CloseableHttpResponse;

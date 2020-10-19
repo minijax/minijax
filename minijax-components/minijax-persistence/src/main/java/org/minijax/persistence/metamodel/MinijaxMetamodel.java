@@ -5,20 +5,20 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PersistenceException;
-import javax.persistence.metamodel.EmbeddableType;
-import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.ManagedType;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Entity;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.metamodel.EmbeddableType;
+import jakarta.persistence.metamodel.EntityType;
+import jakarta.persistence.metamodel.ManagedType;
 
 import org.minijax.persistence.MinijaxPersistenceUnitInfo;
 import org.minijax.persistence.criteria.MinijaxCriteriaQuery;
 import org.minijax.persistence.schema.Schema;
 import org.minijax.persistence.wrapper.MemberWrapper;
 
-public class MinijaxMetamodel implements javax.persistence.metamodel.Metamodel {
+public class MinijaxMetamodel implements jakarta.persistence.metamodel.Metamodel {
     private final Map<Class<?>, MinijaxEntityType<?>> entityTypes;
     private final Map<Class<?>, MinijaxEntityType<?>> embeddableTypes;
     private final Map<Class<?>, MinijaxEntityType<?>> managedTypes;

@@ -1,21 +1,20 @@
 package org.minijax.json;
 
-import static javax.ws.rs.core.MediaType.*;
+import static jakarta.ws.rs.core.MediaType.*;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-import javax.inject.Singleton;
-import javax.ws.rs.BadRequestException;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.ext.MessageBodyReader;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.inject.Singleton;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbException;
+import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.ext.MessageBodyReader;
 
 @Singleton
 @Consumes(APPLICATION_JSON)
@@ -41,15 +40,15 @@ public class MinijaxJsonReader implements MessageBodyReader<Object> {
             final InputStream entityStream)
                     throws IOException {
 
-        final ObjectMapper objectMapper = Json.getObjectMapper();
+        final Jsonb objectMapper = Json.getObjectMapper();
 
         try {
             if (genericType != null) {
-                return objectMapper.readValue(entityStream, objectMapper.getTypeFactory().constructType(genericType));
+                return objectMapper.fromJson(entityStream, genericType);
             } else {
-                return objectMapper.readValue(entityStream, type);
+                return objectMapper.fromJson(entityStream, type);
             }
-        } catch (final JsonProcessingException ex) {
+        } catch (final JsonbException ex) {
             throw new BadRequestException(ex.getMessage(), ex);
         }
     }

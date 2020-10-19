@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.util.Locale;
 
 import org.junit.Test;
-import org.minijax.dao.converters.LocaleConverter;
 
 public class LocaleConverterTest {
 

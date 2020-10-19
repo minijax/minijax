@@ -7,18 +7,21 @@ import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.enterprise.inject.InjectionException;
-import javax.inject.Provider;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-import javax.persistence.PersistenceProperty;
-import javax.persistence.SynchronizationType;
-
 import org.junit.Test;
 
+import jakarta.enterprise.inject.InjectionException;
+import jakarta.inject.Provider;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.PersistenceContextType;
+import jakarta.persistence.PersistenceProperty;
+import jakarta.persistence.SynchronizationType;
+
 public class PersistenceContextAnnotationProcessorTest {
+
+	public @interface OtherAnnotation {
+	}
 
     @Test
     public void testSimple() {
@@ -49,10 +52,10 @@ public class PersistenceContextAnnotationProcessorTest {
         final Map<String, EntityManagerFactory> factories = createFactories("");
         final PersistenceContextAnnotationProcessor p = new PersistenceContextAnnotationProcessor(factories);
         final Provider<EntityManager> provider = p.buildProvider(null, EntityManager.class, new Annotation[] {
-                new Deprecated() {
+                new OtherAnnotation() {
                     @Override
                     public Class<? extends Annotation> annotationType() {
-                        return Deprecated.class;
+                        return OtherAnnotation.class;
                     }},
                 createAnnotation(""),
             });

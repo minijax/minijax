@@ -42,7 +42,7 @@ public class BaseEntityTest {
         w.setId(UUID.fromString("00000000-0000-0000-0000-000000000000"));
         w.setCreatedDateTime(ZonedDateTime.of(2017, 10, 30, 4, 38, 0, 0, ZoneId.of("America/Los_Angeles")).toInstant());
         w.setName("foo");
-        assertEquals("{\"id\":\"00000000-0000-0000-0000-000000000000\",\"createdDateTime\":\"2017-10-30T11:38:00Z\",\"name\":\"foo\"}", w.toJson());
+        assertEquals("{\"createdDateTime\":\"2017-10-30T11:38:00Z\",\"id\":\"00000000-0000-0000-0000-000000000000\",\"name\":\"foo\"}", w.toJson());
     }
 
     @Test

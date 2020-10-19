@@ -5,7 +5,7 @@ import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 
-import javax.websocket.EncodeException;
+import jakarta.websocket.EncodeException;
 
 import org.junit.Test;
 

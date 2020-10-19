@@ -7,7 +7,6 @@ import java.net.URL;
 
 import org.junit.Test;
 import org.minijax.commons.MinijaxException;
-import org.minijax.dao.converters.UrlConverter;
 
 public class UrlConverterTest {
 

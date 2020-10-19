@@ -1,7 +1,7 @@
 package com.example;
 
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
 
 @Path("/post")
 public class PostResource {

@@ -2,9 +2,9 @@ package org.minijax.json;
 
 import static org.junit.Assert.*;
 
-import org.junit.Test;
+import jakarta.json.bind.Jsonb;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Test;
 
 public class ObjectMapperTest {
 
@@ -15,8 +15,8 @@ public class ObjectMapperTest {
 
     @Test
     public void testSingleton() {
-        final ObjectMapper m1 = Json.getObjectMapper();
-        final ObjectMapper m2 = Json.getObjectMapper();
+        final Jsonb m1 = Json.getObjectMapper();
+        final Jsonb m2 = Json.getObjectMapper();
         assertEquals(m1, m2);
         assertTrue(m1 == m2);
     }

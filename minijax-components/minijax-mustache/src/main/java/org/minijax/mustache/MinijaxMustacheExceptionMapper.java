@@ -1,12 +1,12 @@
 package org.minijax.mustache;
 
-import static javax.ws.rs.core.MediaType.*;
+import static jakarta.ws.rs.core.MediaType.*;
 
-import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
 
 import org.minijax.rs.delegates.MinijaxResponseBuilder;
 import org.minijax.rs.util.ExceptionUtils;

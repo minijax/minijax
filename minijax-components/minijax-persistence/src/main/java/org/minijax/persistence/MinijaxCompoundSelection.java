@@ -2,11 +2,11 @@ package org.minijax.persistence;
 
 import java.util.List;
 
-import javax.persistence.criteria.Selection;
+import jakarta.persistence.criteria.Selection;
 
 public class MinijaxCompoundSelection<X>
         extends MinijaxSelection<X>
-        implements javax.persistence.criteria.CompoundSelection<X> {
+        implements jakarta.persistence.criteria.CompoundSelection<X> {
 
     private final List<Selection<?>> selectionItems;
 

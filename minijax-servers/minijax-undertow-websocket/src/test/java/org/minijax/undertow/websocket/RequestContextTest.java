@@ -1,6 +1,6 @@
 package org.minijax.undertow.websocket;
 
-import static javax.ws.rs.HttpMethod.*;
+import static jakarta.ws.rs.HttpMethod.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.HttpHeaders;
 
 import org.junit.Test;
 import org.minijax.Minijax;

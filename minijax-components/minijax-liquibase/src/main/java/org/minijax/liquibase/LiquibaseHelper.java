@@ -13,24 +13,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathException;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+
 import org.minijax.commons.MinijaxProperties;
+import org.minijax.commons.XmlUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Attr;
@@ -38,7 +31,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import liquibase.Contexts;
 import liquibase.LabelExpression;
@@ -76,7 +68,6 @@ public class LiquibaseHelper {
     private static final File DEFAULT_RESOURCES_DIR = new File("src/main/resources");
     private static final String MIGRATIONS_DIR = "migrations";
     private static final String MASTER_CHANGELOG_RESOURCE_NAME = "master.changelog.xml";
-    private static final String XML_FACTORY = "com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl";
     private final String persistenceUnitName;
     private final String driver;
     private final String url;
@@ -219,7 +210,7 @@ public class LiquibaseHelper {
         props.put(MinijaxProperties.DB_URL, referenceUrl);
         props.put(MinijaxProperties.DB_USERNAME, username);
         props.put(MinijaxProperties.DB_PASSWORD, password);
-        props.put("javax.persistence.schema-generation.database.action", "drop-and-create");
+        props.put("jakarta.persistence.schema-generation.database.action", "drop-and-create");
 
         EntityManagerFactory emf = null;
         try {
@@ -381,11 +372,11 @@ public class LiquibaseHelper {
     }
 
     private void addIncludeFile(final File includeFile) throws IOException {
-        final Document doc = readXml(masterChangeLogFile);
+        final Document doc = XmlUtils.readXml(masterChangeLogFile);
         final Element include = doc.createElement("include");
         include.setAttribute("file", getRelativePath(includeFile));
         doc.getDocumentElement().appendChild(include);
-        writeXml(doc, masterChangeLogFile);
+        XmlUtils.writeXml(doc, masterChangeLogFile);
     }
 
     /**
@@ -397,43 +388,12 @@ public class LiquibaseHelper {
      */
     private static void cleanXmlFile(final File file) throws IOException {
         try {
-            final Document doc = readXml(file);
+            final Document doc = XmlUtils.readXml(file);
             final XPath xpath = XPathFactory.newInstance().newXPath();
             removeNodes(doc, xpath, "//@objectQuotingStrategy");
             removeNodes(doc, xpath, "//text()[normalize-space()='']");
-            writeXml(doc, file);
+            XmlUtils.writeXml(doc, file);
         } catch (final XPathException ex) {
-            throw new IOException(ex.getMessage(), ex);
-        }
-    }
-
-    private static Document readXml(final File file) throws IOException {
-        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
-
-        try {
-            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            return factory.newDocumentBuilder().parse(file);
-        } catch (ParserConfigurationException | SAXException ex) {
-            throw new IOException(ex.getMessage(), ex);
-        }
-    }
-
-    private static void writeXml(final Document doc, final File file) throws IOException {
-        doc.normalize();
-
-        final TransformerFactory transformerFactory = TransformerFactory.newInstance(XML_FACTORY, null);
-
-        try {
-            transformerFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-
-            final Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-            transformer.transform(new DOMSource(doc), new StreamResult(file));
-        } catch (final TransformerException ex) {
             throw new IOException(ex.getMessage(), ex);
         }
     }
@@ -461,7 +421,7 @@ public class LiquibaseHelper {
     }
 
     private static String generateFileName(final File masterChangeLogFile) throws IOException {
-        final int id = readXml(masterChangeLogFile).getDocumentElement().getElementsByTagName("include").getLength() + 1;
+        final int id = XmlUtils.readXml(masterChangeLogFile).getDocumentElement().getElementsByTagName("include").getLength() + 1;
         return String.format("changelog.%04d.xml", id);
     }
 }

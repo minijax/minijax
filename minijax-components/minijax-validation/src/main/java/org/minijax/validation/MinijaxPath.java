@@ -3,8 +3,8 @@ package org.minijax.validation;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.validation.ElementKind;
-import javax.validation.Path;
+import jakarta.validation.ElementKind;
+import jakarta.validation.Path;
 
 public class MinijaxPath implements Path {
     private final List<Node> nodes;

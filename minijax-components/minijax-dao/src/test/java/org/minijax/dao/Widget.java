@@ -2,9 +2,7 @@ package org.minijax.dao;
 
 import java.net.URI;
 
-import javax.persistence.Entity;
-
-import org.minijax.dao.DefaultNamedEntity;
+import jakarta.persistence.Entity;
 
 @Entity
 public class Widget extends DefaultNamedEntity {

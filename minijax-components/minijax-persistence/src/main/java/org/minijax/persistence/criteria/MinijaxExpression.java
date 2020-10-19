@@ -3,15 +3,15 @@ package org.minijax.persistence.criteria;
 import java.util.Collection;
 import java.util.UUID;
 
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Predicate;
 
 import org.minijax.persistence.MinijaxSelection;
 import org.minijax.persistence.criteria.MinijaxComparison.ComparisonType;
 
 public abstract class MinijaxExpression<T>
         extends MinijaxSelection<T>
-        implements javax.persistence.criteria.Expression<T> {
+        implements jakarta.persistence.criteria.Expression<T> {
 
     @SuppressWarnings("unchecked")
     public static <T> MinijaxExpression<T> ofLiteral(final T value) {

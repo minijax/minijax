@@ -1,25 +1,25 @@
 package org.minijax.rs.test;
 
-import static javax.ws.rs.HttpMethod.*;
+import static jakarta.ws.rs.HttpMethod.*;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.ws.rs.client.AsyncInvoker;
-import javax.ws.rs.client.CompletionStageRxInvoker;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.Invocation.Builder;
-import javax.ws.rs.client.RxInvoker;
-import javax.ws.rs.core.CacheControl;
-import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.client.AsyncInvoker;
+import jakarta.ws.rs.client.CompletionStageRxInvoker;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.Invocation;
+import jakarta.ws.rs.client.Invocation.Builder;
+import jakarta.ws.rs.client.RxInvoker;
+import jakarta.ws.rs.core.CacheControl;
+import jakarta.ws.rs.core.Cookie;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedHashMap;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
 
 import org.minijax.Minijax;
 import org.minijax.rs.MinijaxApplicationContext;
@@ -28,7 +28,7 @@ import org.minijax.rs.MinijaxUriInfo;
 import org.minijax.rs.util.EntityUtils;
 import org.minijax.rs.util.ExceptionUtils;
 
-public class MinijaxTestInvocationBuilder implements javax.ws.rs.client.Invocation.Builder {
+public class MinijaxTestInvocationBuilder implements jakarta.ws.rs.client.Invocation.Builder {
     private final MinijaxTestWebTarget target;
     private final MultivaluedMap<String, String> headers;
     private final Map<String, Cookie> cookies;

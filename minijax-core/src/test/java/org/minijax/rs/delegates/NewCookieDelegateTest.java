@@ -2,11 +2,10 @@ package org.minijax.rs.delegates;
 
 import static org.junit.Assert.*;
 
-import javax.ws.rs.core.NewCookie;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.minijax.rs.delegates.MinijaxNewCookieDelegate;
+
+import jakarta.ws.rs.core.NewCookie;
 
 public class NewCookieDelegateTest {
     private MinijaxNewCookieDelegate d;

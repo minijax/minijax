@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import javax.persistence.SharedCacheMode;
-import javax.persistence.ValidationMode;
-import javax.persistence.spi.ClassTransformer;
-import javax.persistence.spi.PersistenceUnitTransactionType;
 import javax.sql.DataSource;
 
-public class MinijaxPersistenceUnitInfo implements javax.persistence.spi.PersistenceUnitInfo {
+import jakarta.persistence.SharedCacheMode;
+import jakarta.persistence.ValidationMode;
+import jakarta.persistence.spi.ClassTransformer;
+import jakarta.persistence.spi.PersistenceUnitTransactionType;
+
+public class MinijaxPersistenceUnitInfo implements jakarta.persistence.spi.PersistenceUnitInfo {
     private final String name;
     private final String providerClassName;
     private final List<String> classNames;

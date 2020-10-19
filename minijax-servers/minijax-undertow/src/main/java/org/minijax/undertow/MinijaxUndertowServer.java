@@ -3,9 +3,9 @@ package org.minijax.undertow;
 import java.util.List;
 import java.util.Map.Entry;
 
-import javax.websocket.server.ServerEndpoint;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.websocket.server.ServerEndpoint;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import org.minijax.Minijax;
 import org.minijax.rs.MinijaxApplicationContext;

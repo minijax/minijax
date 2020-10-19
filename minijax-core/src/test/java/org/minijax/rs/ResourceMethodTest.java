@@ -1,6 +1,6 @@
 package org.minijax.rs;
 
-import static javax.ws.rs.HttpMethod.*;
+import static jakarta.ws.rs.HttpMethod.*;
 
 import static org.junit.Assert.*;
 
@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 
 import org.junit.Test;
 import org.minijax.rs.MinijaxResourceMethod;

@@ -1,17 +1,17 @@
 package org.minijax.json;
 
-import static javax.ws.rs.core.MediaType.*;
+import static jakarta.ws.rs.core.MediaType.*;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-import javax.inject.Singleton;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.ext.MessageBodyWriter;
+import jakarta.inject.Singleton;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.ext.MessageBodyWriter;
 
 @Singleton
 @Produces(APPLICATION_JSON)
@@ -38,6 +38,7 @@ public class MinijaxJsonWriter implements MessageBodyWriter<Object> {
             final OutputStream entityStream)
                     throws IOException {
 
-        Json.getObjectMapper().writeValue(entityStream, t);
+//        Json.getObjectMapper().writeValue(entityStream, t);
+        Json.getObjectMapper().toJson(t, entityStream);
     }
 }

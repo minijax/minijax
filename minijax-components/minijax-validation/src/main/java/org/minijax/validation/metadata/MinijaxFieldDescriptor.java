@@ -2,7 +2,7 @@ package org.minijax.validation.metadata;
 
 import java.lang.reflect.Field;
 
-import javax.validation.ValidationException;
+import jakarta.validation.ValidationException;
 
 public class MinijaxFieldDescriptor extends MinijaxPropertyDescriptor {
     private final Field field;

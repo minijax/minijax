@@ -1,8 +1,8 @@
 package org.minijax.validation.builtin;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.constraints.NotNull;
 
 public class NotNullValidator implements ConstraintValidator<NotNull, Object> {
     public static final NotNullValidator INSTANCE = new NotNullValidator();

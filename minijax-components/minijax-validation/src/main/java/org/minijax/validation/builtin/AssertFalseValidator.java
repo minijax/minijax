@@ -1,8 +1,8 @@
 package org.minijax.validation.builtin;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.constraints.AssertFalse;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.constraints.AssertFalse;
 
 public class AssertFalseValidator implements ConstraintValidator<AssertFalse, Boolean> {
     public static final AssertFalseValidator INSTANCE = new AssertFalseValidator();

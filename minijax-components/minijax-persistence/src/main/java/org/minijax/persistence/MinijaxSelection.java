@@ -2,10 +2,10 @@ package org.minijax.persistence;
 
 import java.util.List;
 
-import javax.persistence.PersistenceException;
-import javax.persistence.criteria.Selection;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.criteria.Selection;
 
-public class MinijaxSelection<X> implements javax.persistence.criteria.Selection<X> {
+public class MinijaxSelection<X> implements jakarta.persistence.criteria.Selection<X> {
     private final Class<? extends X> javaType;
     private String alias;
 

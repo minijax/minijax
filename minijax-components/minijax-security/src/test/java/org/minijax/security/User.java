@@ -2,10 +2,10 @@ package org.minijax.security;
 
 import java.net.URI;
 
-import javax.persistence.Cacheable;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import jakarta.persistence.Cacheable;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 
 @Entity
 @Cacheable

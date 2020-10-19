@@ -1,6 +1,6 @@
 package org.minijax.cdi;
 
-import javax.inject.Provider;
+import jakarta.inject.Provider;
 
 public interface MinijaxProvider<T> extends Provider<T> {
 

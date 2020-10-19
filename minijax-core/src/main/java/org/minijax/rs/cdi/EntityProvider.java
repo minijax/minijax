@@ -6,9 +6,9 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import javax.enterprise.inject.InjectionException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.enterprise.inject.InjectionException;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.minijax.cdi.MinijaxProvider;
 import org.minijax.rs.MinijaxRequestContext;

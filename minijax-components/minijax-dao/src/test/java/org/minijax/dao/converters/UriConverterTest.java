@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.net.URI;
 
 import org.junit.Test;
-import org.minijax.dao.converters.UriConverter;
 
 public class UriConverterTest {
 

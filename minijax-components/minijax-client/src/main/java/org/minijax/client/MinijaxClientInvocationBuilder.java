@@ -1,6 +1,6 @@
 package org.minijax.client;
 
-import static javax.ws.rs.HttpMethod.*;
+import static jakarta.ws.rs.HttpMethod.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,23 +12,23 @@ import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import javax.ws.rs.client.AsyncInvoker;
-import javax.ws.rs.client.CompletionStageRxInvoker;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.RxInvoker;
-import javax.ws.rs.core.CacheControl;
-import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.client.AsyncInvoker;
+import jakarta.ws.rs.client.CompletionStageRxInvoker;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.RxInvoker;
+import jakarta.ws.rs.core.CacheControl;
+import jakarta.ws.rs.core.Cookie;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
 
 import org.apache.http.entity.InputStreamEntity;
 import org.minijax.commons.MinijaxException;
 import org.minijax.rs.util.EntityUtils;
 
-public class MinijaxClientInvocationBuilder implements javax.ws.rs.client.Invocation.Builder {
+public class MinijaxClientInvocationBuilder implements jakarta.ws.rs.client.Invocation.Builder {
     private static final String TRACE = "TRACE";
     private final MinijaxClient client;
     private final MinijaxClientHttpRequest httpRequest;

@@ -3,10 +3,10 @@ package org.minijax.rs.persistence;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
-import javax.enterprise.inject.InjectionException;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
+import jakarta.enterprise.inject.InjectionException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceContext;
 
 import org.minijax.cdi.MinijaxInjectorState;
 import org.minijax.cdi.MinijaxProvider;

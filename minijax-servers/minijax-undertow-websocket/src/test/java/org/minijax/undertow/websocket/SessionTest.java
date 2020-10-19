@@ -4,9 +4,9 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 
-import javax.websocket.MessageHandler;
-import javax.websocket.MessageHandler.Partial;
-import javax.websocket.MessageHandler.Whole;
+import jakarta.websocket.MessageHandler;
+import jakarta.websocket.MessageHandler.Partial;
+import jakarta.websocket.MessageHandler.Whole;
 
 import org.junit.Test;
 

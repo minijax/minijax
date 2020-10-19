@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 
 import java.util.Arrays;
 
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedHashMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.junit.Test;
 import org.minijax.rs.test.MinijaxTestHttpHeaders;

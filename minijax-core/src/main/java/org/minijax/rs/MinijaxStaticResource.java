@@ -1,17 +1,17 @@
 package org.minijax.rs;
 
-import static javax.ws.rs.HttpMethod.*;
-import static javax.ws.rs.core.MediaType.*;
+import static jakarta.ws.rs.HttpMethod.*;
+import static jakarta.ws.rs.core.MediaType.*;
 
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.Collections;
 
-import javax.ws.rs.core.CacheControl;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.CacheControl;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 public class MinijaxStaticResource extends MinijaxResourceMethod {
     private static final CacheControl PUBLIC = CacheControl.valueOf("public, max-age=31536000");

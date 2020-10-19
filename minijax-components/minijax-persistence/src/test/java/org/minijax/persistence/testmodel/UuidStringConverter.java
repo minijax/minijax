@@ -2,8 +2,8 @@ package org.minijax.persistence.testmodel;
 
 import java.util.UUID;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 import org.minijax.commons.IdUtils;
 

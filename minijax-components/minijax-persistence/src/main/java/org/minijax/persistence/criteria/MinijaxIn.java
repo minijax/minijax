@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Expression;
 
-public class MinijaxIn<T> extends MinijaxPredicate implements javax.persistence.criteria.CriteriaBuilder.In<T> {
+public class MinijaxIn<T> extends MinijaxPredicate implements jakarta.persistence.criteria.CriteriaBuilder.In<T> {
     private final MinijaxExpression<T> expression;
     private final List<MinijaxExpression<? extends T>> values;
 

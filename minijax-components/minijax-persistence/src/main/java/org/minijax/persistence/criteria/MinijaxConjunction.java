@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Predicate;
 
 public class MinijaxConjunction extends MinijaxPredicate {
     private final BooleanOperator operator;

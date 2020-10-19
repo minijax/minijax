@@ -5,16 +5,16 @@ import static org.junit.Assert.*;
 import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.Tuple;
-import javax.persistence.criteria.CollectionJoin;
-import javax.persistence.criteria.CriteriaBuilder.Trimspec;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.ListJoin;
-import javax.persistence.criteria.MapJoin;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.SetJoin;
+import jakarta.persistence.Tuple;
+import jakarta.persistence.criteria.CollectionJoin;
+import jakarta.persistence.criteria.CriteriaBuilder.Trimspec;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.ListJoin;
+import jakarta.persistence.criteria.MapJoin;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.SetJoin;
 
 import org.junit.After;
 import org.junit.Before;

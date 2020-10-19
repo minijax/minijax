@@ -2,8 +2,8 @@ package org.minijax.rs.cdi;
 
 import java.lang.annotation.Annotation;
 
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.HeaderParam;
+import jakarta.ws.rs.DefaultValue;
+import jakarta.ws.rs.HeaderParam;
 
 import org.minijax.cdi.MinijaxInjectorState;
 import org.minijax.cdi.MinijaxProvider;

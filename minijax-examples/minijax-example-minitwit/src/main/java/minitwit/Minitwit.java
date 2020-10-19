@@ -6,11 +6,11 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-import javax.annotation.security.*;
-import javax.inject.*;
-import javax.persistence.*;
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
+import jakarta.annotation.security.*;
+import jakarta.inject.*;
+import jakarta.persistence.*;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 
 import org.minijax.*;
 import org.minijax.dao.*;

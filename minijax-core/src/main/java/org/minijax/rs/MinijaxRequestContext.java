@@ -1,6 +1,6 @@
 package org.minijax.rs;
 
-import static javax.ws.rs.core.MediaType.*;
+import static jakarta.ws.rs.core.MediaType.*;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -15,22 +15,22 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.ws.rs.BadRequestException;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Request;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Cookie;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Request;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 
 import org.minijax.commons.IOUtils;
 import org.minijax.rs.cdi.ResourceCache;
 import org.minijax.rs.multipart.Multipart;
 
 public abstract class MinijaxRequestContext
-        implements javax.ws.rs.container.ContainerRequestContext, javax.ws.rs.container.ResourceContext, Closeable {
+        implements jakarta.ws.rs.container.ContainerRequestContext, jakarta.ws.rs.container.ResourceContext, Closeable {
 
     private final MinijaxApplicationContext applicationContext;
     private final ResourceCache resourceCache;

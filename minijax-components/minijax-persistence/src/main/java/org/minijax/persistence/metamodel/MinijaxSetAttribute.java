@@ -8,7 +8,7 @@ import org.minijax.persistence.MinijaxEntityManager;
 
 public class MinijaxSetAttribute<X, E>
         extends MinijaxPluralAttribute<X, Set<E>, E>
-        implements javax.persistence.metamodel.SetAttribute<X, E> {
+        implements jakarta.persistence.metamodel.SetAttribute<X, E> {
 
     MinijaxSetAttribute(final MinijaxAttribute.Builder<X, Set<E>, E> builder) {
         super(builder);

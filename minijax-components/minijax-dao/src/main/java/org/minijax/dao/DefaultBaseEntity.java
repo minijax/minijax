@@ -7,14 +7,12 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 
 import org.minijax.commons.IdUtils;
 import org.minijax.dao.converters.InstantConverter;
@@ -35,7 +33,6 @@ import org.slf4j.LoggerFactory;
  * </ul>
  */
 @MappedSuperclass
-@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class DefaultBaseEntity implements BaseEntity {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultBaseEntity.class);
     private static final long serialVersionUID = 1L;
@@ -202,7 +199,11 @@ public abstract class DefaultBaseEntity implements BaseEntity {
     }
 
     public String toJson() throws IOException {
-        return Json.getObjectMapper().writeValueAsString(this);
+        return Json.getObjectMapper().toJson(this);
+    }
+
+    public static <T extends DefaultBaseEntity> T fromJson(final Class<T> c, final String str) throws IOException {
+        return Json.getObjectMapper().fromJson(str, c);
     }
 
     /**
@@ -240,9 +241,5 @@ public abstract class DefaultBaseEntity implements BaseEntity {
         } catch (final IllegalAccessException ex) {
             LOG.error(ex.getMessage(), ex);
         }
-    }
-
-    public static <T extends DefaultBaseEntity> T fromJson(final Class<T> c, final String str) throws IOException {
-        return Json.getObjectMapper().readValue(str, c);
     }
 }

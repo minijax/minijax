@@ -5,12 +5,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
+import org.minijax.commons.XmlUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Attr;
@@ -47,9 +46,11 @@ class PersistenceUtils {
 
     private static List<String> scanPersistenceXml(final InputStream in)
             throws Exception { // NOSONAR
-        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-        final Document doc = factory.newDocumentBuilder().parse(in);
+        final Document doc = XmlUtils.readXml(in, false);
+
+        // https://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
+        doc.getDocumentElement().normalize();
+
         final XPathExpression expr = XPathFactory.newInstance().newXPath().compile("/persistence/persistence-unit/@name");
         final NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
         final List<String> result = new ArrayList<>(nodes.getLength());

@@ -1,20 +1,9 @@
-
 package org.minijax.json;
 
-import javax.ws.rs.WebApplicationException;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.ws.rs.WebApplicationException;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.NONE)
-class MinijaxJsonExceptionWrapper {
-
-    @XmlElement(name = "code")
+public class MinijaxJsonExceptionWrapper {
     private final int code;
-
-    @XmlElement(name = "message")
     private final String message;
 
     private MinijaxJsonExceptionWrapper(final int code, final String message) {

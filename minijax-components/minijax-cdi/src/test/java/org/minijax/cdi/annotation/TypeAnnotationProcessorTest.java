@@ -6,11 +6,11 @@ import static org.junit.Assert.*;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 
-import javax.inject.Scope;
-
 import org.junit.Test;
 import org.minijax.cdi.MinijaxInjector;
 import org.minijax.cdi.MinijaxProvider;
+
+import jakarta.inject.Scope;
 
 public class TypeAnnotationProcessorTest {
 

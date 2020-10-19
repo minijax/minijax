@@ -4,10 +4,9 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.PersistenceException;
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilderFactory;
+import jakarta.persistence.PersistenceException;
 
+import org.minijax.commons.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -36,9 +35,7 @@ public class MinijaxPersistenceFile {
                 throw new PersistenceException("Persistence unit info not found (\"" + fileName + "\")");
             }
 
-            final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            final Document doc = factory.newDocumentBuilder().parse(in);
+            final Document doc = XmlUtils.readXml(in, false);
 
             // https://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
             doc.getDocumentElement().normalize();

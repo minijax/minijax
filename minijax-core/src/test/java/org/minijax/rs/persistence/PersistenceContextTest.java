@@ -1,18 +1,17 @@
 package org.minijax.rs.persistence;
 
-import static javax.ws.rs.HttpMethod.*;
+import static jakarta.ws.rs.HttpMethod.*;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 import org.junit.Test;
 import org.minijax.Minijax;
 import org.minijax.rs.MinijaxApplicationContext;
 import org.minijax.rs.MinijaxRequestContext;
-import org.minijax.rs.persistence.PersistenceFeature;
 import org.minijax.rs.test.MinijaxTestRequestContext;
 
 public class PersistenceContextTest {
@@ -48,7 +47,7 @@ public class PersistenceContextTest {
 
             final Widget result = dao.create(widget);
             assertNotNull(result);
-            assertNotNull(result.getId());
+            assertEquals(123, result.getId());
         }
 
         container.getInjector().close();

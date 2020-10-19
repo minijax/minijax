@@ -4,7 +4,7 @@ import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 
-import javax.websocket.OnMessage;
+import jakarta.websocket.OnMessage;
 
 import org.junit.Test;
 import org.minijax.Minijax;

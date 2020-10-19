@@ -1,6 +1,6 @@
 package org.minijax.persistence.criteria;
 
-public class MinijaxOrder implements javax.persistence.criteria.Order {
+public class MinijaxOrder implements jakarta.persistence.criteria.Order {
     private final MinijaxExpression<?> expression;
     private final boolean ascending;
 

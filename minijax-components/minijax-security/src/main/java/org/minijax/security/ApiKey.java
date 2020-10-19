@@ -2,20 +2,17 @@ package org.minijax.security;
 
 import java.util.UUID;
 
-import javax.persistence.Cacheable;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Index;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.persistence.Cacheable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Index;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import org.minijax.dao.DefaultBaseEntity;
 import org.minijax.dao.converters.UuidConverter;
@@ -26,8 +23,6 @@ import org.minijax.dao.converters.UuidConverter;
 @Entity
 @Cacheable
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 @Table(indexes = { @Index(columnList = "USERID", unique = false) })
 @NamedQuery(
         name = "ApiKey.findByUser",

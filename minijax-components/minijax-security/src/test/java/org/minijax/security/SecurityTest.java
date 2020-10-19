@@ -6,11 +6,11 @@ import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 
-import javax.ws.rs.BadRequestException;
-import javax.ws.rs.NotAuthorizedException;
-import javax.ws.rs.core.Configuration;
-import javax.ws.rs.core.NewCookie;
-import javax.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.NotAuthorizedException;
+import jakarta.ws.rs.core.Configuration;
+import jakarta.ws.rs.core.NewCookie;
+import jakarta.ws.rs.core.SecurityContext;
 
 import org.junit.After;
 import org.junit.Before;

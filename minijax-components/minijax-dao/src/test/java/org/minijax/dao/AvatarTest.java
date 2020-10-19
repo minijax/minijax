@@ -3,7 +3,6 @@ package org.minijax.dao;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.minijax.dao.Avatar;
 
 public class AvatarTest {
 

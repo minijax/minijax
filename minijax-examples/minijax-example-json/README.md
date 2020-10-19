@@ -63,7 +63,6 @@ The `@Produces` annotation declares that, by default, resource methods produce J
 Next, let's declare an entity type:
 
 ```java
-@XmlRootElement
 public static class Widget {
     public String id;
     public String value;

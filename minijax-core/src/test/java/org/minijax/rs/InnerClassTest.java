@@ -2,8 +2,8 @@ package org.minijax.rs;
 
 import static org.junit.Assert.*;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

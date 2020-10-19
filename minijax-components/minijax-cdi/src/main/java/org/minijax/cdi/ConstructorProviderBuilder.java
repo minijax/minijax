@@ -18,9 +18,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.enterprise.inject.InjectionException;
-import javax.inject.Inject;
-import javax.inject.Provider;
+import jakarta.enterprise.inject.InjectionException;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
 
 /**
  * The ConstructorProviderBuilder class builds the list of injection methods for a class.

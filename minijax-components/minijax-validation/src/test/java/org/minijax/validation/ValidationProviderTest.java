@@ -2,7 +2,6 @@ package org.minijax.validation;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minijax.validation.MinijaxValidationProvider;
 
 public class ValidationProviderTest {
     private MinijaxValidationProvider provider;

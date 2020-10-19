@@ -8,14 +8,14 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-import javax.validation.executable.ExecutableValidator;
-import javax.validation.metadata.BeanDescriptor;
-import javax.validation.metadata.ConstraintDescriptor;
-import javax.validation.metadata.ContainerElementTypeDescriptor;
-import javax.validation.metadata.PropertyDescriptor;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
+import jakarta.validation.executable.ExecutableValidator;
+import jakarta.validation.metadata.BeanDescriptor;
+import jakarta.validation.metadata.ConstraintDescriptor;
+import jakarta.validation.metadata.ContainerElementTypeDescriptor;
+import jakarta.validation.metadata.PropertyDescriptor;
 
 import org.minijax.commons.CopyOnWriteMap;
 import org.minijax.validation.metadata.MinijaxBeanDescriptor;

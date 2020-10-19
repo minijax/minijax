@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import java.net.URI;
 import java.util.Collections;
 
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 
 import org.junit.Test;
 import org.minijax.rs.uri.MinijaxUriBuilder;

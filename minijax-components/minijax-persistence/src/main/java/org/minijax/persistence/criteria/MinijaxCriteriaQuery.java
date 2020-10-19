@@ -5,22 +5,22 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.ParameterExpression;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Predicate.BooleanOperator;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Selection;
-import javax.persistence.criteria.Subquery;
-import javax.persistence.metamodel.EntityType;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Order;
+import jakarta.persistence.criteria.ParameterExpression;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Predicate.BooleanOperator;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Selection;
+import jakarta.persistence.criteria.Subquery;
+import jakarta.persistence.metamodel.EntityType;
 
 import org.minijax.persistence.MinijaxSelection;
 import org.minijax.persistence.metamodel.MinijaxEntityType;
 import org.minijax.persistence.metamodel.MinijaxMetamodel;
 
-public class MinijaxCriteriaQuery<T> implements javax.persistence.criteria.CriteriaQuery<T> {
+public class MinijaxCriteriaQuery<T> implements jakarta.persistence.criteria.CriteriaQuery<T> {
     private final MinijaxMetamodel metamodel;
     private final Class<T> resultType;
     private final LinkedHashSet<MinijaxRoot<?>> roots;

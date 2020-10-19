@@ -1,8 +1,8 @@
 package org.minijax.validation;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Path;
-import javax.validation.metadata.ConstraintDescriptor;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Path;
+import jakarta.validation.metadata.ConstraintDescriptor;
 
 public class MinijaxConstraintViolation<T> implements ConstraintViolation<T> {
     private final T rootBean;

@@ -2,18 +2,13 @@ package org.minijax.persistence.testmodel;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 
 /**
  * The Address class represents a standard mailing address.
  */
 @Embeddable
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Address implements Serializable {
     private static final long serialVersionUID = 1L;
 

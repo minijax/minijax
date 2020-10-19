@@ -1,6 +1,6 @@
 package org.minijax.rs.util;
 
-import javax.ws.rs.WebApplicationException;
+import jakarta.ws.rs.WebApplicationException;
 
 public class ExceptionUtils {
 

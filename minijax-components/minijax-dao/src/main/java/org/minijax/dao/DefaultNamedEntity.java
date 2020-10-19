@@ -2,20 +2,17 @@ package org.minijax.dao;
 
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 /**
  * The NamedEntity class is a base class for web entities with names.
  */
 @MappedSuperclass
-@XmlAccessorType(XmlAccessType.FIELD)
 @SuppressWarnings({ "squid:S2160", "squid:S2637" })
 public abstract class DefaultNamedEntity extends DefaultBaseEntity implements NamedEntity {
     private static final long serialVersionUID = 1L;

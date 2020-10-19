@@ -2,10 +2,10 @@ package org.minijax.persistence.criteria;
 
 import java.util.List;
 
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Predicate;
 
-public abstract class MinijaxPredicate extends MinijaxExpression<Boolean> implements javax.persistence.criteria.Predicate {
+public abstract class MinijaxPredicate extends MinijaxExpression<Boolean> implements jakarta.persistence.criteria.Predicate {
 
     public MinijaxPredicate() {
         super(Boolean.class);

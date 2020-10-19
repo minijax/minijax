@@ -2,7 +2,7 @@ package com.example;
 
 import static org.junit.Assert.*;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.junit.Before;
 import org.junit.Test;

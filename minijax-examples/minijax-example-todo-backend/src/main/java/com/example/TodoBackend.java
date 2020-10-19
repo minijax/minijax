@@ -1,13 +1,23 @@
 package com.example;
 
-import static javax.ws.rs.core.MediaType.*;
+import static jakarta.ws.rs.core.MediaType.*;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.inject.Singleton;
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
-import javax.xml.bind.annotation.*;
+import jakarta.inject.Singleton;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 
 import org.minijax.Minijax;
 import org.minijax.json.JsonFeature;
@@ -17,9 +27,7 @@ import org.minijax.json.JsonFeature;
 @Singleton
 public class TodoBackend {
 
-    @XmlRootElement
-    @XmlAccessorType(XmlAccessType.FIELD)
-    public static class Post {
+        public static class Post {
         int id;
         String title;
         String value;

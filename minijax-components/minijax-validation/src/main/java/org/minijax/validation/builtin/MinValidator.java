@@ -1,8 +1,8 @@
 package org.minijax.validation.builtin;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.constraints.Min;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.constraints.Min;
 
 public class MinValidator implements ConstraintValidator<Min, Number> {
     private final Min min;

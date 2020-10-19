@@ -3,16 +3,16 @@ package org.minijax.persistence.criteria;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Path;
-import javax.persistence.metamodel.Bindable;
-import javax.persistence.metamodel.MapAttribute;
-import javax.persistence.metamodel.PluralAttribute;
-import javax.persistence.metamodel.SingularAttribute;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.metamodel.Bindable;
+import jakarta.persistence.metamodel.MapAttribute;
+import jakarta.persistence.metamodel.PluralAttribute;
+import jakarta.persistence.metamodel.SingularAttribute;
 
 public abstract class MinijaxPath<T>
         extends MinijaxExpression<T>
-        implements javax.persistence.criteria.Path<T> {
+        implements jakarta.persistence.criteria.Path<T> {
 
     public MinijaxPath(final Class<T> javaType) {
         super(javaType);

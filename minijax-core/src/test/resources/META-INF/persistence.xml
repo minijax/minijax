@@ -3,9 +3,9 @@
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>org.minijax.rs.persistence.Widget</class>
         <properties>
-            <property name="javax.persistence.jdbc.driver" value="org.h2.jdbcx.JdbcDataSource" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:" />
-            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
+            <property name="jakarta.persistence.jdbc.driver" value="org.h2.jdbcx.JdbcDataSource" />
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:" />
+            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create" />
         </properties>
     </persistence-unit>
 </persistence>

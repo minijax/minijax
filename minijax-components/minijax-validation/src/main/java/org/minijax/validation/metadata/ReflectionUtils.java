@@ -4,7 +4,7 @@ import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-import javax.validation.ValidationException;
+import jakarta.validation.ValidationException;
 
 public class ReflectionUtils {
 

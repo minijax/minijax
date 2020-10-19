@@ -3,11 +3,9 @@ package org.minijax.persistence;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.spi.PersistenceUnitInfo;
+import jakarta.persistence.spi.PersistenceUnitInfo;
 
 import org.junit.Test;
-import org.minijax.persistence.MinijaxPersistenceProvider;
-import org.minijax.persistence.MinijaxPersistenceUnitInfo;
 
 public class MinijaxPersistenceProviderTest {
 
@@ -20,8 +18,8 @@ public class MinijaxPersistenceProviderTest {
     @Test
     public void testCreateContainerEntityManagerFactory() {
         final Map<String, String> props = new HashMap<>();
-        props.put("javax.persistence.jdbc.driver", "org.h2.jdbcx.JdbcDataSource");
-        props.put("javax.persistence.jdbc.url", "jdbc:h2:mem:");
+        props.put("jakarta.persistence.jdbc.driver", "org.h2.jdbcx.JdbcDataSource");
+        props.put("jakarta.persistence.jdbc.url", "jdbc:h2:mem:");
 
         final MinijaxPersistenceProvider provider = new MinijaxPersistenceProvider();
         provider.createContainerEntityManagerFactory(new MinijaxPersistenceUnitInfo("testdb", ""), props);

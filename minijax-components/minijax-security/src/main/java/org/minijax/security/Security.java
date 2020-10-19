@@ -1,26 +1,26 @@
 package org.minijax.security;
 
-import static javax.ws.rs.core.HttpHeaders.*;
+import static jakarta.ws.rs.core.HttpHeaders.*;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.UUID;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.ws.rs.BadRequestException;
-import javax.ws.rs.CookieParam;
-import javax.ws.rs.ForbiddenException;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.NotAuthorizedException;
-import javax.ws.rs.core.Configuration;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.NewCookie;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.ext.Provider;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.CookieParam;
+import jakarta.ws.rs.ForbiddenException;
+import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.NotAuthorizedException;
+import jakarta.ws.rs.core.Configuration;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.NewCookie;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.ext.Provider;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.minijax.commons.IdUtils;
@@ -368,7 +368,7 @@ public class Security<T extends SecurityUser> implements SecurityContext {
      * @param maxAge The max age of the cookie.
      * @return The new cookie.
      */
-    @SuppressWarnings("squid:S3330") // Not a javax.servlet.http.Cookie
+    @SuppressWarnings("squid:S3330") // Not a jakarta.servlet.http.Cookie
     private NewCookie createCookie(final String value, final int maxAge) {
         return new NewCookie(COOKIE_NAME, value, COOKIE_PATH, COOKIE_DOMAIN, "", maxAge, false, true);
     }

@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response.StatusType;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response.StatusType;
 
 import org.minijax.rs.MinijaxApplicationContext;
 import org.slf4j.Logger;
@@ -34,7 +34,7 @@ public class MinijaxUndertowWebSocketConnectionCallback implements WebSocketConn
             final MinijaxUndertowWebSocketBasicRemote basicRemote = new MinijaxUndertowWebSocketBasicRemote(channel);
 
             final Map<Class<?>, Object> params = new HashMap<>();
-            params.put(javax.websocket.Session.class, new MinijaxUndertowWebSocketSession(basicRemote));
+            params.put(jakarta.websocket.Session.class, new MinijaxUndertowWebSocketSession(basicRemote));
 
             final MinijaxUndertowWebSocketAdapter endpoint = new MinijaxUndertowWebSocketAdapter(ctx, endpointClass);
             endpoint.onOpen(params);

@@ -1,6 +1,6 @@
 package org.minijax.security;
 
-import javax.ws.rs.core.NewCookie;
+import jakarta.ws.rs.core.NewCookie;
 
 public class ResetPasswordResult {
     public static final ResetPasswordResult NOT_FOUND = new ResetPasswordResult(Status.NOT_FOUND, null);

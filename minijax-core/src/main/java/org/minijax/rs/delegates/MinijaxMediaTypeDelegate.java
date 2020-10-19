@@ -2,8 +2,8 @@ package org.minijax.rs.delegates;
 
 import java.util.Map;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
 
 import org.minijax.commons.CopyOnWriteMap;
 import org.minijax.rs.util.UrlUtils;

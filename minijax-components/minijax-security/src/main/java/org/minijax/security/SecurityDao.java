@@ -5,7 +5,7 @@ import static org.minijax.dao.BaseDao.*;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 import org.minijax.dao.BaseDao;
 

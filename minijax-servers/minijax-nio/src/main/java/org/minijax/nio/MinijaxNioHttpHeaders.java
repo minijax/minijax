@@ -2,7 +2,7 @@ package org.minijax.nio;
 
 import java.util.List;
 
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.minijax.rs.MinijaxHttpHeaders;
 

@@ -1,8 +1,8 @@
 package org.minijax.validation.builtin;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.constraints.AssertTrue;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.constraints.AssertTrue;
 
 public class AssertTrueValidator implements ConstraintValidator<AssertTrue, Boolean> {
     public static final AssertTrueValidator INSTANCE = new AssertTrueValidator();

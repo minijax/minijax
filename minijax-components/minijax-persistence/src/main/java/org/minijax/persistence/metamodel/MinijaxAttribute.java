@@ -9,19 +9,19 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Convert;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PersistenceException;
-import javax.persistence.metamodel.ManagedType;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Convert;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.metamodel.ManagedType;
 
 import org.minijax.commons.GenericUtils;
 import org.minijax.persistence.MinijaxEntityManager;
@@ -35,7 +35,7 @@ import org.minijax.persistence.wrapper.MemberWrapper;
  * @param <X> The represented type that contains the attribute
  * @param <Y> The type of the represented attribute
  */
-public abstract class MinijaxAttribute<X, Y> implements javax.persistence.metamodel.Attribute<X, Y> {
+public abstract class MinijaxAttribute<X, Y> implements jakarta.persistence.metamodel.Attribute<X, Y> {
     protected final MinijaxMetamodel metamodel;
     protected final String name;
     protected final PersistentAttributeType persistentAttributeType;
@@ -135,7 +135,7 @@ public abstract class MinijaxAttribute<X, Y> implements javax.persistence.metamo
         }
 
         private static <X, Y> String buildName(final MemberWrapper<X, Y> field) {
-            final javax.persistence.Column columnAnnotation = field.getAnnotation(javax.persistence.Column.class);
+            final jakarta.persistence.Column columnAnnotation = field.getAnnotation(jakarta.persistence.Column.class);
             final String name = columnAnnotation == null ? null : columnAnnotation.name();
             return name == null || name.isEmpty() ? field.getName() : name;
         }

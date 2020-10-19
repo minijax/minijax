@@ -5,13 +5,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.PathSegment;
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.PathSegment;
+import jakarta.ws.rs.core.UriBuilder;
 
 import org.minijax.rs.util.UrlUtils;
 
-public class MinijaxUriInfo implements javax.ws.rs.core.UriInfo {
+public class MinijaxUriInfo implements jakarta.ws.rs.core.UriInfo {
     private final URI requestUri;
     private List<PathSegment> pathSegments;
     private MultivaluedMap<String, String> pathParameters;

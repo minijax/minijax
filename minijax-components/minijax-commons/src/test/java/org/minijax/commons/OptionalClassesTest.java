@@ -3,7 +3,6 @@ package org.minijax.commons;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.minijax.commons.OptionalClasses;
 
 public class OptionalClassesTest {
 

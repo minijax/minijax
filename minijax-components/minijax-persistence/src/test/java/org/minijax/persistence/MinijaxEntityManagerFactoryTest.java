@@ -2,7 +2,7 @@ package org.minijax.persistence;
 
 import java.util.Map;
 
-import javax.persistence.SynchronizationType;
+import jakarta.persistence.SynchronizationType;
 
 import org.junit.After;
 import org.junit.Before;

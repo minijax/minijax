@@ -1,10 +1,10 @@
 package org.minijax.rs;
 
-import static javax.ws.rs.core.MediaType.*;
+import static jakarta.ws.rs.core.MediaType.*;
 
 import static org.junit.Assert.*;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

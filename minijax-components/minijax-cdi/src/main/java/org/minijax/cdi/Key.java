@@ -3,9 +3,9 @@ package org.minijax.cdi;
 import java.lang.annotation.Annotation;
 import java.util.Objects;
 
-import javax.enterprise.inject.InjectionException;
-import javax.inject.Named;
-import javax.inject.Qualifier;
+import jakarta.enterprise.inject.InjectionException;
+import jakarta.inject.Named;
+import jakarta.inject.Qualifier;
 
 class Key<T> {
     protected final Class<T> type;

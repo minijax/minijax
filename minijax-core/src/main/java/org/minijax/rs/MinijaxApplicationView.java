@@ -3,7 +3,7 @@ package org.minijax.rs;
 import java.util.Map;
 import java.util.Set;
 
-import javax.ws.rs.core.Application;
+import jakarta.ws.rs.core.Application;
 
 class MinijaxApplicationView extends Application {
     private final MinijaxApplicationContext applicationContext;
