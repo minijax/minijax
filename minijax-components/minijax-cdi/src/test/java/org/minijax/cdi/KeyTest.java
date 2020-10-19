@@ -35,7 +35,6 @@ public class KeyTest {
             final Key<Object> k2 = injector.buildKey(Object.class);
             final Key<Exception> k3 = injector.buildKey(Exception.class);
 
-            assertEquals(k1, k1);
             assertEquals(k1, k2);
             assertNotEquals(k1, k3);
             assertEquals(k1.hashCode(), k2.hashCode());
