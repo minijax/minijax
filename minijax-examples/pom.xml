@@ -11,6 +11,7 @@
     <name>minijax-examples</name>
     <description>Minijax example applications</description>
     <modules>
+        <module>minijax-example-fileupload</module>
         <module>minijax-example-hello</module>
         <module>minijax-example-inject</module>
         <module>minijax-example-json</module>
