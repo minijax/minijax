@@ -1,56 +1,38 @@
-minijax-json
-============
+minijax-nio
+===========
 
-The minijax-json extension adds [Jackson](https://github.com/FasterXML/jackson) for JSON support including:
+The minijax-nio project is an experimental HTTP server for maximum performance.
 
-* `JaxbAnnotationModule` for JAXB annotations such as `@XmlRootElement`
-* `JavaTimeModule` for ISO-8601 serialization of `java.time` objects
-* `AfterburnerModule` for high performance serialization
-* JAX-RS integration including `MessageBodyReader`, `MessageBodyWriter`, and `ExceptionMapper`
+WARNING: This is an experimental project!
 
 Usage
 -----
 
-Step 1: Add the `minijax-json` Maven dependency to your pom.xml:
+Step 1: Add the `minijax-nio` Maven dependency to your pom.xml:
 
 ```xml
 <dependency>
     <groupId>org.minijax</groupId>
-    <artifactId>minijax-json</artifactId>
+    <artifactId>minijax-nio</artifactId>
     <version>${minijax.version}</version>
 </dependency>
 ```
 
-Step 2: Register the `JsonFeature.class` when you create the `Minijax` server:
+That's it!  Now you can use the `minijax-nio` server:
 
 ```java
-new Minijax()
-        .register(JsonFeature.class)
-        .register(HelloJson.class)
-        .start();
-```
+@Path("/")
+public class Hello {
 
-That's it!  Now you can use JSON serialization features in your resources:
-
-```java
-public static class Widget {
-    String id;
-    String value;
-
-    public Widget() {
+    @GET
+    public static String hello() {
+        return "Hello world!";
     }
 
-    public Widget(final String id, final String value) {
-        this.id = id;
-        this.value = value;
+    public static void main(String[] args) {
+        new Minijax()
+                .register(Hello.class)
+                .start();
     }
 }
-
-@GET
-@Produces(APPLICATION_JSON)
-public static Collection<Widget> read() {
-    return WIDGETS.values();
-}
 ```
-
-See [minijax-example-json](https://github.com/minijax/minijax/blob/master/minijax-examples/minijax-example-json) for a full example using `minijax-json`.

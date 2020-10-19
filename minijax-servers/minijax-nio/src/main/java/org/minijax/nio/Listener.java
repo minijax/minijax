@@ -11,20 +11,19 @@ import java.nio.channels.spi.SelectorProvider;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.minijax.Minijax;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 class Listener implements Runnable {
     private static final Logger LOG = LoggerFactory.getLogger(Listener.class);
-    private final Minijax minijax;
     private final SelectorProvider selectorProvider;
+    private final int port;
     private volatile boolean running;
     private Worker currentWorker;
 
-    public Listener(final Minijax minijax, final SelectorProvider selectorProvider) {
-        this.minijax = minijax;
+    public Listener(final SelectorProvider selectorProvider, final int port) {
         this.selectorProvider = selectorProvider;
+        this.port = port;
     }
 
     public boolean isRunning() {
@@ -54,9 +53,9 @@ class Listener implements Runnable {
 
             LOG.info("Creating server socket...");
             final ServerSocket serverSocket = serverChannel.socket();
-            serverSocket.setReceiveBufferSize(Config.RECEIVE_BUFFER_SIZE);
+            serverSocket.setReceiveBufferSize(Config.LISTENER_BUFFER_SIZE);
             serverSocket.setReuseAddress(true);
-            serverSocket.bind(new InetSocketAddress(minijax.getPort()), Config.MAX_CONNECTIONS);
+            serverSocket.bind(new InetSocketAddress(port), Config.MAX_CONNECTIONS);
 
             LOG.info("Registering server...");
             final Selector selector = selectorProvider.openSelector();

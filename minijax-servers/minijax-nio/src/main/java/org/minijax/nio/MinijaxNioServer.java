@@ -43,7 +43,7 @@ public class MinijaxNioServer implements MinijaxServer {
 
         // Create the listener.
         // The listeners job is only to listen on the server socket for incoming connections.
-        listener = new Listener(minijax, selectorProvider);
+        listener = new Listener(selectorProvider, minijax.getPort());
 
         // Create the workers.
         // The workers process incoming connections and manage the reading and writing.
