@@ -201,7 +201,6 @@ public class MinijaxEntityManagerTest {
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    @SuppressWarnings("rawtypes")
     public void testCreateNativeQuery1() {
         em.createNativeQuery("", Widget.class);
     }
@@ -222,7 +221,6 @@ public class MinijaxEntityManagerTest {
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    @SuppressWarnings("rawtypes")
     public void testCreateStoredProcedureQuery2() {
         em.createStoredProcedureQuery("", Widget.class);
     }

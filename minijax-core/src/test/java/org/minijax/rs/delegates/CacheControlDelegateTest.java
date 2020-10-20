@@ -6,7 +6,6 @@ import jakarta.ws.rs.core.CacheControl;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minijax.rs.delegates.MinijaxCacheControlDelegate;
 
 public class CacheControlDelegateTest {
     private MinijaxCacheControlDelegate d;

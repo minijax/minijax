@@ -3,7 +3,6 @@ package org.minijax.rs.uri;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.minijax.rs.uri.ImplicitTemplateMap;
 
 public class ImplicitTemplateMapTest {
 

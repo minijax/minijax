@@ -15,7 +15,6 @@ public class MinijaxBindingsEnumeration implements NamingEnumeration<Binding> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Binding next() {
         final Entry<Object, Object> entry = iterator.next();
         return new Binding(entry.getKey().toString(), entry.getValue());

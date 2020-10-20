@@ -57,7 +57,6 @@ public class MinijaxInjector implements Closeable {
         return new Key<>(type, name);
     }
 
-    @SuppressWarnings("unchecked")
     <T> Key<T> buildKey(final Class<T> type, final Annotation[] annotations) {
         Annotation injectAnnotation = null;
 

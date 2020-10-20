@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import org.junit.Test;
-import org.minijax.rs.persistence.PersistenceUtils;
 
 public class PersistenceUtilsTest {
 

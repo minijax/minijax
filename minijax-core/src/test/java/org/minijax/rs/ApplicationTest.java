@@ -12,7 +12,6 @@ import jakarta.ws.rs.core.Application;
 
 import org.junit.Test;
 import org.minijax.Minijax;
-import org.minijax.rs.MinijaxApplicationContext;
 
 public class ApplicationTest {
 

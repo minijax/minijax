@@ -9,7 +9,6 @@ import jakarta.ws.rs.core.MediaType;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minijax.rs.delegates.MinijaxMediaTypeDelegate;
 
 public class MediaTypeDelegateTest {
     private MinijaxMediaTypeDelegate d;

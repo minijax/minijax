@@ -15,7 +15,6 @@ import jakarta.ws.rs.core.Response.ResponseBuilder;
 import jakarta.ws.rs.core.Variant;
 
 import org.junit.Test;
-import org.minijax.rs.delegates.MinijaxResponseBuilder;
 import org.minijax.rs.test.MinijaxTest;
 
 public class ResponseBuilderTest extends MinijaxTest {

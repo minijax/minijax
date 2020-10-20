@@ -1,7 +1,6 @@
 package org.minijax.rs;
 
 import static jakarta.ws.rs.HttpMethod.*;
-
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 
 import org.junit.Test;
-import org.minijax.rs.MinijaxResourceMethod;
 
 public class ResourceMethodTest {
 

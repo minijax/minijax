@@ -31,7 +31,6 @@ public class SecurityFeature implements Feature {
     public static class SecurityFeatureUserProvider implements MinijaxProvider<SecurityUser> {
 
         @Override
-        @SuppressWarnings("unchecked")
         public SecurityUser get(final Object context) {
             return ((MinijaxRequestContext) context).getResource(Security.class).getUserPrincipal();
         }

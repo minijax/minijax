@@ -12,8 +12,6 @@ import jakarta.ws.rs.core.GenericType;
 import org.junit.Test;
 import org.minijax.rs.Widget;
 import org.minijax.rs.WidgetWriter;
-import org.minijax.rs.delegates.MinijaxResponse;
-import org.minijax.rs.delegates.MinijaxResponseBuilder;
 import org.minijax.rs.test.MinijaxTest;
 
 public class ResponseTest extends MinijaxTest {

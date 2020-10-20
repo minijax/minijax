@@ -100,7 +100,6 @@ public class ConstructorProviderBuilder<T> {
         return constructor;
     }
 
-    @SuppressWarnings("unchecked")
     private List<InjectionSet> buildInjectionSets() {
         for (final Class<?> type : types) {
             processType(type);

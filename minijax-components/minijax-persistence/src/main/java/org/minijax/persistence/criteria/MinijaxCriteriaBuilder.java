@@ -94,7 +94,6 @@ public class MinijaxCriteriaBuilder implements jakarta.persistence.criteria.Crit
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public MinijaxPredicate like(final Expression<String> x, final Expression<String> pattern) {
         return new MinijaxComparison<String>(ComparisonType.LIKE, (MinijaxExpression<String>) x, (MinijaxExpression<String>) pattern);
     }

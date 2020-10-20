@@ -10,7 +10,6 @@ import jakarta.ws.rs.PathParam;
 
 import org.junit.Test;
 import org.minijax.commons.IdUtils;
-import org.minijax.rs.MinijaxPathPattern;
 
 public class PathPatternTest {
 

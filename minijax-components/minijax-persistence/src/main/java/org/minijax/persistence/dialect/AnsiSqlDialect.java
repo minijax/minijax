@@ -76,7 +76,7 @@ public class AnsiSqlDialect implements SqlDialect {
      */
 
     @Override
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings("unchecked")
     public <T> void persist(final MinijaxEntityManager em, final T entity) {
         final MinijaxMetamodel metamodel = em.getMetamodel();
         final MinijaxEntityType<T> entityType = metamodel.entity((Class<T>) entity.getClass());
@@ -121,7 +121,7 @@ public class AnsiSqlDialect implements SqlDialect {
     }
 
     @Override
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings("unchecked")
     public <T> T merge(final MinijaxEntityManager em, final T entity) {
         final MinijaxMetamodel metamodel = em.getMetamodel();
         final MinijaxEntityType<T> entityType = metamodel.entity((Class<T>) entity.getClass());

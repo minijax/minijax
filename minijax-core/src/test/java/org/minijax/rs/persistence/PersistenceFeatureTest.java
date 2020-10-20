@@ -5,7 +5,6 @@ import static org.mockito.Mockito.*;
 import jakarta.ws.rs.core.FeatureContext;
 
 import org.junit.Test;
-import org.minijax.rs.persistence.PersistenceFeature;
 
 public class PersistenceFeatureTest {
 

@@ -13,7 +13,6 @@ import jakarta.ws.rs.core.FeatureContext;
 import org.junit.Before;
 import org.junit.Test;
 import org.minijax.Minijax;
-import org.minijax.rs.MinijaxApplicationContext;
 
 public class ApplicationContextTest {
     private Minijax minijax;

@@ -20,7 +20,6 @@ public class PersistenceContextAnnotationProcessor implements FieldAnnotationPro
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public MinijaxProvider<EntityManager> buildProvider(
             final MinijaxInjectorState state,
             final Class<EntityManager> type,

@@ -8,7 +8,6 @@ import java.util.Collections;
 import jakarta.ws.rs.core.UriBuilder;
 
 import org.junit.Test;
-import org.minijax.rs.uri.MinijaxUriBuilder;
 
 public class UriBuilderTest {
 

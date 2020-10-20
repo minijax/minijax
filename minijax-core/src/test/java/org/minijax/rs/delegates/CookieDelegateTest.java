@@ -6,7 +6,6 @@ import jakarta.ws.rs.core.Cookie;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minijax.rs.delegates.MinijaxCookieDelegate;
 
 public class CookieDelegateTest {
     private MinijaxCookieDelegate d;

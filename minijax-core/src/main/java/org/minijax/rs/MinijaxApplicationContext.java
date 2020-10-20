@@ -122,7 +122,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
      *
      * @param applicationClass The application class.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
     public MinijaxApplicationContext(final Class<Application> applicationClass) {
         this(applicationClass.getAnnotation(ApplicationPath.class).value());
         registerApplication(applicationClass);

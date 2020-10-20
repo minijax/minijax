@@ -15,7 +15,6 @@ public class MinijaxNameClassPairEnumeration implements NamingEnumeration<NameCl
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public NameClassPair next() {
         final Entry<Object, Object> entry = iterator.next();
         return new NameClassPair(entry.getKey().toString(), entry.getValue().getClass().getName());

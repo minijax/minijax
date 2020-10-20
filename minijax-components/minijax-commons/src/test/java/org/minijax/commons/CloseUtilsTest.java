@@ -34,6 +34,7 @@ public class CloseUtilsTest {
     }
 
     @Test
+    @SuppressWarnings("resource")
     public void testAutoCloseableCollection() {
         final List<MyAutoCloseable> list = Arrays.asList(new MyAutoCloseable(), new MyAutoCloseable());
         CloseUtils.closeQuietly(list);

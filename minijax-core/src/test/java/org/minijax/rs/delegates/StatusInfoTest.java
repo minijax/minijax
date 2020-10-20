@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import jakarta.ws.rs.core.Response.Status;
 
 import org.junit.Test;
-import org.minijax.rs.delegates.MinijaxStatusInfo;
 
 public class StatusInfoTest {
 

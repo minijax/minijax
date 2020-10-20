@@ -11,9 +11,6 @@ import jakarta.ws.rs.ext.RuntimeDelegate;
 import jakarta.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
 
 import org.junit.Test;
-import org.minijax.rs.delegates.MinijaxCookieDelegate;
-import org.minijax.rs.delegates.MinijaxMediaTypeDelegate;
-import org.minijax.rs.delegates.MinijaxNewCookieDelegate;
 import org.minijax.rs.uri.MinijaxUriBuilder;
 
 public class RuntimeDelegateTest {

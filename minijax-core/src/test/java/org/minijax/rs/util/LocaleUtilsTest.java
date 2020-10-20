@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Locale;
 
 import org.junit.Test;
-import org.minijax.rs.util.LocaleUtils;
 
 public class LocaleUtilsTest {
 

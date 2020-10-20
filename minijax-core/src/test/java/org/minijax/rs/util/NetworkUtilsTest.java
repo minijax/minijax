@@ -2,7 +2,6 @@ package org.minijax.rs.util;
 
 import static java.util.Arrays.*;
 import static java.util.Collections.*;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -14,7 +13,6 @@ import java.util.Enumeration;
 import java.util.List;
 
 import org.junit.Test;
-import org.minijax.rs.util.NetworkUtils;
 
 public class NetworkUtilsTest {
 

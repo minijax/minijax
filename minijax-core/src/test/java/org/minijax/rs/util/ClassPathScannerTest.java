@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.Vector;
 
 import org.junit.Test;
-import org.minijax.rs.util.ClassPathScanner;
 
 public class ClassPathScannerTest {
 

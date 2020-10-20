@@ -8,7 +8,6 @@ import jakarta.ws.rs.core.MultivaluedHashMap;
 import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.junit.Test;
-import org.minijax.rs.test.MinijaxTestHttpHeaders;
 
 public class HttpHeadersTest {
 

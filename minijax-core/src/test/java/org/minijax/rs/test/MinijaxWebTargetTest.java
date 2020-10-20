@@ -7,7 +7,6 @@ import java.util.Map;
 import jakarta.ws.rs.core.MediaType;
 
 import org.junit.Test;
-import org.minijax.rs.test.MinijaxTestWebTarget;
 
 public class MinijaxWebTargetTest {
 
