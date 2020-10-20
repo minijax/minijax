@@ -25,9 +25,4 @@
         <module>minijax-example-todo-backend</module>
         <module>minijax-example-websocket</module>
     </modules>
-    <properties>
-        <maven.javadoc.skip>true</maven.javadoc.skip>
-        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-        <skipStaging>true</skipStaging>
-    </properties>
 </project>
