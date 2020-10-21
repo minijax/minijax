@@ -1,5 +1,6 @@
 package org.minijax.rs.util;
 
+import static java.util.Collections.*;
 import static org.junit.Assert.*;
 
 import java.nio.charset.StandardCharsets;
@@ -35,5 +36,12 @@ public class UrlUtilsTest {
                 new byte[] { (byte) 0xF0, (byte) 0x9F, (byte) 0x98, (byte) 0x81 },
                 StandardCharsets.UTF_8),
                 true, false));
+    }
+
+    @Test
+    public void testUrlDecodeParams() {
+        assertEquals(emptyMap(), UrlUtils.urlDecodeParams(null));
+        assertEquals(emptyMap(), UrlUtils.urlDecodeParams(""));
+        assertEquals(singletonMap("a", ""), UrlUtils.urlDecodeParams("a"));
     }
 }

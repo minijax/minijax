@@ -24,6 +24,7 @@ import jakarta.ws.rs.core.NewCookie;
 
 import org.minijax.commons.MinijaxException;
 import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.util.CookieUtils;
 import org.minijax.rs.util.EntityUtils;
 
 class MinijaxResponse extends jakarta.ws.rs.core.Response implements ContainerResponseContext {
@@ -67,7 +68,7 @@ class MinijaxResponse extends jakarta.ws.rs.core.Response implements ContainerRe
         final List<Object> values = headers.get(HttpHeaders.SET_COOKIE);
         if (values != null) {
             for (final Object value : values) {
-                final NewCookie cookie = NewCookie.valueOf(value.toString());
+                final NewCookie cookie = CookieUtils.parseNewCookie(value.toString());
                 result.put(cookie.getName(), cookie);
             }
         }

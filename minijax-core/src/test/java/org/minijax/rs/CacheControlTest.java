@@ -4,20 +4,20 @@ import static org.junit.Assert.*;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.CacheControl;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minijax.rs.test.MinijaxTest;
+import org.minijax.rs.util.CacheControlUtils;
 
 public class CacheControlTest extends MinijaxTest {
 
     @GET
     @Path("/public")
     public static Response getPublic() {
-        return Response.ok().cacheControl(CacheControl.valueOf("public")).build();
+        return Response.ok().cacheControl(CacheControlUtils.fromString("public")).build();
     }
 
     @GET
@@ -29,7 +29,7 @@ public class CacheControlTest extends MinijaxTest {
     @BeforeClass
     public static void setUpCacheControlTest() {
         resetServer();
-        getServer().defaultCacheControl(CacheControl.valueOf("private"));
+        getServer().defaultCacheControl(CacheControlUtils.fromString("private"));
         register(CacheControlTest.class);
     }
 

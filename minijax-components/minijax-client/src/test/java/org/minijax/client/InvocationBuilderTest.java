@@ -2,7 +2,6 @@ package org.minijax.client;
 
 import static jakarta.ws.rs.HttpMethod.*;
 import static jakarta.ws.rs.core.MediaType.*;
-
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -13,7 +12,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.core.CacheControl;
 import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MultivaluedHashMap;
@@ -26,6 +24,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.junit.Before;
 import org.junit.Test;
+import org.minijax.rs.util.CacheControlUtils;
 
 public class InvocationBuilderTest {
     private MinijaxClient client;
@@ -257,7 +256,7 @@ public class InvocationBuilderTest {
 
     @Test
     public void testCacheControl() {
-        assertEquals("public", target("/").request().cacheControl(CacheControl.valueOf("public")).getHttpRequest().getLastHeader("Cache-Control").getValue());
+        assertEquals("public", target("/").request().cacheControl(CacheControlUtils.fromString("public")).getHttpRequest().getLastHeader("Cache-Control").getValue());
     }
 
     /*
