@@ -51,7 +51,7 @@ public class ResponseBuilderTest extends MinijaxTest {
     public void testClone() {
         final ResponseBuilder rb1 = Response.ok();
         final ResponseBuilder rb2 = rb1.clone();
-        assertFalse(rb1 == rb2);
+        assertNotSame(rb1, rb2);
     }
 
     @Test

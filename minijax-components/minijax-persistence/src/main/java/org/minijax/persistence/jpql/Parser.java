@@ -229,7 +229,7 @@ public class Parser<T> {
 
         case NUMBER:
             consume(TokenType.NUMBER);
-            final Number number = str.indexOf('.') > 0 ? Double.parseDouble(str) : Integer.parseInt(str);
+            final Number number = str.indexOf('.') >= 0 ? Double.parseDouble(str) : Integer.parseInt(str);
             return new MinijaxNumberExpression(number);
 
         case NAMED_PARAMETER:

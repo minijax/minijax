@@ -77,12 +77,12 @@ public class DaoTest extends MinijaxTest {
         w1.setHandle("createhandle");
         dao.create(w1);
 
-        try {
-            final Widget w2 = new Widget();
-            w2.setName("Second Widget");
-            w2.setHandle("createhandle");
-            dao.create(w2);
+        final Widget w2 = new Widget();
+        w2.setName("Second Widget");
+        w2.setHandle("createhandle");
 
+        try {
+            dao.create(w2);
             fail("Expected ConflictException");
 
         } catch (final ConflictException ex) {
@@ -102,10 +102,10 @@ public class DaoTest extends MinijaxTest {
         w2.setHandle("updatehandle2");
         dao.create(w2);
 
-        try {
-            w2.setHandle("updatehandle");
-            dao.update(w2);
+        w2.setHandle("updatehandle");
 
+        try {
+            dao.update(w2);
             fail("Expected ConflictException");
 
         } catch (final ConflictException ex) {

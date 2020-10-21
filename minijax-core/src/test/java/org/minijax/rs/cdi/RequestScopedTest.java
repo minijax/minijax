@@ -5,13 +5,13 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 
+import jakarta.enterprise.context.RequestScoped;
+
 import org.junit.Test;
 import org.minijax.Minijax;
 import org.minijax.rs.MinijaxApplicationContext;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.test.MinijaxTestRequestContext;
-
-import jakarta.enterprise.context.RequestScoped;
 
 public class RequestScopedTest {
 
@@ -32,7 +32,7 @@ public class RequestScopedTest {
             assertNotNull(a1);
             a2 = context.getResource(A.class);
             assertEquals(a1, a2);
-            assertTrue(a1 == a2);
+            assertSame(a1, a2);
         }
 
         A a3;
@@ -43,11 +43,11 @@ public class RequestScopedTest {
             assertNotNull(a3);
             a4 = context.getResource(A.class);
             assertEquals(a3, a4);
-            assertTrue(a3 == a4);
+            assertSame(a3, a4);
         }
 
         assertNotEquals(a1, a3);
-        assertTrue(a1 != a3);
+        assertNotSame(a1, a3);
 
         container.getInjector().close();
     }

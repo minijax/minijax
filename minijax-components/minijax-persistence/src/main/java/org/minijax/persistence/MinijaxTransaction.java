@@ -5,11 +5,7 @@ import java.sql.SQLException;
 
 import jakarta.persistence.PersistenceException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class MinijaxTransaction implements jakarta.persistence.EntityTransaction {
-    private static final Logger LOG = LoggerFactory.getLogger(MinijaxTransaction.class);
     private final Connection connection;
 
     public MinijaxTransaction(final Connection connection) {
@@ -27,7 +23,6 @@ public class MinijaxTransaction implements jakarta.persistence.EntityTransaction
         try {
             connection.commit();
         } catch (final SQLException ex) {
-            LOG.error("Error commiting transaction: {}", ex.getMessage(), ex);
             throw new PersistenceException(ex.getMessage(), ex);
         }
     }
@@ -37,13 +32,13 @@ public class MinijaxTransaction implements jakarta.persistence.EntityTransaction
         try {
             connection.rollback();
         } catch (final SQLException ex) {
-            LOG.error("Error rolling back transaction: {}", ex.getMessage(), ex);
             throw new PersistenceException(ex.getMessage(), ex);
         }
     }
 
     @Override
     public void setRollbackOnly() {
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -55,5 +50,4 @@ public class MinijaxTransaction implements jakarta.persistence.EntityTransaction
     public boolean isActive() {
         throw new UnsupportedOperationException();
     }
-
 }

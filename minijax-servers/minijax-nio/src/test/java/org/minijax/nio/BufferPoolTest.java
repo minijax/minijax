@@ -17,11 +17,11 @@ public class BufferPoolTest {
 
         final ByteBuffer buf2 = pool.take();
         assertNotNull(buf2);
-        assertFalse(buf1 == buf2);
+        assertNotSame(buf1, buf2);
 
         pool.give(buf1);
         final ByteBuffer buf3 = pool.take();
         assertNotNull(buf3);
-        assertTrue(buf1 == buf3);
+        assertSame(buf1, buf3);
     }
 }
