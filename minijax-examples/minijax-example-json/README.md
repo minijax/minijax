@@ -41,7 +41,7 @@ In addition to "minijax-undertow", we add one new dependency:
 </dependency>
 ```
 
-The "minijax-json" dependency includes everything we need for reading and writing JSON content.  Behind the scenes, it includes and configures [Jackson](https://github.com/FasterXML/jackson).
+The "minijax-json" dependency includes everything we need for reading and writing JSON content.  Behind the scenes, it includes and configures [Yasson](https://github.com/eclipse-ee4j/yasson), the reference implementation of the JSON Binding standard.
 
 HelloJson.java
 --------------
@@ -79,11 +79,7 @@ public static class Widget {
 
 The `Widget` class is a simple POJO ("plain old Java object").  It has two properties: `id` and `value`.  Getters and setters were omitted for demonstration purposes, but they would normally be a good idea.
 
-We also include a new annotation: `@XmlRootElement`.  This is a [JAXB](http://www.oracle.com/technetwork/articles/javase/index-140168.html) annotation, which defines rules for serializing the Java class to XML or JSON.
-
-While the name includes "XML", JAXB is the *de facto* standard for specifying JSON conversion rules.  It is supported by major JSON libraries such as Jackson and [MOXy](http://www.eclipse.org/eclipselink/#moxy).
-
-The `@XmlRootElement` annotation declares that the `Widget` class can be used as a root type when serializing and deserializing.
+Note that no extra annotations are required!  The JSON Binding standard makes Java object-to-JSON mapping simple and easy.
 
 Next let's declare a data store for widgets:
 
@@ -145,7 +141,7 @@ new Minijax()
 
 In addition to the setup from "Hello World", we now include `register(JsonFeature.class)`.  That call does the following:
 
-* Initializes Jackson
+* Initializes Yasson
 * Adds JSON-enabled `MessageBodyReader` and `MessageBodyWriter`
 * Adds a JSON-aware `ExceptionMapper` for REST endpoints
 
