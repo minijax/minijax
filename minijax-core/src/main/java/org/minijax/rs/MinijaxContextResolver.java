@@ -52,7 +52,7 @@ public class MinijaxContextResolver<T> implements ContextResolver<T> {
 
         // 9.2.6
         if (c == Providers.class) {
-            return (T) context.getApplicationContext().getProviders();
+            return (T) context.getProviders();
         }
 
         // 9.2.7

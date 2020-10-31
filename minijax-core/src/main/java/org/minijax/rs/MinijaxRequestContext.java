@@ -5,6 +5,7 @@ import static jakarta.ws.rs.core.MediaType.*;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.annotation.Annotation;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
@@ -16,18 +17,22 @@ import java.util.Locale;
 import java.util.Map;
 
 import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Cookie;
-import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
-import jakarta.ws.rs.core.Request;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.MessageBodyWriter;
+import jakarta.ws.rs.ext.ParamConverter;
 
 import org.minijax.commons.IOUtils;
 import org.minijax.rs.cdi.ResourceCache;
+import org.minijax.rs.delegates.MinijaxResponseBuilder;
 import org.minijax.rs.multipart.Multipart;
+import org.minijax.rs.util.ExceptionUtils;
 
 public abstract class MinijaxRequestContext
         implements jakarta.ws.rs.container.ContainerRequestContext, jakarta.ws.rs.container.ResourceContext, Closeable {
@@ -35,6 +40,7 @@ public abstract class MinijaxRequestContext
     private final MinijaxApplicationContext applicationContext;
     private final ResourceCache resourceCache;
     private final Map<String, Object> properties;
+    private final MinijaxProviders providers;
     private MinijaxForm form;
     private SecurityContext securityContext;
     private MinijaxResourceMethod resourceMethod;
@@ -44,6 +50,7 @@ public abstract class MinijaxRequestContext
         applicationContext = container;
         resourceCache = new ResourceCache();
         properties = new HashMap<>();
+        providers = new MinijaxProviders(this);
     }
 
     public MinijaxApplicationContext getApplicationContext() {
@@ -70,7 +77,7 @@ public abstract class MinijaxRequestContext
         properties.remove(name);
     }
 
-    public abstract HttpHeaders getHttpHeaders();
+    public abstract MinijaxHttpHeaders getHttpHeaders();
 
     /**
      * Get the mutable request headers multivalued map.
@@ -104,8 +111,8 @@ public abstract class MinijaxRequestContext
     }
 
     @Override
-    public Request getRequest() {
-        return null;
+    public MinijaxRequest getRequest() {
+        return new MinijaxRequest(getMethod());
     }
 
     @Override
@@ -170,7 +177,7 @@ public abstract class MinijaxRequestContext
 
     @Override
     public void abortWith(final Response response) {
-        throw new WebApplicationException(response);
+        throw new MinijaxAbortException(response);
     }
 
     public MinijaxForm getForm() {
@@ -238,5 +245,81 @@ public abstract class MinijaxRequestContext
 
     public void setResourceMethod(final MinijaxResourceMethod resourceMethod) {
         this.resourceMethod = resourceMethod;
+    }
+
+    public MinijaxProviders getProviders() {
+        return providers;
+    }
+
+    public Response toResponse(final MinijaxResourceMethod unused, final Object obj) {
+        if (obj == null) {
+            throw new NotFoundException();
+        }
+
+        if (obj instanceof Response) {
+            return (Response) obj;
+        }
+
+        return new MinijaxResponseBuilder(this)
+                .entity(obj)
+                .type(findResponseType(obj, resourceMethod.getProduces()))
+                .build();
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public Response toResponse(final Exception ex) {
+        final List<MediaType> mediaTypes;
+
+        if (resourceMethod != null) {
+            mediaTypes = resourceMethod.getProduces();
+        } else {
+            mediaTypes = getAcceptableMediaTypes();
+        }
+
+        for (final MediaType mediaType : mediaTypes) {
+            final ExceptionMapper mapper = providers.getExceptionMapper(ex.getClass(), mediaType);
+            if (mapper != null) {
+                return mapper.toResponse(ex);
+            }
+        }
+
+        return ExceptionUtils.toWebAppException(ex).getResponse();
+    }
+
+    @SuppressWarnings("rawtypes")
+    private MediaType findResponseType(
+            final Object obj,
+            final List<MediaType> produces) {
+
+        final Class<?> objType = obj == null ? null : obj.getClass();
+
+        for (final MediaType mediaType : produces) {
+            final MessageBodyWriter writer = providers.getMessageBodyWriter(objType, null, null, mediaType);
+            if (writer != null) {
+                return mediaType;
+            }
+        }
+
+        return TEXT_PLAIN_TYPE;
+    }
+
+    /**
+     * Converts a parameter to a type.
+     *
+     * @param <T>         the supported Java type convertible to/from a {@code String} format.
+     * @param str         The parameter string contents.
+     * @param c           the raw type of the object to be converted.
+     * @param annotations an array of the annotations associated with the convertible
+     *                    parameter instance. E.g. if a string value is to be converted into a method parameter,
+     *                    this would be the annotations on that parameter as returned by
+     *                    {@link java.lang.reflect.Method#getParameterAnnotations}.
+     * @return            the newly created instance of {@code T}.
+     */
+    public <T> T convertParamToType(final String str, final Class<T> c, final Annotation[] annotations) {
+        final ParamConverter<T> converter = providers.getParamConverter(c, null, annotations);
+        if (converter != null) {
+            return converter.fromString(str);
+        }
+        return null;
     }
 }

@@ -68,4 +68,23 @@ public class HttpHeadersTest {
         final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers, null);
         httpHeaders.getDate();
     }
+
+    @Test
+    public void testSimpleCookie() {
+        final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
+        map.add("Cookie", "a=b");
+
+        final MinijaxTestHttpHeaders headers = new MinijaxTestHttpHeaders(map, null);
+        assertEquals("b", headers.getCookies().get("a").getValue());
+    }
+
+    @Test
+    public void testSemicolonCookie() {
+        final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
+        map.add("Cookie", "a=b; c=d");
+
+        final MinijaxTestHttpHeaders headers = new MinijaxTestHttpHeaders(map, null);
+        assertEquals("b", headers.getCookies().get("a").getValue());
+        assertEquals("d", headers.getCookies().get("c").getValue());
+    }
 }

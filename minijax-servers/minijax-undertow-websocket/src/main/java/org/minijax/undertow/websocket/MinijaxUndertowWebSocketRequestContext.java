@@ -3,7 +3,6 @@ package org.minijax.undertow.websocket;
 import java.io.InputStream;
 import java.net.URI;
 
-import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.UriInfo;
 
 import org.minijax.rs.MinijaxApplicationContext;
@@ -36,7 +35,7 @@ class MinijaxUndertowWebSocketRequestContext extends MinijaxRequestContext {
     }
 
     @Override
-    public HttpHeaders getHttpHeaders() {
+    public MinijaxUndertowWebSocketHttpHeaders getHttpHeaders() {
         if (httpHeaders == null) {
             httpHeaders = new MinijaxUndertowWebSocketHttpHeaders(exchange);
         }

@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.util.Collections;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.UriBuilder;
 import jakarta.ws.rs.core.UriInfo;
 
@@ -46,7 +45,7 @@ class MinijaxServletRequestContext extends MinijaxRequestContext {
     }
 
     @Override
-    public HttpHeaders getHttpHeaders() {
+    public MinijaxServletHttpHeaders getHttpHeaders() {
          if (httpHeaders == null) {
              httpHeaders = new MinijaxServletHttpHeaders(request);
          }

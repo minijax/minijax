@@ -7,6 +7,11 @@ import jakarta.ws.rs.DefaultValue;
 import org.minijax.cdi.MinijaxProvider;
 import org.minijax.rs.MinijaxRequestContext;
 
+/**
+ * Base class for common ParamProvider classes.
+ *
+ * Implements common functionality for HeaderParamProvider, FormParamProvider, etc.
+ */
 abstract class AbstractParamProvider<T> implements MinijaxProvider<T> {
     protected final Class<T> type;
     protected final Annotation[] annotations;
@@ -29,7 +34,7 @@ abstract class AbstractParamProvider<T> implements MinijaxProvider<T> {
             value = defaultValue.value();
         }
 
-        return context.getApplicationContext().convertParamToType(value, type, annotations);
+        return context.convertParamToType(value, type, annotations);
     }
 
     public abstract String getStringValue(MinijaxRequestContext ctx);

@@ -3,17 +3,17 @@ package org.minijax.rs.test;
 import java.io.InputStream;
 import java.net.URI;
 
-import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.UriInfo;
 
 import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxHttpHeaders;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.MinijaxUriInfo;
 
 public class MinijaxTestRequestContext extends MinijaxRequestContext {
     private final String method;
     private final UriInfo uriInfo;
-    private final HttpHeaders httpHeaders;
+    private final MinijaxHttpHeaders httpHeaders;
     private final InputStream entityStream;
 
     public MinijaxTestRequestContext(
@@ -34,7 +34,7 @@ public class MinijaxTestRequestContext extends MinijaxRequestContext {
             final MinijaxApplicationContext container,
             final String method,
             final UriInfo uriInfo,
-            final HttpHeaders httpHeaders,
+            final MinijaxHttpHeaders httpHeaders,
             final InputStream entityStream) {
         super(container);
         this.method = method;
@@ -54,7 +54,7 @@ public class MinijaxTestRequestContext extends MinijaxRequestContext {
     }
 
     @Override
-    public HttpHeaders getHttpHeaders() {
+    public MinijaxHttpHeaders getHttpHeaders() {
         return httpHeaders;
     }
 

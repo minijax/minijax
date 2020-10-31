@@ -67,19 +67,29 @@ public abstract class MinijaxHttpHeaders implements HttpHeaders {
     @Override
     public Map<String, Cookie> getCookies() {
         if (cookies == null) {
-            cookies = new HashMap<>();
-            final List<String> cookieStrList = getRequestHeader("Cookie");
-            if (cookieStrList != null) {
-                for (final String cookieStr : cookieStrList) {
-                    final int splitIndex = cookieStr.indexOf('=');
-                    if (splitIndex >= 0) {
-                        final String key = cookieStr.substring(0, splitIndex);
-                        final String value = cookieStr.substring(splitIndex + 1);
-                        cookies.put(key, new Cookie(key, value));
-                    }
-                }
-            }
+            buildCookies();
         }
         return cookies;
+    }
+
+    private void buildCookies() {
+        cookies = new HashMap<>();
+
+        final List<String> cookieStrList = getRequestHeader("Cookie");
+        if (cookieStrList == null) {
+            return;
+        }
+
+        for (final String line : cookieStrList) {
+            for (final String chunk : line.split(";")) {
+                final String[] parts = chunk.split("=", 2);
+                final String key = parts[0].trim();
+                String value = parts[1].trim();
+                if (value.startsWith("\"") && value.endsWith("\"")) {
+                    value = value.substring(1, value.length() - 1);
+                }
+                cookies.put(key, new Cookie(key, value));
+            }
+        }
     }
 }

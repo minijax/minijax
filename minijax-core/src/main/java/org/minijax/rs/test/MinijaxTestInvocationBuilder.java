@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import jakarta.ws.rs.client.AsyncInvoker;
 import jakarta.ws.rs.client.CompletionStageRxInvoker;
@@ -139,6 +140,12 @@ public class MinijaxTestInvocationBuilder implements jakarta.ws.rs.client.Invoca
     public Response method(final String name) {
         final Minijax container = target.getServer();
         final MinijaxApplicationContext application = container.getApplication(target.getUri());
+
+        if (!cookies.isEmpty()) {
+            headers.add("Cookie", cookies.values().stream()
+                    .map(c -> c.getName() + "=" + c.getValue())
+                    .collect(Collectors.joining("; ")));
+        }
 
         try (final MinijaxRequestContext context = new MinijaxTestRequestContext(
                 application,

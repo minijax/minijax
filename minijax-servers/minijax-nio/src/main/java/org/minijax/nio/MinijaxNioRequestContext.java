@@ -2,7 +2,6 @@ package org.minijax.nio;
 
 import java.io.InputStream;
 
-import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.UriInfo;
 
 import org.minijax.rs.MinijaxApplicationContext;
@@ -40,7 +39,7 @@ class MinijaxNioRequestContext extends MinijaxRequestContext {
     }
 
     @Override
-    public HttpHeaders getHttpHeaders() {
+    public MinijaxNioHttpHeaders getHttpHeaders() {
         return httpHeaders;
     }
 

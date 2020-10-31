@@ -13,6 +13,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
+import org.minijax.rs.delegates.MinijaxResponseBuilder;
 import org.minijax.rs.util.CacheControlUtils;
 
 public class MinijaxStaticResource extends MinijaxResourceMethod {
@@ -48,6 +49,10 @@ public class MinijaxStaticResource extends MinijaxResourceMethod {
 
         final String contentType = Files.probeContentType(resourceFile.toPath());
         final MediaType mediaType = contentType == null ? APPLICATION_OCTET_STREAM_TYPE : MediaType.valueOf(contentType);
-        return Response.ok(resourceUrl.openStream(), mediaType).cacheControl(PUBLIC).build();
+        return new MinijaxResponseBuilder(ctx)
+                .entity(resourceUrl.openStream())
+                .type(mediaType)
+                .cacheControl(PUBLIC)
+                .build();
     }
 }

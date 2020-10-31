@@ -136,7 +136,7 @@ class Connection {
                 bufferedOutputStream = null;
             } else {
                 bufferedOutputStream = new ByteArrayOutputStream();
-                EntityUtils.writeEntity(response.getEntity(), response.getMediaType(), application, bufferedOutputStream);
+                EntityUtils.writeEntity(response.getEntity(), response.getMediaType(), ctx.getProviders(), bufferedOutputStream);
             }
         }
     }

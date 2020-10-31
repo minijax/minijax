@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Collections;
 
-import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.UriInfo;
 
 import org.minijax.rs.MinijaxApplicationContext;
@@ -43,7 +42,7 @@ class MinijaxNettyRequestContext extends MinijaxRequestContext {
     }
 
     @Override
-    public HttpHeaders getHttpHeaders() {
+    public MinijaxNettyHttpHeaders getHttpHeaders() {
         if (httpHeaders == null) {
             httpHeaders = new MinijaxNettyHttpHeaders(request);
         }

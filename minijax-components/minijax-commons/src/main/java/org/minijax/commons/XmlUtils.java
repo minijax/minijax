@@ -26,6 +26,7 @@ import org.xml.sax.SAXException;
  * Try to use these methods for all XML behavior.
  */
 public class XmlUtils {
+    private static final String DOC_FACTORY = "com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl";
     private static final String XML_FACTORY = "com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl";
 
     XmlUtils() {
@@ -39,7 +40,7 @@ public class XmlUtils {
     }
 
     public static Document readXml(final InputStream inputStream, final boolean namespaceAware) throws IOException {
-        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(DOC_FACTORY, null);
         factory.setNamespaceAware(namespaceAware);
 
         try {

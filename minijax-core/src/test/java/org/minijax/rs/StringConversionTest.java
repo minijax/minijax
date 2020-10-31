@@ -1,7 +1,6 @@
 package org.minijax.rs;
 
 import static jakarta.ws.rs.core.MediaType.*;
-
 import static org.junit.Assert.*;
 
 import java.util.UUID;
@@ -18,7 +17,7 @@ import org.minijax.rs.test.MinijaxTest;
 
 public class StringConversionTest extends MinijaxTest {
 
-    static class CtorWidget {
+    public static class CtorWidget {
         final String x;
         public CtorWidget(final String x) {
             this.x = x;
@@ -167,6 +166,6 @@ public class StringConversionTest extends MinijaxTest {
 
     @Test
     public void testFail() {
-        assertEquals(500, target("/fail?x=hello+world").request().get().getStatus());
+        assertEquals(404, target("/fail?x=hello+world").request().get().getStatus());
     }
 }

@@ -3,12 +3,7 @@ package org.minijax.rs;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.ext.ContextResolver;
 import jakarta.ws.rs.ext.ExceptionMapper;
@@ -18,9 +13,6 @@ import jakarta.ws.rs.ext.ParamConverter;
 import jakarta.ws.rs.ext.ParamConverterProvider;
 import jakarta.ws.rs.ext.Providers;
 
-import org.minijax.rs.util.MediaTypeClassMap;
-import org.minijax.rs.util.MediaTypeUtils;
-import org.minijax.rs.util.UuidParamConverterProvider;
 import org.minijax.rs.writers.FileBodyWriter;
 import org.minijax.rs.writers.InputStreamBodyWriter;
 import org.minijax.rs.writers.StringBodyWriter;
@@ -29,37 +21,10 @@ public class MinijaxProviders implements Providers {
     private static final StringBodyWriter STRING_WRITER = new StringBodyWriter();
     private static final InputStreamBodyWriter INPUT_STREAM_WRITER = new InputStreamBodyWriter();
     private static final FileBodyWriter FILE_WRITER = new FileBodyWriter();
-    private final MinijaxApplicationContext application;
-    private final MediaTypeClassMap<MessageBodyReader<?>> readers;
-    private final MediaTypeClassMap<MessageBodyWriter<?>> writers;
-    private final MediaTypeClassMap<ExceptionMapper<?>> exceptionMappers;
-    private final List<ParamConverterProvider> paramConverterProviders;
+    private final MinijaxRequestContext context;
 
-    public MinijaxProviders(final MinijaxApplicationContext application) {
-        this.application = application;
-        readers = new MediaTypeClassMap<>();
-        writers = new MediaTypeClassMap<>();
-        exceptionMappers = new MediaTypeClassMap<>();
-        paramConverterProviders = new ArrayList<>(getDefaultParamConverterProviders());
-    }
-
-    @SuppressWarnings("unchecked")
-    public void register(final Class<?> c) {
-        if (MessageBodyReader.class.isAssignableFrom(c)) {
-            readers.add((Class<MessageBodyReader<?>>) c, MediaTypeUtils.parseMediaTypes(c.getAnnotation(Consumes.class)));
-        }
-
-        if (MessageBodyWriter.class.isAssignableFrom(c)) {
-            writers.add((Class<MessageBodyWriter<?>>) c, MediaTypeUtils.parseMediaTypes(c.getAnnotation(Produces.class)));
-        }
-
-        if (ExceptionMapper.class.isAssignableFrom(c)) {
-            exceptionMappers.add((Class<ExceptionMapper<?>>) c, MediaTypeUtils.parseMediaTypes(c.getAnnotation(Produces.class)));
-        }
-
-        if (ParamConverterProvider.class.isAssignableFrom(c)) {
-            paramConverterProviders.add((ParamConverterProvider) application.getResource(c));
-        }
+    public MinijaxProviders(final MinijaxRequestContext context) {
+        this.context = context;
     }
 
     @Override
@@ -70,8 +35,8 @@ public class MinijaxProviders implements Providers {
             final Annotation[] annotations,
             final MediaType mediaType) {
 
-        for (final Class<? extends MessageBodyReader<?>> readerClass : readers.get(mediaType)) {
-            final MessageBodyReader reader = application.getResource(readerClass);
+        for (final Class<? extends MessageBodyReader<?>> readerClass : context.getApplicationContext().getReaders().get(mediaType)) {
+            final MessageBodyReader reader = context.getResource(readerClass);
             if (reader.isReadable(type, genericType, annotations, mediaType)) {
                 return reader;
             }
@@ -99,8 +64,8 @@ public class MinijaxProviders implements Providers {
             return (MessageBodyWriter<T>) FILE_WRITER;
         }
 
-        for (final Class<? extends MessageBodyWriter<?>> writerClass : writers.get(mediaType)) {
-            final MessageBodyWriter writer = application.getResource(writerClass);
+        for (final Class<? extends MessageBodyWriter<?>> writerClass : context.getApplicationContext().getWriters().get(mediaType)) {
+            final MessageBodyWriter writer = context.getResource(writerClass);
             if (writer.isWriteable(type, genericType, annotations, mediaType)) {
                 return writer;
             }
@@ -125,18 +90,18 @@ public class MinijaxProviders implements Providers {
      */
     @SuppressWarnings("unchecked")
     public <T extends Throwable> ExceptionMapper<T> getExceptionMapper(final Class<T> type, final MediaType mediaType) {
-        for (final Class<? extends ExceptionMapper<?>> exceptionMapperClass : exceptionMappers.get(mediaType)) {
+        for (final Class<? extends ExceptionMapper<?>> exceptionMapperClass : context.getApplicationContext().getExceptionMappers().get(mediaType)) {
             final ParameterizedType parameterizedType = (ParameterizedType) exceptionMapperClass.getGenericInterfaces()[0];
             final Class<? extends Exception> exClass = (Class<? extends Exception>) parameterizedType.getActualTypeArguments()[0];
             if (exClass.isAssignableFrom(type)) {
-                return (ExceptionMapper<T>) application.getResource(exceptionMapperClass);
+                return (ExceptionMapper<T>) context.getResource(exceptionMapperClass);
             }
         }
         return null;
     }
 
     public <T> ParamConverter<T> getParamConverter(final Class<T> rawType, final Type genericType, final Annotation[] annotations) {
-        for (final ParamConverterProvider provider : paramConverterProviders) {
+        for (final ParamConverterProvider provider : context.getApplicationContext().getParamConverterProviders()) {
             final ParamConverter<T> converter = provider.getConverter(rawType, genericType, annotations);
             if (converter != null) {
                 return converter;
@@ -148,9 +113,5 @@ public class MinijaxProviders implements Providers {
     @Override
     public <T> ContextResolver<T> getContextResolver(final Class<T> contextType, final MediaType mediaType) {
         throw new UnsupportedOperationException();
-    }
-
-    private static List<ParamConverterProvider> getDefaultParamConverterProviders() {
-        return Collections.singletonList(new UuidParamConverterProvider());
     }
 }

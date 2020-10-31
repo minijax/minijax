@@ -23,12 +23,13 @@ import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.NewCookie;
 
 import org.minijax.commons.MinijaxException;
-import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxProviders;
+import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.util.CookieUtils;
 import org.minijax.rs.util.EntityUtils;
 
 class MinijaxResponse extends jakarta.ws.rs.core.Response implements ContainerResponseContext {
-    private final MinijaxApplicationContext application;
+    private final MinijaxRequestContext context;
     private final MultivaluedMap<String, Object> headers;
     private final MinijaxStatusInfo statusInfo;
     private Date date;
@@ -40,11 +41,15 @@ class MinijaxResponse extends jakarta.ws.rs.core.Response implements ContainerRe
     private MediaType mediaType;
 
     public MinijaxResponse(final MinijaxResponseBuilder builder) {
-        application = builder.getApplicationContext();
+        context = builder.getContext();
         headers = builder.getHeaders();
         statusInfo = new MinijaxStatusInfo(builder.getStatusInfo());
         entity = builder.getEntity();
         mediaType = builder.getMediaType();
+    }
+
+    public MinijaxRequestContext getContext() {
+        return context;
     }
 
     @Override
@@ -217,9 +222,10 @@ class MinijaxResponse extends jakarta.ws.rs.core.Response implements ContainerRe
             throw new IllegalArgumentException("Unsupported entity type (" + entityType + ")");
         }
 
+        final MinijaxProviders providers = context != null ? context.getProviders() : null;
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
-            EntityUtils.writeEntity(entity, null, application, outputStream);
+            EntityUtils.writeEntity(entity, null, providers, outputStream);
             return (T) outputStream.toString();
         } catch (final IOException ex) {
              throw new MinijaxException(ex.getMessage(), ex);

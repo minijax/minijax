@@ -17,29 +17,29 @@ import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response.StatusType;
 import jakarta.ws.rs.core.Variant;
 
-import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxRequestContext;
 
 public class MinijaxResponseBuilder extends jakarta.ws.rs.core.Response.ResponseBuilder {
-    private final MinijaxApplicationContext applicationContext;
+    private final MinijaxRequestContext context;
     private final MultivaluedMap<String, Object> headers;
     private final MinijaxStatusInfo statusInfo;
     private Object entity;
     private MediaType mediaType;
 
     public MinijaxResponseBuilder() {
-        applicationContext = null;
+        context = null;
         headers = new MultivaluedHashMap<>();
         statusInfo = new MinijaxStatusInfo();
     }
 
-    public MinijaxResponseBuilder(final MinijaxApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
+    public MinijaxResponseBuilder(final MinijaxRequestContext context) {
+        this.context = context;
         headers = new MultivaluedHashMap<>();
         statusInfo = new MinijaxStatusInfo();
     }
 
     private MinijaxResponseBuilder(final MinijaxResponseBuilder other) {
-        applicationContext = other.applicationContext;
+        context = other.context;
         headers = new MultivaluedHashMap<>();
         headers.putAll(other.headers);
         statusInfo = new MinijaxStatusInfo();
@@ -48,8 +48,8 @@ public class MinijaxResponseBuilder extends jakarta.ws.rs.core.Response.Response
         mediaType = other.mediaType;
     }
 
-    public MinijaxApplicationContext getApplicationContext() {
-        return applicationContext;
+    public MinijaxRequestContext getContext() {
+        return context;
     }
 
     public MultivaluedMap<String, Object> getHeaders() {

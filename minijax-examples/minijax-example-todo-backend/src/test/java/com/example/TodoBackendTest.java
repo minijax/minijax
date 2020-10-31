@@ -2,7 +2,6 @@ package com.example;
 
 import static jakarta.ws.rs.HttpMethod.*;
 import static jakarta.ws.rs.core.MediaType.*;
-
 import static org.junit.Assert.*;
 
 import java.util.Collection;
@@ -30,7 +29,7 @@ public class TodoBackendTest extends MinijaxTest {
     public void testGetRoot() {
         final Response response = target("/").request().header("Origin", "http://localhost").get();
         assertNotNull(response);
-        assertEquals("*", response.getHeaderString("Access-Control-Allow-Origin"));
+        assertEquals("http://localhost", response.getHeaderString("Access-Control-Allow-Origin"));
     }
 
     @Test

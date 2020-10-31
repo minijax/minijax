@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import jakarta.ws.rs.core.GenericType;
 
 import org.junit.Test;
+import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.Widget;
 import org.minijax.rs.WidgetWriter;
 import org.minijax.rs.test.MinijaxTest;
@@ -50,10 +51,12 @@ public class ResponseTest extends MinijaxTest {
         widget.setId("123");
         widget.setValue("Hello");
 
-        final MinijaxResponse r = new MinijaxResponseBuilder(getServer().getDefaultApplication()).entity(widget).build();
-        assertEquals(widget, r.getEntity());
-        assertEquals(Widget.class, r.getEntityClass());
-        assertEquals("(widget 123 Hello)", r.readEntity(String.class));
+        try (final MinijaxRequestContext context = createRequestContext()) {
+            final MinijaxResponse r = new MinijaxResponseBuilder(context).entity(widget).build();
+            assertEquals(widget, r.getEntity());
+            assertEquals(Widget.class, r.getEntityClass());
+            assertEquals("(widget 123 Hello)", r.readEntity(String.class));
+        }
     }
 
     @Test(expected = UnsupportedOperationException.class)

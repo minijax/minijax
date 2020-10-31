@@ -65,7 +65,7 @@ public class MinijaxServlet extends HttpServlet {
                 servletResponse.setContentType(mediaType.toString());
             }
 
-            EntityUtils.writeEntity(response.getEntity(), mediaType, application, servletResponse.getOutputStream());
+            EntityUtils.writeEntity(response.getEntity(), mediaType, ctx.getProviders(), servletResponse.getOutputStream());
 
         } catch (final IOException ex) {
             LOG.error("Unhandled exception: {}", ex.getMessage(), ex);

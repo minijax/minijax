@@ -1,13 +1,11 @@
 package org.minijax.rs;
 
 import static jakarta.ws.rs.HttpMethod.*;
-import static jakarta.ws.rs.core.MediaType.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -33,6 +31,7 @@ import jakarta.ws.rs.HttpMethod;
 import jakarta.ws.rs.NotAuthorizedException;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.RuntimeType;
 import jakarta.ws.rs.WebApplicationException;
@@ -50,8 +49,11 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.MessageBodyReader;
 import jakarta.ws.rs.ext.MessageBodyWriter;
-import jakarta.ws.rs.ext.ParamConverter;
+import jakarta.ws.rs.ext.ParamConverterProvider;
+import jakarta.ws.rs.ext.ReaderInterceptor;
+import jakarta.ws.rs.ext.WriterInterceptor;
 
 import org.minijax.cdi.MinijaxInjector;
 import org.minijax.cdi.MinijaxProvider;
@@ -66,8 +68,11 @@ import org.minijax.rs.cdi.HeaderParamAnnotationProcessor;
 import org.minijax.rs.cdi.PathParamAnnotationProcessor;
 import org.minijax.rs.cdi.QueryParamAnnotationProcessor;
 import org.minijax.rs.cdi.RequestScopedAnnotationProcessor;
-import org.minijax.rs.delegates.MinijaxResponseBuilder;
-import org.minijax.rs.util.ExceptionUtils;
+import org.minijax.rs.converters.ConstructorParamConverterProvider;
+import org.minijax.rs.converters.PrimitiveParamConverterProvider;
+import org.minijax.rs.converters.UuidParamConverterProvider;
+import org.minijax.rs.converters.ValueOfParamConverterProvider;
+import org.minijax.rs.util.MediaTypeClassMap;
 import org.minijax.rs.util.MediaTypeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,7 +88,12 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
     private final List<DynamicFeature> dynamicFeatures;
     private final List<Class<? extends ContainerRequestFilter>> requestFilters;
     private final List<Class<? extends ContainerResponseFilter>> responseFilters;
-    private final MinijaxProviders providers;
+    private final List<Class<? extends ReaderInterceptor>> readerInterceptors;
+    private final List<Class<? extends WriterInterceptor>> writerInterceptors;
+    private final MediaTypeClassMap<MessageBodyReader<?>> readers;
+    private final MediaTypeClassMap<MessageBodyWriter<?>> writers;
+    private final MediaTypeClassMap<ExceptionMapper<?>> exceptionMappers;
+    private final List<ParamConverterProvider> paramConverterProviders;
     private Class<? extends SecurityContext> securityContextClass;
 
     public MinijaxApplicationContext(final String path) {
@@ -105,7 +115,16 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         dynamicFeatures = new ArrayList<>();
         requestFilters = new ArrayList<>();
         responseFilters = new ArrayList<>();
-        providers = new MinijaxProviders(this);
+        readerInterceptors = new ArrayList<>();
+        writerInterceptors = new ArrayList<>();
+        readers = new MediaTypeClassMap<>();
+        writers = new MediaTypeClassMap<>();
+        exceptionMappers = new MediaTypeClassMap<>();
+        paramConverterProviders = new ArrayList<>();
+        paramConverterProviders.add(new PrimitiveParamConverterProvider());
+        paramConverterProviders.add(new ConstructorParamConverterProvider());
+        paramConverterProviders.add(new ValueOfParamConverterProvider());
+        paramConverterProviders.add(new UuidParamConverterProvider());
     }
 
     /**
@@ -302,14 +321,31 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         return this;
     }
 
-    public MinijaxProviders getProviders() {
-        return providers;
+    /*
+     * Protected accessors.
+     */
+
+    MediaTypeClassMap<MessageBodyReader<?>> getReaders() {
+        return readers;
+    }
+
+    MediaTypeClassMap<MessageBodyWriter<?>> getWriters() {
+        return writers;
+    }
+
+    MediaTypeClassMap<ExceptionMapper<?>> getExceptionMappers() {
+        return exceptionMappers;
+    }
+
+    List<ParamConverterProvider> getParamConverterProviders() {
+        return paramConverterProviders;
     }
 
     /*
      * Private helpers
      */
 
+    @SuppressWarnings("unchecked")
     private void registerImpl(final Class<?> c) {
         if (classesScanned.contains(c)) {
             return;
@@ -320,7 +356,31 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         registerDynamicFeature(c);
         registerFilter(c);
         registerSecurityContext(c);
-        providers.register(c);
+
+        if (MessageBodyReader.class.isAssignableFrom(c)) {
+            readers.add((Class<MessageBodyReader<?>>) c, MediaTypeUtils.parseMediaTypes(c.getAnnotation(Consumes.class)));
+        }
+
+        if (MessageBodyWriter.class.isAssignableFrom(c)) {
+            writers.add((Class<MessageBodyWriter<?>>) c, MediaTypeUtils.parseMediaTypes(c.getAnnotation(Produces.class)));
+        }
+
+        if (ReaderInterceptor.class.isAssignableFrom(c)) {
+            readerInterceptors.add((Class<? extends ReaderInterceptor>) c);
+        }
+
+        if (WriterInterceptor.class.isAssignableFrom(c)) {
+            writerInterceptors.add((Class<? extends WriterInterceptor>) c);
+        }
+
+        if (ExceptionMapper.class.isAssignableFrom(c)) {
+            exceptionMappers.add((Class<ExceptionMapper<?>>) c, MediaTypeUtils.parseMediaTypes(c.getAnnotation(Produces.class)));
+        }
+
+        if (ParamConverterProvider.class.isAssignableFrom(c)) {
+            paramConverterProviders.add((ParamConverterProvider) getResource(c));
+        }
+
         classesScanned.add(c);
     }
 
@@ -436,7 +496,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
     public Response handle(final MinijaxRequestContext context) {
         final MinijaxResourceMethod rm = findRoute(context.getMethod(), (MinijaxUriInfo) context.getUriInfo());
         if (rm == null) {
-            return toResponse(context, new NotFoundException());
+            return context.toResponse(new NotFoundException());
         }
 
         context.setResourceMethod(rm);
@@ -448,15 +508,17 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
 
             runRequestFilters(context);
             checkSecurity(context);
-            final Response response = toResponse(rm, rm.invoke(context));
+            final Response response = context.toResponse(rm, rm.invoke(context));
             runResponseFilters(context, response);
             return response;
+        } catch (final MinijaxAbortException ex) {
+            return ex.getResponse();
         } catch (final WebApplicationException ex) {
             LOG.debug(ex.getMessage(), ex);
-            return toResponse(context, ex);
+            return context.toResponse(ex);
         } catch (final Exception ex) {
             LOG.warn(ex.getMessage(), ex);
-            return toResponse(context, ex);
+            return context.toResponse(ex);
         }
     }
 
@@ -555,144 +617,5 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
             }
         }
         return result;
-    }
-
-    private Response toResponse(final MinijaxResourceMethod rm, final Object obj) {
-        if (obj == null) {
-            throw new NotFoundException();
-        }
-
-        if (obj instanceof Response) {
-            return (Response) obj;
-        }
-
-        return new MinijaxResponseBuilder(this)
-                .entity(obj)
-                .type(findResponseType(obj, rm.getProduces()))
-                .build();
-    }
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    private Response toResponse(final MinijaxRequestContext context, final Exception ex) {
-        final MinijaxResourceMethod rm = context.getResourceMethod();
-        final List<MediaType> mediaTypes;
-
-        if (rm != null) {
-            mediaTypes = rm.getProduces();
-        } else {
-            mediaTypes = context.getAcceptableMediaTypes();
-        }
-
-        for (final MediaType mediaType : mediaTypes) {
-            final ExceptionMapper mapper = providers.getExceptionMapper(ex.getClass(), mediaType);
-            if (mapper != null) {
-                return mapper.toResponse(ex);
-            }
-        }
-
-        return ExceptionUtils.toWebAppException(ex).getResponse();
-    }
-
-    @SuppressWarnings("rawtypes")
-    private MediaType findResponseType(
-            final Object obj,
-            final List<MediaType> produces) {
-
-        final Class<?> objType = obj == null ? null : obj.getClass();
-
-        for (final MediaType mediaType : produces) {
-            final MessageBodyWriter writer = providers.getMessageBodyWriter(objType, null, null, mediaType);
-            if (writer != null) {
-                return mediaType;
-            }
-        }
-
-        return TEXT_PLAIN_TYPE;
-    }
-
-    /**
-     * Converts a parameter to a type.
-     *
-     * @param <T>         the supported Java type convertible to/from a {@code String} format.
-     * @param str         The parameter string contents.
-     * @param c           the raw type of the object to be converted.
-     * @param annotations an array of the annotations associated with the convertible
-     *                    parameter instance. E.g. if a string value is to be converted into a method parameter,
-     *                    this would be the annotations on that parameter as returned by
-     *                    {@link java.lang.reflect.Method#getParameterAnnotations}.
-     * @return            the newly created instance of {@code T}.
-     */
-    public <T> T convertParamToType(final String str, final Class<T> c, final Annotation[] annotations) {
-        final ParamConverter<T> converter = providers.getParamConverter(c, null, annotations);
-        if (converter != null) {
-            return converter.fromString(str);
-        }
-
-        // Try default primitive converters
-        return convertStringToType(str, c);
-    }
-
-    @SuppressWarnings({ "unchecked" })
-    private <T> T convertStringToType(final String str, final Class<T> c) {
-        if (str == null) {
-            return null;
-        }
-
-        if (c == String.class) {
-            return (T) str;
-        }
-
-        if (c.isPrimitive()) {
-            return convertStringToPrimitive(str, c);
-        }
-
-        try {
-            final Constructor<?> ctor = c.getDeclaredConstructor(String.class);
-            return (T) ctor.newInstance(str);
-        } catch (final NoSuchMethodException ex) {
-            // Ignore
-        } catch (final Exception ex) {
-            throw ExceptionUtils.toWebAppException(ex);
-        }
-
-        try {
-            final Method valueOf = c.getDeclaredMethod("valueOf", String.class);
-            return (T) valueOf.invoke(null, str);
-        } catch (final NoSuchMethodException ex) {
-            // Ignore
-        } catch (final Exception ex) {
-            throw ExceptionUtils.toWebAppException(ex);
-        }
-
-        throw new MinijaxException("No string conversion for \"" + c + "\"");
-    }
-
-    @SuppressWarnings({ "unchecked" })
-    private <T> T convertStringToPrimitive(final String str, final Class<T> c) {
-        if (c == boolean.class) {
-            return (T) Boolean.valueOf(str);
-        }
-        if (c == byte.class) {
-            return (T) Byte.valueOf(str);
-        }
-        if (c == char.class) {
-            return (T) (str.isEmpty() ? null : ((Character) str.charAt(0)));
-        }
-        if (c == double.class) {
-            return (T) Double.valueOf(str);
-        }
-        if (c == float.class) {
-            return (T) Float.valueOf(str);
-        }
-        if (c == int.class) {
-            return (T) Integer.valueOf(str);
-        }
-        if (c == long.class) {
-            return (T) Long.valueOf(str);
-        }
-        if (c == short.class) {
-            return (T) Short.valueOf(str);
-        }
-        throw new IllegalArgumentException("Unrecognized primitive (" + c + ")");
     }
 }

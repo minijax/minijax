@@ -16,7 +16,6 @@ import jakarta.ws.rs.ext.MessageBodyWriter;
 
 import org.minijax.commons.IOUtils;
 import org.minijax.commons.MinijaxException;
-import org.minijax.rs.MinijaxApplicationContext;
 import org.minijax.rs.MinijaxProviders;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.multipart.Multipart;
@@ -56,25 +55,27 @@ public class EntityUtils {
             return (T) IOUtils.toString(entityStream, StandardCharsets.UTF_8);
         }
 
-        if (context != null) {
-            final MinijaxApplicationContext appCtx = context.getApplicationContext();
-            final MessageBodyReader<T> reader = appCtx.getProviders().getMessageBodyReader(
-                    entityClass,
-                    genericType,
-                    annotations,
-                    mediaType);
-            if (reader != null) {
-                return reader.readFrom(
-                        entityClass,
-                        genericType,
-                        annotations,
-                        mediaType,
-                        context.getHeaders(),
-                        entityStream);
-            }
+        if (context == null) {
+            throw new MinijaxException("No application context to read entity type (" + entityClass + ")");
         }
 
-        throw new MinijaxException("Unknown entity type (" + entityClass + ")");
+        final MessageBodyReader<T> reader = context.getProviders().getMessageBodyReader(
+                entityClass,
+                genericType,
+                annotations,
+                mediaType);
+
+        if (reader == null) {
+            throw new MinijaxException("No reader for entity type (" + entityClass + ")");
+        }
+
+        return reader.readFrom(
+                entityClass,
+                genericType,
+                annotations,
+                mediaType,
+                context.getHeaders(),
+                entityStream);
     }
 
     /**
@@ -82,14 +83,14 @@ public class EntityUtils {
      *
      * @param entity The entity.
      * @param mediaType The entity media type.
-     * @param context Optional application context for custom writers.
+     * @param providers Optional providers for custom writers.
      * @param outputStream The output stream.
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public static void writeEntity(
             final Object entity,
             final MediaType mediaType,
-            final MinijaxApplicationContext context,
+            final MinijaxProviders providers,
             final OutputStream outputStream)
                     throws IOException {
 
@@ -123,8 +124,7 @@ public class EntityUtils {
             return;
         }
 
-        if (context != null) {
-            final MinijaxProviders providers = context.getProviders();
+        if (providers != null) {
             final MessageBodyWriter writer = providers.getMessageBodyWriter(entity.getClass(), null, null, mediaType);
             if (writer != null) {
                 writer.writeTo(entity, entity.getClass(), null, null, mediaType, null, outputStream);
@@ -142,12 +142,12 @@ public class EntityUtils {
      * It is used in tests and in minijax-client.
      *
      * @param entity The JAX-RS entity to write.
-     * @param context Optional application context for custom writers.
+     * @param providers Optional providers for custom writers.
      * @return An input stream that can be consumed.
      */
     public static <T> InputStream writeEntity(
             final Entity<T> entity,
-            final MinijaxApplicationContext context)
+            final MinijaxProviders providers)
                     throws IOException {
 
         if (entity == null) {
@@ -164,7 +164,7 @@ public class EntityUtils {
         }
 
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        EntityUtils.writeEntity(entity.getEntity(), entity.getMediaType(), context, outputStream);
+        EntityUtils.writeEntity(entity.getEntity(), entity.getMediaType(), providers, outputStream);
         return IOUtils.toInputStream(outputStream.toString(), StandardCharsets.UTF_8);
     }
 }

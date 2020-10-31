@@ -12,7 +12,6 @@ import org.minijax.rs.MinijaxHttpHeaders;
 
 public class MinijaxTestHttpHeaders extends MinijaxHttpHeaders {
     private final MultivaluedMap<String, String> headers;
-    private final Map<String, Cookie> cookies;
 
     public MinijaxTestHttpHeaders() {
         this(new MultivaluedHashMap<>(), new HashMap<>());
@@ -20,7 +19,6 @@ public class MinijaxTestHttpHeaders extends MinijaxHttpHeaders {
 
     public MinijaxTestHttpHeaders(final MultivaluedMap<String, String> headers, final Map<String, Cookie> cookies) {
         this.headers = headers;
-        this.cookies = cookies;
     }
 
     @Override
@@ -36,10 +34,5 @@ public class MinijaxTestHttpHeaders extends MinijaxHttpHeaders {
     @Override
     public MultivaluedMap<String, String> getRequestHeaders() {
         return headers;
-    }
-
-    @Override
-    public Map<String, Cookie> getCookies() {
-        return cookies;
     }
 }

@@ -86,7 +86,7 @@ class ServerHandler extends ChannelInboundHandlerAdapter {
 
             final MediaType mediaType = minijaxResponse.getMediaType();
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            EntityUtils.writeEntity(minijaxResponse.getEntity(), mediaType, application, outputStream);
+            EntityUtils.writeEntity(minijaxResponse.getEntity(), mediaType, minijaxCtx.getProviders(), outputStream);
 
             final int contentLength = outputStream.size();
             final ByteBuf buf = Unpooled.wrappedBuffer(outputStream.toByteArray());

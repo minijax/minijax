@@ -34,7 +34,7 @@ public class CorsTest extends MinijaxTest {
     @Test
     public void testAllowCors() {
         final Response r = target("/api/test").request().header("Origin", "http://test").get();
-        assertEquals("*", r.getHeaderString("Access-Control-Allow-Origin"));
+        assertEquals("http://test", r.getHeaderString("Access-Control-Allow-Origin"));
     }
 
     @Test
