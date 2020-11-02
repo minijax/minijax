@@ -3,12 +3,12 @@ package org.minijax.client;
 import static org.junit.Assert.*;
 
 import java.net.URI;
+import java.net.http.HttpClient;
 import java.util.Collections;
 
 import jakarta.ws.rs.core.Link;
 import jakarta.ws.rs.core.UriBuilder;
 
-import org.apache.http.impl.client.HttpClients;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -23,7 +23,7 @@ public class ClientTest {
 
     @Test
     public void testOverrideCtor() {
-        try (final MinijaxClient client = new MinijaxClient(HttpClients.createMinimal())) {
+        try (final MinijaxClient client = new MinijaxClient(HttpClient.newHttpClient())) {
             assertNotNull(client.getHttpClient());
         }
     }

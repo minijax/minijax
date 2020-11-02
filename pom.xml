@@ -82,7 +82,6 @@
         <dockerfile.version>1.4.0</dockerfile.version>
         <eclipselink.version>3.0.0-M1</eclipselink.version>
         <h2.version>1.4.200</h2.version>
-        <httpclient.version>4.5.13</httpclient.version>
         <jakarta-annotation.version>2.0.0-RC1</jakarta-annotation.version>
         <jakarta-cdi.version>3.0.0-M4</jakarta-cdi.version>
         <jakarta-inject-tck.version>2.0.1</jakarta-inject-tck.version>
@@ -215,16 +214,6 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>${httpclient.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpmime</artifactId>
-                <version>${httpclient.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse</groupId>

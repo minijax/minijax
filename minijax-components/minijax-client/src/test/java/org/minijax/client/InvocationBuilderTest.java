@@ -8,8 +8,15 @@ import static org.mockito.Mockito.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.http.HttpClient;
+import java.net.http.HttpHeaders;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Locale;
+import java.util.Map;
 
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Cookie;
@@ -17,11 +24,6 @@ import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MultivaluedHashMap;
 import jakarta.ws.rs.core.MultivaluedMap;
 
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.message.BasicHeader;
 import org.junit.Before;
 import org.junit.Test;
 import org.minijax.rs.util.CacheControlUtils;
@@ -30,26 +32,24 @@ public class InvocationBuilderTest {
     private MinijaxClient client;
 
     @Before
-    public void setUp() throws IOException {
+    public void setUp() throws IOException, InterruptedException {
         final ByteArrayInputStream inputStream = new ByteArrayInputStream("Hello world".getBytes(StandardCharsets.UTF_8));
 
-        final Header contentType = new BasicHeader("Content-Type", "text/plain");
+        final HttpHeaders httpHeaders = HttpHeaders.of(Map.of("Content-Type", Arrays.asList("text/plain")), (x, y) -> true);
 
-        final HttpEntity httpEntity = mock(HttpEntity.class);
-        when(httpEntity.getContentType()).thenReturn(contentType);
-        when(httpEntity.getContent()).thenReturn(inputStream);
+        @SuppressWarnings("unchecked")
+        final HttpResponse<InputStream> httpResponse = mock(HttpResponse.class);
+        when(httpResponse.headers()).thenReturn(httpHeaders);
+        when(httpResponse.body()).thenReturn(inputStream);
 
-        final CloseableHttpResponse httpResponse = mock(CloseableHttpResponse.class);
-        when(httpResponse.getEntity()).thenReturn(httpEntity);
-
-        final CloseableHttpClient httpClient = mock(CloseableHttpClient.class);
-        when(httpClient.execute(any())).thenReturn(httpResponse);
+        final HttpClient httpClient = mock(HttpClient.class);
+        when(httpClient.send(any(), same(BodyHandlers.ofInputStream()))).thenReturn(httpResponse);
 
         client = new MinijaxClient(httpClient);
     }
 
     public MinijaxClientWebTarget target(final String uri) {
-        return client.target(uri);
+        return client.target("http://example.com" + uri);
     }
 
     @Test
@@ -149,12 +149,12 @@ public class InvocationBuilderTest {
 
     @Test
     public void testBuild() {
-        assertNotNull(target("/").request().build(null));
+        assertNotNull(target("/").request().build("GET"));
     }
 
     @Test
     public void testBuild2() {
-        assertNotNull(target("/").request().build(null, null));
+        assertNotNull(target("/").request().build("GET", null));
     }
 
     @Test
@@ -221,42 +221,42 @@ public class InvocationBuilderTest {
 
     @Test
     public void testAccept1() {
-        assertEquals("text/plain, text/html", target("/").request().accept("text/plain, text/html").getHttpRequest().getLastHeader("Accept").getValue());
+        assertEquals("text/plain, text/html", target("/").request().accept("text/plain, text/html").getHttpRequest().build().headers().firstValue("Accept").get());
     }
 
     @Test
     public void testAccept2() {
-        assertEquals("text/plain, text/html", target("/").request().accept(TEXT_PLAIN_TYPE, TEXT_HTML_TYPE).getHttpRequest().getLastHeader("Accept").getValue());
+        assertEquals("text/plain, text/html", target("/").request().accept(TEXT_PLAIN_TYPE, TEXT_HTML_TYPE).getHttpRequest().build().headers().firstValue("Accept").get());
     }
 
     @Test
     public void testAcceptLanguage1() {
-        assertEquals("en-US, en-GB", target("/").request().acceptLanguage("en-US", "en-GB").getHttpRequest().getLastHeader("Accept-Language").getValue());
+        assertEquals("en-US, en-GB", target("/").request().acceptLanguage("en-US", "en-GB").getHttpRequest().build().headers().firstValue("Accept-Language").get());
     }
 
     @Test
     public void testAcceptLanguage2() {
-        assertEquals("en-US, en-GB", target("/").request().acceptLanguage(Locale.US, Locale.UK).getHttpRequest().getLastHeader("Accept-Language").getValue());
+        assertEquals("en-US, en-GB", target("/").request().acceptLanguage(Locale.US, Locale.UK).getHttpRequest().build().headers().firstValue("Accept-Language").get());
     }
 
     @Test
     public void testAcceptEncoding() {
-        assertEquals("gzip", target("/").request().acceptEncoding("gzip").getHttpRequest().getLastHeader("Accept-Encoding").getValue());
+        assertEquals("gzip", target("/").request().acceptEncoding("gzip").getHttpRequest().build().headers().firstValue("Accept-Encoding").get());
     }
 
     @Test
     public void testCookie1() {
-        assertEquals("a=\"b\"", target("/").request().cookie(new Cookie("a", "b")).getHttpRequest().getLastHeader("Cookie").getValue());
+        assertEquals("a=\"b\"", target("/").request().cookie(new Cookie("a", "b")).getHttpRequest().build().headers().firstValue("Cookie").get());
     }
 
     @Test
     public void testCookie2() {
-        assertEquals("a=\"b\"", target("/").request().cookie("a", "b").getHttpRequest().getLastHeader("Cookie").getValue());
+        assertEquals("a=\"b\"", target("/").request().cookie("a", "b").getHttpRequest().build().headers().firstValue("Cookie").get());
     }
 
     @Test
     public void testCacheControl() {
-        assertEquals("public", target("/").request().cacheControl(CacheControlUtils.fromString("public")).getHttpRequest().getLastHeader("Cache-Control").getValue());
+        assertEquals("public", target("/").request().cacheControl(CacheControlUtils.fromString("public")).getHttpRequest().build().headers().firstValue("Cache-Control").get());
     }
 
     /*

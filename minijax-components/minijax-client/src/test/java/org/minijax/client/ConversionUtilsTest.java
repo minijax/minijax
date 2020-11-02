@@ -10,7 +10,7 @@ public class ConversionUtilsTest {
 
     @Test
     public void testConvertNull() {
-        assertNull(ConversionUtils.convertApacheToJax(null, Object.class));
-        assertNull(ConversionUtils.convertToGenericType(null, new GenericType<Object>() { }));
+        assertNull(ConversionUtils.convertToType(null, null, Object.class));
+        assertNull(ConversionUtils.convertToGenericType(null, null, new GenericType<Object>() { }));
     }
 }

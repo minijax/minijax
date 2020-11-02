@@ -1,7 +1,9 @@
 package org.minijax.client;
 
-import java.io.IOException;
 import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpClient.Redirect;
+import java.net.http.HttpClient.Version;
 import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
@@ -12,23 +14,23 @@ import jakarta.ws.rs.core.Configuration;
 import jakarta.ws.rs.core.Link;
 import jakarta.ws.rs.core.UriBuilder;
 
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.minijax.commons.MinijaxException;
 import org.minijax.rs.uri.MinijaxUriBuilder;
 
 public class MinijaxClient implements AutoCloseable, Client {
-    private final CloseableHttpClient httpClient;
+    private final HttpClient httpClient;
 
     public MinijaxClient() {
-        this(HttpClients.createDefault());
+        this(HttpClient.newBuilder()
+                .version(Version.HTTP_1_1)
+                .followRedirects(Redirect.NORMAL)
+                .build());
     }
 
-    public MinijaxClient(final CloseableHttpClient httpClient) {
+    public MinijaxClient(final HttpClient httpClient) {
         this.httpClient = httpClient;
     }
 
-    public CloseableHttpClient getHttpClient() {
+    public HttpClient getHttpClient() {
         return httpClient;
     }
 
@@ -54,11 +56,7 @@ public class MinijaxClient implements AutoCloseable, Client {
 
     @Override
     public void close() {
-        try {
-            httpClient.close();
-        } catch (final IOException ex) {
-            throw new MinijaxException(ex);
-        }
+        // Nothing to do
     }
 
     /*

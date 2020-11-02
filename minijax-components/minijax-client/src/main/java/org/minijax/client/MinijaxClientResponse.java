@@ -1,14 +1,15 @@
 package org.minijax.client;
 
-import java.io.IOException;
+import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.net.URI;
+import java.net.http.HttpResponse;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
-import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.EntityTag;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.HttpHeaders;
@@ -18,76 +19,60 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.NewCookie;
 
-import org.apache.http.Header;
-import org.apache.http.StatusLine;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.minijax.rs.delegates.MinijaxStatusInfo;
-
 public class MinijaxClientResponse extends jakarta.ws.rs.core.Response {
-    private final CloseableHttpResponse innerResponse;
+    private final HttpResponse<InputStream> innerResponse;
     private StatusType statusInfo;
 
-    public MinijaxClientResponse(final CloseableHttpResponse innerResponse) {
-        this.innerResponse = innerResponse;
+    public MinijaxClientResponse(final HttpResponse<InputStream> innerResponse) {
+        this.innerResponse = Objects.requireNonNull(innerResponse);
     }
 
     @Override
     public int getStatus() {
-        return innerResponse.getStatusLine().getStatusCode();
+        return innerResponse.statusCode();
     }
 
     @Override
     public StatusType getStatusInfo() {
         if (statusInfo == null) {
-            final StatusLine sl = innerResponse.getStatusLine();
-            statusInfo = Status.fromStatusCode(sl.getStatusCode());
-            if (statusInfo == null) {
-                statusInfo = new MinijaxStatusInfo(sl.getStatusCode(), sl.getReasonPhrase());
-            }
+            statusInfo = Status.fromStatusCode(innerResponse.statusCode());
         }
         return statusInfo;
     }
 
     @Override
     public MediaType getMediaType() {
-        final Header contentTypeHeader = innerResponse.getLastHeader(HttpHeaders.CONTENT_TYPE);
-        return MediaType.valueOf(contentTypeHeader.getValue());
+        return MediaType.valueOf(innerResponse.headers().firstValue(HttpHeaders.CONTENT_TYPE).orElse(null));
     }
 
     @Override
     public Locale getLanguage() {
-        return innerResponse.getLocale();
+        return Locale.forLanguageTag(innerResponse.headers().firstValue(HttpHeaders.CONTENT_LANGUAGE).orElse(null));
     }
 
     @Override
     public int getLength() {
-        final Header lengthHeader = innerResponse.getLastHeader(HttpHeaders.CONTENT_LENGTH);
-        final String lengthStr = lengthHeader.getValue();
-        return Integer.parseInt(lengthStr);
+        return Integer.parseInt(innerResponse.headers().firstValue(HttpHeaders.CONTENT_LENGTH).orElse("0"));
     }
 
     @Override
-    public Object getEntity() {
-        return innerResponse.getEntity();
+    public InputStream getEntity() {
+        return innerResponse.body();
     }
 
     @Override
     public <T> T readEntity(final Class<T> entityType) {
-        return ConversionUtils.convertApacheToJax(innerResponse.getEntity(), entityType);
+        return ConversionUtils.convertToType(getMediaType(), getEntity(), entityType);
     }
 
     @Override
     public <T> T readEntity(final GenericType<T> entityType) {
-        return ConversionUtils.convertToGenericType(innerResponse.getEntity(), entityType);
+        return ConversionUtils.convertToGenericType(getMediaType(), getEntity(), entityType);
     }
 
     @Override
     public void close() {
-        try {
-            innerResponse.close();
-        } catch (final IOException ex) {
-            throw new WebApplicationException(ex);
-        }
+        // Nothing to do
     }
 
     /*

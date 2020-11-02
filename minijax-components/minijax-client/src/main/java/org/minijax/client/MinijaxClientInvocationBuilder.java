@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpCookie;
 import java.net.URI;
+import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.BodyPublishers;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -24,28 +26,26 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
 
-import org.apache.http.entity.InputStreamEntity;
 import org.minijax.commons.MinijaxException;
 import org.minijax.rs.util.EntityUtils;
 
 public class MinijaxClientInvocationBuilder implements jakarta.ws.rs.client.Invocation.Builder {
     private static final String TRACE = "TRACE";
     private final MinijaxClient client;
-    private final MinijaxClientHttpRequest httpRequest;
+    private final HttpRequest.Builder httpRequest;
 
     public MinijaxClientInvocationBuilder(final MinijaxClient client, final URI uri) {
         this.client = client;
-        httpRequest = new MinijaxClientHttpRequest();
-        httpRequest.setURI(uri);
+        httpRequest = HttpRequest.newBuilder().uri(uri);
     }
 
-    MinijaxClientHttpRequest getHttpRequest() {
+    HttpRequest.Builder getHttpRequest() {
         return httpRequest;
     }
 
     @Override
     public MinijaxClientInvocationBuilder header(final String name, final Object value) {
-        httpRequest.addHeader(name, value.toString());
+        httpRequest.header(name, value.toString());
         return this;
     }
 
@@ -53,7 +53,7 @@ public class MinijaxClientInvocationBuilder implements jakarta.ws.rs.client.Invo
     public MinijaxClientInvocationBuilder headers(final MultivaluedMap<String, Object> headers) {
         for (final Entry<String, List<Object>> entry : headers.entrySet()) {
             for (final Object value : entry.getValue()) {
-                httpRequest.addHeader(entry.getKey(), value.toString());
+                httpRequest.header(entry.getKey(), value.toString());
             }
         }
         return this;
@@ -186,14 +186,12 @@ public class MinijaxClientInvocationBuilder implements jakarta.ws.rs.client.Invo
 
     @Override
     public MinijaxClientInvocation build(final String method) {
-        httpRequest.setMethod(method);
-        return new MinijaxClientInvocation(client, httpRequest);
+        httpRequest.method(method, BodyPublishers.noBody());
+        return new MinijaxClientInvocation(client, httpRequest.build());
     }
 
     @Override
     public MinijaxClientInvocation build(final String method, final Entity<?> entity) {
-        httpRequest.setMethod(method);
-
         final InputStream inputStream;
         try {
             inputStream = EntityUtils.writeEntity(entity, null);
@@ -202,10 +200,12 @@ public class MinijaxClientInvocationBuilder implements jakarta.ws.rs.client.Invo
         }
 
         if (inputStream != null) {
-            httpRequest.setEntity(new InputStreamEntity(inputStream));
+            httpRequest.method(method, BodyPublishers.ofInputStream(() -> inputStream));
+        } else {
+            httpRequest.method(method, BodyPublishers.noBody());
         }
 
-        return new MinijaxClientInvocation(client, httpRequest);
+        return new MinijaxClientInvocation(client, httpRequest.build());
     }
 
     @Override
