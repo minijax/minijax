@@ -19,6 +19,7 @@ import org.minijax.persistence.criteria.MinijaxExpression;
 import org.minijax.persistence.criteria.MinijaxFunctionExpression;
 import org.minijax.persistence.criteria.MinijaxIn;
 import org.minijax.persistence.criteria.MinijaxNamedParameter;
+import org.minijax.persistence.criteria.MinijaxNot;
 import org.minijax.persistence.criteria.MinijaxNull;
 import org.minijax.persistence.criteria.MinijaxNumberExpression;
 import org.minijax.persistence.criteria.MinijaxOrder;
@@ -125,6 +126,9 @@ public class AnsiSqlBuilder<T> {
         } else if (expression instanceof MinijaxComparison) {
             buildInfixOperatorSql((MinijaxComparison<T2>) expression);
 
+        } else if (expression instanceof MinijaxNot) {
+            buildNotSql((MinijaxNot) expression);
+
         } else if (expression instanceof MinijaxIn) {
             buildInSql((MinijaxIn<T>) expression);
 
@@ -180,6 +184,11 @@ public class AnsiSqlBuilder<T> {
         buildSql(infixOperator.getX());
         sql.append(infixOperator.getComparisonType().sql());
         buildSql(infixOperator.getY());
+    }
+
+    private void buildNotSql(final MinijaxNot notPredicate) {
+        sql.append(" NOT ");
+        buildSql(notPredicate.getInnerPredicate());
     }
 
     private void buildInSql(final MinijaxIn<T> inPredicate) {

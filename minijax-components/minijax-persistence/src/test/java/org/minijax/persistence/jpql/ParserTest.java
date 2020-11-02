@@ -151,6 +151,37 @@ public class ParserTest {
     }
 
     @Test
+    public void testParseNotIn() {
+        final MinijaxCriteriaQuery<Widget> query = Parser.parse(
+                em.getCriteriaBuilder(),
+                Widget.class,
+                Tokenizer.tokenize("SELECT w FROM Widget w WHERE w.name NOT IN('foo', 'bar')"));
+
+        assertNotNull(query);
+    }
+
+    @Test
+    public void testParseNotInNamedVariable() {
+        final MinijaxCriteriaQuery<Widget> query = Parser.parse(
+                em.getCriteriaBuilder(),
+                Widget.class,
+                Tokenizer.tokenize("SELECT w FROM Widget w WHERE w.name NOT IN :names"));
+
+        assertNotNull(query);
+    }
+
+    @Test
+    public void testParseNotInPositionalVariable() {
+        final List<Widget> result = em
+                .createQuery("SELECT w FROM Widget w WHERE w.name NOT IN ?1", Widget.class)
+                .setParameter(1, Arrays.asList("foo", "bar"))
+                .getResultList();
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+    }
+
+    @Test
     public void testParseLower() {
         final List<Widget> result = em
                 .createQuery("SELECT w FROM Widget w WHERE LOWER(w.name) = 'foo'", Widget.class)

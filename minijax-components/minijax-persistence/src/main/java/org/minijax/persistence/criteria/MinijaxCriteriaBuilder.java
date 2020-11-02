@@ -145,6 +145,11 @@ public class MinijaxCriteriaBuilder implements jakarta.persistence.criteria.Crit
         return new MinijaxOrder((MinijaxExpression<?>) x, false);
     }
 
+    @Override
+    public MinijaxNot not(final Expression<Boolean> restriction) {
+        return new MinijaxNot((MinijaxPredicate) restriction);
+    }
+
     /*
      * Unsupported
      */
@@ -221,11 +226,6 @@ public class MinijaxCriteriaBuilder implements jakarta.persistence.criteria.Crit
 
     @Override
     public <Y> Expression<Y> any(final Subquery<Y> subquery) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Predicate not(final Expression<Boolean> restriction) {
         throw new UnsupportedOperationException();
     }
 

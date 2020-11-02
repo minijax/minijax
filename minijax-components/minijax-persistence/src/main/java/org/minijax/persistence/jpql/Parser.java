@@ -165,9 +165,13 @@ public class Parser<T> {
         return path;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     private MinijaxPredicate parsePredicate() {
         final MinijaxExpression<?> lhs = parseExpression();
+        return parseOperator(lhs);
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    private MinijaxPredicate parseOperator(final MinijaxExpression<?> lhs) {
         final Token operator = consume(null);
 
         switch (operator.getTokenType()) {
@@ -188,6 +192,9 @@ public class Parser<T> {
 
         case KEYWORD_LIKE:
             return cb.like((MinijaxExpression<String>) lhs, (MinijaxExpression<String>) parseExpression());
+
+        case KEYWORD_NOT:
+            return cb.not(parseOperator(lhs));
 
         default:
             throw new PersistenceException("Unexpected operator: " + operator);

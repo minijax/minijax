@@ -230,6 +230,11 @@ public class MinijaxCriteriaBuilderTest {
                 sqlBuilder.getSql());
     }
 
+    @Test
+    public void testNot() {
+        cb.not(null);
+    }
+
     /*
      * Unsupported
      */
@@ -307,11 +312,6 @@ public class MinijaxCriteriaBuilderTest {
     @Test(expected = UnsupportedOperationException.class)
     public void testAny() {
         cb.any(null);
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void testNot() {
-        cb.not(null);
     }
 
     @Test(expected = UnsupportedOperationException.class)
