@@ -1,6 +1,6 @@
 package org.minijax.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class BaseEntityTest {
 
@@ -42,7 +42,9 @@ public class BaseEntityTest {
         w.setId(UUID.fromString("00000000-0000-0000-0000-000000000000"));
         w.setCreatedDateTime(ZonedDateTime.of(2017, 10, 30, 4, 38, 0, 0, ZoneId.of("America/Los_Angeles")).toInstant());
         w.setName("foo");
-        assertEquals("{\"createdDateTime\":\"2017-10-30T11:38:00Z\",\"id\":\"00000000-0000-0000-0000-000000000000\",\"name\":\"foo\"}", w.toJson());
+        assertEquals(
+                "{\"createdDateTime\":\"2017-10-30T11:38:00Z\",\"id\":\"00000000-0000-0000-0000-000000000000\",\"name\":\"foo\"}",
+                w.toJson());
     }
 
     @Test
@@ -57,20 +59,24 @@ public class BaseEntityTest {
         assertEquals("bar", w2.getName());
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testCopyPropertiesNull() {
-        final Widget w = new Widget();
-        w.copyNonNullProperties(null);
+        assertThrows(NullPointerException.class, () -> {
+            final Widget w = new Widget();
+            w.copyNonNullProperties(null);
+        });
     }
 
     static class DifferentEntity extends DefaultBaseEntity {
         private static final long serialVersionUID = 1L;
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCopyPropertiesDifferentClass() {
-        final Widget w = new Widget();
-        w.copyNonNullProperties(new DifferentEntity());
+        assertThrows(IllegalArgumentException.class, () -> {
+            final Widget w = new Widget();
+            w.copyNonNullProperties(new DifferentEntity());
+        });
     }
 
     @Test

@@ -1,6 +1,6 @@
 package org.minijax.commons;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.io.Closeable;
@@ -11,13 +11,15 @@ import java.util.List;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class CloseUtilsTest {
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCtor() {
-        new CloseUtils();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new CloseUtils();
+        });
     }
 
     @Test
@@ -98,6 +100,7 @@ public class CloseUtilsTest {
 
     public static class MyAutoCloseable implements AutoCloseable {
         boolean closed;
+
         @Override
         public void close() {
             closed = true;
@@ -113,6 +116,7 @@ public class CloseUtilsTest {
 
     public static class MyCloseable implements Closeable {
         boolean closed;
+
         @Override
         public void close() {
             closed = true;

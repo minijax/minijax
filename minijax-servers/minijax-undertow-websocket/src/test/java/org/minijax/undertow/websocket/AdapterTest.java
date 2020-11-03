@@ -9,7 +9,7 @@ import jakarta.websocket.OnError;
 import jakarta.websocket.OnMessage;
 import jakarta.websocket.OnOpen;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.test.MinijaxTest;
 

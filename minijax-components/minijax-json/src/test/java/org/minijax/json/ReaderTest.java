@@ -1,8 +1,7 @@
 package org.minijax.json;
 
 import static jakarta.ws.rs.core.MediaType.*;
-
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -14,10 +13,10 @@ import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.ext.MessageBodyReader;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.test.MinijaxTest;
 
@@ -25,18 +24,18 @@ public class ReaderTest extends MinijaxTest {
     private MinijaxRequestContext context;
     private MessageBodyReader<?> reader;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpReaderTest() {
         register(JsonFeature.class);
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         context = createRequestContext();
         reader = getServer().getResource(MinijaxJsonReader.class);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws IOException {
         context.close();
     }
@@ -69,13 +68,15 @@ public class ReaderTest extends MinijaxTest {
         assertEquals("hello", widget.value);
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     @SuppressWarnings("unchecked")
     public void testReaderException() throws IOException {
-        final String json = "";
-        final ByteArrayInputStream inputStream = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
-        final MessageBodyReader<Object> objReader = (MessageBodyReader<Object>) reader;
-        objReader.readFrom(Object.class, null, null, null, null, inputStream);
+        assertThrows(BadRequestException.class, () -> {
+            final String json = "";
+            final ByteArrayInputStream inputStream = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
+            final MessageBodyReader<Object> objReader = (MessageBodyReader<Object>) reader;
+            objReader.readFrom(Object.class, null, null, null, null, inputStream);
+        });
     }
 
     @Test

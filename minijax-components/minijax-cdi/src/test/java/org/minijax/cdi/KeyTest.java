@@ -1,6 +1,6 @@
 package org.minijax.cdi;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 import jakarta.inject.Qualifier;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class KeyTest {
 

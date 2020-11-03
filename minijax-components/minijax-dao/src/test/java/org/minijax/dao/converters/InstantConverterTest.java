@@ -1,11 +1,11 @@
 package org.minijax.dao.converters;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.Timestamp;
 import java.time.Instant;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class InstantConverterTest {
 

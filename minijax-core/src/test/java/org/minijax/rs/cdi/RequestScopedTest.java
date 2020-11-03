@@ -1,13 +1,13 @@
 package org.minijax.rs.cdi;
 
 import static jakarta.ws.rs.HttpMethod.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 
 import jakarta.enterprise.context.RequestScoped;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 import org.minijax.rs.MinijaxApplicationContext;
 import org.minijax.rs.MinijaxRequestContext;

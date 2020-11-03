@@ -4,22 +4,22 @@ import static jakarta.ws.rs.HttpMethod.*;
 
 import java.net.URI;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.minijax.Minijax;
 import org.minijax.rs.MinijaxRequestContext;
 
 public class MinijaxTest {
     private static Minijax server;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpMinijaxClass() {
         if (server == null) {
             startServer();
         }
     }
 
-    @Before
+    @BeforeEach
     public void setUpMinijax() {
         if (server == null) {
             startServer();

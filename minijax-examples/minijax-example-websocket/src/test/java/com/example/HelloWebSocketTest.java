@@ -1,6 +1,6 @@
 package com.example;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
@@ -8,13 +8,10 @@ import java.io.IOException;
 import jakarta.websocket.RemoteEndpoint.Basic;
 import jakarta.websocket.Session;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.Test;
 
 import com.example.HelloWebSocket.EchoEndpoint;
 
-@RunWith(MockitoJUnitRunner.class)
 public class HelloWebSocketTest {
 
     @Test

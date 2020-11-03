@@ -1,17 +1,19 @@
 package org.minijax.rs.persistence;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class PersistenceUtilsTest {
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCtor() {
-        new PersistenceUtils();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new PersistenceUtils();
+        });
     }
 
     @Test

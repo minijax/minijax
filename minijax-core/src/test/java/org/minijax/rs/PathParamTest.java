@@ -1,13 +1,13 @@
 package org.minijax.rs;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
 public class PathParamTest extends MinijaxTest {
@@ -32,7 +32,7 @@ public class PathParamTest extends MinijaxTest {
         return arg1 + "-" + arg2;
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpPathParamTest() {
         resetServer();
         register(PathParamTest.class);

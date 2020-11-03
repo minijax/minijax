@@ -1,13 +1,11 @@
 package org.minijax.rs.persistence;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.junit.Test;
 
 import jakarta.enterprise.inject.InjectionException;
 import jakarta.inject.Provider;
@@ -17,6 +15,8 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.PersistenceContextType;
 import jakarta.persistence.PersistenceProperty;
 import jakarta.persistence.SynchronizationType;
+
+import org.junit.jupiter.api.Test;
 
 public class PersistenceContextAnnotationProcessorTest {
 
@@ -32,19 +32,23 @@ public class PersistenceContextAnnotationProcessorTest {
         assertNotNull(provider);
     }
 
-    @Test(expected = InjectionException.class)
+    @Test
     public void testNotFound() {
+        assertThrows(InjectionException.class, () -> {
         final Map<String, EntityManagerFactory> factories = createFactories("foo", "bar");
         final PersistenceContextAnnotationProcessor p = new PersistenceContextAnnotationProcessor(factories);
         final PersistenceContext annotation = createAnnotation("baz");
         p.buildProvider(null, EntityManager.class, new Annotation[] { annotation });
+    });
     }
 
-    @Test(expected = InjectionException.class)
+    @Test
     public void testMissingAnnotation() {
+        assertThrows(InjectionException.class, () -> {
         final Map<String, EntityManagerFactory> factories = createFactories("foo", "bar");
         final PersistenceContextAnnotationProcessor p = new PersistenceContextAnnotationProcessor(factories);
         p.getPersistenceContextAnnotation(new Annotation[0]);
+    });
     }
 
     @Test

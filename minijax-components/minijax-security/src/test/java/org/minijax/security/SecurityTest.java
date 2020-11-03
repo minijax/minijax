@@ -1,6 +1,6 @@
 package org.minijax.security;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -12,9 +12,9 @@ import jakarta.ws.rs.core.Configuration;
 import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.SecurityContext;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.minijax.commons.IdUtils;
 import org.minijax.commons.MinijaxProperties;
 import org.minijax.rs.MinijaxRequestContext;
@@ -23,12 +23,12 @@ import org.minijax.rs.test.MinijaxTest;
 public class SecurityTest extends MinijaxTest {
     private MinijaxRequestContext context;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         context = createRequestContext();
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws IOException {
         context.close();
     }
@@ -46,20 +46,24 @@ public class SecurityTest extends MinijaxTest {
         assertTrue(security.isSecure());
     }
 
-    @Test(expected = NotAuthorizedException.class)
+    @Test
     public void testAnonymousRequireLogin() {
+        assertThrows(NotAuthorizedException.class, () -> {
         final SecurityDao dao = mock(SecurityDao.class);
         final Configuration config = mock(Configuration.class);
         final Security<User> security = new Security<>(dao, config, null, null);
         security.requireLogin();
+    });
     }
 
-    @Test(expected = NotAuthorizedException.class)
+    @Test
     public void testAnonymousValidateSession() {
+        assertThrows(NotAuthorizedException.class, () -> {
         final SecurityDao dao = mock(SecurityDao.class);
         final Configuration config = mock(Configuration.class);
         final Security<User> security = new Security<>(dao, config, null, null);
         security.validateSession("foo");
+    });
     }
 
     @Test
@@ -182,8 +186,9 @@ public class SecurityTest extends MinijaxTest {
         assertNull(security.getUserPrincipal());
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void testInvalidSessionToken() {
+        assertThrows(BadRequestException.class, () -> {
         final User user = new User();
 
         final UserSession session = new UserSession();
@@ -200,6 +205,7 @@ public class SecurityTest extends MinijaxTest {
 
         final Security<User> security = new Security<>(dao, config, null, cookie);
         security.validateSession("not-the-right-token");
+    });
     }
 
     @Test

@@ -1,12 +1,12 @@
 package org.minijax.nio;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 
 public class ServerTest {

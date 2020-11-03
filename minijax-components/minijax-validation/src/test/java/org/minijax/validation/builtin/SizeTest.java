@@ -3,7 +3,7 @@ package org.minijax.validation.builtin;
 import static java.util.Arrays.*;
 import static java.util.Collections.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -14,13 +14,13 @@ import jakarta.validation.ValidationException;
 import jakarta.validation.Validator;
 import jakarta.validation.constraints.Size;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class SizeTest {
     private static Validator validator;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
@@ -134,15 +134,19 @@ public class SizeTest {
         public int x;
     }
 
-    @Test(expected = ValidationException.class)
+    @Test
     public void testInvalidType() {
+        assertThrows(ValidationException.class, () -> {
         final IntegerWidget b = new IntegerWidget();
         b.x = 10;
         validator.validate(b).size();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testConstructor() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         new SizeValidators();
+    });
     }
 }

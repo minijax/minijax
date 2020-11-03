@@ -1,6 +1,6 @@
 package org.minijax.undertow;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.Locale;
@@ -10,7 +10,7 @@ import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import io.undertow.util.HeaderMap;
 import io.undertow.util.Headers;
@@ -134,10 +134,12 @@ public class HttpHeadersTest {
         assertEquals(cookies, httpHeaders.getCookies());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testDate() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         final HeaderMap headerMap = new HeaderMap();
         final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(headerMap);
         httpHeaders.getDate();
+    });
     }
 }

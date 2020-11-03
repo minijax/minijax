@@ -1,6 +1,6 @@
 package org.minijax.security;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 
@@ -11,8 +11,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.minijax.dao.DefaultBaseDao;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.persistence.PersistenceFeature;
@@ -49,7 +49,7 @@ public class RolesAllowedTest extends MinijaxTest {
         return Response.ok().build();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpSecurityTest() throws IOException {
         resetServer();
         getServer()

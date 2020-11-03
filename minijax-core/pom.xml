@@ -50,14 +50,14 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>org.eclipse.persistence.jpa</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>

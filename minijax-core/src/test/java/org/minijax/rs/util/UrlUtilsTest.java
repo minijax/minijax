@@ -1,17 +1,20 @@
 package org.minijax.rs.util;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
 import static java.util.Collections.*;
-import static org.junit.Assert.*;
 
 import java.nio.charset.StandardCharsets;
 
-import org.junit.Test;
-
 public class UrlUtilsTest {
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCtor() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         new UrlUtils();
+    });
     }
 
     @Test

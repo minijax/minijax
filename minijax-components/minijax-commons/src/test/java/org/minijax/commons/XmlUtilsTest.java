@@ -1,6 +1,6 @@
 package org.minijax.commons;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,15 +9,17 @@ import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class XmlUtilsTest {
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCtor() {
-        new XmlUtils();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new XmlUtils();
+        });
     }
 
     @Test
@@ -26,9 +28,11 @@ public class XmlUtilsTest {
         assertNotNull(doc);
     }
 
-    @Test(expected = IOException.class)
+    @Test
     public void testReadBadXml() throws IOException {
-        XmlUtils.readXml(new File("src/test/resources/bad.xml.txt"));
+        assertThrows(IOException.class, () -> {
+            XmlUtils.readXml(new File("src/test/resources/bad.xml.txt"));
+        });
     }
 
     @Test

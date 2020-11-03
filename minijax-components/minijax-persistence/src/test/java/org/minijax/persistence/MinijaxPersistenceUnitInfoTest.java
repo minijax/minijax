@@ -1,78 +1,106 @@
 package org.minijax.persistence;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class MinijaxPersistenceUnitInfoTest {
     private MinijaxPersistenceUnitInfo pui;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         pui = new MinijaxPersistenceUnitInfo("", "");
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetTransactionType() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         pui.getTransactionType();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetJtaDataSource() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         pui.getJtaDataSource();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetNonJtaDataSource() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         pui.getNonJtaDataSource();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetMappingFileNames() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         pui.getMappingFileNames();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetJarFileUrls() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         pui.getJarFileUrls();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetPersistenceUnitRootUrl() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         pui.getPersistenceUnitRootUrl();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testExcludeUnlistedClasses() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         pui.excludeUnlistedClasses();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetSharedCacheMode() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         pui.getSharedCacheMode();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetValidationMode() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         pui.getValidationMode();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetPersistenceXMLSchemaVersion() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         pui.getPersistenceXMLSchemaVersion();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetClassLoader() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         pui.getClassLoader();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testAddTransformer() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         pui.addTransformer(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetNewTempClassLoader() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         pui.getNewTempClassLoader();
+    });
     }
 }

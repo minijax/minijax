@@ -1,19 +1,19 @@
 package org.minijax.rs.delegates;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.ws.rs.core.MediaType;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class MediaTypeDelegateTest {
     private MinijaxMediaTypeDelegate d;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         d = new MinijaxMediaTypeDelegate();
     }

@@ -1,6 +1,6 @@
 package org.minijax.validation.referenceguide.chapter02.containerelement.map;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Set;
 
@@ -9,17 +9,17 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.minijax.validation.MinijaxValidationProvider;
 
 public class CarTest {
 
 	private static Validator validator;
 
-	@BeforeClass
+	@BeforeAll
 	public static void setUpValidator() {
-		ValidatorFactory factory = Validation.byProvider( MinijaxValidationProvider.class )
+		final ValidatorFactory factory = Validation.byProvider( MinijaxValidationProvider.class )
 				.configure()
 				.buildValidatorFactory();
 		validator = factory.getValidator();
@@ -28,14 +28,14 @@ public class CarTest {
 	@Test
 	public void validateMapValueContainerElementConstraint() {
 		//tag::validateMapValueContainerElementConstraint[]
-		Car car = new Car();
+		final Car car = new Car();
 		car.setFuelConsumption( Car.FuelConsumption.HIGHWAY, 20 );
 
-		Set<ConstraintViolation<Car>> constraintViolations = validator.validate( car );
+		final Set<ConstraintViolation<Car>> constraintViolations = validator.validate( car );
 
 		assertEquals( 1, constraintViolations.size() );
 
-		ConstraintViolation<Car> constraintViolation =
+		final ConstraintViolation<Car> constraintViolation =
 				constraintViolations.iterator().next();
 		assertEquals(
 				"20 is outside the max fuel consumption.",
@@ -51,14 +51,14 @@ public class CarTest {
 	@Test
 	public void validateMapKeyContainerElementConstraint() {
 		//tag::validateMapKeyContainerElementConstraint[]
-		Car car = new Car();
+		final Car car = new Car();
 		car.setFuelConsumption( null, 5 );
 
-		Set<ConstraintViolation<Car>> constraintViolations = validator.validate( car );
+		final Set<ConstraintViolation<Car>> constraintViolations = validator.validate( car );
 
 		assertEquals( 1, constraintViolations.size() );
 
-		ConstraintViolation<Car> constraintViolation =
+		final ConstraintViolation<Car> constraintViolation =
 				constraintViolations.iterator().next();
 		assertEquals(
 				"must not be null",

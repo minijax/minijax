@@ -1,17 +1,19 @@
 package org.minijax.rs.util;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 import java.util.Locale;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class LocaleUtilsTest {
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCtor() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         new LocaleUtils();
+    });
     }
 
     @Test

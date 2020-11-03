@@ -1,6 +1,6 @@
 package com.example;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 
@@ -8,8 +8,8 @@ import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Response;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.minijax.mustache.MustacheFeature;
 import org.minijax.rs.multipart.Multipart;
 import org.minijax.rs.test.MinijaxTest;
@@ -17,7 +17,7 @@ import org.minijax.view.View;
 
 public class HelloFileUploadTest extends MinijaxTest {
 
-    @Before
+    @BeforeEach
     public void setUp() {
         register(MustacheFeature.class);
         register(HelloFileUpload.class);

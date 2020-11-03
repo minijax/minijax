@@ -4,7 +4,7 @@ import static org.mockito.Mockito.*;
 
 import jakarta.websocket.OnMessage;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 import org.xnio.ChannelListener.Setter;
 

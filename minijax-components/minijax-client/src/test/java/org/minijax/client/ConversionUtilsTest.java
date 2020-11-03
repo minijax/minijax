@@ -1,10 +1,9 @@
 package org.minijax.client;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import jakarta.ws.rs.core.GenericType;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ConversionUtilsTest {
 

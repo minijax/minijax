@@ -4,7 +4,7 @@ import static org.mockito.Mockito.*;
 
 import java.util.concurrent.ScheduledExecutorService;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 
 import io.netty.channel.ChannelHandlerContext;

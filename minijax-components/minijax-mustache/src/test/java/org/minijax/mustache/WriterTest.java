@@ -2,13 +2,13 @@ package org.minijax.mustache;
 
 import static jakarta.ws.rs.core.MediaType.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 import org.minijax.view.View;
 
@@ -17,7 +17,7 @@ import com.github.mustachejava.MustacheNotFoundException;
 public class WriterTest extends MinijaxTest {
     private MinijaxMustacheWriter writer;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         register(MustacheFeature.class);
         writer = getServer().getResource(MinijaxMustacheWriter.class);
@@ -60,11 +60,13 @@ public class WriterTest extends MinijaxTest {
         assertEquals(expected, outputStream.toString());
     }
 
-    @Test(expected = MustacheNotFoundException.class)
+    @Test
     public void testMissingTemplate() throws IOException {
+        assertThrows(MustacheNotFoundException.class, () -> {
         final View view = new View("oops");
 
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         writer.writeTo(view, View.class, null, null, TEXT_HTML_TYPE, null, outputStream);
+    });
     }
 }

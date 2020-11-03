@@ -1,6 +1,6 @@
 package com.example.resources;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -9,8 +9,8 @@ import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Form;
 import jakarta.ws.rs.core.Response;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.minijax.view.View;
 
 import com.example.PetClinicTest;
@@ -18,7 +18,7 @@ import com.example.model.Owner;
 
 public class OwnersResourceTest extends PetClinicTest {
 
-    @Before
+    @BeforeEach
     public void setUp() {
         register(OwnersResource.class);
     }

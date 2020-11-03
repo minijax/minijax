@@ -1,6 +1,6 @@
 package org.minijax.rs;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -8,7 +8,7 @@ import jakarta.ws.rs.container.DynamicFeature;
 import jakarta.ws.rs.container.ResourceInfo;
 import jakarta.ws.rs.core.FeatureContext;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 
 public class DynamicFeatureTest {

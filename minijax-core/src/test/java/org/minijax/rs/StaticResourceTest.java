@@ -1,18 +1,17 @@
 package org.minijax.rs;
 
 import static jakarta.ws.rs.core.MediaType.*;
-
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import jakarta.ws.rs.core.Response;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
 public class StaticResourceTest extends MinijaxTest {
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpStaticResourceTest() {
         resetServer();
         getServer()

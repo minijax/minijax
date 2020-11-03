@@ -1,6 +1,6 @@
 package org.minijax.validation;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 
@@ -8,7 +8,7 @@ import jakarta.validation.ElementKind;
 import jakarta.validation.Path.Node;
 import jakarta.validation.Path.PropertyNode;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.validation.MinijaxPath.MinijaxPropertyNode;
 
 public class PathTest {

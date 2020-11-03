@@ -1,6 +1,6 @@
 package org.minijax.persistence.criteria;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -16,9 +16,9 @@ import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.SetJoin;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.minijax.persistence.MinijaxEntityManager;
 import org.minijax.persistence.MinijaxEntityManagerFactory;
 import org.minijax.persistence.MinijaxPersistenceProvider;
@@ -32,7 +32,7 @@ public class MinijaxCriteriaBuilderTest {
     private MinijaxEntityManager em;
     private MinijaxCriteriaBuilder cb;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         final MinijaxPersistenceProvider provider = new MinijaxPersistenceProvider();
         emf = provider.createEntityManagerFactory("testdb", null);
@@ -40,7 +40,7 @@ public class MinijaxCriteriaBuilderTest {
         cb = em.getCriteriaBuilder();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         em.close();
         emf.close();
@@ -242,634 +242,888 @@ public class MinijaxCriteriaBuilderTest {
      * Unsupported
      */
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCreateCriteriaUpdate() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.createCriteriaUpdate(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCreateCriteriaDelete() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.createCriteriaDelete(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testConstruct() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.construct(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testArray() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.array();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testAvg() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.avg(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testMax() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.max(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testMin() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.min(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGreatest() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.greatest(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testLeast() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.least(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCount() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.count(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCountDistinct() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.countDistinct(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testExists() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.exists(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testAll() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.all(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSome() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.some(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testAny() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.any(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testConjunction() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.conjunction();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testDisjunction() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.disjunction();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testIsTrue() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.isTrue(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testIsFalse() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.isFalse(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testNotEqual1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.notEqual(null, (Expression<Object>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testNotEqual2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.notEqual(null, (Object) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGreaterThan1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.greaterThan((Expression<Integer>) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGreaterThan2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.greaterThan((Expression<Integer>) null, (Integer) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGreaterThanOrEqualTo1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.greaterThanOrEqualTo((Expression<Integer>) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGreaterThanOrEqualTo2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.greaterThanOrEqualTo((Expression<Integer>) null, (Integer) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testLessThan1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.lessThan((Expression<Integer>) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testLessThan2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.lessThan((Expression<Integer>) null, (Integer) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testLessThanOrEqualTo1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.lessThanOrEqualTo((Expression<Integer>) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testLessThanOrEqualTo() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.lessThanOrEqualTo((Expression<Integer>) null, (Integer) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testBetween1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.between((Expression<Integer>) null, (Expression<Integer>) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testBetween2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.between((Expression<Integer>) null, (Integer) null, (Integer) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGt1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.gt((Expression<Integer>) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGt2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.gt((Expression<Integer>) null, (Integer) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGe1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.ge((Expression<Integer>) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGe2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.ge((Expression<Integer>) null, (Integer) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testLt1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.lt((Expression<Integer>) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testLt2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.lt((Expression<Integer>) null, (Integer) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testLe1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.le((Expression<Integer>) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testLe2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.le((Expression<Integer>) null, (Integer) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testNeg() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.neg(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testAbs() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.abs(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSum1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.sum((Expression<Integer>) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSum2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.sum((Expression<Integer>) null, (Integer) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSum3() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.sum((Integer) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSum4() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.sum(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSumAsLong() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.sumAsLong(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSumAsDouble() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.sumAsDouble(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testProd1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.prod((Expression<Integer>) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testProd2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.prod((Expression<Integer>) null, (Integer) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testProd3() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.prod((Integer) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testDiff1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.diff((Expression<Integer>) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testDiff2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.diff((Expression<Integer>) null, (Integer) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testDiff3() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.diff((Integer) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testQuot1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.quot((Expression<Integer>) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testQuot2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.quot((Expression<Integer>) null, (Integer) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testQuot3() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.quot((Integer) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testMod1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.mod((Expression<Integer>) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testMod2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.mod((Expression<Integer>) null, (Integer) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testMod3() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.mod((Integer) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSqrt() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.sqrt(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testToLong() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.toLong(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testToInteger() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.toInteger(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testToFloat() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.toFloat(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testToDouble() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.toDouble(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testToBigDecimal() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.toBigDecimal(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testToBigInteger() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.toBigInteger(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testToString() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.toString(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testLiteral() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.literal(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testNullLiteral() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.nullLiteral(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testParameter1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.parameter(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testParameter2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.parameter(null, null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void testIsEmpty() {        cb.isEmpty(null);
+    @Test
+    public void testIsEmpty() {
+        assertThrows(UnsupportedOperationException.class, () -> {        cb.isEmpty(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void testIsNotEmpty() {        cb.isNotEmpty(null);
+    @Test
+    public void testIsNotEmpty() {
+        assertThrows(UnsupportedOperationException.class, () -> {        cb.isNotEmpty(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void testSize1() {        cb.size((Expression<Collection<Object>>) null);
+    @Test
+    public void testSize1() {
+        assertThrows(UnsupportedOperationException.class, () -> {        cb.size((Expression<Collection<Object>>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void testSize2() {        cb.size((Collection<Object>) null);
+    @Test
+    public void testSize2() {
+        assertThrows(UnsupportedOperationException.class, () -> {        cb.size((Collection<Object>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testIsMember1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.isMember((Expression<Widget>) null, (Expression<List<Widget>>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testIsMember2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.isMember((Widget) null, (Expression<List<Widget>>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void isNotMember1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.isNotMember((Expression<Widget>) null, (Expression<List<Widget>>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void isNotMember2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.isNotMember((Widget) null, (Expression<List<Widget>>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testValues() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.values(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testKeys() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.keys(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testLike1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.like((Expression<String>) null, (Expression<String>) null, (Expression<Character>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testLike2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.like((Expression<String>) null, (Expression<String>) null, ' ');
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testLike3() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.like((Expression<String>) null, (String) null, (Expression<Character>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testLike4() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.like((Expression<String>) null, (String) null, ' ');
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testNotLike1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.notLike((Expression<String>) null, (Expression<String>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testNotLike2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.notLike((Expression<String>) null, (String) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testNotLike3() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.notLike((Expression<String>) null, (Expression<String>) null, (Expression<Character>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testNotLike4() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.notLike((Expression<String>) null, (Expression<String>) null, ' ');
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testNotLike5() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.notLike((Expression<String>) null, (String) null, (Expression<Character>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testNotLike6() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.notLike((Expression<String>) null, (String) null, ' ');
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testConcat1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.concat((Expression<String>) null, (Expression<String>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testConcat2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.concat((Expression<String>) null, (String) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testConcat3() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.concat((String) null, (Expression<String>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSubstring1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.substring((Expression<String>) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSubstring2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.substring((Expression<String>) null, 0);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSubstring3() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.substring((Expression<String>) null, (Expression<Integer>) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSubstring4() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.substring((Expression<String>) null, 0, 0);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testTrim1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.trim(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testTrim2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.trim((Trimspec) null, (Expression<String>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testTrim3() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.trim((Expression<Character>) null, (Expression<String>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testTrim4() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.trim((Trimspec) null, (Expression<Character>) null, (Expression<String>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testTrim5() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.trim(' ', (Expression<String>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testTrim6() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.trim((Trimspec) null, ' ', (Expression<String>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testLength() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.length(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testLocate1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.locate((Expression<String>) null, (Expression<String>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testLocate2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.locate((Expression<String>) null, (String) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testLocate3() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.locate((Expression<String>) null, (Expression<String>) null, (Expression<Integer>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testLocate4() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.locate((Expression<String>) null, (String) null, 0);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCurrentDate() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.currentDate();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCurrentTimestamp() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.currentTimestamp();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCurrentTime() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.currentTime();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCoalesce1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.coalesce();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCoalesce2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.coalesce((Expression<Widget>) null, (Expression<Widget>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCoalesce3() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.coalesce((Expression<Widget>) null, (Widget) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testNullif1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.<Widget>nullif((Expression<Widget>) null, (Expression<?>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testNullif2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.<Widget>nullif((Expression<Widget>) null, (Widget) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSelectCase1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.selectCase(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSelectCase2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.selectCase();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testFunction() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.function(null, null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testTreat1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.treat((Join<User, Message>) null, (Class<Message>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testTreat2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.treat((CollectionJoin<User, Message>) null, (Class<Message>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testTreat3() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.treat((SetJoin<User, Message>) null, (Class<Message>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testTreat4() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.treat((ListJoin<User, Message>) null, (Class<Message>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testTreat5() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.treat((MapJoin<String, User, Message>) null, (Class<Message>) null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testTreat6() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.treat((Path<Object>) null, null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testTreat7() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         cb.treat((Root<Object>) null, null);
+    });
     }
 }

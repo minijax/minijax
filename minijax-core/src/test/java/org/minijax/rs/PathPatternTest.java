@@ -1,6 +1,6 @@
 package org.minijax.rs;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Method;
 import java.util.UUID;
@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 import jakarta.ws.rs.PathParam;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.commons.IdUtils;
 
 public class PathPatternTest {
@@ -115,34 +115,34 @@ public class PathPatternTest {
         assertFalse(p.matcher("/00000000-0000-0000-0000-00000000000x").matches());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testUnexpectedCurly() {
-        MinijaxPathPattern.parse(getMethod("get1"), "}");
+        assertThrows(IllegalArgumentException.class, () -> MinijaxPathPattern.parse(getMethod("get1"), "}"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testUnexpectedEnd() {
-        MinijaxPathPattern.parse(getMethod("get1"), "{");
+        assertThrows(IllegalArgumentException.class, () -> MinijaxPathPattern.parse(getMethod("get1"), "{"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testMissingName() {
-        MinijaxPathPattern.parse(getMethod("get1"), "{}");
+        assertThrows(IllegalArgumentException.class, () -> MinijaxPathPattern.parse(getMethod("get1"), "{}"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testMissingNameWithWhitespace() {
-        MinijaxPathPattern.parse(getMethod("get1"), "{ : }");
+        assertThrows(IllegalArgumentException.class, () -> MinijaxPathPattern.parse(getMethod("get1"), "{ : }"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testMissingParam() {
-        MinijaxPathPattern.parse(getMethod("get1"), "{test}");
+        assertThrows(IllegalArgumentException.class, () -> MinijaxPathPattern.parse(getMethod("get1"), "{test}"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testUnexpectedColon() {
-        MinijaxPathPattern.parse(getMethod("get1"), "{:}");
+        assertThrows(IllegalArgumentException.class, () -> MinijaxPathPattern.parse(getMethod("get1"), "{:}"));
     }
 
     @Test

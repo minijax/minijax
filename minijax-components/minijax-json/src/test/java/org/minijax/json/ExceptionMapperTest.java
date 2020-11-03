@@ -1,13 +1,13 @@
 package org.minijax.json;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.Response;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.test.MinijaxTest;
 

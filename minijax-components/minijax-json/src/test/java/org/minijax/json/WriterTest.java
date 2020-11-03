@@ -2,7 +2,7 @@ package org.minijax.json;
 
 import static jakarta.ws.rs.core.MediaType.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -11,14 +11,14 @@ import java.util.Map;
 
 import jakarta.ws.rs.ext.MessageBodyWriter;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
 public class WriterTest extends MinijaxTest {
     private MessageBodyWriter<?> writer;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         register(JsonFeature.class);
         writer = getServer().getResource(MinijaxJsonWriter.class);

@@ -1,10 +1,10 @@
 package org.minijax.client;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Collections;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ClientBuilderTest {
 
@@ -13,98 +13,136 @@ public class ClientBuilderTest {
         assertNotNull(new MinijaxClientBuilder().build());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetConfiguration() {
-        new MinijaxClientBuilder().getConfiguration();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxClientBuilder().getConfiguration();
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testProperty() {
-        new MinijaxClientBuilder().property("name", "value");
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxClientBuilder().property("name", "value");
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRegister1() {
-        new MinijaxClientBuilder().register(Object.class);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxClientBuilder().register(Object.class);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRegister2() {
-        new MinijaxClientBuilder().register(Object.class, 0);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxClientBuilder().register(Object.class, 0);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRegister3() {
-        new MinijaxClientBuilder().register(Object.class, Object.class);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxClientBuilder().register(Object.class, Object.class);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRegister4() {
-        new MinijaxClientBuilder().register(Object.class, Collections.emptyMap());
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxClientBuilder().register(Object.class, Collections.emptyMap());
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRegister5() {
-        new MinijaxClientBuilder().register(new Object());
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxClientBuilder().register(new Object());
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRegister6() {
-        new MinijaxClientBuilder().register(new Object(), 0);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxClientBuilder().register(new Object(), 0);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRegister7() {
-        new MinijaxClientBuilder().register(new Object(), Object.class);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxClientBuilder().register(new Object(), Object.class);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRegister8() {
-        new MinijaxClientBuilder().register(new Object(), Collections.emptyMap());
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxClientBuilder().register(new Object(), Collections.emptyMap());
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testWithConfig() {
-        new MinijaxClientBuilder().withConfig(null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxClientBuilder().withConfig(null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSslContext() {
-        new MinijaxClientBuilder().sslContext(null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxClientBuilder().sslContext(null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testKeyStore() {
-        new MinijaxClientBuilder().keyStore(null, (char[]) null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxClientBuilder().keyStore(null, (char[]) null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testTrustStore() {
-        new MinijaxClientBuilder().trustStore(null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxClientBuilder().trustStore(null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testHostnameVerifier() {
-        new MinijaxClientBuilder().hostnameVerifier(null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxClientBuilder().hostnameVerifier(null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testExecutorService() {
-        new MinijaxClientBuilder().executorService(null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxClientBuilder().executorService(null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testScheduledExecutorService() {
-        new MinijaxClientBuilder().scheduledExecutorService(null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxClientBuilder().scheduledExecutorService(null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testConnectTimeout() {
-        new MinijaxClientBuilder().connectTimeout(0, null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxClientBuilder().connectTimeout(0, null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testReadTimeout() {
-        new MinijaxClientBuilder().readTimeout(0, null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxClientBuilder().readTimeout(0, null);
+        });
     }
 }

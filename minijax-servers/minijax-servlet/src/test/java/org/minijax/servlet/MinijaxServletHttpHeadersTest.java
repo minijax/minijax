@@ -1,6 +1,6 @@
 package org.minijax.servlet;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -14,7 +14,7 @@ import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class MinijaxServletHttpHeadersTest {
 
@@ -137,10 +137,12 @@ public class MinijaxServletHttpHeadersTest {
         assertEquals(cookies, httpHeaders.getCookies());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testDate() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         final HttpServletRequest request = mock(HttpServletRequest.class);
         final MinijaxServletHttpHeaders httpHeaders = new MinijaxServletHttpHeaders(request);
         httpHeaders.getDate();
+    });
     }
 }

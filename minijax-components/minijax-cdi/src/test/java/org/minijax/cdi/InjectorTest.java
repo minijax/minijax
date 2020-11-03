@@ -1,25 +1,25 @@
 package org.minijax.cdi;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import jakarta.enterprise.inject.InjectionException;
 import jakarta.inject.Inject;
 import jakarta.inject.Provider;
 import jakarta.inject.Singleton;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class InjectorTest {
     private MinijaxInjector injector;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         injector = new MinijaxInjector();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         injector.close();
     }
@@ -82,14 +82,17 @@ public class InjectorTest {
 
     static class ProviderParamInjection {
         final C c;
-        @Inject ProviderParamInjection(final Provider<C> provider) {
+
+        @Inject
+        ProviderParamInjection(final Provider<C> provider) {
             c = provider.get();
         }
     }
 
     @Test
     public void testProviderParamInjection() {
-        final Provider<ProviderParamInjection> providerInjectionProvider = injector.getProvider(ProviderParamInjection.class);
+        final Provider<ProviderParamInjection> providerInjectionProvider = injector
+                .getProvider(ProviderParamInjection.class);
         assertNotNull(providerInjectionProvider);
 
         final ProviderParamInjection providerInjection = providerInjectionProvider.get();
@@ -98,12 +101,14 @@ public class InjectorTest {
     }
 
     static class ProviderFieldInjection {
-        @Inject Provider<C> provider;
+        @Inject
+        Provider<C> provider;
     }
 
     @Test
     public void testProviderFieldInjection() {
-        final Provider<ProviderFieldInjection> providerInjectionProvider = injector.getProvider(ProviderFieldInjection.class);
+        final Provider<ProviderFieldInjection> providerInjectionProvider = injector
+                .getProvider(ProviderFieldInjection.class);
         assertNotNull(providerInjectionProvider);
 
         final ProviderFieldInjection providerInjection = providerInjectionProvider.get();
@@ -148,48 +153,68 @@ public class InjectorTest {
     }
 
     static class NoValidConstructors {
-        NoValidConstructors(final int x) { }
+        NoValidConstructors(final int x) {
+        }
     }
 
-    @Test(expected = InjectionException.class)
+    @Test
     public void testNoValidConstructors() {
-        injector.getProvider(NoValidConstructors.class);
+        assertThrows(InjectionException.class, () -> {
+            injector.getProvider(NoValidConstructors.class);
+        });
     }
 
     static class MultipleInjectConstructors {
-        @Inject MultipleInjectConstructors(final int x) { }
-        @Inject MultipleInjectConstructors(final String x) { }
+        @Inject
+        MultipleInjectConstructors(final int x) {
+        }
+
+        @Inject
+        MultipleInjectConstructors(final String x) {
+        }
     }
 
-    @Test(expected = InjectionException.class)
+    @Test
     public void testMultipleInjectConstructors() {
-        injector.getProvider(MultipleInjectConstructors.class);
+        assertThrows(InjectionException.class, () -> {
+            injector.getProvider(MultipleInjectConstructors.class);
+        });
     }
 
     static class ParamCircularDependencyA {
-        @Inject ParamCircularDependencyA(final ParamCircularDependencyB b) { }
+        @Inject
+        ParamCircularDependencyA(final ParamCircularDependencyB b) {
+        }
     }
 
     private static class ParamCircularDependencyB {
-        @Inject ParamCircularDependencyB(final ParamCircularDependencyA a) { }
+        @Inject
+        ParamCircularDependencyB(final ParamCircularDependencyA a) {
+        }
     }
 
-    @Test(expected = InjectionException.class)
+    @Test
     public void testParamCircularDependency() {
-        injector.getProvider(ParamCircularDependencyA.class);
+        assertThrows(InjectionException.class, () -> {
+            injector.getProvider(ParamCircularDependencyA.class);
+        });
     }
 
     static class FieldCircularDependencyA {
-        @Inject FieldCircularDependencyB b;
+        @Inject
+        FieldCircularDependencyB b;
     }
 
     static class FieldCircularDependencyB {
-        @Inject FieldCircularDependencyA a;
+        @Inject
+        FieldCircularDependencyA a;
     }
 
-    @Test(expected = InjectionException.class)
+    @Test
     public void testFieldCircularDependency() {
-        injector.getProvider(FieldCircularDependencyA.class);
+        assertThrows(InjectionException.class, () -> {
+            injector.getProvider(FieldCircularDependencyA.class);
+        });
     }
 
     static class ExplodingConstructor {
@@ -198,9 +223,11 @@ public class InjectorTest {
         }
     }
 
-    @Test(expected = InjectionException.class)
+    @Test
     public void testExplodingConstructor() {
-        injector.getResource(ExplodingConstructor.class);
+        assertThrows(InjectionException.class, () -> {
+            injector.getResource(ExplodingConstructor.class);
+        });
     }
 
     static class ExplodingSetter {
@@ -210,14 +237,18 @@ public class InjectorTest {
         }
     }
 
-    @Test(expected = InjectionException.class)
+    @Test
     public void testNewExplodingSetter() {
-        injector.getResource(ExplodingSetter.class);
+        assertThrows(InjectionException.class, () -> {
+            injector.getResource(ExplodingSetter.class);
+        });
     }
 
-    @Test(expected = InjectionException.class)
+    @Test
     public void testInitExplodingSetter() {
-        final ExplodingSetter instance = new ExplodingSetter();
-        injector.initResource(instance, null);
+        assertThrows(InjectionException.class, () -> {
+            final ExplodingSetter instance = new ExplodingSetter();
+            injector.initResource(instance, null);
+        });
     }
 }

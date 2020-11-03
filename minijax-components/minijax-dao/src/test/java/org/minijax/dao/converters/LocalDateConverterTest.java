@@ -1,11 +1,11 @@
 package org.minijax.dao.converters;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.Date;
 import java.time.LocalDate;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class LocalDateConverterTest {
 

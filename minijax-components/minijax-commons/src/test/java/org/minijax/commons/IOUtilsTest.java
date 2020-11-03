@@ -1,19 +1,21 @@
 package org.minijax.commons;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class IOUtilsTest {
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCtor() {
-        new IOUtils();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new IOUtils();
+        });
     }
 
     @Test

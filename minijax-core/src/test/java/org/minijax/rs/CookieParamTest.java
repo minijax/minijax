@@ -1,13 +1,13 @@
 package org.minijax.rs;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import jakarta.ws.rs.CookieParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
 public class CookieParamTest extends MinijaxTest {
@@ -18,7 +18,7 @@ public class CookieParamTest extends MinijaxTest {
         return test;
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpCookieParamTest() {
         resetServer();
         register(CookieParamTest.class);

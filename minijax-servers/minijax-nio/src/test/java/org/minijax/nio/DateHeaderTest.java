@@ -1,11 +1,15 @@
 package org.minijax.nio;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 public class DateHeaderTest {
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCtor() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         new DateHeader();
+    });
     }
 }

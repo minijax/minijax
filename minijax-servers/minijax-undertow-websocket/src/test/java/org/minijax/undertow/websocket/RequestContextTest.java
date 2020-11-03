@@ -2,7 +2,7 @@ package org.minijax.undertow.websocket;
 
 import static jakarta.ws.rs.HttpMethod.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.Map;
 
 import jakarta.ws.rs.core.HttpHeaders;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 import org.minijax.rs.MinijaxApplicationContext;
 

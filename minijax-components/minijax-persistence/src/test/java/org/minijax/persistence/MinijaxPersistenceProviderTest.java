@@ -1,11 +1,13 @@
 package org.minijax.persistence;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.persistence.spi.PersistenceUnitInfo;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class MinijaxPersistenceProviderTest {
 
@@ -25,21 +27,27 @@ public class MinijaxPersistenceProviderTest {
         provider.createContainerEntityManagerFactory(new MinijaxPersistenceUnitInfo("testdb", ""), props);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGenerateSchema1() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         final MinijaxPersistenceProvider provider = new MinijaxPersistenceProvider();
         provider.generateSchema("", null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGenerateSchema2() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         final MinijaxPersistenceProvider provider = new MinijaxPersistenceProvider();
         provider.generateSchema((PersistenceUnitInfo) null, null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetProviderUtil() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         final MinijaxPersistenceProvider provider = new MinijaxPersistenceProvider();
         provider.getProviderUtil();
+    });
     }
 }

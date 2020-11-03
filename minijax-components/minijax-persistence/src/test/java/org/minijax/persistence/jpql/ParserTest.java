@@ -1,13 +1,13 @@
 package org.minijax.persistence.jpql;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.minijax.persistence.MinijaxEntityManager;
 import org.minijax.persistence.MinijaxEntityManagerFactory;
 import org.minijax.persistence.MinijaxPersistenceProvider;
@@ -18,14 +18,14 @@ public class ParserTest {
     private MinijaxEntityManagerFactory emf;
     private MinijaxEntityManager em;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         final MinijaxPersistenceProvider provider = new MinijaxPersistenceProvider();
         emf = provider.createEntityManagerFactory("testdb", null);
         em = emf.createEntityManager();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         em.close();
         emf.close();

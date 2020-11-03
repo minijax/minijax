@@ -1,16 +1,16 @@
 package org.minijax.rs.delegates;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import jakarta.ws.rs.core.NewCookie;
 
 public class NewCookieDelegateTest {
     private MinijaxNewCookieDelegate d;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         d = new MinijaxNewCookieDelegate();
     }

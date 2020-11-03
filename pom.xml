@@ -91,7 +91,7 @@
         <jakarta-servlet.version>5.0.0</jakarta-servlet.version>
         <jakarta-validation.version>3.0.0-M1</jakarta-validation.version>
         <jakarta-websocket.version>2.0.0-RC1</jakarta-websocket.version>
-        <junit.version>4.13.1</junit.version>
+        <junit.version>5.7.0</junit.version>
         <kotlin.version>1.4.10</kotlin.version>
         <liquibase.version>4.1.1</liquibase.version>
         <logback.version>1.2.3</logback.version>
@@ -208,11 +208,6 @@
                 <version>${jakarta-rs.version}</version>
             </dependency>
             <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
@@ -236,6 +231,11 @@
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-test-junit</artifactId>
                 <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.liquibase</groupId>
@@ -344,6 +344,11 @@
                 <version>${mockito.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>${mockito.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
@@ -447,6 +452,18 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>${junit.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>

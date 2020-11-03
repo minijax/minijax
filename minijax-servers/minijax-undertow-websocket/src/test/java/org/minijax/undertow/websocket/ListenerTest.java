@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import jakarta.websocket.OnMessage;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 import org.minijax.rs.MinijaxApplicationContext;
 import org.minijax.rs.MinijaxRequestContext;

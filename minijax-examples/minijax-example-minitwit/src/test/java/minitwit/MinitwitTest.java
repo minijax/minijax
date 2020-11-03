@@ -1,13 +1,14 @@
 package minitwit;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.*;
 
 import jakarta.ws.rs.client.*;
 import jakarta.ws.rs.core.*;
 
-import org.junit.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.minijax.mustache.*;
 import org.minijax.rs.*;
 import org.minijax.rs.persistence.*;
@@ -24,7 +25,7 @@ public class MinitwitTest extends MinijaxTest {
     public static User bob;
     public static Cookie bobCookie;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpMinitwit() throws IOException {
         getServer()
                 .property("jakarta.persistence.jdbc.url", "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1")

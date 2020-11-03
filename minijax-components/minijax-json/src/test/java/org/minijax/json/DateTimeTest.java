@@ -1,6 +1,6 @@
 package org.minijax.json;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -10,15 +10,15 @@ import java.time.ZonedDateTime;
 
 import jakarta.json.bind.Jsonb;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class DateTimeTest {
     private static final ZoneId PST = ZoneId.of("America/Los_Angeles");
     private Jsonb mapper;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         mapper = Json.getObjectMapper();
     }
@@ -38,7 +38,7 @@ public class DateTimeTest {
     }
 
     @Test
-    @Ignore("Yasson appends the display name of the time zone")
+    @Disabled("Yasson appends the display name of the time zone")
     public void testWriteZonedDateTime() throws IOException {
         assertEquals(
                 "\"2017-10-31T04:38:00-07:00\"",

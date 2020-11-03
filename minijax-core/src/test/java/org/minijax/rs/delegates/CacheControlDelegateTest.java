@@ -1,16 +1,16 @@
 package org.minijax.rs.delegates;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import jakarta.ws.rs.core.CacheControl;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class CacheControlDelegateTest {
     private MinijaxCacheControlDelegate d;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         d = new MinijaxCacheControlDelegate();
     }

@@ -1,19 +1,19 @@
 package org.minijax.validation.builtin;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import jakarta.validation.Validation;
 import jakarta.validation.ValidationException;
 import jakarta.validation.Validator;
 import jakarta.validation.constraints.Min;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class MinTest {
     private static Validator validator;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
@@ -54,9 +54,11 @@ public class MinTest {
         assertEquals(1, validator.validate(new B(Integer.MIN_VALUE)).size());
     }
 
-    @Test(expected = ValidationException.class)
+    @Test
     public void testInvalidType() {
+        assertThrows(ValidationException.class, () -> {
         final C b = new C();
         validator.validate(b).size();
+    });
     }
 }

@@ -1,19 +1,19 @@
 package org.minijax.validation.builtin;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import jakarta.validation.Validation;
 import jakarta.validation.ValidationException;
 import jakarta.validation.Validator;
 import jakarta.validation.constraints.NotBlank;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class NotBlankTest {
     private static Validator validator;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
@@ -49,10 +49,12 @@ public class NotBlankTest {
         assertTrue(validator.validate(a).isEmpty());
     }
 
-    @Test(expected = ValidationException.class)
+    @Test
     public void testInvalidType() {
+        assertThrows(ValidationException.class, () -> {
         final B b = new B();
         b.b = 10;
         validator.validate(b).size();
+    });
     }
 }

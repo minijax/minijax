@@ -1,6 +1,6 @@
 package org.minijax.netty;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
@@ -11,7 +11,7 @@ import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.HttpHeaders;
@@ -171,10 +171,12 @@ public class HttpHeadersTest {
         assertEquals(cookies, httpHeaders.getCookies());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testDate() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         final HttpRequest request = mock(HttpRequest.class);
         final MinijaxNettyHttpHeaders httpHeaders = new MinijaxNettyHttpHeaders(request);
         httpHeaders.getDate();
+    });
     }
 }

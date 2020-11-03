@@ -1,6 +1,6 @@
 package org.minijax.undertow;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.io.ByteArrayInputStream;
@@ -8,7 +8,7 @@ import java.io.InputStream;
 
 import jakarta.ws.rs.core.UriInfo;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 import org.mockito.Mockito;
 

@@ -1,14 +1,14 @@
 package org.minijax.security;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.util.List;
 
 import jakarta.ws.rs.core.Cookie;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.minijax.commons.IdUtils;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.persistence.PersistenceFeature;
@@ -16,7 +16,7 @@ import org.minijax.rs.test.MinijaxTest;
 
 public class SecurityDaoTest extends MinijaxTest {
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpSecurityDaoTest() {
         register(PersistenceFeature.class);
         register(new SecurityFeature(User.class, Dao.class));

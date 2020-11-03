@@ -1,6 +1,6 @@
 package org.minijax.rs;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import java.util.Map;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 
 public class MultipleApplicationsTest {

@@ -2,7 +2,7 @@ package org.minijax.security;
 
 import static jakarta.ws.rs.core.MediaType.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 
@@ -18,8 +18,8 @@ import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.Form;
 import jakarta.ws.rs.core.Response;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.mindrot.jbcrypt.BCrypt;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.persistence.PersistenceFeature;
@@ -45,7 +45,7 @@ public class ChangePasswordTest extends MinijaxTest {
         return Response.ok().build();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpChangePasswordTest() throws IOException {
         register(PersistenceFeature.class);
         register(new SecurityFeature(User.class, Dao.class));

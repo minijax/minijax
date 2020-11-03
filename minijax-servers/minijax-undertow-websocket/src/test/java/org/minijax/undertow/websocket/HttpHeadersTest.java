@@ -1,6 +1,6 @@
 package org.minijax.undertow.websocket;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import io.undertow.websockets.spi.WebSocketHttpExchange;
 
@@ -193,10 +193,12 @@ public class HttpHeadersTest {
         assertEquals(cookies, httpHeaders.getCookies());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testDate() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         final WebSocketHttpExchange exchange = mock(WebSocketHttpExchange.class);
         final MinijaxUndertowWebSocketHttpHeaders httpHeaders = new MinijaxUndertowWebSocketHttpHeaders(exchange);
         httpHeaders.getDate();
+    });
     }
 }

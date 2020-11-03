@@ -104,7 +104,7 @@ Minijax provides a rich set of testing features that integrate with standard tes
 ```java
 package com.example;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 

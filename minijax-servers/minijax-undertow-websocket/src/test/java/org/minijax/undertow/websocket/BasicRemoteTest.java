@@ -1,5 +1,6 @@
 package org.minijax.undertow.websocket;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -7,7 +8,7 @@ import java.io.IOException;
 
 import jakarta.websocket.EncodeException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import io.undertow.websockets.core.StreamSinkFrameChannel;
 import io.undertow.websockets.core.WebSocketChannel;
@@ -27,69 +28,91 @@ public class BasicRemoteTest {
         remote.sendText("test");
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSetBatchingAllowed() throws IOException {
-        final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
-        remote.setBatchingAllowed(false);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
+            remote.setBatchingAllowed(false);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetBatchingAllowed() {
-        final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
-        remote.getBatchingAllowed();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
+            remote.getBatchingAllowed();
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testFlushBatch() throws IOException {
-        final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
-        remote.flushBatch();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
+            remote.flushBatch();
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSendPing() throws IOException {
-        final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
-        remote.sendPing(null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
+            remote.sendPing(null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSendPong() throws IOException {
-        final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
-        remote.sendPong(null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
+            remote.sendPong(null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSendBinaryByteBuffer() throws IOException {
-        final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
-        remote.sendBinary(null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
+            remote.sendBinary(null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSendTextStringBoolean() throws IOException {
-        final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
-        remote.sendText(null, false);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
+            remote.sendText(null, false);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSendBinaryByteBufferBoolean() throws IOException {
-        final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
-        remote.sendBinary(null, false);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
+            remote.sendBinary(null, false);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetSendStream() throws IOException {
-        final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
-        remote.getSendStream();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
+            remote.getSendStream();
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetSendWriter() throws IOException {
-        final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
-        remote.getSendWriter();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
+            remote.getSendWriter();
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSendObject() throws IOException, EncodeException {
-        final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
-        remote.sendObject(null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
+            remote.sendObject(null);
+        });
     }
 }

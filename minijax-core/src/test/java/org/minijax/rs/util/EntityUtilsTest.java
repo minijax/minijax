@@ -1,6 +1,6 @@
 package org.minijax.rs.util;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -8,21 +8,25 @@ import java.io.InputStream;
 
 import jakarta.ws.rs.client.Entity;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 import org.minijax.commons.MinijaxException;
 
 public class EntityUtilsTest {
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCtor() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         new EntityUtils();
+    });
     }
 
-    @Test(expected = MinijaxException.class)
+    @Test
     public void testReadUnknownType() throws IOException {
+        assertThrows(MinijaxException.class, () -> {
         final InputStream input = new ByteArrayInputStream("hello".getBytes());
         EntityUtils.readEntity(Minijax.class, null, null, null, null, input);
+    });
     }
 
     @Test

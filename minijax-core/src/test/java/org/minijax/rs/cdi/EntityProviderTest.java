@@ -1,8 +1,7 @@
 package org.minijax.rs.cdi;
 
 import static jakarta.ws.rs.core.MediaType.*;
-
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,8 +18,8 @@ import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.MessageBodyReader;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
 public class EntityProviderTest extends MinijaxTest {
@@ -90,7 +89,7 @@ public class EntityProviderTest extends MinijaxTest {
         }
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpEntityProviderTest() {
         resetServer();
         register(MyCustomReader.class);

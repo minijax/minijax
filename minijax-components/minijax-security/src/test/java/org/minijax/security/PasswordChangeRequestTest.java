@@ -1,17 +1,17 @@
 package org.minijax.security;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class PasswordChangeRequestTest {
     private static Validator validator;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpPasswordChangeRequestTest() {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
     }

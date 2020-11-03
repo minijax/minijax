@@ -1,17 +1,17 @@
 package org.minijax.dao.converters;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.UUID;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.minijax.commons.IdUtils;
 
 public class UuidConverterTest {
     private UuidConverter converter;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         converter = new UuidConverter();
     }

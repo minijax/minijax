@@ -1,13 +1,14 @@
 package org.minijax.netty;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 import org.mockito.ArgumentCaptor;
 

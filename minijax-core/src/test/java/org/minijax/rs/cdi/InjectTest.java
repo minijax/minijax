@@ -1,6 +1,6 @@
 package org.minijax.rs.cdi;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.CookieParam;
@@ -17,8 +17,8 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Form;
 import jakarta.ws.rs.core.UriInfo;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
 import jakarta.inject.Inject;
@@ -53,7 +53,7 @@ public class InjectTest extends MinijaxTest {
         }
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpInjectTest() {
         resetServer();
         register(Counter.class);

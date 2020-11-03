@@ -1,11 +1,11 @@
 package org.minijax.dao.converters;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.commons.MinijaxException;
 
 public class UrlConverterTest {
@@ -26,10 +26,12 @@ public class UrlConverterTest {
         assertEquals(url, c.convertToEntityAttribute(str));
     }
 
-    @Test(expected = MinijaxException.class)
+    @Test
     public void testMalformedUrl() throws MalformedURLException {
+        assertThrows(MinijaxException.class, () -> {
         final UrlConverter c = new UrlConverter();
         final String str = "! bad url !";
         c.convertToEntityAttribute(str);
+    });
     }
 }

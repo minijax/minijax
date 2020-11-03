@@ -1,13 +1,13 @@
 package org.minijax.jndi;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.naming.NameClassPair;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class NameClassPairEnumerationTest {
 
@@ -27,15 +27,19 @@ public class NameClassPairEnumerationTest {
         assertFalse(e.hasMore());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testNextElement() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         final MinijaxNameClassPairEnumeration e = new MinijaxNameClassPairEnumeration(new HashMap<>());
         e.nextElement();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testHasMoreElements() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         final MinijaxNameClassPairEnumeration e = new MinijaxNameClassPairEnumeration(new HashMap<>());
         e.hasMoreElements();
+    });
     }
 }

@@ -1,8 +1,7 @@
 package org.minijax.rs;
 
 import static jakarta.ws.rs.core.MediaType.*;
-
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
@@ -11,8 +10,8 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
 public class ExceptionMapperTest extends MinijaxTest {
@@ -68,7 +67,7 @@ public class ExceptionMapperTest extends MinijaxTest {
         throw new ExceptionB();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpExceptionMapperTest() {
         resetServer();
         register(ExceptionMapperTest.class);

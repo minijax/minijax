@@ -1,6 +1,6 @@
 package org.minijax.rs.util;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -9,7 +9,7 @@ import java.util.Enumeration;
 import java.util.Set;
 import java.util.Vector;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ClassPathScannerTest {
 
@@ -28,19 +28,21 @@ public class ClassPathScannerTest {
         assertEquals(2, result.size());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testUnknownProtocol() throws IOException {
-        final URL url = new URL("http://test");
-        final Vector<URL> urlList = new Vector<>();
-        urlList.add(url);
+        assertThrows(IllegalArgumentException.class, () -> {
+            final URL url = new URL("http://test");
+            final Vector<URL> urlList = new Vector<>();
+            urlList.add(url);
 
-        final ClassLoader mockLoader = new ClassLoader() {
-            @Override
-            public Enumeration<URL> getResources(final String name) throws IOException {
-                return urlList.elements();
-            }
-        };
+            final ClassLoader mockLoader = new ClassLoader() {
+                @Override
+                public Enumeration<URL> getResources(final String name) throws IOException {
+                    return urlList.elements();
+                }
+            };
 
-        ClassPathScanner.scan("com.example", mockLoader);
+            ClassPathScanner.scan("com.example", mockLoader);
+        });
     }
 }

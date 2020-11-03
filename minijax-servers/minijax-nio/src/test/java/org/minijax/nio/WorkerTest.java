@@ -1,12 +1,12 @@
 package org.minijax.nio;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 
 public class WorkerTest {
@@ -44,11 +44,13 @@ public class WorkerTest {
         worker.run();
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testSetNextWorker() throws IOException {
+        assertThrows(IllegalStateException.class, () -> {
         final Worker worker = new Worker(null, new MockSelectorProvider());
         worker.setNextWorker(worker);
         worker.setNextWorker(worker);
+    });
     }
 
     private static void schedule(final Runnable task, final int delay) {

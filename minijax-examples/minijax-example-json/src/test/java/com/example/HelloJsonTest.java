@@ -1,8 +1,7 @@
 package com.example;
 
 import static jakarta.ws.rs.core.MediaType.*;
-
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Collection;
 
@@ -11,8 +10,8 @@ import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.minijax.json.JsonFeature;
 import org.minijax.rs.test.MinijaxTest;
 
@@ -20,7 +19,7 @@ import com.example.HelloJson.Widget;
 
 public class HelloJsonTest extends MinijaxTest {
 
-    @Before
+    @BeforeEach
     public void setUp() {
         register(JsonFeature.class);
         register(HelloJson.class);

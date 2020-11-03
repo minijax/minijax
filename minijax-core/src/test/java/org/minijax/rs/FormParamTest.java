@@ -1,7 +1,8 @@
 package org.minijax.rs;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import static jakarta.ws.rs.core.MediaType.*;
-import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,8 +17,8 @@ import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Form;
 import jakarta.ws.rs.core.MultivaluedMap;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 import org.minijax.commons.IOUtils;
 import org.minijax.rs.multipart.Multipart;
@@ -83,7 +84,7 @@ public class FormParamTest {
 
     private Minijax server;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         server = new Minijax().register(FormParamTest.class);
     }

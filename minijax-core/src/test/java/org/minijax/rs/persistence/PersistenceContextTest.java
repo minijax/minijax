@@ -1,14 +1,14 @@
 package org.minijax.rs.persistence;
 
 import static jakarta.ws.rs.HttpMethod.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 import org.minijax.rs.MinijaxApplicationContext;
 import org.minijax.rs.MinijaxRequestContext;

@@ -2,7 +2,8 @@ package org.minijax.client;
 
 import static jakarta.ws.rs.HttpMethod.*;
 import static jakarta.ws.rs.core.MediaType.*;
-import static org.junit.Assert.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -24,14 +25,14 @@ import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MultivaluedHashMap;
 import jakarta.ws.rs.core.MultivaluedMap;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.util.CacheControlUtils;
 
 public class InvocationBuilderTest {
     private MinijaxClient client;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException, InterruptedException {
         final ByteArrayInputStream inputStream = new ByteArrayInputStream("Hello world".getBytes(StandardCharsets.UTF_8));
 
@@ -263,23 +264,31 @@ public class InvocationBuilderTest {
      * Unsupported
      */
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testProperty() {
-        target("/").request().property(null, null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            target("/").request().property(null, null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testAsync() {
-        target("/").request().async();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            target("/").request().async();
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRx() {
-        target("/").request().rx();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            target("/").request().rx();
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRxClass() {
-        target("/").request().rx(null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            target("/").request().rx(null);
+        });
     }
 }

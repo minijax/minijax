@@ -1,6 +1,6 @@
 package org.minijax.nio;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -9,7 +9,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 
 public class HelloWorldTest {

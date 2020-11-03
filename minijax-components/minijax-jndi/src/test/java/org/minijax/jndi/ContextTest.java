@@ -1,6 +1,6 @@
 package org.minijax.jndi;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Hashtable;
 
@@ -10,14 +10,14 @@ import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
 import javax.naming.NotContextException;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.minijax.jndi.testmodel.DummyBean;
 
 public class ContextTest {
     private Context ctx;
 
-    @Before
+    @BeforeEach
     public void setUp() throws NamingException {
         final Hashtable<String, String> props = new Hashtable<>();
         props.put(Context.INITIAL_CONTEXT_FACTORY, "org.minijax.jndi.MinijaxInitialContextFactory");
@@ -48,23 +48,29 @@ public class ContextTest {
         assertEquals(c1, result);
     }
 
-    @Test(expected = NamingException.class)
+    @Test
     public void testLookupNotFound() throws NamingException {
+        assertThrows(NamingException.class, () -> {
         final Object result = ctx.lookup("bar");
         assertNotNull(result);
         assertEquals(MinijaxContext.class, result.getClass());
+    });
     }
 
-    @Test(expected = NamingException.class)
+    @Test
     public void testLookupSubcontextNotFound() throws NamingException {
+        assertThrows(NamingException.class, () -> {
         final Object result = ctx.lookup("foo/bar");
         assertNotNull(result);
         assertEquals(MinijaxContext.class, result.getClass());
+    });
     }
 
-    @Test(expected = NamingException.class)
+    @Test
     public void testBindEmptyString() throws NamingException {
+        assertThrows(NamingException.class, () -> {
         ctx.bind("", new DummyBean());
+    });
     }
 
     @Test
@@ -74,9 +80,11 @@ public class ContextTest {
         assertEquals(MinijaxContext.class, result.getClass());
     }
 
-    @Test(expected = NameNotFoundException.class)
+    @Test
     public void testCreateSubcontextNotExists() throws NamingException {
+        assertThrows(NameNotFoundException.class, () -> {
         ctx.createSubcontext("foo/bar");
+    });
     }
 
     @Test
@@ -90,39 +98,51 @@ public class ContextTest {
         ctx.destroySubcontext("foo/bar");
     }
 
-    @Test(expected = NameNotFoundException.class)
+    @Test
     public void testDestroySubcontextNotFound() throws NamingException {
+        assertThrows(NameNotFoundException.class, () -> {
         ctx.destroySubcontext("notfound");
+    });
     }
 
-    @Test(expected = NameNotFoundException.class)
+    @Test
     public void testDestroySubcontextNestedNotFound() throws NamingException {
+        assertThrows(NameNotFoundException.class, () -> {
         ctx.destroySubcontext("foo/notfound");
+    });
     }
 
-    @Test(expected = NotContextException.class)
+    @Test
     public void testDestroySubcontextObject() throws NamingException {
+        assertThrows(NotContextException.class, () -> {
         ctx.bind("foo", new DummyBean());
         ctx.destroySubcontext("foo");
+    });
     }
 
-    @Test(expected = NamingException.class)
+    @Test
     public void testUnbind() throws NamingException {
+        assertThrows(NamingException.class, () -> {
         ctx.bind("foo", new DummyBean());
         ctx.unbind("foo");
         ctx.lookup("foo");
+    });
     }
 
-    @Test(expected = NamingException.class)
+    @Test
     public void testUnbindContext() throws NamingException {
+        assertThrows(NamingException.class, () -> {
         ctx.createSubcontext("foo");
         ctx.bind("foo/bar", new DummyBean());
         ctx.unbind("foo/bar");
         ctx.lookup("foo/bar");
+    });
     }
 
-    @Test(expected = NamingException.class)
+    @Test
     public void testUnbindEmptyString() throws NamingException {
+        assertThrows(NamingException.class, () -> {
         ctx.unbind("");
+    });
     }
 }

@@ -1,10 +1,10 @@
 package com.example;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
 public class HelloApplicationTest extends MinijaxTest {

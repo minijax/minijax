@@ -1,7 +1,8 @@
 package org.minijax.rs;
 
 import static jakarta.ws.rs.core.MediaType.*;
-import static org.junit.Assert.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.UUID;
 
@@ -11,8 +12,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
 public class StringConversionTest extends MinijaxTest {
@@ -98,7 +99,7 @@ public class StringConversionTest extends MinijaxTest {
         return null;
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpStringConversionTest() {
         resetServer();
         register(StringConversionTest.class);
@@ -106,6 +107,7 @@ public class StringConversionTest extends MinijaxTest {
 
     @Test
     public void testBoolean() {
+        assertNotNull(getServer());
         assertEquals("Received: true", target("/boolean?x=true").request().get(String.class));
     }
 

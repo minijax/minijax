@@ -1,13 +1,13 @@
 package com.example.resources;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
 import jakarta.ws.rs.core.Response;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.minijax.view.View;
 
 import com.example.PetClinicTest;
@@ -15,7 +15,7 @@ import com.example.model.Vet;
 
 public class VetsResourceTest extends PetClinicTest {
 
-    @Before
+    @BeforeEach
     public void setUp() {
         register(VetsResource.class);
     }

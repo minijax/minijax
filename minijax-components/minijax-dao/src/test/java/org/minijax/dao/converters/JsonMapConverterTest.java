@@ -1,13 +1,12 @@
 package org.minijax.dao.converters;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.json.bind.JsonbException;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class JsonMapConverterTest {
 
@@ -56,19 +55,23 @@ public class JsonMapConverterTest {
         assertEquals(m1, m2);
     }
 
-    @Test(expected = JsonbException.class)
+    @Test
     public void testInvalidJsonParse() {
+        assertThrows(JsonbException.class, () -> {
         final JsonMapConverter c = new JsonMapConverter();
         c.convertToEntityAttribute("{");
+    });
     }
 
-    @Test(expected = JsonbException.class)
+    @Test
     public void testInvalidJsonWrite() {
+        assertThrows(JsonbException.class, () -> {
         final JsonMapConverter c = new JsonMapConverter();
 
         final Map<String, Object> m1 = new HashMap<>();
         m1.put("a", new Object());
 
         c.convertToDatabaseColumn(m1);
+    });
     }
 }

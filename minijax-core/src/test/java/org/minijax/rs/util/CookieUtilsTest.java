@@ -1,17 +1,19 @@
 package org.minijax.rs.util;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.NewCookie;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class CookieUtilsTest {
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCtor() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         new CookieUtils();
+    });
     }
 
     @Test

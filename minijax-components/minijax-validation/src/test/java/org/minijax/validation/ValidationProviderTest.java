@@ -1,93 +1,127 @@
 package org.minijax.validation;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ValidationProviderTest {
     private MinijaxValidationProvider provider;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         provider = new MinijaxValidationProvider();
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testBuildValidatorFactory() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         provider.buildValidatorFactory(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testIgnoreXmlConfiguration() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         provider.ignoreXmlConfiguration();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testMessageInterpolator() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         provider.messageInterpolator(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testTraversableResolver() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         provider.traversableResolver(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testConstraintValidatorFactory() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         provider.constraintValidatorFactory(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testParameterNameProvider() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         provider.parameterNameProvider(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testClockProvider() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         provider.clockProvider(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testAddValueExtractor() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         provider.addValueExtractor(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testAddMapping() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         provider.addMapping(null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testAddProperty() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         provider.addProperty(null, null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetDefaultMessageInterpolator() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         provider.getDefaultMessageInterpolator();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetDefaultTraversableResolver() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         provider.getDefaultTraversableResolver();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetDefaultConstraintValidatorFactory() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         provider.getDefaultConstraintValidatorFactory();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetDefaultParameterNameProvider() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         provider.getDefaultParameterNameProvider();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetDefaultClockProvider() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         provider.getDefaultClockProvider();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetBootstrapConfiguration() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         provider.getBootstrapConfiguration();
+    });
     }
 }

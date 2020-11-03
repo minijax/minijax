@@ -1,16 +1,19 @@
 package org.minijax.rs.persistence;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import jakarta.ws.rs.core.FeatureContext;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class PersistenceFeatureTest {
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testNotMinijax() {
-        final PersistenceFeature feature = new PersistenceFeature();
-        feature.configure(mock(FeatureContext.class));
+        assertThrows(IllegalArgumentException.class, () -> {
+            final PersistenceFeature feature = new PersistenceFeature();
+            feature.configure(mock(FeatureContext.class));
+        });
     }
 }

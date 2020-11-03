@@ -1,6 +1,6 @@
 package org.minijax.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -10,14 +10,14 @@ import java.util.List;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.minijax.commons.IdUtils;
 
 public class NamedEntityTest {
     private static Validator validator;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpNamedEntityTest() {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
     }

@@ -1,13 +1,13 @@
 package org.minijax.rs;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
 public class CorsTest extends MinijaxTest {
@@ -24,7 +24,7 @@ public class CorsTest extends MinijaxTest {
         return "ok";
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpCorsTest() {
         resetServer();
         getServer().allowCors("/api/");

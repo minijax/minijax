@@ -1,12 +1,12 @@
 package org.minijax.rs.test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Map;
 
 import jakarta.ws.rs.core.MediaType;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class MinijaxWebTargetTest {
 
@@ -16,117 +16,155 @@ public class MinijaxWebTargetTest {
         assertNotNull(t.getUriBuilder());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetConfiguration() {
-        final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
-        t.getConfiguration();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
+            t.getConfiguration();
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testProperty() {
-        final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
-        t.property(null, null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
+            t.property(null, null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRegister1() {
-        final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
-        t.register((Class<?>) null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
+            t.register((Class<?>) null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRegister2() {
-        final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
-        t.register((Class<?>) null, 0);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
+            t.register((Class<?>) null, 0);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRegister3() {
-        final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
-        t.register((Class<?>) null, (Class<?>) null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
+            t.register((Class<?>) null, (Class<?>) null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRegister4() {
-        final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
-        t.register((Class<?>) null, (Map<Class<?>, Integer>) null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
+            t.register((Class<?>) null, (Map<Class<?>, Integer>) null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRegister5() {
-        final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
-        t.register((Object) null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
+            t.register((Object) null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRegister6() {
-        final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
-        t.register((Object) null, 0);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
+            t.register((Object) null, 0);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRegister7() {
-        final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
-        t.register((Object) null, (Class<?>) null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
+            t.register((Object) null, (Class<?>) null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRegister8() {
-        final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
-        t.register((Object) null, (Map<Class<?>, Integer>) null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
+            t.register((Object) null, (Map<Class<?>, Integer>) null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testResolveTemplate1() {
-        final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
-        t.resolveTemplate(null, null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
+            t.resolveTemplate(null, null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testResolveTemplate2() {
-        final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
-        t.resolveTemplate(null, null, false);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
+            t.resolveTemplate(null, null, false);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testResolveTemplateFromEncoded() {
-        final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
-        t.resolveTemplateFromEncoded(null, null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
+            t.resolveTemplateFromEncoded(null, null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testResolveTemplates1() {
-        final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
-        t.resolveTemplates(null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
+            t.resolveTemplates(null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testResolveTemplates2() {
-        final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
-        t.resolveTemplates(null, false);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
+            t.resolveTemplates(null, false);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testResolveTemplatesFromEncoded() {
-        final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
-        t.resolveTemplatesFromEncoded(null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
+            t.resolveTemplatesFromEncoded(null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testMatrixParam() {
-        final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
-        t.matrixParam(null, (Object[]) null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
+            t.matrixParam(null, (Object[]) null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRequest1() {
-        final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
-        t.request((String[]) null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
+            t.request((String[]) null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRequest2() {
-        final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
-        t.request((MediaType[]) null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MinijaxTestWebTarget t = new MinijaxTestWebTarget(null, null);
+            t.request((MediaType[]) null);
+        });
     }
 }

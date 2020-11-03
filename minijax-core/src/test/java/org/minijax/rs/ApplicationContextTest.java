@@ -1,6 +1,6 @@
 package org.minijax.rs;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,15 +10,15 @@ import jakarta.ws.rs.RuntimeType;
 import jakarta.ws.rs.core.Feature;
 import jakarta.ws.rs.core.FeatureContext;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 
 public class ApplicationContextTest {
     private Minijax minijax;
     private MinijaxApplicationContext app;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         minijax = new Minijax();
         app = minijax.getDefaultApplication();
@@ -67,29 +67,39 @@ public class ApplicationContextTest {
         assertNotNull(app.getClasses());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testIsEnabled1() {
-        app.isEnabled(new MyFeature());
+        assertThrows(UnsupportedOperationException.class, () -> {
+            app.isEnabled(new MyFeature());
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testIsEnabled2() {
-        app.isEnabled(MyFeature.class);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            app.isEnabled(MyFeature.class);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testIsRegistered1() {
-        app.isRegistered(new MyFeature());
+        assertThrows(UnsupportedOperationException.class, () -> {
+            app.isRegistered(new MyFeature());
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testIsRegistered2() {
-        app.isRegistered(MyFeature.class);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            app.isRegistered(MyFeature.class);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetContracts() {
-        app.getContracts(MyFeature.class);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            app.getContracts(MyFeature.class);
+        });
     }
 
     public static class MyFeature implements Feature {

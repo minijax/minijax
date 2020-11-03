@@ -1,6 +1,6 @@
 package org.minijax.rs;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 
@@ -9,8 +9,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
 public class FilterTest extends MinijaxTest {
@@ -30,7 +30,7 @@ public class FilterTest extends MinijaxTest {
         return "Hello";
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpFilterTest() {
         resetServer();
         register(FilterTest.class);

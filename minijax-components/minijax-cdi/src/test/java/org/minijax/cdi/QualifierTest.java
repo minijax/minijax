@@ -2,7 +2,7 @@ package org.minijax.cdi;
 
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -13,19 +13,19 @@ import jakarta.inject.Named;
 import jakarta.inject.Qualifier;
 import jakarta.inject.Singleton;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class QualifierTest {
     private MinijaxInjector injector;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         injector = new MinijaxInjector();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         injector.close();
     }
@@ -58,7 +58,8 @@ public class QualifierTest {
     @Qualifier
     @Retention(RUNTIME)
     @Target(FIELD)
-    private @interface MyCustomQualifier {}
+    private @interface MyCustomQualifier {
+    }
 
     private static class MultipleQualifiers {
         @Inject
@@ -67,8 +68,10 @@ public class QualifierTest {
         QualifiedSingleton a;
     }
 
-    @Test(expected = InjectionException.class)
+    @Test
     public void testMultipleQualifiers() {
-        injector.getResource(MultipleQualifiers.class);
+        assertThrows(InjectionException.class, () -> {
+            injector.getResource(MultipleQualifiers.class);
+        });
     }
 }

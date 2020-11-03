@@ -1,5 +1,7 @@
 package org.minijax.servlet;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.Mockito.*;
 
 import java.io.ByteArrayInputStream;
@@ -30,7 +32,7 @@ import jakarta.ws.rs.core.Application;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class MinijaxServletTest {
 
@@ -69,28 +71,36 @@ public class MinijaxServletTest {
         }
     }
 
-    @Test(expected = ServletException.class)
+    @Test
     public void testInit() throws ServletException {
+        assertThrows(ServletException.class, () -> {
         final MinijaxServlet servlet = new MinijaxServlet();
         servlet.init();
+    });
     }
 
-    @Test(expected = ServletException.class)
+    @Test
     public void testInitNullParam() throws ServletException {
+        assertThrows(ServletException.class, () -> {
         final MinijaxServlet servlet = new MinijaxServlet();
         servlet.init(new TestConfig(null));
+    });
     }
 
-    @Test(expected = ServletException.class)
+    @Test
     public void testInitEmptyParam() throws ServletException {
+        assertThrows(ServletException.class, () -> {
         final MinijaxServlet servlet = new MinijaxServlet();
         servlet.init(new TestConfig(""));
+    });
     }
 
-    @Test(expected = ServletException.class)
+    @Test
     public void testInitNotFoundParam() throws ServletException {
+        assertThrows(ServletException.class, () -> {
         final MinijaxServlet servlet = new MinijaxServlet();
         servlet.init(new TestConfig("com.doesnotexist.Foo"));
+    });
     }
 
     @Test

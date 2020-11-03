@@ -1,11 +1,14 @@
 package org.minijax.commons;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class MinijaxPropertiesTest {
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCtor() {
-        new MinijaxProperties();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxProperties();
+        });
     }
 }

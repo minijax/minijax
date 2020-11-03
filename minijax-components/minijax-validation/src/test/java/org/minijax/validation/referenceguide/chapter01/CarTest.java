@@ -1,31 +1,32 @@
 package org.minijax.validation.referenceguide.chapter01;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.Set;
+
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class CarTest {
 
 	private static Validator validator;
 
-	@BeforeClass
+	@BeforeAll
 	public static void setUpValidator() {
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		validator = factory.getValidator();
 	}
 
 	@Test
 	public void manufacturerIsNull() {
-		Car car = new Car( null, "DD-AB-123", 4 );
+		final Car car = new Car( null, "DD-AB-123", 4 );
 
-		Set<ConstraintViolation<Car>> constraintViolations =
+		final Set<ConstraintViolation<Car>> constraintViolations =
 				validator.validate( car );
 
 		assertEquals( 1, constraintViolations.size() );
@@ -34,9 +35,9 @@ public class CarTest {
 
 	@Test
 	public void licensePlateTooShort() {
-		Car car = new Car( "Morris", "D", 4 );
+		final Car car = new Car( "Morris", "D", 4 );
 
-		Set<ConstraintViolation<Car>> constraintViolations =
+		final Set<ConstraintViolation<Car>> constraintViolations =
 				validator.validate( car );
 
 		assertEquals( 1, constraintViolations.size() );
@@ -48,9 +49,9 @@ public class CarTest {
 
 	@Test
 	public void seatCountTooLow() {
-		Car car = new Car( "Morris", "DD-AB-123", 1 );
+		final Car car = new Car( "Morris", "DD-AB-123", 1 );
 
-		Set<ConstraintViolation<Car>> constraintViolations =
+		final Set<ConstraintViolation<Car>> constraintViolations =
 				validator.validate( car );
 
 		assertEquals( 1, constraintViolations.size() );
@@ -62,9 +63,9 @@ public class CarTest {
 
 	@Test
 	public void carIsValid() {
-		Car car = new Car( "Morris", "DD-AB-123", 2 );
+		final Car car = new Car( "Morris", "DD-AB-123", 2 );
 
-		Set<ConstraintViolation<Car>> constraintViolations =
+		final Set<ConstraintViolation<Car>> constraintViolations =
 				validator.validate( car );
 
 		assertEquals( 0, constraintViolations.size() );

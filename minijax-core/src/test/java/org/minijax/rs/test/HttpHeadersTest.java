@@ -1,13 +1,13 @@
 package org.minijax.rs.test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 
 import jakarta.ws.rs.core.MultivaluedHashMap;
 import jakarta.ws.rs.core.MultivaluedMap;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class HttpHeadersTest {
 
@@ -62,11 +62,13 @@ public class HttpHeadersTest {
         assertEquals(1024, httpHeaders.getLength());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testDate() {
-        final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
-        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers, null);
-        httpHeaders.getDate();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
+            final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers, null);
+            httpHeaders.getDate();
+        });
     }
 
     @Test

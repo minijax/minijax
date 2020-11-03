@@ -1,7 +1,8 @@
 package org.minijax.nio;
 
 import static java.util.Arrays.*;
-import static org.junit.Assert.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.Locale;
@@ -13,7 +14,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedHashMap;
 import jakarta.ws.rs.core.MultivaluedMap;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class HttpHeadersTest {
 
@@ -135,10 +136,12 @@ public class HttpHeadersTest {
         assertEquals(cookies, httpHeaders.getCookies());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testDate() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
         final MinijaxNioHttpHeaders httpHeaders = new MinijaxNioHttpHeaders(map);
         httpHeaders.getDate();
+    });
     }
 }

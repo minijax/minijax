@@ -1,6 +1,6 @@
 package org.minijax.rs.delegates;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.MediaType;
@@ -10,7 +10,7 @@ import jakarta.ws.rs.core.UriBuilder;
 import jakarta.ws.rs.ext.RuntimeDelegate;
 import jakarta.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.uri.MinijaxUriBuilder;
 
 public class RuntimeDelegateTest {
@@ -49,23 +49,31 @@ public class RuntimeDelegateTest {
         assertTrue(d instanceof MinijaxNewCookieDelegate);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCreateUnknownDelegate() {
+        assertThrows(IllegalArgumentException.class, () -> {
         RuntimeDelegate.getInstance().createHeaderDelegate(Object.class);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCreateVariantListBuilder() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         RuntimeDelegate.getInstance().createVariantListBuilder();
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCreateEndpoint() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         RuntimeDelegate.getInstance().createEndpoint(null, null);
+    });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCreateLinkBuilder() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         RuntimeDelegate.getInstance().createLinkBuilder();
+    });
     }
 }

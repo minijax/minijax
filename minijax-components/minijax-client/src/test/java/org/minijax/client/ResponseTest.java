@@ -1,7 +1,7 @@
 package org.minijax.client;
 
 import static jakarta.ws.rs.core.MediaType.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.io.InputStream;
@@ -15,7 +15,7 @@ import java.util.Map;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response.Status;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ResponseTest {
 
@@ -29,21 +29,24 @@ public class ResponseTest {
 
     @Test
     public void testMediaType() {
-        try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "Content-Type", "text/plain"))) {
+        try (final MinijaxClientResponse response = new MinijaxClientResponse(
+                mockResponse(200, "Content-Type", "text/plain"))) {
             assertEquals(TEXT_PLAIN_TYPE, response.getMediaType());
         }
     }
 
     @Test
     public void testLocale() {
-        try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "Content-Language", "en-US"))) {
+        try (final MinijaxClientResponse response = new MinijaxClientResponse(
+                mockResponse(200, "Content-Language", "en-US"))) {
             assertEquals(Locale.US, response.getLanguage());
         }
     }
 
     @Test
     public void testContentLength() {
-        try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "Content-Length", "1024"))) {
+        try (final MinijaxClientResponse response = new MinijaxClientResponse(
+                mockResponse(200, "Content-Length", "1024"))) {
             assertEquals(1024, response.getLength());
         }
     }
@@ -52,123 +55,158 @@ public class ResponseTest {
      * Unsupported
      */
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testReadEntity3() {
-        try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
-            response.readEntity(Object.class, new Annotation[0]);
-        }
+        assertThrows(UnsupportedOperationException.class, () -> {
+            try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
+                response.readEntity(Object.class, new Annotation[0]);
+            }
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testReadEntity4() {
-        try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
-            response.readEntity(new GenericType<Object>() {}, new Annotation[0]);
-        }
+        assertThrows(UnsupportedOperationException.class, () -> {
+            try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
+                response.readEntity(new GenericType<Object>() {
+                }, new Annotation[0]);
+            }
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testHasEntity() {
-        try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
-            response.hasEntity();
-        }
+        assertThrows(UnsupportedOperationException.class, () -> {
+            try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
+                response.hasEntity();
+            }
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testBufferEntity() {
-        try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
-            response.bufferEntity();
-        }
+        assertThrows(UnsupportedOperationException.class, () -> {
+            try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
+                response.bufferEntity();
+            }
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetAllowedMethods() {
-        try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
-            response.getAllowedMethods();
-        }
+        assertThrows(UnsupportedOperationException.class, () -> {
+            try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
+                response.getAllowedMethods();
+            }
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetCookies() {
-        try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
-            response.getCookies();
-        }
+        assertThrows(UnsupportedOperationException.class, () -> {
+            try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
+                response.getCookies();
+            }
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetEntityTag() {
-        try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
-            response.getEntityTag();
-        }
+        assertThrows(UnsupportedOperationException.class, () -> {
+            try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
+                response.getEntityTag();
+            }
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetDate() {
-        try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
-            response.getDate();
-        }
+        assertThrows(UnsupportedOperationException.class, () -> {
+            try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
+                response.getDate();
+            }
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetLastModified() {
-        try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
-            response.getLastModified();
-        }
+        assertThrows(UnsupportedOperationException.class, () -> {
+            try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
+                response.getLastModified();
+            }
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetLocation() {
-        try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
-            response.getLocation();
-        }
+        assertThrows(UnsupportedOperationException.class, () -> {
+            try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
+                response.getLocation();
+            }
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetLinks() {
-        try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
-            response.getLinks();
-        }
+        assertThrows(UnsupportedOperationException.class, () -> {
+            try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
+                response.getLinks();
+            }
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testHasLink() {
-        try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
-            response.hasLink(null);
-        }
+        assertThrows(UnsupportedOperationException.class, () -> {
+            try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
+                response.hasLink(null);
+            }
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetLink() {
-        try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
-            response.getLink(null);
-        }
+        assertThrows(UnsupportedOperationException.class, () -> {
+            try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
+                response.getLink(null);
+            }
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetLinkBuilder() {
-        try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
-            response.getLinkBuilder(null);
-        }
+        assertThrows(UnsupportedOperationException.class, () -> {
+            try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
+                response.getLinkBuilder(null);
+            }
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetMetadata() {
-        try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
-            response.getMetadata();
-        }
+        assertThrows(UnsupportedOperationException.class, () -> {
+            try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
+                response.getMetadata();
+            }
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetStringHeaders() {
-        try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
-            response.getStringHeaders();
-        }
+        assertThrows(UnsupportedOperationException.class, () -> {
+            try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
+                response.getStringHeaders();
+            }
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetHeaderString() {
-        try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
-            response.getHeaderString(null);
-        }
+        assertThrows(UnsupportedOperationException.class, () -> {
+            try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
+                response.getHeaderString(null);
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")

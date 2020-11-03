@@ -1,6 +1,6 @@
 package org.minijax.liquibase;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.io.File;
@@ -18,10 +18,8 @@ import java.util.Map;
 
 import jakarta.persistence.EntityManagerFactory;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.minijax.commons.MinijaxProperties;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import liquibase.change.core.AddColumnChange;
 import liquibase.change.core.DropTableChange;
@@ -29,7 +27,6 @@ import liquibase.changelog.ChangeSet;
 import liquibase.database.Database;
 import liquibase.resource.FileSystemResourceAccessor;
 
-@RunWith(MockitoJUnitRunner.class)
 public class LiquibaseHelperTest {
     private static final File TEST_RESOURCES = new File("src/test/resources");
 

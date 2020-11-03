@@ -1,13 +1,13 @@
 package org.minijax.rs.cdi;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
 import jakarta.inject.Inject;
@@ -40,7 +40,7 @@ public class InheritanceTest extends MinijaxTest {
         }
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpInheritanceTest() {
         resetServer();
         register(MySubClass.class);

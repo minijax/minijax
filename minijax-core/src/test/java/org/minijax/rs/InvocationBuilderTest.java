@@ -1,6 +1,6 @@
 package org.minijax.rs;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -10,20 +10,24 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.GenericType;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 import org.minijax.rs.test.MinijaxTestInvocationBuilder;
 
 public class InvocationBuilderTest extends MinijaxTest {
 
     @Path("/")
-    @GET @POST @PUT @DELETE @OPTIONS
+    @GET
+    @POST
+    @PUT
+    @DELETE
+    @OPTIONS
     public static String endpoint() {
         return "ok";
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpInvocationBuilderTest() {
         resetServer();
         register(InvocationBuilderTest.class);
@@ -46,7 +50,8 @@ public class InvocationBuilderTest extends MinijaxTest {
 
     @Test
     public void testOptionsGenericType() {
-        assertNotNull(target("/").request().options(new GenericType<Object>() {}));
+        assertNotNull(target("/").request().options(new GenericType<Object>() {
+        }));
     }
 
     @Test
@@ -61,7 +66,8 @@ public class InvocationBuilderTest extends MinijaxTest {
 
     @Test
     public void testGetGenericType() {
-        assertNotNull(target("/").request().get(new GenericType<Object>() {}));
+        assertNotNull(target("/").request().get(new GenericType<Object>() {
+        }));
     }
 
     @Test
@@ -76,7 +82,8 @@ public class InvocationBuilderTest extends MinijaxTest {
 
     @Test
     public void testDeleteGenericType() {
-        assertNotNull(target("/").request().delete(new GenericType<Object>() {}));
+        assertNotNull(target("/").request().delete(new GenericType<Object>() {
+        }));
     }
 
     @Test
@@ -91,7 +98,8 @@ public class InvocationBuilderTest extends MinijaxTest {
 
     @Test
     public void testPostGenericType() {
-        assertNotNull(target("/").request().post(null, new GenericType<Object>() {}));
+        assertNotNull(target("/").request().post(null, new GenericType<Object>() {
+        }));
     }
 
     @Test
@@ -106,61 +114,85 @@ public class InvocationBuilderTest extends MinijaxTest {
 
     @Test
     public void testPutGenericType() {
-        assertNotNull(target("/").request().put(null, new GenericType<Object>() {}));
+        assertNotNull(target("/").request().put(null, new GenericType<Object>() {
+        }));
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testTrace() {
-        target("/").request().trace();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            target("/").request().trace();
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testTraceClass() {
-        target("/").request().trace(Object.class);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            target("/").request().trace(Object.class);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testTraceGenericType() {
-        target("/").request().trace(new GenericType<Object>() {});
+        assertThrows(UnsupportedOperationException.class, () -> {
+            target("/").request().trace(new GenericType<Object>() {
+            });
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testBuild() {
-        new MinijaxTestInvocationBuilder(null).build(null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxTestInvocationBuilder(null).build(null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testBuild2() {
-        new MinijaxTestInvocationBuilder(null).build(null, null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxTestInvocationBuilder(null).build(null, null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testBuildGet() {
-        new MinijaxTestInvocationBuilder(null).buildGet();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxTestInvocationBuilder(null).buildGet();
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testBuildDelete() {
-        new MinijaxTestInvocationBuilder(null).buildDelete();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxTestInvocationBuilder(null).buildDelete();
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testBuildPost() {
-        new MinijaxTestInvocationBuilder(null).buildPost(null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxTestInvocationBuilder(null).buildPost(null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testBuildPut() {
-        new MinijaxTestInvocationBuilder(null).buildPut(null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxTestInvocationBuilder(null).buildPut(null);
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRx() {
-        new MinijaxTestInvocationBuilder(null).rx();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxTestInvocationBuilder(null).rx();
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testRxClass() {
-        new MinijaxTestInvocationBuilder(null).rx(null);
+        assertThrows(UnsupportedOperationException.class, () -> {
+            new MinijaxTestInvocationBuilder(null).rx(null);
+        });
     }
 }

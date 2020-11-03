@@ -1,11 +1,12 @@
 package com.example;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
 import com.example.HelloInjection.MyResource;
@@ -13,7 +14,7 @@ import com.example.HelloInjection.MyService;
 
 public class HelloInjectionTest extends MinijaxTest {
 
-    @Before
+    @BeforeEach
     public void setUp() {
         final MyService mockService = mock(MyService.class);
         when(mockService.shout(eq("friend"))).thenReturn("FRIEND");

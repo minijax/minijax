@@ -1,7 +1,7 @@
 package org.minijax.rs;
 
 import static jakarta.ws.rs.HttpMethod.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +10,7 @@ import java.util.List;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ResourceMethodTest {
 

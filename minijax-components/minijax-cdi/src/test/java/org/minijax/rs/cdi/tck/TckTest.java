@@ -1,6 +1,6 @@
 package org.minijax.rs.cdi.tck;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.atinject.tck.Tck;
 import org.atinject.tck.auto.Car;
@@ -12,7 +12,7 @@ import org.atinject.tck.auto.Seat;
 import org.atinject.tck.auto.Tire;
 import org.atinject.tck.auto.V8Engine;
 import org.atinject.tck.auto.accessories.SpareTire;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.cdi.MinijaxInjector;
 
 public class TckTest {

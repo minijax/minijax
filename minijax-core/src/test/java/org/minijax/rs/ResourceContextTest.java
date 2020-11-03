@@ -1,6 +1,6 @@
 package org.minijax.rs;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -8,9 +8,9 @@ import jakarta.ws.rs.container.ResourceContext;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
 
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
 public class ResourceContextTest extends MinijaxTest {
@@ -31,14 +31,14 @@ public class ResourceContextTest extends MinijaxTest {
         }
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpResourceContextTest() {
         resetServer();
         register(MainResource.class);
     }
 
     @Test
-    @Ignore("initResource does not currently work with request scoped values")
+    @Disabled("initResource does not currently work with request scoped values")
     public void testResourceContextInit() {
         assertEquals("bar", target("/rctest").request().header("X-foo", "bar").get(String.class));
     }

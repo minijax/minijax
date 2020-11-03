@@ -1,14 +1,14 @@
 package org.minijax.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.persistence.PersistenceFeature;
 import org.minijax.rs.test.MinijaxTest;
@@ -20,18 +20,18 @@ public class DaoTest extends MinijaxTest {
     static class Dao extends DefaultBaseDao {
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpDaoTest() {
         getServer().register(PersistenceFeature.class);
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         context = createRequestContext();
         dao = context.getResource(Dao.class);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws IOException {
         context.close();
     }

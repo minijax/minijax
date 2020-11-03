@@ -1,6 +1,6 @@
 package org.minijax.rs.util;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,16 +10,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.commons.IOUtils;
 import org.minijax.rs.multipart.Multipart;
 import org.minijax.rs.multipart.Part;
 
 public class MultipartUtilsTest {
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCtor() {
+        assertThrows(UnsupportedOperationException.class, () -> {
         new MultipartUtils();
+    });
     }
 
     @Test

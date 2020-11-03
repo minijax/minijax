@@ -1,6 +1,6 @@
 package org.minijax.rs;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.security.Principal;
 
@@ -10,8 +10,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.ws.rs.ext.Provider;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
 import jakarta.annotation.security.PermitAll;
@@ -92,7 +92,7 @@ public class SecurityTest extends MinijaxTest {
         return "Admins only!";
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpSecurityTest() {
         resetServer();
         register(SecurityTest.class);

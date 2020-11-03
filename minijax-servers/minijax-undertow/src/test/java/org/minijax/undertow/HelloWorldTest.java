@@ -1,6 +1,7 @@
 package org.minijax.undertow;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -12,7 +13,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 import org.mockito.Mockito;
 

@@ -1,12 +1,13 @@
 package org.minijax.cdi.annotation;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import static java.lang.annotation.RetentionPolicy.*;
-import static org.junit.Assert.*;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.minijax.cdi.MinijaxInjector;
 import org.minijax.cdi.MinijaxProvider;
 

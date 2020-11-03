@@ -110,7 +110,7 @@ public static void main(final String[] args) {
 
 Obviously the `main` function is the application entry point.
 
-`new Minijax()` creates a new Minijax container.  
+`new Minijax()` creates a new Minijax container.
 
 `register(Hello.class)` registers our **Resource Class** and **Resource Method**.
 
@@ -151,7 +151,7 @@ Testing is very straightforward in Minijax.
 ```java
 package com.example;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.Before;
 import org.junit.Test;
