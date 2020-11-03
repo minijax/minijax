@@ -43,6 +43,13 @@ public class AnsiSqlDialectTest {
         assertNotNull(check);
         assertEquals(123, check.getId());
         assertEquals("persistTest", check.getName());
+
+        em.getTransaction().begin();
+        em.remove(widget);
+        em.getTransaction().commit();
+
+        final Widget check2 = em.find(Widget.class, 123);
+        assertNull(check2);
     }
 
     @Test

@@ -232,7 +232,10 @@ public class MinijaxCriteriaBuilderTest {
 
     @Test
     public void testNot() {
-        cb.not(null);
+        final MinijaxIn<String> inPredicate = new MinijaxIn<>(MinijaxExpression.ofLiteral("foo"));
+        assertFalse(inPredicate.isNegated());
+        cb.not(inPredicate);
+        assertTrue(inPredicate.isNegated());
     }
 
     /*

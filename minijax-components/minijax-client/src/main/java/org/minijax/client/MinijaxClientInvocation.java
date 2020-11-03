@@ -24,7 +24,10 @@ public class MinijaxClientInvocation implements jakarta.ws.rs.client.Invocation 
     public MinijaxClientResponse invoke() {
         try {
             return new MinijaxClientResponse(client.getHttpClient().send(httpRequest, BodyHandlers.ofInputStream()));
-        } catch (final IOException | InterruptedException ex) {
+        } catch (final InterruptedException ex) {
+            Thread.currentThread().interrupt();
+            throw new WebApplicationException(ex);
+        } catch (final IOException ex) {
             throw new WebApplicationException(ex);
         }
     }

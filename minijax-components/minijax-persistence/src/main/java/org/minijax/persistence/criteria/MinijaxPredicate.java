@@ -6,18 +6,27 @@ import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Predicate;
 
 public abstract class MinijaxPredicate extends MinijaxExpression<Boolean> implements jakarta.persistence.criteria.Predicate {
+    private boolean negated;
 
     protected MinijaxPredicate() {
         super(Boolean.class);
     }
 
     @Override
-    public BooleanOperator getOperator() {
-        throw new UnsupportedOperationException();
+    public boolean isNegated() {
+        return negated;
     }
 
+    public void setNegated(final boolean negated) {
+        this.negated = negated;
+    }
+
+    /*
+     * Unsupported
+     */
+
     @Override
-    public boolean isNegated() {
+    public BooleanOperator getOperator() {
         throw new UnsupportedOperationException();
     }
 

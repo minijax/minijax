@@ -146,8 +146,10 @@ public class MinijaxCriteriaBuilder implements jakarta.persistence.criteria.Crit
     }
 
     @Override
-    public MinijaxNot not(final Expression<Boolean> restriction) {
-        return new MinijaxNot((MinijaxPredicate) restriction);
+    public MinijaxPredicate not(final Expression<Boolean> restriction) {
+        final MinijaxPredicate predicate = (MinijaxPredicate) restriction;
+        predicate.setNegated(!predicate.isNegated());
+        return predicate;
     }
 
     /*
