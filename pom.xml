@@ -106,8 +106,11 @@
         <slf4j.version>1.7.25</slf4j.version>
         <sonar.coverage.jacoco.xmlReportPaths>${user.dir}/minijax-coverage/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         <sonar.exclusions>minijax-examples/**/*,src/main/java/com/example/**/*</sonar.exclusions>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.java.source>1.8</sonar.java.source>
         <sonar.language>java</sonar.language>
+        <sonar.organization>minijax-github</sonar.organization>
+        <sonar.projectKey>org.minijax:minijax</sonar.projectKey>
         <undertow.version>2.2.2.Final</undertow.version>
         <yasson.version>2.0.0-M2</yasson.version>
     </properties>
