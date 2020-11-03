@@ -109,6 +109,7 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.java.source>1.8</sonar.java.source>
         <sonar.language>java</sonar.language>
+        <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
         <sonar.organization>minijax-github</sonar.organization>
         <sonar.projectKey>org.minijax:minijax</sonar.projectKey>
         <undertow.version>2.2.2.Final</undertow.version>
