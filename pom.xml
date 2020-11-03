@@ -58,7 +58,7 @@
     </issueManagement>
     <ciManagement>
         <system>Travis CI</system>
-        <url>https://travis-ci.org/minijax/minijax</url>
+        <url>https://github.com/minijax/minijax/actions</url>
     </ciManagement>
     <distributionManagement>
         <repository>

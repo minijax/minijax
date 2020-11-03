@@ -1,5 +1,5 @@
 
-[![Build status](https://travis-ci.org/minijax/minijax.svg?branch=master)](https://travis-ci.org/minijax/minijax) [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=org.minijax%3Aminijax&metric=alert_status)](https://sonarcloud.io/dashboard/index/org.minijax:minijax)
+[![Build status](https://github.com/minijax/minijax/workflows/Build/badge.svg)](https://github.com/minijax/minijax/actions?query=workflow%3ABuild) [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=org.minijax%3Aminijax&metric=alert_status)](https://sonarcloud.io/dashboard/index/org.minijax:minijax)
 
 Minijax
 =======
@@ -17,7 +17,7 @@ Getting Started
 <dependency>
     <groupId>org.minijax</groupId>
     <artifactId>minijax-undertow</artifactId>
-    <version>0.5.0</version>
+    <version>0.5.2</version>
 </dependency>
 ```
 
