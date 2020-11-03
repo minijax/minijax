@@ -8,8 +8,6 @@ public class DateHeaderTest {
 
     @Test
     public void testCtor() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        new DateHeader();
-    });
+        assertThrows(UnsupportedOperationException.class, DateHeader::new);
     }
 }

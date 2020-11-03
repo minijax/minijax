@@ -104,71 +104,51 @@ public class WebTargetTest {
 
     @Test
     public void testGetConfiguration() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            target("/").getConfiguration();
-        });
+        assertThrows(UnsupportedOperationException.class, () -> target("/").getConfiguration());
     }
 
     @Test
     public void testProperty() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            target("/").property("name", "value");
-        });
+        assertThrows(UnsupportedOperationException.class, () -> target("/").property("name", "value"));
     }
 
     @Test
     public void testRegister1() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            target("/").register(Object.class);
-        });
+        assertThrows(UnsupportedOperationException.class, () -> target("/").register(Object.class));
     }
 
     @Test
     public void testRegister2() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            target("/").register(Object.class, 0);
-        });
+        assertThrows(UnsupportedOperationException.class, () -> target("/").register(Object.class, 0));
     }
 
     @Test
     public void testRegister3() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            target("/").register(Object.class, Object.class);
-        });
+        assertThrows(UnsupportedOperationException.class, () -> target("/").register(Object.class, Object.class));
     }
 
     @Test
     public void testRegister4() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            target("/").register(Object.class, Collections.emptyMap());
-        });
+        assertThrows(UnsupportedOperationException.class, () -> target("/").register(Object.class, Collections.emptyMap()));
     }
 
     @Test
     public void testRegister5() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            target("/").register(new Object());
-        });
+        assertThrows(UnsupportedOperationException.class, () -> target("/").register(new Object()));
     }
 
     @Test
     public void testRegister6() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            target("/").register(new Object(), 0);
-        });
+        assertThrows(UnsupportedOperationException.class, () -> target("/").register(new Object(), 0));
     }
 
     @Test
     public void testRegister7() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            target("/").register(new Object(), Object.class);
-        });
+        assertThrows(UnsupportedOperationException.class, () -> target("/").register(new Object(), Object.class));
     }
 
     @Test
     public void testRegister8() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            target("/").register(new Object(), Collections.emptyMap());
-        });
+        assertThrows(UnsupportedOperationException.class, () -> target("/").register(new Object(), Collections.emptyMap()));
     }
 }

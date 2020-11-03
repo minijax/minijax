@@ -286,8 +286,6 @@ public class LiquibaseHelper {
      * Validates that the database is in a good state.
      *
      * @param database The database.
-     * @param fileName The change log file name.
-     * @param resourceAccessor The change log file loader.
      */
     private void validateDatabaseState(final Database database) throws LiquibaseException {
         final Liquibase liquibase = getLiquibase(database);

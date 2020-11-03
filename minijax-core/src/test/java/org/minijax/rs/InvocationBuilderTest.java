@@ -120,79 +120,57 @@ public class InvocationBuilderTest extends MinijaxTest {
 
     @Test
     public void testTrace() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            target("/").request().trace();
-        });
+        assertThrows(UnsupportedOperationException.class, () -> target("/").request().trace());
     }
 
     @Test
     public void testTraceClass() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            target("/").request().trace(Object.class);
-        });
+        assertThrows(UnsupportedOperationException.class, () -> target("/").request().trace(Object.class));
     }
 
     @Test
     public void testTraceGenericType() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            target("/").request().trace(new GenericType<Object>() {
-            });
-        });
+        assertThrows(UnsupportedOperationException.class, () -> target("/").request().trace(new GenericType<Object>() {
+        }));
     }
 
     @Test
     public void testBuild() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new MinijaxTestInvocationBuilder(null).build(null);
-        });
+        assertThrows(UnsupportedOperationException.class, () -> new MinijaxTestInvocationBuilder(null).build(null));
     }
 
     @Test
     public void testBuild2() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new MinijaxTestInvocationBuilder(null).build(null, null);
-        });
+        assertThrows(UnsupportedOperationException.class, () -> new MinijaxTestInvocationBuilder(null).build(null, null));
     }
 
     @Test
     public void testBuildGet() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new MinijaxTestInvocationBuilder(null).buildGet();
-        });
+        assertThrows(UnsupportedOperationException.class, () -> new MinijaxTestInvocationBuilder(null).buildGet());
     }
 
     @Test
     public void testBuildDelete() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new MinijaxTestInvocationBuilder(null).buildDelete();
-        });
+        assertThrows(UnsupportedOperationException.class, () -> new MinijaxTestInvocationBuilder(null).buildDelete());
     }
 
     @Test
     public void testBuildPost() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new MinijaxTestInvocationBuilder(null).buildPost(null);
-        });
+        assertThrows(UnsupportedOperationException.class, () -> new MinijaxTestInvocationBuilder(null).buildPost(null));
     }
 
     @Test
     public void testBuildPut() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new MinijaxTestInvocationBuilder(null).buildPut(null);
-        });
+        assertThrows(UnsupportedOperationException.class, () -> new MinijaxTestInvocationBuilder(null).buildPut(null));
     }
 
     @Test
     public void testRx() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new MinijaxTestInvocationBuilder(null).rx();
-        });
+        assertThrows(UnsupportedOperationException.class, () -> new MinijaxTestInvocationBuilder(null).rx());
     }
 
     @Test
     public void testRxClass() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new MinijaxTestInvocationBuilder(null).rx(null);
-        });
+        assertThrows(UnsupportedOperationException.class, () -> new MinijaxTestInvocationBuilder(null).rx(null));
     }
 }

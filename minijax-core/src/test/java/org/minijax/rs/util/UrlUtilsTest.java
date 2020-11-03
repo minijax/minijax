@@ -12,9 +12,7 @@ public class UrlUtilsTest {
 
     @Test
     public void testCtor() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        new UrlUtils();
-    });
+        assertThrows(UnsupportedOperationException.class, UrlUtils::new);
     }
 
     @Test

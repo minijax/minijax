@@ -17,9 +17,7 @@ public class CloseUtilsTest {
 
     @Test
     public void testCtor() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new CloseUtils();
-        });
+        assertThrows(UnsupportedOperationException.class, CloseUtils::new);
     }
 
     @Test

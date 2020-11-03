@@ -82,7 +82,7 @@ public class NotEmptyTest {
     @Test
     public void testCollection() {
         assertTrue(validator.validate(new CollectionWidget(null)).isEmpty());
-        assertTrue(validator.validate(new CollectionWidget(asList(1))).isEmpty());
+        assertTrue(validator.validate(new CollectionWidget(singletonList(1))).isEmpty());
         assertTrue(validator.validate(new CollectionWidget(asList(1, 2, 3, 4))).isEmpty());
 
         assertEquals(1, validator.validate(new CollectionWidget(emptyList())).size());
@@ -137,8 +137,6 @@ public class NotEmptyTest {
 
     @Test
     public void testConstructor() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        new SizeValidators();
-    });
+        assertThrows(UnsupportedOperationException.class, SizeValidators::new);
     }
 }

@@ -3,6 +3,7 @@ package org.minijax.dao;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,6 +63,6 @@ public interface BaseEntity extends Serializable {
      * @param list The list of ID objects (modified in place).
      */
     static <T extends BaseEntity> void sortByCreatedDateTime(final List<T> list) {
-        Collections.sort(list, (o1, o2) -> o1.getCreatedDateTime().compareTo(o2.getCreatedDateTime()));
+        list.sort(Comparator.comparing(BaseEntity::getCreatedDateTime));
     }
 }

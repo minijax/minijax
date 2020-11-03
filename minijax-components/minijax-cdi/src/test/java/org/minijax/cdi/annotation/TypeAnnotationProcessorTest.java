@@ -17,7 +17,7 @@ public class TypeAnnotationProcessorTest {
 
     @Scope
     @Retention(RUNTIME)
-    public static @interface MyTypeAnnotation {
+    public @interface MyTypeAnnotation {
     }
 
     @MyTypeAnnotation

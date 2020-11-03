@@ -27,72 +27,52 @@ public class MinijaxEntityManagerFactoryTest {
     @Test
     @SuppressWarnings("rawtypes")
     public void testCreateEntityManager1() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        emf.createEntityManager((Map) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> emf.createEntityManager((Map) null));
     }
 
     @Test
     public void testCreateEntityManager2() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        emf.createEntityManager((SynchronizationType) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> emf.createEntityManager((SynchronizationType) null));
     }
 
     @Test
     @SuppressWarnings("rawtypes")
     public void testCreateEntityManager3() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        emf.createEntityManager((SynchronizationType) null, (Map) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> emf.createEntityManager((SynchronizationType) null, (Map) null));
     }
 
     @Test
     public void testGetCriteriaBuilder() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        emf.getCriteriaBuilder();
-    });
+        assertThrows(UnsupportedOperationException.class, () -> emf.getCriteriaBuilder());
     }
 
     @Test
     public void testIsOpen() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        emf.isOpen();
-    });
+        assertThrows(UnsupportedOperationException.class, () -> emf.isOpen());
     }
 
     @Test
     public void testGetCache() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        emf.getCache();
-    });
+        assertThrows(UnsupportedOperationException.class, () -> emf.getCache());
     }
 
     @Test
     public void testGetPersistenceUnitUtil() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        emf.getPersistenceUnitUtil();
-    });
+        assertThrows(UnsupportedOperationException.class, () -> emf.getPersistenceUnitUtil());
     }
 
     @Test
     public void testaddNamedQuery() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        emf.addNamedQuery(null, null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> emf.addNamedQuery(null, null));
     }
 
     @Test
     public void testUnwrap() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        emf.unwrap(null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> emf.unwrap(null));
     }
 
     @Test
     public void testaddNamedEntityGraph() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        emf.addNamedEntityGraph(null, null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> emf.addNamedEntityGraph(null, null));
     }
 }

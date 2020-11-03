@@ -95,7 +95,7 @@ public interface BaseDao {
      * @param list
      * @return
      */
-    public static <T extends BaseEntity> T firstOrNull(final List<T> list) {
+    static <T extends BaseEntity> T firstOrNull(final List<T> list) {
         return list.isEmpty() ? null : list.get(0);
     }
 }

@@ -145,8 +145,6 @@ public class SizeTest {
 
     @Test
     public void testConstructor() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        new SizeValidators();
-    });
+        assertThrows(UnsupportedOperationException.class, SizeValidators::new);
     }
 }

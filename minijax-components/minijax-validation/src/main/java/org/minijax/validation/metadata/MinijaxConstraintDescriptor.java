@@ -159,9 +159,8 @@ public class MinijaxConstraintDescriptor<T extends Annotation> implements Constr
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private static <T extends Annotation> MinijaxConstraintDescriptor<T> buildDeclaredValidator(final T annotation, final Class validatedBy) {
-        final Class<? extends ConstraintValidator<T, ?>> c = validatedBy;
         try {
-            return new MinijaxConstraintDescriptor<>(annotation, c.getConstructor().newInstance());
+            return new MinijaxConstraintDescriptor<>(annotation, ((Class<? extends ConstraintValidator<T, ?>>) validatedBy).getConstructor().newInstance());
         } catch (final ReflectiveOperationException ex) {
             throw new ValidationException(ex);
         }

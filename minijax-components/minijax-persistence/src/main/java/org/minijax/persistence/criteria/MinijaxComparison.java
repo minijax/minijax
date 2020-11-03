@@ -14,7 +14,7 @@ public class MinijaxComparison<T> extends MinijaxPredicate {
 
         private final String sql;
 
-        private ComparisonType(final String sql) {
+        ComparisonType(final String sql) {
             this.sql = sql;
         }
 

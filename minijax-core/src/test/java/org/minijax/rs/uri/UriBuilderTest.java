@@ -194,9 +194,7 @@ public class UriBuilderTest {
 
     @Test
     public void testTrailingCurly() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            UriBuilder.fromUri("https://example.com/{name}}").build("foo");
-        });
+        assertThrows(IllegalArgumentException.class, () -> UriBuilder.fromUri("https://example.com/{name}}").build("foo"));
 
     }
 
@@ -217,44 +215,32 @@ public class UriBuilderTest {
 
     @Test
     public void testPath1() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new MinijaxUriBuilder().path(Object.class);
-        });
+        assertThrows(UnsupportedOperationException.class, () -> new MinijaxUriBuilder().path(Object.class));
     }
 
     @Test
     public void testPath2() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new MinijaxUriBuilder().path(Object.class, "foo");
-        });
+        assertThrows(UnsupportedOperationException.class, () -> new MinijaxUriBuilder().path(Object.class, "foo"));
     }
 
     @Test
     public void testPath3() throws ReflectiveOperationException {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        new MinijaxUriBuilder().path(Object.class.getMethod("equals", Object.class));
-    });
+        assertThrows(UnsupportedOperationException.class, () -> new MinijaxUriBuilder().path(Object.class.getMethod("equals", Object.class)));
     }
 
     @Test
     public void testReplaceMatrix() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new MinijaxUriBuilder().replaceMatrix(null);
-        });
+        assertThrows(UnsupportedOperationException.class, () -> new MinijaxUriBuilder().replaceMatrix(null));
     }
 
     @Test
     public void testMatrixParam() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new MinijaxUriBuilder().matrixParam("foo", null, null);
-        });
+        assertThrows(UnsupportedOperationException.class, () -> new MinijaxUriBuilder().matrixParam("foo", null, null));
     }
 
     @Test
     public void testReplaceMatrixParam() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new MinijaxUriBuilder().replaceMatrixParam("foo", null, null);
-        });
+        assertThrows(UnsupportedOperationException.class, () -> new MinijaxUriBuilder().replaceMatrixParam("foo", null, null));
     }
 
     @Test

@@ -64,7 +64,7 @@ public class HelloInjection {
 
     public interface MyService {
 
-        public String shout(String str);
+        String shout(String str);
     }
 
     @Provider

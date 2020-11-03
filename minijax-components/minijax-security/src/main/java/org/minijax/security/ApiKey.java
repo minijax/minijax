@@ -23,7 +23,7 @@ import org.minijax.dao.converters.UuidConverter;
 @Entity
 @Cacheable
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@Table(indexes = { @Index(columnList = "USERID", unique = false) })
+@Table(indexes = { @Index(columnList = "USERID") })
 @NamedQuery(
         name = "ApiKey.findByUser",
         query = "SELECT k FROM ApiKey k" +

@@ -10,9 +10,7 @@ public class IdUtilsTest {
 
     @Test
     public void testConstructor() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new IdUtils();
-        });
+        assertThrows(UnsupportedOperationException.class, IdUtils::new);
     }
 
     @Test

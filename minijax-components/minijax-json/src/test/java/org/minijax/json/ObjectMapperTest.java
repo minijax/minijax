@@ -10,9 +10,7 @@ public class ObjectMapperTest {
 
     @Test
     public void testConstructor() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        new Json();
-    });
+        assertThrows(UnsupportedOperationException.class, Json::new);
     }
 
     @Test

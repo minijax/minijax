@@ -3,12 +3,7 @@ package org.minijax.undertow.websocket;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.HttpHeaders;
@@ -59,8 +54,8 @@ public class HttpHeadersTest {
         when(exchange.getRequestHeaders()).thenReturn(headerMap);
 
         final MinijaxUndertowWebSocketHttpHeaders httpHeaders = new MinijaxUndertowWebSocketHttpHeaders(exchange);
-        assertEquals(Arrays.asList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
-        assertEquals(Arrays.asList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
+        assertEquals(Collections.singletonList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
+        assertEquals(Collections.singletonList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
     }
 
     @Test
@@ -72,8 +67,8 @@ public class HttpHeadersTest {
         when(exchange.getRequestHeaders()).thenReturn(headerMap);
 
         final MinijaxUndertowWebSocketHttpHeaders httpHeaders = new MinijaxUndertowWebSocketHttpHeaders(exchange);
-        assertEquals(Arrays.asList(Locale.US), httpHeaders.getAcceptableLanguages());
-        assertEquals(Arrays.asList(Locale.US), httpHeaders.getAcceptableLanguages());
+        assertEquals(Collections.singletonList(Locale.US), httpHeaders.getAcceptableLanguages());
+        assertEquals(Collections.singletonList(Locale.US), httpHeaders.getAcceptableLanguages());
     }
 
     @Test

@@ -3,6 +3,7 @@ package org.minijax.undertow;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
 
@@ -47,8 +48,8 @@ public class HttpHeadersTest {
         headerMap.add(Headers.ACCEPT, "text/plain");
 
         final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(headerMap);
-        assertEquals(Arrays.asList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
-        assertEquals(Arrays.asList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
+        assertEquals(Collections.singletonList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
+        assertEquals(Collections.singletonList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
     }
 
     @Test
@@ -57,8 +58,8 @@ public class HttpHeadersTest {
         headerMap.add(Headers.ACCEPT_LANGUAGE, "en-US");
 
         final MinijaxUndertowHttpHeaders httpHeaders = new MinijaxUndertowHttpHeaders(headerMap);
-        assertEquals(Arrays.asList(Locale.US), httpHeaders.getAcceptableLanguages());
-        assertEquals(Arrays.asList(Locale.US), httpHeaders.getAcceptableLanguages());
+        assertEquals(Collections.singletonList(Locale.US), httpHeaders.getAcceptableLanguages());
+        assertEquals(Collections.singletonList(Locale.US), httpHeaders.getAcceptableLanguages());
     }
 
     @Test

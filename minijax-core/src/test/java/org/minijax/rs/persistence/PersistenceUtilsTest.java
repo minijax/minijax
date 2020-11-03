@@ -11,9 +11,7 @@ public class PersistenceUtilsTest {
 
     @Test
     public void testCtor() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new PersistenceUtils();
-        });
+        assertThrows(UnsupportedOperationException.class, PersistenceUtils::new);
     }
 
     @Test

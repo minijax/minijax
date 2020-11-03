@@ -159,9 +159,7 @@ public class InjectorTest {
 
     @Test
     public void testNoValidConstructors() {
-        assertThrows(InjectionException.class, () -> {
-            injector.getProvider(NoValidConstructors.class);
-        });
+        assertThrows(InjectionException.class, () -> injector.getProvider(NoValidConstructors.class));
     }
 
     static class MultipleInjectConstructors {
@@ -176,9 +174,7 @@ public class InjectorTest {
 
     @Test
     public void testMultipleInjectConstructors() {
-        assertThrows(InjectionException.class, () -> {
-            injector.getProvider(MultipleInjectConstructors.class);
-        });
+        assertThrows(InjectionException.class, () -> injector.getProvider(MultipleInjectConstructors.class));
     }
 
     static class ParamCircularDependencyA {
@@ -195,9 +191,7 @@ public class InjectorTest {
 
     @Test
     public void testParamCircularDependency() {
-        assertThrows(InjectionException.class, () -> {
-            injector.getProvider(ParamCircularDependencyA.class);
-        });
+        assertThrows(InjectionException.class, () -> injector.getProvider(ParamCircularDependencyA.class));
     }
 
     static class FieldCircularDependencyA {
@@ -212,9 +206,7 @@ public class InjectorTest {
 
     @Test
     public void testFieldCircularDependency() {
-        assertThrows(InjectionException.class, () -> {
-            injector.getProvider(FieldCircularDependencyA.class);
-        });
+        assertThrows(InjectionException.class, () -> injector.getProvider(FieldCircularDependencyA.class));
     }
 
     static class ExplodingConstructor {
@@ -225,9 +217,7 @@ public class InjectorTest {
 
     @Test
     public void testExplodingConstructor() {
-        assertThrows(InjectionException.class, () -> {
-            injector.getResource(ExplodingConstructor.class);
-        });
+        assertThrows(InjectionException.class, () -> injector.getResource(ExplodingConstructor.class));
     }
 
     static class ExplodingSetter {
@@ -239,9 +229,7 @@ public class InjectorTest {
 
     @Test
     public void testNewExplodingSetter() {
-        assertThrows(InjectionException.class, () -> {
-            injector.getResource(ExplodingSetter.class);
-        });
+        assertThrows(InjectionException.class, () -> injector.getResource(ExplodingSetter.class));
     }
 
     @Test

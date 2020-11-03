@@ -46,7 +46,7 @@ public class MinijaxMessageInterpolator implements MessageInterpolator {
                 inside = true;
             } else if (c == '}') {
                 if (dollar) {
-                    result.append(String.valueOf(invalidValue));
+                    result.append(invalidValue);
                 } else {
                     result.append(evaluate(expr.toString(), annotation));
                 }

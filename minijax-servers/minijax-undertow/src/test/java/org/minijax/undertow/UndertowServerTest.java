@@ -1,6 +1,5 @@
 package org.minijax.undertow;
 
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Test;

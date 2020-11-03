@@ -106,7 +106,7 @@ public class NamedEntityTest {
     @Test
     public void testValidateHandleTooLong() {
         final Widget w = new Widget();
-        w.setHandle(repeat("x", 40));
+        w.setHandle("x".repeat(40));
         w.setName("foo");
         assertEquals(1, validator.validate(w).size());
     }
@@ -147,7 +147,7 @@ public class NamedEntityTest {
     public void testValidateNameTooLong() {
         final Widget w = new Widget();
         w.setHandle("foo");
-        w.setName(repeat("x", 300));
+        w.setName("x".repeat(300));
         assertEquals(1, validator.validate(w).size());
     }
 
@@ -162,13 +162,5 @@ public class NamedEntityTest {
         assertEquals("Alice", w.get(0).getName());
         assertEquals("Bob", w.get(1).getName());
         assertEquals("Carol", w.get(2).getName());
-    }
-
-    private static String repeat(final String str, final int times) {
-        final StringBuilder b = new StringBuilder();
-        for (int i = 0; i < times; i++) {
-            b.append(str);
-        }
-        return b.toString();
     }
 }

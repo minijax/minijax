@@ -18,7 +18,7 @@ public class FieldAnnotationProcessorTest {
 
     @Target({ FIELD })
     @Retention(RUNTIME)
-    public static @interface MyFieldAnnotation {
+    public @interface MyFieldAnnotation {
     }
 
     public static class MyTestResource {

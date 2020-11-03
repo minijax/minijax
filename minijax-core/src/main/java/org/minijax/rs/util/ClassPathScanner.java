@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
@@ -42,7 +43,7 @@ public class ClassPathScanner {
             final String protocol = url.getProtocol();
 
             if (protocol.equals("file")) {
-                checkDirectory(classLoader, new File(URLDecoder.decode(url.getPath(), "UTF-8")), packageName);
+                checkDirectory(classLoader, new File(URLDecoder.decode(url.getPath(), StandardCharsets.UTF_8)), packageName);
             } else if (protocol.equals("jar")) {
                 checkJarFile(classLoader, url, packageName);
             } else {

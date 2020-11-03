@@ -10,11 +10,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import jakarta.persistence.EntityManagerFactory;
 
@@ -76,7 +72,7 @@ public class LiquibaseHelperTest {
         assertTrue(getTables(targetUrl).isEmpty());
 
         // Verify that the "reference" database now has the "WIDGET" table
-        assertEquals(Arrays.asList("WIDGET"), getTables(referenceUrl));
+        assertEquals(Collections.singletonList("WIDGET"), getTables(referenceUrl));
 
         // Verify that the changelog file now exists
         assertTrue(masterChangeLogFile.exists());
@@ -92,7 +88,7 @@ public class LiquibaseHelperTest {
         assertNull(secondGeneratedChangeLog);
 
         // Verify that the "reference" database is still only the "WIDGET" table
-        assertEquals(Arrays.asList("WIDGET"), getTables(referenceUrl));
+        assertEquals(Collections.singletonList("WIDGET"), getTables(referenceUrl));
 
         // Run the migration again (should be no-op)
         m.migrate();

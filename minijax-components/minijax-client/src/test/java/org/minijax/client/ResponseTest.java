@@ -9,6 +9,7 @@ import java.lang.annotation.Annotation;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpResponse;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
 
@@ -211,7 +212,7 @@ public class ResponseTest {
 
     @SuppressWarnings("unchecked")
     private static HttpResponse<InputStream> mockResponse(final int statusCode, final String key, final String value) {
-        final HttpHeaders httpHeaders = HttpHeaders.of(Map.of(key, Arrays.asList(value)), (x, y) -> true);
+        final HttpHeaders httpHeaders = HttpHeaders.of(Map.of(key, Collections.singletonList(value)), (x, y) -> true);
         final HttpResponse<InputStream> httpResponse = mock(HttpResponse.class);
         when(httpResponse.statusCode()).thenReturn(statusCode);
         when(httpResponse.headers()).thenReturn(httpHeaders);

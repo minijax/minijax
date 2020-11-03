@@ -14,9 +14,7 @@ public class MediaTypeUtilsTest {
 
     @Test
     public void testCtor() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new MediaTypeUtils();
-        });
+        assertThrows(UnsupportedOperationException.class, MediaTypeUtils::new);
     }
 
     @Test

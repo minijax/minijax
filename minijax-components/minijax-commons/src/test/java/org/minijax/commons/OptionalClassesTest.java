@@ -7,9 +7,7 @@ public class OptionalClassesTest {
 
     @Test
     public void testCtor() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new OptionalClasses();
-        });
+        assertThrows(UnsupportedOperationException.class, OptionalClasses::new);
     }
 
     @Test

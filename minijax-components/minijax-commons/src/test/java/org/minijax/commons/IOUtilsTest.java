@@ -13,9 +13,7 @@ public class IOUtilsTest {
 
     @Test
     public void testCtor() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new IOUtils();
-        });
+        assertThrows(UnsupportedOperationException.class, IOUtils::new);
     }
 
     @Test

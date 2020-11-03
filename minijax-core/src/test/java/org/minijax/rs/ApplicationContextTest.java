@@ -69,37 +69,27 @@ public class ApplicationContextTest {
 
     @Test
     public void testIsEnabled1() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            app.isEnabled(new MyFeature());
-        });
+        assertThrows(UnsupportedOperationException.class, () -> app.isEnabled(new MyFeature()));
     }
 
     @Test
     public void testIsEnabled2() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            app.isEnabled(MyFeature.class);
-        });
+        assertThrows(UnsupportedOperationException.class, () -> app.isEnabled(MyFeature.class));
     }
 
     @Test
     public void testIsRegistered1() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            app.isRegistered(new MyFeature());
-        });
+        assertThrows(UnsupportedOperationException.class, () -> app.isRegistered(new MyFeature()));
     }
 
     @Test
     public void testIsRegistered2() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            app.isRegistered(MyFeature.class);
-        });
+        assertThrows(UnsupportedOperationException.class, () -> app.isRegistered(MyFeature.class));
     }
 
     @Test
     public void testGetContracts() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            app.getContracts(MyFeature.class);
-        });
+        assertThrows(UnsupportedOperationException.class, () -> app.getContracts(MyFeature.class));
     }
 
     public static class MyFeature implements Feature {

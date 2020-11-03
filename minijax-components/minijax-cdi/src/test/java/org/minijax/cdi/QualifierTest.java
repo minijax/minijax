@@ -70,8 +70,6 @@ public class QualifierTest {
 
     @Test
     public void testMultipleQualifiers() {
-        assertThrows(InjectionException.class, () -> {
-            injector.getResource(MultipleQualifiers.class);
-        });
+        assertThrows(InjectionException.class, () -> injector.getResource(MultipleQualifiers.class));
     }
 }

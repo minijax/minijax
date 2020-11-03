@@ -279,7 +279,7 @@ public class MinijaxUriBuilder extends UriBuilder {
     }
 
     @FunctionalInterface
-    private static interface EncodePredicate {
+    private interface EncodePredicate {
         String encode(String str);
     }
 

@@ -4,7 +4,6 @@ import static jakarta.ws.rs.HttpMethod.*;
 import static jakarta.ws.rs.core.MediaType.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import java.io.ByteArrayInputStream;
@@ -16,6 +15,7 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
 
@@ -36,7 +36,7 @@ public class InvocationBuilderTest {
     public void setUp() throws IOException, InterruptedException {
         final ByteArrayInputStream inputStream = new ByteArrayInputStream("Hello world".getBytes(StandardCharsets.UTF_8));
 
-        final HttpHeaders httpHeaders = HttpHeaders.of(Map.of("Content-Type", Arrays.asList("text/plain")), (x, y) -> true);
+        final HttpHeaders httpHeaders = HttpHeaders.of(Map.of("Content-Type", Collections.singletonList("text/plain")), (x, y) -> true);
 
         @SuppressWarnings("unchecked")
         final HttpResponse<InputStream> httpResponse = mock(HttpResponse.class);
@@ -266,29 +266,21 @@ public class InvocationBuilderTest {
 
     @Test
     public void testProperty() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            target("/").request().property(null, null);
-        });
+        assertThrows(UnsupportedOperationException.class, () -> target("/").request().property(null, null));
     }
 
     @Test
     public void testAsync() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            target("/").request().async();
-        });
+        assertThrows(UnsupportedOperationException.class, () -> target("/").request().async());
     }
 
     @Test
     public void testRx() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            target("/").request().rx();
-        });
+        assertThrows(UnsupportedOperationException.class, () -> target("/").request().rx());
     }
 
     @Test
     public void testRxClass() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            target("/").request().rx(null);
-        });
+        assertThrows(UnsupportedOperationException.class, () -> target("/").request().rx(null));
     }
 }

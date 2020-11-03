@@ -14,7 +14,7 @@ import jakarta.validation.constraints.NotNull;
 //tag::include[]
 public class Car {
 
-	public List<@NotNull @Valid Person> passengers = new ArrayList<Person>();
+	public List<@NotNull @Valid Person> passengers = new ArrayList<>();
 
 	public Map<@Valid Part, List<@Valid Manufacturer>> partManufacturers = new HashMap<>();
 

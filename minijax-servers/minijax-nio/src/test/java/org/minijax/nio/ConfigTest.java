@@ -8,8 +8,6 @@ public class ConfigTest {
 
     @Test
     public void testCtor() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        new Config();
-    });
+        assertThrows(UnsupportedOperationException.class, Config::new);
     }
 }

@@ -16,9 +16,7 @@ public class EntityUtilsTest {
 
     @Test
     public void testCtor() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        new EntityUtils();
-    });
+        assertThrows(UnsupportedOperationException.class, EntityUtils::new);
     }
 
     @Test

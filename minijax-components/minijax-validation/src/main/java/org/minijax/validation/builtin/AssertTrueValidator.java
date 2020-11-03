@@ -12,6 +12,6 @@ public class AssertTrueValidator implements ConstraintValidator<AssertTrue, Bool
 
     @Override
     public boolean isValid(final Boolean value, final ConstraintValidatorContext context) {
-        return value == null || value.booleanValue();
+        return value == null || value;
     }
 }

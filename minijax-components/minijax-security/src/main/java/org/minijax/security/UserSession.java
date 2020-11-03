@@ -25,7 +25,7 @@ import org.minijax.dao.converters.UuidConverter;
 @Entity
 @Cacheable
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@Table(indexes = { @Index(columnList = "USERID", unique = false) })
+@Table(indexes = { @Index(columnList = "USERID") })
 @NamedQuery(
         name = "UserSession.readByUser",
         query = "SELECT s FROM UserSession s WHERE s.userId = :userId")

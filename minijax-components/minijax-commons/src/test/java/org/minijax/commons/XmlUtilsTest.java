@@ -17,9 +17,7 @@ public class XmlUtilsTest {
 
     @Test
     public void testCtor() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new XmlUtils();
-        });
+        assertThrows(UnsupportedOperationException.class, XmlUtils::new);
     }
 
     @Test
@@ -30,9 +28,7 @@ public class XmlUtilsTest {
 
     @Test
     public void testReadBadXml() throws IOException {
-        assertThrows(IOException.class, () -> {
-            XmlUtils.readXml(new File("src/test/resources/bad.xml.txt"));
-        });
+        assertThrows(IOException.class, () -> XmlUtils.readXml(new File("src/test/resources/bad.xml.txt")));
     }
 
     @Test

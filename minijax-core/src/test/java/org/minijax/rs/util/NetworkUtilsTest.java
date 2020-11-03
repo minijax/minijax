@@ -18,9 +18,7 @@ public class NetworkUtilsTest {
 
     @Test
     public void testConstructor() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new NetworkUtils();
-        });
+        assertThrows(UnsupportedOperationException.class, NetworkUtils::new);
     }
 
     @Test

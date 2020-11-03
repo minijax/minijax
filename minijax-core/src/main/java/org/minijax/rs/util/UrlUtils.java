@@ -3,6 +3,7 @@ package org.minijax.rs.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,8 +69,8 @@ public class UrlUtils {
 
         final String[] pairs = str.split("&");
 
-        for (int i = 0; i < pairs.length; i++) {
-            final String[] keyValue = pairs[i].split("=");
+        for (String pair : pairs) {
+            final String[] keyValue = pair.split("=");
             final String key = keyValue[0];
             final String value = keyValue.length > 1 ? keyValue[1] : null;
             fields.put(urlDecode(key), urlDecode(value));
@@ -93,8 +94,8 @@ public class UrlUtils {
 
         final String[] pairs = str.split("&");
 
-        for (int i = 0; i < pairs.length; i++) {
-            final String[] keyValue = pairs[i].split("=");
+        for (String pair : pairs) {
+            final String[] keyValue = pair.split("=");
             final String key = keyValue[0];
             final String value = keyValue.length > 1 ? keyValue[1] : null;
             fields.add(urlDecode(key), urlDecode(value));
@@ -180,12 +181,7 @@ public class UrlUtils {
         if (str == null) {
             return "";
         }
-        try {
-            return URLDecoder.decode(str, UTF8);
-        } catch (final UnsupportedEncodingException ex) {
-            LOG.error("Unsupported Encoding", ex);
-            return str;
-        }
+        return URLDecoder.decode(str, StandardCharsets.UTF_8);
     }
 
     /**

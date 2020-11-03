@@ -177,6 +177,6 @@ class MinijaxResourceMethod implements jakarta.ws.rs.container.ResourceInfo {
      * @param list The list of resource methods that will be sorted in place.
      */
     public static void sortByLiteralLength(final List<MinijaxResourceMethod> list) {
-        Collections.sort(list, (m1, m2) -> Integer.compare(m2.literalLength, m1.literalLength));
+        list.sort((m1, m2) -> Integer.compare(m2.literalLength, m1.literalLength));
     }
 }

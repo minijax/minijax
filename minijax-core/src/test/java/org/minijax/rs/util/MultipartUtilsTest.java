@@ -19,9 +19,7 @@ public class MultipartUtilsTest {
 
     @Test
     public void testCtor() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        new MultipartUtils();
-    });
+        assertThrows(UnsupportedOperationException.class, MultipartUtils::new);
     }
 
     @Test

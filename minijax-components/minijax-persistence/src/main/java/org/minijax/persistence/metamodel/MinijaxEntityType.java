@@ -505,8 +505,7 @@ public class MinijaxEntityType<T>
             final MinijaxCriteriaBuilder cb = new MinijaxCriteriaBuilder(metamodel);
             final Map<String, MinijaxCriteriaQuery<T>> result = new HashMap<>();
             final NamedQuery[] annotations = javaType.getAnnotationsByType(NamedQuery.class);
-            for (int i = 0; i < annotations.length; i++) {
-                final NamedQuery annotation = annotations[i];
+            for (final NamedQuery annotation : annotations) {
                 final MinijaxCriteriaQuery<T> query = Parser.parse(cb, javaType, Tokenizer.tokenize(annotation.query()));
                 result.put(annotation.name(), query);
             }

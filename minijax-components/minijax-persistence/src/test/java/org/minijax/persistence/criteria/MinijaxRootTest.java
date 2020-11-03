@@ -39,232 +39,170 @@ public class MinijaxRootTest {
 
     @Test
     public void testgetJoins() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.getJoins();
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.getJoins());
     }
 
     @Test
     public void testisCorrelated() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.isCorrelated();
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.isCorrelated());
     }
 
     @Test
     public void testgetCorrelationParent() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.getCorrelationParent();
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.getCorrelationParent());
     }
 
     @Test
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void testjoin1() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.join((SingularAttribute) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.join((SingularAttribute) null));
     }
 
     @Test
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void testjoin2() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.join((SingularAttribute) null, (JoinType) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.join((SingularAttribute) null, (JoinType) null));
     }
 
     @Test
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void testjoin3() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.join((CollectionAttribute) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.join((CollectionAttribute) null));
     }
 
     @Test
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void testjoin4() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.join((SetAttribute) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.join((SetAttribute) null));
     }
 
     @Test
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void testjoin5() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.join((ListAttribute) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.join((ListAttribute) null));
     }
 
     @Test
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void testjoin6() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.join((MapAttribute) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.join((MapAttribute) null));
     }
 
     @Test
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void testjoin7() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.join((CollectionAttribute) null, (JoinType) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.join((CollectionAttribute) null, (JoinType) null));
     }
 
     @Test
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void testjoin8() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.join((SetAttribute) null, (JoinType) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.join((SetAttribute) null, (JoinType) null));
     }
 
     @Test
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void testjoin9() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.join((ListAttribute) null, (JoinType) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.join((ListAttribute) null, (JoinType) null));
     }
 
     @Test
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void testjoin10() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.join((MapAttribute) null, (JoinType) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.join((MapAttribute) null, (JoinType) null));
     }
 
     @Test
     public void testjoin11() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.join((String) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.join((String) null));
     }
 
     @Test
     public void testjoinCollection1() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.joinCollection(null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.joinCollection(null));
     }
 
     @Test
     public void testjoinSet1() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.joinSet(null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.joinSet(null));
     }
 
     @Test
     public void testjoinList1() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.joinList(null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.joinList(null));
     }
 
     @Test
     public void testjoinMap1() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.joinMap(null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.joinMap(null));
     }
 
     @Test
     public void testjoin12() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.join((String) null, (JoinType) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.join((String) null, (JoinType) null));
     }
 
     @Test
     public void testjoinCollection2() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.joinCollection((String) null, (JoinType) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.joinCollection((String) null, (JoinType) null));
     }
 
     @Test
     public void testjoinSet2() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.joinSet((String) null, (JoinType) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.joinSet((String) null, (JoinType) null));
     }
 
     @Test
     public void testjoinList2() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.joinList((String) null, (JoinType) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.joinList((String) null, (JoinType) null));
     }
 
     @Test
     public void testjoinMap2() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.joinMap((String) null, (JoinType) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.joinMap((String) null, (JoinType) null));
     }
 
     @Test
     public void testgetFetches() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.getFetches();
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.getFetches());
     }
 
     @Test
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void testfetch1() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.fetch((SingularAttribute) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.fetch((SingularAttribute) null));
     }
 
     @Test
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void testfetch2() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.fetch((SingularAttribute) null, (JoinType) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.fetch((SingularAttribute) null, (JoinType) null));
     }
 
     @Test
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void testfetch3() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.fetch((PluralAttribute) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.fetch((PluralAttribute) null));
     }
 
     @Test
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void testfetch4() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.fetch((PluralAttribute) null, (JoinType) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.fetch((PluralAttribute) null, (JoinType) null));
     }
 
     @Test
     public void testfetch5() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.fetch((String) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.fetch((String) null));
     }
 
     @Test
     public void testfetch6() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.fetch((String) null, (JoinType) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.fetch((String) null, (JoinType) null));
     }
 
     @Test
     public void testgetModel() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        root.getModel();
-    });
+        assertThrows(UnsupportedOperationException.class, () -> root.getModel());
     }
 }

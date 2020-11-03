@@ -95,12 +95,12 @@ public class MinijaxCriteriaBuilder implements jakarta.persistence.criteria.Crit
 
     @Override
     public MinijaxPredicate like(final Expression<String> x, final Expression<String> pattern) {
-        return new MinijaxComparison<String>(ComparisonType.LIKE, (MinijaxExpression<String>) x, (MinijaxExpression<String>) pattern);
+        return new MinijaxComparison<>(ComparisonType.LIKE, (MinijaxExpression<String>) x, (MinijaxExpression<String>) pattern);
     }
 
     @Override
     public MinijaxPredicate like(final Expression<String> x, final String pattern) {
-        return new MinijaxComparison<String>(ComparisonType.LIKE, (MinijaxExpression<String>) x, new MinijaxStringExpression(pattern));
+        return new MinijaxComparison<>(ComparisonType.LIKE, (MinijaxExpression<String>) x, new MinijaxStringExpression(pattern));
     }
 
     @Override

@@ -7,8 +7,6 @@ public class MinijaxPropertiesTest {
 
     @Test
     public void testCtor() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            new MinijaxProperties();
-        });
+        assertThrows(UnsupportedOperationException.class, MinijaxProperties::new);
     }
 }

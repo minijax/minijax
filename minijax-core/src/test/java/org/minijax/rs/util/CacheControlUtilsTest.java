@@ -9,9 +9,7 @@ public class CacheControlUtilsTest {
 
     @Test
     public void testCtor() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        new CacheControlUtils();
-    });
+        assertThrows(UnsupportedOperationException.class, CacheControlUtils::new);
     }
 
     @Test

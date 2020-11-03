@@ -292,14 +292,14 @@ public abstract class MinijaxAttribute<X, Y> implements jakarta.persistence.meta
                 if (converter != null) {
                     result = new MinijaxStringConverterAttribute<>(this);
                 } else {
-                    result = (MinijaxAttribute<X, Y>) new MinijaxStringAttribute<X>((Builder<X, String, ?>) this);
+                    result = (MinijaxAttribute<X, Y>) new MinijaxStringAttribute<>((Builder<X, String, ?>) this);
                 }
 
             } else if (columnType == byte[].class) {
                 if (converter != null) {
                     result = new MinijaxBinaryConverterAttribute<>(this);
                 } else {
-                    result = (MinijaxAttribute<X, Y>) new MinijaxBinaryAttribute<X>((Builder<X, byte[], ?>) this);
+                    result = (MinijaxAttribute<X, Y>) new MinijaxBinaryAttribute<>((Builder<X, byte[], ?>) this);
                 }
 
             } else if (columnType == Timestamp.class) {

@@ -5,6 +5,7 @@ import static java.util.Arrays.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public class HttpHeadersTest {
         final MinijaxNioHttpHeaders headers = new MinijaxNioHttpHeaders(map);
         assertEquals(map, headers.getRequestHeaders());
         assertEquals("bar", headers.getHeaderString("X-Foo"));
-        assertEquals(asList("bar"), headers.getRequestHeader("X-Foo"));
+        assertEquals(Collections.singletonList("bar"), headers.getRequestHeader("X-Foo"));
     }
 
     @Test
@@ -49,8 +50,8 @@ public class HttpHeadersTest {
         map.add(HttpHeaders.ACCEPT, "text/plain");
 
         final MinijaxNioHttpHeaders httpHeaders = new MinijaxNioHttpHeaders(map);
-        assertEquals(Arrays.asList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
-        assertEquals(Arrays.asList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
+        assertEquals(Collections.singletonList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
+        assertEquals(Collections.singletonList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
     }
 
     @Test
@@ -59,8 +60,8 @@ public class HttpHeadersTest {
         map.add(HttpHeaders.ACCEPT_LANGUAGE, "en-US");
 
         final MinijaxNioHttpHeaders httpHeaders = new MinijaxNioHttpHeaders(map);
-        assertEquals(Arrays.asList(Locale.US), httpHeaders.getAcceptableLanguages());
-        assertEquals(Arrays.asList(Locale.US), httpHeaders.getAcceptableLanguages());
+        assertEquals(Collections.singletonList(Locale.US), httpHeaders.getAcceptableLanguages());
+        assertEquals(Collections.singletonList(Locale.US), httpHeaders.getAcceptableLanguages());
     }
 
     @Test

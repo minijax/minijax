@@ -11,9 +11,7 @@ public class CookieUtilsTest {
 
     @Test
     public void testCtor() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        new CookieUtils();
-    });
+        assertThrows(UnsupportedOperationException.class, CookieUtils::new);
     }
 
     @Test

@@ -52,9 +52,9 @@ class MinijaxServletHttpHeaders extends MinijaxHttpHeaders {
         if (cookies == null) {
             cookies = new HashMap<>();
             final jakarta.servlet.http.Cookie[] servletCookies = request.getCookies();
-            for (int i = 0; i < servletCookies.length; i++) {
-                final String name = servletCookies[i].getName();
-                final String value = servletCookies[i].getValue();
+            for (jakarta.servlet.http.Cookie servletCookie : servletCookies) {
+                final String name = servletCookie.getName();
+                final String value = servletCookie.getValue();
                 cookies.put(name, new Cookie(name, value));
             }
         }

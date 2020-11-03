@@ -3,6 +3,7 @@ package org.minijax.dao;
 import java.net.URI;
 import java.security.Principal;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -31,6 +32,6 @@ public interface NamedEntity extends BaseEntity, Principal {
      * @param list The list of named entities (modified in place).
      */
     static <T extends NamedEntity> void sortByName(final List<T> list) {
-        Collections.sort(list, (o1, o2) -> o1.getName().compareTo(o2.getName()));
+        list.sort(Comparator.comparing(NamedEntity::getName));
     }
 }

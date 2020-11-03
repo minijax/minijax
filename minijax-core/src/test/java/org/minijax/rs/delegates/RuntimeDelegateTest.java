@@ -51,29 +51,21 @@ public class RuntimeDelegateTest {
 
     @Test
     public void testCreateUnknownDelegate() {
-        assertThrows(IllegalArgumentException.class, () -> {
-        RuntimeDelegate.getInstance().createHeaderDelegate(Object.class);
-    });
+        assertThrows(IllegalArgumentException.class, () -> RuntimeDelegate.getInstance().createHeaderDelegate(Object.class));
     }
 
     @Test
     public void testCreateVariantListBuilder() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        RuntimeDelegate.getInstance().createVariantListBuilder();
-    });
+        assertThrows(UnsupportedOperationException.class, () -> RuntimeDelegate.getInstance().createVariantListBuilder());
     }
 
     @Test
     public void testCreateEndpoint() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        RuntimeDelegate.getInstance().createEndpoint(null, null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> RuntimeDelegate.getInstance().createEndpoint(null, null));
     }
 
     @Test
     public void testCreateLinkBuilder() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        RuntimeDelegate.getInstance().createLinkBuilder();
-    });
+        assertThrows(UnsupportedOperationException.class, () -> RuntimeDelegate.getInstance().createLinkBuilder());
     }
 }

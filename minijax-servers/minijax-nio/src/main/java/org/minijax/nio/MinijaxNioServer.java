@@ -65,8 +65,8 @@ public class MinijaxNioServer implements MinijaxServer {
     @Override
     public void start() {
         // Add the workers to the executor
-        for (int i = 0; i < workers.length; i++) {
-            executorService.execute(workers[i]);
+        for (Worker worker : workers) {
+            executorService.execute(worker);
         }
 
         // Add the listener to the executor
@@ -81,8 +81,8 @@ public class MinijaxNioServer implements MinijaxServer {
 
         // Stop all workers
         LOG.info("Stopping workers...");
-        for (int i = 0; i < workers.length; i++) {
-            workers[i].setRunning(false);
+        for (Worker worker : workers) {
+            worker.setRunning(false);
         }
 
         // Shutdown the executor

@@ -71,106 +71,76 @@ public class ResponseBuilderTest extends MinijaxTest {
 
     @Test
     public void testEncoding() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        Response.ok().encoding(null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> Response.ok().encoding(null));
     }
 
     @Test
     public void testReplaceAll() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        Response.ok().replaceAll(null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> Response.ok().replaceAll(null));
     }
 
     @Test
     public void testLanguage() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        Response.ok().language((String) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> Response.ok().language((String) null));
     }
 
     @Test
     public void testLocale() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        Response.ok().language((Locale) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> Response.ok().language((Locale) null));
     }
 
     @Test
     public void testVariant() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        Response.ok().variant(null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> Response.ok().variant(null));
     }
 
     @Test
     public void testContentLocation() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        Response.ok().contentLocation(null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> Response.ok().contentLocation(null));
     }
 
     @Test
     public void testExpires() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        Response.ok().expires(null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> Response.ok().expires(null));
     }
 
     @Test
     public void testLastModified() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        Response.ok().lastModified(null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> Response.ok().lastModified(null));
     }
 
     @Test
     public void testEntityTag() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        Response.ok().tag((EntityTag) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> Response.ok().tag((EntityTag) null));
     }
 
     @Test
     public void testTag() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        Response.ok().tag((String) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> Response.ok().tag((String) null));
     }
 
     @Test
     public void testVariants() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        Response.ok().variants((Variant[]) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> Response.ok().variants((Variant[]) null));
     }
 
     @Test
     public void testVariantsList() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        Response.ok().variants((List<Variant>) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> Response.ok().variants((List<Variant>) null));
     }
 
     @Test
     public void testLinks() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        Response.ok().links((Link[]) null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> Response.ok().links((Link[]) null));
     }
 
     @Test
     public void testLinkUri() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        Response.ok().link((URI) null, null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> Response.ok().link((URI) null, null));
     }
 
     @Test
     public void testLink() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        Response.ok().link((String) null, null);
-    });
+        assertThrows(UnsupportedOperationException.class, () -> Response.ok().link((String) null, null));
     }
 }

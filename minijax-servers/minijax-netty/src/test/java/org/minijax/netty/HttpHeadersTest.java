@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
 
@@ -57,8 +58,8 @@ public class HttpHeadersTest {
         when(request.headers()).thenReturn(headers);
 
         final MinijaxNettyHttpHeaders httpHeaders = new MinijaxNettyHttpHeaders(request);
-        assertEquals(Arrays.asList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
-        assertEquals(Arrays.asList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
+        assertEquals(Collections.singletonList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
+        assertEquals(Collections.singletonList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
     }
 
     @Test
@@ -70,8 +71,8 @@ public class HttpHeadersTest {
         when(request.headers()).thenReturn(headers);
 
         final MinijaxNettyHttpHeaders httpHeaders = new MinijaxNettyHttpHeaders(request);
-        assertEquals(Arrays.asList(Locale.US), httpHeaders.getAcceptableLanguages());
-        assertEquals(Arrays.asList(Locale.US), httpHeaders.getAcceptableLanguages());
+        assertEquals(Collections.singletonList(Locale.US), httpHeaders.getAcceptableLanguages());
+        assertEquals(Collections.singletonList(Locale.US), httpHeaders.getAcceptableLanguages());
     }
 
     @Test

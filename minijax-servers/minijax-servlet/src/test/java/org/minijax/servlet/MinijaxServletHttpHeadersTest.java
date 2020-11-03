@@ -1,7 +1,6 @@
 package org.minijax.servlet;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
@@ -30,7 +29,7 @@ public class MinijaxServletHttpHeadersTest {
     @Test
     public void testMultiple() throws Exception {
         final HttpServletRequest request = mock(HttpServletRequest.class);
-        when(request.getHeaderNames()).thenReturn(Collections.enumeration(Arrays.asList("X-Foo")));
+        when(request.getHeaderNames()).thenReturn(Collections.enumeration(Collections.singletonList("X-Foo")));
         when(request.getHeaders("X-Foo")).thenReturn(Collections.enumeration(Arrays.asList("bar", "baz")));
 
         final MinijaxServletHttpHeaders httpHeaders = new MinijaxServletHttpHeaders(request);
@@ -47,8 +46,8 @@ public class MinijaxServletHttpHeadersTest {
         when(request.getHeader(eq("Accept"))).thenReturn("text/plain");
 
         final MinijaxServletHttpHeaders httpHeaders = new MinijaxServletHttpHeaders(request);
-        assertEquals(Arrays.asList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
-        assertEquals(Arrays.asList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
+        assertEquals(Collections.singletonList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
+        assertEquals(Collections.singletonList(MediaType.TEXT_PLAIN_TYPE), httpHeaders.getAcceptableMediaTypes());
     }
 
     @Test
@@ -57,8 +56,8 @@ public class MinijaxServletHttpHeadersTest {
         when(request.getHeader(eq("Accept-Language"))).thenReturn("en-US");
 
         final MinijaxServletHttpHeaders httpHeaders = new MinijaxServletHttpHeaders(request);
-        assertEquals(Arrays.asList(Locale.US), httpHeaders.getAcceptableLanguages());
-        assertEquals(Arrays.asList(Locale.US), httpHeaders.getAcceptableLanguages());
+        assertEquals(Collections.singletonList(Locale.US), httpHeaders.getAcceptableLanguages());
+        assertEquals(Collections.singletonList(Locale.US), httpHeaders.getAcceptableLanguages());
     }
 
     @Test

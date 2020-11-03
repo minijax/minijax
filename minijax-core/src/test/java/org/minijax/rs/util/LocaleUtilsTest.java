@@ -11,9 +11,7 @@ public class LocaleUtilsTest {
 
     @Test
     public void testCtor() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-        new LocaleUtils();
-    });
+        assertThrows(UnsupportedOperationException.class, LocaleUtils::new);
     }
 
     @Test

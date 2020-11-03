@@ -12,24 +12,24 @@ public interface Part {
      * Returns the form element name.
      * @return The form element name.
      */
-    public String getName();
+    String getName();
 
     /**
      * Returns the form value as a string.
      * @return The form value as a string.
      */
-    public String getValue();
+    String getValue();
 
     /**
      * Returns the submitted file name (only applicable for file elements).
      * @return The submitted file name.
      */
-    public String getSubmittedFileName();
+    String getSubmittedFileName();
 
     /**
      * Returns an input stream for consuming the value content.
      * @return An input stream for consuming the value content.
      * @throws IOException
      */
-    public InputStream getInputStream() throws IOException;
+    InputStream getInputStream() throws IOException;
 }

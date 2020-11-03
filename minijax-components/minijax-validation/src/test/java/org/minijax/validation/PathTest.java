@@ -3,6 +3,7 @@ package org.minijax.validation;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import jakarta.validation.ElementKind;
 import jakarta.validation.Path.Node;
@@ -15,7 +16,7 @@ public class PathTest {
 
     @Test
     public void testSimplePath() {
-        final MinijaxPath path = new MinijaxPath(Arrays.asList(new MinijaxPropertyNode(0, "foo")));
+        final MinijaxPath path = new MinijaxPath(Collections.singletonList(new MinijaxPropertyNode(0, "foo")));
         assertEquals("foo", path.toString());
 
         for (final Node node : path) {

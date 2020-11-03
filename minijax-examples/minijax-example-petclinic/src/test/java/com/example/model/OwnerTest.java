@@ -3,6 +3,7 @@ package com.example.model;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
@@ -31,12 +32,12 @@ public class OwnerTest {
         o.setAddress("123 Lane");
         o.setCity("Smallville");
         o.setTelephone("555-5555");
-        o.setPets(Arrays.asList(p));
+        o.setPets(Collections.singletonList(p));
 
         assertEquals("Alice", o.getName());
         assertEquals("123 Lane", o.getAddress());
         assertEquals("Smallville", o.getCity());
         assertEquals("555-5555", o.getTelephone());
-        assertEquals(Arrays.asList(p), o.getPets());
+        assertEquals(Collections.singletonList(p), o.getPets());
     }
 }

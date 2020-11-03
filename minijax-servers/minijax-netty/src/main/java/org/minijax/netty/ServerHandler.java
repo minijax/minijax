@@ -38,7 +38,7 @@ class ServerHandler extends ChannelInboundHandlerAdapter {
     private static final Logger LOG = LoggerFactory.getLogger(ServerHandler.class);
     private final Minijax minijax;
 
-    private static final FastThreadLocal<DateFormat> FORMAT = new FastThreadLocal<DateFormat>() {
+    private static final FastThreadLocal<DateFormat> FORMAT = new FastThreadLocal<>() {
         @Override
         protected DateFormat initialValue() {
             return new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss z");

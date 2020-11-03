@@ -1,8 +1,6 @@
 package org.minijax.persistence.jpql;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,35 +10,34 @@ public class Tokenizer {
     private static final Map<String, TokenType> KEYWORDS;
 
     static {
-        final Map<String, TokenType> keywords = new HashMap<>();
-        keywords.put("SELECT", TokenType.KEYWORD_SELECT);
-        keywords.put("UPDATE", TokenType.KEYWORD_UPDATE);
-        keywords.put("DELETE", TokenType.KEYWORD_DELETE);
-        keywords.put("AS", TokenType.KEYWORD_AS);
-        keywords.put("FROM", TokenType.KEYWORD_FROM);
-        keywords.put("LEFT", TokenType.KEYWORD_LEFT);
-        keywords.put("RIGHT", TokenType.KEYWORD_RIGHT);
-        keywords.put("INNER", TokenType.KEYWORD_INNER);
-        keywords.put("OUTER", TokenType.KEYWORD_OUTER);
-        keywords.put("JOIN", TokenType.KEYWORD_JOIN);
-        keywords.put("ON", TokenType.KEYWORD_ON);
-        keywords.put("WHERE", TokenType.KEYWORD_WHERE);
-        keywords.put("IN", TokenType.KEYWORD_IN);
-        keywords.put("IS", TokenType.KEYWORD_IS);
-        keywords.put("NOT", TokenType.KEYWORD_NOT);
-        keywords.put("NULL", TokenType.KEYWORD_NULL);
-        keywords.put("LIKE", TokenType.KEYWORD_LIKE);
-        keywords.put("LOWER", TokenType.KEYWORD_LOWER);
-        keywords.put("UPPER", TokenType.KEYWORD_UPPER);
-        keywords.put("AND", TokenType.KEYWORD_AND);
-        keywords.put("OR", TokenType.KEYWORD_OR);
-        keywords.put("ORDER", TokenType.KEYWORD_ORDER);
-        keywords.put("BY", TokenType.KEYWORD_BY);
-        keywords.put("ASC", TokenType.KEYWORD_ASC);
-        keywords.put("DESC", TokenType.KEYWORD_DESC);
-        keywords.put("GROUP", TokenType.KEYWORD_GROUP);
-        keywords.put("HAVING", TokenType.KEYWORD_HAVING);
-        KEYWORDS = Collections.unmodifiableMap(keywords);
+        KEYWORDS = Map.ofEntries(
+            Map.entry("SELECT", TokenType.KEYWORD_SELECT),
+            Map.entry("UPDATE", TokenType.KEYWORD_UPDATE),
+            Map.entry("DELETE", TokenType.KEYWORD_DELETE),
+            Map.entry("AS", TokenType.KEYWORD_AS),
+            Map.entry("FROM", TokenType.KEYWORD_FROM),
+            Map.entry("LEFT", TokenType.KEYWORD_LEFT),
+            Map.entry("RIGHT", TokenType.KEYWORD_RIGHT),
+            Map.entry("INNER", TokenType.KEYWORD_INNER),
+            Map.entry("OUTER", TokenType.KEYWORD_OUTER),
+            Map.entry("JOIN", TokenType.KEYWORD_JOIN),
+            Map.entry("ON", TokenType.KEYWORD_ON),
+            Map.entry("WHERE", TokenType.KEYWORD_WHERE),
+            Map.entry("IN", TokenType.KEYWORD_IN),
+            Map.entry("IS", TokenType.KEYWORD_IS),
+            Map.entry("NOT", TokenType.KEYWORD_NOT),
+            Map.entry("NULL", TokenType.KEYWORD_NULL),
+            Map.entry("LIKE", TokenType.KEYWORD_LIKE),
+            Map.entry("LOWER", TokenType.KEYWORD_LOWER),
+            Map.entry("UPPER", TokenType.KEYWORD_UPPER),
+            Map.entry("AND", TokenType.KEYWORD_AND),
+            Map.entry("OR", TokenType.KEYWORD_OR),
+            Map.entry("ORDER", TokenType.KEYWORD_ORDER),
+            Map.entry("BY", TokenType.KEYWORD_BY),
+            Map.entry("ASC", TokenType.KEYWORD_ASC),
+            Map.entry("DESC", TokenType.KEYWORD_DESC),
+            Map.entry("GROUP", TokenType.KEYWORD_GROUP),
+            Map.entry("HAVING", TokenType.KEYWORD_HAVING));
     }
 
     public static List<Token> tokenize(final String str) {
