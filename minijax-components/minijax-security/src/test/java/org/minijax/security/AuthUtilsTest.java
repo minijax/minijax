@@ -4,52 +4,52 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-public class AuthUtilsTest {
+class AuthUtilsTest {
 
     @Test
-    public void testHappyPath() {
+    void testHappyPath() {
         final String auth = "Basic Y29keTpzZWNyZXQ=";
         assertEquals("cody", AuthUtils.getUsername(auth));
         assertEquals("secret", AuthUtils.getPassword(auth));
     }
 
     @Test
-    public void testNull() {
+    void testNull() {
         final String auth = null;
         assertNull(AuthUtils.getUsername(auth));
         assertNull(AuthUtils.getPassword(auth));
     }
 
     @Test
-    public void testNonBasic() {
+    void testNonBasic() {
         final String auth = "Bearer Y29keTpzZWNyZXQ=";
         assertNull(AuthUtils.getUsername(auth));
         assertNull(AuthUtils.getPassword(auth));
     }
 
     @Test
-    public void testEmptyBase64() {
+    void testEmptyBase64() {
         final String auth = "Basic ";
         assertNull(AuthUtils.getUsername(auth));
         assertNull(AuthUtils.getPassword(auth));
     }
 
     @Test
-    public void testInvalidBase64() {
+    void testInvalidBase64() {
         final String auth = "Basic xxxx";
         assertNull(AuthUtils.getUsername(auth));
         assertNull(AuthUtils.getPassword(auth));
     }
 
     @Test
-    public void testWhitespace() {
+    void testWhitespace() {
         final String auth = "Basic    ";
         assertNull(AuthUtils.getUsername(auth));
         assertNull(AuthUtils.getPassword(auth));
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         try {
             new AuthUtils();
             fail("Expected UnsupportedOperationException");

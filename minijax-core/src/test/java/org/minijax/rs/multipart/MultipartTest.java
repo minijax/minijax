@@ -8,7 +8,7 @@ import java.io.InputStream;
 import org.junit.jupiter.api.Test;
 import org.minijax.commons.MinijaxException;
 
-public class MultipartTest {
+class MultipartTest {
 
     public static class ExplodingInputStream extends InputStream {
         @Override
@@ -18,7 +18,7 @@ public class MultipartTest {
     }
 
     @Test
-    public void testSimple() throws IOException {
+    void testSimple() throws IOException {
         try (final Multipart form = new Multipart()) {
             form.param("a", "b");
             assertEquals("b", form.getString("a"));
@@ -26,7 +26,7 @@ public class MultipartTest {
     }
 
     @Test
-    public void testGetStringException() throws IOException {
+    void testGetStringException() throws IOException {
         assertThrows(MinijaxException.class, () -> {
             try (final Multipart form = new Multipart()) {
                 form.param("a", "a.txt", new ExplodingInputStream());

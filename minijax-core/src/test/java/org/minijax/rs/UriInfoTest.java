@@ -6,10 +6,10 @@ import java.net.URI;
 
 import org.junit.jupiter.api.Test;
 
-public class UriInfoTest {
+class UriInfoTest {
 
     @Test
-    public void testBasic() {
+    void testBasic() {
         final MinijaxUriInfo uriInfo = new MinijaxUriInfo(URI.create("https://www.example.com/path/test?key=value"));
         assertEquals("https://www.example.com/path/test", uriInfo.getAbsolutePath().toString());
         assertEquals("https://www.example.com", uriInfo.getBaseUri().toString());

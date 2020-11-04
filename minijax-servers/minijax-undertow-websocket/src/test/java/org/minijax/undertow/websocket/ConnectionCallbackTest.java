@@ -11,7 +11,7 @@ import org.xnio.ChannelListener.Setter;
 import io.undertow.websockets.core.WebSocketChannel;
 import io.undertow.websockets.spi.WebSocketHttpExchange;
 
-public class ConnectionCallbackTest {
+class ConnectionCallbackTest {
 
     public static class TestSocket {
         @OnMessage
@@ -22,7 +22,7 @@ public class ConnectionCallbackTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testHappyPath() {
+    void testHappyPath() {
         final Minijax minijax = new Minijax().register(TestSocket.class);
 
         final MinijaxUndertowWebSocketConnectionCallback callback = new MinijaxUndertowWebSocketConnectionCallback(

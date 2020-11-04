@@ -12,38 +12,38 @@ import jakarta.ws.rs.core.UriBuilder;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-public class ClientTest {
+class ClientTest {
 
     @Test
-    public void testDefaultCtor() {
+    void testDefaultCtor() {
         try (final MinijaxClient client = new MinijaxClient()) {
             assertNotNull(client.getHttpClient());
         }
     }
 
     @Test
-    public void testOverrideCtor() {
+    void testOverrideCtor() {
         try (final MinijaxClient client = new MinijaxClient(HttpClient.newHttpClient())) {
             assertNotNull(client.getHttpClient());
         }
     }
 
     @Test
-    public void testTargetString() {
+    void testTargetString() {
         try (final MinijaxClient client = new MinijaxClient()) {
             assertEquals("http://example.com", client.target("http://example.com").getUri().toString());
         }
     }
 
     @Test
-    public void testTargetUri() {
+    void testTargetUri() {
         try (final MinijaxClient client = new MinijaxClient()) {
             assertEquals("http://example.com", client.target(URI.create("http://example.com")).getUri().toString());
         }
     }
 
     @Test
-    public void testTargetUriBuilder() {
+    void testTargetUriBuilder() {
         try (final MinijaxClient client = new MinijaxClient()) {
             assertEquals("http://example.com",
                     client.target(UriBuilder.fromUri("http://example.com")).getUri().toString());
@@ -52,7 +52,7 @@ public class ClientTest {
 
     @Test
     @Disabled("Need Link.Builder")
-    public void testTargetLink() {
+    void testTargetLink() {
         try (final MinijaxClient client = new MinijaxClient()) {
             assertEquals("http://example.com",
                     client.target(Link.fromUri("http://example.com").build()).getUri().toString());
@@ -60,7 +60,7 @@ public class ClientTest {
     }
 
     @Test
-    public void testGetConfiguration() {
+    void testGetConfiguration() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClient client = new MinijaxClient()) {
                 client.getConfiguration();
@@ -69,7 +69,7 @@ public class ClientTest {
     }
 
     @Test
-    public void testProperty() {
+    void testProperty() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClient client = new MinijaxClient()) {
                 client.property("name", "value");
@@ -78,7 +78,7 @@ public class ClientTest {
     }
 
     @Test
-    public void testRegister1() {
+    void testRegister1() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClient client = new MinijaxClient()) {
                 client.register(Object.class);
@@ -87,7 +87,7 @@ public class ClientTest {
     }
 
     @Test
-    public void testRegister2() {
+    void testRegister2() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClient client = new MinijaxClient()) {
                 client.register(Object.class, 0);
@@ -96,7 +96,7 @@ public class ClientTest {
     }
 
     @Test
-    public void testRegister3() {
+    void testRegister3() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClient client = new MinijaxClient()) {
                 client.register(Object.class, Object.class);
@@ -105,7 +105,7 @@ public class ClientTest {
     }
 
     @Test
-    public void testRegister4() {
+    void testRegister4() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClient client = new MinijaxClient()) {
                 client.register(Object.class, Collections.emptyMap());
@@ -114,7 +114,7 @@ public class ClientTest {
     }
 
     @Test
-    public void testRegister5() {
+    void testRegister5() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClient client = new MinijaxClient()) {
                 client.register(new Object());
@@ -123,7 +123,7 @@ public class ClientTest {
     }
 
     @Test
-    public void testRegister6() {
+    void testRegister6() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClient client = new MinijaxClient()) {
                 client.register(new Object(), 0);
@@ -132,7 +132,7 @@ public class ClientTest {
     }
 
     @Test
-    public void testRegister7() {
+    void testRegister7() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClient client = new MinijaxClient()) {
                 client.register(new Object(), Object.class);
@@ -141,7 +141,7 @@ public class ClientTest {
     }
 
     @Test
-    public void testRegister8() {
+    void testRegister8() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClient client = new MinijaxClient()) {
                 client.register(new Object(), Collections.emptyMap());
@@ -150,16 +150,16 @@ public class ClientTest {
     }
 
     @Test
-    public void testInvocation() {
+    void testInvocation() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClient client = new MinijaxClient()) {
-                client.invocation((Link) null);
+                client.invocation(null);
             }
         });
     }
 
     @Test
-    public void testGetSslContext() {
+    void testGetSslContext() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClient client = new MinijaxClient()) {
                 client.getSslContext();
@@ -168,7 +168,7 @@ public class ClientTest {
     }
 
     @Test
-    public void testGetHostnameVerifier() {
+    void testGetHostnameVerifier() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClient client = new MinijaxClient()) {
                 client.getHostnameVerifier();

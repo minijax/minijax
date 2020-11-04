@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.test.MinijaxTest;
 
-public class ReaderTest extends MinijaxTest {
+class ReaderTest extends MinijaxTest {
     private MinijaxRequestContext context;
     private MessageBodyReader<?> reader;
 
@@ -41,7 +41,7 @@ public class ReaderTest extends MinijaxTest {
     }
 
     @Test
-    public void testIsReadable() {
+    void testIsReadable() {
         assertFalse(reader.isReadable(null, null, null, null));
         assertFalse(reader.isReadable(null, null, null, TEXT_PLAIN_TYPE));
         assertTrue(reader.isReadable(null, null, null, APPLICATION_JSON_TYPE));
@@ -49,7 +49,7 @@ public class ReaderTest extends MinijaxTest {
 
     @Test
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public void testReadMap() throws IOException {
+    void testReadMap() throws IOException {
         final String json = "{\"key\":\"value\"}";
         final ByteArrayInputStream inputStream = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
         final MessageBodyReader<Map> mapReader = (MessageBodyReader<Map>) reader;
@@ -59,7 +59,7 @@ public class ReaderTest extends MinijaxTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testReadWidget() throws IOException {
+    void testReadWidget() throws IOException {
         final String json = "{\"id\":\"123\",\"value\":\"hello\"}";
         final ByteArrayInputStream inputStream = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
         final MessageBodyReader<Widget> widgetReader = (MessageBodyReader<Widget>) reader;
@@ -70,7 +70,7 @@ public class ReaderTest extends MinijaxTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testReaderException() throws IOException {
+    void testReaderException() throws IOException {
         assertThrows(BadRequestException.class, () -> {
             final String json = "";
             final ByteArrayInputStream inputStream = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
@@ -81,7 +81,7 @@ public class ReaderTest extends MinijaxTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testReadArray() throws IOException {
+    void testReadArray() throws IOException {
         final String json = "[{\"id\":\"123\",\"value\":\"hello\"},{\"id\":\"456\",\"value\":\"world\"}]";
         final ByteArrayInputStream inputStream = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
         final MessageBodyReader<Widget[]> widgetReader = (MessageBodyReader<Widget[]>) reader;
@@ -95,7 +95,7 @@ public class ReaderTest extends MinijaxTest {
 
     @Test
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public void testReadGenericList() throws IOException {
+    void testReadGenericList() throws IOException {
         final String json = "[{\"id\":\"123\",\"value\":\"hello\"},{\"id\":\"456\",\"value\":\"world\"}]";
         final ByteArrayInputStream inputStream = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
         final MessageBodyReader<List> widgetReader = (MessageBodyReader<List>) reader;

@@ -4,17 +4,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-public class ImplicitTemplateMapTest {
+class ImplicitTemplateMapTest {
 
     @Test
-    public void testSimple() {
+    void testSimple() {
         final ImplicitTemplateMap map = new ImplicitTemplateMap(new Object[] {"a", "b"});
         assertEquals("a", map.get("foo"));
         assertEquals("a", map.get("foo"));
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         final ImplicitTemplateMap m1 = new ImplicitTemplateMap(new Object[] {"a", "b"});
         final ImplicitTemplateMap m2 = new ImplicitTemplateMap(new Object[] {"a", "b"});
         final ImplicitTemplateMap m3 = new ImplicitTemplateMap(new Object[] {"c", "d"});

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
-public class PostResourceTest extends MinijaxTest {
+class PostResourceTest extends MinijaxTest {
 
     @BeforeEach
     public void setUp() {
@@ -16,7 +16,7 @@ public class PostResourceTest extends MinijaxTest {
     }
 
     @Test
-    public void testPost() {
+    void testPost() {
         assertEquals(
                 "You posted: xyz",
                 target("/post").request().post(Entity.entity("xyz", "text/plain"), String.class));

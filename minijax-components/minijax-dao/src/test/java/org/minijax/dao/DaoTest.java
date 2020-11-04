@@ -13,7 +13,7 @@ import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.persistence.PersistenceFeature;
 import org.minijax.rs.test.MinijaxTest;
 
-public class DaoTest extends MinijaxTest {
+class DaoTest extends MinijaxTest {
     private MinijaxRequestContext context;
     private Dao dao;
 
@@ -37,7 +37,7 @@ public class DaoTest extends MinijaxTest {
     }
 
     @Test
-    public void testEntityCrud() throws Exception {
+    void testEntityCrud() throws Exception {
         // Create
         final Widget w1 = new Widget();
         w1.setName("My Widget");
@@ -71,7 +71,7 @@ public class DaoTest extends MinijaxTest {
     }
 
     @Test
-    public void testCreateConflict() {
+    void testCreateConflict() {
         final Widget w1 = new Widget();
         w1.setName("First Widget");
         w1.setHandle("createhandle");
@@ -91,7 +91,7 @@ public class DaoTest extends MinijaxTest {
     }
 
     @Test
-    public void testUpdateConflict() {
+    void testUpdateConflict() {
         final Widget w1 = new Widget();
         w1.setName("First Widget");
         w1.setHandle("updatehandle");
@@ -114,7 +114,7 @@ public class DaoTest extends MinijaxTest {
     }
 
     @Test
-    public void testReadByHandle() {
+    void testReadByHandle() {
         final Widget w1 = new Widget();
         w1.setName("Unique Widget");
         w1.setHandle("uniquehandle");
@@ -126,13 +126,13 @@ public class DaoTest extends MinijaxTest {
     }
 
     @Test
-    public void testReadByHandleNotFound() {
+    void testReadByHandleNotFound() {
         final Widget w2 = dao.readByHandle(Widget.class, "notfound");
         assertNull(w2);
     }
 
     @Test
-    public void testReadPage() {
+    void testReadPage() {
         // Delete any existing
         for (final Widget w : dao.readPage(Widget.class, 0, 100)) {
             dao.purge(w);

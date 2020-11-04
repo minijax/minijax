@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
-public class HelloSecurityTest extends MinijaxTest {
+class HelloSecurityTest extends MinijaxTest {
 
     @BeforeEach
     public void setUp() {
@@ -15,34 +15,34 @@ public class HelloSecurityTest extends MinijaxTest {
     }
 
     @Test
-    public void testHello() {
+    void testHello() {
         assertEquals("Hello world!", target("/").request().get(String.class));
     }
 
     @Test
-    public void testSecretUnauthorized() {
+    void testSecretUnauthorized() {
         assertEquals(401, target("/secret").request().get().getStatus());
     }
 
     @Test
-    public void testSecretAllowed() {
+    void testSecretAllowed() {
         assertEquals(
                 "Top secret!",
                 target("/secret").request().header("Authorization", "bob").get(String.class));
     }
 
     @Test
-    public void testAdminUnauthorized() {
+    void testAdminUnauthorized() {
         assertEquals(401, target("/admin").request().get().getStatus());
     }
 
     @Test
-    public void testAdminForbidden() {
+    void testAdminForbidden() {
         assertEquals(403, target("/admin").request().header("Authorization", "bob").get().getStatus());
     }
 
     @Test
-    public void testAdminAllowed() {
+    void testAdminAllowed() {
         assertEquals(
                 "Admins only!",
                 target("/admin").request().header("Authorization", "alice").get(String.class));

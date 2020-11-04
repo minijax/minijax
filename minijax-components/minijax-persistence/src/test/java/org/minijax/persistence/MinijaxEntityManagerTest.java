@@ -21,7 +21,7 @@ import org.minijax.persistence.testmodel.KitchenSink;
 import org.minijax.persistence.testmodel.User;
 import org.minijax.persistence.testmodel.Widget;
 
-public class MinijaxEntityManagerTest {
+class MinijaxEntityManagerTest {
     private MinijaxEntityManagerFactory emf;
     private MinijaxEntityManager em;
     private Widget widget;
@@ -43,12 +43,12 @@ public class MinijaxEntityManagerTest {
     }
 
     @Test
-    public void testCreateNamedQuery1() {
+    void testCreateNamedQuery1() {
         em.createNamedQuery("");
     }
 
     @Test
-    public void testCreateNamedQuery2() {
+    void testCreateNamedQuery2() {
         final MinijaxQuery<User> query = em.createNamedQuery("User.findByName", User.class);
         query.setParameter("name", "Cody");
 
@@ -61,7 +61,7 @@ public class MinijaxEntityManagerTest {
     }
 
     @Test
-    public void testPersistAndFind() {
+    void testPersistAndFind() {
         final KitchenSink ks = new KitchenSink();
         ks.setId(UUID.randomUUID());
         ks.setCreatedDateTime(Instant.now().truncatedTo(ChronoUnit.SECONDS));
@@ -89,189 +89,189 @@ public class MinijaxEntityManagerTest {
      */
 
     @Test
-    public void testFind1() {
+    void testFind1() {
         assertThrows(UnsupportedOperationException.class, () -> em.find(Widget.class, "123", properties));
     }
 
     @Test
-    public void testFind2() {
+    void testFind2() {
         assertThrows(UnsupportedOperationException.class, () -> em.find(Widget.class, "123", lockMode));
     }
 
     @Test
-    public void testFind3() {
+    void testFind3() {
         assertThrows(UnsupportedOperationException.class, () -> em.find(Widget.class, "123", lockMode, properties));
     }
 
     @Test
-    public void testGetReference() {
+    void testGetReference() {
         assertThrows(UnsupportedOperationException.class, () -> em.getReference(Widget.class, "123"));
     }
 
     @Test
-    public void testSetFlushMode() {
+    void testSetFlushMode() {
         assertThrows(UnsupportedOperationException.class, () -> em.setFlushMode(flushMode));
     }
 
     @Test
-    public void testGetFlushMode() {
+    void testGetFlushMode() {
         assertThrows(UnsupportedOperationException.class, () -> em.getFlushMode());
     }
 
     @Test
-    public void testLock1() {
+    void testLock1() {
         assertThrows(UnsupportedOperationException.class, () -> em.lock(widget, lockMode));
     }
 
     @Test
-    public void testLock2() {
+    void testLock2() {
         assertThrows(UnsupportedOperationException.class, () -> em.lock(widget, lockMode, properties));
     }
 
     @Test
-    public void testRefresh1() {
+    void testRefresh1() {
         assertThrows(UnsupportedOperationException.class, () -> em.refresh(widget));
     }
 
     @Test
-    public void testRefresh2() {
+    void testRefresh2() {
         assertThrows(UnsupportedOperationException.class, () -> em.refresh(widget, properties));
     }
 
     @Test
-    public void testRefresh3() {
+    void testRefresh3() {
         assertThrows(UnsupportedOperationException.class, () -> em.refresh(widget, lockMode));
     }
 
     @Test
-    public void testRefresh4() {
+    void testRefresh4() {
         assertThrows(UnsupportedOperationException.class, () -> em.refresh(widget, lockMode, properties));
     }
 
     @Test
-    public void testClear() {
+    void testClear() {
         assertThrows(UnsupportedOperationException.class, () -> em.clear());
     }
 
     @Test
-    public void testDetach() {
+    void testDetach() {
         assertThrows(UnsupportedOperationException.class, () -> em.detach(widget));
     }
 
     @Test
-    public void testContains() {
+    void testContains() {
         assertThrows(UnsupportedOperationException.class, () -> em.contains(widget));
     }
 
     @Test
-    public void testGetLockMode() {
+    void testGetLockMode() {
         assertThrows(UnsupportedOperationException.class, () -> em.getLockMode(widget));
     }
 
     @Test
-    public void testSetProperty() {
+    void testSetProperty() {
         assertThrows(UnsupportedOperationException.class, () -> em.setProperty("foo", "bar"));
     }
 
     @Test
-    public void testGetProperties() {
+    void testGetProperties() {
         assertThrows(UnsupportedOperationException.class, () -> em.getProperties());
     }
 
     @Test
-    public void testCreateQuery1() {
+    void testCreateQuery1() {
         assertThrows(UnsupportedOperationException.class, () -> em.createQuery(""));
     }
 
     @Test
     @SuppressWarnings("rawtypes")
-    public void testCreateQuery2() {
+    void testCreateQuery2() {
         assertThrows(UnsupportedOperationException.class, () -> em.createQuery((CriteriaUpdate) null));
     }
 
     @Test
     @SuppressWarnings("rawtypes")
-    public void testCreateQuery3() {
+    void testCreateQuery3() {
         assertThrows(UnsupportedOperationException.class, () -> em.createQuery((CriteriaDelete) null));
     }
 
     @Test
-    public void testCreateNativeQuery3() {
+    void testCreateNativeQuery3() {
         assertThrows(UnsupportedOperationException.class, () -> em.createNativeQuery(""));
     }
 
     @Test
-    public void testCreateNativeQuery1() {
+    void testCreateNativeQuery1() {
         assertThrows(UnsupportedOperationException.class, () -> em.createNativeQuery("", Widget.class));
     }
 
     @Test
-    public void testCreateNativeQuery2() {
+    void testCreateNativeQuery2() {
         assertThrows(UnsupportedOperationException.class, () -> em.createNativeQuery("", ""));
     }
 
     @Test
-    public void testCreateNamedStoredProcedureQuery() {
+    void testCreateNamedStoredProcedureQuery() {
         assertThrows(UnsupportedOperationException.class, () -> em.createNamedStoredProcedureQuery(""));
     }
 
     @Test
-    public void testCreateStoredProcedureQuery1() {
+    void testCreateStoredProcedureQuery1() {
         assertThrows(UnsupportedOperationException.class, () -> em.createStoredProcedureQuery(""));
     }
 
     @Test
-    public void testCreateStoredProcedureQuery2() {
+    void testCreateStoredProcedureQuery2() {
         assertThrows(UnsupportedOperationException.class, () -> em.createStoredProcedureQuery("", Widget.class));
     }
 
     @Test
-    public void testCreateStoredProcedureQuery3() {
+    void testCreateStoredProcedureQuery3() {
         assertThrows(UnsupportedOperationException.class, () -> em.createStoredProcedureQuery("", "", ""));
     }
 
     @Test
-    public void testJoinTransaction() {
+    void testJoinTransaction() {
         assertThrows(UnsupportedOperationException.class, () -> em.joinTransaction());
     }
 
     @Test
-    public void testIsJoinedToTransaction() {
+    void testIsJoinedToTransaction() {
         assertThrows(UnsupportedOperationException.class, () -> em.isJoinedToTransaction());
     }
 
     @Test
-    public void testUnwrap() {
+    void testUnwrap() {
         assertThrows(UnsupportedOperationException.class, () -> em.unwrap(Widget.class));
     }
 
     @Test
-    public void testGetDelegate() {
+    void testGetDelegate() {
         assertThrows(UnsupportedOperationException.class, () -> em.getDelegate());
     }
 
     @Test
-    public void testIsOpen() {
+    void testIsOpen() {
         assertThrows(UnsupportedOperationException.class, () -> em.isOpen());
     }
 
     @Test
-    public void testCreateEntityGraph1() {
+    void testCreateEntityGraph1() {
         assertThrows(UnsupportedOperationException.class, () -> em.createEntityGraph(Widget.class));
     }
 
     @Test
-    public void testCreateEntityGraph2() {
+    void testCreateEntityGraph2() {
         assertThrows(UnsupportedOperationException.class, () -> em.createEntityGraph(""));
     }
 
     @Test
-    public void testGetEntityGraph() {
+    void testGetEntityGraph() {
         assertThrows(UnsupportedOperationException.class, () -> em.getEntityGraph(""));
     }
 
     @Test
-    public void testGetEntityGraphs() {
+    void testGetEntityGraphs() {
         assertThrows(UnsupportedOperationException.class, () -> em.getEntityGraphs(Widget.class));
     }
 }

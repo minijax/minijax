@@ -4,10 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-public class MinijaxPersistenceFileTest {
+class MinijaxPersistenceFileTest {
 
     @Test
-    public void testReadFile() {
+    void testReadFile() {
         final MinijaxPersistenceFile file = MinijaxPersistenceFile.read("META-INF/persistence.xml");
         assertNotNull(file);
 

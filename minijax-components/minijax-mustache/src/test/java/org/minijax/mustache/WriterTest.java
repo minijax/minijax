@@ -14,7 +14,7 @@ import org.minijax.view.View;
 
 import com.github.mustachejava.MustacheNotFoundException;
 
-public class WriterTest extends MinijaxTest {
+class WriterTest extends MinijaxTest {
     private MinijaxMustacheWriter writer;
 
     @BeforeEach
@@ -24,14 +24,14 @@ public class WriterTest extends MinijaxTest {
     }
 
     @Test
-    public void testIsWriteable() {
+    void testIsWriteable() {
         assertFalse(writer.isWriteable(null, null, null, null));
         assertFalse(writer.isWriteable(Object.class, null, null, null));
         assertTrue(writer.isWriteable(View.class, null, null, null));
     }
 
     @Test
-    public void testWriteMap() throws IOException {
+    void testWriteMap() throws IOException {
         final View view = new View("hello");
         view.getModel().put("key", "value");
 
@@ -41,7 +41,7 @@ public class WriterTest extends MinijaxTest {
     }
 
     @Test
-    public void testWriteWidget() throws IOException {
+    void testWriteWidget() throws IOException {
         final Widget widget = new Widget();
         widget.id = "456";
         widget.value = "foobar";
@@ -61,7 +61,7 @@ public class WriterTest extends MinijaxTest {
     }
 
     @Test
-    public void testMissingTemplate() throws IOException {
+    void testMissingTemplate() throws IOException {
         assertThrows(MustacheNotFoundException.class, () -> {
         final View view = new View("oops");
 

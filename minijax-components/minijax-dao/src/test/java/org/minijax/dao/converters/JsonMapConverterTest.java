@@ -8,23 +8,23 @@ import java.util.Map;
 import jakarta.json.bind.JsonbException;
 import org.junit.jupiter.api.Test;
 
-public class JsonMapConverterTest {
+class JsonMapConverterTest {
 
     @Test
-    public void testNulls() {
+    void testNulls() {
         final JsonMapConverter c = new JsonMapConverter();
         assertNull(c.convertToDatabaseColumn(null));
         assertNull(c.convertToEntityAttribute(null));
     }
 
     @Test
-    public void testEmptyString() {
+    void testEmptyString() {
         final JsonMapConverter c = new JsonMapConverter();
         assertNull(c.convertToEntityAttribute(""));
     }
 
     @Test
-    public void testBasic() {
+    void testBasic() {
         final JsonMapConverter c = new JsonMapConverter();
 
         final Map<String, Object> m1 = new HashMap<>();
@@ -40,7 +40,7 @@ public class JsonMapConverterTest {
     }
 
     @Test
-    public void testSpecialChars() {
+    void testSpecialChars() {
         final JsonMapConverter c = new JsonMapConverter();
 
         final Map<String, Object> m1 = new HashMap<>();
@@ -56,7 +56,7 @@ public class JsonMapConverterTest {
     }
 
     @Test
-    public void testInvalidJsonParse() {
+    void testInvalidJsonParse() {
         assertThrows(JsonbException.class, () -> {
         final JsonMapConverter c = new JsonMapConverter();
         c.convertToEntityAttribute("{");
@@ -64,7 +64,7 @@ public class JsonMapConverterTest {
     }
 
     @Test
-    public void testInvalidJsonWrite() {
+    void testInvalidJsonWrite() {
         assertThrows(JsonbException.class, () -> {
         final JsonMapConverter c = new JsonMapConverter();
 

@@ -14,7 +14,7 @@ import org.minijax.persistence.MinijaxEntityManagerFactory;
 import org.minijax.persistence.MinijaxPersistenceProvider;
 import org.minijax.persistence.testmodel.Widget;
 
-public class MinijaxEntityTypeTest {
+class MinijaxEntityTypeTest {
     private MinijaxEntityManagerFactory emf;
     private MinijaxEntityManager em;
     private MinijaxEntityType<Widget> entityType;
@@ -34,7 +34,7 @@ public class MinijaxEntityTypeTest {
     }
 
     @Test
-    public void testBasic() {
+    void testBasic() {
         final Set<Attribute<? super Widget, ?>> attributes = entityType.getAttributes();
         assertEquals(2, attributes.size());
     }
@@ -44,177 +44,177 @@ public class MinijaxEntityTypeTest {
      */
 
     @Test
-    public void testgetVersion() {
+    void testgetVersion() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getVersion(null));
     }
 
     @Test
-    public void testgetDeclaredVersion() {
+    void testgetDeclaredVersion() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getDeclaredVersion(null));
     }
 
     @Test
-    public void testgetSupertype() {
+    void testgetSupertype() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getSupertype());
     }
 
     @Test
-    public void testhasSingleIdAttribute() {
+    void testhasSingleIdAttribute() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.hasSingleIdAttribute());
     }
 
     @Test
-    public void testhasVersionAttribute() {
+    void testhasVersionAttribute() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.hasVersionAttribute());
     }
 
     @Test
-    public void testgetIdClassAttributes() {
+    void testgetIdClassAttributes() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getIdClassAttributes());
     }
 
     @Test
-    public void testgetPersistenceType() {
+    void testgetPersistenceType() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getPersistenceType());
     }
 
     @Test
-    public void testgetBindableType() {
+    void testgetBindableType() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getBindableType());
     }
 
     @Test
-    public void testgetBindableJavaType() {
+    void testgetBindableJavaType() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getBindableJavaType());
     }
 
     @Test
-    public void testgetDeclaredAttributes() {
+    void testgetDeclaredAttributes() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getDeclaredAttributes());
     }
 
     @Test
-    public void testgetSingularAttribute1() {
+    void testgetSingularAttribute1() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getSingularAttribute(null, null));
     }
 
     @Test
-    public void testgetDeclaredSingularAttribute1() {
+    void testgetDeclaredSingularAttribute1() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getDeclaredSingularAttribute(null, null));
     }
 
     @Test
-    public void testgetSingularAttributes() {
+    void testgetSingularAttributes() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getSingularAttributes());
     }
 
     @Test
-    public void testgetDeclaredSingularAttributes() {
+    void testgetDeclaredSingularAttributes() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getDeclaredSingularAttributes());
     }
 
     @Test
-    public void testgetCollection1() {
+    void testgetCollection1() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getCollection(null, null));
     }
 
     @Test
-    public void testgetDeclaredCollection1() {
+    void testgetDeclaredCollection1() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getDeclaredCollection(null, null));
     }
 
     @Test
-    public void testgetSet1() {
+    void testgetSet1() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getSet(null, null));
     }
 
     @Test
-    public void testgetDeclaredSet1() {
+    void testgetDeclaredSet1() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getDeclaredSet(null, null));
     }
 
     @Test
-    public void testgetList1() {
+    void testgetList1() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getList(null, null));
     }
 
     @Test
-    public void testgetDeclaredList1() {
+    void testgetDeclaredList1() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getDeclaredList(null, null));
     }
 
     @Test
-    public void testgetMap1() {
+    void testgetMap1() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getMap(null, null, null));
     }
 
     @Test
-    public void testgetDeclaredMap1() {
+    void testgetDeclaredMap1() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getDeclaredMap(null, null, null));
     }
 
     @Test
-    public void testgetPluralAttributes() {
+    void testgetPluralAttributes() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getPluralAttributes());
     }
 
     @Test
-    public void testgetDeclaredPluralAttributes() {
+    void testgetDeclaredPluralAttributes() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getDeclaredPluralAttributes());
     }
 
     @Test
-    public void testgetDeclaredAttribute() {
+    void testgetDeclaredAttribute() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getDeclaredAttribute(null));
     }
 
     @Test
-    public void testgetSingularAttribute() {
+    void testgetSingularAttribute() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getSingularAttribute(null));
     }
 
     @Test
-    public void testgetDeclaredSingularAttribute() {
+    void testgetDeclaredSingularAttribute() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getDeclaredSingularAttribute(null));
     }
 
     @Test
-    public void testgetCollection() {
+    void testgetCollection() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getCollection(null));
     }
 
     @Test
-    public void testgetDeclaredCollection() {
+    void testgetDeclaredCollection() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getDeclaredCollection(null));
     }
 
     @Test
-    public void testgetSet() {
+    void testgetSet() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getSet(null));
     }
 
     @Test
-    public void testgetDeclaredSet() {
+    void testgetDeclaredSet() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getDeclaredSet(null));
     }
 
     @Test
-    public void testgetList() {
+    void testgetList() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getList(null));
     }
 
     @Test
-    public void testgetDeclaredList() {
+    void testgetDeclaredList() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getDeclaredList(null));
     }
 
     @Test
-    public void testgetMap() {
+    void testgetMap() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getMap(null));
     }
 
     @Test
-    public void testgetDeclaredMap() {
+    void testgetDeclaredMap() {
         assertThrows(UnsupportedOperationException.class, () -> entityType.getDeclaredMap(null));
     }
 }

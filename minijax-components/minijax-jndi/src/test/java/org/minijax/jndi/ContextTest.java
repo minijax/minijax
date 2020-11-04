@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.minijax.jndi.testmodel.DummyBean;
 
-public class ContextTest {
+class ContextTest {
     private Context ctx;
 
     @BeforeEach
@@ -25,21 +25,21 @@ public class ContextTest {
     }
 
     @Test
-    public void testSimple() throws NamingException {
+    void testSimple() throws NamingException {
         ctx.bind("java:comp/env/ejb/myBean", new DummyBean());
         final DummyBean myBean = (DummyBean) ctx.lookup("java:comp/env/ejb/myBean");
         assertNotNull(myBean);
     }
 
     @Test
-    public void testLookupEmptyString() throws NamingException {
+    void testLookupEmptyString() throws NamingException {
         final Object result = ctx.lookup("");
         assertNotNull(result);
         assertEquals(MinijaxContext.class, result.getClass());
     }
 
     @Test
-    public void testLookupSubcontext() throws NamingException {
+    void testLookupSubcontext() throws NamingException {
         final Context c1 = ctx.createSubcontext("foo");
         assertNotNull(c1);
 
@@ -49,34 +49,34 @@ public class ContextTest {
     }
 
     @Test
-    public void testLookupNotFound() throws NamingException {
+    void testLookupNotFound() throws NamingException {
         assertThrows(NamingException.class, () -> ctx.lookup("bar"));
     }
 
     @Test
-    public void testLookupSubcontextNotFound() throws NamingException {
+    void testLookupSubcontextNotFound() throws NamingException {
         assertThrows(NamingException.class, () -> ctx.lookup("foo/bar"));
     }
 
     @Test
-    public void testBindEmptyString() throws NamingException {
+    void testBindEmptyString() throws NamingException {
         assertThrows(NamingException.class, () -> ctx.bind("", new DummyBean()));
     }
 
     @Test
-    public void testCreateSubcontext() throws NamingException {
+    void testCreateSubcontext() throws NamingException {
         final Context result = ctx.createSubcontext("foo");
         assertNotNull(result);
         assertEquals(MinijaxContext.class, result.getClass());
     }
 
     @Test
-    public void testCreateSubcontextNotExists() throws NamingException {
+    void testCreateSubcontextNotExists() throws NamingException {
         assertThrows(NameNotFoundException.class, () -> ctx.createSubcontext("foo/bar"));
     }
 
     @Test
-    public void testDestroySubcontext() throws NamingException {
+    void testDestroySubcontext() throws NamingException {
         final Context c1 = ctx.createSubcontext("foo");
         assertNotNull(c1);
 
@@ -87,30 +87,30 @@ public class ContextTest {
     }
 
     @Test
-    public void testDestroySubcontextNotFound() throws NamingException {
+    void testDestroySubcontextNotFound() throws NamingException {
         assertThrows(NameNotFoundException.class, () -> ctx.destroySubcontext("notfound"));
     }
 
     @Test
-    public void testDestroySubcontextNestedNotFound() throws NamingException {
+    void testDestroySubcontextNestedNotFound() throws NamingException {
         assertThrows(NameNotFoundException.class, () -> ctx.destroySubcontext("foo/notfound"));
     }
 
     @Test
-    public void testDestroySubcontextObject() throws NamingException {
+    void testDestroySubcontextObject() throws NamingException {
         ctx.bind("foo", new DummyBean());
         assertThrows(NotContextException.class, () -> ctx.destroySubcontext("foo"));
     }
 
     @Test
-    public void testUnbind() throws NamingException {
+    void testUnbind() throws NamingException {
         ctx.bind("foo", new DummyBean());
         ctx.unbind("foo");
         assertThrows(NamingException.class, () -> ctx.lookup("foo"));
     }
 
     @Test
-    public void testUnbindContext() throws NamingException {
+    void testUnbindContext() throws NamingException {
         ctx.createSubcontext("foo");
         ctx.bind("foo/bar", new DummyBean());
         ctx.unbind("foo/bar");
@@ -118,7 +118,7 @@ public class ContextTest {
     }
 
     @Test
-    public void testUnbindEmptyString() throws NamingException {
+    void testUnbindEmptyString() throws NamingException {
         assertThrows(NamingException.class, () -> ctx.unbind(""));
     }
 }

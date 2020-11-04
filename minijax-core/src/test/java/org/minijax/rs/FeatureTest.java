@@ -8,7 +8,7 @@ import jakarta.ws.rs.core.FeatureContext;
 import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 
-public class FeatureTest {
+class FeatureTest {
 
     public static class MyFeature implements Feature {
         static MyFeature lastInstance;
@@ -21,7 +21,7 @@ public class FeatureTest {
     }
 
     @Test
-    public void testFeature() {
+    void testFeature() {
         final Minijax minijax = new Minijax();
         minijax.register(MyFeature.class);
         assertNotNull(MyFeature.lastInstance);

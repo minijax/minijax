@@ -7,17 +7,17 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-public class StringListConverterTest {
+class StringListConverterTest {
 
     @Test
-    public void testNull() {
+    void testNull() {
         final StringListConverter c = new StringListConverter();
         assertNull(c.convertToDatabaseColumn(null));
         assertTrue(c.convertToEntityAttribute(null).isEmpty());
     }
 
     @Test
-    public void testSimple() {
+    void testSimple() {
         final StringListConverter c = new StringListConverter();
         final List<String> list = Arrays.asList("a", "b", "c");
         final String str = "a,b,c";

@@ -34,7 +34,7 @@ import jakarta.ws.rs.core.Response;
 
 import org.junit.jupiter.api.Test;
 
-public class MinijaxServletTest {
+class MinijaxServletTest {
 
     @ApplicationPath("/")
     public static class TestApp extends Application {
@@ -72,7 +72,7 @@ public class MinijaxServletTest {
     }
 
     @Test
-    public void testInit() throws ServletException {
+    void testInit() throws ServletException {
         assertThrows(ServletException.class, () -> {
         final MinijaxServlet servlet = new MinijaxServlet();
         servlet.init();
@@ -80,7 +80,7 @@ public class MinijaxServletTest {
     }
 
     @Test
-    public void testInitNullParam() throws ServletException {
+    void testInitNullParam() throws ServletException {
         assertThrows(ServletException.class, () -> {
         final MinijaxServlet servlet = new MinijaxServlet();
         servlet.init(new TestConfig(null));
@@ -88,7 +88,7 @@ public class MinijaxServletTest {
     }
 
     @Test
-    public void testInitEmptyParam() throws ServletException {
+    void testInitEmptyParam() throws ServletException {
         assertThrows(ServletException.class, () -> {
         final MinijaxServlet servlet = new MinijaxServlet();
         servlet.init(new TestConfig(""));
@@ -96,7 +96,7 @@ public class MinijaxServletTest {
     }
 
     @Test
-    public void testInitNotFoundParam() throws ServletException {
+    void testInitNotFoundParam() throws ServletException {
         assertThrows(ServletException.class, () -> {
         final MinijaxServlet servlet = new MinijaxServlet();
         servlet.init(new TestConfig("com.doesnotexist.Foo"));
@@ -104,13 +104,13 @@ public class MinijaxServletTest {
     }
 
     @Test
-    public void testInitParamSuccess() throws ServletException {
+    void testInitParamSuccess() throws ServletException {
         final MinijaxServlet servlet = new MinijaxServlet();
         servlet.init(new TestConfig("org.minijax.servlet.MinijaxServletTest$TestApp"));
     }
 
     @Test
-    public void testGet() throws ServletException, IOException {
+    void testGet() throws ServletException, IOException {
         final StringBuffer url = new StringBuffer("https://www.example.com/foo");
         final ServletOutputStream outputStream = mock(ServletOutputStream.class);
 
@@ -129,7 +129,7 @@ public class MinijaxServletTest {
     }
 
     @Test
-    public void testGetQueryString() throws ServletException, IOException {
+    void testGetQueryString() throws ServletException, IOException {
         final StringBuffer url = new StringBuffer("https://www.example.com/foo");
         final ServletOutputStream outputStream = mock(ServletOutputStream.class);
 
@@ -149,7 +149,7 @@ public class MinijaxServletTest {
     }
 
     @Test
-    public void testPost() throws ServletException, IOException {
+    void testPost() throws ServletException, IOException {
         final StringBuffer url = new StringBuffer("https://www.example.com/foo");
         final ServletInputStream inputStream = new MockServletInputStream("xyz");
         final ServletOutputStream outputStream = mock(ServletOutputStream.class);

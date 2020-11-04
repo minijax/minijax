@@ -21,7 +21,7 @@ import io.undertow.util.HeaderMap;
 import io.undertow.util.Headers;
 import io.undertow.util.Methods;
 
-public class HelloWorldTest {
+class HelloWorldTest {
 
     @Path("/")
     public static class HelloResource {
@@ -35,7 +35,7 @@ public class HelloWorldTest {
     }
 
     @Test
-    public void testHello() throws Exception {
+    void testHello() throws Exception {
         final Minijax minijax = new Minijax().register(HelloResource.class);
 
         final MinijaxUndertowServer server = new MinijaxUndertowServer(minijax);

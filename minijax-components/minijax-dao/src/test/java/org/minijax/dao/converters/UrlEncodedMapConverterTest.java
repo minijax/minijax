@@ -7,17 +7,17 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-public class UrlEncodedMapConverterTest {
+class UrlEncodedMapConverterTest {
 
     @Test
-    public void testNulls() {
+    void testNulls() {
         final UrlEncodedMapConverter c = new UrlEncodedMapConverter();
         assertNull(c.convertToDatabaseColumn(null));
         assertNull(c.convertToEntityAttribute(null));
     }
 
     @Test
-    public void testBasic() {
+    void testBasic() {
         final UrlEncodedMapConverter c = new UrlEncodedMapConverter();
 
         final Map<String, String> m1 = new HashMap<>();
@@ -33,7 +33,7 @@ public class UrlEncodedMapConverterTest {
     }
 
     @Test
-    public void testSpecialChars() {
+    void testSpecialChars() {
         final UrlEncodedMapConverter c = new UrlEncodedMapConverter();
 
         final Map<String, String> m1 = new HashMap<>();

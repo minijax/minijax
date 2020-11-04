@@ -7,10 +7,10 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
-public class OwnerTest {
+class OwnerTest {
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         final Owner o1 = new Owner();
         final Owner o2 = new Owner();
         final Owner o3 = new Owner();
@@ -24,7 +24,7 @@ public class OwnerTest {
     }
 
     @Test
-    public void testGettersSetters() {
+    void testGettersSetters() {
         final Pet p = new Pet();
 
         final Owner o = new Owner();

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
-public class HelloResourceTest extends MinijaxTest {
+class HelloResourceTest extends MinijaxTest {
 
     @BeforeEach
     public void setUp() {
@@ -14,7 +14,7 @@ public class HelloResourceTest extends MinijaxTest {
     }
 
     @Test
-    public void testHello() {
+    void testHello() {
         assertEquals("Hello world!", target("/").request().get(String.class));
     }
 }

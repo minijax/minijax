@@ -9,162 +9,162 @@ import jakarta.ws.rs.core.UriBuilder;
 
 import org.junit.jupiter.api.Test;
 
-public class UriBuilderTest {
+class UriBuilderTest {
 
     @Test
-    public void testDelegate() {
+    void testDelegate() {
         assertTrue(UriBuilder.fromPath("/foo") instanceof MinijaxUriBuilder);
     }
 
     @Test
-    public void testFromPath() {
+    void testFromPath() {
         assertEquals("/foo", UriBuilder.fromPath("/foo").build().toString());
     }
 
     @Test
-    public void testFromUri() {
+    void testFromUri() {
         assertEquals("https://www.example.com/foo",
                 UriBuilder.fromUri("https://www.example.com/foo").build().toString());
     }
 
     @Test
-    public void testIpv6() {
+    void testIpv6() {
         assertEquals("https://[::1]/foo", UriBuilder.fromUri("https://[::1]/foo").toTemplate());
     }
 
     @Test
-    public void testSchemaTemplate() {
+    void testSchemaTemplate() {
         assertEquals("{a}://www.example.com/foo", UriBuilder.fromUri("{a}://www.example.com/foo").toTemplate());
     }
 
     @Test
-    public void testMissingSchema() {
+    void testMissingSchema() {
         assertEquals("www.example.com/foo", UriBuilder.fromUri("www.example.com/foo").toTemplate());
     }
 
     @Test
-    public void testMissingHost() {
+    void testMissingHost() {
         assertEquals("foo", UriBuilder.fromUri("foo").toTemplate());
     }
 
     @Test
-    public void testUserInfo() {
+    void testUserInfo() {
         assertEquals("u:p@host/path", UriBuilder.fromUri("u:p@host/path").toTemplate());
     }
 
     @Test
-    public void testHostPort() {
+    void testHostPort() {
         assertEquals("www.example.com:8080/foo", UriBuilder.fromUri("www.example.com:8080/foo").toTemplate());
     }
 
     @Test
-    public void testNoPathQuery() {
+    void testNoPathQuery() {
         assertEquals("www.example.com?test", UriBuilder.fromUri("www.example.com?test").toTemplate());
     }
 
     @Test
-    public void testNoPathFragment() {
+    void testNoPathFragment() {
         assertEquals("www.example.com#test", UriBuilder.fromUri("www.example.com#test").toTemplate());
     }
 
     @Test
-    public void testPathAndQuery() {
+    void testPathAndQuery() {
         assertEquals("www.example.com/foo?test", UriBuilder.fromUri("www.example.com/foo?test").toTemplate());
     }
 
     @Test
-    public void testPathAndFragment() {
+    void testPathAndFragment() {
         assertEquals("www.example.com/foo#test", UriBuilder.fromUri("www.example.com/foo#test").toTemplate());
     }
 
     @Test
-    public void testPathAndQueryAndFragment() {
+    void testPathAndQueryAndFragment() {
         assertEquals("www.example.com/foo?bar#test", UriBuilder.fromUri("www.example.com/foo?bar#test").toTemplate());
     }
 
     @Test
-    public void testSchemaBuild() {
+    void testSchemaBuild() {
         assertEquals("https://www.example.com", UriBuilder.fromUri("{a}://www.example.com").build("https").toString());
     }
 
     @Test
-    public void testUriOverride() {
+    void testUriOverride() {
         assertEquals("https://foo.com/path",
                 UriBuilder.fromUri("https://bar.com/path").uri("https://foo.com").build().toString());
     }
 
     @Test
-    public void testSchemeOverride() {
+    void testSchemeOverride() {
         assertEquals("https://foo.com/path",
                 UriBuilder.fromUri("http://foo.com/path").scheme("https").build().toString());
     }
 
     @Test
-    public void testSchemeSpecificPartOverride() {
+    void testSchemeSpecificPartOverride() {
         assertEquals("https://foo.com/path",
                 UriBuilder.fromUri("https://bar.com").schemeSpecificPart("foo.com/path").build().toString());
     }
 
     @Test
-    public void testUserInfoOverride() {
+    void testUserInfoOverride() {
         assertEquals("https://alice:pw@foo.com/path",
                 UriBuilder.fromUri("https://foo.com/path").userInfo("alice:pw").build().toString());
     }
 
     @Test
-    public void testHostOverride() {
+    void testHostOverride() {
         assertEquals("https://foo.com/path",
                 UriBuilder.fromUri("https://bar.com/path").host("foo.com").build().toString());
     }
 
     @Test
-    public void testPortOverride() {
+    void testPortOverride() {
         assertEquals("https://foo.com:8080/path",
                 UriBuilder.fromUri("https://foo.com/path").port(8080).build().toString());
     }
 
     @Test
-    public void testPathSlashes() {
+    void testPathSlashes() {
         assertEquals("https://foo.com/a/b",
                 UriBuilder.fromUri("https://foo.com").path("a").path("b").build().toString());
     }
 
     @Test
-    public void testPathManualSlash() {
+    void testPathManualSlash() {
         assertEquals("https://foo.com/a/b",
                 UriBuilder.fromUri("https://foo.com").path("a/").path("b").build().toString());
     }
 
     @Test
-    public void testSegments() {
+    void testSegments() {
         assertEquals("https://foo.com/a/b", UriBuilder.fromUri("https://foo.com").segment("a", "b").build().toString());
     }
 
     @Test
-    public void testQueryParam() {
+    void testQueryParam() {
         assertEquals("https://foo.com?a=b",
                 UriBuilder.fromUri("https://foo.com").queryParam("a", "b").build().toString());
     }
 
     @Test
-    public void testQueryParamAmpersand() {
+    void testQueryParamAmpersand() {
         assertEquals("https://foo.com?a=b&c=d",
                 UriBuilder.fromUri("https://foo.com").queryParam("a", "b").queryParam("c", "d").build().toString());
     }
 
     @Test
-    public void testReplaceFragment() {
+    void testReplaceFragment() {
         assertEquals("https://foo.com#foo", UriBuilder.fromUri("https://foo.com").fragment("foo").build().toString());
     }
 
     @Test
-    public void testReplaceQueryParam() {
+    void testReplaceQueryParam() {
         assertEquals("https://foo.com?c=d",
                 UriBuilder.fromUri("https://foo.com?a=b").replaceQueryParam("c", "d").build().toString());
     }
 
     @Test
-    public void testClone() {
+    void testClone() {
         final MinijaxUriBuilder b1 = (MinijaxUriBuilder) UriBuilder
                 .fromUri("https://u:p@example.com:8443/path?a=b#fuzz");
         final MinijaxUriBuilder b2 = b1.clone();
@@ -172,7 +172,7 @@ public class UriBuilderTest {
     }
 
     @Test
-    public void testFromUriEquivalence() {
+    void testFromUriEquivalence() {
         final String uriStr = "https://u:p@example.com:8443/path?a=b#fuzz";
         final URI uri = URI.create(uriStr);
         final MinijaxUriBuilder b1 = (MinijaxUriBuilder) UriBuilder.fromUri(uriStr);
@@ -181,30 +181,30 @@ public class UriBuilderTest {
     }
 
     @Test
-    public void testTemplateWithColon() {
+    void testTemplateWithColon() {
         assertEquals("https://example.com/foo",
                 UriBuilder.fromUri("https://example.com/{name: .*}").build("foo").toString());
     }
 
     @Test
-    public void testTemplateWithNestedCurlies() {
+    void testTemplateWithNestedCurlies() {
         assertEquals("https://example.com/foo",
                 UriBuilder.fromUri("https://example.com/{name: {}}").build("foo").toString());
     }
 
     @Test
-    public void testTrailingCurly() {
+    void testTrailingCurly() {
         assertThrows(IllegalArgumentException.class, () -> UriBuilder.fromUri("https://example.com/{name}}").build("foo"));
 
     }
 
     @Test
-    public void testMinimumPath() {
+    void testMinimumPath() {
         assertEquals("https://www.example.com/", UriBuilder.fromUri("https://www.example.com/").build().toString());
     }
 
     @Test
-    public void testTrailingSlash() {
+    void testTrailingSlash() {
         assertEquals("https://www.example.com/foo/",
                 UriBuilder.fromUri("https://www.example.com/foo/").build().toString());
     }
@@ -214,110 +214,110 @@ public class UriBuilderTest {
      */
 
     @Test
-    public void testPath1() {
+    void testPath1() {
         assertThrows(UnsupportedOperationException.class, () -> new MinijaxUriBuilder().path(Object.class));
     }
 
     @Test
-    public void testPath2() {
+    void testPath2() {
         assertThrows(UnsupportedOperationException.class, () -> new MinijaxUriBuilder().path(Object.class, "foo"));
     }
 
     @Test
-    public void testPath3() throws ReflectiveOperationException {
+    void testPath3() throws ReflectiveOperationException {
         assertThrows(UnsupportedOperationException.class, () -> new MinijaxUriBuilder().path(Object.class.getMethod("equals", Object.class)));
     }
 
     @Test
-    public void testReplaceMatrix() {
+    void testReplaceMatrix() {
         assertThrows(UnsupportedOperationException.class, () -> new MinijaxUriBuilder().replaceMatrix(null));
     }
 
     @Test
-    public void testMatrixParam() {
+    void testMatrixParam() {
         assertThrows(UnsupportedOperationException.class, () -> new MinijaxUriBuilder().matrixParam("foo", null, null));
     }
 
     @Test
-    public void testReplaceMatrixParam() {
+    void testReplaceMatrixParam() {
         assertThrows(UnsupportedOperationException.class, () -> new MinijaxUriBuilder().replaceMatrixParam("foo", null, null));
     }
 
     @Test
-    public void testResolveTemplateDefaultEncodeSlash() {
+    void testResolveTemplateDefaultEncodeSlash() {
         assertEquals("https://example.com/p1%2fp2",
                 UriBuilder.fromUri("https://example.com/{name}").resolveTemplate("name", "p1/p2").toTemplate());
     }
 
     @Test
-    public void testResolveTemplateDoNotEncodeSlash() {
+    void testResolveTemplateDoNotEncodeSlash() {
         assertEquals("https://example.com/p1/p2",
                 UriBuilder.fromUri("https://example.com/{name}").resolveTemplate("name", "p1/p2", false).toTemplate());
     }
 
     @Test
-    public void testResolveTemplateEncodeSlash() {
+    void testResolveTemplateEncodeSlash() {
         assertEquals("https://example.com/p1%2fp2",
                 UriBuilder.fromUri("https://example.com/{name}").resolveTemplate("name", "p1/p2", true).toTemplate());
     }
 
     @Test
-    public void testResolveTemplateFromEncoded() {
+    void testResolveTemplateFromEncoded() {
         assertEquals("https://example.com/%20", UriBuilder.fromUri("https://example.com/{name}")
                 .resolveTemplateFromEncoded("name", "%20").toTemplate());
     }
 
     @Test
-    public void testResolveTemplatesDefaultEncodeSlash() {
+    void testResolveTemplatesDefaultEncodeSlash() {
         assertEquals("https://example.com/p1%2fp2", UriBuilder.fromUri("https://example.com/{name}")
                 .resolveTemplates(Collections.singletonMap("name", "p1/p2")).toTemplate());
     }
 
     @Test
-    public void testResolveTemplatesDoNotEncodeSlash() {
+    void testResolveTemplatesDoNotEncodeSlash() {
         assertEquals("https://example.com/p1/p2", UriBuilder.fromUri("https://example.com/{name}")
                 .resolveTemplates(Collections.singletonMap("name", "p1/p2"), false).toTemplate());
     }
 
     @Test
-    public void testResolveTemplatesEncodeSlash() {
+    void testResolveTemplatesEncodeSlash() {
         assertEquals("https://example.com/p1%2fp2", UriBuilder.fromUri("https://example.com/{name}")
                 .resolveTemplates(Collections.singletonMap("name", "p1/p2"), true).toTemplate());
     }
 
     @Test
-    public void testResolveTemplatesFromEncoded() {
+    void testResolveTemplatesFromEncoded() {
         assertEquals("https://example.com/%20", UriBuilder.fromUri("https://example.com/{name}")
                 .resolveTemplatesFromEncoded(Collections.singletonMap("name", "%20")).toTemplate());
     }
 
     @Test
-    public void testBuildFromMap() {
+    void testBuildFromMap() {
         assertEquals("https://example.com/%20", UriBuilder.fromUri("https://example.com/{name}")
                 .buildFromMap(Collections.singletonMap("name", " ")).toString());
     }
 
     @Test
-    public void testBuildFromEncodedMap() {
+    void testBuildFromEncodedMap() {
         assertEquals("https://example.com/%20", UriBuilder.fromUri("https://example.com/{name}")
                 .buildFromEncodedMap(Collections.singletonMap("name", "%20")).toString());
     }
 
     @Test
-    public void testBuildEncodeSlashes() {
+    void testBuildEncodeSlashes() {
         assertEquals("https://example.com/p1%2fp2",
                 UriBuilder.fromUri("https://example.com/{name}").build(new Object[] { "p1/p2" }, true).toString());
     }
 
     @Test
-    public void testBuildDoNotEncodeSlashes() {
+    void testBuildDoNotEncodeSlashes() {
         assertEquals("https://example.com/p1/p2",
                 UriBuilder.fromUri("https://example.com/{name}").build(new Object[] { "p1/p2" }, false).toString());
     }
 
     @Test
-    public void testBuildFromEncoded() {
+    void testBuildFromEncoded() {
         assertEquals("https://example.com/%20",
-                UriBuilder.fromUri("https://example.com/{name}").buildFromEncoded(new Object[] { "%20" }).toString());
+                UriBuilder.fromUri("https://example.com/{name}").buildFromEncoded("%20").toString());
     }
 }

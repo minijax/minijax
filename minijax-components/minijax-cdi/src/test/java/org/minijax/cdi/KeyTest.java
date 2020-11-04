@@ -11,7 +11,7 @@ import jakarta.inject.Qualifier;
 
 import org.junit.jupiter.api.Test;
 
-public class KeyTest {
+class KeyTest {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.FIELD)
@@ -29,7 +29,7 @@ public class KeyTest {
     public static final Object TEST_OBJECT = new Object();
 
     @Test
-    public void testBasic() {
+    void testBasic() {
         try (final MinijaxInjector injector = new MinijaxInjector()) {
             final Key<Object> k1 = injector.buildKey(Object.class);
             final Key<Object> k2 = injector.buildKey(Object.class);
@@ -45,7 +45,7 @@ public class KeyTest {
     }
 
     @Test
-    public void testByName() {
+    void testByName() {
         try (final MinijaxInjector injector = new MinijaxInjector()) {
             final Key<Object> k1 = injector.buildKey(Object.class, "MyName");
             final Key<Object> k2 = injector.buildKey(Object.class, "MyName");
@@ -62,7 +62,7 @@ public class KeyTest {
     }
 
     @Test
-    public void testByQualifier() throws Exception {
+    void testByQualifier() throws Exception {
         try (final MinijaxInjector injector = new MinijaxInjector()) {
             final Key<Object> k1 = injector.buildKey(Object.class, MyAnnotation1.class);
             final Key<Object> k2 = injector.buildKey(Object.class, KeyTest.class.getField("TEST_OBJECT").getAnnotations());

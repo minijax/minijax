@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Min;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class MinTest {
+class MinTest {
     private static Validator validator;
 
     @BeforeAll
@@ -40,7 +40,7 @@ public class MinTest {
     }
 
     @Test
-    public void testMin() {
+    void testMin() {
         assertTrue(validator.validate(new A(null)).isEmpty());
         assertTrue(validator.validate(new A(10)).isEmpty());
         assertTrue(validator.validate(new A(Integer.MAX_VALUE)).isEmpty());
@@ -55,7 +55,7 @@ public class MinTest {
     }
 
     @Test
-    public void testInvalidType() {
+    void testInvalidType() {
         assertThrows(ValidationException.class, () -> {
         final C b = new C();
         validator.validate(b).size();

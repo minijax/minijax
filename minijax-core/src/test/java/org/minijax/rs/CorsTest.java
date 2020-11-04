@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
-public class CorsTest extends MinijaxTest {
+class CorsTest extends MinijaxTest {
 
     @GET
     @Path("/api/test")
@@ -32,19 +32,19 @@ public class CorsTest extends MinijaxTest {
     }
 
     @Test
-    public void testAllowCors() {
+    void testAllowCors() {
         final Response r = target("/api/test").request().header("Origin", "http://test").get();
         assertEquals("http://test", r.getHeaderString("Access-Control-Allow-Origin"));
     }
 
     @Test
-    public void testNoOriginHeader() {
+    void testNoOriginHeader() {
         final Response r = target("/api/test").request().get();
         assertNull(r.getHeaderString("Access-Control-Allow-Origin"));
     }
 
     @Test
-    public void testDenyCors() {
+    void testDenyCors() {
         final Response r = target("/home").request().header("Origin", "http://test").get();
         assertNull(r.getHeaderString("Access-Control-Allow-Origin"));
     }

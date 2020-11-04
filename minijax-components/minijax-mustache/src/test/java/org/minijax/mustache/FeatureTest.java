@@ -8,7 +8,7 @@ import org.minijax.rs.test.MinijaxTest;
 
 import com.github.mustachejava.MustacheFactory;
 
-public class FeatureTest extends MinijaxTest {
+class FeatureTest extends MinijaxTest {
 
     @BeforeEach
     public void setUp() {
@@ -16,7 +16,7 @@ public class FeatureTest extends MinijaxTest {
     }
 
     @Test
-    public void testFeature() {
+    void testFeature() {
         final MustacheFactory mapper = getServer().getResource(MustacheFactory.class);
         assertNotNull(mapper);
     }

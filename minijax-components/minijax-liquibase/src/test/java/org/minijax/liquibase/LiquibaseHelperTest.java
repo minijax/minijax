@@ -23,11 +23,11 @@ import liquibase.changelog.ChangeSet;
 import liquibase.database.Database;
 import liquibase.resource.FileSystemResourceAccessor;
 
-public class LiquibaseHelperTest {
+class LiquibaseHelperTest {
     private static final File TEST_RESOURCES = new File("src/test/resources");
 
     @Test
-    public void testDefaultConstructor() {
+    void testDefaultConstructor() {
         final Map<String, String> props = new HashMap<>();
         final LiquibaseHelper h = new LiquibaseHelper(props);
 
@@ -36,7 +36,7 @@ public class LiquibaseHelperTest {
     }
 
     @Test
-    public void testEndToEnd() throws Exception {
+    void testEndToEnd() throws Exception {
         final File targetFile = File.createTempFile("target", null);
         final File referenceFile = File.createTempFile("reference", null);
         final String targetUrl = "jdbc:h2:" + targetFile.getAbsolutePath();
@@ -105,13 +105,13 @@ public class LiquibaseHelperTest {
     }
 
     @Test
-    public void testNotIgnoreEmptyChangeSet() {
+    void testNotIgnoreEmptyChangeSet() {
         final ChangeSet changeSet = new ChangeSet(null);
         assertFalse(LiquibaseHelper.isIgnoredChangeSet(changeSet));
     }
 
     @Test
-    public void testNotIgnoreAddColumn() {
+    void testNotIgnoreAddColumn() {
         final AddColumnChange change = new AddColumnChange();
 
         final ChangeSet changeSet = new ChangeSet(null);
@@ -121,7 +121,7 @@ public class LiquibaseHelperTest {
     }
 
     @Test
-    public void testNotIgnoreDropOtherTable() {
+    void testNotIgnoreDropOtherTable() {
         final DropTableChange change = new DropTableChange();
         change.setTableName("foo");
 
@@ -132,7 +132,7 @@ public class LiquibaseHelperTest {
     }
 
     @Test
-    public void testIgnoreChangeSet() {
+    void testIgnoreChangeSet() {
         final DropTableChange change = new DropTableChange();
         change.setTableName("JGROUPSPING");
 
@@ -143,7 +143,7 @@ public class LiquibaseHelperTest {
     }
 
     @Test
-    public void testFilterChangeSets() {
+    void testFilterChangeSets() {
         final DropTableChange c1 = new DropTableChange();
         c1.setTableName("foo");
 
@@ -163,12 +163,12 @@ public class LiquibaseHelperTest {
     }
 
     @Test
-    public void testCloseEntityManagerFactoryNull() {
+    void testCloseEntityManagerFactoryNull() {
         LiquibaseHelper.closeQuietly((EntityManagerFactory) null);
     }
 
     @Test
-    public void testCloseEntityManagerFactoryException() throws Exception {
+    void testCloseEntityManagerFactoryException() throws Exception {
         final EntityManagerFactory emf = mock(EntityManagerFactory.class);
         doThrow(new RuntimeException("Boom")).when(emf).close();
 
@@ -178,12 +178,12 @@ public class LiquibaseHelperTest {
     }
 
     @Test
-    public void testCloseDatabaseNull() {
+    void testCloseDatabaseNull() {
         LiquibaseHelper.closeQuietly((Database) null);
     }
 
     @Test
-    public void testCloseDatabaseException() throws Exception {
+    void testCloseDatabaseException() throws Exception {
         final Database database = mock(Database.class);
         doThrow(new RuntimeException("Boom")).when(database).close();
 

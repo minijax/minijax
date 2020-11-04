@@ -7,10 +7,10 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-public class LazyListTest {
+class LazyListTest {
 
     @Test
-    public void testIsEmpty() {
+    void testIsEmpty() {
         final LazyList<String> list1 = new LazyList<>(new MockQuery<>());
         assertTrue(list1.isEmpty());
 
@@ -19,21 +19,21 @@ public class LazyListTest {
     }
 
     @Test
-    public void testContains() {
+    void testContains() {
         final LazyList<String> list = new LazyList<>(new MockQuery<>("foo"));
         assertTrue(list.contains("foo"));
         assertFalse(list.contains("bar"));
     }
 
     @Test
-    public void testContainsAll() {
+    void testContainsAll() {
         final LazyList<String> list = new LazyList<>(new MockQuery<>("foo", "bar"));
         assertTrue(list.containsAll(Arrays.asList("foo", "bar")));
         assertFalse(list.containsAll(Arrays.asList("foo", "bar", "baz")));
     }
 
     @Test
-    public void testIterator() {
+    void testIterator() {
         final LazyList<String> list = new LazyList<>(new MockQuery<>("foo"));
         final Iterator<String> iter = list.iterator();
         assertTrue(iter.hasNext());
@@ -42,7 +42,7 @@ public class LazyListTest {
     }
 
     @Test
-    public void testAdd() {
+    void testAdd() {
         final LazyList<String> list = new LazyList<>(new MockQuery<>("foo"));
         assertFalse(list.contains("bar"));
         list.add("bar");
@@ -50,7 +50,7 @@ public class LazyListTest {
     }
 
     @Test
-    public void testAddAll() {
+    void testAddAll() {
         final LazyList<String> list = new LazyList<>(new MockQuery<>("foo"));
         assertFalse(list.contains("bar"));
         list.addAll(Arrays.asList("bar", "baz"));
@@ -58,7 +58,7 @@ public class LazyListTest {
     }
 
     @Test
-    public void testAddAllAtIndex() {
+    void testAddAllAtIndex() {
         final LazyList<String> list = new LazyList<>(new MockQuery<>("foo"));
         assertFalse(list.contains("bar"));
         list.addAll(0, Arrays.asList("bar", "baz"));
@@ -66,7 +66,7 @@ public class LazyListTest {
     }
 
     @Test
-    public void testClear() {
+    void testClear() {
         final LazyList<String> list = new LazyList<>(new MockQuery<>("foo"));
         assertTrue(list.contains("foo"));
         list.clear();

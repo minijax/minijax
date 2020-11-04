@@ -13,7 +13,7 @@ import org.minijax.rs.test.MinijaxTest;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-public class InheritanceTest extends MinijaxTest {
+class InheritanceTest extends MinijaxTest {
 
     public static class MyResource {
     }
@@ -48,7 +48,7 @@ public class InheritanceTest extends MinijaxTest {
     }
 
     @Test
-    public void testInheritanceInject() {
+    void testInheritanceInject() {
         final MySubClass r = getServer().getResource(MySubClass.class);
         assertNotNull(r);
         assertNotNull(r.subInjected);
@@ -56,7 +56,7 @@ public class InheritanceTest extends MinijaxTest {
     }
 
     @Test
-    public void testInheritancePathParam() {
+    void testInheritancePathParam() {
         assertEquals("foo", target("/foo").request().get(String.class));
     }
 }

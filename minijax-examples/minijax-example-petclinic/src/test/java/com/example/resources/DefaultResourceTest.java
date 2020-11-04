@@ -10,7 +10,7 @@ import org.minijax.view.View;
 
 import com.example.PetClinicTest;
 
-public class DefaultResourceTest extends PetClinicTest {
+class DefaultResourceTest extends PetClinicTest {
 
     @BeforeEach
     public void setUp() {
@@ -18,7 +18,7 @@ public class DefaultResourceTest extends PetClinicTest {
     }
 
     @Test
-    public void testHomePage() {
+    void testHomePage() {
         final Response response = target("/").request().get();
         assertNotNull(response);
         assertEquals(200, response.getStatus());

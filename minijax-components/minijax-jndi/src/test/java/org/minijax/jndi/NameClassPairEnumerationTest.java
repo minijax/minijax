@@ -9,10 +9,10 @@ import javax.naming.NameClassPair;
 
 import org.junit.jupiter.api.Test;
 
-public class NameClassPairEnumerationTest {
+class NameClassPairEnumerationTest {
 
     @Test
-    public void testEnumeration() {
+    void testEnumeration() {
         final Map<Object, Object> data = new HashMap<>();
         data.put("foo", "bar");
 
@@ -28,7 +28,7 @@ public class NameClassPairEnumerationTest {
     }
 
     @Test
-    public void testNextElement() {
+    void testNextElement() {
         assertThrows(UnsupportedOperationException.class, () -> {
         final MinijaxNameClassPairEnumeration e = new MinijaxNameClassPairEnumeration(new HashMap<>());
         e.nextElement();
@@ -36,7 +36,7 @@ public class NameClassPairEnumerationTest {
     }
 
     @Test
-    public void testHasMoreElements() {
+    void testHasMoreElements() {
         assertThrows(UnsupportedOperationException.class, () -> {
         final MinijaxNameClassPairEnumeration e = new MinijaxNameClassPairEnumeration(new HashMap<>());
         e.hasMoreElements();

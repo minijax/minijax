@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.minijax.test.MinijaxTest;
 
-public class AppTest extends MinijaxTest {
+class AppTest extends MinijaxTest {
 
     @Before
     public void setUp() {
@@ -14,7 +14,7 @@ public class AppTest extends MinijaxTest {
     }
 
     @Test
-    public void testHello() {
+    void testHello() {
         assertEquals("Hello world!", target("/").request().get(String.class));
     }
 }

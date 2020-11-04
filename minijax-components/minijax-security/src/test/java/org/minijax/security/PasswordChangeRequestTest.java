@@ -8,7 +8,7 @@ import jakarta.validation.Validator;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class PasswordChangeRequestTest {
+class PasswordChangeRequestTest {
     private static Validator validator;
 
     @BeforeAll
@@ -17,7 +17,7 @@ public class PasswordChangeRequestTest {
     }
 
     @Test
-    public void testGettersSetters() {
+    void testGettersSetters() {
         final User u = new User();
 
         final PasswordChangeRequest pcr = new PasswordChangeRequest();
@@ -26,7 +26,7 @@ public class PasswordChangeRequestTest {
     }
 
     @Test
-    public void testValidateSuccess() {
+    void testValidateSuccess() {
         final PasswordChangeRequest pcr = new PasswordChangeRequest();
         pcr.setCode("0123456789012345678901234567890123456789");
         pcr.setUser(new User());
@@ -34,21 +34,21 @@ public class PasswordChangeRequestTest {
     }
 
     @Test
-    public void testValidateNullCode() {
+    void testValidateNullCode() {
         final PasswordChangeRequest pcr = new PasswordChangeRequest();
         pcr.setCode(null);
         assertEquals(1, validator.validate(pcr).size());
     }
 
     @Test
-    public void testValidateEmptyCode() {
+    void testValidateEmptyCode() {
         final PasswordChangeRequest pcr = new PasswordChangeRequest();
         pcr.setCode("");
         assertEquals(2, validator.validate(pcr).size());
     }
 
     @Test
-    public void testValidateTooShortCode() {
+    void testValidateTooShortCode() {
         final PasswordChangeRequest pcr = new PasswordChangeRequest();
         pcr.setCode("01234567890123456789");
         assertEquals(2, validator.validate(pcr).size());

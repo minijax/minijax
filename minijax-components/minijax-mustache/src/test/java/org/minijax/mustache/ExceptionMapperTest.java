@@ -12,10 +12,10 @@ import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.test.MinijaxTest;
 import org.minijax.view.View;
 
-public class ExceptionMapperTest extends MinijaxTest {
+class ExceptionMapperTest extends MinijaxTest {
 
     @Test
-    public void testNotFound() throws IOException {
+    void testNotFound() throws IOException {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
             final MinijaxMustacheExceptionMapper mapper = new MinijaxMustacheExceptionMapper();
             final Response response = mapper.toResponse(new NotFoundException());

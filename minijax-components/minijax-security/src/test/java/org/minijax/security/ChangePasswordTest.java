@@ -53,7 +53,7 @@ public class ChangePasswordTest extends MinijaxTest {
     }
 
     @Test
-    public void testChangePasswordSuccess() throws IOException {
+    void testChangePasswordSuccess() throws IOException {
         final User user = new User();
         user.setName("Example 1");
         user.setEmail("pwd-1@example.com");
@@ -85,7 +85,7 @@ public class ChangePasswordTest extends MinijaxTest {
     }
 
     @Test
-    public void testUserWithoutPassword() throws IOException {
+    void testUserWithoutPassword() throws IOException {
         final User user = new User();
         user.setName("Example 2");
         user.setEmail("pwd-2@example.com");
@@ -110,7 +110,7 @@ public class ChangePasswordTest extends MinijaxTest {
     }
 
     @Test
-    public void testIncorrectOldPassword() throws IOException {
+    void testIncorrectOldPassword() throws IOException {
         final User user = new User();
         user.setName("Example 3");
         user.setEmail("pwd-3@example.com");
@@ -136,7 +136,7 @@ public class ChangePasswordTest extends MinijaxTest {
     }
 
     @Test
-    public void testMismatchedPasswords() throws IOException {
+    void testMismatchedPasswords() throws IOException {
         final User user = new User();
         user.setName("Example 4");
         user.setEmail("pwd-4@example.com");
@@ -162,7 +162,7 @@ public class ChangePasswordTest extends MinijaxTest {
     }
 
     @Test
-    public void testPasswordTooShort() throws IOException {
+    void testPasswordTooShort() throws IOException {
         final User user = new User();
         user.setName("Example 5");
         user.setEmail("pwd-5@example.com");

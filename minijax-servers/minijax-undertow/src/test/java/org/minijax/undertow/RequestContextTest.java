@@ -17,10 +17,10 @@ import io.undertow.util.HeaderMap;
 import io.undertow.util.Headers;
 import io.undertow.util.Methods;
 
-public class RequestContextTest {
+class RequestContextTest {
 
     @Test
-    public void testHttpHeaders() throws Exception {
+    void testHttpHeaders() throws Exception {
         final Minijax minijax = new Minijax();
 
         final HeaderMap headerMap = new HeaderMap();
@@ -32,14 +32,14 @@ public class RequestContextTest {
         when(exchange.getRequestHeaders()).thenReturn(headerMap);
 
         try (final MinijaxUndertowRequestContext ctx = new MinijaxUndertowRequestContext(minijax.getDefaultApplication(), exchange)) {
-            final MinijaxUndertowHttpHeaders httpHeaders = (MinijaxUndertowHttpHeaders) ctx.getHttpHeaders();
+            final MinijaxUndertowHttpHeaders httpHeaders = ctx.getHttpHeaders();
             assertEquals("text/plain", httpHeaders.getHeaderString("Content-Type"));
             assertEquals(httpHeaders, ctx.getHttpHeaders());
         }
     }
 
     @Test
-    public void testEntityStream() throws Exception {
+    void testEntityStream() throws Exception {
         final Minijax minijax = new Minijax();
 
         final InputStream entityStream = new ByteArrayInputStream("Hello world".getBytes());
@@ -62,7 +62,7 @@ public class RequestContextTest {
     }
 
     @Test
-    public void testForwardedHttpsProto() throws Exception {
+    void testForwardedHttpsProto() throws Exception {
         final Minijax minijax = new Minijax();
 
         final HeaderMap headerMap = new HeaderMap();

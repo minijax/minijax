@@ -15,7 +15,7 @@ import org.minijax.rs.multipart.Multipart;
 import org.minijax.rs.test.MinijaxTest;
 import org.minijax.view.View;
 
-public class HelloFileUploadTest extends MinijaxTest {
+class HelloFileUploadTest extends MinijaxTest {
 
     @BeforeEach
     public void setUp() {
@@ -24,7 +24,7 @@ public class HelloFileUploadTest extends MinijaxTest {
     }
 
     @Test
-    public void testHome() {
+    void testHome() {
         final Response response = target("/").request().get();
         assertNotNull(response);
         assertEquals(200, response.getStatus());
@@ -49,7 +49,7 @@ public class HelloFileUploadTest extends MinijaxTest {
     }
 
     @Test
-    public void testUpload() throws IOException {
+    void testUpload() throws IOException {
         try (final Multipart form = new Multipart()) {
             form.param("file1", "testfile.txt", IOUtils.toInputStream("Hello world!"));
 

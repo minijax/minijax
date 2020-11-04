@@ -19,7 +19,7 @@ import org.minijax.commons.MinijaxProperties;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.test.MinijaxTest;
 
-public class SecurityTest extends MinijaxTest {
+class SecurityTest extends MinijaxTest {
     private MinijaxRequestContext context;
 
     @BeforeEach
@@ -33,7 +33,7 @@ public class SecurityTest extends MinijaxTest {
     }
 
     @Test
-    public void testAnonymous() {
+    void testAnonymous() {
         final SecurityDao dao = mock(SecurityDao.class);
         final Configuration config = mock(Configuration.class);
         final Security<User> security = new Security<>(dao, config, null, null);
@@ -46,7 +46,7 @@ public class SecurityTest extends MinijaxTest {
     }
 
     @Test
-    public void testAnonymousRequireLogin() {
+    void testAnonymousRequireLogin() {
         assertThrows(NotAuthorizedException.class, () -> {
         final SecurityDao dao = mock(SecurityDao.class);
         final Configuration config = mock(Configuration.class);
@@ -56,7 +56,7 @@ public class SecurityTest extends MinijaxTest {
     }
 
     @Test
-    public void testAnonymousValidateSession() {
+    void testAnonymousValidateSession() {
         assertThrows(NotAuthorizedException.class, () -> {
         final SecurityDao dao = mock(SecurityDao.class);
         final Configuration config = mock(Configuration.class);
@@ -66,7 +66,7 @@ public class SecurityTest extends MinijaxTest {
     }
 
     @Test
-    public void testApiKey() {
+    void testApiKey() {
         final User user = new User();
 
         final ApiKey apiKey = new ApiKey();
@@ -92,7 +92,7 @@ public class SecurityTest extends MinijaxTest {
     }
 
     @Test
-    public void testApiKeyNotFound() {
+    void testApiKeyNotFound() {
         final String authorization = AuthUtils.create("xyz", "");
         final SecurityDao dao = mock(SecurityDao.class);
         final Configuration config = mock(Configuration.class);
@@ -102,7 +102,7 @@ public class SecurityTest extends MinijaxTest {
     }
 
     @Test
-    public void testApiKeyDeleted() {
+    void testApiKeyDeleted() {
         final User user = new User();
 
         final ApiKey apiKey = new ApiKey();
@@ -122,7 +122,7 @@ public class SecurityTest extends MinijaxTest {
     }
 
     @Test
-    public void testCookie() {
+    void testCookie() {
         final User user = new User();
         user.setRoles("admin");
 
@@ -151,7 +151,7 @@ public class SecurityTest extends MinijaxTest {
     }
 
     @Test
-    public void testCookieInvalidUuid() {
+    void testCookieInvalidUuid() {
         final String cookie = "not-a-uuid";
         final SecurityDao dao = mock(SecurityDao.class);
         final Configuration config = mock(Configuration.class);
@@ -161,7 +161,7 @@ public class SecurityTest extends MinijaxTest {
     }
 
     @Test
-    public void testCookieSessionNotFound() {
+    void testCookieSessionNotFound() {
         final String cookie = IdUtils.create().toString();
         final SecurityDao dao = mock(SecurityDao.class);
         final Configuration config = mock(Configuration.class);
@@ -171,7 +171,7 @@ public class SecurityTest extends MinijaxTest {
     }
 
     @Test
-    public void testCookieInvalidSession() {
+    void testCookieInvalidSession() {
         final UserSession session = new UserSession();
 
         final String cookie = session.getId().toString();
@@ -186,7 +186,7 @@ public class SecurityTest extends MinijaxTest {
     }
 
     @Test
-    public void testInvalidSessionToken() {
+    void testInvalidSessionToken() {
         assertThrows(BadRequestException.class, () -> {
         final User user = new User();
 
@@ -208,7 +208,7 @@ public class SecurityTest extends MinijaxTest {
     }
 
     @Test
-    public void testLogin() {
+    void testLogin() {
         final User user = new User();
         user.setPassword("testtest");
 
@@ -225,7 +225,7 @@ public class SecurityTest extends MinijaxTest {
     }
 
     @Test
-    public void testLoginUserNotFound() {
+    void testLoginUserNotFound() {
         final SecurityDao dao = mock(SecurityDao.class);
         when(dao.findUserByEmail(any(), any())).thenReturn(null);
 
@@ -238,7 +238,7 @@ public class SecurityTest extends MinijaxTest {
     }
 
     @Test
-    public void testLoginPasswordNotSet() {
+    void testLoginPasswordNotSet() {
         final User user = new User();
 
         final SecurityDao dao = mock(SecurityDao.class);
@@ -253,7 +253,7 @@ public class SecurityTest extends MinijaxTest {
     }
 
     @Test
-    public void testLoginIncorrectPassword() {
+    void testLoginIncorrectPassword() {
         final User user = new User();
         user.setPassword("testtest");
 
@@ -269,7 +269,7 @@ public class SecurityTest extends MinijaxTest {
     }
 
     @Test
-    public void testAnonymousLogout() {
+    void testAnonymousLogout() {
         final SecurityDao dao = mock(SecurityDao.class);
         final Configuration config = mock(Configuration.class);
         final Security<User> security = new Security<>(dao, config, null, null);
@@ -279,7 +279,7 @@ public class SecurityTest extends MinijaxTest {
     }
 
     @Test
-    public void testLogout() {
+    void testLogout() {
         final User user = new User();
 
         final UserSession session = new UserSession();

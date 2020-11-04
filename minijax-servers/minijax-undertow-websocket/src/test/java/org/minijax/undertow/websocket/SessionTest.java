@@ -10,24 +10,24 @@ import jakarta.websocket.MessageHandler.Whole;
 
 import org.junit.jupiter.api.Test;
 
-public class SessionTest {
+class SessionTest {
 
     @Test
-    public void testGetId() throws IOException {
+    void testGetId() throws IOException {
         try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
             assertNull(session.getId());
         }
     }
 
     @Test
-    public void testGetBasicRemote() throws IOException {
+    void testGetBasicRemote() throws IOException {
         try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
             assertNull(session.getBasicRemote());
         }
     }
 
     @Test
-    public void testGetContainer() throws IOException {
+    void testGetContainer() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.getContainer();
@@ -36,34 +36,34 @@ public class SessionTest {
     }
 
     @Test
-    public void testAddMessageHandlerMessageHandler() throws IOException {
+    void testAddMessageHandlerMessageHandler() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
-                session.addMessageHandler((MessageHandler) null);
+                session.addMessageHandler(null);
             }
         });
     }
 
     @Test
-    public void testAddMessageHandlerClassOfTWholeOfT() throws IOException {
+    void testAddMessageHandlerClassOfTWholeOfT() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
-                session.addMessageHandler((Class<Object>) null, (Whole<Object>) null);
+                session.addMessageHandler(null, (Whole<Object>) null);
             }
         });
     }
 
     @Test
-    public void testAddMessageHandlerClassOfTPartialOfT() throws IOException {
+    void testAddMessageHandlerClassOfTPartialOfT() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
-                session.addMessageHandler((Class<Object>) null, (Partial<Object>) null);
+                session.addMessageHandler(null, (Partial<Object>) null);
             }
         });
     }
 
     @Test
-    public void testGetMessageHandlers() throws IOException {
+    void testGetMessageHandlers() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.getMessageHandlers();
@@ -72,7 +72,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testRemoveMessageHandler() throws IOException {
+    void testRemoveMessageHandler() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.removeMessageHandler(null);
@@ -81,7 +81,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testGetProtocolVersion() throws IOException {
+    void testGetProtocolVersion() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.getProtocolVersion();
@@ -90,7 +90,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testGetNegotiatedSubprotocol() throws IOException {
+    void testGetNegotiatedSubprotocol() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.getNegotiatedSubprotocol();
@@ -99,7 +99,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testGetNegotiatedExtensions() throws IOException {
+    void testGetNegotiatedExtensions() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.getNegotiatedExtensions();
@@ -108,7 +108,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testIsSecure() throws IOException {
+    void testIsSecure() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.isSecure();
@@ -117,7 +117,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testIsOpen() throws IOException {
+    void testIsOpen() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.isOpen();
@@ -126,7 +126,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testGetMaxIdleTimeout() throws IOException {
+    void testGetMaxIdleTimeout() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.getMaxIdleTimeout();
@@ -135,7 +135,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testSetMaxIdleTimeout() throws IOException {
+    void testSetMaxIdleTimeout() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.setMaxIdleTimeout(0);
@@ -144,7 +144,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testSetMaxBinaryMessageBufferSize() throws IOException {
+    void testSetMaxBinaryMessageBufferSize() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.setMaxBinaryMessageBufferSize(0);
@@ -153,7 +153,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testGetMaxBinaryMessageBufferSize() throws IOException {
+    void testGetMaxBinaryMessageBufferSize() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.getMaxBinaryMessageBufferSize();
@@ -162,7 +162,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testSetMaxTextMessageBufferSize() throws IOException {
+    void testSetMaxTextMessageBufferSize() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.setMaxTextMessageBufferSize(0);
@@ -171,7 +171,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testGetMaxTextMessageBufferSize() throws IOException {
+    void testGetMaxTextMessageBufferSize() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.getMaxTextMessageBufferSize();
@@ -180,7 +180,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testGetAsyncRemote() throws IOException {
+    void testGetAsyncRemote() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.getAsyncRemote();
@@ -189,7 +189,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testCloseCloseReason() throws IOException {
+    void testCloseCloseReason() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.close(null);
@@ -198,7 +198,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testGetRequestURI() throws IOException {
+    void testGetRequestURI() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.getRequestURI();
@@ -207,7 +207,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testGetRequestParameterMap() throws IOException {
+    void testGetRequestParameterMap() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.getRequestParameterMap();
@@ -216,7 +216,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testGetQueryString() throws IOException {
+    void testGetQueryString() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.getQueryString();
@@ -225,7 +225,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testGetPathParameters() throws IOException {
+    void testGetPathParameters() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.getPathParameters();
@@ -234,7 +234,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testGetUserProperties() throws IOException {
+    void testGetUserProperties() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.getUserProperties();
@@ -243,7 +243,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testGetUserPrincipal() throws IOException {
+    void testGetUserPrincipal() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.getUserPrincipal();
@@ -252,7 +252,7 @@ public class SessionTest {
     }
 
     @Test
-    public void testGetOpenSessions() throws IOException {
+    void testGetOpenSessions() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxUndertowWebSocketSession session = new MinijaxUndertowWebSocketSession(null)) {
                 session.getOpenSessions();

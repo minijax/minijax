@@ -12,10 +12,10 @@ import org.junit.jupiter.api.Test;
 import io.undertow.websockets.core.StreamSinkFrameChannel;
 import io.undertow.websockets.core.WebSocketChannel;
 
-public class BasicRemoteTest {
+class BasicRemoteTest {
 
     @Test
-    public void testSendTextString() throws IOException {
+    void testSendTextString() throws IOException {
         final StreamSinkFrameChannel sink = mock(StreamSinkFrameChannel.class);
         when(sink.send(any())).thenReturn(true);
         when(sink.flush()).thenReturn(true);
@@ -28,7 +28,7 @@ public class BasicRemoteTest {
     }
 
     @Test
-    public void testSetBatchingAllowed() throws IOException {
+    void testSetBatchingAllowed() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
             remote.setBatchingAllowed(false);
@@ -36,7 +36,7 @@ public class BasicRemoteTest {
     }
 
     @Test
-    public void testGetBatchingAllowed() {
+    void testGetBatchingAllowed() {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
             remote.getBatchingAllowed();
@@ -44,7 +44,7 @@ public class BasicRemoteTest {
     }
 
     @Test
-    public void testFlushBatch() throws IOException {
+    void testFlushBatch() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
             remote.flushBatch();
@@ -52,7 +52,7 @@ public class BasicRemoteTest {
     }
 
     @Test
-    public void testSendPing() throws IOException {
+    void testSendPing() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
             remote.sendPing(null);
@@ -60,7 +60,7 @@ public class BasicRemoteTest {
     }
 
     @Test
-    public void testSendPong() throws IOException {
+    void testSendPong() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
             remote.sendPong(null);
@@ -68,7 +68,7 @@ public class BasicRemoteTest {
     }
 
     @Test
-    public void testSendBinaryByteBuffer() throws IOException {
+    void testSendBinaryByteBuffer() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
             remote.sendBinary(null);
@@ -76,7 +76,7 @@ public class BasicRemoteTest {
     }
 
     @Test
-    public void testSendTextStringBoolean() throws IOException {
+    void testSendTextStringBoolean() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
             remote.sendText(null, false);
@@ -84,7 +84,7 @@ public class BasicRemoteTest {
     }
 
     @Test
-    public void testSendBinaryByteBufferBoolean() throws IOException {
+    void testSendBinaryByteBufferBoolean() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
             remote.sendBinary(null, false);
@@ -92,7 +92,7 @@ public class BasicRemoteTest {
     }
 
     @Test
-    public void testGetSendStream() throws IOException {
+    void testGetSendStream() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
             remote.getSendStream();
@@ -100,7 +100,7 @@ public class BasicRemoteTest {
     }
 
     @Test
-    public void testGetSendWriter() throws IOException {
+    void testGetSendWriter() throws IOException {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
             remote.getSendWriter();
@@ -108,7 +108,7 @@ public class BasicRemoteTest {
     }
 
     @Test
-    public void testSendObject() throws IOException, EncodeException {
+    void testSendObject() throws IOException, EncodeException {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxUndertowWebSocketBasicRemote remote = new MinijaxUndertowWebSocketBasicRemote(null);
             remote.sendObject(null);

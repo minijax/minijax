@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 import org.minijax.rs.util.CacheControlUtils;
 
-public class CacheControlTest extends MinijaxTest {
+class CacheControlTest extends MinijaxTest {
 
     @GET
     @Path("/public")
@@ -34,13 +34,13 @@ public class CacheControlTest extends MinijaxTest {
     }
 
     @Test
-    public void testPublicCacheControl() {
+    void testPublicCacheControl() {
         final Response r = target("/public").request().get();
         assertEquals("public", r.getHeaderString(HttpHeaders.CACHE_CONTROL));
     }
 
     @Test
-    public void testPrivateCacheControl() {
+    void testPrivateCacheControl() {
         final Response r = target("/private").request().get();
         assertEquals("private", r.getHeaderString(HttpHeaders.CACHE_CONTROL));
     }

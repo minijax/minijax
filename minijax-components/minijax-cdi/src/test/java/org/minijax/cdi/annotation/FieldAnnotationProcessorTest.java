@@ -14,7 +14,7 @@ import org.minijax.cdi.MinijaxInjector;
 import org.minijax.cdi.MinijaxInjectorState;
 import org.minijax.cdi.MinijaxProvider;
 
-public class FieldAnnotationProcessorTest {
+class FieldAnnotationProcessorTest {
 
     @Target({ FIELD })
     @Retention(RUNTIME)
@@ -43,7 +43,7 @@ public class FieldAnnotationProcessorTest {
     }
 
     @Test
-    public void testFieldAnnotationProcessor() {
+    void testFieldAnnotationProcessor() {
         try (final MinijaxInjector injector = new MinijaxInjector()) {
             injector.addFieldAnnotationProcessor(MyFieldAnnotation.class, new MyFieldAnnotationProcessor());
 

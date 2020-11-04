@@ -17,7 +17,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class QualifierTest {
+class QualifierTest {
     private MinijaxInjector injector;
 
     @BeforeEach
@@ -46,7 +46,7 @@ public class QualifierTest {
     }
 
     @Test
-    public void testQualifiedSingleton() {
+    void testQualifiedSingleton() {
         final QualifiedResource r = injector.getResource(QualifiedResource.class);
         assertNotNull(r);
         assertNotNull(r.a);
@@ -69,7 +69,7 @@ public class QualifierTest {
     }
 
     @Test
-    public void testMultipleQualifiers() {
+    void testMultipleQualifiers() {
         assertThrows(InjectionException.class, () -> injector.getResource(MultipleQualifiers.class));
     }
 }

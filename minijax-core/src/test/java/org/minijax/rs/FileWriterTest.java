@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
-public class FileWriterTest extends MinijaxTest {
+class FileWriterTest extends MinijaxTest {
 
     @GET
     @Path("/file")
@@ -28,7 +28,7 @@ public class FileWriterTest extends MinijaxTest {
     }
 
     @Test
-    public void testStaticDirectoryFile() {
+    void testStaticDirectoryFile() {
         final Response response = target("/file").request().get();
         assertNotNull(response);
         assertEquals(200, response.getStatus());

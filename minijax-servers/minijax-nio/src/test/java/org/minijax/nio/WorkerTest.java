@@ -9,10 +9,10 @@ import java.util.TimerTask;
 import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 
-public class WorkerTest {
+class WorkerTest {
 
     @Test
-    public void testEmptyRun() throws IOException {
+    void testEmptyRun() throws IOException {
         final Minijax minijax = new Minijax();
         final Worker worker = new Worker(minijax, new MockSelectorProvider());
         assertFalse(worker.isRunning());
@@ -21,7 +21,7 @@ public class WorkerTest {
     }
 
     @Test
-    public void testAcceptHttp10() throws IOException {
+    void testAcceptHttp10() throws IOException {
         final Minijax minijax = new Minijax();
         final MockSelectorProvider selectorProvider = new MockSelectorProvider();
         final MockSocketChannel channel = new MockSocketChannel(selectorProvider, "GET / HTTP/1.0\r\n");
@@ -33,7 +33,7 @@ public class WorkerTest {
     }
 
     @Test
-    public void testAcceptHttp11() throws IOException {
+    void testAcceptHttp11() throws IOException {
         final Minijax minijax = new Minijax();
         final MockSelectorProvider selectorProvider = new MockSelectorProvider();
         final MockSocketChannel channel = new MockSocketChannel(selectorProvider, "GET / HTTP/1.1\r\n");
@@ -45,7 +45,7 @@ public class WorkerTest {
     }
 
     @Test
-    public void testSetNextWorker() throws IOException {
+    void testSetNextWorker() throws IOException {
         assertThrows(IllegalStateException.class, () -> {
         final Worker worker = new Worker(null, new MockSelectorProvider());
         worker.setNextWorker(worker);

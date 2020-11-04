@@ -13,7 +13,7 @@ import jakarta.ws.rs.core.Application;
 import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 
-public class ApplicationTest {
+class ApplicationTest {
 
     public static class MyComponent1 {
         public int x;
@@ -53,7 +53,7 @@ public class ApplicationTest {
     }
 
     @Test
-    public void testApp() {
+    void testApp() {
         final Minijax minijax = new Minijax();
         minijax.register(MyApp.class);
 

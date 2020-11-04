@@ -4,10 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-public class AvatarTest {
+class AvatarTest {
 
     @Test
-    public void testGettersSetters() {
+    void testGettersSetters() {
         final Avatar a = new Avatar();
         a.setImageType(Avatar.IMAGE_TYPE_MANUAL);
         a.setImageUrl("http://foo");
@@ -19,7 +19,7 @@ public class AvatarTest {
     }
 
     @Test
-    public void testHelperCtor() {
+    void testHelperCtor() {
         final Avatar a = new Avatar("http://foo", "http://bar");
         assertEquals("http://foo", a.getImageUrl());
         assertEquals("http://bar", a.getThumbUrl());

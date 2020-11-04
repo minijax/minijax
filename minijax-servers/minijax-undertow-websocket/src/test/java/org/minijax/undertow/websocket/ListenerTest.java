@@ -16,7 +16,7 @@ import io.undertow.websockets.core.BufferedTextMessage;
 import io.undertow.websockets.core.WebSocketChannel;
 import io.undertow.websockets.spi.WebSocketHttpExchange;
 
-public class ListenerTest extends MinijaxTest {
+class ListenerTest extends MinijaxTest {
 
     public static class TestSocket {
         @OnMessage
@@ -26,7 +26,7 @@ public class ListenerTest extends MinijaxTest {
     }
 
     @Test
-    public void testHappyPath() throws IOException {
+    void testHappyPath() throws IOException {
         final Minijax minijax = new Minijax().register(TestSocket.class);
         final MinijaxApplicationContext application = minijax.getDefaultApplication();
 

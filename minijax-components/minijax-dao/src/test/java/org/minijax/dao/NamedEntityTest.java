@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.minijax.commons.IdUtils;
 
-public class NamedEntityTest {
+class NamedEntityTest {
     private static Validator validator;
 
     @BeforeAll
@@ -23,21 +23,21 @@ public class NamedEntityTest {
     }
 
     @Test
-    public void testCtor1() {
+    void testCtor1() {
         final Widget w = new Widget();
         assertNotNull(w.getId());
         assertEquals("", w.getName());
     }
 
     @Test
-    public void testCtor2() {
+    void testCtor2() {
         final Widget w = new Widget("foo");
         assertNotNull(w.getId());
         assertEquals("foo", w.getName());
     }
 
     @Test
-    public void testGettersSetters() {
+    void testGettersSetters() {
         final Widget w = new Widget();
         w.setId(IdUtils.create());
         w.setCreatedDateTime(Instant.now());
@@ -64,14 +64,14 @@ public class NamedEntityTest {
     }
 
     @Test
-    public void testGenerateHandle() {
+    void testGenerateHandle() {
         final Widget w = new Widget();
         w.generateHandle();
         assertNotNull(w.getHandle());
     }
 
     @Test
-    public void testGenerateHandleFromName() {
+    void testGenerateHandleFromName() {
         final Widget w = new Widget();
         w.setName("foo");
         w.generateHandle();
@@ -80,7 +80,7 @@ public class NamedEntityTest {
     }
 
     @Test
-    public void testValidate() {
+    void testValidate() {
         final Widget w = new Widget();
         w.setHandle("foo");
         w.setName("Foo");
@@ -88,7 +88,7 @@ public class NamedEntityTest {
     }
 
     @Test
-    public void testValidateNullHandle() {
+    void testValidateNullHandle() {
         final Widget w = new Widget();
         w.setHandle(null);
         w.setName("foo");
@@ -96,7 +96,7 @@ public class NamedEntityTest {
     }
 
     @Test
-    public void testValidateEmptyHandle() {
+    void testValidateEmptyHandle() {
         final Widget w = new Widget();
         w.setHandle("");
         w.setName("foo");
@@ -104,7 +104,7 @@ public class NamedEntityTest {
     }
 
     @Test
-    public void testValidateHandleTooLong() {
+    void testValidateHandleTooLong() {
         final Widget w = new Widget();
         w.setHandle("x".repeat(40));
         w.setName("foo");
@@ -112,7 +112,7 @@ public class NamedEntityTest {
     }
 
     @Test
-    public void testValidateHandleStartsWithPeriod() {
+    void testValidateHandleStartsWithPeriod() {
         final Widget w = new Widget();
         w.setHandle(".foo");
         w.setName("foo");
@@ -120,7 +120,7 @@ public class NamedEntityTest {
     }
 
     @Test
-    public void testValidateHandleSpecialCharacters() {
+    void testValidateHandleSpecialCharacters() {
         final Widget w = new Widget();
         w.setHandle("foo+");
         w.setName("foo");
@@ -128,7 +128,7 @@ public class NamedEntityTest {
     }
 
     @Test
-    public void testValidateNullName() {
+    void testValidateNullName() {
         final Widget w = new Widget();
         w.setHandle("foo");
         w.setName(null);
@@ -136,7 +136,7 @@ public class NamedEntityTest {
     }
 
     @Test
-    public void testValidateEmptyName() {
+    void testValidateEmptyName() {
         final Widget w = new Widget();
         w.setHandle("foo");
         w.setName("");
@@ -144,7 +144,7 @@ public class NamedEntityTest {
     }
 
     @Test
-    public void testValidateNameTooLong() {
+    void testValidateNameTooLong() {
         final Widget w = new Widget();
         w.setHandle("foo");
         w.setName("x".repeat(300));
@@ -152,7 +152,7 @@ public class NamedEntityTest {
     }
 
     @Test
-    public void testSortByName() {
+    void testSortByName() {
         final List<Widget> w = new ArrayList<>(Arrays.asList(
                 new Widget("Carol"),
                 new Widget("Bob"),

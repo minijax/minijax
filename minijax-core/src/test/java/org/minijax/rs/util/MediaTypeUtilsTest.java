@@ -10,31 +10,31 @@ import org.junit.jupiter.api.Test;
 
 @Consumes(APPLICATION_FORM_URLENCODED)
 @Produces(TEXT_HTML)
-public class MediaTypeUtilsTest {
+class MediaTypeUtilsTest {
 
     @Test
-    public void testCtor() {
+    void testCtor() {
         assertThrows(UnsupportedOperationException.class, MediaTypeUtils::new);
     }
 
     @Test
-    public void testParseNullConsumes() {
+    void testParseNullConsumes() {
         assertTrue(MediaTypeUtils.parseMediaTypes((Consumes) null).isEmpty());
     }
 
     @Test
-    public void testParseConsumes() {
+    void testParseConsumes() {
         assertEquals(APPLICATION_FORM_URLENCODED_TYPE,
                 MediaTypeUtils.parseMediaTypes(MediaTypeUtilsTest.class.getAnnotation(Consumes.class)).get(0));
     }
 
     @Test
-    public void testParseNullProduces() {
+    void testParseNullProduces() {
         assertTrue(MediaTypeUtils.parseMediaTypes((Produces) null).isEmpty());
     }
 
     @Test
-    public void testParseProduces() {
+    void testParseProduces() {
         assertEquals(TEXT_HTML_TYPE,
                 MediaTypeUtils.parseMediaTypes(MediaTypeUtilsTest.class.getAnnotation(Produces.class)).get(0));
     }

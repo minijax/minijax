@@ -17,10 +17,10 @@ import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.junit.jupiter.api.Test;
 
-public class HttpHeadersTest {
+class HttpHeadersTest {
 
     @Test
-    public void testBasic() throws Exception {
+    void testBasic() throws Exception {
         final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
         map.add("X-Foo", "bar");
 
@@ -31,7 +31,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testMultiple() throws Exception {
+    void testMultiple() throws Exception {
         final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
         map.add("X-Foo", "bar");
         map.add("X-Foo", "baz");
@@ -45,7 +45,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testAccept() throws Exception {
+    void testAccept() throws Exception {
         final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
         map.add(HttpHeaders.ACCEPT, "text/plain");
 
@@ -55,7 +55,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testAcceptLanguage() throws Exception {
+    void testAcceptLanguage() throws Exception {
         final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
         map.add(HttpHeaders.ACCEPT_LANGUAGE, "en-US");
 
@@ -65,7 +65,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testMediaType() throws Exception {
+    void testMediaType() throws Exception {
         final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
         map.add(HttpHeaders.CONTENT_TYPE, "text/plain");
 
@@ -74,7 +74,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testNullMediaType() throws Exception {
+    void testNullMediaType() throws Exception {
         final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
 
         final MinijaxNioHttpHeaders httpHeaders = new MinijaxNioHttpHeaders(map);
@@ -82,7 +82,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testLanguage() throws Exception {
+    void testLanguage() throws Exception {
         final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
         map.add(HttpHeaders.CONTENT_LANGUAGE, "en-US");
 
@@ -91,7 +91,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testNullLanguage() throws Exception {
+    void testNullLanguage() throws Exception {
         final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
 
         final MinijaxNioHttpHeaders httpHeaders = new MinijaxNioHttpHeaders(map);
@@ -99,7 +99,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testContentLength() throws Exception {
+    void testContentLength() throws Exception {
         final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
         map.add(HttpHeaders.CONTENT_LENGTH, "1024");
 
@@ -108,7 +108,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testNullContentLength() throws Exception {
+    void testNullContentLength() throws Exception {
         final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
 
         final MinijaxNioHttpHeaders httpHeaders = new MinijaxNioHttpHeaders(map);
@@ -116,7 +116,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testInvalidContentLength() throws Exception {
+    void testInvalidContentLength() throws Exception {
         final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
         map.add(HttpHeaders.CONTENT_LENGTH, "x");
 
@@ -125,7 +125,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testCookies() throws Exception {
+    void testCookies() throws Exception {
         final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
         map.add(HttpHeaders.COOKIE, "k=v");
 
@@ -138,7 +138,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testDate() {
+    void testDate() {
         assertThrows(UnsupportedOperationException.class, () -> {
         final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
         final MinijaxNioHttpHeaders httpHeaders = new MinijaxNioHttpHeaders(map);

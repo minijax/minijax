@@ -63,7 +63,7 @@ public class CsrfFilterTest extends MinijaxTest {
     }
 
     @Test
-    public void testPublic() {
+    void testPublic() {
         final Form form = new Form();
 
         final Response r = target("/public_form").request().post(Entity.form(form));
@@ -72,7 +72,7 @@ public class CsrfFilterTest extends MinijaxTest {
     }
 
     @Test
-    public void testPrivateFormWithoutUser() {
+    void testPrivateFormWithoutUser() {
         final Form form = new Form();
 
         final Response r = target("/private_form").request().post(Entity.form(form));
@@ -81,7 +81,7 @@ public class CsrfFilterTest extends MinijaxTest {
     }
 
     @Test
-    public void testPrivateFormWithoutCsrf() {
+    void testPrivateFormWithoutCsrf() {
         final Form form = new Form();
 
         final Response r = target("/private_form").request().cookie(cookie).post(Entity.form(form));
@@ -90,7 +90,7 @@ public class CsrfFilterTest extends MinijaxTest {
     }
 
     @Test
-    public void testPrivateFormWithCsrf() {
+    void testPrivateFormWithCsrf() {
         final Form form = new Form();
         form.param("csrf", cookie.getValue());
 

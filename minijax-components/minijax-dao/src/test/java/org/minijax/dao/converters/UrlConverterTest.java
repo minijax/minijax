@@ -8,17 +8,17 @@ import java.net.URL;
 import org.junit.jupiter.api.Test;
 import org.minijax.commons.MinijaxException;
 
-public class UrlConverterTest {
+class UrlConverterTest {
 
     @Test
-    public void testNull() {
+    void testNull() {
         final UrlConverter c = new UrlConverter();
         assertNull(c.convertToDatabaseColumn(null));
         assertNull(c.convertToEntityAttribute(null));
     }
 
     @Test
-    public void testSimple() throws MalformedURLException {
+    void testSimple() throws MalformedURLException {
         final UrlConverter c = new UrlConverter();
         final URL url = new URL("https://www.example.com/path/to/foo?bar=baz");
         final String str = "https://www.example.com/path/to/foo?bar=baz";
@@ -27,7 +27,7 @@ public class UrlConverterTest {
     }
 
     @Test
-    public void testMalformedUrl() throws MalformedURLException {
+    void testMalformedUrl() throws MalformedURLException {
         assertThrows(MinijaxException.class, () -> {
         final UrlConverter c = new UrlConverter();
         final String str = "! bad url !";

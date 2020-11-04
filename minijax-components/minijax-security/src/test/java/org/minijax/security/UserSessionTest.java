@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.minijax.commons.IdUtils;
 
-public class UserSessionTest {
+class UserSessionTest {
     private static Validator validator;
 
     @BeforeAll
@@ -20,7 +20,7 @@ public class UserSessionTest {
     }
 
     @Test
-    public void testGettersSetters() {
+    void testGettersSetters() {
         final UUID id = IdUtils.create();
 
         final User u = new User();
@@ -35,14 +35,14 @@ public class UserSessionTest {
     }
 
     @Test
-    public void testValidate() {
+    void testValidate() {
         final UserSession s = new UserSession();
         s.setUser(new User());
         assertTrue(validator.validate(s).isEmpty());
     }
 
     @Test
-    public void testValidateRequireUser() {
+    void testValidateRequireUser() {
         final UserSession s = new UserSession();
         assertEquals(1, validator.validate(s).size());
     }

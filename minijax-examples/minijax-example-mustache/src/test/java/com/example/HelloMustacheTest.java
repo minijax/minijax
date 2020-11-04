@@ -10,7 +10,7 @@ import org.minijax.mustache.MustacheFeature;
 import org.minijax.rs.test.MinijaxTest;
 import org.minijax.view.View;
 
-public class HelloMustacheTest extends MinijaxTest {
+class HelloMustacheTest extends MinijaxTest {
 
     @BeforeEach
     public void setUp() {
@@ -19,7 +19,7 @@ public class HelloMustacheTest extends MinijaxTest {
     }
 
     @Test
-    public void testMustacheTemplate() {
+    void testMustacheTemplate() {
         final Response response = target("/").request().get();
         assertNotNull(response);
         assertEquals(200, response.getStatus());

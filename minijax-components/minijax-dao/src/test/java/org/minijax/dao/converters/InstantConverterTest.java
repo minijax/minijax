@@ -7,17 +7,17 @@ import java.time.Instant;
 
 import org.junit.jupiter.api.Test;
 
-public class InstantConverterTest {
+class InstantConverterTest {
 
     @Test
-    public void testNull() {
+    void testNull() {
         final InstantConverter c = new InstantConverter();
         assertNull(c.convertToDatabaseColumn(null));
         assertNull(c.convertToEntityAttribute(null));
     }
 
     @Test
-    public void testSimple() {
+    void testSimple() {
         final InstantConverter c = new InstantConverter();
         final Instant instant = Instant.now();
         final Timestamp timestamp = Timestamp.from(instant);

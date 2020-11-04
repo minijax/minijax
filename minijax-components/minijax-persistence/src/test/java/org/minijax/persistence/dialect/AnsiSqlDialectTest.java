@@ -12,7 +12,7 @@ import org.minijax.persistence.testmodel.Message;
 import org.minijax.persistence.testmodel.User;
 import org.minijax.persistence.testmodel.Widget;
 
-public class AnsiSqlDialectTest {
+class AnsiSqlDialectTest {
     private MinijaxEntityManagerFactory emf;
     private MinijaxEntityManager em;
 
@@ -30,7 +30,7 @@ public class AnsiSqlDialectTest {
     }
 
     @Test
-    public void testPersist() {
+    void testPersist() {
         final Widget widget = new Widget();
         widget.setId(123);
         widget.setName("persistTest");
@@ -53,7 +53,7 @@ public class AnsiSqlDialectTest {
     }
 
     @Test
-    public void testPersistAssociation() {
+    void testPersistAssociation() {
         final User u1 = new User();
         u1.setId(123);
         u1.setName("Alice");
@@ -79,7 +79,7 @@ public class AnsiSqlDialectTest {
     }
 
     @Test
-    public void testPersistReference() {
+    void testPersistReference() {
         final User u = new User();
         u.setId(111);
         u.setName("Alice");

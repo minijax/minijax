@@ -12,7 +12,7 @@ import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 
-public class HelloWorldTest {
+class HelloWorldTest {
 
     @Path("/")
     public static class HelloResource {
@@ -33,7 +33,7 @@ public class HelloWorldTest {
     }
 
     @Test
-    public void testHello() throws Exception {
+    void testHello() throws Exception {
         final Minijax minijax = new Minijax().register(HelloResource.class);
         final String request = "GET / HTTP/1.1\r\n";
         final MockSocketChannel channel = new MockSocketChannel(null, request);
@@ -51,7 +51,7 @@ public class HelloWorldTest {
     }
 
     @Test
-    public void testHead() throws Exception {
+    void testHead() throws Exception {
         final Minijax minijax = new Minijax().register(HelloResource.class);
         final String request = "HEAD / HTTP/1.1\r\n";
         final MockSocketChannel channel = new MockSocketChannel(null, request);
@@ -67,7 +67,7 @@ public class HelloWorldTest {
     }
 
     @Test
-    public void testHttp10KeepAlive() throws Exception {
+    void testHttp10KeepAlive() throws Exception {
         final Minijax minijax = new Minijax().register(HelloResource.class);
         final String request = "HEAD / HTTP/1.0\r\n" +
                     "Connection: keep-alive\r\n";
@@ -85,7 +85,7 @@ public class HelloWorldTest {
     }
 
     @Test
-    public void testHttp11ConnectionClose() throws Exception {
+    void testHttp11ConnectionClose() throws Exception {
         final Minijax minijax = new Minijax().register(HelloResource.class);
         final String request = "HEAD / HTTP/1.1\r\n" +
                     "Connection: close\r\n";
@@ -103,7 +103,7 @@ public class HelloWorldTest {
     }
 
     @Test
-    public void testEcho() throws Exception {
+    void testEcho() throws Exception {
         final Minijax minijax = new Minijax().register(HelloResource.class);
         final String request = "POST / HTTP/1.1\r\n" +
                 "Content-Length: 3\r\n" +

@@ -9,10 +9,10 @@ import org.minijax.Minijax;
 
 import io.netty.channel.ChannelHandlerContext;
 
-public class ServerHandlerTest {
+class ServerHandlerTest {
 
     @Test
-    public void testExceptionCaught() throws Exception {
+    void testExceptionCaught() throws Exception {
         final Minijax minijax = new Minijax();
         final ScheduledExecutorService executor = mock(ScheduledExecutorService.class);
         final ServerHandler handler = new ServerHandler(minijax, executor);
@@ -25,7 +25,7 @@ public class ServerHandlerTest {
     }
 
     @Test
-    public void testChannelReadComplete() throws Exception {
+    void testChannelReadComplete() throws Exception {
         final Minijax minijax = new Minijax();
         final ScheduledExecutorService executor = mock(ScheduledExecutorService.class);
         final ServerHandler handler = new ServerHandler(minijax, executor);

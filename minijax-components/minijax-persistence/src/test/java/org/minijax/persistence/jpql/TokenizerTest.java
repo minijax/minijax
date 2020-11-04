@@ -7,10 +7,10 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-public class TokenizerTest {
+class TokenizerTest {
 
     @Test
-    public void testSelectByVariable() {
+    void testSelectByVariable() {
         final List<Token> tokens = Tokenizer.tokenize("SELECT w FROM Widget w WHERE id = :id");
         assertNotNull(tokens);
         assertEquals(9, tokens.size());
@@ -30,7 +30,7 @@ public class TokenizerTest {
     }
 
     @Test
-    public void testSelectByNumber() {
+    void testSelectByNumber() {
         final List<Token> tokens = Tokenizer.tokenize("SELECT w FROM Widget w WHERE id = 123");
         assertNotNull(tokens);
         assertEquals(9, tokens.size());
@@ -50,7 +50,7 @@ public class TokenizerTest {
     }
 
     @Test
-    public void testSelectByString() {
+    void testSelectByString() {
         final List<Token> tokens = Tokenizer.tokenize("SELECT w FROM Widget w WHERE id = 'xyz'");
         assertNotNull(tokens);
         assertEquals(9, tokens.size());

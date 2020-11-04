@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Pattern;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class PatternTest {
+class PatternTest {
     private static Validator validator;
 
     @BeforeAll
@@ -29,35 +29,35 @@ public class PatternTest {
     }
 
     @Test
-    public void testNullString() {
+    void testNullString() {
         final A a = new A();
         a.a = null;
         assertTrue(validator.validate(a).isEmpty());
     }
 
     @Test
-    public void testBlankString() {
+    void testBlankString() {
         final A a = new A();
         a.a = "";
         assertEquals(1, validator.validate(a).size());
     }
 
     @Test
-    public void testValidString() {
+    void testValidString() {
         final A a = new A();
         a.a = "a";
         assertTrue(validator.validate(a).isEmpty());
     }
 
     @Test
-    public void testMismatchString() {
+    void testMismatchString() {
         final A a = new A();
         a.a = "1";
         assertEquals(1, validator.validate(a).size());
     }
 
     @Test
-    public void testInvalidType() {
+    void testInvalidType() {
         assertThrows(ValidationException.class, () -> {
         final B b = new B();
         b.b = 10;

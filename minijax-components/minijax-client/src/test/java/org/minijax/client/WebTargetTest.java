@@ -9,7 +9,7 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class WebTargetTest {
+class WebTargetTest {
     private MinijaxClient client;
 
     @BeforeEach
@@ -22,7 +22,7 @@ public class WebTargetTest {
     }
 
     @Test
-    public void testCtor() {
+    void testCtor() {
         try (final MinijaxClient client = new MinijaxClient()) {
             final MinijaxClientWebTarget target = client.target("http://foo.com");
             assertEquals(client, target.getClient());
@@ -32,51 +32,51 @@ public class WebTargetTest {
     }
 
     @Test
-    public void testPath() {
+    void testPath() {
         assertEquals("http://foo.com/bar", target("http://foo.com").path("/bar").getUri().toString());
     }
 
     @Test
-    public void testPathSlashes() {
+    void testPathSlashes() {
         assertEquals("https://foo.com/a/b", target("https://foo.com").path("a").path("b").getUri().toString());
     }
 
     @Test
-    public void testPathManualSlash() {
+    void testPathManualSlash() {
         assertEquals("https://foo.com/a/b", target("https://foo.com").path("a/").path("b").getUri().toString());
     }
 
     @Test
-    public void testQueryParam() {
+    void testQueryParam() {
         assertEquals("https://foo.com?a=b", target("https://foo.com").queryParam("a", "b").getUri().toString());
     }
 
     @Test
-    public void testQueryParamAmpersand() {
+    void testQueryParamAmpersand() {
         assertEquals("https://foo.com?a=b&c=d",
                 target("https://foo.com").queryParam("a", "b").queryParam("c", "d").getUri().toString());
     }
 
     @Test
-    public void testResolveTemplate() {
+    void testResolveTemplate() {
         assertEquals("http://foo.com/bar",
                 target("http://foo.com/{x}").resolveTemplate("x", "bar").getUri().toString());
     }
 
     @Test
-    public void testResolveTemplateIgnoreSlashes() {
+    void testResolveTemplateIgnoreSlashes() {
         assertEquals("http://foo.com/p1/p2",
                 target("http://foo.com/{x}").resolveTemplate("x", "p1/p2", false).getUri().toString());
     }
 
     @Test
-    public void testResolveTemplateFromEncoded() {
+    void testResolveTemplateFromEncoded() {
         assertEquals("http://foo.com/%20",
                 target("http://foo.com/{x}").resolveTemplateFromEncoded("x", "%20").getUri().toString());
     }
 
     @Test
-    public void testResolveTemplates() {
+    void testResolveTemplates() {
         final Map<String, Object> map = new HashMap<>();
         map.put("x", "bar");
         map.put("y", "baz");
@@ -85,7 +85,7 @@ public class WebTargetTest {
     }
 
     @Test
-    public void testResolveTemplatesIgnoreSlashes() {
+    void testResolveTemplatesIgnoreSlashes() {
         final Map<String, Object> map = new HashMap<>();
         map.put("x", "bar");
         map.put("y", "p1/p2");
@@ -94,7 +94,7 @@ public class WebTargetTest {
     }
 
     @Test
-    public void testResolveTemplatesFromEncoded() {
+    void testResolveTemplatesFromEncoded() {
         final Map<String, Object> map = new HashMap<>();
         map.put("x", "bar");
         map.put("y", "%20");
@@ -103,52 +103,52 @@ public class WebTargetTest {
     }
 
     @Test
-    public void testGetConfiguration() {
+    void testGetConfiguration() {
         assertThrows(UnsupportedOperationException.class, () -> target("/").getConfiguration());
     }
 
     @Test
-    public void testProperty() {
+    void testProperty() {
         assertThrows(UnsupportedOperationException.class, () -> target("/").property("name", "value"));
     }
 
     @Test
-    public void testRegister1() {
+    void testRegister1() {
         assertThrows(UnsupportedOperationException.class, () -> target("/").register(Object.class));
     }
 
     @Test
-    public void testRegister2() {
+    void testRegister2() {
         assertThrows(UnsupportedOperationException.class, () -> target("/").register(Object.class, 0));
     }
 
     @Test
-    public void testRegister3() {
+    void testRegister3() {
         assertThrows(UnsupportedOperationException.class, () -> target("/").register(Object.class, Object.class));
     }
 
     @Test
-    public void testRegister4() {
+    void testRegister4() {
         assertThrows(UnsupportedOperationException.class, () -> target("/").register(Object.class, Collections.emptyMap()));
     }
 
     @Test
-    public void testRegister5() {
+    void testRegister5() {
         assertThrows(UnsupportedOperationException.class, () -> target("/").register(new Object()));
     }
 
     @Test
-    public void testRegister6() {
+    void testRegister6() {
         assertThrows(UnsupportedOperationException.class, () -> target("/").register(new Object(), 0));
     }
 
     @Test
-    public void testRegister7() {
+    void testRegister7() {
         assertThrows(UnsupportedOperationException.class, () -> target("/").register(new Object(), Object.class));
     }
 
     @Test
-    public void testRegister8() {
+    void testRegister8() {
         assertThrows(UnsupportedOperationException.class, () -> target("/").register(new Object(), Collections.emptyMap()));
     }
 }

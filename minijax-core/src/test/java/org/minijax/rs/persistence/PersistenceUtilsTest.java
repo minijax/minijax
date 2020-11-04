@@ -7,30 +7,30 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
-public class PersistenceUtilsTest {
+class PersistenceUtilsTest {
 
     @Test
-    public void testCtor() {
+    void testCtor() {
         assertThrows(UnsupportedOperationException.class, PersistenceUtils::new);
     }
 
     @Test
-    public void testNotFound() {
+    void testNotFound() {
         assertEquals(Collections.emptyList(), PersistenceUtils.getNames("not-found.xml"));
     }
 
     @Test
-    public void testNotXml() {
+    void testNotXml() {
         assertEquals(Collections.emptyList(), PersistenceUtils.getNames("not-xml.txt"));
     }
 
     @Test
-    public void testOne() {
+    void testOne() {
         assertEquals(Collections.singletonList("testdb"), PersistenceUtils.getNames("test-persistence1.xml"));
     }
 
     @Test
-    public void testMultiple() {
+    void testMultiple() {
         assertEquals(Arrays.asList("test1", "test2"), PersistenceUtils.getNames("test-persistence2.xml"));
     }
 }

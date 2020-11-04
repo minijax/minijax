@@ -19,7 +19,7 @@ import org.minijax.view.*;
 import minitwit.Minitwit.Dao;
 import minitwit.Minitwit.User;
 
-public class MinitwitTest extends MinijaxTest {
+class MinitwitTest extends MinijaxTest {
     public static User alice;
     public static Cookie aliceCookie;
     public static User bob;
@@ -59,7 +59,7 @@ public class MinitwitTest extends MinijaxTest {
     }
 
     @Test
-    public void testAnonymous() {
+    void testAnonymous() {
         final Response response = target("/").request().get();
         assertNotNull(response);
         assertEquals(303, response.getStatus());
@@ -67,7 +67,7 @@ public class MinitwitTest extends MinijaxTest {
     }
 
     @Test
-    public void testPublicTimeline() {
+    void testPublicTimeline() {
         final Response response = target("/public").request().get();
         assertNotNull(response);
         assertEquals(200, response.getStatus());
@@ -79,7 +79,7 @@ public class MinitwitTest extends MinijaxTest {
     }
 
     @Test
-    public void testPersonalTimeline() throws Exception {
+    void testPersonalTimeline() throws Exception {
         final Response response = target("/").request().cookie(aliceCookie).get();
         assertNotNull(response);
         assertEquals(200, response.getStatus());
@@ -91,7 +91,7 @@ public class MinitwitTest extends MinijaxTest {
     }
 
     @Test
-    public void testDifferentUserTimeline() throws Exception {
+    void testDifferentUserTimeline() throws Exception {
         final Response response = target("/bob").request().cookie(aliceCookie).get();
         assertNotNull(response);
         assertEquals(200, response.getStatus());
@@ -103,7 +103,7 @@ public class MinitwitTest extends MinijaxTest {
     }
 
     @Test
-    public void testFollowUser() throws Exception {
+    void testFollowUser() throws Exception {
         assertFalse(alice.following.contains(bob));
 
         final Response response = target("/bob/follow").request().cookie(aliceCookie).get();
@@ -117,14 +117,14 @@ public class MinitwitTest extends MinijaxTest {
     }
 
     @Test
-    public void testLoginPage() throws Exception {
+    void testLoginPage() throws Exception {
         final View view = target("/login").request().get(View.class);
         assertNotNull(view);
         assertEquals("login", view.getTemplateName());
     }
 
     @Test
-    public void testEmptyLogin() throws Exception {
+    void testEmptyLogin() throws Exception {
         final Form form = new Form();
 
         final View view = target("/login").request().post(Entity.form(form), View.class);
@@ -133,7 +133,7 @@ public class MinitwitTest extends MinijaxTest {
     }
 
     @Test
-    public void testSuccessfulLogin() throws Exception {
+    void testSuccessfulLogin() throws Exception {
         final Form form = new Form();
         form.param("email", "alice@example.com");
         form.param("password", "alicepwd");
@@ -145,14 +145,14 @@ public class MinitwitTest extends MinijaxTest {
     }
 
     @Test
-    public void testRegisterPage() throws Exception {
+    void testRegisterPage() throws Exception {
         final View view = target("/register").request().get(View.class);
         assertNotNull(view);
         assertEquals("register", view.getTemplateName());
     }
 
     @Test
-    public void testSuccessfulRegister() throws Exception {
+    void testSuccessfulRegister() throws Exception {
         final Form form = new Form();
         form.param("handle", "new_user");
         form.param("email", "new_user@example.com");
@@ -165,7 +165,7 @@ public class MinitwitTest extends MinijaxTest {
     }
 
     @Test
-    public void testUnauthenticatedAddMessage() throws Exception {
+    void testUnauthenticatedAddMessage() throws Exception {
         final Form form = new Form();
         form.param("text", "Hello world");
 
@@ -175,7 +175,7 @@ public class MinitwitTest extends MinijaxTest {
     }
 
     @Test
-    public void testMissingCsrfAddMessage() throws Exception {
+    void testMissingCsrfAddMessage() throws Exception {
         final Form form = new Form();
         form.param("text", "Hello world");
 
@@ -185,7 +185,7 @@ public class MinitwitTest extends MinijaxTest {
     }
 
     @Test
-    public void testIncorrectCsrfAddMessage() throws Exception {
+    void testIncorrectCsrfAddMessage() throws Exception {
         final Form form = new Form();
         form.param("text", "Hello world");
         form.param("csrf", "nope");
@@ -196,7 +196,7 @@ public class MinitwitTest extends MinijaxTest {
     }
 
     @Test
-    public void testSuccessfulAddMessage() throws Exception {
+    void testSuccessfulAddMessage() throws Exception {
         final Form form = new Form();
         form.param("text", "Hello world");
         form.param("csrf", aliceCookie.getValue());
@@ -207,7 +207,7 @@ public class MinitwitTest extends MinijaxTest {
     }
 
     @Test
-    public void testGravatarUrl() throws IOException {
+    void testGravatarUrl() throws IOException {
         final User user = new User();
         user.setEmail("cody@ebberson.com");
         assertEquals("https://www.gravatar.com/avatar/9e46d967afb5e2fd13b2802c1e64112d?d=identicon&s=80", user.gravatarUrl());

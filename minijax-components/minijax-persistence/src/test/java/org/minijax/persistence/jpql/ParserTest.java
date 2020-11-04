@@ -14,7 +14,7 @@ import org.minijax.persistence.MinijaxPersistenceProvider;
 import org.minijax.persistence.criteria.MinijaxCriteriaQuery;
 import org.minijax.persistence.testmodel.Widget;
 
-public class ParserTest {
+class ParserTest {
     private MinijaxEntityManagerFactory emf;
     private MinijaxEntityManager em;
 
@@ -32,7 +32,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseSelect() {
+    void testParseSelect() {
         final MinijaxCriteriaQuery<Widget> query = Parser.parse(
                 em.getCriteriaBuilder(),
                 Widget.class,
@@ -42,7 +42,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseSelectConjunction() {
+    void testParseSelectConjunction() {
         final MinijaxCriteriaQuery<Widget> query = Parser.parse(
                 em.getCriteriaBuilder(),
                 Widget.class,
@@ -52,7 +52,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseSelectDisjunction() {
+    void testParseSelectDisjunction() {
         final MinijaxCriteriaQuery<Widget> query = Parser.parse(
                 em.getCriteriaBuilder(),
                 Widget.class,
@@ -62,7 +62,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseEqualsNamedVariable() {
+    void testParseEqualsNamedVariable() {
         final MinijaxCriteriaQuery<Widget> query = Parser.parse(
                 em.getCriteriaBuilder(),
                 Widget.class,
@@ -72,7 +72,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseEqualsPositionalVariable() {
+    void testParseEqualsPositionalVariable() {
         final List<Widget> result = em
                 .createQuery("SELECT w FROM Widget w WHERE w.name = ?1", Widget.class)
                 .setParameter(1, "baz")
@@ -82,7 +82,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseEqualsNumber() {
+    void testParseEqualsNumber() {
         final List<Widget> result = em
                 .createQuery("SELECT w FROM Widget w WHERE w.id = 123", Widget.class)
                 .getResultList();
@@ -91,7 +91,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseEqualsDouble() {
+    void testParseEqualsDouble() {
         final List<Widget> result = em
                 .createQuery("SELECT w FROM Widget w WHERE w.id = 1.0", Widget.class)
                 .getResultList();
@@ -100,7 +100,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseIsNull() {
+    void testParseIsNull() {
         final MinijaxCriteriaQuery<Widget> query = Parser.parse(
                 em.getCriteriaBuilder(),
                 Widget.class,
@@ -110,7 +110,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseIsNotNull() {
+    void testParseIsNotNull() {
         final MinijaxCriteriaQuery<Widget> query = Parser.parse(
                 em.getCriteriaBuilder(),
                 Widget.class,
@@ -120,7 +120,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseIn() {
+    void testParseIn() {
         final MinijaxCriteriaQuery<Widget> query = Parser.parse(
                 em.getCriteriaBuilder(),
                 Widget.class,
@@ -130,7 +130,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseInNamedVariable() {
+    void testParseInNamedVariable() {
         final MinijaxCriteriaQuery<Widget> query = Parser.parse(
                 em.getCriteriaBuilder(),
                 Widget.class,
@@ -140,7 +140,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseInPositionalVariable() {
+    void testParseInPositionalVariable() {
         final List<Widget> result = em
                 .createQuery("SELECT w FROM Widget w WHERE w.name IN ?1", Widget.class)
                 .setParameter(1, Arrays.asList("foo", "bar"))
@@ -151,7 +151,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseNotIn() {
+    void testParseNotIn() {
         final MinijaxCriteriaQuery<Widget> query = Parser.parse(
                 em.getCriteriaBuilder(),
                 Widget.class,
@@ -161,7 +161,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseNotInNamedVariable() {
+    void testParseNotInNamedVariable() {
         final MinijaxCriteriaQuery<Widget> query = Parser.parse(
                 em.getCriteriaBuilder(),
                 Widget.class,
@@ -171,7 +171,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseNotInPositionalVariable() {
+    void testParseNotInPositionalVariable() {
         final List<Widget> result = em
                 .createQuery("SELECT w FROM Widget w WHERE w.name NOT IN ?1", Widget.class)
                 .setParameter(1, Arrays.asList("foo", "bar"))
@@ -182,7 +182,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseLower() {
+    void testParseLower() {
         final List<Widget> result = em
                 .createQuery("SELECT w FROM Widget w WHERE LOWER(w.name) = 'foo'", Widget.class)
                 .getResultList();
@@ -191,7 +191,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseLike() {
+    void testParseLike() {
         final List<Widget> result = em
                 .createQuery("SELECT w FROM Widget w WHERE LOWER(w.name) LIKE 'foo'", Widget.class)
                 .getResultList();
@@ -200,7 +200,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseOrderBy() {
+    void testParseOrderBy() {
         final MinijaxCriteriaQuery<Widget> query = Parser.parse(
                 em.getCriteriaBuilder(),
                 Widget.class,
@@ -210,7 +210,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseOrderByAsc() {
+    void testParseOrderByAsc() {
         final MinijaxCriteriaQuery<Widget> query = Parser.parse(
                 em.getCriteriaBuilder(),
                 Widget.class,
@@ -220,7 +220,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseOrderByDesc() {
+    void testParseOrderByDesc() {
         final MinijaxCriteriaQuery<Widget> query = Parser.parse(
                 em.getCriteriaBuilder(),
                 Widget.class,

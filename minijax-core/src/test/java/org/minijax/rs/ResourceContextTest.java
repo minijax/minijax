@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
-public class ResourceContextTest extends MinijaxTest {
+class ResourceContextTest extends MinijaxTest {
 
     public static class SubResource {
         @Context
@@ -39,7 +39,7 @@ public class ResourceContextTest extends MinijaxTest {
 
     @Test
     @Disabled("initResource does not currently work with request scoped values")
-    public void testResourceContextInit() {
+    void testResourceContextInit() {
         assertEquals("bar", target("/rctest").request().header("X-foo", "bar").get(String.class));
     }
 }

@@ -5,17 +5,17 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.minijax.view.View.AlertType;
 
-public class ViewTest {
+class ViewTest {
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         final View page = new View("foo", "bar");
         assertEquals("foo", page.getTemplateName());
         assertEquals("bar", page.getModel().get("title"));
     }
 
     @Test
-    public void testGettersSetters() {
+    void testGettersSetters() {
         final View page = new View("foo", "bar");
         page.addDangerAlert("this is an error");
         page.addInfoAlert("this is info");

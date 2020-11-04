@@ -7,67 +7,67 @@ import jakarta.ws.rs.core.NewCookie;
 
 import org.junit.jupiter.api.Test;
 
-public class CookieUtilsTest {
+class CookieUtilsTest {
 
     @Test
-    public void testCtor() {
+    void testCtor() {
         assertThrows(UnsupportedOperationException.class, CookieUtils::new);
     }
 
     @Test
-    public void testDeserializeNullCookie() {
+    void testDeserializeNullCookie() {
         assertNull(CookieUtils.parseCookie(null));
     }
 
     @Test
-    public void testDeserializeEmptyCookie() {
+    void testDeserializeEmptyCookie() {
         assertNull(CookieUtils.parseCookie(""));
     }
 
     @Test
-    public void testDeserializeSimpleCookie() {
+    void testDeserializeSimpleCookie() {
         final Cookie c = CookieUtils.parseCookie("a=b");
         assertEquals("a", c.getName());
         assertEquals("b", c.getValue());
     }
 
     @Test
-    public void testSerializeSimpleCookie() {
+    void testSerializeSimpleCookie() {
         final Cookie c = new Cookie("a", "b");
         assertEquals("a=\"b\"", CookieUtils.toString(c));
     }
 
     @Test
-    public void testSerializeFullCookie() {
+    void testSerializeFullCookie() {
         final Cookie c = new Cookie("a", "b", "path", "domain", 1);
         assertEquals("a=\"b\";$Path=\"path\";$Domain=\"domain\"", CookieUtils.toString(c));
     }
 
     @Test
-    public void testDeserializeNullNewCookie() {
+    void testDeserializeNullNewCookie() {
         assertNull(CookieUtils.parseNewCookie(null));
     }
 
     @Test
-    public void testDeserializeEmptyNewCookie() {
+    void testDeserializeEmptyNewCookie() {
         assertNull(CookieUtils.parseNewCookie(""));
     }
 
     @Test
-    public void testDeserializeSimpleNewCookie() {
+    void testDeserializeSimpleNewCookie() {
         final NewCookie c = CookieUtils.parseNewCookie("a=b");
         assertEquals("a", c.getName());
         assertEquals("b", c.getValue());
     }
 
     @Test
-    public void testSerializeSimpleNewCookie() {
+    void testSerializeSimpleNewCookie() {
         final NewCookie c = new NewCookie("a", "b");
         assertEquals("a=b", CookieUtils.toString(c));
     }
 
     @Test
-    public void testSerializeFull() {
+    void testSerializeFull() {
         final NewCookie c = new NewCookie("a", "b", "path", "domain", 1, "comment", 101, null, true, true);
         assertEquals("a=b;Path=path;Domain=domain;Max-Age=101;Secure;HttpOnly", CookieUtils.toString(c));
     }

@@ -17,10 +17,10 @@ import jakarta.ws.rs.core.Variant;
 import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
-public class ResponseBuilderTest extends MinijaxTest {
+class ResponseBuilderTest extends MinijaxTest {
 
     @Test
-    public void testSetStatusCode() {
+    void testSetStatusCode() {
         final ResponseBuilder builder = Response.status(404);
         final Response response = builder.build();
         assertEquals(404, response.getStatus());
@@ -28,41 +28,41 @@ public class ResponseBuilderTest extends MinijaxTest {
     }
 
     @Test
-    public void testSetUnknownStatusCode() {
+    void testSetUnknownStatusCode() {
         final ResponseBuilder builder = Response.status(101);
         final Response response = builder.build();
         assertEquals(101, response.getStatus());
     }
 
     @Test
-    public void testDelegate() {
+    void testDelegate() {
         final ResponseBuilder builder = Response.ok();
         assertTrue(builder instanceof MinijaxResponseBuilder);
     }
 
     @Test
-    public void testCacheControl() {
+    void testCacheControl() {
         final Response response = Response.ok().cacheControl(new CacheControl()).build();
         assertNotNull(response);
         assertNotNull(response.getHeaderString("Cache-Control"));
     }
 
     @Test
-    public void testClone() {
+    void testClone() {
         final ResponseBuilder rb1 = Response.ok();
         final ResponseBuilder rb2 = rb1.clone();
         assertNotSame(rb1, rb2);
     }
 
     @Test
-    public void testNullCookie() {
+    void testNullCookie() {
         final Response response = Response.ok().build();
         assertNotNull(response);
         assertTrue(response.getCookies().isEmpty());
     }
 
     @Test
-    public void testCookie() {
+    void testCookie() {
         final Response response = Response.ok().cookie(new NewCookie("a", "b")).build();
         assertNotNull(response);
         assertTrue(response.getCookies().containsKey("a"));
@@ -70,77 +70,77 @@ public class ResponseBuilderTest extends MinijaxTest {
     }
 
     @Test
-    public void testEncoding() {
+    void testEncoding() {
         assertThrows(UnsupportedOperationException.class, () -> Response.ok().encoding(null));
     }
 
     @Test
-    public void testReplaceAll() {
+    void testReplaceAll() {
         assertThrows(UnsupportedOperationException.class, () -> Response.ok().replaceAll(null));
     }
 
     @Test
-    public void testLanguage() {
+    void testLanguage() {
         assertThrows(UnsupportedOperationException.class, () -> Response.ok().language((String) null));
     }
 
     @Test
-    public void testLocale() {
+    void testLocale() {
         assertThrows(UnsupportedOperationException.class, () -> Response.ok().language((Locale) null));
     }
 
     @Test
-    public void testVariant() {
+    void testVariant() {
         assertThrows(UnsupportedOperationException.class, () -> Response.ok().variant(null));
     }
 
     @Test
-    public void testContentLocation() {
+    void testContentLocation() {
         assertThrows(UnsupportedOperationException.class, () -> Response.ok().contentLocation(null));
     }
 
     @Test
-    public void testExpires() {
+    void testExpires() {
         assertThrows(UnsupportedOperationException.class, () -> Response.ok().expires(null));
     }
 
     @Test
-    public void testLastModified() {
+    void testLastModified() {
         assertThrows(UnsupportedOperationException.class, () -> Response.ok().lastModified(null));
     }
 
     @Test
-    public void testEntityTag() {
+    void testEntityTag() {
         assertThrows(UnsupportedOperationException.class, () -> Response.ok().tag((EntityTag) null));
     }
 
     @Test
-    public void testTag() {
+    void testTag() {
         assertThrows(UnsupportedOperationException.class, () -> Response.ok().tag((String) null));
     }
 
     @Test
-    public void testVariants() {
+    void testVariants() {
         assertThrows(UnsupportedOperationException.class, () -> Response.ok().variants((Variant[]) null));
     }
 
     @Test
-    public void testVariantsList() {
+    void testVariantsList() {
         assertThrows(UnsupportedOperationException.class, () -> Response.ok().variants((List<Variant>) null));
     }
 
     @Test
-    public void testLinks() {
+    void testLinks() {
         assertThrows(UnsupportedOperationException.class, () -> Response.ok().links((Link[]) null));
     }
 
     @Test
-    public void testLinkUri() {
+    void testLinkUri() {
         assertThrows(UnsupportedOperationException.class, () -> Response.ok().link((URI) null, null));
     }
 
     @Test
-    public void testLink() {
+    void testLink() {
         assertThrows(UnsupportedOperationException.class, () -> Response.ok().link((String) null, null));
     }
 }

@@ -6,21 +6,21 @@ import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
 
-public class CopyOnWriteMapTest {
+class CopyOnWriteMapTest {
 
     @Test
-    public void testBasic() {
+    void testBasic() {
         final CopyOnWriteMap<String, String> map = new CopyOnWriteMap<>();
         map.put("a", "b");
         assertEquals("b", map.get("a"));
         assertEquals(1, map.size());
         assertFalse(map.isEmpty());
-        assertTrue(map.keySet().contains("a"));
-        assertTrue(map.values().contains("b"));
+        assertTrue(map.containsKey("a"));
+        assertTrue(map.containsValue("b"));
     }
 
     @Test
-    public void testCopyConstructor() {
+    void testCopyConstructor() {
         final HashMap<String, String> prev = new HashMap<>();
         prev.put("a", "b");
 
@@ -29,7 +29,7 @@ public class CopyOnWriteMapTest {
     }
 
     @Test
-    public void testPutAll() {
+    void testPutAll() {
         final HashMap<String, String> prev = new HashMap<>();
         prev.put("a", "b");
 
@@ -39,7 +39,7 @@ public class CopyOnWriteMapTest {
     }
 
     @Test
-    public void testPutIfAbsent() {
+    void testPutIfAbsent() {
         final CopyOnWriteMap<String, String> map = new CopyOnWriteMap<>();
         map.putIfAbsent("a", "b");
         map.putIfAbsent("a", "c");
@@ -47,7 +47,7 @@ public class CopyOnWriteMapTest {
     }
 
     @Test
-    public void testRemove() {
+    void testRemove() {
         final CopyOnWriteMap<String, String> map = new CopyOnWriteMap<>();
         map.put("a", "b");
         map.remove("a");
@@ -55,7 +55,7 @@ public class CopyOnWriteMapTest {
     }
 
     @Test
-    public void testRemoveValue() {
+    void testRemoveValue() {
         final CopyOnWriteMap<String, String> map = new CopyOnWriteMap<>();
         map.put("a", "b");
         assertEquals("b", map.get("a"));
@@ -66,7 +66,7 @@ public class CopyOnWriteMapTest {
     }
 
     @Test
-    public void testReplace() {
+    void testReplace() {
         final CopyOnWriteMap<String, String> map = new CopyOnWriteMap<>();
         map.put("a", "b");
         assertEquals("b", map.get("a"));
@@ -77,7 +77,7 @@ public class CopyOnWriteMapTest {
     }
 
     @Test
-    public void testReplaceValue() {
+    void testReplaceValue() {
         final CopyOnWriteMap<String, String> map = new CopyOnWriteMap<>();
         map.put("a", "b");
         assertEquals("b", map.get("a"));
@@ -88,7 +88,7 @@ public class CopyOnWriteMapTest {
     }
 
     @Test
-    public void testClear() {
+    void testClear() {
         final CopyOnWriteMap<String, String> map = new CopyOnWriteMap<>();
         map.put("a", "b");
         map.clear();
@@ -97,7 +97,7 @@ public class CopyOnWriteMapTest {
     }
 
     @Test
-    public void testContainsKey() {
+    void testContainsKey() {
         final CopyOnWriteMap<String, String> map = new CopyOnWriteMap<>();
         map.put("a", "b");
         assertTrue(map.containsKey("a"));
@@ -105,7 +105,7 @@ public class CopyOnWriteMapTest {
     }
 
     @Test
-    public void testContainsValue() {
+    void testContainsValue() {
         final CopyOnWriteMap<String, String> map = new CopyOnWriteMap<>();
         map.put("a", "b");
         assertFalse(map.containsValue("a"));
@@ -113,7 +113,7 @@ public class CopyOnWriteMapTest {
     }
 
     @Test
-    public void testEntrySet() {
+    void testEntrySet() {
         final HashMap<String, String> prev = new HashMap<>();
         prev.put("a", "b");
 

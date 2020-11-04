@@ -3,15 +3,15 @@ package org.minijax.commons;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class OptionalClassesTest {
+class OptionalClassesTest {
 
     @Test
-    public void testCtor() {
+    void testCtor() {
         assertThrows(UnsupportedOperationException.class, OptionalClasses::new);
     }
 
     @Test
-    public void testOptionalClasses() {
+    void testOptionalClasses() {
 
         // Persistence is available in tests
         assertNotNull(OptionalClasses.ENTITY_MANAGER);

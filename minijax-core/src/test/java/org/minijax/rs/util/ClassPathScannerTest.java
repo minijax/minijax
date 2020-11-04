@@ -11,17 +11,17 @@ import java.util.Vector;
 
 import org.junit.jupiter.api.Test;
 
-public class ClassPathScannerTest {
+class ClassPathScannerTest {
 
     @Test
-    public void testScanner() throws IOException {
+    void testScanner() throws IOException {
         final Set<Class<?>> result = ClassPathScanner.scan("org.minijax");
         assertNotNull(result);
         assertFalse(result.isEmpty());
     }
 
     @Test
-    public void testJarScanner() throws IOException {
+    void testJarScanner() throws IOException {
         final URLClassLoader loader = new URLClassLoader(new URL[] { new URL("jar:file:src/test/resources/dummy.jar!/") });
         final Set<Class<?>> result = ClassPathScanner.scan("com.example", loader);
         assertNotNull(result);
@@ -29,7 +29,7 @@ public class ClassPathScannerTest {
     }
 
     @Test
-    public void testUnknownProtocol() throws IOException {
+    void testUnknownProtocol() throws IOException {
         assertThrows(IllegalArgumentException.class, () -> {
             final URL url = new URL("http://test");
             final Vector<URL> urlList = new Vector<>();

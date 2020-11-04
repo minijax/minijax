@@ -18,10 +18,10 @@ import jakarta.ws.rs.core.Response.Status;
 
 import org.junit.jupiter.api.Test;
 
-public class ResponseTest {
+class ResponseTest {
 
     @Test
-    public void testStatus() {
+    void testStatus() {
         try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
             assertEquals(200, response.getStatus());
             assertEquals(Status.OK, response.getStatusInfo());
@@ -29,7 +29,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void testMediaType() {
+    void testMediaType() {
         try (final MinijaxClientResponse response = new MinijaxClientResponse(
                 mockResponse(200, "Content-Type", "text/plain"))) {
             assertEquals(TEXT_PLAIN_TYPE, response.getMediaType());
@@ -37,7 +37,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void testLocale() {
+    void testLocale() {
         try (final MinijaxClientResponse response = new MinijaxClientResponse(
                 mockResponse(200, "Content-Language", "en-US"))) {
             assertEquals(Locale.US, response.getLanguage());
@@ -45,7 +45,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void testContentLength() {
+    void testContentLength() {
         try (final MinijaxClientResponse response = new MinijaxClientResponse(
                 mockResponse(200, "Content-Length", "1024"))) {
             assertEquals(1024, response.getLength());
@@ -57,7 +57,7 @@ public class ResponseTest {
      */
 
     @Test
-    public void testReadEntity3() {
+    void testReadEntity3() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
                 response.readEntity(Object.class, new Annotation[0]);
@@ -66,7 +66,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void testReadEntity4() {
+    void testReadEntity4() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
                 response.readEntity(new GenericType<Object>() {
@@ -76,7 +76,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void testHasEntity() {
+    void testHasEntity() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
                 response.hasEntity();
@@ -85,7 +85,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void testBufferEntity() {
+    void testBufferEntity() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
                 response.bufferEntity();
@@ -94,7 +94,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void testGetAllowedMethods() {
+    void testGetAllowedMethods() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
                 response.getAllowedMethods();
@@ -103,7 +103,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void testGetCookies() {
+    void testGetCookies() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
                 response.getCookies();
@@ -112,7 +112,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void testGetEntityTag() {
+    void testGetEntityTag() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
                 response.getEntityTag();
@@ -121,7 +121,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void testGetDate() {
+    void testGetDate() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
                 response.getDate();
@@ -130,7 +130,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void testGetLastModified() {
+    void testGetLastModified() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
                 response.getLastModified();
@@ -139,7 +139,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void testGetLocation() {
+    void testGetLocation() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
                 response.getLocation();
@@ -148,7 +148,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void testGetLinks() {
+    void testGetLinks() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
                 response.getLinks();
@@ -157,7 +157,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void testHasLink() {
+    void testHasLink() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
                 response.hasLink(null);
@@ -166,7 +166,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void testGetLink() {
+    void testGetLink() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
                 response.getLink(null);
@@ -175,7 +175,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void testGetLinkBuilder() {
+    void testGetLinkBuilder() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
                 response.getLinkBuilder(null);
@@ -184,7 +184,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void testGetMetadata() {
+    void testGetMetadata() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
                 response.getMetadata();
@@ -193,7 +193,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void testGetStringHeaders() {
+    void testGetStringHeaders() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
                 response.getStringHeaders();
@@ -202,7 +202,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void testGetHeaderString() {
+    void testGetHeaderString() {
         assertThrows(UnsupportedOperationException.class, () -> {
             try (final MinijaxClientResponse response = new MinijaxClientResponse(mockResponse(200, "key", "value"))) {
                 response.getHeaderString(null);

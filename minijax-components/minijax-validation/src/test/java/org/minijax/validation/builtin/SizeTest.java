@@ -17,7 +17,7 @@ import jakarta.validation.constraints.Size;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class SizeTest {
+class SizeTest {
     private static Validator validator;
 
     @BeforeAll
@@ -38,7 +38,7 @@ public class SizeTest {
     }
 
     @Test
-    public void testArray() {
+    void testArray() {
         assertTrue(validator.validate(new ArrayWidget(null)).isEmpty());
         assertTrue(validator.validate(new ArrayWidget(new int[] { 1, 2 })).isEmpty());
         assertTrue(validator.validate(new ArrayWidget(new int[] { 1, 2, 3, 4 })).isEmpty());
@@ -61,7 +61,7 @@ public class SizeTest {
     }
 
     @Test
-    public void testCharSequence() {
+    void testCharSequence() {
         assertTrue(validator.validate(new CharSequenceWidget(null)).isEmpty());
         assertTrue(validator.validate(new CharSequenceWidget("aa")).isEmpty());
         assertTrue(validator.validate(new CharSequenceWidget("aaaa")).isEmpty());
@@ -84,7 +84,7 @@ public class SizeTest {
     }
 
     @Test
-    public void testCollection() {
+    void testCollection() {
         assertTrue(validator.validate(new CollectionWidget(null)).isEmpty());
         assertTrue(validator.validate(new CollectionWidget(asList(1, 2))).isEmpty());
         assertTrue(validator.validate(new CollectionWidget(asList(1, 2, 3, 4))).isEmpty());
@@ -115,7 +115,7 @@ public class SizeTest {
     }
 
     @Test
-    public void testMap() {
+    void testMap() {
         assertTrue(validator.validate(new MapWidget(null)).isEmpty());
         assertTrue(validator.validate(new MapWidget(mapOf(1, 2))).isEmpty());
         assertTrue(validator.validate(new MapWidget(mapOf(1, 2, 3, 4))).isEmpty());
@@ -135,7 +135,7 @@ public class SizeTest {
     }
 
     @Test
-    public void testInvalidType() {
+    void testInvalidType() {
         assertThrows(ValidationException.class, () -> {
         final IntegerWidget b = new IntegerWidget();
         b.x = 10;
@@ -144,7 +144,7 @@ public class SizeTest {
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertThrows(UnsupportedOperationException.class, SizeValidators::new);
     }
 }

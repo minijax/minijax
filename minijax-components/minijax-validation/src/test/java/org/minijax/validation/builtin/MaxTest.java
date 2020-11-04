@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Max;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class MaxTest {
+class MaxTest {
     private static Validator validator;
 
     @BeforeAll
@@ -40,7 +40,7 @@ public class MaxTest {
     }
 
     @Test
-    public void testMin() {
+    void testMin() {
         assertTrue(validator.validate(new A(null)).isEmpty());
         assertTrue(validator.validate(new A(0)).isEmpty());
         assertTrue(validator.validate(new A(10)).isEmpty());
@@ -55,7 +55,7 @@ public class MaxTest {
     }
 
     @Test
-    public void testInvalidType() {
+    void testInvalidType() {
         assertThrows(ValidationException.class, () -> {
         final C b = new C();
         validator.validate(b).size();

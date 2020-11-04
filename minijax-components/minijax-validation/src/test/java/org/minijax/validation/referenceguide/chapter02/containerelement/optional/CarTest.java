@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.minijax.validation.MinijaxValidationProvider;
 
-public class CarTest {
+class CarTest {
 
 	private static Validator validator;
 

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class InjectorTest {
+class InjectorTest {
     private MinijaxInjector injector;
 
     @BeforeEach
@@ -43,7 +43,7 @@ public class InjectorTest {
     }
 
     @Test
-    public void testSimple() {
+    void testSimple() {
         final Provider<C> provider = injector.getProvider(C.class);
         assertNotNull(provider);
 
@@ -60,7 +60,7 @@ public class InjectorTest {
     }
 
     @Test
-    public void testParamInject() {
+    void testParamInject() {
         final Provider<B> provider = injector.getProvider(B.class);
         assertNotNull(provider);
 
@@ -70,7 +70,7 @@ public class InjectorTest {
     }
 
     @Test
-    public void testFieldInject() {
+    void testFieldInject() {
         final Provider<A> provider = injector.getProvider(A.class);
         assertNotNull(provider);
 
@@ -90,7 +90,7 @@ public class InjectorTest {
     }
 
     @Test
-    public void testProviderParamInjection() {
+    void testProviderParamInjection() {
         final Provider<ProviderParamInjection> providerInjectionProvider = injector
                 .getProvider(ProviderParamInjection.class);
         assertNotNull(providerInjectionProvider);
@@ -106,7 +106,7 @@ public class InjectorTest {
     }
 
     @Test
-    public void testProviderFieldInjection() {
+    void testProviderFieldInjection() {
         final Provider<ProviderFieldInjection> providerInjectionProvider = injector
                 .getProvider(ProviderFieldInjection.class);
         assertNotNull(providerInjectionProvider);
@@ -128,7 +128,7 @@ public class InjectorTest {
     }
 
     @Test
-    public void testSingleton() {
+    void testSingleton() {
         final Provider<MySingleton> provider = injector.getProvider(MySingleton.class);
         assertNotNull(provider);
 
@@ -146,7 +146,7 @@ public class InjectorTest {
     }
 
     @Test
-    public void testRegisterSingleton() {
+    void testRegisterSingleton() {
         final MySingleton inst = new MySingleton();
         injector.register(inst, MySingleton.class);
         assertTrue(injector.getSingletons().contains(inst));
@@ -158,7 +158,7 @@ public class InjectorTest {
     }
 
     @Test
-    public void testNoValidConstructors() {
+    void testNoValidConstructors() {
         assertThrows(InjectionException.class, () -> injector.getProvider(NoValidConstructors.class));
     }
 
@@ -173,7 +173,7 @@ public class InjectorTest {
     }
 
     @Test
-    public void testMultipleInjectConstructors() {
+    void testMultipleInjectConstructors() {
         assertThrows(InjectionException.class, () -> injector.getProvider(MultipleInjectConstructors.class));
     }
 
@@ -190,7 +190,7 @@ public class InjectorTest {
     }
 
     @Test
-    public void testParamCircularDependency() {
+    void testParamCircularDependency() {
         assertThrows(InjectionException.class, () -> injector.getProvider(ParamCircularDependencyA.class));
     }
 
@@ -205,7 +205,7 @@ public class InjectorTest {
     }
 
     @Test
-    public void testFieldCircularDependency() {
+    void testFieldCircularDependency() {
         assertThrows(InjectionException.class, () -> injector.getProvider(FieldCircularDependencyA.class));
     }
 
@@ -216,7 +216,7 @@ public class InjectorTest {
     }
 
     @Test
-    public void testExplodingConstructor() {
+    void testExplodingConstructor() {
         assertThrows(InjectionException.class, () -> injector.getResource(ExplodingConstructor.class));
     }
 
@@ -228,12 +228,12 @@ public class InjectorTest {
     }
 
     @Test
-    public void testNewExplodingSetter() {
+    void testNewExplodingSetter() {
         assertThrows(InjectionException.class, () -> injector.getResource(ExplodingSetter.class));
     }
 
     @Test
-    public void testInitExplodingSetter() {
+    void testInitExplodingSetter() {
         assertThrows(InjectionException.class, () -> {
             final ExplodingSetter instance = new ExplodingSetter();
             injector.initResource(instance, null);

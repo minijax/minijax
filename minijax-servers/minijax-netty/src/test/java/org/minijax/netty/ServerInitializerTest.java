@@ -18,10 +18,10 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 
-public class ServerInitializerTest {
+class ServerInitializerTest {
 
     @Test
-    public void testPipeline() throws Exception {
+    void testPipeline() throws Exception {
         final Minijax minijax = new Minijax();
         final ScheduledExecutorService executor = mock(ScheduledExecutorService.class);
 

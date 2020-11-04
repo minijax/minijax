@@ -9,10 +9,10 @@ import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 
-public class ServerTest {
+class ServerTest {
 
     @Test
-    public void testServer() throws Exception {
+    void testServer() throws Exception {
         final Minijax minijax = new Minijax();
         final MinijaxNioServer server = new MinijaxNioServer(minijax, new MockSelectorProvider());
 

@@ -13,26 +13,26 @@ import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class XmlUtilsTest {
+class XmlUtilsTest {
 
     @Test
-    public void testCtor() {
+    void testCtor() {
         assertThrows(UnsupportedOperationException.class, XmlUtils::new);
     }
 
     @Test
-    public void testReadXml() throws IOException {
+    void testReadXml() throws IOException {
         final Document doc = XmlUtils.readXml(new File("src/test/resources/note.xml"));
         assertNotNull(doc);
     }
 
     @Test
-    public void testReadBadXml() throws IOException {
+    void testReadBadXml() throws IOException {
         assertThrows(IOException.class, () -> XmlUtils.readXml(new File("src/test/resources/bad.xml.txt")));
     }
 
     @Test
-    public void testWriteXml() throws Exception {
+    void testWriteXml() throws Exception {
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
         factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");

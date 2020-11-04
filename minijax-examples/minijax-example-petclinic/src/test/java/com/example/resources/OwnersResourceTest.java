@@ -16,7 +16,7 @@ import org.minijax.view.View;
 import com.example.PetClinicTest;
 import com.example.model.Owner;
 
-public class OwnersResourceTest extends PetClinicTest {
+class OwnersResourceTest extends PetClinicTest {
 
     @BeforeEach
     public void setUp() {
@@ -24,7 +24,7 @@ public class OwnersResourceTest extends PetClinicTest {
     }
 
     @Test
-    public void testSearchPage() {
+    void testSearchPage() {
         final Response response = target("/owners/search").request().get();
         assertNotNull(response);
         assertEquals(200, response.getStatus());
@@ -34,7 +34,7 @@ public class OwnersResourceTest extends PetClinicTest {
     }
 
     @Test
-    public void testEmptySearch() {
+    void testEmptySearch() {
         final Response response = target("/owners?q=").request().get();
         assertNotNull(response);
         assertEquals(200, response.getStatus());
@@ -48,7 +48,7 @@ public class OwnersResourceTest extends PetClinicTest {
     }
 
     @Test
-    public void testGeorgeSearch() {
+    void testGeorgeSearch() {
         final Response response = target("/owners?q=george").request().get();
         assertNotNull(response);
         assertEquals(200, response.getStatus());
@@ -63,7 +63,7 @@ public class OwnersResourceTest extends PetClinicTest {
     }
 
     @Test
-    public void testNewOwner() {
+    void testNewOwner() {
         final Response r1 = target("/owners/new").request().get();
         assertEquals(200, r1.getStatus());
         assertEquals("newowner", ((View) r1.getEntity()).getTemplateName());
@@ -89,14 +89,14 @@ public class OwnersResourceTest extends PetClinicTest {
     }
 
     @Test
-    public void testOwnerNotFound() {
+    void testOwnerNotFound() {
         final Response response = target("/owners/00000000-0000-0000-0000-000000000000").request().get();
         assertNotNull(response);
         assertEquals(404, response.getStatus());
     }
 
     @Test
-    public void testEditOwner() {
+    void testEditOwner() {
         final UUID georgeId = UUID.fromString("015f1b3d-b336-7e66-671a-7bfb8602b47f");
 
         final Response r1 = target("/owners/" + georgeId + "/edit").request().get();
@@ -124,7 +124,7 @@ public class OwnersResourceTest extends PetClinicTest {
     }
 
     @Test
-    public void testEditOwnerNotFound() {
+    void testEditOwnerNotFound() {
         final Response r1 = target("/owners/00000000-0000-0000-0000-000000000000/edit").request().get();
         assertNotNull(r1);
         assertEquals(404, r1.getStatus());

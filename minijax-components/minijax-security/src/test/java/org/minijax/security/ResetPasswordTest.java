@@ -59,7 +59,7 @@ public class ResetPasswordTest extends MinijaxTest {
     }
 
     @Test
-    public void testResetPasswordNotFound() throws IOException {
+    void testResetPasswordNotFound() throws IOException {
         final String code = "does-not-exist";
 
         final Form form = new Form();
@@ -73,7 +73,7 @@ public class ResetPasswordTest extends MinijaxTest {
     }
 
     @Test
-    public void testResetPasswordSuccess() throws IOException {
+    void testResetPasswordSuccess() throws IOException {
         final User user = new User();
         user.setName("Example 1");
         user.setEmail("reset-1@example.com");
@@ -103,7 +103,7 @@ public class ResetPasswordTest extends MinijaxTest {
     }
 
     @Test
-    public void testResetPasswordMismatch() throws IOException {
+    void testResetPasswordMismatch() throws IOException {
         final User user = new User();
         user.setName("Example 2");
         user.setEmail("reset-2@example.com");
@@ -127,7 +127,7 @@ public class ResetPasswordTest extends MinijaxTest {
     }
 
     @Test
-    public void testResetPasswordTooShort() throws IOException {
+    void testResetPasswordTooShort() throws IOException {
         final User user = new User();
         user.setName("Example 3");
         user.setEmail("reset-3@example.com");

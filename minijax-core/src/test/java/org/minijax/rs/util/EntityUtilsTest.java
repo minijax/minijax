@@ -12,15 +12,15 @@ import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 import org.minijax.commons.MinijaxException;
 
-public class EntityUtilsTest {
+class EntityUtilsTest {
 
     @Test
-    public void testCtor() {
+    void testCtor() {
         assertThrows(UnsupportedOperationException.class, EntityUtils::new);
     }
 
     @Test
-    public void testReadUnknownType() throws IOException {
+    void testReadUnknownType() throws IOException {
         assertThrows(MinijaxException.class, () -> {
         final InputStream input = new ByteArrayInputStream("hello".getBytes());
         EntityUtils.readEntity(Minijax.class, null, null, null, null, input);
@@ -28,34 +28,34 @@ public class EntityUtilsTest {
     }
 
     @Test
-    public void testReadInputStream() throws IOException {
+    void testReadInputStream() throws IOException {
         final InputStream input = new ByteArrayInputStream(new byte[1]);
         final InputStream result = EntityUtils.readEntity(InputStream.class, null, null, null, null, input);
         assertEquals(input, result);
     }
 
     @Test
-    public void testReadCustomType() throws IOException {
+    void testReadCustomType() throws IOException {
         final InputStream input = new ByteArrayInputStream(new byte[1]);
         final InputStream result = EntityUtils.readEntity(InputStream.class, null, null, null, null, input);
         assertEquals(input, result);
     }
 
     @Test
-    public void testReadString() throws IOException {
+    void testReadString() throws IOException {
         final InputStream input = new ByteArrayInputStream("hello".getBytes());
         final String result = EntityUtils.readEntity(String.class, null, null, null, null, input);
         assertEquals("hello", result);
     }
 
     @Test
-    public void testWriteNull() throws IOException {
+    void testWriteNull() throws IOException {
         assertNull(EntityUtils.writeEntity(null, null));
         assertNull(EntityUtils.writeEntity(Entity.entity(null, "text/plain"), null));
     }
 
     @Test
-    public void testWriteInputStream() throws IOException {
+    void testWriteInputStream() throws IOException {
         final InputStream input = new ByteArrayInputStream(new byte[1]);
         assertEquals(input, EntityUtils.writeEntity(Entity.entity(input, "text/plain"), null));
     }

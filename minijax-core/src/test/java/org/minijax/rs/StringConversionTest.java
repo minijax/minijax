@@ -16,7 +16,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
-public class StringConversionTest extends MinijaxTest {
+class StringConversionTest extends MinijaxTest {
 
     public static class CtorWidget {
         final String x;
@@ -106,68 +106,68 @@ public class StringConversionTest extends MinijaxTest {
     }
 
     @Test
-    public void testBoolean() {
+    void testBoolean() {
         assertNotNull(getServer());
         assertEquals("Received: true", target("/boolean?x=true").request().get(String.class));
     }
 
     @Test
-    public void testByte() {
+    void testByte() {
         assertEquals("Received: 32", target("/byte?x=32").request().get(String.class));
     }
 
     @Test
-    public void testChar() {
+    void testChar() {
         assertEquals("Received: c", target("/char?x=c").request().get(String.class));
     }
 
     @Test
-    public void testDouble() {
+    void testDouble() {
         assertEquals("Received: 3.14", target("/double?x=3.14").request().get(String.class));
     }
 
     @Test
-    public void testFloat() {
+    void testFloat() {
         assertEquals("Received: 2.71828", target("/float?x=2.71828").request().get(String.class));
     }
 
     @Test
-    public void testInt() {
+    void testInt() {
         assertEquals("Received: 123", target("/int?x=123").request().get(String.class));
     }
 
     @Test
-    public void testLong() {
+    void testLong() {
         assertEquals("Received: 123", target("/long?x=123").request().get(String.class));
     }
 
     @Test
-    public void testShort() {
+    void testShort() {
         assertEquals("Received: 123", target("/short?x=123").request().get(String.class));
     }
 
     @Test
-    public void testString() {
+    void testString() {
         assertEquals("Received: hello world", target("/string?x=hello+world").request().get(String.class));
     }
 
     @Test
-    public void testUuid() {
+    void testUuid() {
         assertEquals("Received: 123e4567-e89b-12d3-a456-426655440000", target("/uuid?x=123e4567-e89b-12d3-a456-426655440000").request().get(String.class));
     }
 
     @Test
-    public void testCtor() {
+    void testCtor() {
         assertEquals("Received: hello world", target("/ctor?x=hello+world").request().get(String.class));
     }
 
     @Test
-    public void testValueOf() {
+    void testValueOf() {
         assertEquals("Received: hello world", target("/valueof?x=hello+world").request().get(String.class));
     }
 
     @Test
-    public void testFail() {
+    void testFail() {
         assertEquals(404, target("/fail?x=hello+world").request().get().getStatus());
     }
 }

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
-public class CookieParamTest extends MinijaxTest {
+class CookieParamTest extends MinijaxTest {
 
     @GET
     @Path("/cookieparam")
@@ -25,7 +25,7 @@ public class CookieParamTest extends MinijaxTest {
     }
 
     @Test
-    public void testCookieParam() {
+    void testCookieParam() {
         assertEquals(
                 "Hello",
                 target("/cookieparam").request().cookie("test", "Hello").get(String.class));

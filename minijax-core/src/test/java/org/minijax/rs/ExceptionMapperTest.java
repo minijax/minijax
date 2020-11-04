@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
-public class ExceptionMapperTest extends MinijaxTest {
+class ExceptionMapperTest extends MinijaxTest {
 
     public static class ExceptionA extends Exception {
         private static final long serialVersionUID = 1L;
@@ -76,22 +76,22 @@ public class ExceptionMapperTest extends MinijaxTest {
     }
 
     @Test
-    public void testNotFound() {
+    void testNotFound() {
         assertEquals("Sorry, not found", target("/notfound").request().get().getEntity());
     }
 
     @Test
-    public void testThrowA() {
+    void testThrowA() {
         assertEquals("A", target("/throw_a").request().get().getEntity());
     }
 
     @Test
-    public void testThrowB() {
+    void testThrowB() {
         assertEquals("A", target("/throw_b").request().get().getEntity());
     }
 
     @Test
-    public void testThrowBNoProduces() {
+    void testThrowBNoProduces() {
         final Response response = target("/throw_b_no_produces").request().get();
         assertEquals(500, response.getStatus());
     }

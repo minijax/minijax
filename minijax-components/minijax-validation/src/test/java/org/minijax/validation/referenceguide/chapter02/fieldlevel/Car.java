@@ -10,10 +10,10 @@ import jakarta.validation.constraints.NotNull;
 public class Car {
 
 	@NotNull
-	private String manufacturer;
+	private final String manufacturer;
 
 	@AssertTrue
-	private boolean isRegistered;
+	private final boolean isRegistered;
 
 	public Car(String manufacturer, boolean isRegistered) {
 		this.manufacturer = manufacturer;

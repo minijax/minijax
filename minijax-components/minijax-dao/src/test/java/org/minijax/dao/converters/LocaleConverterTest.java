@@ -6,17 +6,17 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 
-public class LocaleConverterTest {
+class LocaleConverterTest {
 
     @Test
-    public void testNull() {
+    void testNull() {
         final LocaleConverter c = new LocaleConverter();
         assertNull(c.convertToDatabaseColumn(null));
         assertNull(c.convertToEntityAttribute(null));
     }
 
     @Test
-    public void testSimple() {
+    void testSimple() {
         final LocaleConverter c = new LocaleConverter();
         assertEquals("en-US", c.convertToDatabaseColumn(Locale.US));
         assertEquals(Locale.US, c.convertToEntityAttribute("en-US"));

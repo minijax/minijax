@@ -13,14 +13,14 @@ import org.minijax.rs.MinijaxApplicationContext;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.test.MinijaxTestRequestContext;
 
-public class RequestScopedTest {
+class RequestScopedTest {
 
     @RequestScoped
     private static class A {
     }
 
     @Test
-    public void testRequestScoped() throws IOException {
+    void testRequestScoped() throws IOException {
         final Minijax container = new Minijax();
         final MinijaxApplicationContext application = container.getDefaultApplication();
 

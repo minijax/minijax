@@ -11,10 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.test.MinijaxTest;
 
-public class ExceptionMapperTest extends MinijaxTest {
+class ExceptionMapperTest extends MinijaxTest {
 
     @Test
-    public void testNotFound() throws IOException {
+    void testNotFound() throws IOException {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
             final MinijaxJsonExceptionMapper mapper = new MinijaxJsonExceptionMapper();
             final Response response = mapper.toResponse(new NotFoundException());

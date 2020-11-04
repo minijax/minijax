@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
-public class ConsumesTest extends MinijaxTest {
+class ConsumesTest extends MinijaxTest {
 
     @POST
     @Path("/consumetext")
@@ -29,7 +29,7 @@ public class ConsumesTest extends MinijaxTest {
     }
 
     @Test
-    public void testConsumesText() {
+    void testConsumesText() {
         assertEquals(
                 "Hello",
                 target("/consumetext").request().post(Entity.entity("Hello", TEXT_PLAIN_TYPE), String.class));

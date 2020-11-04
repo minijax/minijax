@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class MinijaxPersistenceUnitInfoTest {
+class MinijaxPersistenceUnitInfoTest {
     private MinijaxPersistenceUnitInfo pui;
 
     @BeforeEach
@@ -14,67 +14,67 @@ public class MinijaxPersistenceUnitInfoTest {
     }
 
     @Test
-    public void testGetTransactionType() {
+    void testGetTransactionType() {
         assertThrows(UnsupportedOperationException.class, () -> pui.getTransactionType());
     }
 
     @Test
-    public void testGetJtaDataSource() {
+    void testGetJtaDataSource() {
         assertThrows(UnsupportedOperationException.class, () -> pui.getJtaDataSource());
     }
 
     @Test
-    public void testGetNonJtaDataSource() {
+    void testGetNonJtaDataSource() {
         assertThrows(UnsupportedOperationException.class, () -> pui.getNonJtaDataSource());
     }
 
     @Test
-    public void testGetMappingFileNames() {
+    void testGetMappingFileNames() {
         assertThrows(UnsupportedOperationException.class, () -> pui.getMappingFileNames());
     }
 
     @Test
-    public void testGetJarFileUrls() {
+    void testGetJarFileUrls() {
         assertThrows(UnsupportedOperationException.class, () -> pui.getJarFileUrls());
     }
 
     @Test
-    public void testGetPersistenceUnitRootUrl() {
+    void testGetPersistenceUnitRootUrl() {
         assertThrows(UnsupportedOperationException.class, () -> pui.getPersistenceUnitRootUrl());
     }
 
     @Test
-    public void testExcludeUnlistedClasses() {
+    void testExcludeUnlistedClasses() {
         assertThrows(UnsupportedOperationException.class, () -> pui.excludeUnlistedClasses());
     }
 
     @Test
-    public void testGetSharedCacheMode() {
+    void testGetSharedCacheMode() {
         assertThrows(UnsupportedOperationException.class, () -> pui.getSharedCacheMode());
     }
 
     @Test
-    public void testGetValidationMode() {
+    void testGetValidationMode() {
         assertThrows(UnsupportedOperationException.class, () -> pui.getValidationMode());
     }
 
     @Test
-    public void testGetPersistenceXMLSchemaVersion() {
+    void testGetPersistenceXMLSchemaVersion() {
         assertThrows(UnsupportedOperationException.class, () -> pui.getPersistenceXMLSchemaVersion());
     }
 
     @Test
-    public void testGetClassLoader() {
+    void testGetClassLoader() {
         assertThrows(UnsupportedOperationException.class, () -> pui.getClassLoader());
     }
 
     @Test
-    public void testAddTransformer() {
+    void testAddTransformer() {
         assertThrows(UnsupportedOperationException.class, () -> pui.addTransformer(null));
     }
 
     @Test
-    public void testGetNewTempClassLoader() {
+    void testGetNewTempClassLoader() {
         assertThrows(UnsupportedOperationException.class, () -> pui.getNewTempClassLoader());
     }
 }

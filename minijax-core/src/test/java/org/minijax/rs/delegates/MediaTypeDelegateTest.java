@@ -10,7 +10,7 @@ import jakarta.ws.rs.core.MediaType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class MediaTypeDelegateTest {
+class MediaTypeDelegateTest {
     private MinijaxMediaTypeDelegate d;
 
     @BeforeEach
@@ -19,24 +19,24 @@ public class MediaTypeDelegateTest {
     }
 
     @Test
-    public void testDeserializeNull() {
+    void testDeserializeNull() {
         assertNull(d.fromString(null));
     }
 
     @Test
-    public void testDeserializeEmpty() {
+    void testDeserializeEmpty() {
         assertEquals("*", d.fromString("").toString());
     }
 
     @Test
-    public void testDeserializeSimple() {
+    void testDeserializeSimple() {
         final MediaType t = d.fromString("a/b");
         assertEquals("a", t.getType());
         assertEquals("b", t.getSubtype());
     }
 
     @Test
-    public void testDeserializeParameters() {
+    void testDeserializeParameters() {
         final MediaType t = d.fromString("a/b; c=d");
         assertEquals("a", t.getType());
         assertEquals("b", t.getSubtype());
@@ -44,19 +44,19 @@ public class MediaTypeDelegateTest {
     }
 
     @Test
-    public void testSerializeSimple() {
+    void testSerializeSimple() {
         final MediaType t = new MediaType("a", null, (Map<String, String>) null);
         assertEquals("a", d.toString(t));
     }
 
     @Test
-    public void testSerializeSubtype() {
+    void testSerializeSubtype() {
         final MediaType t = new MediaType("a", "b", (Map<String, String>) null);
         assertEquals("a/b", d.toString(t));
     }
 
     @Test
-    public void testSerializeParameters() {
+    void testSerializeParameters() {
         final Map<String, String> params = new HashMap<>();
         params.put("c", "d");
         final MediaType t = new MediaType("a", "b", params);

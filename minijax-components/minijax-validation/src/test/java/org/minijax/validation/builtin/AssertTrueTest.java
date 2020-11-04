@@ -10,7 +10,7 @@ import jakarta.validation.constraints.AssertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class AssertTrueTest {
+class AssertTrueTest {
     private static Validator validator;
 
     @BeforeAll
@@ -32,14 +32,14 @@ public class AssertTrueTest {
     }
 
     @Test
-    public void testAssertTrue() {
+    void testAssertTrue() {
         assertTrue(validator.validate(new A(null)).isEmpty());
         assertTrue(validator.validate(new A(true)).isEmpty());
         assertEquals(1, validator.validate(new A(false)).size());
     }
 
     @Test
-    public void testInvalidType() {
+    void testInvalidType() {
         assertThrows(ValidationException.class, () -> {
         final B b = new B();
         b.b = 10;

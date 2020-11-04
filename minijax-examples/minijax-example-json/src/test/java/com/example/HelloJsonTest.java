@@ -17,7 +17,7 @@ import org.minijax.rs.test.MinijaxTest;
 
 import com.example.HelloJson.Widget;
 
-public class HelloJsonTest extends MinijaxTest {
+class HelloJsonTest extends MinijaxTest {
 
     @BeforeEach
     public void setUp() {
@@ -26,7 +26,7 @@ public class HelloJsonTest extends MinijaxTest {
     }
 
     @Test
-    public void testEmptyCollection() {
+    void testEmptyCollection() {
         HelloJson.WIDGETS.clear();
 
         final Collection<Widget> widgets = target("/widgets").request().get(new GenericType<Collection<Widget>>() {});
@@ -35,7 +35,7 @@ public class HelloJsonTest extends MinijaxTest {
     }
 
     @Test
-    public void testSingleWidget() {
+    void testSingleWidget() {
         HelloJson.WIDGETS.clear();
         HelloJson.WIDGETS.put("1", new Widget("1", "Hello"));
 
@@ -50,7 +50,7 @@ public class HelloJsonTest extends MinijaxTest {
     }
 
     @Test
-    public void testCreateWidget() {
+    void testCreateWidget() {
         HelloJson.WIDGETS.clear();
 
         final String json = "{\"id\":\"2\",\"value\":\"World\"}";

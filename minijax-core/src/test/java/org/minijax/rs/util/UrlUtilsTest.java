@@ -8,15 +8,15 @@ import static java.util.Collections.*;
 
 import java.nio.charset.StandardCharsets;
 
-public class UrlUtilsTest {
+class UrlUtilsTest {
 
     @Test
-    public void testCtor() {
+    void testCtor() {
         assertThrows(UnsupportedOperationException.class, UrlUtils::new);
     }
 
     @Test
-    public void testConcatUrls() {
+    void testConcatUrls() {
         assertEquals("/", UrlUtils.concatUrlPaths(null, null));
         assertEquals("/", UrlUtils.concatUrlPaths(null, ""));
         assertEquals("/", UrlUtils.concatUrlPaths("", null));
@@ -26,7 +26,7 @@ public class UrlUtilsTest {
     }
 
     @Test
-    public void testUrlEncodeIgnoreTemplates() {
+    void testUrlEncodeIgnoreTemplates() {
         assertEquals("foo", UrlUtils.urlEncode("foo", true, false));
         assertEquals("123", UrlUtils.urlEncode("123", true, false));
         assertEquals("a%20b", UrlUtils.urlEncode("a b", true, false));
@@ -40,7 +40,7 @@ public class UrlUtilsTest {
     }
 
     @Test
-    public void testUrlDecodeParams() {
+    void testUrlDecodeParams() {
         assertEquals(emptyMap(), UrlUtils.urlDecodeParams(null));
         assertEquals(emptyMap(), UrlUtils.urlDecodeParams(""));
         assertEquals(singletonMap("a", ""), UrlUtils.urlDecodeParams("a"));

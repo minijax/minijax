@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
-public class WriterTest extends MinijaxTest {
+class WriterTest extends MinijaxTest {
     private MessageBodyWriter<?> writer;
 
     @BeforeEach
@@ -25,7 +25,7 @@ public class WriterTest extends MinijaxTest {
     }
 
     @Test
-    public void testIsWriteable() {
+    void testIsWriteable() {
         assertFalse(writer.isWriteable(null, null, null, null));
         assertFalse(writer.isWriteable(null, null, null, TEXT_PLAIN_TYPE));
         assertTrue(writer.isWriteable(null, null, null, APPLICATION_JSON_TYPE));
@@ -33,7 +33,7 @@ public class WriterTest extends MinijaxTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testWriteMap() throws IOException {
+    void testWriteMap() throws IOException {
         final Map<String, String> map = new HashMap<>();
         map.put("key", "value");
 
@@ -45,7 +45,7 @@ public class WriterTest extends MinijaxTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testWriteWidget() throws IOException {
+    void testWriteWidget() throws IOException {
         final Widget widget = new Widget();
         widget.id = "456";
         widget.value = "foobar";

@@ -291,12 +291,9 @@ public class Security<T extends SecurityUser> implements SecurityContext {
         }
 
         final UserSession rememberedUser = trySessionCookie();
-        if (rememberedUser != null) {
-            return rememberedUser;
-        }
+        return rememberedUser;
 
         // Otherwise, not logged in.
-        return null;
     }
 
     /**

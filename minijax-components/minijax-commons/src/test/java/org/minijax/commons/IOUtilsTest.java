@@ -9,22 +9,22 @@ import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 
-public class IOUtilsTest {
+class IOUtilsTest {
 
     @Test
-    public void testCtor() {
+    void testCtor() {
         assertThrows(UnsupportedOperationException.class, IOUtils::new);
     }
 
     @Test
-    public void testToByteArray() throws IOException {
+    void testToByteArray() throws IOException {
         final InputStream input = new ByteArrayInputStream("test".getBytes(StandardCharsets.UTF_8));
         final byte[] output = IOUtils.toByteArray(input);
         assertEquals(4, output.length);
     }
 
     @Test
-    public void testToInputStream() throws IOException {
+    void testToInputStream() throws IOException {
         final InputStream input = IOUtils.toInputStream("test", StandardCharsets.UTF_8);
         assertEquals("test", IOUtils.toString(input, StandardCharsets.UTF_8));
     }

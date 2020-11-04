@@ -14,7 +14,7 @@ import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.persistence.PersistenceFeature;
 import org.minijax.rs.test.MinijaxTest;
 
-public class SecurityDaoTest extends MinijaxTest {
+class SecurityDaoTest extends MinijaxTest {
 
     @BeforeAll
     public static void setUpSecurityDaoTest() {
@@ -23,7 +23,7 @@ public class SecurityDaoTest extends MinijaxTest {
     }
 
     @Test
-    public void testApiKeys() throws IOException {
+    void testApiKeys() throws IOException {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
             final Dao dao = ctx.getResource(Dao.class);
 
@@ -57,7 +57,7 @@ public class SecurityDaoTest extends MinijaxTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testDeleteSessionsByUser() throws IOException {
+    void testDeleteSessionsByUser() throws IOException {
         UserSession s1 = null;
         UserSession s2 = null;
 

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.minijax.rs.InnerClassTest.InnerClass.InnerInnerClass;
 import org.minijax.rs.test.MinijaxTest;
 
-public class InnerClassTest extends MinijaxTest {
+class InnerClassTest extends MinijaxTest {
 
     class InnerClass {
         @GET
@@ -36,14 +36,14 @@ public class InnerClassTest extends MinijaxTest {
     }
 
     @Test
-    public void testInnerClass() {
+    void testInnerClass() {
         assertEquals(
                 "Inner class!",
                 target("/innerclass").request().get(String.class));
     }
 
     @Test
-    public void testInnerInnerClass() {
+    void testInnerInnerClass() {
         assertEquals(
                 "Inner inner class!",
                 target("/innerinnerclass").request().get(String.class));

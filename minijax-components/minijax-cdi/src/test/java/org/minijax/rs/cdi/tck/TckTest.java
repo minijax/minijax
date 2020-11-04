@@ -15,7 +15,7 @@ import org.atinject.tck.auto.accessories.SpareTire;
 import org.junit.jupiter.api.Test;
 import org.minijax.cdi.MinijaxInjector;
 
-public class TckTest {
+class TckTest {
 
     private static Car getCar() {
         try (MinijaxInjector injector = new MinijaxInjector()) {
@@ -33,7 +33,7 @@ public class TckTest {
     }
 
     @Test
-    public void testCar() {
+    void testCar() {
         assertNotNull(getCar());
     }
 }

@@ -14,10 +14,10 @@ import org.junit.jupiter.api.Test;
 
 import io.undertow.websockets.spi.WebSocketHttpExchange;
 
-public class HttpHeadersTest {
+class HttpHeadersTest {
 
     @Test
-    public void testBasic() throws Exception {
+    void testBasic() throws Exception {
         final Map<String, List<String>> headerMap = new HashMap<>();
         headerMap.computeIfAbsent(HttpHeaders.CONTENT_TYPE, k -> new ArrayList<>()).add("text/plain");
 
@@ -29,7 +29,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testMultiple() throws Exception {
+    void testMultiple() throws Exception {
         final Map<String, List<String>> headerMap = new HashMap<>();
         headerMap.computeIfAbsent("X-Foo", k -> new ArrayList<>()).add("bar");
         headerMap.computeIfAbsent("X-Foo", k -> new ArrayList<>()).add("baz");
@@ -46,7 +46,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testAccept() throws Exception {
+    void testAccept() throws Exception {
         final Map<String, List<String>> headerMap = new HashMap<>();
         headerMap.computeIfAbsent(HttpHeaders.ACCEPT, k -> new ArrayList<>()).add("text/plain");
 
@@ -59,7 +59,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testAcceptLanguage() throws Exception {
+    void testAcceptLanguage() throws Exception {
         final Map<String, List<String>> headerMap = new HashMap<>();
         headerMap.computeIfAbsent(HttpHeaders.ACCEPT_LANGUAGE, k -> new ArrayList<>()).add("en-US");
 
@@ -72,7 +72,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testMediaType() throws Exception {
+    void testMediaType() throws Exception {
         final Map<String, List<String>> headerMap = new HashMap<>();
         headerMap.computeIfAbsent(HttpHeaders.CONTENT_TYPE, k -> new ArrayList<>()).add("text/plain");
 
@@ -84,7 +84,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testNullMediaType() throws Exception {
+    void testNullMediaType() throws Exception {
         final Map<String, List<String>> headerMap = new HashMap<>();
 
         final WebSocketHttpExchange exchange = mock(WebSocketHttpExchange.class);
@@ -95,7 +95,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testLanguage() throws Exception {
+    void testLanguage() throws Exception {
         final Map<String, List<String>> headerMap = new HashMap<>();
         headerMap.computeIfAbsent(HttpHeaders.CONTENT_LANGUAGE, k -> new ArrayList<>()).add("en-US");
 
@@ -107,7 +107,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testNullLanguage() throws Exception {
+    void testNullLanguage() throws Exception {
         final Map<String, List<String>> headerMap = new HashMap<>();
 
         final WebSocketHttpExchange exchange = mock(WebSocketHttpExchange.class);
@@ -118,7 +118,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testContentLength() throws Exception {
+    void testContentLength() throws Exception {
         final Map<String, List<String>> headerMap = new HashMap<>();
         headerMap.computeIfAbsent(HttpHeaders.CONTENT_LENGTH, k -> new ArrayList<>()).add("1024");
 
@@ -130,7 +130,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testNullContentLength() throws Exception {
+    void testNullContentLength() throws Exception {
         final Map<String, List<String>> headerMap = new HashMap<>();
 
         final WebSocketHttpExchange exchange = mock(WebSocketHttpExchange.class);
@@ -141,7 +141,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testInvalidContentLength() throws Exception {
+    void testInvalidContentLength() throws Exception {
         final Map<String, List<String>> headerMap = new HashMap<>();
         headerMap.computeIfAbsent(HttpHeaders.CONTENT_LENGTH, k -> new ArrayList<>()).add("x");
 
@@ -153,7 +153,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testCookies() throws Exception {
+    void testCookies() throws Exception {
         final Map<String, List<String>> headerMap = new HashMap<>();
         headerMap.computeIfAbsent(HttpHeaders.COOKIE, k -> new ArrayList<>()).add("k=v");
 
@@ -169,7 +169,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testCompoundCookies() throws Exception {
+    void testCompoundCookies() throws Exception {
         final Map<String, List<String>> headerMap = new HashMap<>();
         headerMap.computeIfAbsent(HttpHeaders.COOKIE, k -> new ArrayList<>()).add("k=v; a=b;c=d");
         headerMap.computeIfAbsent(HttpHeaders.COOKIE, k -> new ArrayList<>()).add("e=f");
@@ -189,7 +189,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testDate() {
+    void testDate() {
         assertThrows(UnsupportedOperationException.class, () -> {
         final WebSocketHttpExchange exchange = mock(WebSocketHttpExchange.class);
         final MinijaxUndertowWebSocketHttpHeaders httpHeaders = new MinijaxUndertowWebSocketHttpHeaders(exchange);

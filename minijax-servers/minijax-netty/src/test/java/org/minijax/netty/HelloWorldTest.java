@@ -25,7 +25,7 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
-public class HelloWorldTest {
+class HelloWorldTest {
 
     @Path("/")
     public static class HelloResource {
@@ -45,7 +45,7 @@ public class HelloWorldTest {
     }
 
     @Test
-    public void testHello() throws Exception {
+    void testHello() throws Exception {
         final Minijax minijax = new Minijax().register(HelloResource.class);
 
         final ScheduledExecutorService executorService = mock(ScheduledExecutorService.class);
@@ -72,7 +72,7 @@ public class HelloWorldTest {
     }
 
     @Test
-    public void testEcho() throws Exception {
+    void testEcho() throws Exception {
         final Minijax minijax = new Minijax().register(HelloResource.class);
 
         final ScheduledExecutorService executorService = mock(ScheduledExecutorService.class);

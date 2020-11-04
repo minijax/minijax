@@ -18,13 +18,13 @@ import jakarta.persistence.SynchronizationType;
 
 import org.junit.jupiter.api.Test;
 
-public class PersistenceContextAnnotationProcessorTest {
+class PersistenceContextAnnotationProcessorTest {
 
 	public @interface OtherAnnotation {
 	}
 
     @Test
-    public void testSimple() {
+    void testSimple() {
         final Map<String, EntityManagerFactory> factories = createFactories("");
         final PersistenceContextAnnotationProcessor p = new PersistenceContextAnnotationProcessor(factories);
         final PersistenceContext annotation = createAnnotation("");
@@ -33,7 +33,7 @@ public class PersistenceContextAnnotationProcessorTest {
     }
 
     @Test
-    public void testNotFound() {
+    void testNotFound() {
         assertThrows(InjectionException.class, () -> {
         final Map<String, EntityManagerFactory> factories = createFactories("foo", "bar");
         final PersistenceContextAnnotationProcessor p = new PersistenceContextAnnotationProcessor(factories);
@@ -43,7 +43,7 @@ public class PersistenceContextAnnotationProcessorTest {
     }
 
     @Test
-    public void testMissingAnnotation() {
+    void testMissingAnnotation() {
         assertThrows(InjectionException.class, () -> {
         final Map<String, EntityManagerFactory> factories = createFactories("foo", "bar");
         final PersistenceContextAnnotationProcessor p = new PersistenceContextAnnotationProcessor(factories);
@@ -52,7 +52,7 @@ public class PersistenceContextAnnotationProcessorTest {
     }
 
     @Test
-    public void testOtherAnnotations() {
+    void testOtherAnnotations() {
         final Map<String, EntityManagerFactory> factories = createFactories("");
         final PersistenceContextAnnotationProcessor p = new PersistenceContextAnnotationProcessor(factories);
         final Provider<EntityManager> provider = p.buildProvider(null, EntityManager.class, new Annotation[] {

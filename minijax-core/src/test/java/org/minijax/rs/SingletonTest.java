@@ -16,7 +16,7 @@ import org.minijax.rs.test.MinijaxTestWebTarget;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-public class SingletonTest {
+class SingletonTest {
 
     interface Counter {
         int getCount();
@@ -55,7 +55,7 @@ public class SingletonTest {
     }
 
     @Test
-    public void testRegisterClass() {
+    void testRegisterClass() {
         final Minijax server = new Minijax()
                 .register(SingletonCounter.class)
                 .register(SingletonResource.class);
@@ -66,7 +66,7 @@ public class SingletonTest {
     }
 
     @Test
-    public void testRegisterInstance() {
+    void testRegisterInstance() {
         final Minijax server = new Minijax()
                 .register(new SingletonCounter())
                 .register(SingletonResource.class);
@@ -77,7 +77,7 @@ public class SingletonTest {
     }
 
     @Test
-    public void testRegisterInstanceWithContract() {
+    void testRegisterInstanceWithContract() {
         final Minijax server = new Minijax()
                 .register(new SingletonCounter(), Counter.class)
                 .register(CounterResource.class, CounterResource.class);
@@ -88,7 +88,7 @@ public class SingletonTest {
     }
 
     @Test
-    public void testRegisterInstanceWithIgnoredPriority() {
+    void testRegisterInstanceWithIgnoredPriority() {
         final Minijax server = new Minijax()
                 .register(new SingletonCounter(), 1)
                 .register(SingletonResource.class, 1);
@@ -99,7 +99,7 @@ public class SingletonTest {
     }
 
     @Test
-    public void testRegisterInstanceWithContractMap() {
+    void testRegisterInstanceWithContractMap() {
         final Map<Class<?>, Integer> counterContract = new HashMap<>();
         counterContract.put(Counter.class, 1);
 

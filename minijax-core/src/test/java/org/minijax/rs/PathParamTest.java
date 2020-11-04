@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
-public class PathParamTest extends MinijaxTest {
+class PathParamTest extends MinijaxTest {
 
     @GET
     @Path("/args")
@@ -39,17 +39,17 @@ public class PathParamTest extends MinijaxTest {
     }
 
     @Test
-    public void testNoArgs() {
+    void testNoArgs() {
         assertEquals("nil", target("/args").request().get(String.class));
     }
 
     @Test
-    public void testOneArgs() {
+    void testOneArgs() {
         assertEquals("foo", target("/args/foo").request().get(String.class));
     }
 
     @Test
-    public void testTwoArgs() {
+    void testTwoArgs() {
         assertEquals("foo-bar", target("/args/foo/bar").request().get(String.class));
     }
 }

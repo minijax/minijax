@@ -22,7 +22,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
-public class EntityProviderTest extends MinijaxTest {
+class EntityProviderTest extends MinijaxTest {
 
     public static class UnknownType {
         public String foo;
@@ -98,21 +98,21 @@ public class EntityProviderTest extends MinijaxTest {
     }
 
     @Test
-    public void testUnknownType() {
+    void testUnknownType() {
         final Response response = target("/entityprovider/unknowntype").request().post(Entity.entity("blah blah blah", TEXT_PLAIN));
         assertNotNull(response);
         assertEquals(500, response.getStatus());
     }
 
     @Test
-    public void testCustomType() {
+    void testCustomType() {
         final Response response = target("/entityprovider/customtype").request().post(Entity.entity("blah blah blah", TEXT_PLAIN));
         assertNotNull(response);
         assertEquals(200, response.getStatus());
     }
 
     @Test
-    public void testExplodingType() {
+    void testExplodingType() {
         final Response response = target("/entityprovider/explodingtype").request().post(Entity.entity("blah blah blah", TEXT_PLAIN));
         assertNotNull(response);
         assertEquals(500, response.getStatus());

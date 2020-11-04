@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
-public class FilterTest extends MinijaxTest {
+class FilterTest extends MinijaxTest {
 
     public static class MyFilter implements ContainerRequestFilter {
         static MyFilter lastInstance;
@@ -38,7 +38,7 @@ public class FilterTest extends MinijaxTest {
     }
 
     @Test
-    public void testFeature() {
+    void testFeature() {
         target("/").request().get();
         assertNotNull(MyFilter.lastInstance);
     }

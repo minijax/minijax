@@ -15,10 +15,10 @@ import org.minijax.rs.Widget;
 import org.minijax.rs.WidgetWriter;
 import org.minijax.rs.test.MinijaxTest;
 
-public class ResponseTest extends MinijaxTest {
+class ResponseTest extends MinijaxTest {
 
     @Test
-    public void testNullEntity() {
+    void testNullEntity() {
         final MinijaxResponse r = new MinijaxResponseBuilder().build();
         assertNull(r.getEntity());
         assertNull(r.getEntityClass());
@@ -26,7 +26,7 @@ public class ResponseTest extends MinijaxTest {
     }
 
     @Test
-    public void testStringEntity() {
+    void testStringEntity() {
         final MinijaxResponse r = new MinijaxResponseBuilder().entity("Hello").build();
         assertEquals("Hello", r.getEntity());
         assertEquals(String.class, r.getEntityClass());
@@ -34,7 +34,7 @@ public class ResponseTest extends MinijaxTest {
     }
 
     @Test
-    public void testInputStreamEntity() throws IOException {
+    void testInputStreamEntity() throws IOException {
         final ByteArrayInputStream inputStream = new ByteArrayInputStream("Hello".getBytes(StandardCharsets.UTF_8));
 
         final MinijaxResponse r = new MinijaxResponseBuilder().entity(inputStream).build();
@@ -44,7 +44,7 @@ public class ResponseTest extends MinijaxTest {
     }
 
     @Test
-    public void testWidgetEntity() throws IOException {
+    void testWidgetEntity() throws IOException {
         register(WidgetWriter.class);
 
         final Widget widget = new Widget();
@@ -60,7 +60,7 @@ public class ResponseTest extends MinijaxTest {
     }
 
     @Test
-    public void testBufferEntity() {
+    void testBufferEntity() {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.bufferEntity();
@@ -68,7 +68,7 @@ public class ResponseTest extends MinijaxTest {
     }
 
     @Test
-    public void testGetAllowedMethods() {
+    void testGetAllowedMethods() {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.getAllowedMethods();
@@ -76,7 +76,7 @@ public class ResponseTest extends MinijaxTest {
     }
 
     @Test
-    public void testGetEntityAnnotations() {
+    void testGetEntityAnnotations() {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.getEntityAnnotations();
@@ -84,7 +84,7 @@ public class ResponseTest extends MinijaxTest {
     }
 
     @Test
-    public void testGetEntityStream() {
+    void testGetEntityStream() {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.getEntityStream();
@@ -92,7 +92,7 @@ public class ResponseTest extends MinijaxTest {
     }
 
     @Test
-    public void testGetEntityType() {
+    void testGetEntityType() {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.getEntityType();
@@ -100,7 +100,7 @@ public class ResponseTest extends MinijaxTest {
     }
 
     @Test
-    public void testGetLink() {
+    void testGetLink() {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.getLink(null);
@@ -108,7 +108,7 @@ public class ResponseTest extends MinijaxTest {
     }
 
     @Test
-    public void testGetLinkBuilder() {
+    void testGetLinkBuilder() {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.getLinkBuilder(null);
@@ -116,7 +116,7 @@ public class ResponseTest extends MinijaxTest {
     }
 
     @Test
-    public void testGetMetadata() {
+    void testGetMetadata() {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.getMetadata();
@@ -124,7 +124,7 @@ public class ResponseTest extends MinijaxTest {
     }
 
     @Test
-    public void testGetStringHeaders() {
+    void testGetStringHeaders() {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.getStringHeaders();
@@ -132,7 +132,7 @@ public class ResponseTest extends MinijaxTest {
     }
 
     @Test
-    public void testhasEntity() {
+    void testhasEntity() {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.hasEntity();
@@ -140,7 +140,7 @@ public class ResponseTest extends MinijaxTest {
     }
 
     @Test
-    public void testhasLink() {
+    void testhasLink() {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.hasLink(null);
@@ -148,7 +148,7 @@ public class ResponseTest extends MinijaxTest {
     }
 
     @Test
-    public void testReadEntity2() {
+    void testReadEntity2() {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.readEntity((Class<?>) null, (Annotation[]) null);
@@ -156,7 +156,7 @@ public class ResponseTest extends MinijaxTest {
     }
 
     @Test
-    public void testReadEntity3() {
+    void testReadEntity3() {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.readEntity((GenericType<?>) null);
@@ -164,7 +164,7 @@ public class ResponseTest extends MinijaxTest {
     }
 
     @Test
-    public void testReadEntity4() {
+    void testReadEntity4() {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.readEntity((GenericType<?>) null, (Annotation[]) null);
@@ -172,7 +172,7 @@ public class ResponseTest extends MinijaxTest {
     }
 
     @Test
-    public void testSetEntityStream() {
+    void testSetEntityStream() {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.setEntityStream(null);

@@ -12,7 +12,7 @@ import jakarta.ws.rs.core.Application;
 import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 
-public class MultipleApplicationsTest {
+class MultipleApplicationsTest {
 
     @ApplicationPath("/app1")
     public static class MyApp1 extends Application {
@@ -37,7 +37,7 @@ public class MultipleApplicationsTest {
     }
 
     @Test
-    public void testApp() {
+    void testApp() {
         final Minijax minijax = new Minijax();
         minijax.register(MyApp1.class);
         minijax.register(MyApp2.class);

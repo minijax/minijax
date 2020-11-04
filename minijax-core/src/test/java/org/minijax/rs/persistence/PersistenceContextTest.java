@@ -14,7 +14,7 @@ import org.minijax.rs.MinijaxApplicationContext;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.test.MinijaxTestRequestContext;
 
-public class PersistenceContextTest {
+class PersistenceContextTest {
 
     static class PersistenceContextDao {
 
@@ -31,7 +31,7 @@ public class PersistenceContextTest {
     }
 
     @Test
-    public void testPersistenceContextInject() throws IOException {
+    void testPersistenceContextInject() throws IOException {
         final Minijax container = new Minijax()
                 .register(PersistenceFeature.class)
                 .register(PersistenceContextDao.class);

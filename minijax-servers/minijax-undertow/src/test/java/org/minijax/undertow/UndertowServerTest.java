@@ -11,10 +11,10 @@ import io.undertow.server.HttpServerExchange;
 import io.undertow.util.HeaderMap;
 import io.undertow.util.Methods;
 
-public class UndertowServerTest {
+class UndertowServerTest {
 
     @Test
-    public void testSanity() throws Exception {
+    void testSanity() throws Exception {
         final Minijax minijax = new Minijax();
 
         final MinijaxUndertowServer server = new MinijaxUndertowServer(minijax);
@@ -28,7 +28,7 @@ public class UndertowServerTest {
     }
 
     @Test
-    public void testStartStop() throws Exception {
+    void testStartStop() throws Exception {
         final Minijax minijax = new Minijax();
 
         final Undertow undertow = mock(Undertow.class);

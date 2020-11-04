@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotBlank;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class NotBlankTest {
+class NotBlankTest {
     private static Validator validator;
 
     @BeforeAll
@@ -29,28 +29,28 @@ public class NotBlankTest {
     }
 
     @Test
-    public void testNullString() {
+    void testNullString() {
         final A a = new A();
         a.a = null;
         assertTrue(validator.validate(a).isEmpty());
     }
 
     @Test
-    public void testBlankString() {
+    void testBlankString() {
         final A a = new A();
         a.a = "";
         assertEquals(1, validator.validate(a).size());
     }
 
     @Test
-    public void testValidString() {
+    void testValidString() {
         final A a = new A();
         a.a = "a";
         assertTrue(validator.validate(a).isEmpty());
     }
 
     @Test
-    public void testInvalidType() {
+    void testInvalidType() {
         assertThrows(ValidationException.class, () -> {
         final B b = new B();
         b.b = 10;

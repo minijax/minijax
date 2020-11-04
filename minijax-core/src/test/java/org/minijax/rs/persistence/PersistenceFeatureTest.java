@@ -7,10 +7,10 @@ import jakarta.ws.rs.core.FeatureContext;
 
 import org.junit.jupiter.api.Test;
 
-public class PersistenceFeatureTest {
+class PersistenceFeatureTest {
 
     @Test
-    public void testNotMinijax() {
+    void testNotMinijax() {
         assertThrows(IllegalArgumentException.class, () -> {
             final PersistenceFeature feature = new PersistenceFeature();
             feature.configure(mock(FeatureContext.class));

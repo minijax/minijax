@@ -18,7 +18,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
-public class ContextParamTest extends MinijaxTest {
+class ContextParamTest extends MinijaxTest {
 
     // 9.2.1
     @GET
@@ -90,55 +90,55 @@ public class ContextParamTest extends MinijaxTest {
 
     // 9.2.1
     @Test
-    public void testApplication() {
+    void testApplication() {
         assertEquals("ok", target("/application").request().get(String.class));
     }
 
     // 9.2.2
     @Test
-    public void testUriInfo() {
+    void testUriInfo() {
         assertEquals("ok", target("/uriinfo").request().get(String.class));
     }
 
     // 9.2.3
     @Test
-    public void testHttpHeaders() {
+    void testHttpHeaders() {
         assertEquals("ok", target("/httpheaders").request().get(String.class));
     }
 
     // 9.2.4
     @Test
-    public void testRequest() {
+    void testRequest() {
         assertEquals("ok", target("/request").request().get(String.class));
     }
 
     // 9.2.5
     @Test
-    public void testSecurityContext() {
+    void testSecurityContext() {
         assertEquals("ok", target("/securitycontext").request().get(String.class));
     }
 
     // 9.2.6
     @Test
-    public void testProviders() {
+    void testProviders() {
         assertEquals("ok", target("/providers").request().get(String.class));
     }
 
     // 9.2.7
     @Test
-    public void testResourceContext() {
+    void testResourceContext() {
         assertEquals(200, target("/resourcecontext").request().get().getStatus());
         assertEquals("ok", target("/resourcecontext").request().get(String.class));
     }
 
     // 9.2.8
     @Test
-    public void testConfiguration() {
+    void testConfiguration() {
         assertEquals("ok", target("/configuration").request().get(String.class));
     }
 
     @Test
-    public void testUnknown() {
+    void testUnknown() {
         assertEquals(500, target("/unknown").request().get().getStatus());
     }
 }

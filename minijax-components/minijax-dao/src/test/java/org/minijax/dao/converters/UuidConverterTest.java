@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.minijax.commons.IdUtils;
 
-public class UuidConverterTest {
+class UuidConverterTest {
     private UuidConverter converter;
 
     @BeforeEach
@@ -17,13 +17,13 @@ public class UuidConverterTest {
     }
 
     @Test
-    public void testNull() {
+    void testNull() {
         assertNull(converter.convertToDatabaseColumn(null));
         assertNull(converter.convertToEntityAttribute(null));
     }
 
     @Test
-    public void testConvert() {
+    void testConvert() {
         final UUID uuid = IdUtils.create();
         final byte[] bytes = IdUtils.toBytes(uuid);
 

@@ -13,7 +13,7 @@ import org.minijax.cdi.MinijaxProvider;
 
 import jakarta.inject.Scope;
 
-public class TypeAnnotationProcessorTest {
+class TypeAnnotationProcessorTest {
 
     @Scope
     @Retention(RUNTIME)
@@ -44,7 +44,7 @@ public class TypeAnnotationProcessorTest {
     }
 
     @Test
-    public void testTypeAnnotationProcessor() {
+    void testTypeAnnotationProcessor() {
         try (final MinijaxInjector injector = new MinijaxInjector()) {
             injector.addTypeAnnotationProcessor(MyTypeAnnotation.class, new MyTypeAnnotationProcessor());
 

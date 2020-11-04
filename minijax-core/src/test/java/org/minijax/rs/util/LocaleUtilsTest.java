@@ -7,34 +7,34 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 
-public class LocaleUtilsTest {
+class LocaleUtilsTest {
 
     @Test
-    public void testCtor() {
+    void testCtor() {
         assertThrows(UnsupportedOperationException.class, LocaleUtils::new);
     }
 
     @Test
-    public void testNull() {
+    void testNull() {
         final List<Locale> list = LocaleUtils.parseAcceptLanguage(null);
         assertTrue(list.isEmpty());
     }
 
     @Test
-    public void testEmpty() {
+    void testEmpty() {
         final List<Locale> list = LocaleUtils.parseAcceptLanguage("");
         assertTrue(list.isEmpty());
     }
 
     @Test
-    public void testWild() {
+    void testWild() {
         final List<Locale> list = LocaleUtils.parseAcceptLanguage("*");
         assertEquals(1, list.size());
         assertEquals("*", list.get(0).getLanguage());
     }
 
     @Test
-    public void testMultiple() {
+    void testMultiple() {
         final List<Locale> list = LocaleUtils.parseAcceptLanguage("en, fr");
         assertEquals(2, list.size());
         assertEquals("en", list.get(0).getLanguage());
@@ -42,7 +42,7 @@ public class LocaleUtilsTest {
     }
 
     @Test
-    public void testMultipleWithCountry() {
+    void testMultipleWithCountry() {
         final List<Locale> list = LocaleUtils.parseAcceptLanguage("en-US, fr");
         assertEquals(2, list.size());
         assertEquals("en", list.get(0).getLanguage());
@@ -51,7 +51,7 @@ public class LocaleUtilsTest {
     }
 
     @Test
-    public void testVariant() {
+    void testVariant() {
         final List<Locale> list = LocaleUtils.parseAcceptLanguage("de-DE-1996");
         assertEquals(1, list.size());
         assertEquals("de", list.get(0).getLanguage());

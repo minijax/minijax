@@ -16,7 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.minijax.persistence.testmodel.Widget;
 
-public class MinijaxNativeQueryTest {
+class MinijaxNativeQueryTest {
     private MinijaxEntityManagerFactory emf;
     private MinijaxEntityManager em;
     private MinijaxNativeQuery<Widget> query;
@@ -36,7 +36,7 @@ public class MinijaxNativeQueryTest {
     }
 
     @Test
-    public void testBasic() {
+    void testBasic() {
     }
 
     /*
@@ -44,152 +44,152 @@ public class MinijaxNativeQueryTest {
      */
 
     @Test
-    public void testExecuteUpdate() {
+    void testExecuteUpdate() {
         assertThrows(UnsupportedOperationException.class, () -> query.executeUpdate());
     }
 
     @Test
-    public void testGetMaxResults() {
+    void testGetMaxResults() {
         assertThrows(UnsupportedOperationException.class, () -> query.getMaxResults());
     }
 
     @Test
-    public void testGetFirstResult() {
+    void testGetFirstResult() {
         assertThrows(UnsupportedOperationException.class, () -> query.getFirstResult());
     }
 
     @Test
-    public void testGetHints() {
+    void testGetHints() {
         assertThrows(UnsupportedOperationException.class, () -> query.getHints());
     }
 
     @Test
-    public void testGetParameters() {
+    void testGetParameters() {
         assertThrows(UnsupportedOperationException.class, () -> query.getParameters());
     }
 
     @Test
-    public void testGetParameter1() {
+    void testGetParameter1() {
         assertThrows(UnsupportedOperationException.class, () -> query.getParameter(""));
     }
 
     @Test
-    public void testGetParameter2() {
+    void testGetParameter2() {
         assertThrows(UnsupportedOperationException.class, () -> query.getParameter("", Widget.class));
     }
 
     @Test
-    public void testGetParameter3() {
+    void testGetParameter3() {
         assertThrows(UnsupportedOperationException.class, () -> query.getParameter(0));
     }
 
     @Test
-    public void testGetParameter4() {
+    void testGetParameter4() {
         assertThrows(UnsupportedOperationException.class, () -> query.getParameter(0, Widget.class));
     }
 
     @Test
-    public void testIsBound() {
+    void testIsBound() {
         assertThrows(UnsupportedOperationException.class, () -> query.isBound(null));
     }
 
     @Test
-    public void testGetParameterValue1() {
+    void testGetParameterValue1() {
         assertThrows(UnsupportedOperationException.class, () -> query.getParameterValue((Parameter<Object>) null));
     }
 
     @Test
-    public void testGetParameterValue2() {
+    void testGetParameterValue2() {
         assertThrows(UnsupportedOperationException.class, () -> query.getParameterValue(""));
     }
 
     @Test
-    public void testGetParameterValue3() {
+    void testGetParameterValue3() {
         assertThrows(UnsupportedOperationException.class, () -> query.getParameterValue(0));
     }
 
     @Test
-    public void testGetFlushMode() {
+    void testGetFlushMode() {
         assertThrows(UnsupportedOperationException.class, () -> query.getFlushMode());
     }
 
     @Test
-    public void testGetLockMode() {
+    void testGetLockMode() {
         assertThrows(UnsupportedOperationException.class, () -> query.getLockMode());
     }
 
     @Test
-    public void testUnwrap() {
+    void testUnwrap() {
         assertThrows(UnsupportedOperationException.class, () -> query.unwrap(Widget.class));
     }
 
     @Test
-    public void testSetMaxResults() {
+    void testSetMaxResults() {
         assertThrows(UnsupportedOperationException.class, () -> query.setMaxResults(0));
     }
 
     @Test
-    public void testSetFirstResult() {
+    void testSetFirstResult() {
         assertThrows(UnsupportedOperationException.class, () -> query.setFirstResult(0));
     }
 
     @Test
-    public void testSetHint() {
+    void testSetHint() {
         assertThrows(UnsupportedOperationException.class, () -> query.setHint("", null));
     }
 
     @Test
-    public void testSetParameter1() {
+    void testSetParameter1() {
         assertThrows(UnsupportedOperationException.class, () -> query.setParameter((Parameter<Object>) null, null));
     }
 
     @Test
-    public void testSetParameter2() {
-        assertThrows(UnsupportedOperationException.class, () -> query.setParameter((Parameter<Calendar>) null, (Calendar) null, TemporalType.DATE));
+    void testSetParameter2() {
+        assertThrows(UnsupportedOperationException.class, () -> query.setParameter((Parameter<Calendar>) null, null, TemporalType.DATE));
     }
 
     @Test
-    public void testSetParameter3() {
-        assertThrows(UnsupportedOperationException.class, () -> query.setParameter((Parameter<Date>) null, (Date) null, TemporalType.DATE));
+    void testSetParameter3() {
+        assertThrows(UnsupportedOperationException.class, () -> query.setParameter((Parameter<Date>) null, null, TemporalType.DATE));
     }
 
     @Test
-    public void testSetParameter4() {
+    void testSetParameter4() {
         assertThrows(UnsupportedOperationException.class, () -> query.setParameter("", null));
     }
 
     @Test
-    public void testSetParameter5() {
+    void testSetParameter5() {
         assertThrows(UnsupportedOperationException.class, () -> query.setParameter("", (Calendar) null, TemporalType.DATE));
     }
 
     @Test
-    public void testSetParameter6() {
+    void testSetParameter6() {
         assertThrows(UnsupportedOperationException.class, () -> query.setParameter("", (Date) null, TemporalType.DATE));
     }
 
     @Test
-    public void testSetParameter7() {
+    void testSetParameter7() {
         assertThrows(UnsupportedOperationException.class, () -> query.setParameter(0, null));
     }
 
     @Test
-    public void testSetParameter8() {
+    void testSetParameter8() {
         assertThrows(UnsupportedOperationException.class, () -> query.setParameter(0, (Calendar) null, TemporalType.DATE));
     }
 
     @Test
-    public void testSetParameter() {
+    void testSetParameter() {
         assertThrows(UnsupportedOperationException.class, () -> query.setParameter(0, (Date) null, TemporalType.DATE));
     }
 
     @Test
-    public void testSetFlushMode() {
+    void testSetFlushMode() {
         assertThrows(UnsupportedOperationException.class, () -> query.setFlushMode(FlushModeType.AUTO));
     }
 
     @Test
-    public void testSetLockMode() {
+    void testSetLockMode() {
         assertThrows(UnsupportedOperationException.class, () -> query.setLockMode(LockModeType.NONE));
     }
 }

@@ -14,7 +14,7 @@ public class Car {
 		HIGHWAY
 	}
 
-	private Map<@NotNull FuelConsumption, @MaxAllowedFuelConsumption Integer> fuelConsumption = new HashMap<>();
+	private final Map<@NotNull FuelConsumption, @MaxAllowedFuelConsumption Integer> fuelConsumption = new HashMap<>();
 
 	public void setFuelConsumption(FuelConsumption consumption, int value) {
 		fuelConsumption.put( consumption, value );

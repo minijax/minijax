@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.test.MinijaxTest;
 
-public class AdapterTest extends MinijaxTest {
+class AdapterTest extends MinijaxTest {
 
     public static class TestSocket1 {
         @OnOpen
@@ -41,7 +41,7 @@ public class AdapterTest extends MinijaxTest {
     }
 
     @Test
-    public void testOnOpen() throws IOException {
+    void testOnOpen() throws IOException {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
             final MinijaxUndertowWebSocketAdapter adapter = new MinijaxUndertowWebSocketAdapter(ctx, TestSocket1.class);
             adapter.onOpen(emptyMap());
@@ -52,7 +52,7 @@ public class AdapterTest extends MinijaxTest {
     }
 
     @Test
-    public void testOnMessage() throws IOException {
+    void testOnMessage() throws IOException {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
             final MinijaxUndertowWebSocketAdapter adapter = new MinijaxUndertowWebSocketAdapter(ctx, TestSocket2.class);
             adapter.onOpen(emptyMap());
@@ -63,7 +63,7 @@ public class AdapterTest extends MinijaxTest {
     }
 
     @Test
-    public void testOnClose() throws IOException {
+    void testOnClose() throws IOException {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
             final MinijaxUndertowWebSocketAdapter adapter = new MinijaxUndertowWebSocketAdapter(ctx, TestSocket3.class);
             adapter.onOpen(emptyMap());
@@ -74,7 +74,7 @@ public class AdapterTest extends MinijaxTest {
     }
 
     @Test
-    public void testOnError() throws IOException {
+    void testOnError() throws IOException {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
             final MinijaxUndertowWebSocketAdapter adapter = new MinijaxUndertowWebSocketAdapter(ctx, TestSocket4.class);
             adapter.onOpen(emptyMap());

@@ -24,7 +24,7 @@ import org.minijax.commons.IOUtils;
 import org.minijax.rs.multipart.Multipart;
 import org.minijax.rs.multipart.Part;
 
-public class FormParamTest {
+class FormParamTest {
 
     @POST
     @Path("/formtest")
@@ -90,7 +90,7 @@ public class FormParamTest {
     }
 
     @Test
-    public void testFormParam() {
+    void testFormParam() {
         final Entity<Form> form = Entity.form(new Form("test", "Hello"));
         assertEquals(
                 "Hello",
@@ -98,7 +98,7 @@ public class FormParamTest {
     }
 
     @Test
-    public void testFormParamDefaultValue() {
+    void testFormParamDefaultValue() {
         final Entity<Form> form = Entity.form(new Form());
         assertEquals(
                 "foo",
@@ -106,7 +106,7 @@ public class FormParamTest {
     }
 
     @Test
-    public void testWholeForm() {
+    void testWholeForm() {
         final Entity<Form> form = Entity.form(new Form("test", "Hello"));
         assertEquals(
                 "Hello",
@@ -114,7 +114,7 @@ public class FormParamTest {
     }
 
     @Test
-    public void testMultipartForm() throws IOException {
+    void testMultipartForm() throws IOException {
         try (final Multipart multipart = new Multipart()) {
             multipart.param("key", "myvalue1");
 
@@ -124,7 +124,7 @@ public class FormParamTest {
     }
 
     @Test
-    public void testMultipartParams() throws IOException {
+    void testMultipartParams() throws IOException {
         try (final Multipart multipart = new Multipart()) {
             multipart.param("key", "myvalue1");
             multipart.param("content", "Hello world\n");
@@ -135,7 +135,7 @@ public class FormParamTest {
     }
 
     @Test
-    public void testMultipartOptionalWithFile() throws IOException {
+    void testMultipartOptionalWithFile() throws IOException {
         try (final Multipart multipart = new Multipart()) {
             multipart.param("key", "myvalue1");
             multipart.param("content", "Hello world");
@@ -146,7 +146,7 @@ public class FormParamTest {
     }
 
     @Test
-    public void testMultipartOptionalWithoutFile() throws IOException {
+    void testMultipartOptionalWithoutFile() throws IOException {
         try (final Multipart multipart = new Multipart()) {
             final Entity<Multipart> entity = Entity.entity(multipart, multipart.getContentType());
             assertEquals("null", server.target("/multipart-optional").request().post(entity, String.class));

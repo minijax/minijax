@@ -24,7 +24,7 @@ import org.minijax.rs.test.MinijaxTest;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-public class InjectTest extends MinijaxTest {
+class InjectTest extends MinijaxTest {
 
     @Singleton
     static class Counter {
@@ -61,26 +61,26 @@ public class InjectTest extends MinijaxTest {
     }
 
     @Test
-    public void testGetCounter() {
+    void testGetCounter() {
         final InjectedResource r = target("/inject/test").request().get(InjectedResource.class);
         assertNotNull(r.counter);
     }
 
     @Test
-    public void testUriInfo() {
+    void testUriInfo() {
         final InjectedResource r = target("/inject/test").request().get(InjectedResource.class);
         assertEquals("/inject/test", r.uriInfo.getPath());
     }
 
     @Test
-    public void testCookie() {
+    void testCookie() {
         final InjectedResource r = target("/inject/test").request().cookie("a", "hello").get(InjectedResource.class);
         assertNotNull(r);
         assertEquals("hello", r.cookie);
     }
 
     @Test
-    public void testFormParam() {
+    void testFormParam() {
         final Form form = new Form();
         form.param("a", "hello");
 
@@ -89,31 +89,31 @@ public class InjectTest extends MinijaxTest {
     }
 
     @Test
-    public void testHeader() {
+    void testHeader() {
         final InjectedResource r = target("/inject/test").request().header("a", "myheader").get(InjectedResource.class);
         assertEquals("myheader", r.header);
     }
 
     @Test
-    public void testQuery() {
+    void testQuery() {
         final InjectedResource r = target("/inject/test?a=myquery").request().get(InjectedResource.class);
         assertEquals("myquery", r.query);
     }
 
     @Test
-    public void testQueryDefaultValue() {
+    void testQueryDefaultValue() {
         final InjectedResource r = target("/inject/test").request().get(InjectedResource.class);
         assertEquals("b", r.query);
     }
 
     @Test
-    public void testPath() {
+    void testPath() {
         final InjectedResource r = target("/inject/mypath").request().get(InjectedResource.class);
         assertEquals("mypath", r.path);
     }
 
     @Test
-    public void testBean() {
+    void testBean() {
         final InjectedResource r = target("/inject/mypath").request().get(InjectedResource.class);
         assertEquals("mypath", r.bean.path);
     }

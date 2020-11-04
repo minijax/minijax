@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
-public class StaticResourceTest extends MinijaxTest {
+class StaticResourceTest extends MinijaxTest {
 
     @BeforeAll
     public static void setUpStaticResourceTest() {
@@ -20,7 +20,7 @@ public class StaticResourceTest extends MinijaxTest {
     }
 
     @Test
-    public void testStaticFile() {
+    void testStaticFile() {
         final Response response = target("/config.properties").request().get();
         assertNotNull(response);
         assertEquals(200, response.getStatus());
@@ -31,21 +31,21 @@ public class StaticResourceTest extends MinijaxTest {
     }
 
     @Test
-    public void testStaticDirectory() {
+    void testStaticDirectory() {
         final Response response = target("/static").request().get();
         assertNotNull(response);
         assertEquals(404, response.getStatus());
     }
 
     @Test
-    public void testStaticDirectoryTrailingSlash() {
+    void testStaticDirectoryTrailingSlash() {
         final Response response = target("/static/").request().get();
         assertNotNull(response);
         assertEquals(404, response.getStatus());
     }
 
     @Test
-    public void testStaticDirectoryFile() {
+    void testStaticDirectoryFile() {
         final Response response = target("/static/hello.txt").request().get();
         assertNotNull(response);
         assertEquals(200, response.getStatus());
@@ -57,7 +57,7 @@ public class StaticResourceTest extends MinijaxTest {
     }
 
     @Test
-    public void testStaticDirectoryFileNotFound() {
+    void testStaticDirectoryFileNotFound() {
         final Response response = target("/static/notfound.txt").request().get();
         assertNotNull(response);
         assertEquals(404, response.getStatus());

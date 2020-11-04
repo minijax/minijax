@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
-public class FeatureTest extends MinijaxTest {
+class FeatureTest extends MinijaxTest {
 
     @BeforeEach
     public void setUp() {
@@ -14,7 +14,7 @@ public class FeatureTest extends MinijaxTest {
     }
 
     @Test
-    public void testFeature() {
+    void testFeature() {
         assertNotNull(getServer().getResource(MinijaxJsonReader.class));
         assertNotNull(getServer().getResource(MinijaxJsonWriter.class));
     }

@@ -12,7 +12,7 @@ import jakarta.ws.rs.PathParam;
 
 import org.junit.jupiter.api.Test;
 
-public class ResourceMethodTest {
+class ResourceMethodTest {
 
     @Path("/{id}")
     public static String x(@PathParam("id") final String id) {
@@ -25,7 +25,7 @@ public class ResourceMethodTest {
     }
 
     @Test
-    public void testResourceMethodSorting() throws Exception {
+    void testResourceMethodSorting() throws Exception {
         final MinijaxResourceMethod m1 = new MinijaxResourceMethod(GET, ResourceMethodTest.class.getMethod("x", String.class), null);
         assertEquals(1, m1.literalLength);
 

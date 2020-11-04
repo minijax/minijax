@@ -18,10 +18,10 @@ import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
 
-public class HttpHeadersTest {
+class HttpHeadersTest {
 
     @Test
-    public void testBasic() throws Exception {
+    void testBasic() throws Exception {
         final HttpHeaders headers = new DefaultHttpHeaders();
         headers.add("Content-Type", "text/plain");
 
@@ -33,7 +33,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testMultiple() throws Exception {
+    void testMultiple() throws Exception {
         final HttpHeaders headers = new DefaultHttpHeaders();
         headers.add("X-Foo", "bar");
         headers.add("X-Foo", "baz");
@@ -50,7 +50,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testAccept() throws Exception {
+    void testAccept() throws Exception {
         final HttpHeaders headers = new DefaultHttpHeaders();
         headers.add("Accept", "text/plain");
 
@@ -63,7 +63,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testAcceptLanguage() throws Exception {
+    void testAcceptLanguage() throws Exception {
         final HttpHeaders headers = new DefaultHttpHeaders();
         headers.add("Accept-Language", "en-US");
 
@@ -76,7 +76,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testMediaType() throws Exception {
+    void testMediaType() throws Exception {
         final HttpHeaders headers = new DefaultHttpHeaders();
         headers.add("Content-Type", "text/plain");
 
@@ -88,7 +88,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testNullMediaType() throws Exception {
+    void testNullMediaType() throws Exception {
         final HttpHeaders headers = new DefaultHttpHeaders();
 
         final HttpRequest request = mock(HttpRequest.class);
@@ -99,7 +99,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testLanguage() throws Exception {
+    void testLanguage() throws Exception {
         final HttpHeaders headers = new DefaultHttpHeaders();
         headers.add("Content-Language", "en-US");
 
@@ -111,7 +111,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testNullLanguage() throws Exception {
+    void testNullLanguage() throws Exception {
         final HttpHeaders headers = new DefaultHttpHeaders();
 
         final HttpRequest request = mock(HttpRequest.class);
@@ -122,7 +122,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testContentLength() throws Exception {
+    void testContentLength() throws Exception {
         final HttpHeaders headers = new DefaultHttpHeaders();
         headers.add("Content-Length", "1024");
 
@@ -134,7 +134,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testNullContentLength() throws Exception {
+    void testNullContentLength() throws Exception {
         final HttpHeaders headers = new DefaultHttpHeaders();
 
         final HttpRequest request = mock(HttpRequest.class);
@@ -145,7 +145,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testInvalidContentLength() throws Exception {
+    void testInvalidContentLength() throws Exception {
         final HttpHeaders headers = new DefaultHttpHeaders();
         headers.add("Content-Length", "x");
 
@@ -157,7 +157,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testCookies() throws Exception {
+    void testCookies() throws Exception {
         final HttpHeaders headers = new DefaultHttpHeaders();
         headers.add("Cookie", "k=v");
 
@@ -173,7 +173,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testDate() {
+    void testDate() {
         assertThrows(UnsupportedOperationException.class, () -> {
         final HttpRequest request = mock(HttpRequest.class);
         final MinijaxNettyHttpHeaders httpHeaders = new MinijaxNettyHttpHeaders(request);

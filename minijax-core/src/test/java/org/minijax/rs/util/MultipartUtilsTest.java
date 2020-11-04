@@ -15,15 +15,15 @@ import org.minijax.commons.IOUtils;
 import org.minijax.rs.multipart.Multipart;
 import org.minijax.rs.multipart.Part;
 
-public class MultipartUtilsTest {
+class MultipartUtilsTest {
 
     @Test
-    public void testCtor() {
+    void testCtor() {
         assertThrows(UnsupportedOperationException.class, MultipartUtils::new);
     }
 
     @Test
-    public void testEmpty() throws IOException {
+    void testEmpty() throws IOException {
         final Multipart form = new Multipart();
 
         final InputStream inputStream = MultipartUtils.serializeMultipartForm(form);
@@ -33,7 +33,7 @@ public class MultipartUtilsTest {
     }
 
     @Test
-    public void testSimple() throws IOException {
+    void testSimple() throws IOException {
         final Multipart form = new Multipart();
         form.param("a", "b");
 
@@ -46,7 +46,7 @@ public class MultipartUtilsTest {
     }
 
     @Test
-    public void testFileUpload() throws IOException {
+    void testFileUpload() throws IOException {
         final Multipart form = new Multipart();
         form.param("a", "b");
         form.param("myfile", "config.properties", new FileInputStream("src/test/resources/config.properties"));

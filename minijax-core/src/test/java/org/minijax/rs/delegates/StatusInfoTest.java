@@ -6,10 +6,10 @@ import jakarta.ws.rs.core.Response.Status;
 
 import org.junit.jupiter.api.Test;
 
-public class StatusInfoTest {
+class StatusInfoTest {
 
     @Test
-    public void testDefault() {
+    void testDefault() {
         final MinijaxStatusInfo i = new MinijaxStatusInfo();
         assertEquals(200, i.getStatusCode());
         assertEquals(Status.Family.SUCCESSFUL, i.getFamily());
@@ -17,7 +17,7 @@ public class StatusInfoTest {
     }
 
     @Test
-    public void testCopyCtor() {
+    void testCopyCtor() {
         final MinijaxStatusInfo i = new MinijaxStatusInfo(Status.NOT_FOUND);
         assertEquals(404, i.getStatusCode());
         assertEquals(Status.Family.CLIENT_ERROR, i.getFamily());
@@ -25,7 +25,7 @@ public class StatusInfoTest {
     }
 
     @Test
-    public void testSetters() {
+    void testSetters() {
         final MinijaxStatusInfo i = new MinijaxStatusInfo();
         i.setStatusCode(101);
         i.setReasonPhrase("Switching Protocols");
@@ -35,7 +35,7 @@ public class StatusInfoTest {
     }
 
     @Test
-    public void testSetNull() {
+    void testSetNull() {
         final MinijaxStatusInfo i = new MinijaxStatusInfo();
         i.setStatusInfo(null);
         assertEquals(200, i.getStatusCode());

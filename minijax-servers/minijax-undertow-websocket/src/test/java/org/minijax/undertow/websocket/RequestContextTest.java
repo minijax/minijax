@@ -18,10 +18,10 @@ import org.minijax.rs.MinijaxApplicationContext;
 
 import io.undertow.websockets.spi.WebSocketHttpExchange;
 
-public class RequestContextTest {
+class RequestContextTest {
 
     @Test
-    public void testBasic() throws Exception {
+    void testBasic() throws Exception {
         final Minijax minijax = new Minijax();
         final MinijaxApplicationContext app = minijax.getDefaultApplication();
 

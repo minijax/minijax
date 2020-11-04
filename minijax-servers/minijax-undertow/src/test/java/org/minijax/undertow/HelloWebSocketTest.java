@@ -17,7 +17,7 @@ import io.undertow.Undertow;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.PathHandler;
 
-public class HelloWebSocketTest {
+class HelloWebSocketTest {
 
     @ServerEndpoint("/echo")
     public static class EchoEndpoint {
@@ -28,7 +28,7 @@ public class HelloWebSocketTest {
     }
 
     @Test
-    public void testHello() throws Exception {
+    void testHello() throws Exception {
         final Minijax minijax = new Minijax().register(EchoEndpoint.class);
 
         final Undertow undertow = mock(Undertow.class);
@@ -38,7 +38,7 @@ public class HelloWebSocketTest {
         final Undertow.Builder undertowBuilder = mock(Undertow.Builder.class);
         when(undertowBuilder.addHttpListener(anyInt(), anyString())).thenReturn(undertowBuilder);
         when(undertowBuilder.setHandler(any())).then(inv -> {
-            handlers.add((HttpHandler) inv.getArgument(0));
+            handlers.add(inv.getArgument(0));
             return undertowBuilder;
         });
         when(undertowBuilder.build()).thenReturn(undertow);

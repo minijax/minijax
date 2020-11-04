@@ -15,10 +15,10 @@ import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.junit.jupiter.api.Test;
 
-public class MinijaxServletHttpHeadersTest {
+class MinijaxServletHttpHeadersTest {
 
     @Test
-    public void testBasic() throws Exception {
+    void testBasic() throws Exception {
         final HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(eq("Content-Type"))).thenReturn("text/plain");
 
@@ -27,7 +27,7 @@ public class MinijaxServletHttpHeadersTest {
     }
 
     @Test
-    public void testMultiple() throws Exception {
+    void testMultiple() throws Exception {
         final HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeaderNames()).thenReturn(Collections.enumeration(Collections.singletonList("X-Foo")));
         when(request.getHeaders("X-Foo")).thenReturn(Collections.enumeration(Arrays.asList("bar", "baz")));
@@ -41,7 +41,7 @@ public class MinijaxServletHttpHeadersTest {
     }
 
     @Test
-    public void testAccept() throws Exception {
+    void testAccept() throws Exception {
         final HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(eq("Accept"))).thenReturn("text/plain");
 
@@ -51,7 +51,7 @@ public class MinijaxServletHttpHeadersTest {
     }
 
     @Test
-    public void testAcceptLanguage() throws Exception {
+    void testAcceptLanguage() throws Exception {
         final HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(eq("Accept-Language"))).thenReturn("en-US");
 
@@ -61,7 +61,7 @@ public class MinijaxServletHttpHeadersTest {
     }
 
     @Test
-    public void testMediaType() throws Exception {
+    void testMediaType() throws Exception {
         final HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(eq("Content-Type"))).thenReturn("text/plain");
 
@@ -70,7 +70,7 @@ public class MinijaxServletHttpHeadersTest {
     }
 
     @Test
-    public void testNullMediaType() throws Exception {
+    void testNullMediaType() throws Exception {
         final HttpServletRequest request = mock(HttpServletRequest.class);
 
         final MinijaxServletHttpHeaders httpHeaders = new MinijaxServletHttpHeaders(request);
@@ -78,7 +78,7 @@ public class MinijaxServletHttpHeadersTest {
     }
 
     @Test
-    public void testLanguage() throws Exception {
+    void testLanguage() throws Exception {
         final HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(eq("Content-Language"))).thenReturn("en-US");
 
@@ -87,7 +87,7 @@ public class MinijaxServletHttpHeadersTest {
     }
 
     @Test
-    public void testNullLanguage() throws Exception {
+    void testNullLanguage() throws Exception {
         final HttpServletRequest request = mock(HttpServletRequest.class);
 
         final MinijaxServletHttpHeaders httpHeaders = new MinijaxServletHttpHeaders(request);
@@ -95,7 +95,7 @@ public class MinijaxServletHttpHeadersTest {
     }
 
     @Test
-    public void testContentLength() throws Exception {
+    void testContentLength() throws Exception {
         final HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(eq("Content-Length"))).thenReturn("1024");
 
@@ -104,7 +104,7 @@ public class MinijaxServletHttpHeadersTest {
     }
 
     @Test
-    public void testNullContentLength() throws Exception {
+    void testNullContentLength() throws Exception {
         final HttpServletRequest request = mock(HttpServletRequest.class);
 
         final MinijaxServletHttpHeaders httpHeaders = new MinijaxServletHttpHeaders(request);
@@ -112,7 +112,7 @@ public class MinijaxServletHttpHeadersTest {
     }
 
     @Test
-    public void testInvalidContentLength() throws Exception {
+    void testInvalidContentLength() throws Exception {
         final HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(eq("Content-Length"))).thenReturn("x");
 
@@ -121,7 +121,7 @@ public class MinijaxServletHttpHeadersTest {
     }
 
     @Test
-    public void testCookies() throws Exception {
+    void testCookies() throws Exception {
         final jakarta.servlet.http.Cookie[] servletCookies = new jakarta.servlet.http.Cookie[] {
                 new jakarta.servlet.http.Cookie("k", "v") };
 
@@ -137,7 +137,7 @@ public class MinijaxServletHttpHeadersTest {
     }
 
     @Test
-    public void testDate() {
+    void testDate() {
         assertThrows(UnsupportedOperationException.class, () -> {
         final HttpServletRequest request = mock(HttpServletRequest.class);
         final MinijaxServletHttpHeaders httpHeaders = new MinijaxServletHttpHeaders(request);

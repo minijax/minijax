@@ -9,10 +9,10 @@ import javax.naming.Binding;
 
 import org.junit.jupiter.api.Test;
 
-public class BindingsEnumerationTest {
+class BindingsEnumerationTest {
 
     @Test
-    public void testEnumeration() {
+    void testEnumeration() {
         final Map<Object, Object> data = new HashMap<>();
         data.put("foo", "bar");
 
@@ -28,7 +28,7 @@ public class BindingsEnumerationTest {
     }
 
     @Test
-    public void testNextElement() {
+    void testNextElement() {
         assertThrows(UnsupportedOperationException.class, () -> {
         final MinijaxBindingsEnumeration e = new MinijaxBindingsEnumeration(new HashMap<>());
         e.nextElement();
@@ -36,7 +36,7 @@ public class BindingsEnumerationTest {
     }
 
     @Test
-    public void testHasMoreElements() {
+    void testHasMoreElements() {
         assertThrows(UnsupportedOperationException.class, () -> {
         final MinijaxBindingsEnumeration e = new MinijaxBindingsEnumeration(new HashMap<>());
         e.hasMoreElements();

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.minijax.commons.IdUtils;
 
-public class ApiKeyTest {
+class ApiKeyTest {
     private static Validator validator;
 
     @BeforeAll
@@ -21,7 +21,7 @@ public class ApiKeyTest {
     }
 
     @Test
-    public void testGettersSetters() {
+    void testGettersSetters() {
         final User user = new User();
 
         final UUID id = IdUtils.create();
@@ -37,7 +37,7 @@ public class ApiKeyTest {
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         final ApiKey m1 = new ApiKey();
         final ApiKey m2 = new ApiKey();
         final ApiKey m3 = new ApiKey();
@@ -52,7 +52,7 @@ public class ApiKeyTest {
     }
 
     @Test
-    public void testToJson() throws IOException {
+    void testToJson() throws IOException {
         final ApiKey m = new ApiKey();
         final String json = m.toJson();
 
@@ -61,7 +61,7 @@ public class ApiKeyTest {
     }
 
     @Test
-    public void testValidateSuccess() {
+    void testValidateSuccess() {
         final ApiKey apiKey = new ApiKey();
         apiKey.setValue("0123456789012345678901234567890123456789");
         apiKey.setUser(new User());
@@ -69,7 +69,7 @@ public class ApiKeyTest {
     }
 
     @Test
-    public void testValidateNullCode() {
+    void testValidateNullCode() {
         final ApiKey apiKey = new ApiKey();
         apiKey.setValue(null);
         assertEquals(1, validator.validate(apiKey).size());

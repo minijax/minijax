@@ -9,10 +9,10 @@ import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.junit.jupiter.api.Test;
 
-public class HttpHeadersTest {
+class HttpHeadersTest {
 
     @Test
-    public void testMultipleHeaders() {
+    void testMultipleHeaders() {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         headers.add("a", "b");
         headers.add("a", "c");
@@ -22,14 +22,14 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testLanguageMissing() {
+    void testLanguageMissing() {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers, null);
         assertNull(httpHeaders.getLanguage());
     }
 
     @Test
-    public void testLanguage() {
+    void testLanguage() {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         headers.add("Content-Language", "en-US");
 
@@ -38,14 +38,14 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testContentLengthMissing() {
+    void testContentLengthMissing() {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers, null);
         assertEquals(-1, httpHeaders.getLength());
     }
 
     @Test
-    public void testContentLengthMalformed() {
+    void testContentLengthMalformed() {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         headers.add("Content-Length", "x");
 
@@ -54,7 +54,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testContentLength() {
+    void testContentLength() {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         headers.add("Content-Length", "1024");
 
@@ -63,7 +63,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testDate() {
+    void testDate() {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
             final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers, null);
@@ -72,7 +72,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testSimpleCookie() {
+    void testSimpleCookie() {
         final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
         map.add("Cookie", "a=b");
 
@@ -81,7 +81,7 @@ public class HttpHeadersTest {
     }
 
     @Test
-    public void testSemicolonCookie() {
+    void testSemicolonCookie() {
         final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
         map.add("Cookie", "a=b; c=d");
 

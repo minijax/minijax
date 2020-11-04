@@ -11,7 +11,7 @@ import jakarta.ws.rs.core.FeatureContext;
 import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 
-public class DynamicFeatureTest {
+class DynamicFeatureTest {
 
     public static class MyFeature implements DynamicFeature {
         static MyFeature lastInstance;
@@ -31,7 +31,7 @@ public class DynamicFeatureTest {
     }
 
     @Test
-    public void testFeature() {
+    void testFeature() {
         final Minijax minijax = new Minijax();
 
         minijax.register(MyFeature.class);

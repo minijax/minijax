@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.minijax.cdi.MinijaxInjector;
 
-public class ResourceCacheTest {
+class ResourceCacheTest {
 
     @Test
-    public void testSimple() {
+    void testSimple() {
         try (MinijaxInjector injector = new MinijaxInjector()) {
             final ResourceCache cm = new ResourceCache();
             final Object key = new Object();

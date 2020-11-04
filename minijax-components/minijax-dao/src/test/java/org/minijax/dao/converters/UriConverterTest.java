@@ -6,17 +6,17 @@ import java.net.URI;
 
 import org.junit.jupiter.api.Test;
 
-public class UriConverterTest {
+class UriConverterTest {
 
     @Test
-    public void testNull() {
+    void testNull() {
         final UriConverter c = new UriConverter();
         assertNull(c.convertToDatabaseColumn(null));
         assertNull(c.convertToEntityAttribute(null));
     }
 
     @Test
-    public void testSimple() {
+    void testSimple() {
         final UriConverter c = new UriConverter();
         final URI uri = URI.create("https://www.example.com/path/to/foo?bar=baz");
         final String str = "https://www.example.com/path/to/foo?bar=baz";

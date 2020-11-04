@@ -6,10 +6,10 @@ import java.nio.ByteBuffer;
 
 import org.junit.jupiter.api.Test;
 
-public class BufferPoolTest {
+class BufferPoolTest {
 
     @Test
-    public void testPool() {
+    void testPool() {
         final BufferPool pool = new BufferPool();
 
         final ByteBuffer buf1 = pool.take();

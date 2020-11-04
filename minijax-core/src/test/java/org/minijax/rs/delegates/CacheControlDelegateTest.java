@@ -7,7 +7,7 @@ import jakarta.ws.rs.core.CacheControl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class CacheControlDelegateTest {
+class CacheControlDelegateTest {
     private MinijaxCacheControlDelegate d;
 
     @BeforeEach
@@ -16,17 +16,17 @@ public class CacheControlDelegateTest {
     }
 
     @Test
-    public void testDeserializeNull() {
+    void testDeserializeNull() {
         assertNull(d.fromString(null));
     }
 
     @Test
-    public void testDeserializeEmpty() {
+    void testDeserializeEmpty() {
         assertNotNull(d.fromString(""));
     }
 
     @Test
-    public void testDeserializePublic() {
+    void testDeserializePublic() {
         final CacheControl c = d.fromString("public, max-age=31536000, s-maxage=0");
         assertFalse(c.isPrivate());
         assertEquals(31536000, c.getMaxAge());
@@ -34,7 +34,7 @@ public class CacheControlDelegateTest {
     }
 
     @Test
-    public void testDeserializeNoCache() {
+    void testDeserializeNoCache() {
         final CacheControl c = d.fromString("private, no-cache, no-store, must-revalidate");
         assertTrue(c.isPrivate());
         assertTrue(c.isNoStore());
@@ -42,24 +42,24 @@ public class CacheControlDelegateTest {
     }
 
     @Test
-    public void testDeserializeOthers() {
+    void testDeserializeOthers() {
         final CacheControl c = d.fromString("no-transform, proxy-revalidate");
         assertTrue(c.isNoTransform());
         assertTrue(c.isProxyRevalidate());
     }
 
     @Test
-    public void testSerializeNull() {
+    void testSerializeNull() {
         assertNull(d.toString(null));
     }
 
     @Test
-    public void testSerializeDefault() {
+    void testSerializeDefault() {
         assertEquals("public, no-transform", d.toString(new CacheControl()));
     }
 
     @Test
-    public void testSerializeFull() {
+    void testSerializeFull() {
         final CacheControl c = new CacheControl();
         c.setMaxAge(100);
         c.setMustRevalidate(true);

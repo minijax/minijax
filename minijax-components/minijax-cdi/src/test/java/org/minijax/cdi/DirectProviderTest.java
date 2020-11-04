@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import jakarta.inject.Provider;
 
-public class DirectProviderTest {
+class DirectProviderTest {
 
     public static class MyWidget {
         public int a;
@@ -22,7 +22,7 @@ public class DirectProviderTest {
     }
 
     @Test
-    public void testDirectProviderClass() {
+    void testDirectProviderClass() {
         try (final MinijaxInjector injector = new MinijaxInjector()) {
             injector.register(MyWidgetProvider.class, MyWidget.class);
 
@@ -36,7 +36,7 @@ public class DirectProviderTest {
     }
 
     @Test
-    public void testDirectProviderSingleton() {
+    void testDirectProviderSingleton() {
         try (final MinijaxInjector injector = new MinijaxInjector()) {
             injector.register(new MyWidgetProvider(), MyWidget.class);
 

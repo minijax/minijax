@@ -13,16 +13,16 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-public class BaseEntityTest {
+class BaseEntityTest {
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         final Widget w2 = new Widget();
         assertEquals(w2.getId().hashCode(), w2.hashCode());
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         final Widget w1 = new Widget();
         final Widget w2 = new Widget();
         final Widget w3 = new Widget();
@@ -37,7 +37,7 @@ public class BaseEntityTest {
     }
 
     @Test
-    public void testToJson() throws IOException {
+    void testToJson() throws IOException {
         final Widget w = new Widget();
         w.setId(UUID.fromString("00000000-0000-0000-0000-000000000000"));
         w.setCreatedDateTime(ZonedDateTime.of(2017, 10, 30, 4, 38, 0, 0, ZoneId.of("America/Los_Angeles")).toInstant());
@@ -48,7 +48,7 @@ public class BaseEntityTest {
     }
 
     @Test
-    public void testCopyProperties() {
+    void testCopyProperties() {
         final Widget w1 = new Widget();
         w1.setHandle("foo");
         w1.setName("bar");
@@ -60,7 +60,7 @@ public class BaseEntityTest {
     }
 
     @Test
-    public void testCopyPropertiesNull() {
+    void testCopyPropertiesNull() {
         assertThrows(NullPointerException.class, () -> {
             final Widget w = new Widget();
             w.copyNonNullProperties(null);
@@ -72,7 +72,7 @@ public class BaseEntityTest {
     }
 
     @Test
-    public void testCopyPropertiesDifferentClass() {
+    void testCopyPropertiesDifferentClass() {
         assertThrows(IllegalArgumentException.class, () -> {
             final Widget w = new Widget();
             w.copyNonNullProperties(new DifferentEntity());
@@ -80,7 +80,7 @@ public class BaseEntityTest {
     }
 
     @Test
-    public void testSortByCreatedDate() {
+    void testSortByCreatedDate() {
         final Widget w1 = new Widget();
         w1.setCreatedDateTime(Instant.now().minusSeconds(3L));
 
@@ -99,7 +99,7 @@ public class BaseEntityTest {
     }
 
     @Test
-    public void testFromJson() throws IOException {
+    void testFromJson() throws IOException {
         final String json = "{\"name\":\"foo\"}";
         final Widget w = Widget.fromJson(Widget.class, json);
         assertNotNull(w);

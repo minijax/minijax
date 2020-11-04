@@ -13,21 +13,21 @@ import jakarta.persistence.EntityManagerFactory;
 
 import org.junit.jupiter.api.Test;
 
-public class CloseUtilsTest {
+class CloseUtilsTest {
 
     @Test
-    public void testCtor() {
+    void testCtor() {
         assertThrows(UnsupportedOperationException.class, CloseUtils::new);
     }
 
     @Test
     @SuppressWarnings("squid:S2699")
-    public void testCloseNull() {
+    void testCloseNull() {
         CloseUtils.closeQuietly((Object) null);
     }
 
     @Test
-    public void testAutoCloseable() {
+    void testAutoCloseable() {
         final MyAutoCloseable obj = new MyAutoCloseable();
         CloseUtils.closeQuietly(obj);
         assertTrue(obj.closed);
@@ -35,7 +35,7 @@ public class CloseUtilsTest {
 
     @Test
     @SuppressWarnings("resource")
-    public void testAutoCloseableCollection() {
+    void testAutoCloseableCollection() {
         final List<MyAutoCloseable> list = Arrays.asList(new MyAutoCloseable(), new MyAutoCloseable());
         CloseUtils.closeQuietly(list);
         assertTrue(list.get(0).closed);
@@ -44,20 +44,20 @@ public class CloseUtilsTest {
 
     @Test
     @SuppressWarnings("squid:S2699")
-    public void testExplodingAutoCloseable() {
+    void testExplodingAutoCloseable() {
         final ExplodingAutoCloseable obj = new ExplodingAutoCloseable();
         CloseUtils.closeQuietly(obj);
     }
 
     @Test
-    public void testCloseable() {
+    void testCloseable() {
         final MyCloseable obj = new MyCloseable();
         CloseUtils.closeQuietly(obj);
         assertTrue(obj.closed);
     }
 
     @Test
-    public void testEntityManagerFactoryOpen() {
+    void testEntityManagerFactoryOpen() {
         final EntityManagerFactory emf = mock(EntityManagerFactory.class);
         when(emf.isOpen()).thenReturn(true);
         CloseUtils.closeQuietly(emf);
@@ -66,7 +66,7 @@ public class CloseUtilsTest {
     }
 
     @Test
-    public void testEntityManagerFactoryClosed() {
+    void testEntityManagerFactoryClosed() {
         final EntityManagerFactory emf = mock(EntityManagerFactory.class);
         when(emf.isOpen()).thenReturn(false);
         CloseUtils.closeQuietly(emf);
@@ -75,7 +75,7 @@ public class CloseUtilsTest {
     }
 
     @Test
-    public void testEntityManagerOpen() {
+    void testEntityManagerOpen() {
         final EntityManager em = mock(EntityManager.class);
         when(em.isOpen()).thenReturn(true);
         CloseUtils.closeQuietly(em);
@@ -84,7 +84,7 @@ public class CloseUtilsTest {
     }
 
     @Test
-    public void testEntityManagerClosed() {
+    void testEntityManagerClosed() {
         final EntityManager em = mock(EntityManager.class);
         when(em.isOpen()).thenReturn(false);
         CloseUtils.closeQuietly(em);

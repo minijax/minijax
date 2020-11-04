@@ -11,7 +11,7 @@ import org.minijax.rs.test.MinijaxTest;
 import com.example.HelloInjection.MyResource;
 import com.example.HelloInjection.MyService;
 
-public class HelloInjectionTest extends MinijaxTest {
+class HelloInjectionTest extends MinijaxTest {
 
     @BeforeEach
     public void setUp() {
@@ -24,12 +24,12 @@ public class HelloInjectionTest extends MinijaxTest {
     }
 
     @Test
-    public void testDefault() {
+    void testDefault() {
         assertEquals("Hello FRIEND", target("/").request().get(String.class));
     }
 
     @Test
-    public void testQueryString() {
+    void testQueryString() {
         assertEquals("Hello CODY", target("/?name=cody").request().get(String.class));
     }
 }

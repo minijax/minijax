@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 
-public class ApplicationContextTest {
+class ApplicationContextTest {
     private Minijax minijax;
     private MinijaxApplicationContext app;
 
@@ -25,7 +25,7 @@ public class ApplicationContextTest {
     }
 
     @Test
-    public void testDefaultValues() throws Exception {
+    void testDefaultValues() throws Exception {
         assertEquals(RuntimeType.SERVER, app.getRuntimeType());
         assertNotNull(app.getProperties());
         assertNotNull(app.getPropertyNames());
@@ -34,13 +34,13 @@ public class ApplicationContextTest {
     }
 
     @Test
-    public void testSetProperty() {
+    void testSetProperty() {
         app.property("foo", "bar");
         assertEquals("bar", app.getProperty("foo"));
     }
 
     @Test
-    public void testProperties() {
+    void testProperties() {
         final Properties props = new Properties();
         props.put("foo", "bar");
         minijax.properties(props);
@@ -48,7 +48,7 @@ public class ApplicationContextTest {
     }
 
     @Test
-    public void testPropertiesMap() {
+    void testPropertiesMap() {
         final Map<String, String> props = new HashMap<>();
         props.put("foo", "bar");
         minijax.properties(props);
@@ -56,39 +56,39 @@ public class ApplicationContextTest {
     }
 
     @Test
-    public void testPropertiesFile() throws Exception {
+    void testPropertiesFile() throws Exception {
         minijax.properties(ApplicationContextTest.class.getClassLoader().getResourceAsStream("config.properties"));
         assertEquals("b", app.getProperty("a"));
     }
 
     @Test
-    public void testScanPackage() {
+    void testScanPackage() {
         minijax.packages("org.minijax");
         assertNotNull(app.getClasses());
     }
 
     @Test
-    public void testIsEnabled1() {
+    void testIsEnabled1() {
         assertThrows(UnsupportedOperationException.class, () -> app.isEnabled(new MyFeature()));
     }
 
     @Test
-    public void testIsEnabled2() {
+    void testIsEnabled2() {
         assertThrows(UnsupportedOperationException.class, () -> app.isEnabled(MyFeature.class));
     }
 
     @Test
-    public void testIsRegistered1() {
+    void testIsRegistered1() {
         assertThrows(UnsupportedOperationException.class, () -> app.isRegistered(new MyFeature()));
     }
 
     @Test
-    public void testIsRegistered2() {
+    void testIsRegistered2() {
         assertThrows(UnsupportedOperationException.class, () -> app.isRegistered(MyFeature.class));
     }
 
     @Test
-    public void testGetContracts() {
+    void testGetContracts() {
         assertThrows(UnsupportedOperationException.class, () -> app.getContracts(MyFeature.class));
     }
 

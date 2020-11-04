@@ -11,7 +11,7 @@ import jakarta.ws.rs.PathParam;
 import org.junit.jupiter.api.Test;
 import org.minijax.commons.IdUtils;
 
-public class PathPatternTest {
+class PathPatternTest {
 
     public static void get1() {
     }
@@ -41,7 +41,7 @@ public class PathPatternTest {
     }
 
     @Test
-    public void testGetPathParams() {
+    void testGetPathParams() {
         assertNull(MinijaxPathPattern.parse(getMethod("get1"), "").getParams());
         assertNull(MinijaxPathPattern.parse(getMethod("get1"), "/").getParams());
         assertNull(MinijaxPathPattern.parse(getMethod("get1"), "/foo").getParams());
@@ -52,7 +52,7 @@ public class PathPatternTest {
     }
 
     @Test
-    public void testConvertPathToRegex() {
+    void testConvertPathToRegex() {
         assertEquals("/", MinijaxPathPattern.parse(getMethod("get1"), "/").getPatternString());
         assertEquals("/x", MinijaxPathPattern.parse(getMethod("get1"), "/x").getPatternString());
         assertEquals("/x/y", MinijaxPathPattern.parse(getMethod("get1"), "/x/y").getPatternString());
@@ -62,7 +62,7 @@ public class PathPatternTest {
     }
 
     @Test
-    public void testDefaultRegex() {
+    void testDefaultRegex() {
         assertEquals("/(?<x>-?[0-9]+)", MinijaxPathPattern.parse(getMethod("getInt"), "/{x}").getPatternString());
         assertEquals("/(?<x>-?[0-9]+)", MinijaxPathPattern.parse(getMethod("getLong"), "/{x}").getPatternString());
         assertEquals("/(?<x>-?[0-9]+)", MinijaxPathPattern.parse(getMethod("getShort"), "/{x}").getPatternString());
@@ -75,7 +75,7 @@ public class PathPatternTest {
     }
 
     @Test
-    public void testIntRegex() {
+    void testIntRegex() {
         final Pattern p = MinijaxPathPattern.parse(getMethod("getInt"), "/{x}").getPattern();
         assertTrue(p.matcher("/100").matches());
         assertTrue(p.matcher("/0").matches());
@@ -87,7 +87,7 @@ public class PathPatternTest {
     }
 
     @Test
-    public void testDoubleRegex() {
+    void testDoubleRegex() {
         final Pattern p = MinijaxPathPattern.parse(getMethod("getDouble"), "/{x}").getPattern();
         assertTrue(p.matcher("/100").matches());
         assertTrue(p.matcher("/0").matches());
@@ -104,7 +104,7 @@ public class PathPatternTest {
     }
 
     @Test
-    public void testUuidRegex() {
+    void testUuidRegex() {
         final Pattern p = MinijaxPathPattern.parse(getMethod("getUuid"), "/{x}").getPattern();
         assertTrue(p.matcher("/" + UUID.randomUUID().toString()).matches());
         assertTrue(p.matcher("/" + IdUtils.create().toString()).matches());
@@ -116,37 +116,37 @@ public class PathPatternTest {
     }
 
     @Test
-    public void testUnexpectedCurly() {
+    void testUnexpectedCurly() {
         assertThrows(IllegalArgumentException.class, () -> MinijaxPathPattern.parse(getMethod("get1"), "}"));
     }
 
     @Test
-    public void testUnexpectedEnd() {
+    void testUnexpectedEnd() {
         assertThrows(IllegalArgumentException.class, () -> MinijaxPathPattern.parse(getMethod("get1"), "{"));
     }
 
     @Test
-    public void testMissingName() {
+    void testMissingName() {
         assertThrows(IllegalArgumentException.class, () -> MinijaxPathPattern.parse(getMethod("get1"), "{}"));
     }
 
     @Test
-    public void testMissingNameWithWhitespace() {
+    void testMissingNameWithWhitespace() {
         assertThrows(IllegalArgumentException.class, () -> MinijaxPathPattern.parse(getMethod("get1"), "{ : }"));
     }
 
     @Test
-    public void testMissingParam() {
+    void testMissingParam() {
         assertThrows(IllegalArgumentException.class, () -> MinijaxPathPattern.parse(getMethod("get1"), "{test}"));
     }
 
     @Test
-    public void testUnexpectedColon() {
+    void testUnexpectedColon() {
         assertThrows(IllegalArgumentException.class, () -> MinijaxPathPattern.parse(getMethod("get1"), "{:}"));
     }
 
     @Test
-    public void testNestedCurly() {
+    void testNestedCurly() {
         assertEquals("/(?<x>[a-z]{3})", MinijaxPathPattern.parse(getMethod("get2"), "/{x:[a-z]{3}}").getPatternString());
     }
 

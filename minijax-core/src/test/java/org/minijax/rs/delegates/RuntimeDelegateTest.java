@@ -13,59 +13,59 @@ import jakarta.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
 import org.junit.jupiter.api.Test;
 import org.minijax.rs.uri.MinijaxUriBuilder;
 
-public class RuntimeDelegateTest {
+class RuntimeDelegateTest {
 
     @Test
-    public void testCreateUriBuilder() {
+    void testCreateUriBuilder() {
         final UriBuilder uriBuilder = RuntimeDelegate.getInstance().createUriBuilder();
         assertNotNull(uriBuilder);
         assertTrue(uriBuilder instanceof MinijaxUriBuilder);
     }
 
     @Test
-    public void testCreateResponseBuilder() {
+    void testCreateResponseBuilder() {
         final ResponseBuilder rb = RuntimeDelegate.getInstance().createResponseBuilder();
         assertNotNull(rb);
     }
 
     @Test
-    public void testCreateMediaTypeDelegate() {
+    void testCreateMediaTypeDelegate() {
         final HeaderDelegate<MediaType> d = RuntimeDelegate.getInstance().createHeaderDelegate(MediaType.class);
         assertNotNull(d);
         assertTrue(d instanceof MinijaxMediaTypeDelegate);
     }
 
     @Test
-    public void testCreateCookieDelegate() {
+    void testCreateCookieDelegate() {
         final HeaderDelegate<Cookie> d = RuntimeDelegate.getInstance().createHeaderDelegate(Cookie.class);
         assertNotNull(d);
         assertTrue(d instanceof MinijaxCookieDelegate);
     }
 
     @Test
-    public void testCreateNewCookieDelegate() {
+    void testCreateNewCookieDelegate() {
         final HeaderDelegate<NewCookie> d = RuntimeDelegate.getInstance().createHeaderDelegate(NewCookie.class);
         assertNotNull(d);
         assertTrue(d instanceof MinijaxNewCookieDelegate);
     }
 
     @Test
-    public void testCreateUnknownDelegate() {
+    void testCreateUnknownDelegate() {
         assertThrows(IllegalArgumentException.class, () -> RuntimeDelegate.getInstance().createHeaderDelegate(Object.class));
     }
 
     @Test
-    public void testCreateVariantListBuilder() {
+    void testCreateVariantListBuilder() {
         assertThrows(UnsupportedOperationException.class, () -> RuntimeDelegate.getInstance().createVariantListBuilder());
     }
 
     @Test
-    public void testCreateEndpoint() {
+    void testCreateEndpoint() {
         assertThrows(UnsupportedOperationException.class, () -> RuntimeDelegate.getInstance().createEndpoint(null, null));
     }
 
     @Test
-    public void testCreateLinkBuilder() {
+    void testCreateLinkBuilder() {
         assertThrows(UnsupportedOperationException.class, () -> RuntimeDelegate.getInstance().createLinkBuilder());
     }
 }

@@ -14,40 +14,40 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-public class NetworkUtilsTest {
+class NetworkUtilsTest {
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertThrows(UnsupportedOperationException.class, NetworkUtils::new);
     }
 
     @Test
-    public void testEmptyInterfaces() {
+    void testEmptyInterfaces() {
         final Enumeration<NetworkInterface> nis = enumeration(emptyList());
         assertNull(NetworkUtils.getIpAddress(nis));
     }
 
     @Test
-    public void testLoopbackOnly() {
+    void testLoopbackOnly() {
         final Enumeration<NetworkInterface> nis = enumeration(singletonList(createInterface("127.0.0.1")));
         assertNull(NetworkUtils.getIpAddress(nis));
     }
 
     @Test
-    public void testLinkLocalOnly() {
+    void testLinkLocalOnly() {
         final Enumeration<NetworkInterface> nis = enumeration(singletonList(createInterface("169.254.172.42")));
         assertNull(NetworkUtils.getIpAddress(nis));
     }
 
     @Test
-    public void testIpv6Only() {
+    void testIpv6Only() {
         final Enumeration<NetworkInterface> nis = enumeration(
                 singletonList(createInterface("2001:0db8:85a3:0000:0000:8a2e:0370:7334")));
         assertNull(NetworkUtils.getIpAddress(nis));
     }
 
     @Test
-    public void testFargate() {
+    void testFargate() {
         final Enumeration<NetworkInterface> nis = enumeration(
                 asList(createInterface("127.0.0.1"), createInterface("169.254.172.42"),
                         createInterface("2001:0db8:85a3:0000:0000:8a2e:0370:7334", "10.0.0.1")));

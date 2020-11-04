@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-public class MethodInjectTest {
+class MethodInjectTest {
 
     @Singleton
     static class MethodInjectResource {
@@ -20,7 +20,7 @@ public class MethodInjectTest {
     }
 
     @Test
-    public void testMethodInject() {
+    void testMethodInject() {
         try (final MinijaxInjector injector = new MinijaxInjector()) {
             final MethodInjectResource r = injector.getResource(MethodInjectResource.class);
             assertNotNull(r);

@@ -12,10 +12,10 @@ import org.junit.jupiter.api.Test;
 
 import com.example.HelloWebSocket.EchoEndpoint;
 
-public class HelloWebSocketTest {
+class HelloWebSocketTest {
 
     @Test
-    public void testWebSocket() throws IOException {
+    void testWebSocket() throws IOException {
         final EchoEndpoint endpoint = new EchoEndpoint();
         final Session session = getSession();
         endpoint.onOpen(session);
@@ -25,7 +25,7 @@ public class HelloWebSocketTest {
 
 
     @Test
-    public void testWebSocketError() throws IOException {
+    void testWebSocketError() throws IOException {
         final EchoEndpoint endpoint = new EchoEndpoint();
         final Session session = getSession();
         endpoint.onOpen(session);
