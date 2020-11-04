@@ -1,6 +1,7 @@
 package org.minijax.json;
 
 import static jakarta.ws.rs.core.MediaType.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
@@ -71,12 +72,10 @@ class ReaderTest extends MinijaxTest {
     @Test
     @SuppressWarnings("unchecked")
     void testReaderException() throws IOException {
-        assertThrows(BadRequestException.class, () -> {
-            final String json = "";
-            final ByteArrayInputStream inputStream = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
-            final MessageBodyReader<Object> objReader = (MessageBodyReader<Object>) reader;
-            objReader.readFrom(Object.class, null, null, null, null, inputStream);
-        });
+        final String json = "";
+        final ByteArrayInputStream inputStream = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
+        final MessageBodyReader<Object> objReader = (MessageBodyReader<Object>) reader;
+        assertThrows(BadRequestException.class, () -> objReader.readFrom(Object.class, null, null, null, null, inputStream));
     }
 
     @Test

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.json.bind.JsonbException;
+
 import org.junit.jupiter.api.Test;
 
 class JsonMapConverterTest {
@@ -57,21 +58,15 @@ class JsonMapConverterTest {
 
     @Test
     void testInvalidJsonParse() {
-        assertThrows(JsonbException.class, () -> {
         final JsonMapConverter c = new JsonMapConverter();
-        c.convertToEntityAttribute("{");
-    });
+        assertThrows(JsonbException.class, () -> c.convertToEntityAttribute("{"));
     }
 
     @Test
     void testInvalidJsonWrite() {
-        assertThrows(JsonbException.class, () -> {
         final JsonMapConverter c = new JsonMapConverter();
-
         final Map<String, Object> m1 = new HashMap<>();
         m1.put("a", new Object());
-
-        c.convertToDatabaseColumn(m1);
-    });
+        assertThrows(JsonbException.class, () -> c.convertToDatabaseColumn(m1));
     }
 }

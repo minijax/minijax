@@ -28,10 +28,8 @@ class UrlConverterTest {
 
     @Test
     void testMalformedUrl() throws MalformedURLException {
-        assertThrows(MinijaxException.class, () -> {
         final UrlConverter c = new UrlConverter();
         final String str = "! bad url !";
-        c.convertToEntityAttribute(str);
-    });
+        assertThrows(MinijaxException.class, () -> c.convertToEntityAttribute(str));
     }
 }

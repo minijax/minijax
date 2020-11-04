@@ -29,17 +29,13 @@ class NameClassPairEnumerationTest {
 
     @Test
     void testNextElement() {
-        assertThrows(UnsupportedOperationException.class, () -> {
         final MinijaxNameClassPairEnumeration e = new MinijaxNameClassPairEnumeration(new HashMap<>());
-        e.nextElement();
-    });
+        assertThrows(UnsupportedOperationException.class, () -> e.nextElement());
     }
 
     @Test
     void testHasMoreElements() {
-        assertThrows(UnsupportedOperationException.class, () -> {
         final MinijaxNameClassPairEnumeration e = new MinijaxNameClassPairEnumeration(new HashMap<>());
-        e.hasMoreElements();
-    });
+        assertThrows(UnsupportedOperationException.class, () -> e.hasMoreElements());
     }
 }

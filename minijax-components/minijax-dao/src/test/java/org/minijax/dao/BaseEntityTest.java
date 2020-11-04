@@ -28,8 +28,8 @@ class BaseEntityTest {
         final Widget w3 = new Widget();
         w3.setId(w2.getId());
 
-        assertNotEquals(w1, null);
-        assertNotEquals(w1, new Object());
+        assertNotEquals(null, w1);
+        assertNotEquals(new Object(), w1);
         assertNotEquals(w1, w2);
 
         assertEquals(w1, w1);
@@ -61,10 +61,8 @@ class BaseEntityTest {
 
     @Test
     void testCopyPropertiesNull() {
-        assertThrows(NullPointerException.class, () -> {
-            final Widget w = new Widget();
-            w.copyNonNullProperties(null);
-        });
+        final Widget w = new Widget();
+        assertThrows(NullPointerException.class, () -> w.copyNonNullProperties(null));
     }
 
     static class DifferentEntity extends DefaultBaseEntity {
@@ -73,10 +71,8 @@ class BaseEntityTest {
 
     @Test
     void testCopyPropertiesDifferentClass() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            final Widget w = new Widget();
-            w.copyNonNullProperties(new DifferentEntity());
-        });
+        final Widget w = new Widget();
+        assertThrows(IllegalArgumentException.class, () -> w.copyNonNullProperties(new DifferentEntity()));
     }
 
     @Test

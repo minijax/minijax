@@ -29,17 +29,13 @@ class BindingsEnumerationTest {
 
     @Test
     void testNextElement() {
-        assertThrows(UnsupportedOperationException.class, () -> {
         final MinijaxBindingsEnumeration e = new MinijaxBindingsEnumeration(new HashMap<>());
-        e.nextElement();
-    });
+        assertThrows(UnsupportedOperationException.class, () -> e.nextElement());
     }
 
     @Test
     void testHasMoreElements() {
-        assertThrows(UnsupportedOperationException.class, () -> {
         final MinijaxBindingsEnumeration e = new MinijaxBindingsEnumeration(new HashMap<>());
-        e.hasMoreElements();
-    });
+        assertThrows(UnsupportedOperationException.class, () -> e.hasMoreElements());
     }
 }

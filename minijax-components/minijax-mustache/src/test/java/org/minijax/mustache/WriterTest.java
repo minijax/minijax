@@ -62,11 +62,8 @@ class WriterTest extends MinijaxTest {
 
     @Test
     void testMissingTemplate() throws IOException {
-        assertThrows(MustacheNotFoundException.class, () -> {
         final View view = new View("oops");
-
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        writer.writeTo(view, View.class, null, null, TEXT_HTML_TYPE, null, outputStream);
-    });
+        assertThrows(MustacheNotFoundException.class, () -> writer.writeTo(view, View.class, null, null, TEXT_HTML_TYPE, null, outputStream));
     }
 }
