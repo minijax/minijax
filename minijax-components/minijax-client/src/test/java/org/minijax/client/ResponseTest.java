@@ -1,6 +1,7 @@
 package org.minijax.client;
 
 import static jakarta.ws.rs.core.MediaType.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -8,7 +9,6 @@ import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpResponse;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;

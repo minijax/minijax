@@ -1,7 +1,5 @@
 package org.minijax.nio;
 
-import static java.util.Arrays.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;

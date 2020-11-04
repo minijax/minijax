@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 
-import jakarta.websocket.MessageHandler;
 import jakarta.websocket.MessageHandler.Partial;
 import jakarta.websocket.MessageHandler.Whole;
 

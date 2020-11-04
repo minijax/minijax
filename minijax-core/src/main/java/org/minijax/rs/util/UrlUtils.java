@@ -1,7 +1,6 @@
 
 package org.minijax.rs.util;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -12,15 +11,10 @@ import java.util.Map.Entry;
 import jakarta.ws.rs.core.MultivaluedHashMap;
 import jakarta.ws.rs.core.MultivaluedMap;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * The Utils class provides a hodge podge of general utility functions.
  */
 public class UrlUtils {
-    private static final Logger LOG = LoggerFactory.getLogger(UrlUtils.class);
-    private static final String UTF8 = "UTF-8";
 
     UrlUtils() {
         throw new UnsupportedOperationException();
@@ -69,7 +63,7 @@ public class UrlUtils {
 
         final String[] pairs = str.split("&");
 
-        for (String pair : pairs) {
+        for (final String pair : pairs) {
             final String[] keyValue = pair.split("=");
             final String key = keyValue[0];
             final String value = keyValue.length > 1 ? keyValue[1] : null;
@@ -94,7 +88,7 @@ public class UrlUtils {
 
         final String[] pairs = str.split("&");
 
-        for (String pair : pairs) {
+        for (final String pair : pairs) {
             final String[] keyValue = pair.split("=");
             final String key = keyValue[0];
             final String value = keyValue.length > 1 ? keyValue[1] : null;

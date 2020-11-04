@@ -2,7 +2,6 @@ package org.minijax.persistence.criteria;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.metamodel.CollectionAttribute;
 import jakarta.persistence.metamodel.ListAttribute;
 import jakarta.persistence.metamodel.MapAttribute;

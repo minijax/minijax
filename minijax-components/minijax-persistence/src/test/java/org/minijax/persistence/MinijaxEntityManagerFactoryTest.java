@@ -36,7 +36,6 @@ class MinijaxEntityManagerFactoryTest {
     }
 
     @Test
-    @SuppressWarnings("rawtypes")
     void testCreateEntityManager3() {
         assertThrows(UnsupportedOperationException.class, () -> emf.createEntityManager(null, null));
     }
