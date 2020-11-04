@@ -39,8 +39,8 @@ class KeyTest {
             assertNotEquals(k1, k3);
             assertEquals(k1.hashCode(), k2.hashCode());
             assertNotEquals(k1.hashCode(), k3.hashCode());
-            assertNotEquals(k1, null);
-            assertNotEquals(k1, new Object());
+            assertNotEquals(null, k1);
+            assertNotEquals(new Object(), k1);
         }
     }
 

@@ -31,6 +31,7 @@ import org.minijax.rs.util.CacheControlUtils;
 
 class InvocationBuilderTest {
     private MinijaxClient client;
+    private MinijaxClientInvocationBuilder builder;
 
     @BeforeEach
     public void setUp() throws IOException, InterruptedException {
@@ -47,6 +48,7 @@ class InvocationBuilderTest {
         when(httpClient.send(any(), same(BodyHandlers.ofInputStream()))).thenReturn(httpResponse);
 
         client = new MinijaxClient(httpClient);
+        builder = target("/").request();
     }
 
     public MinijaxClientWebTarget target(final String uri) {
@@ -55,209 +57,209 @@ class InvocationBuilderTest {
 
     @Test
     void testHead() {
-        assertNotNull(target("/").request().head());
+        assertNotNull(builder.head());
     }
 
     @Test
     void testOptions() {
-        assertNotNull(target("/").request().options());
+        assertNotNull(builder.options());
     }
 
     @Test
     void testOptionsClass() {
-        assertNotNull(target("/").request().options(String.class));
+        assertNotNull(builder.options(String.class));
     }
 
     @Test
     void testOptionsGenericType() {
-        assertNotNull(target("/").request().options(new GenericType<String>() {}));
+        assertNotNull(builder.options(new GenericType<String>() {}));
     }
 
     @Test
     void testGet() {
-        assertNotNull(target("/").request().get());
+        assertNotNull(builder.get());
     }
 
     @Test
     void testGetClass() {
-        assertNotNull(target("/").request().get(String.class));
+        assertNotNull(builder.get(String.class));
     }
 
     @Test
     void testGetGenericType() {
-        assertNotNull(target("/").request().get(new GenericType<String>() {}));
+        assertNotNull(builder.get(new GenericType<String>() {}));
     }
 
     @Test
     void testDelete() {
-        assertNotNull(target("/").request().delete());
+        assertNotNull(builder.delete());
     }
 
     @Test
     void testDeleteClass() {
-        assertNotNull(target("/").request().delete(String.class));
+        assertNotNull(builder.delete(String.class));
     }
 
     @Test
     void testDeleteGenericType() {
-        assertNotNull(target("/").request().delete(new GenericType<String>() {}));
+        assertNotNull(builder.delete(new GenericType<String>() {}));
     }
 
     @Test
     void testPost() {
-        assertNotNull(target("/").request().post(null));
+        assertNotNull(builder.post(null));
     }
 
     @Test
     void testPostClass() {
-        assertNotNull(target("/").request().post(null, String.class));
+        assertNotNull(builder.post(null, String.class));
     }
 
     @Test
     void testPostGenericType() {
-        assertNotNull(target("/").request().post(null, new GenericType<String>() {}));
+        assertNotNull(builder.post(null, new GenericType<String>() {}));
     }
 
     @Test
     void testPut() {
-        assertNotNull(target("/").request().put(null));
+        assertNotNull(builder.put(null));
     }
 
     @Test
     void testPutClass() {
-        assertNotNull(target("/").request().put(null, String.class));
+        assertNotNull(builder.put(null, String.class));
     }
 
     @Test
     void testPutGenericType() {
-        assertNotNull(target("/").request().put(null, new GenericType<String>() {}));
+        assertNotNull(builder.put(null, new GenericType<String>() {}));
     }
 
     @Test
     void testTrace() {
-        assertNotNull(target("/").request().trace());
+        assertNotNull(builder.trace());
     }
 
     @Test
     void testTraceClass() {
-        assertNotNull(target("/").request().trace(String.class));
+        assertNotNull(builder.trace(String.class));
     }
 
     @Test
     void testTraceGenericType() {
-        assertNotNull(target("/").request().trace(new GenericType<String>() {}));
+        assertNotNull(builder.trace(new GenericType<String>() {}));
     }
 
     @Test
     void testBuild() {
-        assertNotNull(target("/").request().build("GET"));
+        assertNotNull(builder.build("GET"));
     }
 
     @Test
     void testBuild2() {
-        assertNotNull(target("/").request().build("GET", null));
+        assertNotNull(builder.build("GET", null));
     }
 
     @Test
     void testBuildGet() {
-        assertNotNull(target("/").request().buildGet());
+        assertNotNull(builder.buildGet());
     }
 
     @Test
     void testBuildDelete() {
-        assertNotNull(target("/").request().buildDelete());
+        assertNotNull(builder.buildDelete());
     }
 
     @Test
     void testBuildPost() {
-        assertNotNull(target("/").request().buildPost(null));
+        assertNotNull(builder.buildPost(null));
     }
 
     @Test
     void testBuildPut() {
-        assertNotNull(target("/").request().buildPut(null));
+        assertNotNull(builder.buildPut(null));
     }
 
     @Test
     void testMethod() {
-        assertNotNull(target("/").request().method(GET));
+        assertNotNull(builder.method(GET));
     }
 
     @Test
     void testMethodClass() {
-        assertNotNull(target("/").request().method(GET, String.class));
+        assertNotNull(builder.method(GET, String.class));
     }
 
     @Test
     void testMethodGenericType() {
-        assertNotNull(target("/").request().method(GET, new GenericType<String>() {}));
+        assertNotNull(builder.method(GET, new GenericType<String>() {}));
     }
 
     @Test
     void testMethodEntity() {
-        assertNotNull(target("/").request().method(POST, Entity.text("Hello")));
+        assertNotNull(builder.method(POST, Entity.text("Hello")));
     }
 
     @Test
     void testMethodEntityClass() {
-        assertNotNull(target("/").request().method(POST, Entity.text("Hello"), String.class));
+        assertNotNull(builder.method(POST, Entity.text("Hello"), String.class));
     }
 
     @Test
     void testMethodEntityGenericType() {
-        assertNotNull(target("/").request().method(POST, Entity.text("Hello"), new GenericType<String>() {}));
+        assertNotNull(builder.method(POST, Entity.text("Hello"), new GenericType<String>() {}));
     }
 
     @Test
     void testHeader() {
-        assertNotNull(target("/").request().header("foo", "bar"));
+        assertNotNull(builder.header("foo", "bar"));
     }
 
     @Test
     void testHeaders() {
         final MultivaluedMap<String, Object> headers = new MultivaluedHashMap<>();
         headers.add("foo", "bar");
-        assertNotNull(target("/").request().headers(headers));
+        assertNotNull(builder.headers(headers));
     }
 
     @Test
     void testAccept1() {
-        assertEquals("text/plain, text/html", target("/").request().accept("text/plain, text/html").getHttpRequest().build().headers().firstValue("Accept").get());
+        assertEquals("text/plain, text/html", builder.accept("text/plain, text/html").getHttpRequest().build().headers().firstValue("Accept").get());
     }
 
     @Test
     void testAccept2() {
-        assertEquals("text/plain, text/html", target("/").request().accept(TEXT_PLAIN_TYPE, TEXT_HTML_TYPE).getHttpRequest().build().headers().firstValue("Accept").get());
+        assertEquals("text/plain, text/html", builder.accept(TEXT_PLAIN_TYPE, TEXT_HTML_TYPE).getHttpRequest().build().headers().firstValue("Accept").get());
     }
 
     @Test
     void testAcceptLanguage1() {
-        assertEquals("en-US, en-GB", target("/").request().acceptLanguage("en-US", "en-GB").getHttpRequest().build().headers().firstValue("Accept-Language").get());
+        assertEquals("en-US, en-GB", builder.acceptLanguage("en-US", "en-GB").getHttpRequest().build().headers().firstValue("Accept-Language").get());
     }
 
     @Test
     void testAcceptLanguage2() {
-        assertEquals("en-US, en-GB", target("/").request().acceptLanguage(Locale.US, Locale.UK).getHttpRequest().build().headers().firstValue("Accept-Language").get());
+        assertEquals("en-US, en-GB", builder.acceptLanguage(Locale.US, Locale.UK).getHttpRequest().build().headers().firstValue("Accept-Language").get());
     }
 
     @Test
     void testAcceptEncoding() {
-        assertEquals("gzip", target("/").request().acceptEncoding("gzip").getHttpRequest().build().headers().firstValue("Accept-Encoding").get());
+        assertEquals("gzip", builder.acceptEncoding("gzip").getHttpRequest().build().headers().firstValue("Accept-Encoding").get());
     }
 
     @Test
     void testCookie1() {
-        assertEquals("a=\"b\"", target("/").request().cookie(new Cookie("a", "b")).getHttpRequest().build().headers().firstValue("Cookie").get());
+        assertEquals("a=\"b\"", builder.cookie(new Cookie("a", "b")).getHttpRequest().build().headers().firstValue("Cookie").get());
     }
 
     @Test
     void testCookie2() {
-        assertEquals("a=\"b\"", target("/").request().cookie("a", "b").getHttpRequest().build().headers().firstValue("Cookie").get());
+        assertEquals("a=\"b\"", builder.cookie("a", "b").getHttpRequest().build().headers().firstValue("Cookie").get());
     }
 
     @Test
     void testCacheControl() {
-        assertEquals("public", target("/").request().cacheControl(CacheControlUtils.fromString("public")).getHttpRequest().build().headers().firstValue("Cache-Control").get());
+        assertEquals("public", builder.cacheControl(CacheControlUtils.fromString("public")).getHttpRequest().build().headers().firstValue("Cache-Control").get());
     }
 
     /*
@@ -266,21 +268,21 @@ class InvocationBuilderTest {
 
     @Test
     void testProperty() {
-        assertThrows(UnsupportedOperationException.class, () -> target("/").request().property(null, null));
+        assertThrows(UnsupportedOperationException.class, () -> builder.property(null, null));
     }
 
     @Test
     void testAsync() {
-        assertThrows(UnsupportedOperationException.class, () -> target("/").request().async());
+        assertThrows(UnsupportedOperationException.class, () -> builder.async());
     }
 
     @Test
     void testRx() {
-        assertThrows(UnsupportedOperationException.class, () -> target("/").request().rx());
+        assertThrows(UnsupportedOperationException.class, () -> builder.rx());
     }
 
     @Test
     void testRxClass() {
-        assertThrows(UnsupportedOperationException.class, () -> target("/").request().rx(null));
+        assertThrows(UnsupportedOperationException.class, () -> builder.rx(null));
     }
 }

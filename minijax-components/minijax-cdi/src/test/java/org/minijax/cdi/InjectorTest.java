@@ -234,9 +234,7 @@ class InjectorTest {
 
     @Test
     void testInitExplodingSetter() {
-        assertThrows(InjectionException.class, () -> {
-            final ExplodingSetter instance = new ExplodingSetter();
-            injector.initResource(instance, null);
-        });
+        final ExplodingSetter instance = new ExplodingSetter();
+        assertThrows(InjectionException.class, () -> injector.initResource(instance, null));
     }
 }
