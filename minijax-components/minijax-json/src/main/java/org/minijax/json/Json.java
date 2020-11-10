@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
+import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.config.PropertyOrderStrategy;
 import jakarta.json.bind.config.PropertyVisibilityStrategy;
 
@@ -41,7 +42,7 @@ public class Json {
 
             @Override
             public boolean isVisible(final Method method) {
-                return false;
+                return method.getAnnotation(JsonbProperty.class) != null;
             }
         };
 
