@@ -4,7 +4,7 @@
 Minijax
 =======
 
-Lightweight ~~Java EE~~ Jakarta EE
+Lightweight Jakarta EE
 
 * Fast and simple JAX-RS, JSON, WebSockets, JPA, dependency injection
 * Code to standard Java and Java EE API's as much as possible
@@ -17,13 +17,13 @@ Getting Started
 <dependency>
     <groupId>org.minijax</groupId>
     <artifactId>minijax-undertow</artifactId>
-    <version>0.5.3</version>
+    <version>0.5.4</version>
 </dependency>
 ```
 
 ```java
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
 
 import org.minijax.Minijax;
 
@@ -51,12 +51,12 @@ Minijax uses the JSR-330 standard for dependency injection.  It recognizes stand
 ```java
 package com.example;
 
-import javax.inject.Inject;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.ext.Provider;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.DefaultValue;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.ext.Provider;
 
 import org.minijax.Minijax;
 
@@ -105,19 +105,19 @@ Minijax provides a rich set of testing features that integrate with standard tes
 package com.example;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+
 import static org.mockito.Mockito.*;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.minijax.test.MinijaxTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.minijax.rs.test.MinijaxTest;
 
 import com.example.HelloInjection.MyResource;
 import com.example.HelloInjection.MyService;
 
-public class HelloInjectionTest extends MinijaxTest {
+class HelloInjectionTest extends MinijaxTest {
 
-    @Before
+    @BeforeEach
     public void setUp() {
         final MyService mockService = mock(MyService.class);
         when(mockService.shout(eq("friend"))).thenReturn("FRIEND");
@@ -128,12 +128,12 @@ public class HelloInjectionTest extends MinijaxTest {
     }
 
     @Test
-    public void testDefault() {
+    void testDefault() {
         assertEquals("Hello FRIEND", target("/").request().get(String.class));
     }
 
     @Test
-    public void testQueryString() {
+    void testQueryString() {
         assertEquals("Hello CODY", target("/?name=cody").request().get(String.class));
     }
 }

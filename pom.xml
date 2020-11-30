@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.minijax</groupId>
     <artifactId>minijax</artifactId>
-    <version>0.5.4-SNAPSHOT</version>
+    <version>0.5.4</version>
     <packaging>pom</packaging>
     <name>minijax</name>
     <description>Minijax - Lightweight JAX-RS and JSR-330</description>
@@ -42,8 +42,6 @@
         <module>minijax-archetypes</module>
         <module>minijax-components</module>
         <module>minijax-core</module>
-        <module>minijax-coverage</module>
-        <module>minijax-examples</module>
         <module>minijax-servers</module>
     </modules>
     <scm>
