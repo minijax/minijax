@@ -501,6 +501,8 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
 
         context.setResourceMethod(rm);
 
+        Response response = null;
+
         try {
             if (securityContextClass != null) {
                 context.setSecurityContext(context.getResource(securityContextClass));
@@ -508,16 +510,23 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
 
             runRequestFilters(context);
             checkSecurity(context);
-            final Response response = context.toResponse(rm, rm.invoke(context));
-            runResponseFilters(context, response);
-            return response;
+            response = context.toResponse(rm, rm.invoke(context));
         } catch (final MinijaxAbortException ex) {
-            return ex.getResponse();
+            response = ex.getResponse();
         } catch (final WebApplicationException ex) {
             LOG.debug(ex.getMessage(), ex);
-            return context.toResponse(ex);
+            response = context.toResponse(ex);
         } catch (final Exception ex) {
             LOG.warn(ex.getMessage(), ex);
+            response = context.toResponse(ex);
+        }
+
+        try {
+            runResponseFilters(context, response);
+            return response;
+        } catch (final Exception ex) {
+            // ContextResponseFilters should not throw exceptions, but they might
+            LOG.error(ex.getMessage(), ex);
             return context.toResponse(ex);
         }
     }
