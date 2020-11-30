@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.minijax</groupId>
         <artifactId>minijax-components</artifactId>
-        <version>0.5.5</version>
+        <version>0.5.6-SNAPSHOT</version>
     </parent>
     <artifactId>minijax-dao</artifactId>
     <packaging>jar</packaging>
