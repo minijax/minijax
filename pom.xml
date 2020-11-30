@@ -82,24 +82,24 @@
         <dockerfile.version>1.4.0</dockerfile.version>
         <eclipselink.version>3.0.0-M1</eclipselink.version>
         <h2.version>1.4.200</h2.version>
-        <jakarta-annotation.version>2.0.0-RC1</jakarta-annotation.version>
+        <jakarta-annotation.version>2.0.0</jakarta-annotation.version>
         <jakarta-cdi.version>3.0.0-M4</jakarta-cdi.version>
         <jakarta-inject-tck.version>2.0.1</jakarta-inject-tck.version>
         <jakarta-inject.version>2.0.0</jakarta-inject.version>
-        <jakarta-persistence.version>3.0.0-RC2</jakarta-persistence.version>
-        <jakarta-rs.version>3.0.0-M1</jakarta-rs.version>
+        <jakarta-persistence.version>3.0.0</jakarta-persistence.version>
+        <jakarta-rs.version>3.0.0</jakarta-rs.version>
         <jakarta-servlet.version>5.0.0</jakarta-servlet.version>
-        <jakarta-validation.version>3.0.0-M1</jakarta-validation.version>
-        <jakarta-websocket.version>2.0.0-RC1</jakarta-websocket.version>
+        <jakarta-validation.version>3.0.0</jakarta-validation.version>
+        <jakarta-websocket.version>2.0.0</jakarta-websocket.version>
         <junit.version>5.7.0</junit.version>
-        <kotlin.version>1.4.10</kotlin.version>
-        <liquibase.version>4.1.1</liquibase.version>
+        <kotlin.version>1.4.20</kotlin.version>
+        <liquibase.version>4.2.0</liquibase.version>
         <logback.version>1.2.3</logback.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <mockito.version>3.6.0</mockito.version>
+        <mockito.version>3.6.28</mockito.version>
         <mustache.version>0.9.7</mustache.version>
-        <netty.version>4.1.53.Final</netty.version>
+        <netty.version>4.1.54.Final</netty.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <shade.version>3.1.0</shade.version>
         <site.basedir>${session.executionRootDirectory}/src/site/</site.basedir>
