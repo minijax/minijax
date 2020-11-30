@@ -45,10 +45,6 @@
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>
-            <artifactId>minijax-persistence</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.minijax</groupId>
             <artifactId>minijax-validation</artifactId>
         </dependency>
         <dependency>

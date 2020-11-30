@@ -24,16 +24,14 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.jpa</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.jpa</artifactId>
-        </dependency>
-         -->
         <dependency>
             <groupId>org.minijax</groupId>
             <artifactId>minijax-dao</artifactId>
@@ -45,10 +43,6 @@
         <dependency>
             <groupId>org.minijax</groupId>
             <artifactId>minijax-nio</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.minijax</groupId>
-            <artifactId>minijax-persistence</artifactId>
         </dependency>
     </dependencies>
 </project>

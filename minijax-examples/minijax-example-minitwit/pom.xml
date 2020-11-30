@@ -19,12 +19,10 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
-        <!--
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>org.eclipse.persistence.jpa</artifactId>
         </dependency>
-        -->
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
@@ -45,10 +43,6 @@
         <dependency>
             <groupId>org.minijax</groupId>
             <artifactId>minijax-nio</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.minijax</groupId>
-            <artifactId>minijax-persistence</artifactId>
         </dependency>
         <dependency>
             <groupId>org.minijax</groupId>

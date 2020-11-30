@@ -19,7 +19,6 @@
         <module>minijax-json</module>
         <module>minijax-liquibase</module>
         <module>minijax-mustache</module>
-        <module>minijax-persistence</module>
         <module>minijax-security</module>
         <module>minijax-validation</module>
         <module>minijax-view</module>
