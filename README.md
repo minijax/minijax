@@ -17,7 +17,7 @@ Getting Started
 <dependency>
     <groupId>org.minijax</groupId>
     <artifactId>minijax-undertow</artifactId>
-    <version>0.5.4</version>
+    <version>0.5.5</version>
 </dependency>
 ```
 
