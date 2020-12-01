@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -48,6 +49,10 @@ class CorsTest extends MinijaxTest {
     void testOptionsCors() {
         final Response r = target("/api/test").request().header("Origin", "http://test").options();
         assertEquals("http://test", r.getHeaderString("Access-Control-Allow-Origin"));
+
+        final MultivaluedMap<String, Object> headers = r.getHeaders();
+        assertEquals(1, headers.get("Access-Control-Allow-Origin").size());
+        assertEquals("http://test", headers.get("Access-Control-Allow-Origin").get(0));
     }
 
     @Test

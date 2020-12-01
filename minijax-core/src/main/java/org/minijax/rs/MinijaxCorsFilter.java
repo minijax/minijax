@@ -27,9 +27,7 @@ class MinijaxCorsFilter implements ContainerRequestFilter, ContainerResponseFilt
     @Override
     public void filter(final ContainerRequestContext requestContext) throws IOException {
         if (requestContext.getMethod().equals("OPTIONS")) {
-            final Response response = Response.ok().build();
-            allowCors(requestContext, response.getHeaders());
-            requestContext.abortWith(response);
+            requestContext.abortWith(Response.ok().build());
         }
     }
 

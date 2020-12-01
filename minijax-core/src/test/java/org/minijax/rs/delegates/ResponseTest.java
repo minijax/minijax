@@ -60,121 +60,135 @@ class ResponseTest extends MinijaxTest {
     }
 
     @Test
+    void testGetHeaderString() {
+        final MinijaxResponse r = new MinijaxResponseBuilder()
+                .header("b", "")
+                .header("c", "foo")
+                .header("d", "foo")
+                .header("d", "bar")
+                .build();
+        assertEquals(null, r.getHeaderString("a"));
+        assertEquals("", r.getHeaderString("b"));
+        assertEquals("foo", r.getHeaderString("c"));
+        assertEquals("foo,bar", r.getHeaderString("d"));
+    }
+
+    @Test
     void testBufferEntity() {
+        final MinijaxResponse r = new MinijaxResponseBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> {
-            final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.bufferEntity();
         });
     }
 
     @Test
     void testGetAllowedMethods() {
+        final MinijaxResponse r = new MinijaxResponseBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> {
-            final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.getAllowedMethods();
         });
     }
 
     @Test
     void testGetEntityAnnotations() {
+        final MinijaxResponse r = new MinijaxResponseBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> {
-            final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.getEntityAnnotations();
         });
     }
 
     @Test
     void testGetEntityStream() {
+        final MinijaxResponse r = new MinijaxResponseBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> {
-            final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.getEntityStream();
         });
     }
 
     @Test
     void testGetEntityType() {
+        final MinijaxResponse r = new MinijaxResponseBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> {
-            final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.getEntityType();
         });
     }
 
     @Test
     void testGetLink() {
+        final MinijaxResponse r = new MinijaxResponseBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> {
-            final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.getLink(null);
         });
     }
 
     @Test
     void testGetLinkBuilder() {
+        final MinijaxResponse r = new MinijaxResponseBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> {
-            final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.getLinkBuilder(null);
         });
     }
 
     @Test
     void testGetMetadata() {
+        final MinijaxResponse r = new MinijaxResponseBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> {
-            final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.getMetadata();
         });
     }
 
     @Test
     void testGetStringHeaders() {
+        final MinijaxResponse r = new MinijaxResponseBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> {
-            final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.getStringHeaders();
         });
     }
 
     @Test
     void testhasEntity() {
+        final MinijaxResponse r = new MinijaxResponseBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> {
-            final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.hasEntity();
         });
     }
 
     @Test
     void testhasLink() {
+        final MinijaxResponse r = new MinijaxResponseBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> {
-            final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.hasLink(null);
         });
     }
 
     @Test
     void testReadEntity2() {
+        final MinijaxResponse r = new MinijaxResponseBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> {
-            final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.readEntity((Class<?>) null, (Annotation[]) null);
         });
     }
 
     @Test
     void testReadEntity3() {
+        final MinijaxResponse r = new MinijaxResponseBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> {
-            final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.readEntity((GenericType<?>) null);
         });
     }
 
     @Test
     void testReadEntity4() {
+        final MinijaxResponse r = new MinijaxResponseBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> {
-            final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.readEntity((GenericType<?>) null, (Annotation[]) null);
         });
     }
 
     @Test
     void testSetEntityStream() {
+        final MinijaxResponse r = new MinijaxResponseBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> {
-            final MinijaxResponse r = new MinijaxResponseBuilder().build();
             r.setEntityStream(null);
         });
     }

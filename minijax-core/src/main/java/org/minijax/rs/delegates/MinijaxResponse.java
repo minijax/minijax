@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import jakarta.ws.rs.container.ContainerResponseContext;
 import jakarta.ws.rs.core.EntityTag;
@@ -126,7 +127,16 @@ class MinijaxResponse extends jakarta.ws.rs.core.Response implements ContainerRe
     @Override
     public String getHeaderString(final String name) {
         final List<Object> values = headers.get(name);
-        return values != null ? values.get(0).toString() : null;
+        if (values == null) {
+            return null;
+        }
+        if (values.isEmpty()) {
+            return "";
+        }
+        if (values.size() == 1) {
+            return values.get(0).toString();
+        }
+        return values.stream().map(h -> h.toString()).collect(Collectors.joining(","));
     }
 
     @Override
