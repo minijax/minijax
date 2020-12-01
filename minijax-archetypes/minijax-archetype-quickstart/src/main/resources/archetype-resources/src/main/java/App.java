@@ -5,10 +5,10 @@ import jakarta.ws.rs.Path;
 
 import org.minijax.Minijax;
 
+@Path("/")
 public class App {
 
     @GET
-    @Path("/")
     public static String hello() {
         return "Hello world!";
     }

@@ -2,13 +2,13 @@ package $package;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.minijax.test.MinijaxTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.minijax.rs.test.MinijaxTest;
 
 class AppTest extends MinijaxTest {
 
-    @Before
+    @BeforeEach
     public void setUp() {
         register(App.class);
     }
