@@ -151,7 +151,7 @@ public class MinijaxTestInvocationBuilder implements jakarta.ws.rs.client.Invoca
                 application,
                 name,
                 new MinijaxUriInfo(target.getUri()),
-                new MinijaxTestHttpHeaders(headers, cookies),
+                new MinijaxTestHttpHeaders(headers),
                 EntityUtils.writeEntity(entity, null))) {
             return application.handle(context);
 

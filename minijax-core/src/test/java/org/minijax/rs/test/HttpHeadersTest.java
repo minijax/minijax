@@ -17,14 +17,14 @@ class HttpHeadersTest {
         headers.add("a", "b");
         headers.add("a", "c");
 
-        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers, null);
+        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers);
         assertEquals(Arrays.asList("b", "c"), httpHeaders.getRequestHeader("a"));
     }
 
     @Test
     void testLanguageMissing() {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
-        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers, null);
+        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers);
         assertNull(httpHeaders.getLanguage());
     }
 
@@ -33,14 +33,14 @@ class HttpHeadersTest {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         headers.add("Content-Language", "en-US");
 
-        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers, null);
+        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers);
         assertEquals("en-US", httpHeaders.getLanguage().toLanguageTag());
     }
 
     @Test
     void testContentLengthMissing() {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
-        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers, null);
+        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers);
         assertEquals(-1, httpHeaders.getLength());
     }
 
@@ -49,7 +49,7 @@ class HttpHeadersTest {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         headers.add("Content-Length", "x");
 
-        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers, null);
+        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers);
         assertEquals(-1, httpHeaders.getLength());
     }
 
@@ -58,7 +58,7 @@ class HttpHeadersTest {
         final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         headers.add("Content-Length", "1024");
 
-        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers, null);
+        final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers);
         assertEquals(1024, httpHeaders.getLength());
     }
 
@@ -66,7 +66,7 @@ class HttpHeadersTest {
     void testDate() {
         assertThrows(UnsupportedOperationException.class, () -> {
             final MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
-            final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers, null);
+            final MinijaxTestHttpHeaders httpHeaders = new MinijaxTestHttpHeaders(headers);
             httpHeaders.getDate();
         });
     }
@@ -76,7 +76,7 @@ class HttpHeadersTest {
         final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
         map.add("Cookie", "a=b");
 
-        final MinijaxTestHttpHeaders headers = new MinijaxTestHttpHeaders(map, null);
+        final MinijaxTestHttpHeaders headers = new MinijaxTestHttpHeaders(map);
         assertEquals("b", headers.getCookies().get("a").getValue());
     }
 
@@ -85,7 +85,7 @@ class HttpHeadersTest {
         final MultivaluedMap<String, String> map = new MultivaluedHashMap<>();
         map.add("Cookie", "a=b; c=d");
 
-        final MinijaxTestHttpHeaders headers = new MinijaxTestHttpHeaders(map, null);
+        final MinijaxTestHttpHeaders headers = new MinijaxTestHttpHeaders(map);
         assertEquals("b", headers.getCookies().get("a").getValue());
         assertEquals("d", headers.getCookies().get("c").getValue());
     }

@@ -1,10 +1,7 @@
 package org.minijax.rs.test;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.MultivaluedHashMap;
 import jakarta.ws.rs.core.MultivaluedMap;
 
@@ -14,10 +11,10 @@ public class MinijaxTestHttpHeaders extends MinijaxHttpHeaders {
     private final MultivaluedMap<String, String> headers;
 
     public MinijaxTestHttpHeaders() {
-        this(new MultivaluedHashMap<>(), new HashMap<>());
+        this(new MultivaluedHashMap<>());
     }
 
-    public MinijaxTestHttpHeaders(final MultivaluedMap<String, String> headers, final Map<String, Cookie> cookies) {
+    public MinijaxTestHttpHeaders(final MultivaluedMap<String, String> headers) {
         this.headers = headers;
     }
 
