@@ -251,7 +251,7 @@ public abstract class MinijaxRequestContext
         return providers;
     }
 
-    public Response toResponse(final MinijaxResourceMethod unused, final Object obj) {
+    public Response toResponse(final Object obj) {
         if (obj == null) {
             throw new NotFoundException();
         }

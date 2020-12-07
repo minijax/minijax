@@ -510,7 +510,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
 
             runRequestFilters(context);
             checkSecurity(context);
-            response = context.toResponse(rm, rm.invoke(context));
+            response = context.toResponse(rm.invoke(context));
         } catch (final MinijaxAbortException ex) {
             response = ex.getResponse();
         } catch (final WebApplicationException ex) {
