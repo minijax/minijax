@@ -73,7 +73,7 @@ public class MinijaxInjector implements Closeable {
         return new Key<>(type, injectAnnotation, annotations);
     }
 
-    public MinijaxInjector register(final Object instance, final Class<?> contract) {
+    public MinijaxInjector bind(final Object instance, final Class<?> contract) {
         final MinijaxProvider<?> provider;
         if (instance instanceof MinijaxProvider) {
             provider = (MinijaxProvider<?>) instance;
@@ -86,17 +86,17 @@ public class MinijaxInjector implements Closeable {
         return this;
     }
 
-    public MinijaxInjector register(final Class<?> component, final Class<?> contract) {
+    public MinijaxInjector bind(final Class<?> component, final Class<?> contract) {
         providers.put(buildKey(contract), getProvider(component));
         return this;
     }
 
-    public MinijaxInjector register(final Class<?> component, final Class<?> contract, final Class<? extends Annotation> qualifier) {
+    public MinijaxInjector bind(final Class<?> component, final Class<?> contract, final Class<? extends Annotation> qualifier) {
         providers.put(buildKey(contract, qualifier), getProvider(component));
         return this;
     }
 
-    public MinijaxInjector register(final Class<?> component, final Class<?> contract, final String name) {
+    public MinijaxInjector bind(final Class<?> component, final Class<?> contract, final String name) {
         providers.put(buildKey(contract, name), getProvider(component));
         return this;
     }

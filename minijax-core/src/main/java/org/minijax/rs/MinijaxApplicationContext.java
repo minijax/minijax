@@ -272,7 +272,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
     @Override
     public MinijaxApplicationContext register(final Class<?> componentClass, final Class<?>... contracts) {
         for (final Class<?> contract : contracts) {
-            getInjector().register(componentClass, contract);
+            getInjector().bind(componentClass, contract);
         }
         registerImpl(componentClass);
         return this;
@@ -281,7 +281,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
     @Override
     public MinijaxApplicationContext register(final Class<?> componentClass, final Map<Class<?>, Integer> contracts) {
         for (final Class<?> contract : contracts.keySet()) {
-            getInjector().register(componentClass, contract);
+            getInjector().bind(componentClass, contract);
         }
         registerImpl(componentClass);
         return this;
@@ -300,7 +300,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
     @Override
     public MinijaxApplicationContext register(final Object component, final Class<?>... contracts) {
         for (final Class<?> contract : contracts) {
-            getInjector().register(component, contract);
+            getInjector().bind(component, contract);
         }
         registerImpl(component.getClass());
         return this;
@@ -309,7 +309,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
     @Override
     public MinijaxApplicationContext register(final Object component, final Map<Class<?>, Integer> contracts) {
         for (final Class<?> contract : contracts.keySet()) {
-            getInjector().register(component, contract);
+            getInjector().bind(component, contract);
         }
         registerImpl(component.getClass());
         return this;

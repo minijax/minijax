@@ -20,10 +20,10 @@ class TckTest {
     private static Car getCar() {
         try (MinijaxInjector injector = new MinijaxInjector()) {
             return injector
-                    .register(SpareTire.class, Tire.class, "spare")
-                    .register(DriversSeat.class, Seat.class, Drivers.class)
-                    .register(V8Engine.class, Engine.class)
-                    .register(Convertible.class, Car.class)
+                    .bind(SpareTire.class, Tire.class, "spare")
+                    .bind(DriversSeat.class, Seat.class, Drivers.class)
+                    .bind(V8Engine.class, Engine.class)
+                    .bind(Convertible.class, Car.class)
                     .getResource(Car.class);
         }
     }

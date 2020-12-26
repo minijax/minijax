@@ -24,7 +24,7 @@ class DirectProviderTest {
     @Test
     void testDirectProviderClass() {
         try (final MinijaxInjector injector = new MinijaxInjector()) {
-            injector.register(MyWidgetProvider.class, MyWidget.class);
+            injector.bind(MyWidgetProvider.class, MyWidget.class);
 
             final Provider<MyWidget> provider = injector.getProvider(MyWidget.class);
             assertNotNull(provider);
@@ -38,7 +38,7 @@ class DirectProviderTest {
     @Test
     void testDirectProviderSingleton() {
         try (final MinijaxInjector injector = new MinijaxInjector()) {
-            injector.register(new MyWidgetProvider(), MyWidget.class);
+            injector.bind(new MyWidgetProvider(), MyWidget.class);
 
             final Provider<MyWidget> provider = injector.getProvider(MyWidget.class);
             assertNotNull(provider);

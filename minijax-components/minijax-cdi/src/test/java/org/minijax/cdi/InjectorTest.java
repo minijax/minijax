@@ -148,7 +148,7 @@ class InjectorTest {
     @Test
     void testRegisterSingleton() {
         final MySingleton inst = new MySingleton();
-        injector.register(inst, MySingleton.class);
+        injector.bind(inst, MySingleton.class);
         assertTrue(injector.getSingletons().contains(inst));
     }
 
