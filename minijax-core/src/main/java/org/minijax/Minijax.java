@@ -133,6 +133,16 @@ public class Minijax {
         return null;
     }
 
+    public Minijax bind(final Object instance, final Class<?> contract) {
+        getDefaultApplication().bind(instance, contract);
+        return this;
+    }
+
+    public Minijax bind(final Class<?> component, final Class<?> contract) {
+        getDefaultApplication().bind(component, contract);
+        return this;
+    }
+
     @SuppressWarnings("unchecked")
     public Minijax register(final Class<?> componentClass) {
         if (jakarta.ws.rs.core.Application.class.isAssignableFrom(componentClass)) {

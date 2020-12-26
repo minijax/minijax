@@ -5,6 +5,7 @@ import jakarta.ws.rs.core.FeatureContext;
 
 import org.minijax.cdi.MinijaxProvider;
 import org.minijax.commons.MinijaxProperties;
+import org.minijax.rs.MinijaxApplicationContext;
 import org.minijax.rs.MinijaxRequestContext;
 
 public class SecurityFeature implements Feature {
@@ -20,10 +21,10 @@ public class SecurityFeature implements Feature {
 
     @Override
     public boolean configure(final FeatureContext context) {
-        context.register(Security.class)
+        ((MinijaxApplicationContext) context).register(Security.class)
                 .register(CsrfFilter.class)
-                .register(daoClass, SecurityDao.class)
-                .register(new SecurityFeatureUserProvider(), userClass)
+                .bind(daoClass, SecurityDao.class)
+                .bind(new SecurityFeatureUserProvider(), userClass)
                 .property(MinijaxProperties.SECURITY_USER_CLASS, userClass);
         return true;
     }

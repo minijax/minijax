@@ -62,6 +62,21 @@ class ApplicationContextTest {
     }
 
     @Test
+    void testBindSingleton() {
+        final Widget singleton = new Widget();
+        minijax.bind(singleton, Widget.class);
+        assertSame(singleton, minijax.getResource(Widget.class));
+    }
+
+    @Test
+    void testBindClass() {
+        minijax.bind(Widget.class, Widget.class);
+        final Widget w1 = minijax.getResource(Widget.class);
+        final Widget w2 = minijax.getResource(Widget.class);
+        assertNotSame(w1, w2);
+    }
+
+    @Test
     void testScanPackage() {
         minijax.packages("org.minijax");
         assertNotNull(app.getClasses());
