@@ -23,7 +23,7 @@ import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
 
 import org.minijax.Minijax;
-import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxApplication;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.MinijaxUriInfo;
 import org.minijax.rs.util.EntityUtils;
@@ -139,7 +139,7 @@ public class MinijaxTestInvocationBuilder implements jakarta.ws.rs.client.Invoca
     @Override
     public Response method(final String name) {
         final Minijax container = target.getServer();
-        final MinijaxApplicationContext application = container.getApplication(target.getUri());
+        final MinijaxApplication application = container.getApplication(target.getUri());
 
         if (!cookies.isEmpty()) {
             headers.add("Cookie", cookies.values().stream()

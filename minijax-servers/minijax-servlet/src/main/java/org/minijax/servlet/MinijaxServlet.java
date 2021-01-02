@@ -13,7 +13,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import org.minijax.Minijax;
-import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxApplication;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.util.EntityUtils;
 import org.slf4j.Logger;
@@ -47,7 +47,7 @@ public class MinijaxServlet extends HttpServlet {
 
     @Override
     protected void service(final HttpServletRequest servletRequest, final HttpServletResponse servletResponse) {
-        final MinijaxApplicationContext application = minijax.getDefaultApplication();
+        final MinijaxApplication application = minijax.getDefaultApplication();
 
         try (final MinijaxRequestContext ctx = new MinijaxServletRequestContext(application, servletRequest)) {
             final Response response = application.handle(ctx);

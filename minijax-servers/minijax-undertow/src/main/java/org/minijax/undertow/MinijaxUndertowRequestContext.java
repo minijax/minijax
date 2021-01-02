@@ -5,7 +5,7 @@ import java.util.Collections;
 
 import jakarta.ws.rs.core.UriInfo;
 
-import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxApplication;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.MinijaxUriInfo;
 import org.minijax.rs.uri.MinijaxUriBuilder;
@@ -20,7 +20,7 @@ class MinijaxUndertowRequestContext extends MinijaxRequestContext {
     private InputStream entityStream;
 
     public MinijaxUndertowRequestContext(
-            final MinijaxApplicationContext application,
+            final MinijaxApplication application,
             final HttpServerExchange exchange) {
 
         super(application);

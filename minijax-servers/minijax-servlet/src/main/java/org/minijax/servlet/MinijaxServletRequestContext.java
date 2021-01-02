@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.core.UriBuilder;
 import jakarta.ws.rs.core.UriInfo;
 
-import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxApplication;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.MinijaxUriInfo;
 import org.slf4j.Logger;
@@ -22,7 +22,7 @@ class MinijaxServletRequestContext extends MinijaxRequestContext {
     private MinijaxServletHttpHeaders httpHeaders;
     private InputStream entityStream;
 
-    public MinijaxServletRequestContext(final MinijaxApplicationContext application, final HttpServletRequest request) {
+    public MinijaxServletRequestContext(final MinijaxApplication application, final HttpServletRequest request) {
         super(application);
         this.request = request;
 

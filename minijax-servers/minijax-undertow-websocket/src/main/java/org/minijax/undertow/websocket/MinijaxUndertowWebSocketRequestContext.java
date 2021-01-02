@@ -5,7 +5,7 @@ import java.net.URI;
 
 import jakarta.ws.rs.core.UriInfo;
 
-import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxApplication;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.MinijaxUriInfo;
 
@@ -17,7 +17,7 @@ class MinijaxUndertowWebSocketRequestContext extends MinijaxRequestContext {
     private MinijaxUndertowWebSocketHttpHeaders httpHeaders;
 
     public MinijaxUndertowWebSocketRequestContext(
-            final MinijaxApplicationContext container,
+            final MinijaxApplication container,
             final WebSocketHttpExchange exchange) {
         super(container);
         this.exchange = exchange;

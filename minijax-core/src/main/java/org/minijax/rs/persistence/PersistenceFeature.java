@@ -10,22 +10,22 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.ws.rs.core.Feature;
 import jakarta.ws.rs.core.FeatureContext;
 
-import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxApplication;
 
 public class PersistenceFeature implements Feature {
 
     @Override
     public boolean configure(final FeatureContext context) {
-        if (!(context instanceof MinijaxApplicationContext)) {
+        if (!(context instanceof MinijaxApplication)) {
             throw new IllegalArgumentException("Minijax PersistenceFeature only compatible with MinijaxApplication");
         }
 
-        final MinijaxApplicationContext app = (MinijaxApplicationContext) context;
+        final MinijaxApplication app = (MinijaxApplication) context;
         registerPersistence(app);
         return true;
     }
 
-    public void registerPersistence(final MinijaxApplicationContext app) {
+    public void registerPersistence(final MinijaxApplication app) {
         final List<String> names = PersistenceUtils.getNames("META-INF/persistence.xml");
         final Map<String, Object> props = new HashMap<>();
         props.put("eclipselink.classloader", this.getClass().getClassLoader());

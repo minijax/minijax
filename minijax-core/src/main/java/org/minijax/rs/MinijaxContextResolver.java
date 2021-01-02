@@ -27,7 +27,7 @@ public class MinijaxContextResolver<T> implements ContextResolver<T> {
     public static <T> T getContext(final MinijaxRequestContext context, final Class<T> c) {
         // 9.2.1
         if (c == Application.class) {
-            return (T) context.getApplicationContext().getApplication();
+            return (T) context.getApplication();
         }
 
         // 9.2.2
@@ -62,7 +62,7 @@ public class MinijaxContextResolver<T> implements ContextResolver<T> {
 
         // 9.2.8
         if (c == Configuration.class) {
-            return (T) context.getApplicationContext().getConfiguration();
+            return (T) context.getApplication().getConfiguration();
         }
 
         // 10.1

@@ -21,7 +21,7 @@ import org.minijax.cdi.MinijaxInjector;
 import org.minijax.commons.MinijaxException;
 import org.minijax.commons.MinijaxProperties;
 import org.minijax.commons.OptionalClasses;
-import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxApplication;
 import org.minijax.rs.MinijaxCacheControlFilter;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.MinijaxServer;
@@ -59,7 +59,7 @@ public class Minijax {
     @SuppressWarnings("squid:S1313")
     public static final String DEFAULT_HOST = "0.0.0.0";
     public static final int DEFAULT_PORT = 8080;
-    private final List<MinijaxApplicationContext> applications;
+    private final List<MinijaxApplication> applications;
     private MinijaxServer server;
     private String host;
     private int port;
@@ -70,13 +70,13 @@ public class Minijax {
         port = DEFAULT_PORT;
     }
 
-    public List<MinijaxApplicationContext> getApplications() {
+    public List<MinijaxApplication> getApplications() {
         return applications;
     }
 
-    public MinijaxApplicationContext getDefaultApplication() {
+    public MinijaxApplication getDefaultApplication() {
         if (applications.isEmpty()) {
-            applications.add(new MinijaxApplicationContext("/"));
+            applications.add(new MinijaxApplication("/"));
         }
         return applications.get(0);
     }
@@ -119,13 +119,13 @@ public class Minijax {
         return this;
     }
 
-    public MinijaxApplicationContext getApplication(final URI requestUri) {
+    public MinijaxApplication getApplication(final URI requestUri) {
         if (applications.size() == 1) {
             // Common case is only the default application
             return applications.get(0);
         }
         final String requestPath = requestUri.getPath();
-        for (final MinijaxApplicationContext application : applications) {
+        for (final MinijaxApplication application : applications) {
             if (requestPath.startsWith(application.getPath())) {
                 return application;
             }
@@ -146,7 +146,7 @@ public class Minijax {
     @SuppressWarnings("unchecked")
     public Minijax register(final Class<?> componentClass) {
         if (jakarta.ws.rs.core.Application.class.isAssignableFrom(componentClass)) {
-            applications.add(new MinijaxApplicationContext((Class<Application>) componentClass));
+            applications.add(new MinijaxApplication((Class<Application>) componentClass));
         } else {
             getDefaultApplication().register(componentClass);
         }

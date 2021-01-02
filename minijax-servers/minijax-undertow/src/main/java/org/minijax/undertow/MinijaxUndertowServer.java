@@ -8,7 +8,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import org.minijax.Minijax;
-import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxApplication;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.MinijaxServer;
 import org.minijax.rs.util.EntityUtils;
@@ -55,7 +55,7 @@ public class MinijaxUndertowServer implements MinijaxServer, HttpHandler {
 
     @Override
     public void handleRequest(final HttpServerExchange exchange) throws Exception {
-        final MinijaxApplicationContext application = minijax.getDefaultApplication();
+        final MinijaxApplication application = minijax.getDefaultApplication();
 
         try (final MinijaxRequestContext ctx = new MinijaxUndertowRequestContext(application, exchange)) {
             final Response response = application.handle(ctx);
@@ -89,7 +89,7 @@ public class MinijaxUndertowServer implements MinijaxServer, HttpHandler {
     private HttpHandler buildHandler() {
         final PathHandler result = Handlers.path();
 
-        final MinijaxApplicationContext application = minijax.getDefaultApplication();
+        final MinijaxApplication application = minijax.getDefaultApplication();
         for (final Class<?> webSocketClass : application.getWebSockets()) {
             final ServerEndpoint serverEndpoint = webSocketClass.getAnnotation(ServerEndpoint.class);
             result.addPrefixPath(serverEndpoint.value(), Handlers.websocket(new MinijaxUndertowWebSocketConnectionCallback(application, webSocketClass)));

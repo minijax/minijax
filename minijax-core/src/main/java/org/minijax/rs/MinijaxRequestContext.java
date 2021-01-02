@@ -37,7 +37,7 @@ import org.minijax.rs.util.ExceptionUtils;
 public abstract class MinijaxRequestContext
         implements jakarta.ws.rs.container.ContainerRequestContext, jakarta.ws.rs.container.ResourceContext, Closeable {
 
-    private final MinijaxApplicationContext applicationContext;
+    private final MinijaxApplication application;
     private final ResourceCache resourceCache;
     private final Map<String, Object> properties;
     private final MinijaxProviders providers;
@@ -46,15 +46,15 @@ public abstract class MinijaxRequestContext
     private MinijaxResourceMethod resourceMethod;
     private boolean upgraded;
 
-    protected MinijaxRequestContext(final MinijaxApplicationContext container) {
-        applicationContext = container;
+    protected MinijaxRequestContext(final MinijaxApplication application) {
+        this.application = application;
         resourceCache = new ResourceCache();
         properties = new HashMap<>();
         providers = new MinijaxProviders(this);
     }
 
-    public MinijaxApplicationContext getApplicationContext() {
-        return applicationContext;
+    public MinijaxApplication getApplication() {
+        return application;
     }
 
     @Override
@@ -231,12 +231,12 @@ public abstract class MinijaxRequestContext
 
     @Override
     public <T> T getResource(final Class<T> c) {
-        return applicationContext.getInjector().getResource(c, this);
+        return application.getInjector().getResource(c, this);
     }
 
     @Override
     public <T> T initResource(final T resource) {
-        return applicationContext.getInjector().initResource(resource, this);
+        return application.getInjector().initResource(resource, this);
     }
 
     public MinijaxResourceMethod getResourceMethod() {

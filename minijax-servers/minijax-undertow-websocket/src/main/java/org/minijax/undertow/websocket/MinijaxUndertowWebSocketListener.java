@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,12 +15,12 @@ import io.undertow.websockets.spi.WebSocketHttpExchange;
 
 public class MinijaxUndertowWebSocketListener extends AbstractReceiveListener {
     private static final Logger LOG = LoggerFactory.getLogger(MinijaxUndertowWebSocketListener.class);
-    private final MinijaxApplicationContext application;
+    private final MinijaxApplication application;
     private final MinijaxUndertowWebSocketAdapter endpoint;
     private final WebSocketHttpExchange exchange;
 
     public MinijaxUndertowWebSocketListener(
-            final MinijaxApplicationContext application,
+            final MinijaxApplication application,
             final MinijaxUndertowWebSocketAdapter endpoint,
             final WebSocketHttpExchange exchange) {
         this.application = application;

@@ -17,7 +17,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import org.minijax.Minijax;
-import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxApplication;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.util.EntityUtils;
 import org.slf4j.Logger;
@@ -79,7 +79,7 @@ class ServerHandler extends ChannelInboundHandlerAdapter {
     private void process(final ChannelHandlerContext nettyCtx, final FullHttpRequest request)
             throws Exception { // NOSONAR
 
-        final MinijaxApplicationContext application = minijax.getDefaultApplication();
+        final MinijaxApplication application = minijax.getDefaultApplication();
 
         try (final MinijaxRequestContext minijaxCtx = new MinijaxNettyRequestContext(application, request)) {
             final Response minijaxResponse = application.handle(minijaxCtx);

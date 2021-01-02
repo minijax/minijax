@@ -8,7 +8,7 @@ import jakarta.websocket.OnMessage;
 
 import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
-import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxApplication;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.test.MinijaxTest;
 
@@ -28,7 +28,7 @@ class ListenerTest extends MinijaxTest {
     @Test
     void testHappyPath() throws IOException {
         final Minijax minijax = new Minijax().register(TestSocket.class);
-        final MinijaxApplicationContext application = minijax.getDefaultApplication();
+        final MinijaxApplication application = minijax.getDefaultApplication();
 
         try (final MinijaxRequestContext ctx = createRequestContext()) {
             final MinijaxUndertowWebSocketAdapter adapter = new MinijaxUndertowWebSocketAdapter(ctx, TestSocket.class);

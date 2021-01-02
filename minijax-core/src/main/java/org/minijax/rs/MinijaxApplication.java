@@ -77,8 +77,8 @@ import org.minijax.rs.util.MediaTypeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MinijaxApplicationContext implements Configuration, FeatureContext {
-    private static final Logger LOG = LoggerFactory.getLogger(MinijaxApplicationContext.class);
+public class MinijaxApplication extends Application implements Configuration, FeatureContext {
+    private static final Logger LOG = LoggerFactory.getLogger(MinijaxApplication.class);
     private final String path;
     private final MinijaxInjector injector;
     private final MinijaxConfiguration configuration;
@@ -96,7 +96,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
     private final List<ParamConverterProvider> paramConverterProviders;
     private Class<? extends SecurityContext> securityContextClass;
 
-    public MinijaxApplicationContext(final String path) {
+    public MinijaxApplication(final String path) {
         this.path = path;
         injector = new MinijaxInjector();
         injector.addTypeAnnotationProcessor(RequestScoped.class, new RequestScopedAnnotationProcessor<>());
@@ -132,22 +132,15 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
      *
      * Instantiate the class and register the individual components.
      *
-     * Note the somewhat indirect relationship between:
-     *   1) Registering an Application
-     *   2) Creating an ApplicationContext
-     *   3) Using an Application later via MinijaxApplicationView.
+     * This supports users providing their own implementation of <code>jakarta.ws.rs.core.Application</code>.
      *
-     * Minijax does not make any guarantees about the consistency of the application instance.
+     * All of the specified components are registered in the new <code>MinijaxApplication</code>.
      *
      * @param applicationClass The application class.
      */
-    public MinijaxApplicationContext(final Class<Application> applicationClass) {
+    public MinijaxApplication(final Class<Application> applicationClass) {
         this(applicationClass.getAnnotation(ApplicationPath.class).value());
         registerApplication(applicationClass);
-    }
-
-    public Application getApplication() {
-        return new MinijaxApplicationView(this);
     }
 
     public MinijaxInjector getInjector() {
@@ -218,6 +211,11 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
     }
 
     @Override
+    public Set<Object> getSingletons() {
+        return getInjector().getSingletons();
+    }
+
+    @Override
     public Set<Object> getInstances() {
         return getInjector().getSingletons();
     }
@@ -227,82 +225,82 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
     }
 
     @Override
-    public MinijaxApplicationContext property(final String name, final Object value) {
+    public MinijaxApplication property(final String name, final Object value) {
         configuration.getProperties().put(name, value);
         return this;
     }
 
-    public MinijaxApplicationContext properties(final Map<String, String> props) {
+    public MinijaxApplication properties(final Map<String, String> props) {
         configuration.properties(props);
         return this;
     }
 
-    public MinijaxApplicationContext properties(final Properties props) {
+    public MinijaxApplication properties(final Properties props) {
         configuration.properties(props);
         return this;
     }
 
-    public MinijaxApplicationContext properties(final File file) throws IOException {
+    public MinijaxApplication properties(final File file) throws IOException {
         configuration.properties(file);
         return this;
     }
 
-    public MinijaxApplicationContext properties(final InputStream inputStream) throws IOException {
+    public MinijaxApplication properties(final InputStream inputStream) throws IOException {
         configuration.properties(inputStream);
         return this;
     }
 
-    public MinijaxApplicationContext properties(final String fileName) throws IOException {
+    public MinijaxApplication properties(final String fileName) throws IOException {
         configuration.properties(fileName);
         return this;
     }
 
-    public MinijaxApplicationContext bind(final Object instance, final Class<?> contract) {
+    public MinijaxApplication bind(final Object instance, final Class<?> contract) {
         injector.bind(instance, contract);
         return this;
     }
 
-    public MinijaxApplicationContext bind(final Class<?> component, final Class<?> contract) {
+    public MinijaxApplication bind(final Class<?> component, final Class<?> contract) {
         injector.bind(component, contract);
         return this;
     }
 
     @Override
-    public MinijaxApplicationContext register(final Class<?> componentClass) {
+    public MinijaxApplication register(final Class<?> componentClass) {
         registerImpl(componentClass);
         return this;
     }
 
     @Override
-    public MinijaxApplicationContext register(final Class<?> componentClass, final int priority) {
+    public MinijaxApplication register(final Class<?> componentClass, final int priority) {
         registerImpl(componentClass);
         return this;
     }
 
     @Override
-    public MinijaxApplicationContext register(final Class<?> componentClass, final Class<?>... contracts) {
+    public MinijaxApplication register(final Class<?> componentClass, final Class<?>... contracts) {
         registerImpl(componentClass);
         return this;
     }
 
     @Override
-    public MinijaxApplicationContext register(final Class<?> componentClass, final Map<Class<?>, Integer> contracts) {
+    public MinijaxApplication register(final Class<?> componentClass, final Map<Class<?>, Integer> contracts) {
         registerImpl(componentClass);
         return this;
     }
 
     @Override
-    public MinijaxApplicationContext register(final Object component) {
+    public MinijaxApplication register(final Object component) {
         return this.register(component, component.getClass());
     }
 
     @Override
-    public MinijaxApplicationContext register(final Object component, final int priority) {
+    public MinijaxApplication register(final Object component, final int priority) {
         return this.register(component, component.getClass());
     }
 
     @Override
-    public MinijaxApplicationContext register(final Object component, final Class<?>... contracts) {
+    public MinijaxApplication register(final Object component, final Class<?>... contracts) {
         for (final Class<?> contract : contracts) {
             getInjector().bind(component, contract);
         }
@@ -311,7 +309,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
     }
 
     @Override
-    public MinijaxApplicationContext register(final Object component, final Map<Class<?>, Integer> contracts) {
+    public MinijaxApplication register(final Object component, final Map<Class<?>, Integer> contracts) {
         for (final Class<?> contract : contracts.keySet()) {
             getInjector().bind(component, contract);
         }
@@ -319,7 +317,7 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
         return this;
     }
 
-    public MinijaxApplicationContext allowCors(final String urlPrefix) {
+    public MinijaxApplication allowCors(final String urlPrefix) {
         register(MinijaxCorsFilter.class);
         getResource(MinijaxCorsFilter.class).addPathPrefix(urlPrefix);
         return this;
@@ -392,13 +390,6 @@ public class MinijaxApplicationContext implements Configuration, FeatureContext 
      * Registers a <code>jakarta.ws.rs.core.Application</code> class.
      *
      * Instantiate the class and register the individual components.
-     *
-     * Note the somewhat indirect relationship between:
-     *   1) Registering an Application
-     *   2) Creating an ApplicationContext
-     *   3) Using an Application later via MinijaxApplicationView.
-     *
-     * Minijax does not make any guarantees about the consistency of the application instance.
      *
      * @param c The auto scanned class.
      */

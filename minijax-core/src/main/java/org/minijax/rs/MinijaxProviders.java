@@ -35,7 +35,7 @@ public class MinijaxProviders implements Providers {
             final Annotation[] annotations,
             final MediaType mediaType) {
 
-        for (final Class<? extends MessageBodyReader<?>> readerClass : context.getApplicationContext().getReaders().get(mediaType)) {
+        for (final Class<? extends MessageBodyReader<?>> readerClass : context.getApplication().getReaders().get(mediaType)) {
             final MessageBodyReader reader = context.getResource(readerClass);
             if (reader.isReadable(type, genericType, annotations, mediaType)) {
                 return reader;
@@ -64,7 +64,7 @@ public class MinijaxProviders implements Providers {
             return (MessageBodyWriter<T>) FILE_WRITER;
         }
 
-        for (final Class<? extends MessageBodyWriter<?>> writerClass : context.getApplicationContext().getWriters().get(mediaType)) {
+        for (final Class<? extends MessageBodyWriter<?>> writerClass : context.getApplication().getWriters().get(mediaType)) {
             final MessageBodyWriter writer = context.getResource(writerClass);
             if (writer.isWriteable(type, genericType, annotations, mediaType)) {
                 return writer;
@@ -90,7 +90,7 @@ public class MinijaxProviders implements Providers {
      */
     @SuppressWarnings("unchecked")
     public <T extends Throwable> ExceptionMapper<T> getExceptionMapper(final Class<T> type, final MediaType mediaType) {
-        for (final Class<? extends ExceptionMapper<?>> exceptionMapperClass : context.getApplicationContext().getExceptionMappers().get(mediaType)) {
+        for (final Class<? extends ExceptionMapper<?>> exceptionMapperClass : context.getApplication().getExceptionMappers().get(mediaType)) {
             final ParameterizedType parameterizedType = (ParameterizedType) exceptionMapperClass.getGenericInterfaces()[0];
             final Class<? extends Exception> exClass = (Class<? extends Exception>) parameterizedType.getActualTypeArguments()[0];
             if (exClass.isAssignableFrom(type)) {
@@ -101,7 +101,7 @@ public class MinijaxProviders implements Providers {
     }
 
     public <T> ParamConverter<T> getParamConverter(final Class<T> rawType, final Type genericType, final Annotation[] annotations) {
-        for (final ParamConverterProvider provider : context.getApplicationContext().getParamConverterProviders()) {
+        for (final ParamConverterProvider provider : context.getApplication().getParamConverterProviders()) {
             final ParamConverter<T> converter = provider.getConverter(rawType, genericType, annotations);
             if (converter != null) {
                 return converter;

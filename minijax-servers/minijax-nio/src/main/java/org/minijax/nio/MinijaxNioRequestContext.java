@@ -4,7 +4,7 @@ import java.io.InputStream;
 
 import jakarta.ws.rs.core.UriInfo;
 
-import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxApplication;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.MinijaxUriInfo;
 
@@ -15,7 +15,7 @@ class MinijaxNioRequestContext extends MinijaxRequestContext {
     private final InputStream entityStream;
 
     public MinijaxNioRequestContext(
-            final MinijaxApplicationContext application,
+            final MinijaxApplication application,
             final String method,
             final MinijaxUriInfo uriInfo,
             final MinijaxNioHttpHeaders httpHeaders,

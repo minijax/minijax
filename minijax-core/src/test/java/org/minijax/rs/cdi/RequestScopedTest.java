@@ -9,7 +9,7 @@ import jakarta.enterprise.context.RequestScoped;
 
 import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
-import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxApplication;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.test.MinijaxTestRequestContext;
 
@@ -22,7 +22,7 @@ class RequestScopedTest {
     @Test
     void testRequestScoped() throws IOException {
         final Minijax container = new Minijax();
-        final MinijaxApplicationContext application = container.getDefaultApplication();
+        final MinijaxApplication application = container.getDefaultApplication();
 
         A a1;
         A a2;

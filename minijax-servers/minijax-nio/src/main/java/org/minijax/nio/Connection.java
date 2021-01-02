@@ -17,7 +17,7 @@ import jakarta.ws.rs.core.Response;
 
 import org.minijax.Minijax;
 import org.minijax.commons.MinijaxException;
-import org.minijax.rs.MinijaxApplicationContext;
+import org.minijax.rs.MinijaxApplication;
 import org.minijax.rs.MinijaxUriInfo;
 import org.minijax.rs.util.EntityUtils;
 import org.slf4j.Logger;
@@ -122,7 +122,7 @@ class Connection {
 
 
     private void process() throws IOException {
-        final MinijaxApplicationContext application = minijax.getDefaultApplication();
+        final MinijaxApplication application = minijax.getDefaultApplication();
         try (final MinijaxNioRequestContext ctx = new MinijaxNioRequestContext(
                 application,
                 method,
