@@ -136,6 +136,12 @@ class UriBuilderTest {
     }
 
     @Test
+    void testPathDoubleSlash() {
+        assertEquals("https://foo.com/a/b",
+                UriBuilder.fromUri("https://foo.com/").path("/a/").path("b").build().toString());
+    }
+
+    @Test
     void testSegments() {
         assertEquals("https://foo.com/a/b", UriBuilder.fromUri("https://foo.com").segment("a", "b").build().toString());
     }

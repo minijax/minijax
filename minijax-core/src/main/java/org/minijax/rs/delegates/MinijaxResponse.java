@@ -39,14 +39,12 @@ class MinijaxResponse extends jakarta.ws.rs.core.Response implements ContainerRe
     private Date lastModified;
     private int length;
     private Set<Link> links;
-    private MediaType mediaType;
 
     public MinijaxResponse(final MinijaxResponseBuilder builder) {
         context = builder.getContext();
         headers = builder.getHeaders();
         statusInfo = new MinijaxStatusInfo(builder.getStatusInfo());
         entity = builder.getEntity();
-        mediaType = builder.getMediaType();
     }
 
     public MinijaxRequestContext getContext() {
@@ -171,13 +169,14 @@ class MinijaxResponse extends jakarta.ws.rs.core.Response implements ContainerRe
 
     @Override
     public URI getLocation() {
-        final String locationStr = getHeaderString(HttpHeaders.LOCATION);
-        return locationStr == null ? null : URI.create(locationStr);
+        final String str = getHeaderString(HttpHeaders.LOCATION);
+        return str == null ? null : URI.create(str);
     }
 
     @Override
     public MediaType getMediaType() {
-        return mediaType;
+        final String str = getHeaderString(HttpHeaders.CONTENT_TYPE);
+        return str == null ? null : MediaType.valueOf(str);
     }
 
     @Override
@@ -235,7 +234,7 @@ class MinijaxResponse extends jakarta.ws.rs.core.Response implements ContainerRe
         final MinijaxProviders providers = context != null ? context.getProviders() : null;
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
-            EntityUtils.writeEntity(entity, null, providers, outputStream);
+            EntityUtils.writeEntity(entity, getMediaType(), providers, outputStream);
             return (T) outputStream.toString();
         } catch (final IOException ex) {
              throw new MinijaxException(ex.getMessage(), ex);
@@ -265,7 +264,7 @@ class MinijaxResponse extends jakarta.ws.rs.core.Response implements ContainerRe
     @Override
     public void setEntity(final Object entity, final Annotation[] annotations, final MediaType mediaType) {
         this.entity = entity;
-        this.mediaType = mediaType;
+        this.headers.add(HttpHeaders.CONTENT_TYPE, mediaType.toString());
     }
 
     @Override

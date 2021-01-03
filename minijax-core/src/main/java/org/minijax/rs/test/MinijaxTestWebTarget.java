@@ -12,11 +12,11 @@ import org.minijax.rs.uri.MinijaxUriBuilder;
 
 public class MinijaxTestWebTarget implements jakarta.ws.rs.client.WebTarget {
     private final Minijax server;
-    private URI requestUri;
+    private final MinijaxUriBuilder uriBuilder;
 
-    public MinijaxTestWebTarget(final Minijax server, final URI requestUri) {
+    public MinijaxTestWebTarget(final Minijax server) {
         this.server = server;
-        this.requestUri = requestUri;
+        this.uriBuilder = new MinijaxUriBuilder();
     }
 
     public Minijax getServer() {
@@ -25,8 +25,47 @@ public class MinijaxTestWebTarget implements jakarta.ws.rs.client.WebTarget {
 
     @Override
     public Configuration getConfiguration() {
-        throw new UnsupportedOperationException();
+        return server.getDefaultApplication().getConfiguration();
     }
+
+    @Override
+    public UriBuilder getUriBuilder() {
+        return uriBuilder;
+    }
+
+    @Override
+    public MinijaxTestWebTarget path(final String path) {
+        uriBuilder.path(path);
+        return this;
+    }
+
+    @Override
+    public MinijaxTestWebTarget queryParam(final String name, final Object... values) {
+        uriBuilder.queryParam(name, values);
+        return this;
+    }
+
+    @Override
+    public URI getUri() {
+        URI result = uriBuilder.build();
+
+        // Remove trailing slashes
+        final String str = result.toString();
+        if (str.length() > 1 && str.endsWith("/")) {
+            result = URI.create(str.substring(0, str.length() - 1));
+        }
+
+        return result;
+    }
+
+    @Override
+    public MinijaxTestInvocationBuilder request() {
+        return new MinijaxTestInvocationBuilder(this);
+    }
+
+    /*
+     * Unsupported
+     */
 
     @Override
     public MinijaxTestWebTarget property(final String name, final Object value) {
@@ -74,22 +113,6 @@ public class MinijaxTestWebTarget implements jakarta.ws.rs.client.WebTarget {
     }
 
     @Override
-    public URI getUri() {
-        return requestUri;
-    }
-
-    @Override
-    public UriBuilder getUriBuilder() {
-        return new MinijaxUriBuilder();
-    }
-
-    @Override
-    public MinijaxTestWebTarget path(final String path) {
-        requestUri = requestUri.resolve(path);
-        return this;
-    }
-
-    @Override
     public MinijaxTestWebTarget resolveTemplate(final String name, final Object value) {
         throw new UnsupportedOperationException();
     }
@@ -122,16 +145,6 @@ public class MinijaxTestWebTarget implements jakarta.ws.rs.client.WebTarget {
     @Override
     public MinijaxTestWebTarget matrixParam(final String name, final Object... values) {
         throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public MinijaxTestWebTarget queryParam(final String name, final Object... values) {
-        return this;
-    }
-
-    @Override
-    public MinijaxTestInvocationBuilder request() {
-        return new MinijaxTestInvocationBuilder(this);
     }
 
     @Override

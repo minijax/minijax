@@ -10,7 +10,6 @@ import java.nio.channels.ByteChannel;
 import java.util.List;
 import java.util.Map.Entry;
 
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedHashMap;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
@@ -27,7 +26,6 @@ class Connection {
     private static final Logger LOG = LoggerFactory.getLogger(Connection.class);
     private static final byte[] HTTP_PREFIX = "HTTP/".getBytes();
     private static final byte[] DATE_HEADER = "Date: ".getBytes();
-    private static final byte[] CONTENT_TYPE_HEADER = "Content-Type: ".getBytes();
     private static final byte[] CONTENT_LENGTH_HEADER = "Content-Length: ".getBytes();
     private static final byte[] CRLF = "\r\n".getBytes();
     private final Minijax minijax;
@@ -157,19 +155,18 @@ class Connection {
         buffer.put(DateHeader.get());
         buffer.put(CRLF);
 
-        // Write the "Content-Type" header
-        final MediaType mediaType = response.getMediaType();
-        if (mediaType != null) {
-            buffer.put(CONTENT_TYPE_HEADER);
-            buffer.put(mediaType.toString().getBytes());
-            buffer.put(CRLF);
-        }
-
         // Write the "Content-Length" header
         if (bufferedOutputStream != null) {
             buffer.put(CONTENT_LENGTH_HEADER);
             buffer.put(Integer.toString(bufferedOutputStream.size()).getBytes());
             buffer.put(CRLF);
+        }
+
+        // Write the "Connection" header
+        if (keepAlive && "1.0".equals(version)) {
+            buffer.put("Connection: keep-alive\r\n".getBytes());
+        } else if (!keepAlive && "1.1".equals(version)) {
+            buffer.put("Connection: close\r\n".getBytes());
         }
 
         // Write additional headers
@@ -183,13 +180,6 @@ class Connection {
                     buffer.put(CRLF);
                 }
             }
-        }
-
-        // Write the "Connection" header
-        if (keepAlive && "1.0".equals(version)) {
-            buffer.put("Connection: keep-alive\r\n".getBytes());
-        } else if (!keepAlive && "1.1".equals(version)) {
-            buffer.put("Connection: close\r\n".getBytes());
         }
 
         // Write a blank line to separate content

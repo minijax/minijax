@@ -3,6 +3,7 @@ package org.minijax.rs.test;
 import static jakarta.ws.rs.HttpMethod.*;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -140,6 +141,7 @@ public class MinijaxTestInvocationBuilder implements jakarta.ws.rs.client.Invoca
     public Response method(final String name) {
         final Minijax container = target.getServer();
         final MinijaxApplication application = container.getApplication(target.getUri());
+        final MinijaxUriInfo uriInfo = new MinijaxUriInfo(target.getUri());
 
         if (!cookies.isEmpty()) {
             headers.add("Cookie", cookies.values().stream()
@@ -147,13 +149,15 @@ public class MinijaxTestInvocationBuilder implements jakarta.ws.rs.client.Invoca
                     .collect(Collectors.joining("; ")));
         }
 
-        try (final MinijaxRequestContext context = new MinijaxTestRequestContext(
-                application,
-                name,
-                new MinijaxUriInfo(target.getUri()),
-                new MinijaxTestHttpHeaders(headers),
-                EntityUtils.writeEntity(entity, null))) {
-            return application.handle(context);
+        try (final MinijaxRequestContext clientContext = new MinijaxTestRequestContext(application, name, uriInfo);
+                final InputStream entityStream = EntityUtils.writeEntity(entity, clientContext.getProviders());
+                final MinijaxRequestContext serverContext = new MinijaxTestRequestContext(
+                        application,
+                        name,
+                        new MinijaxUriInfo(target.getUri()),
+                        new MinijaxTestHttpHeaders(headers),
+                        entityStream)) {
+            return application.handle(serverContext);
 
         } catch (final IOException ex) {
             throw ExceptionUtils.toWebAppException(ex);

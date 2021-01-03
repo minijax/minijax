@@ -46,6 +46,14 @@ public class MinijaxTest {
         return server;
     }
 
+    protected static void bind(final Object instance, final Class<?> contract) {
+        server.bind(instance, contract);
+    }
+
+    protected static void bind(final Class<?> component, final Class<?> contract) {
+        server.bind(component, contract);
+    }
+
     protected static void register(final Class<?> c) {
         server.register(c);
     }
@@ -62,12 +70,20 @@ public class MinijaxTest {
         server.packages(packageNames);
     }
 
+    protected URI getBaseUri() {
+        return URI.create("/");
+    }
+
+    protected static MinijaxTestClient client() {
+        return new MinijaxTestClient(server);
+    }
+
     protected static MinijaxTestWebTarget target(final String uri) {
-        return target(URI.create(uri));
+        return client().target(uri);
     }
 
     protected static MinijaxTestWebTarget target(final URI uri) {
-        return new MinijaxTestWebTarget(server, uri);
+        return client().target(uri);
     }
 
     protected static MinijaxRequestContext createRequestContext() {

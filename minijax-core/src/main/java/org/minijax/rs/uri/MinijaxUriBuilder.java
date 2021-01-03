@@ -94,10 +94,19 @@ public class MinijaxUriBuilder extends UriBuilder {
 
     @Override
     public MinijaxUriBuilder path(final String path) {
-        if (pathBuilder.length() > 0 && pathBuilder.charAt(pathBuilder.length() - 1) != '/') {
-            pathBuilder.append('/');
+        if (pathBuilder.length() > 0) {
+            final boolean endsWith = pathBuilder.charAt(pathBuilder.length() - 1) == '/';
+            final boolean startsWith = path.startsWith("/");
+            if (endsWith && startsWith) {
+                pathBuilder.append(path.substring(1));
+            } else if (!endsWith && !startsWith) {
+                pathBuilder.append('/').append(path);
+            } else {
+                pathBuilder.append(path);
+            }
+        } else {
+            pathBuilder.append(path);
         }
-        pathBuilder.append(path);
         return this;
     }
 

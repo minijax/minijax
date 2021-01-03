@@ -2,19 +2,14 @@ package org.minijax.rs;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
-
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 
 import org.junit.jupiter.api.Test;
 import org.minijax.Minijax;
 import org.minijax.rs.test.MinijaxTestWebTarget;
-
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
 
 class SingletonTest {
 
@@ -55,9 +50,8 @@ class SingletonTest {
     }
 
     @Test
-    void testRegisterClass() {
+    void testDirectClassMatch() {
         final Minijax server = new Minijax()
-                .register(SingletonCounter.class)
                 .register(SingletonResource.class);
 
         assertEquals(1, getCount(server, "/singleton"));
@@ -66,20 +60,9 @@ class SingletonTest {
     }
 
     @Test
-    void testRegisterInstance() {
+    void testBindSingleton() {
         final Minijax server = new Minijax()
-                .register(new SingletonCounter())
-                .register(SingletonResource.class);
-
-        assertEquals(1, getCount(server, "/singleton"));
-        assertEquals(2, getCount(server, "/singleton"));
-        assertEquals(3, getCount(server, "/singleton"));
-    }
-
-    @Test
-    void testRegisterInstanceWithContract() {
-        final Minijax server = new Minijax()
-                .register(new SingletonCounter(), Counter.class)
+                .bind(new SingletonCounter(), Counter.class)
                 .register(CounterResource.class, CounterResource.class);
 
         assertEquals(1, getCount(server, "/counter"));
@@ -87,35 +70,7 @@ class SingletonTest {
         assertEquals(3, getCount(server, "/counter"));
     }
 
-    @Test
-    void testRegisterInstanceWithIgnoredPriority() {
-        final Minijax server = new Minijax()
-                .register(new SingletonCounter(), 1)
-                .register(SingletonResource.class, 1);
-
-        assertEquals(1, getCount(server, "/singleton"));
-        assertEquals(2, getCount(server, "/singleton"));
-        assertEquals(3, getCount(server, "/singleton"));
-    }
-
-    @Test
-    void testRegisterInstanceWithContractMap() {
-        final Map<Class<?>, Integer> counterContract = new HashMap<>();
-        counterContract.put(Counter.class, 1);
-
-        final Map<Class<?>, Integer> resourceContract = new HashMap<>();
-        resourceContract.put(CounterResource.class, 1);
-
-        final Minijax server = new Minijax()
-                .register(new SingletonCounter(), counterContract)
-                .register(CounterResource.class, resourceContract);
-
-        assertEquals(1, getCount(server, "/counter"));
-        assertEquals(2, getCount(server, "/counter"));
-        assertEquals(3, getCount(server, "/counter"));
-    }
-
     private static int getCount(final Minijax server, final String path) {
-        return new MinijaxTestWebTarget(server, URI.create(path)).request().get(Integer.class);
+        return new MinijaxTestWebTarget(server).path(path).request().get(Integer.class);
     }
 }

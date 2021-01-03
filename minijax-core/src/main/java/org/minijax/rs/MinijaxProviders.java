@@ -35,7 +35,7 @@ public class MinijaxProviders implements Providers {
             final Annotation[] annotations,
             final MediaType mediaType) {
 
-        for (final Class<? extends MessageBodyReader<?>> readerClass : context.getApplication().getReaders().get(mediaType)) {
+        for (final Class<? extends MessageBodyReader<?>> readerClass : context.getApplication().getReaders()) {
             final MessageBodyReader reader = context.getResource(readerClass);
             if (reader.isReadable(type, genericType, annotations, mediaType)) {
                 return reader;
@@ -64,7 +64,7 @@ public class MinijaxProviders implements Providers {
             return (MessageBodyWriter<T>) FILE_WRITER;
         }
 
-        for (final Class<? extends MessageBodyWriter<?>> writerClass : context.getApplication().getWriters().get(mediaType)) {
+        for (final Class<? extends MessageBodyWriter<?>> writerClass : context.getApplication().getWriters()) {
             final MessageBodyWriter writer = context.getResource(writerClass);
             if (writer.isWriteable(type, genericType, annotations, mediaType)) {
                 return writer;
@@ -90,7 +90,7 @@ public class MinijaxProviders implements Providers {
      */
     @SuppressWarnings("unchecked")
     public <T extends Throwable> ExceptionMapper<T> getExceptionMapper(final Class<T> type, final MediaType mediaType) {
-        for (final Class<? extends ExceptionMapper<?>> exceptionMapperClass : context.getApplication().getExceptionMappers().get(mediaType)) {
+        for (final Class<? extends ExceptionMapper<?>> exceptionMapperClass : context.getApplication().getExceptionMappers()) {
             final ParameterizedType parameterizedType = (ParameterizedType) exceptionMapperClass.getGenericInterfaces()[0];
             final Class<? extends Exception> exClass = (Class<? extends Exception>) parameterizedType.getActualTypeArguments()[0];
             if (exClass.isAssignableFrom(type)) {

@@ -31,7 +31,6 @@ import jakarta.ws.rs.HttpMethod;
 import jakarta.ws.rs.NotAuthorizedException;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.RuntimeType;
 import jakarta.ws.rs.WebApplicationException;
@@ -72,7 +71,7 @@ import org.minijax.rs.converters.ConstructorParamConverterProvider;
 import org.minijax.rs.converters.PrimitiveParamConverterProvider;
 import org.minijax.rs.converters.UuidParamConverterProvider;
 import org.minijax.rs.converters.ValueOfParamConverterProvider;
-import org.minijax.rs.util.MediaTypeClassMap;
+import org.minijax.rs.util.ClassPathScanner;
 import org.minijax.rs.util.MediaTypeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,9 +89,9 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     private final List<Class<? extends ContainerResponseFilter>> responseFilters;
     private final List<Class<? extends ReaderInterceptor>> readerInterceptors;
     private final List<Class<? extends WriterInterceptor>> writerInterceptors;
-    private final MediaTypeClassMap<MessageBodyReader<?>> readers;
-    private final MediaTypeClassMap<MessageBodyWriter<?>> writers;
-    private final MediaTypeClassMap<ExceptionMapper<?>> exceptionMappers;
+    private final List<Class<? extends MessageBodyReader<?>>> readers;
+    private final List<Class<? extends MessageBodyWriter<?>>> writers;
+    private final List<Class<? extends ExceptionMapper<?>>> exceptionMappers;
     private final List<ParamConverterProvider> paramConverterProviders;
     private Class<? extends SecurityContext> securityContextClass;
 
@@ -117,9 +116,9 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         responseFilters = new ArrayList<>();
         readerInterceptors = new ArrayList<>();
         writerInterceptors = new ArrayList<>();
-        readers = new MediaTypeClassMap<>();
-        writers = new MediaTypeClassMap<>();
-        exceptionMappers = new MediaTypeClassMap<>();
+        readers = new ArrayList<>();
+        writers = new ArrayList<>();
+        exceptionMappers = new ArrayList<>();
         paramConverterProviders = new ArrayList<>();
         paramConverterProviders.add(new PrimitiveParamConverterProvider());
         paramConverterProviders.add(new ConstructorParamConverterProvider());
@@ -141,6 +140,13 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     public MinijaxApplication(final Class<Application> applicationClass) {
         this(applicationClass.getAnnotation(ApplicationPath.class).value());
         registerApplication(applicationClass);
+    }
+
+    /**
+     * Creates a new MinijaxApplication with the default path of root ("/").
+     */
+    public MinijaxApplication() {
+        this("/");
     }
 
     public MinijaxInjector getInjector() {
@@ -291,29 +297,36 @@ public class MinijaxApplication extends Application implements Configuration, Fe
 
     @Override
     public MinijaxApplication register(final Object component) {
-        return this.register(component, component.getClass());
+        return register(component, component.getClass());
     }
 
     @Override
     public MinijaxApplication register(final Object component, final int priority) {
-        return this.register(component, component.getClass());
+        return register(component, component.getClass());
     }
 
     @Override
     public MinijaxApplication register(final Object component, final Class<?>... contracts) {
-        for (final Class<?> contract : contracts) {
-            getInjector().bind(component, contract);
-        }
+        getInjector().bind(component, component.getClass());
         registerImpl(component.getClass());
         return this;
     }
 
     @Override
     public MinijaxApplication register(final Object component, final Map<Class<?>, Integer> contracts) {
-        for (final Class<?> contract : contracts.keySet()) {
-            getInjector().bind(component, contract);
-        }
+        getInjector().bind(component, component.getClass());
         registerImpl(component.getClass());
+        return this;
+    }
+
+    public MinijaxApplication packages(final String... packageNames) {
+        try {
+            for (final Class<?> c : ClassPathScanner.scan(packageNames)) {
+                register(c);
+            }
+        } catch (final IOException ex) {
+            throw new MinijaxException(ex.getMessage(), ex);
+        }
         return this;
     }
 
@@ -327,15 +340,15 @@ public class MinijaxApplication extends Application implements Configuration, Fe
      * Protected accessors.
      */
 
-    MediaTypeClassMap<MessageBodyReader<?>> getReaders() {
+    List<Class<? extends MessageBodyReader<?>>> getReaders() {
         return readers;
     }
 
-    MediaTypeClassMap<MessageBodyWriter<?>> getWriters() {
+    List<Class<? extends MessageBodyWriter<?>>> getWriters() {
         return writers;
     }
 
-    MediaTypeClassMap<ExceptionMapper<?>> getExceptionMappers() {
+    List<Class<? extends ExceptionMapper<?>>> getExceptionMappers() {
         return exceptionMappers;
     }
 
@@ -360,11 +373,11 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         registerSecurityContext(c);
 
         if (MessageBodyReader.class.isAssignableFrom(c)) {
-            readers.add((Class<MessageBodyReader<?>>) c, MediaTypeUtils.parseMediaTypes(c.getAnnotation(Consumes.class)));
+            readers.add((Class<MessageBodyReader<?>>) c);
         }
 
         if (MessageBodyWriter.class.isAssignableFrom(c)) {
-            writers.add((Class<MessageBodyWriter<?>>) c, MediaTypeUtils.parseMediaTypes(c.getAnnotation(Produces.class)));
+            writers.add((Class<MessageBodyWriter<?>>) c);
         }
 
         if (ReaderInterceptor.class.isAssignableFrom(c)) {
@@ -376,7 +389,7 @@ public class MinijaxApplication extends Application implements Configuration, Fe
         }
 
         if (ExceptionMapper.class.isAssignableFrom(c)) {
-            exceptionMappers.add((Class<ExceptionMapper<?>>) c, MediaTypeUtils.parseMediaTypes(c.getAnnotation(Produces.class)));
+            exceptionMappers.add((Class<ExceptionMapper<?>>) c);
         }
 
         if (ParamConverterProvider.class.isAssignableFrom(c)) {

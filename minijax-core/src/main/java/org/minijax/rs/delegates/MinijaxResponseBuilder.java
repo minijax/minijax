@@ -9,6 +9,7 @@ import java.util.Set;
 
 import jakarta.ws.rs.core.CacheControl;
 import jakarta.ws.rs.core.EntityTag;
+import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Link;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedHashMap;
@@ -24,7 +25,6 @@ public class MinijaxResponseBuilder extends jakarta.ws.rs.core.Response.Response
     private final MultivaluedMap<String, Object> headers;
     private final MinijaxStatusInfo statusInfo;
     private Object entity;
-    private MediaType mediaType;
 
     public MinijaxResponseBuilder() {
         context = null;
@@ -45,7 +45,6 @@ public class MinijaxResponseBuilder extends jakarta.ws.rs.core.Response.Response
         statusInfo = new MinijaxStatusInfo();
         statusInfo.setStatusInfo(other.statusInfo);
         entity = other.entity;
-        mediaType = other.mediaType;
     }
 
     public MinijaxRequestContext getContext() {
@@ -65,7 +64,8 @@ public class MinijaxResponseBuilder extends jakarta.ws.rs.core.Response.Response
     }
 
     public MediaType getMediaType() {
-        return mediaType;
+        final Object obj = headers.getFirst(HttpHeaders.CONTENT_TYPE);
+        return obj == null ? null : MediaType.valueOf(obj.toString());
     }
 
     @Override
@@ -155,13 +155,13 @@ public class MinijaxResponseBuilder extends jakarta.ws.rs.core.Response.Response
 
     @Override
     public MinijaxResponseBuilder type(final MediaType type) {
-        mediaType = type;
+        headers.add(HttpHeaders.CONTENT_TYPE, type.toString());
         return this;
     }
 
     @Override
     public MinijaxResponseBuilder type(final String type) {
-        mediaType = MediaType.valueOf(type);
+        headers.add(HttpHeaders.CONTENT_TYPE, type);
         return this;
     }
 
@@ -178,7 +178,7 @@ public class MinijaxResponseBuilder extends jakarta.ws.rs.core.Response.Response
     @Override
     public MinijaxResponseBuilder cookie(final NewCookie... cookies) {
         for (final NewCookie cookie : cookies) {
-            headers.add("Set-Cookie", cookie);
+            headers.add(HttpHeaders.SET_COOKIE, cookie);
         }
         return this;
     }
@@ -195,7 +195,7 @@ public class MinijaxResponseBuilder extends jakarta.ws.rs.core.Response.Response
 
     @Override
     public MinijaxResponseBuilder location(final URI location) {
-        headers.add("Location", location);
+        headers.add(HttpHeaders.LOCATION, location);
         return this;
     }
 

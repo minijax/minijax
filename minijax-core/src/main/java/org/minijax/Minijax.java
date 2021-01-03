@@ -5,7 +5,6 @@ import static jakarta.ws.rs.HttpMethod.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.net.URI;
 import java.util.ArrayList;
@@ -20,12 +19,12 @@ import org.apache.commons.io.IOUtils;
 import org.minijax.cdi.MinijaxInjector;
 import org.minijax.commons.MinijaxException;
 import org.minijax.commons.MinijaxProperties;
-import org.minijax.commons.OptionalClasses;
 import org.minijax.rs.MinijaxApplication;
 import org.minijax.rs.MinijaxCacheControlFilter;
 import org.minijax.rs.MinijaxRequestContext;
 import org.minijax.rs.MinijaxServer;
 import org.minijax.rs.MinijaxStaticResource;
+import org.minijax.rs.test.MinijaxTestClient;
 import org.minijax.rs.test.MinijaxTestRequestContext;
 import org.minijax.rs.test.MinijaxTestWebTarget;
 import org.minijax.rs.util.ClassPathScanner;
@@ -169,7 +168,11 @@ public class Minijax {
     }
 
     public Minijax register(final Object component) {
-        getDefaultApplication().register(component);
+        if (component instanceof MinijaxApplication) {
+            applications.add((MinijaxApplication) component);
+        } else {
+            getDefaultApplication().register(component);
+        }
         return this;
     }
 
@@ -189,35 +192,14 @@ public class Minijax {
     }
 
     public Minijax packages(final String... packageNames) {
-        for (final String packageName : packageNames) {
-            scanPackage(packageName);
-        }
-        return this;
-    }
-
-    private void scanPackage(final String packageName) {
         try {
-            for (final Class<?> c : ClassPathScanner.scan(packageName)) {
-                if (isAutoScanClass(c)) {
-                    register(c);
-                }
+            for (final Class<?> c : ClassPathScanner.scan(packageNames)) {
+                register(c);
             }
         } catch (final IOException ex) {
             throw new MinijaxException(ex.getMessage(), ex);
         }
-    }
-
-    private boolean isAutoScanClass(final Class<?> c) {
-        for (final Annotation a : c.getAnnotations()) {
-            final Class<?> t = a.annotationType();
-            if (t == jakarta.ws.rs.ext.Provider.class
-                    || t == jakarta.ws.rs.ApplicationPath.class
-                    || t == jakarta.ws.rs.Path.class
-                    || t == OptionalClasses.SERVER_ENDPOINT) {
-                return true;
-            }
-        }
-        return false;
+        return this;
     }
 
     public Minijax staticFiles(final String... resourceNames) {
@@ -311,11 +293,11 @@ public class Minijax {
      */
 
     public MinijaxTestWebTarget target(final String uri) {
-        return new MinijaxTestWebTarget(this, URI.create(uri));
+        return new MinijaxTestClient(this).target(uri);
     }
 
     public MinijaxTestWebTarget target(final URI uri) {
-        return new MinijaxTestWebTarget(this, uri);
+        return new MinijaxTestClient(this).target(uri);
     }
 
     public MinijaxRequestContext createRequestContext() {
