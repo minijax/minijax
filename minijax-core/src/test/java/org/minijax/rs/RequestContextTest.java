@@ -7,10 +7,10 @@ import java.io.IOException;
 import org.junit.jupiter.api.Test;
 import org.minijax.rs.test.MinijaxTest;
 
-public class RequestContextTest extends MinijaxTest {
+class RequestContextTest extends MinijaxTest {
 
     @Test
-    public void testProperties() throws IOException {
+    void testProperties() throws IOException {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
             ctx.setProperty("a", "b");
             assertEquals("b", ctx.getProperty("a"));
@@ -27,21 +27,21 @@ public class RequestContextTest extends MinijaxTest {
     }
 
     @Test
-    public void testSetMethod() throws IOException {
+    void testSetMethod() throws IOException {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
             assertThrows(IllegalStateException.class, () -> ctx.setMethod(null));
         }
     }
 
     @Test
-    public void testSetRequestUri1() throws IOException {
+    void testSetRequestUri1() throws IOException {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
             assertThrows(IllegalStateException.class, () -> ctx.setRequestUri(null));
         }
     }
 
     @Test
-    public void testSetRequestUri2() throws IOException {
+    void testSetRequestUri2() throws IOException {
         try (final MinijaxRequestContext ctx = createRequestContext()) {
             assertThrows(IllegalStateException.class, () -> ctx.setRequestUri(null, null));
         }
