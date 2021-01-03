@@ -9,6 +9,7 @@ import jakarta.json.bind.JsonbConfig;
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.config.PropertyOrderStrategy;
 import jakarta.json.bind.config.PropertyVisibilityStrategy;
+import jakarta.ws.rs.core.MediaType;
 
 /**
  * The Json class provides helper utilities for creating the singleton object mapper.
@@ -78,5 +79,11 @@ public class Json {
             initObjectMapper(getDefaultConfig());
         }
         return instance;
+    }
+
+    public static boolean isCompatible(final MediaType mediaType) {
+        return mediaType != null &&
+                mediaType.getType().equals("application") &&
+                (mediaType.getSubtype().equals("json") || mediaType.getSubtype().endsWith("+json"));
     }
 }

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.ext.MessageBodyWriter;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -29,6 +30,7 @@ class WriterTest extends MinijaxTest {
         assertFalse(writer.isWriteable(null, null, null, null));
         assertFalse(writer.isWriteable(null, null, null, TEXT_PLAIN_TYPE));
         assertTrue(writer.isWriteable(null, null, null, APPLICATION_JSON_TYPE));
+        assertTrue(writer.isWriteable(null, null, null, MediaType.valueOf("application/foo+json")));
     }
 
     @Test

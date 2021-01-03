@@ -27,7 +27,7 @@ public class MinijaxJsonReader implements MessageBodyReader<Object> {
             final Annotation[] annotations,
             final MediaType mediaType) {
 
-        return mediaType != null && mediaType.isCompatible(APPLICATION_JSON_TYPE);
+        return Json.isCompatible(mediaType);
     }
 
     @Override

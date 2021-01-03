@@ -12,6 +12,7 @@ import java.util.Map;
 
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.ext.MessageBodyReader;
 
 import org.junit.jupiter.api.AfterEach;
@@ -46,6 +47,7 @@ class ReaderTest extends MinijaxTest {
         assertFalse(reader.isReadable(null, null, null, null));
         assertFalse(reader.isReadable(null, null, null, TEXT_PLAIN_TYPE));
         assertTrue(reader.isReadable(null, null, null, APPLICATION_JSON_TYPE));
+        assertTrue(reader.isReadable(null, null, null, MediaType.valueOf("application/foo+json")));
     }
 
     @Test
