@@ -17,7 +17,7 @@ Getting Started
 <dependency>
     <groupId>org.minijax</groupId>
     <artifactId>minijax-undertow</artifactId>
-    <version>0.5.6</version>
+    <version>0.5.9</version>
 </dependency>
 ```
 
@@ -123,7 +123,7 @@ class HelloInjectionTest extends MinijaxTest {
         when(mockService.shout(eq("friend"))).thenReturn("FRIEND");
         when(mockService.shout(eq("cody"))).thenReturn("CODY");
 
-        register(mockService, MyService.class);
+        bind(mockService, MyService.class);
         register(MyResource.class);
     }
 
