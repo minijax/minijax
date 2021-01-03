@@ -76,6 +76,7 @@
     </distributionManagement>
     <properties>
         <bcrypt.version>0.4</bcrypt.version>
+        <classgraph.version>4.8.98</classgraph.version>
         <commons-codec.version>1.15</commons-codec.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
         <commons-lang3.version>3.11</commons-lang3.version>
@@ -139,6 +140,11 @@
                 <groupId>commons-fileupload</groupId>
                 <artifactId>commons-fileupload</artifactId>
                 <version>${commons-fileupload.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.classgraph</groupId>
+                <artifactId>classgraph</artifactId>
+                <version>${classgraph.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
