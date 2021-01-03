@@ -268,16 +268,8 @@ public abstract class MinijaxRequestContext
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public Response toResponse(final Exception ex) {
-        final List<MediaType> mediaTypes;
-
-        if (resourceMethod != null) {
-            mediaTypes = resourceMethod.getProduces();
-        } else {
-            mediaTypes = getAcceptableMediaTypes();
-        }
-
-        for (final MediaType mediaType : mediaTypes) {
-            final ExceptionMapper mapper = providers.getExceptionMapper(ex.getClass(), mediaType);
+        if (resourceMethod != null && !resourceMethod.getProduces().isEmpty()) {
+            final ExceptionMapper mapper = providers.getExceptionMapper(ex.getClass());
             if (mapper != null) {
                 return mapper.toResponse(ex);
             }

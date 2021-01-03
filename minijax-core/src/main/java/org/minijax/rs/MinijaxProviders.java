@@ -74,22 +74,8 @@ public class MinijaxProviders implements Providers {
     }
 
     @Override
-    public <T extends Throwable> ExceptionMapper<T> getExceptionMapper(final Class<T> type) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Get an exception mapping provider for a particular class of exception.
-     *
-     * This is non-standard (i.e., not in the official JAX-RS spec), but there is evidence that
-     * it will be in a future version:  https://github.com/jax-rs/api/issues/328 ("JAX_RS_SPEC-323").
-     *
-     * @param type
-     * @param mediaType
-     * @return
-     */
     @SuppressWarnings("unchecked")
-    public <T extends Throwable> ExceptionMapper<T> getExceptionMapper(final Class<T> type, final MediaType mediaType) {
+    public <T extends Throwable> ExceptionMapper<T> getExceptionMapper(final Class<T> type) {
         for (final Class<? extends ExceptionMapper<?>> exceptionMapperClass : context.getApplication().getExceptionMappers()) {
             final ParameterizedType parameterizedType = (ParameterizedType) exceptionMapperClass.getGenericInterfaces()[0];
             final Class<? extends Exception> exClass = (Class<? extends Exception>) parameterizedType.getActualTypeArguments()[0];
