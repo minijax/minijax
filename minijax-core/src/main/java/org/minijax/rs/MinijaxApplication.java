@@ -320,12 +320,8 @@ public class MinijaxApplication extends Application implements Configuration, Fe
     }
 
     public MinijaxApplication packages(final String... packageNames) {
-        try {
-            for (final Class<?> c : ClassPathScanner.scan(packageNames)) {
-                register(c);
-            }
-        } catch (final IOException ex) {
-            throw new MinijaxException(ex.getMessage(), ex);
+        for (final Class<?> c : ClassPathScanner.scan(packageNames)) {
+            register(c);
         }
         return this;
     }

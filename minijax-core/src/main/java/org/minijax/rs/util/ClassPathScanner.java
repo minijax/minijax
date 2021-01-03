@@ -1,6 +1,5 @@
 package org.minijax.rs.util;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,7 +29,7 @@ public class ClassPathScanner {
         throw new UnsupportedOperationException();
     }
 
-    public static Set<Class<?>> scan(final String... packageNames) throws IOException {
+    public static Set<Class<?>> scan(final String... packageNames) {
         final Set<Class<?>> result = new HashSet<>();
         try (final ScanResult scanResult =
                 new ClassGraph()
