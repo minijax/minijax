@@ -36,6 +36,11 @@ public class MinijaxTestClient implements jakarta.ws.rs.client.Client {
         return result;
     }
 
+    @Override
+    public void close() {
+        // Nothing to do
+    }
+
     /*
      * Unsupported
      */
@@ -87,11 +92,6 @@ public class MinijaxTestClient implements jakarta.ws.rs.client.Client {
 
     @Override
     public Client register(final Object component, final Map<Class<?>, Integer> contracts) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void close() {
         throw new UnsupportedOperationException();
     }
 

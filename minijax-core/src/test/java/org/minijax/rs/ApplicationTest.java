@@ -27,6 +27,7 @@ class ApplicationTest {
     @Test
     void testDefaultValues() throws Exception {
         assertEquals(RuntimeType.SERVER, app.getRuntimeType());
+        assertEquals("/", app.getPath());
         assertNotNull(app.getProperties());
         assertNotNull(app.getPropertyNames());
         assertNotNull(app.getInstances());
@@ -66,6 +67,7 @@ class ApplicationTest {
         final Widget singleton = new Widget();
         minijax.bind(singleton, Widget.class);
         assertSame(singleton, minijax.getResource(Widget.class));
+        assertEquals(app.getSingletons(), app.getInstances());
     }
 
     @Test
@@ -79,6 +81,12 @@ class ApplicationTest {
     @Test
     void testScanPackage() {
         minijax.packages("org.minijax");
+        assertNotNull(app.getClasses());
+    }
+
+    @Test
+    void testAppScanPackage() {
+        minijax.getDefaultApplication().packages("org.minijax");
         assertNotNull(app.getClasses());
     }
 

@@ -75,7 +75,7 @@ public class Minijax {
 
     public MinijaxApplication getDefaultApplication() {
         if (applications.isEmpty()) {
-            applications.add(new MinijaxApplication("/"));
+            applications.add(new MinijaxApplication());
         }
         return applications.get(0);
     }
